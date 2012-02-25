@@ -1,0 +1,6 @@
+# ignore executable files
+*/prob*
+
+# don't ignore source files
+!*/prob*.rs
+
