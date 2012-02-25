@@ -1,4 +1,4 @@
-Project Euler - RUst
+Project Euler - Rust
 ======================
 
 Solving Project Euler with Rust lang.
