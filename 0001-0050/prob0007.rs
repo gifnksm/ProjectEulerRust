@@ -39,7 +39,7 @@ fn gen_prime(&primes: [u64]) {
 fn main() {
     let idx = 10000u64;
     let primes = [];
-    uint::range(0u64, idx + 1u64) { |num|
+    uint::range(0u64, idx + 1u64) { |_num|
         gen_prime(primes);
     }
     std::io::println(#fmt("%u", primes[idx]));
