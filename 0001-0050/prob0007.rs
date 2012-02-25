@@ -1,5 +1,4 @@
 use std;
-use util;
 
 fn gen_prime(&primes: [u64]) {
     let num = alt vec::last(primes) {
