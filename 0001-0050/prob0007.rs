@@ -1,19 +1,5 @@
 use std;
-
-fn isqrt(n: u64) -> u64 {
-    let (min, max) = (0u64, n);
-    while min < max {
-        let mid = (min + max + 1u64) / 2u64;
-        if (mid * mid) == n {
-            ret mid;
-        } else if (mid * mid) >= n {
-            max = mid - 1u64;
-        } else {
-            min = mid;
-        }
-    }
-    ret min;
-}
+use util;
 
 fn gen_prime(&primes: [u64]) {
     let num = alt vec::last(primes) {
@@ -21,6 +7,7 @@ fn gen_prime(&primes: [u64]) {
       some(2u64) { primes += [3u64]; ret }
       some(x)    { x + 2u64 }
     };
+
     while true {
         for p in primes {
             if p * p > num {
