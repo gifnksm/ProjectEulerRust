@@ -1,7 +1,7 @@
 use std;
 
 fn main() {
-    const mult_len: uint = 5u;
+    const prod_len: uint = 5u;
     let input = "
 73167176531330624919225119674426574742355349194934
 96983520312774506326239578318016984801869478851843
@@ -25,19 +25,17 @@ fn main() {
 71636269561882670428252483600823257530420752963450
 ";
     let nums = vec::filter_map(str::chars(input)) { |c| uint::from_str(str::from_char(c)) };
-    if (vec::len(nums) < mult_len) {
+    if (vec::len(nums) < prod_len) {
         fail;
     }
 
     let max = 0u;
-    uint::range(0u, vec::len(nums) - mult_len) { |i|
-        let mul = 1u;
-        uint::range(0u, mult_len) { |j|
-            mul *= nums[i + j];
+    uint::range(0u, vec::len(nums) - prod_len) { |i|
+        let prod = 1u;
+        uint::range(0u, prod_len) { |j|
+            prod *= nums[i + j];
         }
-        if mul > max {
-            max = mul;
-        }
+        max = uint::max(prod, max);
     }
 
     std::io::println(#fmt("%u", max));
