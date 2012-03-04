@@ -65,8 +65,5 @@ fn grow(ps: prime, n: uint) {
 }
 
 fn get_at(&ps: prime, n: u64) -> u64 {
-    if vec::len(ps.vec) <= n {
-        grow(ps, n - vec::len(ps.vec));
-    }
-    ret ps.vec[n];
+    ret get_at_vec(ps.vec, n);
 }
