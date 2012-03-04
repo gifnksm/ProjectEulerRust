@@ -6,3 +6,4 @@
 #[crate_type="lib"];
 
 mod uint;
+mod prime;
