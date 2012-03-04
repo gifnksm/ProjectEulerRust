@@ -4,3 +4,6 @@
 # don't ignore source files
 !*/prob*.rs
 
+# ignore shared libraries
+lib/*.so
+
