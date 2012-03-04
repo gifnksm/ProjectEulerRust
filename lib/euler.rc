@@ -1,6 +1,6 @@
 #[link(name = "euler",
-       vers="0.0",
-       url="https://github.com/gifnksm/ProjectEulerRust")];
+       vers = "0.0",
+       url  = "https://github.com/gifnksm/ProjectEulerRust")];
 
 #[comment = "Utility library for solving Project Euler"];
 #[crate_type="lib"];

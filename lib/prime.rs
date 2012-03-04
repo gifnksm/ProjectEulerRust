@@ -1,5 +1,5 @@
-export prime, init, grow, get_at, iterable_prime, loopable_prime;
-
+export prime, init, grow, get_at, iterable_prime, loopable_prime, factors, iterable_factors;
+use std;
 type prime = {
     mutable vec: [u64]
 };
@@ -23,8 +23,23 @@ impl loopable_prime for prime {
     }
 }
 
+impl iterable_factors of iter::iterable<(u64, u64)> for fn@(fn((u64, u64))) {
+    fn iter(blk: fn((u64, u64))) {
+        self(blk);
+    }
+}
+
+
 fn init() -> prime {
     { mutable vec: [] }
+}
+
+fn grow(ps: prime, n: uint) {
+    grow_vec(ps.vec, n);
+}
+
+fn get_at(&ps: prime, n: u64) -> u64 {
+    ret get_at_vec(ps.vec, n);
 }
 
 fn grow_vec(&v: [u64], n: uint) {
@@ -60,10 +75,24 @@ fn get_at_vec(&v: [u64], n: u64) -> u64 {
     ret v[n];
 }
 
-fn grow(ps: prime, n: uint) {
-    grow_vec(ps.vec, n);
+fn div_multi(&num: u64, f: u64) -> u64 {
+    let exp = 0u64;
+    while (num % f == 0u64) {
+        exp += 1u64;
+        num /= f;
+    }
+    ret exp;
 }
 
-fn get_at(&ps: prime, n: u64) -> u64 {
-    ret get_at_vec(ps.vec, n);
+fn factors(num: u64, &primes: prime) -> fn@(fn((u64, u64))) {
+    ret { |blk|
+        let itr = num;
+        primes.loop { |p|
+            let exp = div_multi(itr, p);
+            if exp > 0u64 {
+                blk((p, exp));
+            }
+            ret itr != 1u;
+        };
+    };
 }
