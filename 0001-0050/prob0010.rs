@@ -1,39 +1,19 @@
 use std;
+use euler;
 
-fn gen_prime(&primes: [u64]) {
-    let num = alt vec::last(primes) {
-      none       { primes =  [2u64]; ret }
-      some(2u64) { primes += [3u64]; ret }
-      some(x)    { x + 2u64 }
-    };
-
-    while true {
-        for p in primes {
-            if p * p > num {
-                primes += [num];
-                ret;
-            }
-            if num % p == 0u64 {
-                break;
-            }
-        }
-        num += 2u64;
-    }
-    fail;
-}
+import prime = euler::prime;
+import euler::prime::{ loopable_prime };
 
 fn main() {
     let sum = 0u;
-
-    let primes = [];
-    while true {
-        gen_prime(primes);
-        let p = vec::last_total(primes);
+    let primes = prime::init();
+    primes.loop { |p|
         if p >= 2000000u64 {
-            break;
+            ret false;
         }
         sum += p;
-    }
+        ret true;
+    };
 
     std::io::println(#fmt("%u", sum));
 }

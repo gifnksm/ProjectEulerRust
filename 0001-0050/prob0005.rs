@@ -1,24 +1,8 @@
 use std;
+use euler;
 
-fn gen_prime(primes: [u64]) -> [u64] {
-    let num = alt vec::last(primes) {
-      none       { ret [2u64] }
-      some(2u64) { ret primes + [3u64] }
-      some(x)    { x + 2u64 }
-    };
-    while true {
-        for p in primes {
-            if p * p > num {
-                ret primes + [num];
-            }
-            if num % p == 0u64 {
-                break;
-            }
-        }
-        num += 2u64;
-    }
-    fail;
-}
+import prime = euler::prime;
+import euler::prime::{ loopable_prime };
 
 fn div_mult(&num: u64, f: u64) -> u64 {
     let exp = 0u64;
@@ -29,24 +13,16 @@ fn div_mult(&num: u64, f: u64) -> u64 {
     ret exp;
 }
 
-fn factorize(num: u64, &primes: [u64]) -> [(u64, u64)] {
+fn factorize(num: u64, &primes: prime::prime) -> [(u64, u64)] {
     let itr = num;
     let result = [];
 
-    for p in primes {
+    primes.loop { |p|
         let exp = div_mult(itr, p);
         if exp > 0u64 {
             result += [(p, exp)];
         }
-    }
-
-    while itr != 1u64 {
-        primes = gen_prime(primes);
-        let p = vec::last_total(primes);
-        let exp = div_mult(itr, p);
-        if exp > 0u64 {
-            result += [(p, exp)];
-        }
+        ret itr != 1u;
     }
 
     ret result;
@@ -115,7 +91,7 @@ fn fact_to_uint(fs: [(u64, u64)]) -> u64 {
 }
 
 fn main() {
-    let primes = [];
+    let primes = prime::init();
     let factors = vec::map(vec::enum_uints(1u64, 20u64)) { |num| factorize(num, primes) };
     std::io::println(#fmt("%u", fact_to_uint(merge_facti(factors))));
 }
