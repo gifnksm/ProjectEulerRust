@@ -13,8 +13,8 @@ fn gen_triangles(&trigs: [uint]) {
 
 fn num_factors(num: u64, &primes: prime::prime) -> u64 {
     ret iter::foldl(prime::factors(num, primes), 1u) { |prod, tuple|
-        let (_base, exp): (u64, u64) = tuple;
-        ret prod * (exp + 1u);
+        let (_base, exp): (u64, i64) = tuple;
+        ret prod * ((exp + 1) as u64);
     };
 }
 

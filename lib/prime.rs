@@ -23,8 +23,8 @@ impl loopable_prime for prime {
     }
 }
 
-impl iterable_factors of iter::iterable<(u64, u64)> for fn@(fn((u64, u64))) {
-    fn iter(blk: fn((u64, u64))) {
+impl iterable_factors of iter::iterable<(u64, i64)> for fn@(fn((u64, i64))) {
+    fn iter(blk: fn((u64, i64))) {
         self(blk);
     }
 }
@@ -84,13 +84,13 @@ fn div_multi(&num: u64, f: u64) -> u64 {
     ret exp;
 }
 
-fn factors(num: u64, &primes: prime) -> fn@(fn((u64, u64))) {
+fn factors(num: u64, &primes: prime) -> fn@(fn((u64, i64))) {
     ret { |blk|
         let itr = num;
         primes.loop { |p|
             let exp = div_multi(itr, p);
             if exp > 0u64 {
-                blk((p, exp));
+                blk((p, exp as i64));
             }
             ret itr != 1u;
         };

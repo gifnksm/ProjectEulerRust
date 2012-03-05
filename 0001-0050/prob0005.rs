@@ -5,9 +5,9 @@ import euler::prime::{ iterable_factors };
 import euler::prime;
 import euler::util;
 
-fn merge_facti(fss: [[(u64, u64)]]) -> [(u64, u64)] {
+fn merge_facti(fss: [[(u64, i64)]]) -> [(u64, i64)] {
     ret util::mergei(fss) { |f1, f2|
-        let (base1, exp1): (u64, u64) = f1;
+        let (base1, exp1): (u64, i64) = f1;
         let (base2, exp2) = f2;
         if base1 < base2 {
             ret util::lt;
@@ -15,7 +15,7 @@ fn merge_facti(fss: [[(u64, u64)]]) -> [(u64, u64)] {
         if base1 > base2 {
             ret util::gt;
         }
-        ret util::eq((base1, uint::max(exp1, exp2)));
+        ret util::eq((base1, int::max(exp1, exp2)));
     };
 }
 
@@ -33,10 +33,14 @@ fn pow(base: u64, exp: u64) -> u64 {
     ret result;
 }
 
-fn fact_to_uint(fs: [(u64, u64)]) -> u64 {
+fn fact_to_uint(fs: [(u64, i64)]) -> u64 {
     let result = 1u64;
     for (base, exp) in fs {
-        result *= pow(base, exp);
+        if exp > 0 {
+            result *= pow(base, exp as u64);
+        } else {
+            result /= pow(base, (-exp) as u64);
+        }
     }
     ret result;
 }
