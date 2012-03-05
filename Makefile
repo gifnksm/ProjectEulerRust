@@ -1,6 +1,6 @@
 SRC=$(wildcard 0001-0050/*.rs)
 LIBSRC=$(wildcard lib/*.rs)
-LIBEULER=./lib/libeuler-5465da761d20cd31-0.0.so
+LIBEULER=./lib/libeuler-aa21bafe3914d2be-0.0.so
 TARGET=$(SRC:.rs=)
 
 RUSTC_FLAGS=--warn-unused-imports

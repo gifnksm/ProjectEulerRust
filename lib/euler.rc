@@ -7,3 +7,4 @@
 
 mod uint;
 mod prime;
+mod util;
