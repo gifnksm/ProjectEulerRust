@@ -1,47 +1,22 @@
 use std;
 use euler;
 
-import prime = euler::prime;
-import euler::prime::{ loopable_prime, iterable_factors };
-
-fn merge_fact(fs1: [(u64, u64)], fs2: [(u64, u64)]) -> [(u64, u64)] {
-    let result = [];
-    let i1 = 0u, i2 = 0u;
-    let len1 = vec::len(fs1), len2 = vec::len(fs2);
-    while (i1 < len1 && i2 < len2) {
-        let (base1, exp1) = fs1[i1];
-        let (base2, exp2) = fs2[i2];
-        if (base1 < base2) {
-            result += [(base1, exp1)];
-            i1 += 1u64;
-        } else if (base1 > base2) {
-            result += [(base2, exp2)];
-            i2 += 1u64;
-        } else {
-            result += [(base1, uint::max(exp1, exp2))];
-            i1 += 1u64;
-            i2 += 1u64;
-        }
-    }
-    if i1 < len1 {
-        result += vec::slice(fs1, i1, len1);
-    }
-    if i2 < len2 {
-        result += vec::slice(fs2, i2, len2);
-    }
-    ret result;
-}
+import euler::prime::{ iterable_factors };
+import euler::prime;
+import euler::util;
 
 fn merge_facti(fss: [[(u64, u64)]]) -> [(u64, u64)] {
-    ret alt vec::len(fss) {
-      0u64 { [] }
-      1u64 { fss[0] }
-      l    {
-        let pre  = merge_facti(vec::slice(fss, 0u64, l / 2u64));
-        let post = merge_facti(vec::slice(fss, l / 2u64, l));
-        merge_fact(pre, post)
-      }
-    }
+    ret util::mergei(fss) { |f1, f2|
+        let (base1, exp1): (u64, u64) = f1;
+        let (base2, exp2) = f2;
+        if base1 < base2 {
+            ret util::lt;
+        }
+        if base1 > base2 {
+            ret util::gt;
+        }
+        ret util::eq((base1, uint::max(exp1, exp2)));
+    };
 }
 
 fn pow(base: u64, exp: u64) -> u64 {
