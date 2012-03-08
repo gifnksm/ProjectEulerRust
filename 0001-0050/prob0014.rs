@@ -1,7 +1,7 @@
 use std;
-import std::map::chained::hashmap;
+import std::map::hashmap;
 
-impl map for std::map::chained::t<uint, uint> {
+impl map for hashmap<uint, uint> {
     fn get_at(n: uint) -> uint {
         alt self.find(n) {
           some(x) { ret x; }
