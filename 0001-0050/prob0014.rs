@@ -1,6 +1,7 @@
 use std;
+import std::map::chained::hashmap;
 
-impl map for std::map::map<uint, uint> {
+impl map for std::map::chained::t<uint, uint> {
     fn get_at(n: uint) -> uint {
         alt self.find(n) {
           some(x) { ret x; }
@@ -19,7 +20,7 @@ impl map for std::map::map<uint, uint> {
 }
 
 fn main() {
-    let map = std::map::new_uint_hash();
+    let map = std::map::new_uint_hash::<uint>();
     map.insert(1u, 1u);
     let max     = 1u;
     let max_idx = 1u;
