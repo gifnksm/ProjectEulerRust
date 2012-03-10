@@ -7,7 +7,7 @@ import euler::prime::{ loopable_prime };
 fn main() {
     let sum = 0u;
     let primes = prime::init();
-    primes.loop { |p|
+    primes.iterate { |p|
         if p >= 2000000u64 {
             ret false;
         }
