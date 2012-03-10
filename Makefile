@@ -1,19 +1,19 @@
 SRC=$(wildcard 0001-0050/*.rs)
 LIBSRC=$(wildcard lib/*.rs)
-LIBEULER=./lib/libeuler-aa21bafe3914d2be-0.0.so
+LIBEULER=./lib/libeuler-*.so
 TARGET=$(SRC:.rs=)
 TESTS=$(SRC:.rs=.test) $(LIBSRC:.rs=.test)
 
-RUSTC_FLAGS=--warn-unused-imports
+RUSTC_FLAGS=
 LD_FLAGS=-L ./lib
 
 all: $(TARGET)
 
 $(LIBEULER): ./lib/euler.rc $(LIBSRC)
-	rustc $(RUSTC_FLAGS) $<
+	rustc --lib $(RUSTC_FLAGS) $<
 
 %: %.rs $(LIBEULER)
-	rustc $(RUSTC_FLAGS) $(LD_FLAGS) $<
+	rustc $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
 
 %.test: %.rs $(LIBEULER)
 	rustc --test $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
