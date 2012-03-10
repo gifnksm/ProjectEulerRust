@@ -1,7 +1,5 @@
 export prime, init, grow, get_at, iterable_prime, loopable_prime, factors, iterable_factors;
 
-use std;
-
 type prime = {
     mutable vec: [u64]
 };

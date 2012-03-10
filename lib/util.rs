@@ -1,5 +1,3 @@
-use std;
-
 enum merge_comp<T> {
     lt,
     gt,

@@ -5,6 +5,8 @@
 #[comment = "Utility library for solving Project Euler"];
 #[crate_type="lib"];
 
+use std;
+
 mod calc;
 mod prime;
 mod util;
