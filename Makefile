@@ -2,7 +2,7 @@ SRC=$(wildcard 0001-0050/*.rs)
 LIBSRC=$(wildcard lib/*.rs)
 LIBEULER=./lib/libeuler-*.so
 TARGET=$(SRC:.rs=)
-TESTS=$(SRC:.rs=.test) ./lib/euler.test
+TESTS=./lib/euler.test
 
 RUSTC_FLAGS=
 LD_FLAGS=-L ./lib
@@ -21,11 +21,11 @@ $(LIBEULER): ./lib/euler.rc $(LIBSRC)
 ./lib/euler.test: ./lib/euler.rc $(LIBSRC)
 	rustc --test $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
 
-.PHONY: test
+.PHONY: test clean
+
 test: $(TESTS)
 	@for exe in $(TESTS); do echo "$$exe"; ./$$exe; done
 
-.PHONY: clean
 clean:
 	$(RM) $(TARGET) $(LIBEULER) $(TESTS)
 
