@@ -46,7 +46,7 @@ fn grow_vec(&v: [u64], n: uint) {
     if n == 0u {
         ret;
     }
-    let num = alt vec::last(v) {
+    let num = alt vec::last_opt(v) {
       none       { v = [2u64];  grow_vec(v, n - 1u); ret }
       some(2u64) { v += [3u64]; grow_vec(v, n - 1u); ret }
       some(x)    { x + 2u64 }

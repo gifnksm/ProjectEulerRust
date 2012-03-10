@@ -23,7 +23,7 @@ fn main() {
     let trigs  = [];
     while true {
         gen_triangles(trigs);
-        let t = vec::last_total(trigs);
+        let t = vec::last(trigs);
         let num = num_factors(t, primes);
         if num > 500u {
             std::io::println(#fmt("%u -> %u", t, num_factors(t, primes)));
