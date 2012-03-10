@@ -1,3 +1,5 @@
+use std;
+
 fn isqrt(n: u64) -> u64 {
     let (min, max) = (0u64, n);
     while min < max {
