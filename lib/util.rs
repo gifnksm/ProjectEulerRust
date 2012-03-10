@@ -47,3 +47,7 @@ fn zip_default<T: copy, U: copy>(v1: [const T], v2: [const U], def: (T, U)) -> [
     }
     ret result;
 }
+
+fn div_mod(n: uint, d: uint) -> (uint, uint) {
+    (n / d, n % d)
+}
