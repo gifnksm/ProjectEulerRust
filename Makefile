@@ -20,6 +20,7 @@ $(LIBEULER): ./lib/euler.rc $(LIBSRC)
 
 .PHONY: test
 test: $(TESTS)
+	@for exe in $(TESTS); do echo "$$exe"; ./$$exe; done
 
 .PHONY: clean
 clean:
