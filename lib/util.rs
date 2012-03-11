@@ -51,3 +51,51 @@ fn zip_default<T: copy, U: copy>(v1: [const T], v2: [const U], def: (T, U)) -> [
 fn div_mod(n: uint, d: uint) -> (uint, uint) {
     (n / d, n % d)
 }
+
+#[cfg(test)]
+mod tests {
+    fn merge_add_comp(e1: (int, int), e2: (int, int)) -> merge_comp<(int, int)> {
+        let ((n1, e1), (n2, e2)) = (e1, e2);
+        if n1 < n2 { ret lt; }
+        if n1 > n2 { ret gt; }
+        ret eq((n1, e1 + e2));
+    }
+
+    fn merge_max_comp(e1: (int, int), e2: (int, int)) -> merge_comp<(int, int)> {
+        let ((n1, e1), (n2, e2)) = (e1, e2);
+        if n1 < n2 { ret lt; }
+        if n1 > n2 { ret gt; }
+        ret eq((n1, int::max(e1, e2)));
+    }
+
+    #[test]
+    fn test_merge() {
+        assert merge([(1, 1), (3, 1), (5, 1)], [(1, 2), (2, 1), (4, 1)], merge_add_comp) ==
+            [(1, 3), (2, 1), (3, 1), (4, 1), (5, 1)];
+        assert merge([(1, 1), (3, 1), (5, 1)], [(1, 2), (2, 1), (4, 1)], merge_max_comp) ==
+            [(1, 2), (2, 1), (3, 1), (4, 1), (5, 1)];
+        assert merge([(1, 1), (3, 1), (5, 1)], [], merge_add_comp) == [(1, 1), (3, 1), (5, 1)];
+        assert merge([], [], merge_add_comp) == [];
+    }
+
+    #[test]
+    fn test_mergei() {
+        assert mergei([[], [], []], merge_add_comp) == [];
+        assert mergei([[(1, 1), (2, 1)], [(1, 2), (3, 1)], [(-1, 3)]], merge_add_comp) ==
+            [(-1, 3), (1, 3), (2, 1), (3, 1)];
+        assert mergei([[(1, 1)], [(1, 2)], [(1, 3)]], merge_add_comp) == [(1, 6)];
+    }
+
+    #[test]
+    fn test_zip_default() {
+        assert zip_default([1, 2, 3], [4u, 5u, 6u], (0, 0u)) == [(1, 4u), (2, 5u), (3, 6u)];
+        assert zip_default([1, 2, 3], [4u], (0, 0u)) == [(1, 4u), (2, 0u), (3, 0u)];
+        assert zip_default([], [], (0, 0u)) == [];
+    }
+
+    #[test]
+    fn test_div_mod() {
+        let (d, m) = div_mod(1234u, 56u);
+        assert d * 56u + m == 1234u;
+    }
+}
