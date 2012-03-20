@@ -1,4 +1,4 @@
-export prime, init, grow, get_at, iterable_prime, loopable_prime, factors, iterable_factors;
+export prime, init, grow, get_at, loopable_prime, factors;
 
 type prime = {
     mutable vec: [u64]
