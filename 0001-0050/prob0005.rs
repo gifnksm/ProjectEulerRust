@@ -1,7 +1,6 @@
-use std;
 use euler;
 
-import euler::prime::{ iterable_factors };
+import iter::*;
 import euler::prime;
 import euler::util;
 
@@ -47,8 +46,13 @@ fn fact_to_uint(fs: [(u64, i64)]) -> u64 {
 
 fn main() {
     let primes = prime::init();
-    let factors = vec::map(vec::enum_uints(1u64, 20u64)) { |num|
-        iter::to_list(prime::factors(num, primes))
+    let range  = bind uint::range(1u, 20u + 1u, _);
+    let factors = iter::foldl(range, []) { |accum, num|
+        let list = [];
+        prime::factors(num, primes) { |f|
+            list += [ f ];
+        }
+        accum + [ list ]
     };
-    std::io::println(#fmt("%u", fact_to_uint(merge_facti(factors))));
+    io::println(#fmt("%u", fact_to_uint(merge_facti(factors))));
 }

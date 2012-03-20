@@ -1,4 +1,3 @@
-use std;
 use euler;
 
 import prime = euler::prime;
@@ -12,7 +11,7 @@ fn main() {
             num /= p;
         }
         if num == 1u {
-            std::io::println(#fmt("%u", p));
+            io::println(#fmt("%u", p));
             ret false;
         }
         ret true;

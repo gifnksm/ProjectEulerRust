@@ -1,8 +1,7 @@
-use std;
 use euler;
 
+import iter::*;
 import prime = euler::prime;
-import euler::prime::{ loopable_prime, iterable_factors };
 
 fn gen_triangles(&trigs: [uint]) {
     alt vec::len(trigs) {
@@ -12,10 +11,12 @@ fn gen_triangles(&trigs: [uint]) {
 }
 
 fn num_factors(num: u64, &primes: prime::prime) -> u64 {
-    ret iter::foldl(prime::factors(num, primes), 1u) { |prod, tuple|
-        let (_base, exp): (u64, i64) = tuple;
-        ret prod * ((exp + 1) as u64);
-    };
+    let prod = 1u;
+    prime::factors(num, primes) { |f|
+        let (_base, exp): (u64, i64) = f;
+        prod *= ((exp + 1) as u64)
+    }
+    ret prod;
 }
 
 fn main() {
@@ -26,7 +27,7 @@ fn main() {
         let t = vec::last(trigs);
         let num = num_factors(t, primes);
         if num > 500u {
-            std::io::println(#fmt("%u -> %u", t, num_factors(t, primes)));
+            io::println(#fmt("%u -> %u", t, num_factors(t, primes)));
             break;
         }
     }

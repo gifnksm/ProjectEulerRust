@@ -1,11 +1,9 @@
-use std;
+import iter::*;
 
 fn main() {
-    let sum = 0u;
-    uint::range(0u, 1000u) { |n|
-        if n % 3u == 0u || n % 5u == 0u {
-            sum += n;
-        }
-    }
-    std::io::println(#fmt("%u", sum));
+    let it  = bind uint::range(0u, 1000u, _);
+    let sum = iter::foldl(it, 0u) { |accum, n|
+        ret accum + if n % 3u == 0u || n % 5u == 0u { n } else { 0u };
+    };
+    io::println(#fmt("%u", sum));
 }

@@ -1,5 +1,3 @@
-use std;
-
 fn main() {
     const prod_len: uint = 5u;
     let input = "
@@ -38,5 +36,5 @@ fn main() {
         max = uint::max(prod, max);
     }
 
-    std::io::println(#fmt("%u", max));
+    io::println(#fmt("%u", max));
 }

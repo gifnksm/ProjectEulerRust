@@ -1,5 +1,3 @@
-use std;
-
 pure fn fib(prev: uint, cur: uint) -> (uint, uint) {
     ret (cur, prev + cur);
 }
@@ -16,5 +14,5 @@ fn main() {
         prev = prev2;
         cur = cur2;
     }
-    std::io::println(#fmt("%u", sum));
+    io::println(#fmt("%u", sum));
 }

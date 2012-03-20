@@ -1,5 +1,3 @@
-use std;
-
 fn main() {
     let input = "
 37107287533902102798797998220837590246510135740250
@@ -107,5 +105,5 @@ fn main() {
         ret uint::from_str(str::slice(line, 0u, 12u));
     }) { |sum, num| sum + num };
 
-    std::io::println(str::slice(#fmt("%u", sum), 0u, 10u));
+    io::println(str::slice(#fmt("%u", sum), 0u, 10u));
 }

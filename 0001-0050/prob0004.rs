@@ -1,5 +1,3 @@
-use std;
-
 fn to_palindromic(n: u64, dup_flag: bool) -> u64 {
     let cs = str::chars(u64::to_str(n, 10u));
     let s = str::from_chars(
@@ -31,11 +29,11 @@ fn main() {
             let num = to_palindromic(seed, dup_flag);
             let pairs = dividable_pairs(num, 100u64, 999u64);
             if vec::is_not_empty(pairs) {
-                std::io::print(#fmt("%u", num));
+                io::print(#fmt("%u", num));
                 for (d1, d2) in pairs {
-                    std::io::print(#fmt(" = %u * %u", d1, d2));
+                    io::print(#fmt(" = %u * %u", d1, d2));
                 }
-                std::io::print("\n");
+                io::print("\n");
             }
             seed -= 1u64;
         }

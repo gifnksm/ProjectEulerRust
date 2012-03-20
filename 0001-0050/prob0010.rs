@@ -1,4 +1,3 @@
-use std;
 use euler;
 
 import prime = euler::prime;
@@ -15,5 +14,5 @@ fn main() {
         ret true;
     };
 
-    std::io::println(#fmt("%u", sum));
+    io::println(#fmt("%u", sum));
 }

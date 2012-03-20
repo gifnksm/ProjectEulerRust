@@ -20,7 +20,7 @@ impl map for hashmap<uint, uint> {
 }
 
 fn main() {
-    let map = std::map::new_uint_hash::<uint>();
+    let map = std::map::uint_hash();
     map.insert(1u, 1u);
     let max     = 1u;
     let max_idx = 1u;
@@ -31,5 +31,5 @@ fn main() {
             max_idx = n;
         }
     };
-    std::io::println(#fmt("%u => %u", max_idx, max));
+    io::println(#fmt("%u => %u", max_idx, max));
 }

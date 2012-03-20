@@ -1,4 +1,3 @@
-use std;
 use euler;
 import calc = euler::calc;
 
@@ -17,7 +16,7 @@ fn find_pyrhagorean(sum: u64) -> [(u64, u64, u64)] {
 
 fn main() {
     for (a, b, c) in find_pyrhagorean(1000u) {
-        std::io::println(#fmt("%u^2 + %u^2 = %u^2", a, b, c));
-        std::io::println(#fmt("prod: %u", a * b * c));
+        io::println(#fmt("%u^2 + %u^2 = %u^2", a, b, c));
+        io::println(#fmt("prod: %u", a * b * c));
     }
 }

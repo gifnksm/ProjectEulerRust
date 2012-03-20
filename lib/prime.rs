@@ -4,16 +4,6 @@ type prime = {
     mutable vec: [u64]
 };
 
-impl iterable_prime of iter::iterable<u64> for prime {
-    fn iter(blk: fn(&&u64)) {
-        let i = 0u;
-        while true {
-            blk(get_at_vec(self.vec, i));
-            i += 1u;
-        }
-    }
-}
-
 impl loopable_prime for prime {
     fn iterate(blk: fn(&&u64) -> bool) {
         let i = 0u;
@@ -22,13 +12,6 @@ impl loopable_prime for prime {
         }
     }
 }
-
-impl iterable_factors of iter::iterable<(u64, i64)> for fn@(fn((u64, i64))) {
-    fn iter(blk: fn((u64, i64))) {
-        self(blk);
-    }
-}
-
 
 fn init() -> prime {
     { mutable vec: [] }
@@ -84,15 +67,13 @@ fn div_multi(&num: u64, f: u64) -> u64 {
     ret exp;
 }
 
-fn factors(num: u64, &primes: prime) -> fn@(fn((u64, i64))) {
-    ret { |blk|
-        let itr = num;
-        primes.iterate { |p|
-            let exp = div_multi(itr, p);
-            if exp > 0u64 {
-                blk((p, exp as i64));
-            }
-            ret itr != 1u;
-        };
+fn factors(num: u64, &primes: prime, blk: fn((u64, i64))) {
+    let itr = num;
+    primes.iterate { |p|
+        let exp = div_multi(itr, p);
+        if exp > 0u64 {
+            blk((p, exp as i64));
+        }
+        ret itr != 1u;
     };
 }

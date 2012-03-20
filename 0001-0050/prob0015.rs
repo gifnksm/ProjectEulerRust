@@ -1,7 +1,6 @@
-use std;
 use euler;
 
-import euler::prime::{ iterable_factors };
+import iter::*;
 import euler::prime;
 import euler::util;
 
@@ -47,14 +46,24 @@ fn fact_to_uint(fs: [(u64, i64)]) -> u64 {
 
 fn main() {
     let primes = prime::init();
-    let numer = mul_facti(vec::map(vec::enum_uints(21u, 40u)) { |num|
-        iter::to_list(prime::factors(num, primes))
-    });
-    let denom = vec::map(mul_facti(vec::map(vec::enum_uints(1u, 20u)) { |num|
-        iter::to_list(prime::factors(num, primes))
-    })) { |f|
-        let (base, exp) = f;
-        ret (base, -exp);
+    let numer_facts = [];
+    uint::range(21u, 40u + 1u) { |num|
+        let list = [];
+        prime::factors(num, primes) { |f|
+            list += [ f ];
+        }
+        numer_facts += [list ];
     };
-    std::io::println(#fmt("%u", fact_to_uint(mul_facti([numer, denom]))));
+    let numer = mul_facti(numer_facts);
+    let denom_facts = [];
+    uint::range(1u, 20u + 1u) { |num|
+        let list = [];
+        prime::factors(num, primes) { |f|
+            let (base, exp) = f;
+            list += [ (base, -exp) ];
+        }
+        denom_facts += [ list ];
+    };
+    let denom = mul_facti(denom_facts);
+    io::println(#fmt("%u", fact_to_uint(mul_facti([numer, denom]))));
 }
