@@ -94,8 +94,8 @@ mod tests {
     }
 
     #[test]
-    fn test_div_mod() {
-        let (d, m) = div_mod(1234u, 56u);
+    fn test_div_rem() {
+        let (d, m) = div_rem(1234u, 56u);
         assert d * 56u + m == 1234u;
     }
 }
