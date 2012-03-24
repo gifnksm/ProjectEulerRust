@@ -6,7 +6,7 @@ type prime = {
 
 impl loopable_prime for prime {
     fn iterate(blk: fn(&&u64) -> bool) {
-        let i = 0u;
+        let mut i = 0u;
         while blk(get_at_vec(self.vec, i)) {
             i += 1u;
         }
@@ -29,13 +29,13 @@ fn grow_vec(&v: [u64], n: uint) {
     if n == 0u {
         ret;
     }
-    let num = alt vec::last_opt(v) {
+    let mut num = alt vec::last_opt(v) {
       none       { v = [2u64];  grow_vec(v, n - 1u); ret }
       some(2u64) { v += [3u64]; grow_vec(v, n - 1u); ret }
       some(x)    { x + 2u64 }
     };
 
-    let i = 0u;
+    let mut i = 0u;
     while i < n {
         for p in v {
             if p * p > num {
@@ -59,7 +59,7 @@ fn get_at_vec(&v: [u64], n: u64) -> u64 {
 }
 
 fn div_multi(&num: u64, f: u64) -> u64 {
-    let exp = 0u64;
+    let mut exp = 0u64;
     while (num % f == 0u64) {
         exp += 1u64;
         num /= f;
@@ -68,7 +68,7 @@ fn div_multi(&num: u64, f: u64) -> u64 {
 }
 
 fn factors(num: u64, &primes: prime, blk: fn((u64, i64))) {
-    let itr = num;
+    let mut itr = num;
     primes.iterate { |p|
         let exp = div_multi(itr, p);
         if exp > 0u64 {

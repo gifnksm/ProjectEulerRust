@@ -2,7 +2,7 @@ use euler;
 import calc = euler::calc;
 
 fn find_pyrhagorean(sum: u64) -> [(u64, u64, u64)] {
-    let answer = [];
+    let mut answer = [];
     uint::range(2u64, sum - 2u) { |c|
         uint::range(1u64, uint::min((sum - c) / 2u, calc::isqrt(c*c / 2u))) { |a|
             let b = sum - c - a;

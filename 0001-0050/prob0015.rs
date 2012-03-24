@@ -19,9 +19,9 @@ fn mul_facti(fss: [[(u64, i64)]]) -> [(u64, i64)] {
 }
 
 fn pow(base: u64, exp: u64) -> u64 {
-    let result = 1u64;
-    let itr = exp;
-    let pow = base;
+    let mut result = 1u64;
+    let mut itr = exp;
+    let mut pow = base;
     while itr > 0u64 {
         if itr & 0x1u64 == 0x1u64 {
             result *= pow;
@@ -33,7 +33,7 @@ fn pow(base: u64, exp: u64) -> u64 {
 }
 
 fn fact_to_uint(fs: [(u64, i64)]) -> u64 {
-    let result = 1u64;
+    let mut result = 1u64;
     for (base, exp) in fs {
         if exp > 0 {
             result *= pow(base, exp as u64);
@@ -45,19 +45,19 @@ fn fact_to_uint(fs: [(u64, i64)]) -> u64 {
 }
 
 fn main() {
-    let primes = prime::init();
-    let numer_facts = [];
+    let mut primes = prime::init();
+    let mut numer_facts = [];
     uint::range(21u, 40u + 1u) { |num|
-        let list = [];
+        let mut list = [];
         prime::factors(num, primes) { |f|
             list += [ f ];
         }
         numer_facts += [list ];
     };
     let numer = mul_facti(numer_facts);
-    let denom_facts = [];
+    let mut denom_facts = [];
     uint::range(1u, 20u + 1u) { |num|
-        let list = [];
+        let mut list = [];
         prime::factors(num, primes) { |f|
             let (base, exp) = f;
             list += [ (base, -exp) ];

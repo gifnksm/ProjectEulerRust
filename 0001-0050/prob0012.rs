@@ -11,7 +11,7 @@ fn gen_triangles(&trigs: [uint]) {
 }
 
 fn num_factors(num: u64, &primes: prime::prime) -> u64 {
-    let prod = 1u;
+    let mut prod = 1u;
     prime::factors(num, primes) { |f|
         let (_base, exp): (u64, i64) = f;
         prod *= ((exp + 1) as u64)
@@ -20,8 +20,8 @@ fn num_factors(num: u64, &primes: prime::prime) -> u64 {
 }
 
 fn main() {
-    let primes = prime::init();
-    let trigs  = [];
+    let mut primes = prime::init();
+    let mut trigs  = [];
     while true {
         gen_triangles(trigs);
         let t = vec::last(trigs);

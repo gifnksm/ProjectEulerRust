@@ -1,22 +1,15 @@
+fn find_max_uint(ns: [uint]) -> uint {
+    vec::foldl(0u, ns) { |acc, n| uint::max(acc, n) }
+}
+
 fn find_max_row(row: [uint], prod_len: uint) -> uint {
-    if vec::len(row) < prod_len {
-        ret 0u;
-    }
-    let max = 0u;
-    uint::range(0u, vec::len(row) - prod_len) { |i|
-        let prod = 1u;
-        uint::range(0u, prod_len) { |j|
-            prod *= row[i + j];
-        }
-        max = uint::max(max, prod);
-    }
-    ret max;
+    let wins = vec::windowed(prod_len, row);
+    let prods = vec::map(wins) { |ns| vec::foldl(1u, ns) { |acc, n| acc * n } };
+    find_max_uint(prods)
 }
 
 fn find_max_grid(grid: [[uint]], prod_len: uint) -> uint {
-    vec::foldl(0u, grid) { |max, row|
-        uint::max(max, find_max_row(row, prod_len))
-    }
+    find_max_uint(vec::map(grid) { |row| find_max_row(row, prod_len) })
 }
 
 fn find_max_v(grid: [[uint]], prod_len: uint) -> uint {
@@ -24,9 +17,10 @@ fn find_max_v(grid: [[uint]], prod_len: uint) -> uint {
         ret 0u;
     }
 
-    let max = 0u;
+    let mut max = 0u;
     uint::range(0u, vec::len(grid[0])) { |i|
-        max = uint::max(max, find_max_row(vec::map(grid) { |row| row[i] }, prod_len));
+        let col = vec::map(grid) { |row| row[i] };
+        max = uint::max(max, find_max_row(col, prod_len));
     }
     ret max;
 }
@@ -37,9 +31,9 @@ fn find_max_d(grid: [[uint]], prod_len: uint) -> uint {
     }
     let num_row = vec::len(grid);
     let num_col = vec::len(grid[0]);
-    let max = 0u;
+    let mut max = 0u;
     int::range(-(num_row as int) + 1, num_col as int) { |i|
-        let tl_br = [];
+        let mut tl_br = [];
         uint::range(0u, uint::min(num_row, num_col)) { |d|
             let (x, y) = (i + (d as int), d);
             if x >= 0 && x as uint < num_col && y < num_row {
@@ -48,7 +42,7 @@ fn find_max_d(grid: [[uint]], prod_len: uint) -> uint {
         };
         max = uint::max(max, find_max_row(tl_br, prod_len));
 
-        let bl_tr = [];
+        let mut bl_tr = [];
         uint::range(0u, uint::min(num_row, num_col)) { |d|
             let (x, y) = (d, (num_col as int - 1 - i) - (d as int));
             if x < num_col && y >= 0 && y as uint < num_row {
@@ -92,7 +86,7 @@ fn main() {
             }
         }
     };
-    let max = find_max_grid(grid, 4u);
+    let mut max = find_max_grid(grid, 4u);
     max = uint::max(max, find_max_v(grid, 4u));
     max = uint::max(max, find_max_d(grid, 4u));
     io::println(#fmt("%u", max));

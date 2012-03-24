@@ -5,8 +5,8 @@ enum merge_comp<T> {
 }
 
 fn merge<T: copy>(vec1: [T], vec2: [T], comp: fn(T, T) -> merge_comp<T>) -> [T] {
-    let result = [];
-    let i1 = 0u, i2 = 0u;
+    let mut result = [];
+    let mut (i1, i2) = (0u, 0u);
     let len1 = vec::len(vec1), len2 = vec::len(vec2);
     while (i1 < len1 && i2 < len2) {
         alt comp(vec1[i1], vec2[i2]) {
@@ -37,7 +37,7 @@ fn mergei<T: copy>(vecs: [[T]], comp: fn(T, T) -> merge_comp<T>) -> [T] {
 }
 
 fn zip_default<T: copy, U: copy>(v1: [const T], v2: [const U], def: (T, U)) -> [(T, U)] {
-    let result = [];
+    let mut result = [];
     let (l1, l2) = (vec::len(v1), vec::len(v2));
     let (d1, d2) = def;
     uint::range(0u, uint::max(l1, l2)) { |i|

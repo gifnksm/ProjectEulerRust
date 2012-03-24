@@ -4,8 +4,8 @@ pure fn fib(prev: uint, cur: uint) -> (uint, uint) {
 
 fn main() {
     const MAX: uint = 4000000u;
-    let (prev, cur) = (1u, 1u);
-    let sum = 0u;
+    let mut (prev, cur) = (1u, 1u);
+    let mut sum = 0u;
     while cur < MAX {
         if (cur % 2u == 0u) {
             sum += cur;
