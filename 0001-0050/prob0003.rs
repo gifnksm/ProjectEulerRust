@@ -12,8 +12,9 @@ fn main() {
         }
         if num == 1u {
             io::println(#fmt("%u", p));
-            ret false;
+            false
+        } else {
+            true
         }
-        ret true;
     };
 }

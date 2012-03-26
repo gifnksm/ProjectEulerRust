@@ -9,12 +9,12 @@ fn merge_facti(fss: [[(u64, i64)]]) -> [(u64, i64)] {
         let (base1, exp1): (u64, i64) = f1;
         let (base2, exp2) = f2;
         if base1 < base2 {
-            ret util::lt;
+            util::lt
+        } else if base1 > base2 {
+            util::gt
+        } else {
+            util::eq((base1, int::max(exp1, exp2)))
         }
-        if base1 > base2 {
-            ret util::gt;
-        }
-        ret util::eq((base1, int::max(exp1, exp2)));
     };
 }
 

@@ -74,6 +74,6 @@ fn factors(num: u64, &primes: prime, blk: fn((u64, i64))) {
         if exp > 0u64 {
             blk((p, exp as i64));
         }
-        ret itr != 1u;
+        itr != 1u
     };
 }

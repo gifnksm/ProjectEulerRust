@@ -7,11 +7,12 @@ fn main() {
     let mut sum = 0u;
     let primes = prime::init();
     primes.iterate { |p|
-        if p >= 2000000u64 {
-            ret false;
+        if p < 2000000u64 {
+            sum += p;
+            true
+        } else {
+            false
         }
-        sum += p;
-        ret true;
     };
 
     io::println(#fmt("%u", sum));
