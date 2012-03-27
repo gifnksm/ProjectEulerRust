@@ -1,7 +1,7 @@
 export prime, init, grow, get_at, loopable_prime, factors;
 
 type prime = {
-    mutable vec: [u64]
+    mut vec: [u64]
 };
 
 impl loopable_prime for prime {
@@ -14,7 +14,7 @@ impl loopable_prime for prime {
 }
 
 fn init() -> prime {
-    { mutable vec: [] }
+    { mut vec: [] }
 }
 
 fn grow(ps: prime, n: uint) {
