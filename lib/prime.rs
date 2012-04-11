@@ -37,7 +37,7 @@ fn grow_vec(&v: [u64], n: uint) {
 
     let mut i = 0u;
     while i < n {
-        for p in v {
+        for v.each() { |p|
             if p * p > num {
                 v += [num];
                 i += 1u;

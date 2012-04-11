@@ -30,7 +30,8 @@ fn main() {
             let pairs = dividable_pairs(num, 100u64, 999u64);
             if vec::is_not_empty(pairs) {
                 io::print(#fmt("%u", num));
-                for (d1, d2) in pairs {
+                for pairs.each() { |tp|
+                    let (d1, d2) = tp;
                     io::print(#fmt(" = %u * %u", d1, d2));
                 }
                 io::print("\n");

@@ -15,7 +15,8 @@ fn find_pyrhagorean(sum: u64) -> [(u64, u64, u64)] {
 }
 
 fn main() {
-    for (a, b, c) in find_pyrhagorean(1000u) {
+    for find_pyrhagorean(1000u).each() { |tp|
+        let (a, b, c) = tp;
         io::println(#fmt("%u^2 + %u^2 = %u^2", a, b, c));
         io::println(#fmt("prod: %u", a * b * c));
     }
