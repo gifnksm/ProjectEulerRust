@@ -8,12 +8,8 @@ class prime {
 
         fn is_coprime(num: u64) -> bool {
             for self.vec.each() {|p|
-                if p * p > num {
-                    ret true;
-                }
-                if num % p == 0u64 {
-                    ret false;
-                }
+                if p * p > num     { ret true; }
+                if num % p == 0u64 { ret false; }
             }
             ret true;
         }
@@ -31,9 +27,7 @@ class prime {
         }
 
         fn grow_until(cond: grow_cond) {
-            if self.check_cond(cond) {
-                ret;
-            }
+            if self.check_cond(cond) { ret; }
 
             let mut num = alt vec::last_opt(self.vec) {
               none       { self.vec =  [2u64]; ret self.grow_until(cond); }
@@ -58,34 +52,23 @@ class prime {
     }
 
     fn is_prime(num: u64) -> bool {
-        if num < 2u64 {
-            ret false;
-        }
-        self.grow_until(value(calc::isqrt(num)));
+        if num < 2u64 { ret false; }
 
-        for self.vec.each() {|p|
-            if p * p > num {
-                ret true;
-            }
-            if num % p == 0u {
-                ret false;
-            }
-        };
-        ret true;
+        for self.each {|p|
+            if p * p > num   { ret true; }
+            if num % p == 0u { ret false; }
+        }
+        unreachable();
     }
 
     fn each(f: fn(&&u64) -> bool) {
         let mut idx = 0u64;
         for self.vec.each {|p|
-            if !f(p) {
-                ret;
-            }
+            if !f(p) { ret; }
             idx += 1u;
         }
         loop {
-            if !f(self[idx]) {
-                ret;
-            }
+            if !f(self[idx]) { ret; }
             idx += 1u;
         }
     }
@@ -104,12 +87,8 @@ fn factors(num: u64, primes: prime, blk: fn((u64, i64))) {
     let mut itr = num;
     for primes.each {|p|
         let exp = div_multi(itr, p);
-        if exp > 0u64 {
-            blk((p, exp as i64));
-        }
-        if itr == 1u {
-            break;
-        }
+        if exp > 0u64 { blk((p, exp as i64)); }
+        if itr == 1u  { break; }
     };
 }
 
@@ -121,13 +100,9 @@ mod tests {
         let ps = prime();
 
         // Generated primes
-        for table.eachi() {|i, p|
-            assert ps[i] == p;
-        }
+        for table.eachi() {|i, p| assert ps[i] == p; }
         // Memoized primes
-        for table.eachi() {|i, p|
-            assert ps[i] == p;
-        }
+        for table.eachi() {|i, p| assert ps[i] == p; }
     }
 
     #[test]
@@ -138,27 +113,21 @@ mod tests {
 
         let mut v1 = [];
         for ps.each {|p|
-            if p > table.last() {
-                break;
-            }
+            if p > table.last() { break; }
             v1 += [ p ];
         }
         assert table == v1;
 
         let mut v2 = [];
         for ps.each {|p|
-            if p > table.last() {
-                break;
-            }
+            if p > table.last() { break; }
             v2 += [ p ];
         }
         assert table == v2;
 
         let mut v3 = [];
         for ps.each {|p|
-            if p > table2.last() {
-                break;
-            }
+            if p > table2.last() { break; }
             v3 += [ p ];
         }
         assert table + table2 == v3;
@@ -167,6 +136,7 @@ mod tests {
     #[test]
     fn test_prime_is_prime() {
         let p = prime();
+        assert !p.is_prime(0u64);
         assert !p.is_prime(1u64);
         assert p.is_prime(2u64);
         assert p.is_prime(3u64);
