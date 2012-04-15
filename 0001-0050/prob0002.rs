@@ -1,18 +1,13 @@
-pure fn fib(prev: uint, cur: uint) -> (uint, uint) {
-    ret (cur, prev + cur);
-}
+use euler;
+
+import euler::calc;
 
 fn main() {
     const MAX: uint = 4000000u;
-    let mut (prev, cur) = (1u, 1u);
     let mut sum = 0u;
-    while cur < MAX {
-        if (cur % 2u == 0u) {
-            sum += cur;
-        }
-        let (prev2, cur2) = fib(prev, cur);
-        prev = prev2;
-        cur = cur2;
-    }
+    for calc::each_fib {|f|
+        if f >= MAX     { break; }
+        if f % 2u == 0u { sum += f; }
+    };
     io::println(#fmt("%u", sum));
 }
