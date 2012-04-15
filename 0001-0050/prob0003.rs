@@ -1,20 +1,16 @@
 use euler;
 
-import prime = euler::prime;
-import euler::prime::{ loopable_prime };
+import euler::prime;
 
 fn main() {
     let mut num = 600851475143u64;
-    let primes = prime::init();
-    primes.iterate { |p|
+    for prime::prime().each {|p|
         while num % p == 0u64 {
             num /= p;
         }
         if num == 1u {
             io::println(#fmt("%u", p));
-            false
-        } else {
-            true
+            break;
         }
     };
 }

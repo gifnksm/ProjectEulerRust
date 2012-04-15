@@ -1,7 +1,7 @@
 use euler;
 
 import iter::*;
-import prime = euler::prime;
+import euler::prime;
 
 fn gen_triangles(&trigs: [uint]) {
     alt vec::len(trigs) {
@@ -10,7 +10,7 @@ fn gen_triangles(&trigs: [uint]) {
     }
 }
 
-fn num_factors(num: u64, &primes: prime::prime) -> u64 {
+fn num_factors(num: u64, primes: prime::prime) -> u64 {
     let mut prod = 1u;
     prime::factors(num, primes) { |f|
         let (_base, exp): (u64, i64) = f;
@@ -20,7 +20,7 @@ fn num_factors(num: u64, &primes: prime::prime) -> u64 {
 }
 
 fn main() {
-    let mut primes = prime::init();
+    let primes = prime::prime();
     let mut trigs  = [];
     while true {
         gen_triangles(trigs);

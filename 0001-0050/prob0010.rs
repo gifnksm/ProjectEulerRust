@@ -1,19 +1,14 @@
 use euler;
 
 import prime = euler::prime;
-import euler::prime::{ loopable_prime };
 
 fn main() {
     let mut sum = 0u;
-    let primes = prime::init();
-    primes.iterate { |p|
-        if p < 2000000u64 {
-            sum += p;
-            true
-        } else {
-            false
+    for prime::prime().each {|p|
+        if p >= 2000000u64 {
+            break;
         }
+        sum += p;
     };
-
     io::println(#fmt("%u", sum));
 }

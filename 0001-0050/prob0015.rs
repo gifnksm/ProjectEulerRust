@@ -46,7 +46,7 @@ fn fact_to_uint(fs: [(u64, i64)]) -> u64 {
 }
 
 fn main() {
-    let mut primes = prime::init();
+    let primes = prime::prime();
     let mut numer_facts = [];
     uint::range(21u, 40u + 1u) { |num|
         let mut list = [];

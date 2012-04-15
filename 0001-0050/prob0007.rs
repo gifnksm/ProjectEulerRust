@@ -1,9 +1,7 @@
 use euler;
 
-import prime = euler::prime;
+import euler::prime;
 
 fn main() {
-    let idx = 10000u64;
-    let mut primes = prime::init();
-    io::println(#fmt("%u", prime::get_at(primes, idx)));
+    io::println(#fmt("%u", prime::prime()[10000u64]));
 }
