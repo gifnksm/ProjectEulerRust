@@ -6,6 +6,7 @@ TESTS=./lib/euler.test
 
 RUSTC_FLAGS=
 LD_FLAGS=-L ./lib
+TEST_RUSTC_FLAGS=-g
 
 all: $(TARGET)
 
@@ -16,7 +17,7 @@ $(LIBEULER): ./lib/euler.rc $(LIBSRC)
 	rustc $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
 
 %.test: %.rs $(LIBEULER)
-	rustc --test $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
+	rustc --test $(RUSTC_FLAGS) $(TEST_RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
 
 ./lib/euler.test: ./lib/euler.rc $(LIBSRC)
 	rustc --test $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
