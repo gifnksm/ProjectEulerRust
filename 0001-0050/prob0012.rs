@@ -1,12 +1,16 @@
 use euler;
 
-import iter::*;
 import euler::prime;
 
-fn gen_triangles(&trigs: [uint]) {
-    alt vec::len(trigs) {
-      0u { trigs = [1u]; }
-      x  { trigs += [trigs[x - 1u] + x + 1u]; }
+fn each_triangles(f: fn(&&uint) -> bool) {
+    let mut idx = 0u;
+    let mut t   = 1u;
+    loop {
+        if !f(t) {
+            break;
+        }
+        idx += 1u;
+        t   += idx + 1u;
     }
 }
 
@@ -21,10 +25,7 @@ fn num_factors(num: u64, primes: prime::prime) -> u64 {
 
 fn main() {
     let primes = prime::prime();
-    let mut trigs  = [];
-    while true {
-        gen_triangles(trigs);
-        let t = vec::last(trigs);
+    for each_triangles {|t|
         let num = num_factors(t, primes);
         if num > 500u {
             io::println(#fmt("%u -> %u", t, num_factors(t, primes)));
