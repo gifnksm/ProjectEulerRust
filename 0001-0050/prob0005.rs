@@ -49,7 +49,7 @@ fn main() {
     let mut factors = [];
     uint::range(1u, 20u + 1u) {|n|
         let mut list = [];
-        prime::factors(n, primes) {|f| list += [ f ]; }
+        for prime::factors(n, primes) {|f| list += [ f ]; }
         factors += [ list ];
     };
     io::println(#fmt("%u", fact_to_uint(merge_facti(factors))));

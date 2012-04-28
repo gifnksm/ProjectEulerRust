@@ -16,9 +16,9 @@ fn each_triangles(f: fn(&&uint) -> bool) {
 
 fn num_factors(num: u64, primes: prime::prime) -> u64 {
     let mut prod = 1u;
-    prime::factors(num, primes) { |f|
+    for prime::factors(num, primes) {|f|
         let (_base, exp): (u64, i64) = f;
-        prod *= ((exp + 1) as u64)
+        prod *= ((exp + 1) as u64);
     }
     ret prod;
 }

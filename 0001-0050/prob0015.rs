@@ -48,18 +48,18 @@ fn fact_to_uint(fs: [(u64, i64)]) -> u64 {
 fn main() {
     let primes = prime::prime();
     let mut numer_facts = [];
-    uint::range(21u, 40u + 1u) { |num|
+    uint::range(21u, 40u + 1u) {|num|
         let mut list = [];
-        prime::factors(num, primes) { |f|
+        for prime::factors(num, primes) {|f|
             list += [ f ];
         }
-        numer_facts += [list ];
+        numer_facts += [ list ];
     };
     let numer = mul_facti(numer_facts);
     let mut denom_facts = [];
-    uint::range(1u, 20u + 1u) { |num|
+    uint::range(1u, 20u + 1u) {|num|
         let mut list = [];
-        prime::factors(num, primes) { |f|
+        for prime::factors(num, primes) {|f|
             let (base, exp) = f;
             list += [ (base, -exp) ];
         }

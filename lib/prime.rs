@@ -83,11 +83,13 @@ fn div_multi(&num: u64, f: u64) -> u64 {
     ret exp;
 }
 
-fn factors(num: u64, primes: prime, blk: fn((u64, i64))) {
+fn factors(num: u64, primes: prime, f: fn((u64, i64)) -> bool) {
     let mut itr = num;
     for primes.each {|p|
         let exp = div_multi(itr, p);
-        if exp > 0u64 { blk((p, exp as i64)); }
+        if exp > 0u64 {
+            if !f((p, exp as i64)) { break; }
+        }
         if itr == 1u  { break; }
     };
 }
