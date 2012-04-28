@@ -1,6 +1,5 @@
 use euler;
 
-import iter::*;
 import euler::prime;
 import euler::util;
 
@@ -47,13 +46,11 @@ fn fact_to_uint(fs: [(u64, i64)]) -> u64 {
 
 fn main() {
     let primes = prime::prime();
-    let range  = bind uint::range(1u, 20u + 1u, _);
-    let factors = iter::foldl(range, []) { |accum, num|
+    let mut factors = [];
+    uint::range(1u, 20u + 1u) {|n|
         let mut list = [];
-        prime::factors(num, primes) { |f|
-            list += [ f ];
-        }
-        accum + [ list ]
+        prime::factors(n, primes) {|f| list += [ f ]; }
+        factors += [ list ];
     };
     io::println(#fmt("%u", fact_to_uint(merge_facti(factors))));
 }

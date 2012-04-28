@@ -1,9 +1,10 @@
 import iter::*;
 
 fn main() {
-    let it  = bind uint::range(0u, 1000u, _);
-    let sum = iter::foldl(it, 0u) { |accum, &&n: uint|
-        accum + if n % 3u == 0u || n % 5u == 0u { n } else { 0u }
-    };
+    let mut sum = 0u;
+    uint::range(0u, 1000u) {|n|
+        if n % 3u == 0u || n % 5u == 0u { sum += n; }
+    }
+
     io::println(#fmt("%u", sum));
 }
