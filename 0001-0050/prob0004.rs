@@ -23,7 +23,7 @@ fn dividable_pairs(num: u64, min: u64, max: u64) -> [(u64, u64)] {
 
 fn main() {
     let mut dup_flag = false;
-    while true {
+    loop {
         let mut seed = 999u64;
         while (seed >= 100u64) {
             let num = to_palindromic(seed, dup_flag);
