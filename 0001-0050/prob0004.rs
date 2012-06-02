@@ -3,7 +3,7 @@ fn to_palindromic(n: u64, dup_flag: bool) -> u64 {
     let s = str::from_chars(
         if dup_flag { cs + vec::tail(vec::reversed(cs)) } else { cs + vec::reversed(cs) }
     );
-    alt u64::from_str(s, 10u) {
+    alt u64::from_str(s) {
       none    { fail }
       some(x) { ret x }
     }

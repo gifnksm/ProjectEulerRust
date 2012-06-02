@@ -1,6 +1,6 @@
 fn main() {
     let mut i = 1u;
-    uint::range(0u, 63u) { |_n|
+    for uint::range(0u, 63u) { |_n|
         let sum = vec::foldl(0u, vec::filter_map(str::chars(#fmt("%u", i))) { |c|
             uint::from_str(str::from_char(c))
         }) { |s, n| s + n };

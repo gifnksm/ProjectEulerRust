@@ -40,7 +40,7 @@ fn zip_default<T: copy, U: copy>(v1: [const T], v2: [const U], def: (T, U)) -> [
     let mut result = [];
     let (l1, l2) = (vec::len(v1), vec::len(v2));
     let (d1, d2) = def;
-    uint::range(0u, uint::max(l1, l2)) { |i|
+    for uint::range(0u, uint::max(l1, l2)) { |i|
         let e1 = if i < l1 { v1[i] } else { d1 };
         let e2 = if i < l2 { v2[i] } else { d2 };
         result += [(e1, e2)];

@@ -28,9 +28,9 @@ fn main() {
     }
 
     let mut max = 0u;
-    uint::range(0u, vec::len(nums) - prod_len) { |i|
+    for uint::range(0u, vec::len(nums) - prod_len) { |i|
         let mut prod = 1u;
-        uint::range(0u, prod_len) { |j|
+        for uint::range(0u, prod_len) { |j|
             prod *= nums[i + j];
         }
         max = uint::max(prod, max);
