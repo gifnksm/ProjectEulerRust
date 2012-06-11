@@ -12,7 +12,7 @@ fn merge_facti(fss: [[(u64, i64)]]) -> [(u64, i64)] {
         } else if base1 > base2 {
             util::gt
         } else {
-            util::eq((base1, int::max(exp1, exp2)))
+            util::eq((base1, i64::max(exp1, exp2)))
         }
     };
 }
@@ -35,7 +35,7 @@ fn fact_to_uint(fs: [(u64, i64)]) -> u64 {
     let mut result = 1u64;
     for fs.each() { |tp|
         let (base, exp) = tp;
-        if exp > 0 {
+        if exp > 0i64 {
             result *= pow(base, exp as u64);
         } else {
             result /= pow(base, (-exp) as u64);
@@ -47,10 +47,10 @@ fn fact_to_uint(fs: [(u64, i64)]) -> u64 {
 fn main() {
     let primes = prime::prime();
     let mut factors = [];
-    for uint::range(1u, 20u + 1u) {|n|
+    for u64::range(1u64, 20u64 + 1u64) {|n|
         let mut list = [];
         for prime::factors(n, primes) {|f| list += [ f ]; }
         factors += [ list ];
     };
-    io::println(#fmt("%u", fact_to_uint(merge_facti(factors))));
+    io::println(u64::str(fact_to_uint(merge_facti(factors))));
 }

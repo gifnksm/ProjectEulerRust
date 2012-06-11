@@ -29,8 +29,8 @@ fn mergei<T: copy>(vecs: [[T]], comp: fn(T, T) -> merge_comp<T>) -> [T] {
       0u { [] }
       1u { vecs[0] }
       l  {
-        let pre  = mergei(vec::slice(vecs, 0u64, l / 2u64), comp);
-        let post = mergei(vec::slice(vecs, l / 2u64, l), comp);
+        let pre  = mergei(vec::slice(vecs, 0u, l / 2u), comp);
+        let post = mergei(vec::slice(vecs, l / 2u, l), comp);
         ret merge(pre, post, comp);
       }
     }

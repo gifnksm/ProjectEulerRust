@@ -7,7 +7,8 @@ class prime {
         let mut vec: [u64];
 
         fn is_coprime(num: u64) -> bool {
-            for self.vec.each() {|p|
+            for uint::range(0u, self.vec.len()) {|i|
+                let p = self.vec[i];
                 if p * p > num     { ret true; }
                 if num % p == 0u64 { ret false; }
             }
@@ -56,17 +57,18 @@ class prime {
 
         for self.each {|p|
             if p * p > num   { ret true; }
-            if num % p == 0u { ret false; }
+            if num % p == 0u64 { ret false; }
         }
         unreachable();
     }
 
     fn each(f: fn(&&u64) -> bool) {
-        let mut idx = 0u64;
-        for self.vec.each {|p|
+        for uint::range(0u, self.vec.len()) {|i|
+            let p = self.vec[i];
             if !f(p) { ret; }
-            idx += 1u;
         }
+
+        let mut idx = self.vec.len();
         loop {
             if !f(self[idx]) { ret; }
             idx += 1u;
@@ -90,7 +92,7 @@ fn factors(num: u64, primes: prime, f: fn((u64, i64)) -> bool) {
         if exp > 0u64 {
             if !f((p, exp as i64)) { break; }
         }
-        if itr == 1u  { break; }
+        if itr == 1u64  { break; }
     };
 }
 

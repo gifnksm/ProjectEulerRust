@@ -8,8 +8,8 @@ fn main() {
         while num % p == 0u64 {
             num /= p;
         }
-        if num == 1u {
-            io::println(#fmt("%u", p));
+        if num == 1u64 {
+            io::println(u64::str(p));
             break;
         }
     };
