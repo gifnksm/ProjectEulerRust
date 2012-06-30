@@ -4,7 +4,7 @@ enum grow_cond { count(uint), value(u64) }
 
 class prime {
     priv {
-        let mut vec: [u64];
+        let mut vec: [u64]/~;
 
         fn is_coprime(num: u64) -> bool {
             for uint::range(0u, self.vec.len()) {|i|
@@ -31,21 +31,21 @@ class prime {
             if self.check_cond(cond) { ret; }
 
             let mut num = alt vec::last_opt(self.vec) {
-              none       { self.vec =  [2u64]; ret self.grow_until(cond); }
-              some(2u64) { self.vec += [3u64]; ret self.grow_until(cond); }
+              none       { self.vec =  [2u64]/~; ret self.grow_until(cond); }
+              some(2u64) { self.vec += [3u64]/~; ret self.grow_until(cond); }
               some(x)    { x + 2u64 }
             };
 
             while !self.check_cond(cond) {
                 if self.is_coprime(num) {
-                    self.vec += [num];
+                    self.vec += [num]/~;
                 }
                 num += 2u64;
             }
         }
     }
 
-    new() { self.vec = []; }
+    new() { self.vec = []/~; }
 
     fn [](idx: uint) -> u64 {
         self.grow_until(count(idx + 1u));

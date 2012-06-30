@@ -17,16 +17,14 @@ mod my_u64 {
     }
 }
 
-fn dividable_pairs(num: u64, min: u64, max: u64) -> [(u64, u64)] {
+fn dividable_pairs(num: u64, min: u64, max: u64, f: fn(u64, u64) -> bool) {
     let mut div = u64::max(my_u64::div_ceil(num, max), min);
-    let mut result = [];
     while div * div <= num {
         if num % div == 0u64 {
-            result += [(div, num / div)];
+            if !f(div, num / div) { break; }
         }
         div += 1u64;
     }
-    ret result;
 }
 
 fn main() {
@@ -35,15 +33,13 @@ fn main() {
         let mut seed = 999u64;
         while (seed >= 100u64) {
             let num = to_palindromic(seed, dup_flag);
-            let pairs = dividable_pairs(num, 100u64, 999u64);
-            if vec::is_not_empty(pairs) {
-                io::print(u64::to_str(num, 10u));
-                for pairs.each() { |tp|
-                    let (d1, d2) = tp;
-                    io::print(#fmt(" = %u * %u", d1 as uint, d2 as uint));
-                }
-                io::print("\n");
+            let mut exist_flag = false;
+            for dividable_pairs(num, 100u64, 999u64) {|d1, d2|
+                if exist_flag { io::print(#fmt("%u", num as uint)); }
+                exist_flag = true;
+                io::print(#fmt(" = %u * %u", d1 as uint, d2 as uint));
             }
+            if exist_flag { io::println(""); }
             seed -= 1u64;
         }
         if (!dup_flag) {
