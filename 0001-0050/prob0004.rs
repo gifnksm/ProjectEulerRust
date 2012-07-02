@@ -34,7 +34,7 @@ fn main() {
         while (seed >= 100u64) {
             let num = to_palindromic(seed, dup_flag);
             let mut exist_flag = false;
-            for dividable_pairs(num, 100u64, 999u64) {|d1, d2|
+            for dividable_pairs(num, 100u64, 999u64) |d1, d2| {
                 if exist_flag { io::print(#fmt("%u", num as uint)); }
                 exist_flag = true;
                 io::print(#fmt(" = %u * %u", d1 as uint, d2 as uint));

@@ -22,15 +22,15 @@ fn main() {
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450
 ";
-    let nums = vec::filter_map(str::chars(input)) { |c| uint::from_str(str::from_char(c)) };
+    let nums = vec::filter_map(str::chars(input), |c| uint::from_str(str::from_char(c)));
     if (vec::len(nums) < prod_len) {
         fail;
     }
 
     let mut max = 0u;
-    for uint::range(0u, vec::len(nums) - prod_len) { |i|
+    for uint::range(0u, vec::len(nums) - prod_len) |i| {
         let mut prod = 1u;
-        for uint::range(0u, prod_len) { |j|
+        for uint::range(0u, prod_len) |j| {
             prod *= nums[i + j];
         }
         max = uint::max(prod, max);

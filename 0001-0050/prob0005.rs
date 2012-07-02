@@ -4,7 +4,7 @@ import euler::prime;
 import euler::util;
 
 fn merge_facti(fss: [[(u64, i64)]/~]/~) -> [(u64, i64)]/~ {
-    ret util::mergei(fss) { |f1, f2|
+    ret do util::mergei(fss) |f1, f2| {
         let (base1, exp1): (u64, i64) = f1;
         let (base2, exp2) = f2;
         if base1 < base2 {
@@ -33,7 +33,7 @@ fn pow(base: u64, exp: u64) -> u64 {
 
 fn fact_to_uint(fs: [(u64, i64)]/&) -> u64 {
     let mut result = 1u64;
-    for fs.each() { |tp|
+    for fs.each() |tp| {
         let (base, exp) = tp;
         if exp > 0i64 {
             result *= pow(base, exp as u64);
@@ -47,9 +47,9 @@ fn fact_to_uint(fs: [(u64, i64)]/&) -> u64 {
 fn main() {
     let primes = prime::prime();
     let mut factors = []/~;
-    for u64::range(1u64, 20u64 + 1u64) {|n|
+    for u64::range(1u64, 20u64 + 1u64) |n| {
         let mut list = []/~;
-        for prime::factors(n, primes) {|f| list += [ f ]/&; }
+        for prime::factors(n, primes) |f| { list += [ f ]/&; }
         factors += [ list ]/&;
     };
     io::println(u64::str(fact_to_uint(merge_facti(factors))));

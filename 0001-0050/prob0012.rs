@@ -16,7 +16,7 @@ fn each_triangles(f: fn(&&uint) -> bool) {
 
 fn num_factors(num: u64, primes: prime::prime) -> u64 {
     let mut prod = 1u64;
-    for prime::factors(num, primes) {|f|
+    for prime::factors(num, primes) |f| {
         let (_base, exp): (u64, i64) = f;
         prod *= ((exp + 1i64) as u64);
     }
@@ -25,7 +25,7 @@ fn num_factors(num: u64, primes: prime::prime) -> u64 {
 
 fn main() {
     let primes = prime::prime();
-    for each_triangles {|t|
+    for each_triangles |t| {
         let num = num_factors(t as u64, primes);
         if num > 500u64 {
             io::println(#fmt("%u -> %u", t, num_factors(t as u64, primes) as uint));

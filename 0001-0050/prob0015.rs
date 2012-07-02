@@ -5,7 +5,7 @@ import euler::prime;
 import euler::util;
 
 fn mul_facti(fss: [[(u64, i64)]/~]/~) -> [(u64, i64)]/~ {
-    ret util::mergei(fss) {|f1, f2|
+    ret do util::mergei(fss) |f1, f2| {
         let (base1, exp1) = f1;
         let (base2, exp2) = f2;
         if base1 < base2 {
@@ -34,7 +34,7 @@ fn pow(base: u64, exp: u64) -> u64 {
 
 fn fact_to_uint(fs: [(u64, i64)]/&) -> u64 {
     let mut result = 1u64;
-    for fs.each() {|tp|
+    for fs.each() |tp| {
         let (base, exp) = tp;
         if exp > 0i64 {
             result *= pow(base, exp as u64);
@@ -48,23 +48,23 @@ fn fact_to_uint(fs: [(u64, i64)]/&) -> u64 {
 fn main() {
     let primes = prime::prime();
     let mut numer_facts = []/~;
-    for u64::range(21u64, 40u64 + 1u64) {|num|
+    for u64::range(21u64, 40u64 + 1u64) |num| {
         let mut list = []/~;
-        for prime::factors(num, primes) {|f|
+        for prime::factors(num, primes) |f| {
             list += [ f ]/~;
         }
         numer_facts += [ list ]/~;
-    };
+    }
     let numer = mul_facti(numer_facts);
     let mut denom_facts = []/~;
-    for u64::range(1u64, 20u64 + 1u64) {|num|
+    for u64::range(1u64, 20u64 + 1u64) |num| {
         let mut list = []/~;
-        for prime::factors(num, primes) {|f|
+        for prime::factors(num, primes) |f| {
             let (base, exp) = f;
             list += [ (base, -exp) ]/~;
         }
         denom_facts += [ list ]/~;
-    };
+    }
     let denom = mul_facti(denom_facts);
     io::println(#fmt("%u", fact_to_uint(mul_facti([numer, denom]/~)) as uint));
 }

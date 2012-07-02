@@ -7,7 +7,7 @@ class prime {
         let mut vec: [u64]/~;
 
         fn is_coprime(num: u64) -> bool {
-            for uint::range(0u, self.vec.len()) {|i|
+            for uint::range(0u, self.vec.len()) |i| {
                 let p = self.vec[i];
                 if p * p > num     { ret true; }
                 if num % p == 0u64 { ret false; }
@@ -55,7 +55,7 @@ class prime {
     fn is_prime(num: u64) -> bool {
         if num < 2u64 { ret false; }
 
-        for self.each {|p|
+        for self.each |p| {
             if p * p > num   { ret true; }
             if num % p == 0u64 { ret false; }
         }
@@ -63,7 +63,7 @@ class prime {
     }
 
     fn each(f: fn(&&u64) -> bool) {
-        for uint::range(0u, self.vec.len()) {|i|
+        for uint::range(0u, self.vec.len()) |i| {
             let p = self.vec[i];
             if !f(p) { ret; }
         }
@@ -87,7 +87,7 @@ fn div_multi(&num: u64, f: u64) -> u64 {
 
 fn factors(num: u64, primes: prime, f: fn((u64, i64)) -> bool) {
     let mut itr = num;
-    for primes.each {|p|
+    for primes.each |p| {
         let exp = div_multi(itr, p);
         if exp > 0u64 {
             if !f((p, exp as i64)) { break; }
@@ -104,9 +104,9 @@ mod tests {
         let ps = prime();
 
         // Generated primes
-        for table.eachi() {|i, p| assert ps[i] == p; }
+        for table.eachi() |i, p| { assert ps[i] == p; }
         // Memoized primes
-        for table.eachi() {|i, p| assert ps[i] == p; }
+        for table.eachi() |i, p| { assert ps[i] == p; }
     }
 
     #[test]
@@ -116,21 +116,21 @@ mod tests {
         let ps = prime();
 
         let mut v1 = [];
-        for ps.each {|p|
+        for ps.each |p| {
             if p > table.last() { break; }
             v1 += [ p ];
         }
         assert table == v1;
 
         let mut v2 = [];
-        for ps.each {|p|
+        for ps.each |p| {
             if p > table.last() { break; }
             v2 += [ p ];
         }
         assert table == v2;
 
         let mut v3 = [];
-        for ps.each {|p|
+        for ps.each |p| {
             if p > table2.last() { break; }
             v3 += [ p ];
         }
