@@ -56,8 +56,10 @@ trait ExtNum {
     pure fn abs() -> self;
     pure fn divmod(&&other: self) -> (self, self);
     pure fn to_uint() -> uint;
+    pure fn to_str_radix(radix: uint) -> ~str;
 
     static pure fn zero() -> self;
     static pure fn one() -> self;
     static pure fn from_uint(n: uint) -> self;
+    static pure fn from_str_radix(buf: &str, radix: uint) -> Option<self>;
 }

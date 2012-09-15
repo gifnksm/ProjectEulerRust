@@ -1,8 +1,10 @@
 export bigint;
 
 use extcmp::{ Cmp, Eq, Lt, Gt, ExtOrd };
-use extnum::{ Sign, Minus, Zero, Plus, ExtNum, zero, from_uint };
+use extnum::{ Sign, Minus, Zero, Plus, ExtNum, zero, from_uint, from_str_radix };
 use cmp::{ Ord, Eq };
+use to_str::{ ToStr };
+use from_str::{ FromStr };
 
 mod UintVec {
     priv pure fn reduce_zero_slice(v: &[uint]) -> &[uint] {
@@ -233,6 +235,15 @@ mod UintVec {
     pure fn vec_to_str_hex(v: &[uint]) -> ~str {
         str::trim_left_chars(str::connect(vec::reversed(v).map(|elt| #fmt("%064x", elt)), "_"), ~['0'])
     }
+    pure fn vec_to_str_radix(v: &[uint], radix: uint) -> ~str {
+        assert 1 < radix && radix <= 16;
+        match radix {
+            2 => return vec_to_str_bin(v),
+            8 => return vec_to_str_oct(v),
+            16 => return vec_to_str_hex(v),
+            _ => fail
+        }
+    }
 }
 
 
@@ -370,6 +381,15 @@ impl BigInt: ExtNum {
         }
     }
 
+    pure fn to_str_radix(radix: uint) -> ~str {
+        assert 1 < radix && radix <= 16;
+        match self.sign {
+            Plus  => UintVec::vec_to_str_radix(self.nums, radix),
+            Minus => ~"-" + UintVec::vec_to_str_radix(self.nums, radix),
+            Zero  => ~"0"
+        }
+    }
+
     static pure fn zero() -> BigInt {
         BigInt { sign: Zero, nums: UintVec::vec_from_uint(0) }
     }
@@ -381,6 +401,10 @@ impl BigInt: ExtNum {
     static pure fn from_uint(n: uint) -> BigInt {
         if n == 0u { zero() }
         else       { from_slice(Plus, &[n]) }
+    }
+
+    static pure fn from_str_radix(buf: &str, radis: uint) -> Option<BigInt> {
+        fail
     }
 }
 
@@ -395,28 +419,12 @@ impl BigInt : BigIntGen {
     }
 }
 
-impl BigInt {
-    pure fn to_str_bin() -> ~str {
-        match self.sign {
-          Plus => UintVec::vec_to_str_bin(self.nums),
-          Minus => ~"-" + UintVec::vec_to_str_bin(self.nums),
-          Zero  => ~"0"
-        }
-    }
-    pure fn to_str_oct() -> ~str {
-        match self.sign {
-          Plus => UintVec::vec_to_str_oct(self.nums),
-          Minus => ~"-" + UintVec::vec_to_str_oct(self.nums),
-          Zero  => ~"0"
-        }
-    }
-    pure fn to_str_hex() -> ~str {
-        match self.sign {
-          Plus => UintVec::vec_to_str_hex(self.nums),
-          Minus => ~"-" + UintVec::vec_to_str_hex(self.nums),
-          Zero  => ~"0"
-        }
-    }
+impl BigInt : ToStr {
+    fn to_str() -> ~str { self.to_str_radix(10) }
+}
+
+impl BigInt : FromStr {
+    static fn from_str(s: &str) -> Option<BigInt> { from_str_radix::<BigInt>(s, 10) }
 }
 
 #[cfg(test)]
@@ -617,12 +625,6 @@ mod tests {
             let c: BigInt = from_slice(Plus, cVec);
             let b: BigInt = from_uint(bNum);
 
-            if c.divmod(b) != (a, from_uint(0)) {
-                let (d, r) = c.divmod(b);
-                #info("%? / %? == %? (expected %?)",
-                      c.to_str_hex(), b.to_str_hex(), (d.to_str_hex(), r.to_str_hex()),
-                      (a.to_str_hex(), from_uint::<BigInt>(0).to_str_hex()));
-            }
             assert c.divmod(b) == (a, from_uint(0));
         }
 
@@ -672,18 +674,10 @@ mod tests {
             let c: BigInt = from_slice(Plus, cVec);
 
             if b != zero() {
-                if c / b != a {
-                    #info("%? / %? == %? (expected %?)",
-                          c.to_str_hex(), b.to_str_hex(), (c/b).to_str_hex(), a.to_str_hex());
-                }
                 assert c / b == a;
             }
 
             if a != zero() {
-                if c / a != b {
-                    #info("%? / %? == %? (expected %?)",
-                          c.to_str_hex(), a.to_str_hex(), (c/a).to_str_hex(), b.to_str_hex());
-                }
                 assert c / a == b;
             }
         }
