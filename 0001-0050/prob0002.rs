@@ -1,6 +1,6 @@
-use euler;
+extern mod euler;
 
-import euler::calc;
+use euler::calc;
 
 fn main() {
     const MAX: u64 = 4000000u64;

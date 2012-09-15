@@ -3,17 +3,17 @@ fn to_palindromic(n: u64, dup_flag: bool) -> u64 {
     let s = str::from_chars(
         if dup_flag { cs + vec::tail(vec::reversed(cs)) } else { cs + vec::reversed(cs) }
     );
-    alt u64::from_str(s) {
-      none    { fail }
-      some(x) { ret x }
+    match u64::from_str(s) {
+      None    => fail,
+      Some(x) => x
     }
 }
 
 mod my_u64 {
     pure fn div_ceil(x: u64, y: u64) -> u64 {
-        let div = u64::div(x, y);
-        if x % y == 0u64 { ret div;}
-        else { ret div + 1u64; }
+        let div = x / y;
+        if x % y == 0u64 { return div;}
+        else { return div + 1u64; }
     }
 }
 

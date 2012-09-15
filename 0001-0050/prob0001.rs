@@ -1,4 +1,4 @@
-import iter::*;
+use iter::*;
 
 fn main() {
     let mut sum = 0u;

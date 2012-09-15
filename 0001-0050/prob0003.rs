@@ -1,10 +1,10 @@
-use euler;
+extern mod euler;
 
-import euler::prime;
+use euler::prime;
 
 fn main() {
     let mut num = 600851475143u64;
-    for prime::prime().each |p| {
+    for prime::Prime().each |p| {
         while num % p == 0u64 {
             num /= p;
         }

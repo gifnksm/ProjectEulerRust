@@ -1,10 +1,10 @@
-use euler;
+extern mod euler;
 
-import prime = euler::prime;
+use prime = euler::prime;
 
 fn main() {
     let mut sum = 0u64;
-    for prime::prime().each |p| {
+    for prime::Prime().each |p| {
         if p >= 2000000u64 {
             break;
         }

@@ -16,11 +16,8 @@ $(LIBEULER): ./lib/euler.rc $(LIBSRC)
 %: %.rs $(LIBEULER) $(LIBSRC)
 	rustc $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
 
-%.test: %.rs $(LIBEULER)
-	rustc --test $(RUSTC_FLAGS) $(TEST_RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
-
-./lib/euler.test: ./lib/euler.rc $(LIBSRC)
-	rustc --test $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
+./lib/%.test: ./lib/%.rc $(LIBSRC)
+	rustc --test $(RUSTC_FLAGS)  $(TEST_RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
 
 .PHONY: test clean
 

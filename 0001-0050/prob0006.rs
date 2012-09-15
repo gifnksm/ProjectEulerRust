@@ -1,14 +1,8 @@
-fn sum_of_square(n: u64) -> u64 {
-    ret n * (n + 1u64) * (2u64 * n + 1u64) / 6u64;
-}
-
-fn sum_of_seq(n: u64) -> u64 {
-    ret n * (n + 1u64) / 2u64;
-}
-
+fn sum_of_square(n: u64) -> u64 { n * (n + 1u64) * (2u64 * n + 1u64) / 6u64 }
+fn sum_of_seq(n: u64) -> u64 { n * (n + 1u64) / 2u64 }
 fn square_of_sum(n: u64) -> u64 {
     let s = sum_of_seq(n);
-    ret s * s;
+    return s * s;
 }
 
 fn main() {

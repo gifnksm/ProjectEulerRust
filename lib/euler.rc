@@ -5,9 +5,21 @@
 #[comment = "Utility library for solving Project Euler"];
 #[crate_type="lib"];
 
-use std;
+extern mod std;
 
+#[warn(non_camel_case_types)]
+mod extcmp;
+#[warn(non_camel_case_types)]
+mod extnum;
+#[warn(non_camel_case_types)]
+mod arith;
+#[warn(non_camel_case_types)]
 mod calc;
+#[warn(non_camel_case_types)]
 mod prime;
+#[warn(non_camel_case_types)]
 mod util;
-
+#[warn(non_camel_case_types)]
+mod monoid;
+#[warn(non_camel_case_types)]
+mod bigint;

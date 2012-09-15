@@ -1,98 +1,87 @@
-export prime, factors;
+export Prime, factors;
 
-enum grow_cond { count(uint), value(u64) }
+pure fn Prime() -> Prime {
+    Prime { vec: ~[] }
+}
 
-class prime {
-    priv {
-        let mut vec: [u64]/~;
+struct Prime {
+    priv mut vec: ~[u64],
+}
 
-        fn is_coprime(num: u64) -> bool {
-            for uint::range(0u, self.vec.len()) |i| {
-                let p = self.vec[i];
-                if p * p > num     { ret true; }
-                if num % p == 0u64 { ret false; }
-            }
-            ret true;
+impl Prime {
+    priv pure fn is_coprime(num: u64) -> bool {
+        for uint::range(0, self.vec.len()) |i| {
+            let p = self.vec[i];
+            if p * p > num  { return true; }
+            if num % p == 0 { return false; }
         }
+        return true;
+    }
 
-        fn check_cond(cond: grow_cond) -> bool {
-            alt cond {
-              count(cnt) { cnt < self.vec.len() }
-              value(val) {
-                alt vec::last_opt(self.vec) {
-                  some(x) { val < x }
-                  none    { false }
-                }
-              }
+    priv fn grow_until(cond: fn() -> bool) {
+        if cond() { return }
+
+        let mut num = match vec::last_opt(self.vec) {
+          None    => { self.vec =  ~[2]; return self.grow_until(cond); }
+          Some(2) => { self.vec += ~[3]; return self.grow_until(cond); }
+          Some(x) => { x + 2 }
+        };
+
+        while !cond() {
+            if self.is_coprime(num) {
+                self.vec += ~[num];
             }
-        }
-
-        fn grow_until(cond: grow_cond) {
-            if self.check_cond(cond) { ret; }
-
-            let mut num = alt vec::last_opt(self.vec) {
-              none       { self.vec =  [2u64]/~; ret self.grow_until(cond); }
-              some(2u64) { self.vec += [3u64]/~; ret self.grow_until(cond); }
-              some(x)    { x + 2u64 }
-            };
-
-            while !self.check_cond(cond) {
-                if self.is_coprime(num) {
-                    self.vec += [num]/~;
-                }
-                num += 2u64;
-            }
+            num += 2;
         }
     }
 
-    new() { self.vec = []/~; }
-
-    fn [](idx: uint) -> u64 {
-        self.grow_until(count(idx + 1u));
-        ret self.vec[idx];
+    fn get_at(idx: uint) -> u64 {
+        self.grow_until(|| idx < self.vec.len());
+        return self.vec[idx];
     }
 
     fn is_prime(num: u64) -> bool {
-        if num < 2u64 { ret false; }
+        if num < 2 { return false; }
 
         for self.each |p| {
-            if p * p > num   { ret true; }
-            if num % p == 0u64 { ret false; }
+            if p * p > num  { return true;  }
+            if num % p == 0 { return false; }
         }
         unreachable();
     }
 
     fn each(f: fn(&&u64) -> bool) {
-        for uint::range(0u, self.vec.len()) |i| {
+        let init_len = self.vec.len();
+        for uint::range(0, init_len) |i| {
             let p = self.vec[i];
-            if !f(p) { ret; }
+            if !f(p) { return; }
         }
 
-        let mut idx = self.vec.len();
+        let mut idx = init_len;
         loop {
-            if !f(self[idx]) { ret; }
-            idx += 1u;
+            if !f(self.get_at(idx)) { return; }
+            idx += 1;
         }
     }
 }
 
 fn div_multi(&num: u64, f: u64) -> u64 {
-    let mut exp = 0u64;
-    while (num % f == 0u64) {
-        exp += 1u64;
+    let mut exp = 0;
+    while (num % f == 0) {
+        exp += 1;
         num /= f;
     }
-    ret exp;
+    return exp;
 }
 
-fn factors(num: u64, primes: prime, f: fn((u64, i64)) -> bool) {
+fn factors(num: u64, primes: Prime, f: fn((u64, monoid::Sum<i64>)) -> bool) {
     let mut itr = num;
     for primes.each |p| {
         let exp = div_multi(itr, p);
-        if exp > 0u64 {
-            if !f((p, exp as i64)) { break; }
+        if exp > 0 {
+            if !f((p, monoid::Sum(exp as i64))) { break; }
         }
-        if itr == 1u64  { break; }
+        if itr == 1  { break; }
     };
 }
 
@@ -100,36 +89,36 @@ fn factors(num: u64, primes: prime, f: fn((u64, i64)) -> bool) {
 mod tests {
     #[test]
     fn test_prime_opidx () {
-        let table  = [  2u64,  3u64,  5u64,  7u64, 11u64, 13u64, 17u64, 19u64, 23u64, 29u64, 31u64, 37u64, 41u64 ];
-        let ps = prime();
+        let table  = [  2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41 ];
+        let ps = Prime();
 
         // Generated primes
-        for table.eachi() |i, p| { assert ps[i] == p; }
+        for table.eachi() |i, p| { assert ps.get_at(i) == p; }
         // Memoized primes
-        for table.eachi() |i, p| { assert ps[i] == p; }
+        for table.eachi() |i, p| { assert ps.get_at(i) == p; }
     }
 
     #[test]
     fn test_prime_each() {
-        let table  = [  2u64,  3u64,  5u64,  7u64, 11u64, 13u64, 17u64, 19u64, 23u64, 29u64, 31u64, 37u64, 41u64 ];
-        let table2 = [ 43u64, 47u64, 53u64, 59u64, 61u64, 67u64, 71u64, 73u64, 79u64, 83u64, 89u64, 97u64 ];
-        let ps = prime();
+        let table  = ~[  2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41 ];
+        let table2 = ~[ 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97 ];
+        let ps = Prime();
 
-        let mut v1 = [];
+        let mut v1 = ~[];
         for ps.each |p| {
             if p > table.last() { break; }
             v1 += [ p ];
         }
         assert table == v1;
 
-        let mut v2 = [];
+        let mut v2 = ~[];
         for ps.each |p| {
             if p > table.last() { break; }
             v2 += [ p ];
         }
         assert table == v2;
 
-        let mut v3 = [];
+        let mut v3 = ~[];
         for ps.each |p| {
             if p > table2.last() { break; }
             v3 += [ p ];
@@ -139,15 +128,15 @@ mod tests {
 
     #[test]
     fn test_prime_is_prime() {
-        let p = prime();
-        assert !p.is_prime(0u64);
-        assert !p.is_prime(1u64);
-        assert p.is_prime(2u64);
-        assert p.is_prime(3u64);
-        assert !p.is_prime(4u64);
-        assert p.is_prime(5u64);
-        assert !p.is_prime(6u64);
-        assert p.is_prime(7u64);
-        assert !p.is_prime(100u64);
+        let p = Prime();
+        assert !p.is_prime(0);
+        assert !p.is_prime(1);
+        assert p.is_prime(2);
+        assert p.is_prime(3);
+        assert !p.is_prime(4);
+        assert p.is_prime(5);
+        assert !p.is_prime(6);
+        assert p.is_prime(7);
+        assert !p.is_prime(100);
     }
 }
