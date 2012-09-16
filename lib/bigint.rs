@@ -714,31 +714,53 @@ mod tests {
         }
     }
 
+    fn to_str_pairs() -> ~[ (BigInt, ~[(uint, ~str)]) ] {
+        ~[( zero::<BigInt>(), ~[
+            (2, ~"0"), (3, ~"0")
+        ]), ( from_slice::<BigInt>(Plus, [ 0xff ]), ~[
+            (2,  ~"11111111"),
+            (3,  ~"100110"),
+            (4,  ~"3333"),
+            (5,  ~"2010"),
+            (6,  ~"1103"),
+            (7,  ~"513"),
+            (8,  ~"377"),
+            (9,  ~"313"),
+            (10, ~"255"),
+            (11, ~"212"),
+            (12, ~"193"),
+            (13, ~"168"),
+            (14, ~"143"),
+            (15, ~"120"),
+            (16, ~"ff")
+        ]), ( from_slice::<BigInt>(Plus, [ 0xfff ]), ~[
+            (2,  ~"111111111111"),
+            (4,  ~"333333"),
+            (16, ~"fff")
+        ]), ( from_slice::<BigInt>(Plus, [ 1, 2 ]), ~[
+            (2,  ~"10" + str::from_chars(vec::from_elem(63, '0')) + "1"),
+            (4,  ~"2"  + str::from_chars(vec::from_elem(31, '0')) + "1"),
+            (10, ~"36893488147419103233"),
+            (16, ~"2"  + str::from_chars(vec::from_elem(15, '0')) + "1")
+        ]), (from_slice::<BigInt>(Plus, [ 1, 2, 3 ]), ~[
+            (2,  ~"11" + str::from_chars(vec::from_elem(62, '0')) + "10" + str::from_chars(vec::from_elem(63, '0')) + "1"),
+            (4,  ~"3"  + str::from_chars(vec::from_elem(31, '0')) + "2"  + str::from_chars(vec::from_elem(31, '0')) + "1"),
+            (10, ~"1020847100762815390427017310442723737601"),
+            (16, ~"3"  + str::from_chars(vec::from_elem(15, '0')) + "2"  + str::from_chars(vec::from_elem(15, '0')) + "1")
+        ])]
+    }
+
     #[test]
     fn test_to_str_radix() {
-        assert from_slice::<BigInt>(Plus, [ 0xff ]).to_str_radix(2) == ~"11111111";
-        assert from_slice::<BigInt>(Plus, [ 0xff ]).to_str_radix(4) == ~"3333";
-        assert from_slice::<BigInt>(Plus, [ 0xff ]).to_str_radix(16) == ~"ff";
-
-        assert from_slice::<BigInt>(Plus, [ 0xfff ]).to_str_radix(2) == ~"111111111111";
-        assert from_slice::<BigInt>(Plus, [ 0xfff ]).to_str_radix(4) == ~"333333";
-        assert from_slice::<BigInt>(Plus, [ 0xfff ]).to_str_radix(16) == ~"fff";
-
-        assert from_slice::<BigInt>(Plus, [ 1, 2]).to_str_radix(2) ==
-            ~"10" + str::from_chars(vec::from_elem(63, '0')) + "1";
-        assert from_slice::<BigInt>(Plus, [ 1, 2]).to_str_radix(4) ==
-            ~"2" + str::from_chars(vec::from_elem(31, '0')) + "1";
-        assert from_slice::<BigInt>(Plus, [ 1, 2]).to_str_radix(16) ==
-            ~"2" + str::from_chars(vec::from_elem(15, '0')) + "1";
-
-        assert from_slice::<BigInt>(Plus, [ 1, 2, 3 ]).to_str_radix(2) ==
-            ~ "11" + str::from_chars(vec::from_elem(62, '0')) + "10" + str::from_chars(vec::from_elem(63, '0')) + "1";
-        assert from_slice::<BigInt>(Plus, [ 1, 2, 3 ]).to_str_radix(4) ==
-            ~"3" + str::from_chars(vec::from_elem(31, '0')) + "2" + str::from_chars(vec::from_elem(31, '0')) + "1";
-        assert from_slice::<BigInt>(Plus, [ 1, 2, 3 ]).to_str_radix(16) ==
-            ~"3" + str::from_chars(vec::from_elem(15, '0')) + "2" + str::from_chars(vec::from_elem(15, '0')) + "1";
-
-        assert from_slice::<BigInt>(Plus, [1, 2]).to_str_radix(10) == ~"36893488147419103233";
-        assert from_slice::<BigInt>(Plus, [1, 2]).to_str_radix(16) == ~"20000000000000001";
+        for to_str_pairs().each |num_pair| {
+            let (n, rs) = num_pair;
+            for rs.each |str_pair| {
+                let (radix, str) = str_pair;
+                assert n.to_str_radix(radix) == str;
+                if n != zero() {
+                    assert (-n).to_str_radix(radix) == ~"-" + str;
+                }
+            }
+        }
     }
 }
