@@ -275,6 +275,10 @@ mod UintVec {
         let (base, maxLen) = get_radix_base(radix);
         return fill_concat(convert_base(v, base), radix, maxLen);
     }
+
+    pure fn vec_parse_bytes_radix(v: &[u8], radix: uint) -> Option<@[uint]> {
+        fail
+    }
 }
 
 
@@ -434,9 +438,18 @@ impl BigInt: ExtNum {
         else       { from_slice(Plus, &[n]) }
     }
 
-    static pure fn from_str_radix(buf: &str, radix: uint) -> Option<BigInt> {
-        fail
+    static pure fn parse_bytes(buf: &[u8], radix: uint) -> Option<BigInt> {
+        if buf.len() == 0 { return None; }
+        let mut start = 0;
+        let mut sign = Plus;
+        if buf[0] == ('-' as u8) {
+            sign = Minus;
+            start = 1;
+        }
+        UintVec::vec_parse_bytes_radix(vec::view(buf, start, buf.len()), radix).map(|vs| from_slice::<BigInt>(sign, vs))
     }
+
+    static pure fn from_str_radix(s: &str, radix: uint) -> Option<BigInt> { extnum::parse_bytes(str::to_bytes(s), radix) }
 }
 
 impl BigInt : BigIntGen {
