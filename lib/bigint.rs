@@ -226,10 +226,33 @@ mod UintVec {
     pure fn vec_from_slice(s: &[uint]) -> @[uint] { @[] + reduce_zero_slice(s) }
     pure fn vec_from_uint(n: uint) -> @[uint] { reduce_zero(~[n]) }
 
+    priv pure fn get_radix_base(radix: uint) -> (uint, uint) {
+        assert 1 < radix && radix <= 16;
+        match radix {
+            2  => (0,                    64),
+            3  => (12157665459056928801, 40),
+            4  => (0,                    32),
+            5  => (7450580596923828125,  27),
+            6  => (4738381338321616896,  24),
+            7  => (3909821048582988049,  22),
+            8  => (9223372036854775808,  21),
+            9  => (12157665459056928801, 20),
+            10 => (10000000000000000000, 19),
+            11 => (5559917313492231481,  18),
+            12 => (2218611106740436992,  17),
+            13 => (8650415919381337933,  17),
+            14 => (2177953337809371136,  16),
+            15 => (6568408355712890625,  16),
+            16 => (0,                    16),
+            _  => fail
+        }
+    }
+
     pure fn vec_to_str_radix(v: &[uint], radix: uint) -> ~str {
         assert 1 < radix && radix <= 16;
 
         pure fn convert_base(v: &[uint], base: uint) -> @[uint] {
+            if base == 0 { return vec_from_slice(v); }
             let divider    = vec_from_uint(base);
             let mut result = vec_from_uint(0);
             let mut r = vec_from_slice(v);
@@ -249,26 +272,8 @@ mod UintVec {
             })), ['0'])
         }
 
-        let (converted, len) = match radix {
-            2  => (@[] + v, 64),
-            3  => (convert_base(v, 12157665459056928801), 40),
-            4  => (@[] + v, 32),
-            5  => (convert_base(v, 7450580596923828125), 27),
-            6  => (convert_base(v, 4738381338321616896), 24),
-            7  => (convert_base(v, 3909821048582988049), 22),
-            8  => (convert_base(v, 9223372036854775808), 21),
-            9  => (convert_base(v, 12157665459056928801), 20),
-            10 => (convert_base(v, 10000000000000000000), 19),
-            11 => (convert_base(v, 5559917313492231481), 18),
-            12 => (convert_base(v, 2218611106740436992), 17),
-            13 => (convert_base(v, 8650415919381337933), 17),
-            14 => (convert_base(v, 2177953337809371136), 16),
-            15 => (convert_base(v, 6568408355712890625), 16),
-            16 => (@[] + v, 16),
-            _  => fail
-        };
-
-        return fill_concat(converted, radix, len);
+        let (base, maxLen) = get_radix_base(radix);
+        return fill_concat(convert_base(v, base), radix, maxLen);
     }
 }
 
