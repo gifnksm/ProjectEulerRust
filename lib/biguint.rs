@@ -1,4 +1,4 @@
-export BigUint, BigDigit, from_slice;
+export BigUint, BigDigit, from_slice, from_at_vec;
 
 use cmp::{ Ord, Eq };
 use num::{ Num, from_int };
