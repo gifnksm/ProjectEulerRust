@@ -22,4 +22,6 @@ mod util;
 #[warn(non_camel_case_types)]
 mod monoid;
 #[warn(non_camel_case_types)]
+mod biguint;
+#[warn(non_camel_case_types)]
 mod bigint;

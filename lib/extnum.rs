@@ -61,6 +61,6 @@ trait ExtNum {
     static pure fn zero() -> self;
     static pure fn one() -> self;
     static pure fn from_uint(n: uint) -> self;
-    static pure fn parse_bytes(buf: &[u8], radix: uint) -> Option<self>;
-    static pure fn from_str_radix(s: &str, radix: uint) -> Option<self>;
+    static fn parse_bytes(buf: &[u8], radix: uint) -> Option<self>;
+    static fn from_str_radix(s: &str, radix: uint) -> Option<self>;
 }
