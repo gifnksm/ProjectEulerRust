@@ -279,7 +279,7 @@ impl BigUint : ExtNum {
                     d0   -= dUnit;
                     prod -= bUnit;
                 }
-                if d0 == zero() {
+                if d0.is_zero() {
                     n = 2;
                     loop;
                 }
@@ -311,6 +311,19 @@ impl BigUint : ExtNum {
         return (d, m >> shift);
     }
 
+    #[inline(always)]
+    pure fn is_zero() -> bool { self.data.is_empty() }
+    #[inline(always)]
+    pure fn is_not_zero() -> bool { self.data.is_not_empty() }
+    #[inline(always)]
+    pure fn is_positive() -> bool { self.is_not_zero() }
+    #[inline(always)]
+    pure fn is_negative() -> bool { false }
+    #[inline(always)]
+    pure fn is_nonpositive() -> bool { self.is_zero() }
+    #[inline(always)]
+    pure fn is_nonnegative() -> bool { true }
+
     pure fn to_uint() -> uint {
         match self.data.len() {
             0 => 0,
@@ -333,7 +346,7 @@ impl BigUint : ExtNum {
                 result += @[ r0.to_uint() as BigDigit ];
                 r = d;
             }
-            if r != zero() {
+            if r.is_not_zero() {
                 result += @[ r.to_uint() as BigDigit ];
             }
             return result;
@@ -351,7 +364,9 @@ impl BigUint : ExtNum {
         return fill_concat(convert_base(self, base), radix, maxLen);
     }
 
+    #[inline(always)]
     static pure fn zero() -> BigUint { from_at_vec(@[]) }
+    #[inline(always)]
     static pure fn one()  -> BigUint { from_at_vec(@[1]) }
 
     static pure fn from_uint(n: uint) -> BigUint {

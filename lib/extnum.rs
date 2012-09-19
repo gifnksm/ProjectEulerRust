@@ -55,6 +55,14 @@ impl Sign : Ord {
 trait ExtNum {
     pure fn abs() -> self;
     pure fn divmod(&&other: self) -> (self, self);
+
+    pure fn is_zero() -> bool;
+    pure fn is_not_zero() -> bool;
+    pure fn is_positive() -> bool;
+    pure fn is_negative() -> bool;
+    pure fn is_nonpositive() -> bool;
+    pure fn is_nonnegative() -> bool;
+
     pure fn to_uint() -> uint;
     pure fn to_str_radix(radix: uint) -> ~str;
 
