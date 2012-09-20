@@ -21,7 +21,7 @@ fn pow(base: u64, exp: u64) -> u64 {
 fn fact_to_uint(fs: &[(u64, Sum<i64>)]) -> u64 {
     let mut result = 1;
     for fs.each() |tp| {
-        let (base, exp) = tp;
+        let (base, exp) = *tp;
         if *exp > 0 {
             result *= pow(base, *exp as u64);
         } else {

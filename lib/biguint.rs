@@ -517,7 +517,7 @@ mod tests {
     #[test]
     fn test_add() {
         for sum_triples.each |elm| {
-            let (aVec, bVec, cVec) = elm;
+            let (aVec, bVec, cVec) = *elm;
             let a = from_slice(aVec);
             let b = from_slice(bVec);
             let c = from_slice(cVec);
@@ -530,7 +530,7 @@ mod tests {
     #[test]
     fn test_sub() {
         for sum_triples.each |elm| {
-            let (aVec, bVec, cVec) = elm;
+            let (aVec, bVec, cVec) = *elm;
             let a = from_slice(aVec);
             let b = from_slice(bVec);
             let c = from_slice(cVec);
@@ -575,7 +575,7 @@ mod tests {
     #[test]
     fn test_mul() {
         for mul_triples.each |elm| {
-            let (aVec, bVec, cVec) = elm;
+            let (aVec, bVec, cVec) = *elm;
             let a = from_slice(aVec);
             let b = from_slice(bVec);
             let c = from_slice(cVec);
@@ -585,7 +585,7 @@ mod tests {
         }
 
         for divmod_quadruples.each |elm| {
-            let (aVec, bVec, cVec, dVec) = elm;
+            let (aVec, bVec, cVec, dVec) = *elm;
             let a = from_slice(aVec);
             let b = from_slice(bVec);
             let c = from_slice(cVec);
@@ -599,7 +599,7 @@ mod tests {
     #[test]
     fn test_divmod() {
         for mul_triples.each |elm| {
-            let (aVec, bVec, cVec) = elm;
+            let (aVec, bVec, cVec) = *elm;
             let a = from_slice(aVec);
             let b = from_slice(bVec);
             let c = from_slice(cVec);
@@ -609,7 +609,7 @@ mod tests {
         }
 
         for divmod_quadruples.each |elm| {
-            let (aVec, bVec, cVec, dVec) = elm;
+            let (aVec, bVec, cVec, dVec) = *elm;
             let a = from_slice(aVec);
             let b = from_slice(bVec);
             let c = from_slice(cVec);
@@ -658,9 +658,9 @@ mod tests {
     #[test]
     fn test_to_str_radix() {
         for to_str_pairs().each |num_pair| {
-            let (n, rs) = num_pair;
+            let (n, rs) = *num_pair;
             for rs.each |str_pair| {
-                let (radix, str) = str_pair;
+                let (radix, str) = *str_pair;
                 assert n.to_str_radix(radix) == str;
             }
         }
@@ -669,9 +669,9 @@ mod tests {
     #[test]
     fn test_from_str_radix() {
         for to_str_pairs().each |num_pair| {
-            let (n, rs) = num_pair;
+            let (n, rs) = *num_pair;
             for rs.each |str_pair| {
-                let (radix, str) = str_pair;
+                let (radix, str) = *str_pair;
                 assert Some(n) == from_str_radix(str, radix);
             }
         }
