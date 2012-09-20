@@ -17,7 +17,7 @@ fn get_at(map: HashMap<uint, uint>, n: uint) -> uint {
 }
 
 fn main() {
-    let map = std::map::uint_hash();
+    let map = std::map::HashMap::<uint, uint>();
     map.insert(1u, 1u);
     let mut max     = 1u;
     let mut max_idx = 1u;
