@@ -115,7 +115,7 @@ impl BigUint : Ord {
     pure fn gt(&&other: BigUint) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
 }
 
-impl BigUint: Shl<uint, BigUint> {
+impl BigUint : Shl<uint, BigUint> {
     pure fn shl(&&rhs: uint) -> BigUint {
         let n_unit = rhs / BigDigit::bits;
         let n_bits = rhs % BigDigit::bits;
@@ -135,7 +135,7 @@ impl BigUint: Shl<uint, BigUint> {
     }
 }
 
-impl BigUint: Shr<uint, BigUint> {
+impl BigUint : Shr<uint, BigUint> {
     pure fn shr(&&rhs: uint) -> BigUint {
         let n_unit = rhs / BigDigit::bits;
         let n_bits = rhs % BigDigit::bits;
@@ -419,7 +419,7 @@ mod tests {
 
     #[test]
     fn test_cmp() {
-        let data = [ &[], &[1], &[2], &[-1], &[0, 1], &[2, 1], &[1, 1, 1]  ].map(from_slice);
+        let data = [ &[], &[1], &[2], &[-1], &[0, 1], &[2, 1], &[1, 1, 1]  ].map(|v| from_slice(v));
         for data.eachi |i, ni| {
             for vec::view(data, i, data.len()).eachi |j0, nj| {
                 let j = j0 + i;

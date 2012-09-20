@@ -6,7 +6,7 @@ trait Monoid {
 enum Sum<T> = T;
 impl<T: Num> Sum<T> : Monoid {
     static pure fn mempty() -> Sum<T> { Sum(num::from_int(0)) }
-    pure fn mappend(other: Sum<T>) -> Sum<T> { Sum(self.add(*other)) }
+    pure fn mappend(&&other: Sum<T>) -> Sum<T> { Sum(self.add(*other)) }
 }
 
 impl<T: cmp::Eq> Sum<T> : cmp::Eq {
@@ -17,7 +17,7 @@ impl<T: cmp::Eq> Sum<T> : cmp::Eq {
 enum Prod<T> = T;
 impl <T: Num> Prod<T>: Monoid {
     static pure fn mempty() -> Prod<T> { Prod(num::from_int(1)) }
-    pure fn mappend(other: Prod<T>) -> Prod<T> { Prod(self.mul(*other)) }
+    pure fn mappend(&&other: Prod<T>) -> Prod<T> { Prod(self.mul(*other)) }
 }
 
 impl<T: cmp::Eq> Prod<T> : cmp::Eq {
@@ -68,7 +68,7 @@ fn mergei<T: Copy cmp::Ord, M: Copy Monoid>(vecs: &[~[(T, M)]]) -> ~[(T, M)] {
 
 #[cfg(test)]
 mod tests {
-    fn to_sum<T: Copy, U: Copy Num>(tp: (T, U)) -> (T, Sum<U>) {
+    fn to_sum<T: Copy, U: Copy Num>(&&tp: (T, U)) -> (T, Sum<U>) {
         let (t, u) = tp;
         return (t, Sum(u));
     }
@@ -90,7 +90,7 @@ mod tests {
         pure fn eq(&&other: Max<T>) -> bool { *self == *other }
         pure fn ne(&&other: Max<T>) -> bool { *self != *other }
     }
-    fn to_max<T: Copy, U: Copy cmp::Ord>(tp: (T, U)) -> (T, Max<U>) {
+    fn to_max<T: Copy, U: Copy cmp::Ord>(&&tp: (T, U)) -> (T, Max<U>) {
         let (t, u) = tp;
         return (t, Max(u));
     }
