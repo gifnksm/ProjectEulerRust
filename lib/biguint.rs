@@ -158,7 +158,7 @@ impl BigUint : Shr<uint, BigUint> {
 impl BigUint : Num {
     pure fn add(&&other: BigUint) -> BigUint {
         let mut carry = 0;
-        let sum = do at_vec::map(util::zip_default(self.data, other.data, (0, 0))) |elm| {
+        let sum = do at_vec::map(extvec::zip_default(self.data, other.data, (0, 0))) |elm| {
             let (ai, bi) = elm;
             let (hi, lo) = BigDigit::from_uint((ai as uint) + (bi as uint) + (carry as uint));
             carry = hi;
@@ -169,7 +169,7 @@ impl BigUint : Num {
 
     pure fn sub(&&other: BigUint) -> BigUint {
         let mut borrow = 0;
-        let diff = do at_vec::map(util::zip_default(self.data, other.data, (0, 0))) |elm| {
+        let diff = do at_vec::map(extvec::zip_default(self.data, other.data, (0, 0))) |elm| {
             let (ai, bi) = elm;
             let (hi, lo) = BigDigit::from_uint((BigDigit::base) + (ai as uint) - (bi as uint) - (borrow as uint));
             borrow = if hi == 0 { 1 }  else { 0 };
