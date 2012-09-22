@@ -56,6 +56,10 @@ impl BigInt : Ord {
     pure fn gt(&&other: BigInt) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
 }
 
+impl BigInt : ToStr {
+    fn to_str() -> ~str { self.to_str_radix(10) }
+}
+
 impl BigInt : Shl<uint, BigInt> {
     pure fn shl(&&rhs: uint) -> BigInt { from_biguint(self.sign, self.data << rhs) }
 }

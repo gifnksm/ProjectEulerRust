@@ -115,6 +115,10 @@ impl BigUint : Ord {
     pure fn gt(&&other: BigUint) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
 }
 
+impl BigUint : ToStr {
+    fn to_str() -> ~str { self.to_str_radix(10) }
+}
+
 impl BigUint : Shl<uint, BigUint> {
     pure fn shl(&&rhs: uint) -> BigUint {
         let n_unit = rhs / BigDigit::bits;
