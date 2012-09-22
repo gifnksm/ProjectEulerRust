@@ -248,6 +248,9 @@ impl BigUint : Num {
 impl BigUint : ExtNum {
     pure fn abs() -> BigUint { self }
 
+    pure fn quot(&&other: BigUint) -> BigUint { self.quotrem(other).first() }
+    pure fn rem(&&other: BigUint) -> BigUint { self.quotrem(other).second() }
+
     pure fn divmod(&&other: BigUint) -> (BigUint, BigUint) {
         pure fn div_estimate(a: BigUint, b: BigUint, n: uint) -> (BigUint, BigUint, BigUint) {
             if a.data.len() < n { return (zero(), zero(), a); }
@@ -310,6 +313,8 @@ impl BigUint : ExtNum {
         let (d, m) = divmod_inner(self << shift, other << shift);
         return (d, m >> shift);
     }
+
+    pure fn quotrem(&&other: BigUint) -> (BigUint, BigUint) { self.divmod(other) }
 
     #[inline(always)]
     pure fn is_zero() -> bool { self.data.is_empty() }

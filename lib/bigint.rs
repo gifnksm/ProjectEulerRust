@@ -117,6 +117,9 @@ impl BigInt : Num {
 impl BigInt : ExtNum {
     pure fn abs() -> BigInt { from_biguint(Plus, self.data) }
 
+    pure fn quot(&&other: BigInt) -> BigInt { self.quotrem(other).first() }
+    pure fn rem(&&other: BigInt) -> BigInt { self.quotrem(other).second() }
+
     pure fn divmod(&&other: BigInt) -> (BigInt, BigInt) {
         // m.sign == other.sign
         let (d_ui, m_ui) = self.data.divmod(other.data);
@@ -152,6 +155,43 @@ impl BigInt : ExtNum {
                 //   = -abs(o) d - m
                 //   = o d - m
                 (d, -m)
+            }
+        }
+    }
+
+    pure fn quotrem(&&other: BigInt) -> (BigInt, BigInt) {
+        // m.sign == self.sign
+        let (q_ui, r_ui) = self.data.quotrem(other.data);
+        let q = from_biguint(Plus, q_ui), r = from_biguint(Plus, r_ui);
+        match (self.sign, other.sign) {
+            (_,    Zero)   => fail,
+            (Plus, Plus)  | (Zero, Plus)  => (q, r),
+            (Plus, Minus) | (Zero, Minus) => if r.is_zero() {
+                (-q, zero())
+            } else {
+                // abs(s) = abs(o) q + r
+                // s = abs(s)
+                //   = abs(o) q + r
+                //   = o(-q) + r
+                (-q, r)
+            },
+            (Minus, Plus) => if r.is_zero() {
+                (-q, zero())
+            } else {
+                // abs(s) = abs(o) q + r
+                // s = -abs(s)
+                //   = -abs(o) q - r
+                //   = o (-q) - r
+                (-q, -r)
+            },
+            (Minus, Minus) => if r.is_zero() {
+                (q, zero())
+            } else {
+                // abs(s) = abs(o) q + r
+                // s = -abs(s)
+                //   = -abs(o) q - r
+                //   = o q - r
+                (q, -r)
             }
         }
     }
@@ -435,6 +475,62 @@ mod tests {
 
             if b != zero() {
                 check_divmod(a, b, c, d);
+            }
+        }
+    }
+
+
+    #[test]
+    fn test_quotrem() {
+        fn check_quotrem_sub(a: BigInt, b: BigInt) {
+            let (q, r) = a.quotrem(b);
+            if r.is_not_zero() {
+                assert r.sign == a.sign;
+            }
+            assert r.abs() <= b.abs();
+            assert a == b * q + r;
+        }
+        fn check_quotrem(a: BigInt, b: BigInt, c: BigInt, d: BigInt) {
+            check_quotrem_sub(a, b);
+            check_quotrem_sub(a, -b);
+            check_quotrem_sub(-a, b);
+            check_quotrem_sub(-a, -b);
+
+            if d.is_zero() {
+                assert a.quotrem(b)     == (c, zero());
+                assert (-a).quotrem(b)  == (-c, zero());
+                assert (a).quotrem(-b)  == (-c, zero());
+                assert (-a).quotrem(-b) == (c, zero());
+            } else {
+                // a == bc + d
+                assert a.quotrem(b) == (c, d);
+                // a == (-b)(-c) + d
+                assert a.quotrem(-b) == (-c, d);
+                // (-a) == b (-c) + (-d)
+                assert (-a).quotrem(b) == (-c, -d);
+                // (-a) == (-b)(c) - d
+                assert (-a).quotrem(-b) == (c, -d);
+            }
+        }
+        for mul_triples.each |elm| {
+            let (aVec, bVec, cVec) = *elm;
+            let a = from_slice(Plus, aVec);
+            let b = from_slice(Plus, bVec);
+            let c = from_slice(Plus, cVec);
+
+            if a != zero() { check_quotrem(c, a, b, zero()); }
+            if b != zero() { check_quotrem(c, b, a, zero()); }
+        }
+
+        for divmod_quadruples.each |elm| {
+            let (aVec, bVec, cVec, dVec) = *elm;
+            let a = from_slice(Plus, aVec);
+            let b = from_slice(Plus, bVec);
+            let c = from_slice(Plus, cVec);
+            let d = from_slice(Plus, dVec);
+
+            if b != zero() {
+                check_quotrem(a, b, c, d);
             }
         }
     }
