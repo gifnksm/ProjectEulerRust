@@ -604,8 +604,8 @@ mod tests {
             let b = from_slice(bVec);
             let c = from_slice(cVec);
 
-            if a != zero() { assert c / a == b; }
-            if b != zero() { assert c / b == a; }
+            if a != zero() { assert c.divmod(a) == (b, zero()); }
+            if b != zero() { assert c.divmod(b) == (a, zero()); }
         }
 
         for divmod_quadruples.each |elm| {
@@ -678,6 +678,7 @@ mod tests {
 
         assert from_str_radix::<BigUint>(~"Z", 10) == None;
         assert from_str_radix::<BigUint>(~"_", 2) == None;
+        assert from_str_radix::<BigUint>(~"-1", 10) == None;
     }
 
     #[test]
