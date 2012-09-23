@@ -1,6 +1,6 @@
 pub trait Monoid {
     static pure fn mempty() -> self;
-    pure fn mappend(&&other: self) -> self;
+    pure fn mappend(other: &self) -> self;
 }
 
 pub struct Sum<T> { repr: T }
@@ -8,7 +8,7 @@ pub pure fn Sum<T>(val: T) -> Sum<T> { Sum { repr: val } }
 
 impl<T: Num> Sum<T> : Monoid {
     static pure fn mempty() -> Sum<T> { Sum(num::from_int(0)) }
-    pure fn mappend(&&other: Sum<T>) -> Sum<T> { Sum(self.repr.add(other.repr)) }
+    pure fn mappend(other: &Sum<T>) -> Sum<T> { Sum(self.repr.add(other.repr)) }
 }
 
 impl<T: cmp::Eq> Sum<T> : cmp::Eq {
@@ -21,7 +21,7 @@ pub pure fn Prod<T>(val: T) -> Prod<T> { Prod { repr: val }}
 
 impl <T: Num> Prod<T>: Monoid {
     static pure fn mempty() -> Prod<T> { Prod(num::from_int(1)) }
-    pure fn mappend(&&other: Prod<T>) -> Prod<T> { Prod(self.repr.mul(other.repr)) }
+    pure fn mappend(other: &Prod<T>) -> Prod<T> { Prod(self.repr.mul(other.repr)) }
 }
 
 impl<T: cmp::Eq> Prod<T> : cmp::Eq {
@@ -30,7 +30,7 @@ impl<T: cmp::Eq> Prod<T> : cmp::Eq {
 }
 
 pub fn mconcat<T: Copy Monoid>(v: &[T]) -> T {
-    vec::foldl(mempty(), v, |accum, elt| { elt.mappend(accum) })
+    vec::foldl(mempty(), v, |accum, elt| { elt.mappend(&accum) })
 }
 
 pub fn merge<T: Copy cmp::Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)]) -> ~[(T, M)] {
@@ -48,7 +48,7 @@ pub fn merge<T: Copy cmp::Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)])
             itr2 = vec::view(itr2, 1u, itr2.len());
             loop;
         }
-        vec::push(result, (v1, m1.mappend(m2)));
+        vec::push(result, (v1, m1.mappend(&m2)));
         itr1 = vec::view(itr1, 1u, itr1.len());
         itr2 = vec::view(itr2, 1u, itr2.len());
     }
@@ -89,7 +89,7 @@ mod tests {
                 Max::<T>(zero)
             }
         }
-        pure fn mappend(&&other: Max<T>) -> Max<T> { if self.repr < other.repr { other } else { self } }
+        pure fn mappend(other: &Max<T>) -> Max<T> { if self.repr < other.repr { *other } else { self } }
     }
     impl <T: cmp::Eq> Max<T>: cmp::Eq {
         pure fn eq(other: &Max<T>) -> bool { self.repr == other.repr }
