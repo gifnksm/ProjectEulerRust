@@ -97,20 +97,20 @@ impl BigUint : ExtOrd {
 
 impl BigUint : Eq {
     #[inline(always)]
-    pure fn eq(&&other: BigUint) -> bool { match self.cmp(other) { Eq => true, _ => false } }
+    pure fn eq(other: &BigUint) -> bool { match self.cmp(*other) { Eq => true, _ => false } }
     #[inline(always)]
-    pure fn ne(&&other: BigUint) -> bool { !self.eq(other) }
+    pure fn ne(other: &BigUint) -> bool { !self.eq(other) }
 }
 
 impl BigUint : Ord {
     #[inline(always)]
-    pure fn lt(&&other: BigUint) -> bool { match self.cmp(other) { Lt      => true, _ => false} }
+    pure fn lt(other: &BigUint) -> bool { match self.cmp(*other) { Lt      => true, _ => false} }
     #[inline(always)]
-    pure fn le(&&other: BigUint) -> bool { match self.cmp(other) { Lt | Eq => true, _ => false} }
+    pure fn le(other: &BigUint) -> bool { match self.cmp(*other) { Lt | Eq => true, _ => false} }
     #[inline(always)]
-    pure fn ge(&&other: BigUint) -> bool { match self.cmp(other) { Eq | Gt => true, _ => false} }
+    pure fn ge(other: &BigUint) -> bool { match self.cmp(*other) { Eq | Gt => true, _ => false} }
     #[inline(always)]
-    pure fn gt(&&other: BigUint) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
+    pure fn gt(other: &BigUint) -> bool { match self.cmp(*other) { Gt      => true, _ => false} }
 }
 
 impl BigUint : ToStr {
@@ -118,9 +118,9 @@ impl BigUint : ToStr {
 }
 
 impl BigUint : Shl<uint, BigUint> {
-    pure fn shl(&&rhs: uint) -> BigUint {
-        let n_unit = rhs / BigDigit::bits;
-        let n_bits = rhs % BigDigit::bits;
+    pure fn shl(rhs: &uint) -> BigUint {
+        let n_unit = *rhs / BigDigit::bits;
+        let n_bits = *rhs % BigDigit::bits;
 
         let data = if n_bits == 0 {
             self.data
@@ -138,9 +138,9 @@ impl BigUint : Shl<uint, BigUint> {
 }
 
 impl BigUint : Shr<uint, BigUint> {
-    pure fn shr(&&rhs: uint) -> BigUint {
-        let n_unit = rhs / BigDigit::bits;
-        let n_bits = rhs % BigDigit::bits;
+    pure fn shr(rhs: &uint) -> BigUint {
+        let n_unit = *rhs / BigDigit::bits;
+        let n_bits = *rhs % BigDigit::bits;
 
         let data = if n_bits == 0 {
             self.data

@@ -29,13 +29,13 @@ impl Cmp {
 }
 
 impl Cmp : Eq {
-    pure fn eq(&&other: Cmp) -> bool {
-        match (self, other) {
+    pure fn eq(other: &Cmp) -> bool {
+        match (self, *other) {
           (Lt, Lt) | (Eq, Eq) | (Gt, Gt) => true,
           _ => false
         }
     }
-    pure fn ne(&&other: Cmp) -> bool {
+    pure fn ne(other: &Cmp) -> bool {
         !self.eq(other)
     }
 }

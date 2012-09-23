@@ -12,8 +12,8 @@ impl<T: Num> Sum<T> : Monoid {
 }
 
 impl<T: cmp::Eq> Sum<T> : cmp::Eq {
-    pure fn eq(&&other: Sum<T>) -> bool { self.repr == other.repr }
-    pure fn ne(&&other: Sum<T>) -> bool { self.repr != other.repr }
+    pure fn eq(other: &Sum<T>) -> bool { self.repr == other.repr }
+    pure fn ne(other: &Sum<T>) -> bool { self.repr != other.repr }
 }
 
 pub struct Prod<T> { repr: T }
@@ -25,8 +25,8 @@ impl <T: Num> Prod<T>: Monoid {
 }
 
 impl<T: cmp::Eq> Prod<T> : cmp::Eq {
-    pure fn eq(&&other: Prod<T>) -> bool { self.repr == other.repr }
-    pure fn ne(&&other: Prod<T>) -> bool { self.repr != other.repr }
+    pure fn eq(other: &Prod<T>) -> bool { self.repr == other.repr }
+    pure fn ne(other: &Prod<T>) -> bool { self.repr != other.repr }
 }
 
 pub fn mconcat<T: Copy Monoid>(v: &[T]) -> T {
@@ -38,12 +38,12 @@ pub fn merge<T: Copy cmp::Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)])
     let mut (itr1, itr2) = (vec1, vec2);
     while (itr1.is_not_empty() && itr2.is_not_empty()) {
         let ((v1, m1), (v2, m2)) = (itr1.head(), itr2.head());
-        if v1.lt(v2) {
+        if v1 < v2 {
             vec::push(result, (v1, m1));
             itr1 = vec::view(itr1, 1u, itr1.len());
             loop;
         }
-        if v2.lt(v1) {
+        if v2 < v1 {
             vec::push(result, (v2, m2));
             itr2 = vec::view(itr2, 1u, itr2.len());
             loop;
@@ -92,8 +92,8 @@ mod tests {
         pure fn mappend(&&other: Max<T>) -> Max<T> { if self.repr < other.repr { other } else { self } }
     }
     impl <T: cmp::Eq> Max<T>: cmp::Eq {
-        pure fn eq(&&other: Max<T>) -> bool { self.repr == other.repr }
-        pure fn ne(&&other: Max<T>) -> bool { self.repr != other.repr }
+        pure fn eq(other: &Max<T>) -> bool { self.repr == other.repr }
+        pure fn ne(other: &Max<T>) -> bool { self.repr != other.repr }
     }
     fn to_max<T: Copy, U: Copy cmp::Ord>(tp: &(T, U)) -> (T, Max<U>) {
         let (t, u) = *tp;
