@@ -3,26 +3,30 @@ pub trait Monoid {
     pure fn mappend(&&other: self) -> self;
 }
 
-pub enum Sum<T> = T;
+pub struct Sum<T> { repr: T }
+pub pure fn Sum<T>(val: T) -> Sum<T> { Sum { repr: val } }
+
 impl<T: Num> Sum<T> : Monoid {
     static pure fn mempty() -> Sum<T> { Sum(num::from_int(0)) }
-    pure fn mappend(&&other: Sum<T>) -> Sum<T> { Sum(self.add(*other)) }
+    pure fn mappend(&&other: Sum<T>) -> Sum<T> { Sum(self.repr.add(other.repr)) }
 }
 
 impl<T: cmp::Eq> Sum<T> : cmp::Eq {
-    pure fn eq(&&other: Sum<T>) -> bool { *self == *other }
-    pure fn ne(&&other: Sum<T>) -> bool { *self != *other }
+    pure fn eq(&&other: Sum<T>) -> bool { self.repr == other.repr }
+    pure fn ne(&&other: Sum<T>) -> bool { self.repr != other.repr }
 }
 
-pub enum Prod<T> = T;
+pub struct Prod<T> { repr: T }
+pub pure fn Prod<T>(val: T) -> Prod<T> { Prod { repr: val }}
+
 impl <T: Num> Prod<T>: Monoid {
     static pure fn mempty() -> Prod<T> { Prod(num::from_int(1)) }
-    pure fn mappend(&&other: Prod<T>) -> Prod<T> { Prod(self.mul(*other)) }
+    pure fn mappend(&&other: Prod<T>) -> Prod<T> { Prod(self.repr.mul(other.repr)) }
 }
 
 impl<T: cmp::Eq> Prod<T> : cmp::Eq {
-    pure fn eq(&&other: Prod<T>) -> bool { *self == *other }
-    pure fn ne(&&other: Prod<T>) -> bool { *self != *other }
+    pure fn eq(&&other: Prod<T>) -> bool { self.repr == other.repr }
+    pure fn ne(&&other: Prod<T>) -> bool { self.repr != other.repr }
 }
 
 pub fn mconcat<T: Copy Monoid>(v: &[T]) -> T {
@@ -73,22 +77,23 @@ mod tests {
         return (t, Sum(u));
     }
 
-    enum Max<T> = T;
+    struct Max<T> { repr: T }
+    pure fn Max<T>(val: T) -> Max<T> { Max { repr: val } }
     impl <T: Copy cmp::Ord Num> Max<T>: Monoid {
         static pure fn mempty() -> Max<T> {
             let neg_max = num::from_int::<T>(int::min_value);
             let zero    = num::from_int(0);
             if neg_max < zero {
-                Max(neg_max)
+                Max::<T>(neg_max)
             } else {
-                Max(zero)
+                Max::<T>(zero)
             }
         }
-        pure fn mappend(&&other: Max<T>) -> Max<T> { if self.lt(*other) { other } else { self } }
+        pure fn mappend(&&other: Max<T>) -> Max<T> { if self.repr < other.repr { other } else { self } }
     }
     impl <T: cmp::Eq> Max<T>: cmp::Eq {
-        pure fn eq(&&other: Max<T>) -> bool { *self == *other }
-        pure fn ne(&&other: Max<T>) -> bool { *self != *other }
+        pure fn eq(&&other: Max<T>) -> bool { self.repr == other.repr }
+        pure fn ne(&&other: Max<T>) -> bool { self.repr != other.repr }
     }
     fn to_max<T: Copy, U: Copy cmp::Ord>(&&tp: (T, U)) -> (T, Max<U>) {
         let (t, u) = tp;

@@ -89,7 +89,7 @@ pub fn num_of_divisors(num: u64, primes: &Prime) -> u64 {
     let mut prod = 1;
     for factors(num, primes) |f| {
         let (_base, exp) = f;
-        prod *= (*exp + 1) as u64;
+        prod *= (exp.repr + 1) as u64;
     }
     return prod;
 }
@@ -98,8 +98,8 @@ pub fn sum_of_divisors(num: u64, primes: &Prime) -> u64 {
     if num == 0 { return 0; }
     let mut sum = 1;
     for factors(num, primes) |f| {
-        let (base, monoid::Sum(exp)) = f;
-        sum *= (int::pow(base as int, (exp + 1) as uint) as u64 - 1) / (base - 1);
+        let (base, exp) = f;
+        sum *= (int::pow(base as int, (exp.repr + 1) as uint) as u64 - 1) / (base - 1);
     }
     return sum;
 }

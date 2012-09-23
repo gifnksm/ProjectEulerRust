@@ -22,10 +22,10 @@ fn fact_to_uint(fs: &[(u64, Sum<i64>)]) -> u64 {
     let mut result = 1;
     for fs.each() |tp| {
         let (base, exp) = *tp;
-        if *exp > 0 {
-            result *= pow(base, *exp as u64);
+        if exp.repr > 0 {
+            result *= pow(base, exp.repr as u64);
         } else {
-            result /= pow(base, (-*exp) as u64);
+            result /= pow(base, (-exp.repr) as u64);
         }
     }
     return result;
@@ -44,8 +44,8 @@ fn main() {
     for u64::range(1u64, 20u64 + 1u64) |num| {
         let mut list = ~[];
         for prime::factors(num, &primes) |f| {
-            let (b, Sum(e)) = f;
-            list += [ (b, Sum(-e)) ];
+            let (b, e) = f;
+            list += [ (b, Sum(-e.repr)) ];
         }
         denom_facts += [ list ];
     }
