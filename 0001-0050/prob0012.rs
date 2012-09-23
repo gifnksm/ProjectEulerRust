@@ -15,19 +15,10 @@ fn each_triangles(f: fn(&&uint) -> bool) {
     }
 }
 
-fn num_factors(num: u64, primes: prime::Prime) -> u64 {
-    let mut prod = 1u64;
-    for prime::factors(num, primes) |f| {
-        let (_base, Sum(exp)) = f;
-        prod *= ((exp + 1) as u64);
-    }
-    return prod;
-}
-
 fn main() {
     let primes = prime::Prime();
     for each_triangles |t| {
-        let num = prime::num_of_divisors(t as u64, primes);
+        let num = prime::num_of_divisors(t as u64, &primes);
         if num > 500u64 {
             io::println(#fmt("%u -> %u", t, num as uint));
             break;

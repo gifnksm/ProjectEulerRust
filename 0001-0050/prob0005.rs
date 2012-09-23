@@ -36,7 +36,7 @@ fn main() {
     let mut factors = ~[];
     for u64::range(1u64, 20u64 + 1u64) |n| {
         let mut list = ~[];
-        for prime::factors(n, primes) |f| { list += [ f ]; }
+        for prime::factors(n, &primes) |f| { list += [ f ]; }
         factors += [ list ];
     };
     io::println(u64::str(fact_to_uint(mergei(factors))));

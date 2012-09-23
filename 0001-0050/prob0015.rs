@@ -36,14 +36,14 @@ fn main() {
     let mut numer_facts = ~[];
     for u64::range(21u64, 40u64 + 1u64) |num| {
         let mut list = ~[];
-        for prime::factors(num, primes) |f| { list += [ f ] }
+        for prime::factors(num, &primes) |f| { list += [ f ] }
         numer_facts += [ list ];
     }
     let numer = mergei(numer_facts);
     let mut denom_facts = ~[];
     for u64::range(1u64, 20u64 + 1u64) |num| {
         let mut list = ~[];
-        for prime::factors(num, primes) |f| {
+        for prime::factors(num, &primes) |f| {
             let (b, Sum(e)) = f;
             list += [ (b, Sum(-e)) ];
         }
