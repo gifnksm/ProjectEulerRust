@@ -1,4 +1,4 @@
-export Prime, factors, num_of_divisors;
+export Prime, factors, num_of_divisors, sum_of_divisors, sum_of_proper_divisors;
 
 pure fn Prime() -> Prime {
     Prime { vec: ~[] }
@@ -75,6 +75,7 @@ fn div_multi(&num: u64, f: u64) -> u64 {
 }
 
 fn factors(num: u64, primes: &Prime, f: fn((u64, monoid::Sum<i64>)) -> bool) {
+    if num == 0 { return; }
     let mut itr = num;
     for primes.each |p| {
         let exp = div_multi(itr, p);
@@ -86,6 +87,7 @@ fn factors(num: u64, primes: &Prime, f: fn((u64, monoid::Sum<i64>)) -> bool) {
 }
 
 fn num_of_divisors(num: u64, primes: &Prime) -> u64 {
+    if num == 0 { return 0; }
     let mut prod = 1;
     for factors(num, primes) |f| {
         let (_base, exp) = f;
@@ -94,9 +96,19 @@ fn num_of_divisors(num: u64, primes: &Prime) -> u64 {
     return prod;
 }
 
-// fn sum_of_divisors(num: u64, primes: Prime) -> u64 {
-    
-// }
+fn sum_of_divisors(num: u64, primes: &Prime) -> u64 {
+    if num == 0 { return 0; }
+    let mut sum = 1;
+    for factors(num, primes) |f| {
+        let (base, monoid::Sum(exp)) = f;
+        sum *= (int::pow(base as int, (exp + 1) as uint) as u64 - 1) / (base - 1);
+    }
+    return sum;
+}
+
+fn sum_of_proper_divisors(num: u64, primes: &Prime) -> u64 {
+    sum_of_divisors(num, primes) - num
+}
 
 #[cfg(test)]
 mod tests {
