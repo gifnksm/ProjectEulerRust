@@ -3,7 +3,7 @@ use cmp::{Eq, Ord};
 pub enum Cmp { Lt, Eq, Gt }
 
 pub trait ExtOrd {
-    pure fn cmp(&&other: self) -> Cmp;
+    pure fn cmp(other: &self) -> Cmp;
 }
 
 // impl<T: ExtOrd> T : Eq {

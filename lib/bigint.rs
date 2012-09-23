@@ -21,7 +21,7 @@ pub pure fn from_slice(sign: Sign, slice: &[BigDigit]) -> BigInt { from_biguint(
 pub pure fn from_at_vec(sign: Sign, at_vec: @[BigDigit]) -> BigInt { from_biguint(sign, biguint::from_at_vec(at_vec)) }
 
 impl BigInt : ExtOrd {
-    pure fn cmp(&&other: BigInt) -> Cmp {
+    pure fn cmp(other: &BigInt) -> Cmp {
         let ss = self.sign, os = other.sign;
         if ss < os { return Lt; }
         if ss > os { return Gt; }
@@ -29,28 +29,28 @@ impl BigInt : ExtOrd {
         assert ss == os;
         match ss {
             Zero  => Eq,
-            Plus  => self.data.cmp(other.data),
-            Minus => self.data.cmp(other.data).neg(),
+            Plus  => self.data.cmp(&other.data),
+            Minus => self.data.cmp(&other.data).neg(),
         }
     }
 }
 
 impl BigInt : Eq {
     #[inline(always)]
-    pure fn eq(other: &BigInt) -> bool { match self.cmp(*other) { Eq => true, _ => false } }
+    pure fn eq(other: &BigInt) -> bool { match self.cmp(other) { Eq => true, _ => false } }
     #[inline(always)]
     pure fn ne(other: &BigInt) -> bool { !self.eq(other) }
 }
 
 impl BigInt : Ord {
     #[inline(always)]
-    pure fn lt(other: &BigInt) -> bool { match self.cmp(*other) { Lt      => true, _ => false} }
+    pure fn lt(other: &BigInt) -> bool { match self.cmp(other) { Lt      => true, _ => false} }
     #[inline(always)]
-    pure fn le(other: &BigInt) -> bool { match self.cmp(*other) { Lt | Eq => true, _ => false} }
+    pure fn le(other: &BigInt) -> bool { match self.cmp(other) { Lt | Eq => true, _ => false} }
     #[inline(always)]
-    pure fn ge(other: &BigInt) -> bool { match self.cmp(*other) { Eq | Gt => true, _ => false} }
+    pure fn ge(other: &BigInt) -> bool { match self.cmp(other) { Eq | Gt => true, _ => false} }
     #[inline(always)]
-    pure fn gt(other: &BigInt) -> bool { match self.cmp(*other) { Gt      => true, _ => false} }
+    pure fn gt(other: &BigInt) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
 }
 
 impl BigInt : ToStr {
@@ -80,7 +80,7 @@ impl BigInt : Num {
         match (self.sign, other.sign) {
             (Zero, _)    => -other,
             (_,    Zero) => self,
-            (Plus, Plus) => match self.data.cmp(other.data) {
+            (Plus, Plus) => match self.data.cmp(&other.data) {
                 Lt => from_biguint(Minus, other.data.sub(self.data)),
                 Eq => zero(),
                 Gt => from_biguint(Plus, self.data.sub(other.data))
@@ -271,10 +271,10 @@ mod tests {
         for uint::range(0, nums.len()) |i| {
             for uint::range(i, nums.len()) |j| {
                 if i == j {
-                    assert nums[i].cmp(nums[j]) == Eq;
+                    assert nums[i].cmp(&nums[j]) == Eq;
                 } else {
-                    assert nums[i].cmp(nums[j]) == Lt;
-                    assert nums[j].cmp(nums[i]) == Gt;
+                    assert nums[i].cmp(&nums[j]) == Lt;
+                    assert nums[j].cmp(&nums[i]) == Gt;
                 }
             }
         }

@@ -6,8 +6,8 @@ pub enum Sign {
 }
 
 impl Sign: ExtOrd {
-    pure fn cmp(&&other: Sign) -> Cmp {
-        match (self, other) {
+    pure fn cmp(other: &Sign) -> Cmp {
+        match (self, *other) {
           (Minus, Minus) | (Zero,  Zero) | (Plus, Plus) => Eq,
           (Minus, Zero)  | (Minus, Plus) | (Zero, Plus) => Lt,
           _                                             => Gt
@@ -40,15 +40,15 @@ impl Sign {
 }
 
 impl Sign : Eq {
-    pure fn eq(other: &Sign) -> bool { match self.cmp(*other) { Eq => true, _ => false } }
+    pure fn eq(other: &Sign) -> bool { match self.cmp(other) { Eq => true, _ => false } }
     pure fn ne(other: &Sign) -> bool { !self.eq(other) }
 }
 
 impl Sign : Ord {
-    pure fn lt(other: &Sign) -> bool { match self.cmp(*other) { Lt      => true, _ => false} }
-    pure fn le(other: &Sign) -> bool { match self.cmp(*other) { Lt | Eq => true, _ => false} }
-    pure fn ge(other: &Sign) -> bool { match self.cmp(*other) { Eq | Gt => true, _ => false} }
-    pure fn gt(other: &Sign) -> bool { match self.cmp(*other) { Gt      => true, _ => false} }
+    pure fn lt(other: &Sign) -> bool { match self.cmp(other) { Lt      => true, _ => false} }
+    pure fn le(other: &Sign) -> bool { match self.cmp(other) { Lt | Eq => true, _ => false} }
+    pure fn ge(other: &Sign) -> bool { match self.cmp(other) { Eq | Gt => true, _ => false} }
+    pure fn gt(other: &Sign) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
 }
 
 

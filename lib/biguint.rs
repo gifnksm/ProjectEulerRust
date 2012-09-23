@@ -83,7 +83,7 @@ priv pure fn get_radix_base(radix: uint) -> (uint, uint) {
 }
 
 impl BigUint : ExtOrd {
-    pure fn cmp(&&other: BigUint) -> Cmp {
+    pure fn cmp(other: &BigUint) -> Cmp {
         let sLen = self.data.len(), oLen = other.data.len();
         if sLen < oLen { return Lt; }
         if sLen > oLen { return Gt; }
@@ -97,20 +97,20 @@ impl BigUint : ExtOrd {
 
 impl BigUint : Eq {
     #[inline(always)]
-    pure fn eq(other: &BigUint) -> bool { match self.cmp(*other) { Eq => true, _ => false } }
+    pure fn eq(other: &BigUint) -> bool { match self.cmp(other) { Eq => true, _ => false } }
     #[inline(always)]
     pure fn ne(other: &BigUint) -> bool { !self.eq(other) }
 }
 
 impl BigUint : Ord {
     #[inline(always)]
-    pure fn lt(other: &BigUint) -> bool { match self.cmp(*other) { Lt      => true, _ => false} }
+    pure fn lt(other: &BigUint) -> bool { match self.cmp(other) { Lt      => true, _ => false} }
     #[inline(always)]
-    pure fn le(other: &BigUint) -> bool { match self.cmp(*other) { Lt | Eq => true, _ => false} }
+    pure fn le(other: &BigUint) -> bool { match self.cmp(other) { Lt | Eq => true, _ => false} }
     #[inline(always)]
-    pure fn ge(other: &BigUint) -> bool { match self.cmp(*other) { Eq | Gt => true, _ => false} }
+    pure fn ge(other: &BigUint) -> bool { match self.cmp(other) { Eq | Gt => true, _ => false} }
     #[inline(always)]
-    pure fn gt(other: &BigUint) -> bool { match self.cmp(*other) { Gt      => true, _ => false} }
+    pure fn gt(other: &BigUint) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
 }
 
 impl BigUint : ToStr {
@@ -202,7 +202,7 @@ impl BigUint : Num {
         }
 
         pure fn sub_sign(a: BigUint, b: BigUint) -> (int, BigUint) {
-            match a.cmp(b) {
+            match a.cmp(&b) {
                 Eq => ( 0, zero()),
                 Lt => (-1, b.sub(a)),
                 Gt => ( 1, a.sub(b))
@@ -300,7 +300,7 @@ impl BigUint : ExtNum {
         if sLen == 0 { return (zero(), zero()); }
         if other == from_uint(1) { return (self, zero()); }
 
-        match self.cmp(other) {
+        match self.cmp(&other) {
             Lt => return (zero(), self),
             Eq => return (one(), zero()),
             Gt => {} // Do nothing
@@ -431,11 +431,11 @@ mod tests {
             for vec::view(data, i, data.len()).eachi |j0, nj| {
                 let j = j0 + i;
                 if i == j {
-                    assert ni.cmp(*nj) == Eq;
-                    assert nj.cmp(*ni) == Eq;
+                    assert ni.cmp(nj) == Eq;
+                    assert nj.cmp(ni) == Eq;
                 } else {
-                    assert ni.cmp(*nj) == Lt;
-                    assert nj.cmp(*ni) == Gt;
+                    assert ni.cmp(nj) == Lt;
+                    assert nj.cmp(ni) == Gt;
                 }
             }
         }
