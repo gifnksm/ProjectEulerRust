@@ -7,7 +7,7 @@ fn main() {
     let mut f = one::<BigUint>();
     for 100.timesi |i| {
         let n = i + 1;
-        f *= from_uint(n);
+        f = f.mul(from_uint(n));
     }
     let mut sum = 0;
     for f.to_str().each() |n| {

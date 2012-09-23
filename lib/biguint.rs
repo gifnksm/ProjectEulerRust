@@ -204,13 +204,13 @@ impl BigUint : Num {
         pure fn sub_sign(a: BigUint, b: BigUint) -> (int, BigUint) {
             match a.cmp(b) {
                 Eq => ( 0, zero()),
-                Lt => (-1, b - a),
-                Gt => ( 1, a - b)
+                Lt => (-1, b.sub(a)),
+                Gt => ( 1, a.sub(b))
             }
         }
 
         pure fn prod_sign(a: (int, BigUint), b: (int, BigUint)) -> (int, BigUint) {
-            (a.first() * b.first(), a.second() * b.second())
+            (a.first() * b.first(), a.second().mul(b.second()))
         }
 
         let sLen = self.data.len(), oLen = other.data.len();
@@ -221,16 +221,16 @@ impl BigUint : Num {
         let spLen = uint::max(sLen, oLen) / 2;
         let (sHi, sLo) = cut_at(self, spLen);
         let (oHi, oLo) = cut_at(other, spLen);
-        let ll = sLo * oLo;
-        let hh = sHi * oHi;
+        let ll = sLo.mul(oLo);
+        let hh = sHi.mul(oHi);
         let mm = match prod_sign(sub_sign(sHi, sLo), sub_sign(oHi, oLo)) {
-            (-1, n) => hh + ll + n,
-            ( 1, n) => hh + ll - n,
-            ( 0, _) => hh + ll,
+            (-1, n) => hh.add(ll).add(n),
+            ( 1, n) => hh.add(ll).sub(n),
+            ( 0, _) => hh.add(ll),
             _ => fail
         };
 
-        return ll + (mm << spLen * BigDigit::bits) + (hh << spLen * BigDigit::bits * 2);
+        return ll.add(mm << spLen * BigDigit::bits).add(hh << spLen * BigDigit::bits * 2);
     }
 
     pure fn div(&&other: BigUint) -> BigUint    { self.divmod(other).first()  }
@@ -279,18 +279,18 @@ impl BigUint : ExtNum {
             let mut n = 1;
             while r >= b {
                 let mut (d0, dUnit, bUnit) = div_estimate(r, b, n);
-                let mut prod = b * d0;
+                let mut prod = b.mul(d0);
                 while prod > r {
-                    d0   -= dUnit;
-                    prod -= bUnit;
+                    d0   = d0.sub(dUnit);
+                    prod = prod.sub(bUnit);
                 }
                 if d0.is_zero() {
                     n = 2;
                     loop;
                 }
                 n = 1;
-                d += d0;
-                r -= prod;
+                d = d.add(d0);
+                r = r.sub(prod);
             }
             return (d, r);
         }
@@ -394,14 +394,14 @@ impl BigUint : ExtNum {
         loop {
             let start = uint::max(end, width) - width;
             match uint::parse_bytes(vec::view(buf, start, end), radix) {
-                Some(d) => n += from_uint::<BigUint>(d) * power,
+                Some(d) => n = n.add(from_uint::<BigUint>(d).mul(power)),
                 None    => return None
             }
             if end <= width {
                 return Some(n);
             }
             end -= width;
-            power *= base_num;
+            power = power.mul(base_num);
         }
     }
 
@@ -529,8 +529,8 @@ mod tests {
             let b = from_slice(bVec);
             let c = from_slice(cVec);
 
-            assert a + b == c;
-            assert b + a == c;
+            assert a.add(b) == c;
+            assert b.add(a) == c;
         }
     }
 
@@ -542,8 +542,8 @@ mod tests {
             let b = from_slice(bVec);
             let c = from_slice(cVec);
 
-            assert c - a == b;
-            assert c - b == a;
+            assert c.sub(a) == b;
+            assert c.sub(b) == a;
         }
     }
 
@@ -587,8 +587,8 @@ mod tests {
             let b = from_slice(bVec);
             let c = from_slice(cVec);
 
-            assert a * b == c;
-            assert b * a == c;
+            assert a.mul(b) == c;
+            assert b.mul(a) == c;
         }
 
         for divmod_quadruples.each |elm| {
@@ -598,8 +598,8 @@ mod tests {
             let c = from_slice(cVec);
             let d = from_slice(dVec);
 
-            assert a == b * c + d;
-            assert a == c * b + d;
+            assert a == b.mul(c).add(d);
+            assert a == c.mul(b).add(d);
         }
     }
 
@@ -693,7 +693,7 @@ mod tests {
         fn factor(n: uint) -> BigUint {
             let mut f: BigUint = one();
             for uint::range(2, n + 1) |i| {
-                f *= from_uint(i);
+                f = f.mul(from_uint(i));
             }
             return f;
         }
