@@ -9,3 +9,5 @@ lib/*.test
 # ignore shared libraries
 lib/*.so
 
+# ignore attachment files
+files/*.txt
