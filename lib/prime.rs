@@ -1,4 +1,4 @@
-export Prime, factors;
+export Prime, factors, num_of_divisors;
 
 pure fn Prime() -> Prime {
     Prime { vec: ~[] }
@@ -83,6 +83,15 @@ fn factors(num: u64, primes: Prime, f: fn((u64, monoid::Sum<i64>)) -> bool) {
         }
         if itr == 1  { break; }
     };
+}
+
+fn num_of_divisors(num: u64, primes: Prime) -> u64 {
+    let mut prod = 1;
+    for factors(num, primes) |f| {
+        let (_base, exp) = f;
+        prod *= (*exp + 1) as u64;
+    }
+    return prod;
 }
 
 #[cfg(test)]

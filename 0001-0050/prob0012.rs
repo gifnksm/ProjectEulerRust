@@ -27,9 +27,9 @@ fn num_factors(num: u64, primes: prime::Prime) -> u64 {
 fn main() {
     let primes = prime::Prime();
     for each_triangles |t| {
-        let num = num_factors(t as u64, primes);
+        let num = prime::num_of_divisors(t as u64, primes);
         if num > 500u64 {
-            io::println(#fmt("%u -> %u", t, num_factors(t as u64, primes) as uint));
+            io::println(#fmt("%u -> %u", t, num as uint));
             break;
         }
     }
