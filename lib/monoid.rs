@@ -1,9 +1,9 @@
-trait Monoid {
+pub trait Monoid {
     static pure fn mempty() -> self;
     pure fn mappend(&&other: self) -> self;
 }
 
-enum Sum<T> = T;
+pub enum Sum<T> = T;
 impl<T: Num> Sum<T> : Monoid {
     static pure fn mempty() -> Sum<T> { Sum(num::from_int(0)) }
     pure fn mappend(&&other: Sum<T>) -> Sum<T> { Sum(self.add(*other)) }
@@ -14,7 +14,7 @@ impl<T: cmp::Eq> Sum<T> : cmp::Eq {
     pure fn ne(&&other: Sum<T>) -> bool { *self != *other }
 }
 
-enum Prod<T> = T;
+pub enum Prod<T> = T;
 impl <T: Num> Prod<T>: Monoid {
     static pure fn mempty() -> Prod<T> { Prod(num::from_int(1)) }
     pure fn mappend(&&other: Prod<T>) -> Prod<T> { Prod(self.mul(*other)) }
@@ -25,11 +25,11 @@ impl<T: cmp::Eq> Prod<T> : cmp::Eq {
     pure fn ne(&&other: Prod<T>) -> bool { *self != *other }
 }
 
-fn mconcat<T: Copy Monoid>(v: &[T]) -> T {
+pub fn mconcat<T: Copy Monoid>(v: &[T]) -> T {
     vec::foldl(mempty(), v, |accum, elt| { elt.mappend(accum) })
 }
 
-fn merge<T: Copy cmp::Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)]) -> ~[(T, M)] {
+pub fn merge<T: Copy cmp::Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)]) -> ~[(T, M)] {
     let mut result = ~[];
     let mut (itr1, itr2) = (vec1, vec2);
     while (itr1.is_not_empty() && itr2.is_not_empty()) {
@@ -54,7 +54,7 @@ fn merge<T: Copy cmp::Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)]) -> 
     return result;
 }
 
-fn mergei<T: Copy cmp::Ord, M: Copy Monoid>(vecs: &[~[(T, M)]]) -> ~[(T, M)] {
+pub fn mergei<T: Copy cmp::Ord, M: Copy Monoid>(vecs: &[~[(T, M)]]) -> ~[(T, M)] {
     return match vecs.len() {
       0u => ~[],
       1u => ~[] + vecs[0],

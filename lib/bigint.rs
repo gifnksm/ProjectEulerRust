@@ -1,6 +1,3 @@
-
-export BigInt;
-
 use cmp::{ Ord, Eq };
 use num::{ Num, from_int };
 
@@ -8,20 +5,20 @@ use extcmp::{ Cmp, Eq, Lt, Gt, ExtOrd };
 use extnum::{ Sign, Minus, Zero, Plus, ExtNum, zero, one, from_uint, from_str_radix, parse_bytes };
 use biguint::{ BigDigit, BigUint };
 
-struct BigInt {
+pub struct BigInt {
     priv sign: Sign,
     priv data: BigUint
 }
 
-pure fn from_biguint(sign: Sign, data: BigUint) -> BigInt {
+pub pure fn from_biguint(sign: Sign, data: BigUint) -> BigInt {
     if sign == Zero || data.is_zero() {
         BigInt { sign: Zero, data: data }
     } else {
         BigInt { sign: sign, data: data }
     }
 }
-pure fn from_slice(sign: Sign, slice: &[BigDigit]) -> BigInt { from_biguint(sign, biguint::from_slice(slice)) }
-pure fn from_at_vec(sign: Sign, at_vec: @[BigDigit]) -> BigInt { from_biguint(sign, biguint::from_at_vec(at_vec)) }
+pub pure fn from_slice(sign: Sign, slice: &[BigDigit]) -> BigInt { from_biguint(sign, biguint::from_slice(slice)) }
+pub pure fn from_at_vec(sign: Sign, at_vec: @[BigDigit]) -> BigInt { from_biguint(sign, biguint::from_at_vec(at_vec)) }
 
 impl BigInt : ExtOrd {
     pure fn cmp(&&other: BigInt) -> Cmp {

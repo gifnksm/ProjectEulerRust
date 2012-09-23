@@ -1,8 +1,8 @@
 use cmp::{Eq, Ord};
 
-enum Cmp { Lt, Eq, Gt }
+pub enum Cmp { Lt, Eq, Gt }
 
-trait ExtOrd {
+pub trait ExtOrd {
     pure fn cmp(&&other: self) -> Cmp;
 }
 

@@ -1,7 +1,7 @@
 use extcmp::{ Cmp, Eq, Lt, Gt, ExtOrd };
 use cmp::{ Cmp, Ord };
 
-enum Sign {
+pub enum Sign {
     Minus, Zero, Plus
 }
 
@@ -52,7 +52,7 @@ impl Sign : Ord {
 }
 
 
-trait ExtNum {
+pub trait ExtNum {
     pure fn abs() -> self;
     pure fn quot(&&other: self) -> self;
     pure fn rem(&&other: self) -> self;

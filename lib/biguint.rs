@@ -1,5 +1,3 @@
-export BigUint, BigDigit, from_slice, from_at_vec;
-
 use cmp::{ Ord, Eq };
 use num::{ Num, from_int };
 
@@ -8,20 +6,20 @@ use extnum::{ Sign, Minus, Zero, Plus, ExtNum, zero, one, from_uint, parse_bytes
 
 #[cfg(target_arch = "x86")]
 #[cfg(target_arch = "arm")]
-type BigDigit = u16;
+pub type BigDigit = u16;
 
 #[cfg(target_arch = "x86_64")]
-type BigDigit = u32;
+pub type BigDigit = u32;
 
-mod BigDigit {
+pub mod BigDigit {
     #[cfg(target_arch = "x86")]
     #[cfg(target_arch = "arm")]
-    const bits: uint = 16;
+    pub const bits: uint = 16;
 
     #[cfg(target_arch = "x86_64")]
-    const bits: uint = 32;
+    pub const bits: uint = 32;
 
-    const base: uint = 1 << bits;
+    pub const base: uint = 1 << bits;
 
     priv const hi_mask: uint = (-1 as uint) << bits;
     priv const lo_mask: uint = (-1 as uint) >> bits;
@@ -32,13 +30,13 @@ mod BigDigit {
     priv pure fn get_lo(n: uint) -> BigDigit { (n & lo_mask) as BigDigit }
 
     #[inline(always)]
-    pure fn from_uint(n: uint) -> (BigDigit, BigDigit) { (get_hi(n), get_lo(n)) }
+    pub pure fn from_uint(n: uint) -> (BigDigit, BigDigit) { (get_hi(n), get_lo(n)) }
 
     #[inline(always)]
-    pure fn join(hi: BigDigit, lo: BigDigit) -> uint { (lo as uint) | ((hi as uint) << bits) }
+    pub pure fn join(hi: BigDigit, lo: BigDigit) -> uint { (lo as uint) | ((hi as uint) << bits) }
 }
 
-struct BigUint {
+pub struct BigUint {
     priv data: @[BigDigit]
 }
 
@@ -46,12 +44,12 @@ impl BigUint {
     pure fn ref_data<T>(f: fn(data: &[BigDigit]) -> T) -> T { f(self.data) }
 }
 
-pure fn from_slice(slice: &[BigDigit]) -> BigUint {
+pub pure fn from_slice(slice: &[BigDigit]) -> BigUint {
     let end = slice.rposition(|n| n != 0).map_default(0, |p| p + 1);
     return BigUint { data: @[] + vec::view(slice, 0, end) };
 }
 
-pure fn from_at_vec(at_vec: @[BigDigit]) -> BigUint {
+pub pure fn from_at_vec(at_vec: @[BigDigit]) -> BigUint {
     let end = at_vec.rposition(|n| n != 0).map_default(0, |p| p + 1) ;
     return BigUint {
         data: if end == at_vec.len() {
@@ -149,7 +147,7 @@ impl BigUint : Shr<uint, BigUint> {
         } else {
             let mut borrow = 0;
             let mut result = @[];
-            for vec::reach(self.data) |elt| {
+            for vec::rev_each(self.data) |elt| {
                 result = @[ (elt >> n_bits) | borrow ] + result;
                 borrow = elt << (uint::bits - n_bits);
             }
@@ -263,7 +261,7 @@ impl BigUint : ExtNum {
             let bn = b.data.last();
             let mut d = ~[];
             let mut carry = 0;
-            for vec::reach(an) |elt| {
+            for vec::rev_each(an) |elt| {
                 let ai = BigDigit::join(carry, elt);
                 let di = ai / (bn as uint);
                 assert di < BigDigit::base;
