@@ -262,11 +262,11 @@ mod tests {
 
     #[test]
     fn test_cmp() {
-        let uints = [ &[2], &[1, 1], &[2, 1], &[1, 1, 1] ].map(|data| biguint::from_slice(data));
+        let uints = [ &[2], &[1, 1], &[2, 1], &[1, 1, 1] ].map(|data| biguint::from_slice(*data));
         let nums: ~[BigInt]
-            = vec::reversed(uints).map(|bu| from_biguint(Minus, bu))
+            = vec::reversed(uints).map(|bu| from_biguint(Minus, *bu))
             + [ zero() ]
-            + uints.map(|bu| from_biguint(Plus, bu));
+            + uints.map(|bu| from_biguint(Plus, *bu));
 
         for uint::range(0, nums.len()) |i| {
             for uint::range(i, nums.len()) |j| {

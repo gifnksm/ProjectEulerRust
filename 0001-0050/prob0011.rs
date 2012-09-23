@@ -4,12 +4,12 @@ fn find_max_uint(ns: &[uint]) -> uint {
 
 fn find_max_row(row: &[uint], prod_len: uint) -> uint {
     let wins = vec::windowed(prod_len, row);
-    let prods = vec::map(wins, |ns| vec::foldl(1u, ns, |acc, n| acc * n ) );
+    let prods = vec::map(wins, |ns| vec::foldl(1u, *ns, |acc, n| acc * n ) );
     find_max_uint(prods)
 }
 
 fn find_max_grid(grid: &[~[uint]], prod_len: uint) -> uint {
-    find_max_uint(vec::map(grid, |row| find_max_row(row, prod_len)))
+    find_max_uint(vec::map(grid, |row| find_max_row(*row, prod_len)))
 }
 
 fn find_max_v(grid: &[~[uint]], prod_len: uint) -> uint {
@@ -75,8 +75,8 @@ fn main() {
 ";
 
     let grid = do vec::map(str::lines(str::trim(input))) |row| {
-        do vec::map(str::split_char(row, ' ')) |cell| {
-            uint::from_str(cell).get()
+        do vec::map(str::split_char(*row, ' ')) |cell| {
+            uint::from_str(*cell).get()
         }
     };
     let mut max = find_max_grid(grid, 4u);

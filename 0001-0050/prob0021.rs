@@ -8,9 +8,9 @@ fn main() {
     let mut amicables = ~[];
     for elms.eachi |i, sum| {
         let n = i as u64;
-        if sum >= n { loop }
-        if sum < (elms.len() as u64) && elms[sum] == n {
-            amicables += [(sum, n)];
+        if *sum >= n { loop }
+        if *sum < (elms.len() as u64) && elms[*sum] == n {
+            amicables += [(*sum, n)];
         }
     }
 

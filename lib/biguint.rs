@@ -148,8 +148,8 @@ impl BigUint : Shr<uint, BigUint> {
             let mut borrow = 0;
             let mut result = @[];
             for vec::rev_each(self.data) |elt| {
-                result = @[ (elt >> n_bits) | borrow ] + result;
-                borrow = elt << (uint::bits - n_bits);
+                result = @[ (*elt >> n_bits) | borrow ] + result;
+                borrow = *elt << (uint::bits - n_bits);
             }
             result
         };
@@ -262,7 +262,7 @@ impl BigUint : ExtNum {
             let mut d = ~[];
             let mut carry = 0;
             for vec::rev_each(an) |elt| {
-                let ai = BigDigit::join(carry, elt);
+                let ai = BigDigit::join(carry, *elt);
                 let di = ai / (bn as uint);
                 assert di < BigDigit::base;
                 carry = (ai % (bn as uint)) as BigDigit;
@@ -362,7 +362,7 @@ impl BigUint : ExtNum {
         pure fn fill_concat(v: &[BigDigit], radix: uint, l: uint) -> ~str {
             if v.is_empty() { return ~"0" }
             str::trim_left_chars(str::concat(vec::reversed(v).map(|n| {
-                let s = uint::to_str(n as uint, radix);
+                let s = uint::to_str(*n as uint, radix);
                 str::from_chars(vec::from_elem(l - s.len(), '0')) + s
             })), ['0'])
         }
@@ -426,16 +426,16 @@ mod tests {
 
     #[test]
     fn test_cmp() {
-        let data = [ &[], &[1], &[2], &[-1], &[0, 1], &[2, 1], &[1, 1, 1]  ].map(|v| from_slice(v));
+        let data = [ &[], &[1], &[2], &[-1], &[0, 1], &[2, 1], &[1, 1, 1]  ].map(|v| from_slice(*v));
         for data.eachi |i, ni| {
             for vec::view(data, i, data.len()).eachi |j0, nj| {
                 let j = j0 + i;
                 if i == j {
-                    assert ni.cmp(nj) == Eq;
-                    assert nj.cmp(ni) == Eq;
+                    assert ni.cmp(*nj) == Eq;
+                    assert nj.cmp(*ni) == Eq;
                 } else {
-                    assert ni.cmp(nj) == Lt;
-                    assert nj.cmp(ni) == Gt;
+                    assert ni.cmp(*nj) == Lt;
+                    assert nj.cmp(*ni) == Gt;
                 }
             }
         }

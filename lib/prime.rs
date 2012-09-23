@@ -116,9 +116,9 @@ mod tests {
         let ps = Prime();
 
         // Generated primes
-        for table.eachi() |i, p| { assert ps.get_at(i) == p; }
+        for table.eachi() |i, p| { assert ps.get_at(i) == *p; }
         // Memoized primes
-        for table.eachi() |i, p| { assert ps.get_at(i) == p; }
+        for table.eachi() |i, p| { assert ps.get_at(i) == *p; }
     }
 
     #[test]

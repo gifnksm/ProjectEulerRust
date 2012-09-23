@@ -72,8 +72,8 @@ pub fn mergei<T: Copy cmp::Ord, M: Copy Monoid>(vecs: &[~[(T, M)]]) -> ~[(T, M)]
 
 #[cfg(test)]
 mod tests {
-    fn to_sum<T: Copy, U: Copy Num>(&&tp: (T, U)) -> (T, Sum<U>) {
-        let (t, u) = tp;
+    fn to_sum<T: Copy, U: Copy Num>(tp: &(T, U)) -> (T, Sum<U>) {
+        let (t, u) = *tp;
         return (t, Sum(u));
     }
 
@@ -95,8 +95,8 @@ mod tests {
         pure fn eq(&&other: Max<T>) -> bool { self.repr == other.repr }
         pure fn ne(&&other: Max<T>) -> bool { self.repr != other.repr }
     }
-    fn to_max<T: Copy, U: Copy cmp::Ord>(&&tp: (T, U)) -> (T, Max<U>) {
-        let (t, u) = tp;
+    fn to_max<T: Copy, U: Copy cmp::Ord>(tp: &(T, U)) -> (T, Max<U>) {
+        let (t, u) = *tp;
         return (t, Max(u));
     }
 
@@ -129,14 +129,14 @@ mod tests {
     #[test]
     fn test_mergei() {
         {
-            let arg = [~[to_sum((1, 1)), to_sum((2, 1))], ~[to_sum((1, 2)), to_sum((3, 1))], ~[to_sum((-1, 3))]];
+            let arg = [~[to_sum(&(1, 1)), to_sum(&(2, 1))], ~[to_sum(&(1, 2)), to_sum(&(3, 1))], ~[to_sum(&(-1, 3))]];
             let result = [(-1, 3), (1, 3), (2, 1), (3, 1)].map(to_sum);
             assert mergei(arg) == result;
         }
 
         {
-            let arg = [~[to_sum((1, 1))], ~[to_sum((1, 2))], ~[to_sum((1, 3))]];
-            let result: ~[(int, Sum<int>)] = ~[to_sum((1, 6))];
+            let arg = [~[to_sum(&(1, 1))], ~[to_sum(&(1, 2))], ~[to_sum(&(1, 3))]];
+            let result: ~[(int, Sum<int>)] = ~[to_sum(&(1, 6))];
             assert mergei(arg) == result;
         }
 
