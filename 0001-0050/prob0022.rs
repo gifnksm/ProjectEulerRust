@@ -1,4 +1,4 @@
-export mod std;
+extern mod std;
 
 fn skip_sep(input: &a/str) -> &a/str {
     let mut itr = input;
@@ -39,6 +39,11 @@ fn read_whole_name(input: &a/str) -> Option<~[&a/str]> {
     return Some(result);
 }
 
+fn get_score(pair: &(uint, &str)) -> uint {
+    let (n, s) = *pair;
+    n * str::as_bytes_slice(s).map(|c| *c - ('A' as u8) + 1).foldl(0 as uint, |s, e| s + e as uint)
+}
+
 fn main() {
     match io::read_whole_file_str(&Path("files/names.txt")) {
         result::Err(msg) => {
@@ -46,9 +51,20 @@ fn main() {
             return;
         }
         result::Ok(input) => {
-            let names = read_whole_name(input);
-            std::sort::merge_sort(str::le, names);
-            io::println(fmt!("%?", read_whole_name(input)));
+            match read_whole_name(input) {
+                None => {
+                    (io::stderr() as io::WriterUtil).write_str("Error!\n");
+                    return;
+                }
+                Some(names) => {
+                    let sorted = std::sort::merge_sort(|a, b| a < b, names).mapi(|i, s| (i + 1, *s));
+                    let mut total_score = 0;
+                    for sorted.each |s| {
+                        total_score += get_score(s);
+                    }
+                    io::println(fmt!("%u", total_score));
+                }
+            }
         }
     }
 }
