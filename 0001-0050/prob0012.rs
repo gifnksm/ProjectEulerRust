@@ -3,7 +3,7 @@ extern mod euler;
 use euler::prime;
 use euler::monoid::Sum;
 
-fn each_triangles(f: fn(&&uint) -> bool) {
+fn each_triangles(f: fn(uint) -> bool) {
     let mut idx = 0u;
     let mut t   = 1u;
     loop {

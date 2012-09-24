@@ -48,7 +48,7 @@ impl Prime {
         util::unreachable();
     }
 
-    fn each(f: fn(&&u64) -> bool) {
+    fn each(f: fn(u64) -> bool) {
         let init_len = self.vec.len();
         for uint::range(0, init_len) |i| {
             let p = self.vec[i];
