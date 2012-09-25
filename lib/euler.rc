@@ -7,6 +7,7 @@
 
 extern mod std;
 
+mod bounded;
 mod extcmp;
 mod extnum;
 mod extvec;
