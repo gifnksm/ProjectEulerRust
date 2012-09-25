@@ -1,4 +1,4 @@
-pub fn each_fib(f: fn(u64)->bool) {
+pub fn each_fib(f: fn(uint)->bool) {
     let mut (prev, cur) = (0, 1);
     loop {
         if !f(cur) { break; }

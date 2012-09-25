@@ -4,8 +4,8 @@ use euler::prime;
 use euler::monoid::Sum;
 
 fn each_triangles(f: fn(uint) -> bool) {
-    let mut idx = 0u;
-    let mut t   = 1u;
+    let mut idx = 0;
+    let mut t   = 1;
     loop {
         if !f(t) {
             break;
@@ -18,9 +18,9 @@ fn each_triangles(f: fn(uint) -> bool) {
 fn main() {
     let primes = prime::Prime();
     for each_triangles |t| {
-        let num = prime::num_of_divisors(t as u64, &primes);
-        if num > 500u64 {
-            io::println(#fmt("%u -> %u", t, num as uint));
+        let num = prime::num_of_divisors(t, &primes);
+        if num > 500 {
+            io::println(#fmt("%u -> %u", t, num));
             break;
         }
     }

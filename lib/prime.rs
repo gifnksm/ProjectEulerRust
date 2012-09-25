@@ -3,11 +3,11 @@ pub pure fn Prime() -> Prime {
 }
 
 pub struct Prime {
-    priv mut vec: ~[u64],
+    priv mut vec: ~[uint],
 }
 
 impl Prime {
-    priv pure fn is_coprime(num: u64) -> bool {
+    priv pure fn is_coprime(num: uint) -> bool {
         for uint::range(0, self.vec.len()) |i| {
             let p = self.vec[i];
             if p * p > num  { return true; }
@@ -33,12 +33,12 @@ impl Prime {
         }
     }
 
-    fn get_at(idx: uint) -> u64 {
+    fn get_at(idx: uint) -> uint {
         self.grow_until(|| idx < self.vec.len());
         return self.vec[idx];
     }
 
-    fn is_prime(num: u64) -> bool {
+    fn is_prime(num: uint) -> bool {
         if num < 2 { return false; }
 
         for self.each |p| {
@@ -48,7 +48,7 @@ impl Prime {
         util::unreachable();
     }
 
-    fn each(f: fn(u64) -> bool) {
+    fn each(f: fn(uint) -> bool) {
         let init_len = self.vec.len();
         for uint::range(0, init_len) |i| {
             let p = self.vec[i];
@@ -63,7 +63,7 @@ impl Prime {
     }
 }
 
-priv fn div_multi(&num: u64, f: u64) -> u64 {
+priv fn div_multi(&num: uint, f: uint) -> uint {
     let mut exp = 0;
     while (num % f == 0) {
         exp += 1;
@@ -72,39 +72,39 @@ priv fn div_multi(&num: u64, f: u64) -> u64 {
     return exp;
 }
 
-pub fn factors(num: u64, primes: &Prime, f: fn((u64, monoid::Sum<i64>)) -> bool) {
+pub fn factors(num: uint, primes: &Prime, f: fn((uint, monoid::Sum<int>)) -> bool) {
     if num == 0 { return; }
     let mut itr = num;
     for primes.each |p| {
         let exp = div_multi(itr, p);
         if exp > 0 {
-            if !f((p, monoid::Sum(exp as i64))) { break; }
+            if !f((p, monoid::Sum(exp as int))) { break; }
         }
         if itr == 1  { break; }
     };
 }
 
-pub fn num_of_divisors(num: u64, primes: &Prime) -> u64 {
+pub fn num_of_divisors(num: uint, primes: &Prime) -> uint {
     if num == 0 { return 0; }
     let mut prod = 1;
     for factors(num, primes) |f| {
         let (_base, exp) = f;
-        prod *= (exp.repr + 1) as u64;
+        prod *= (exp.repr + 1) as uint;
     }
     return prod;
 }
 
-pub fn sum_of_divisors(num: u64, primes: &Prime) -> u64 {
+pub fn sum_of_divisors(num: uint, primes: &Prime) -> uint {
     if num == 0 { return 0; }
     let mut sum = 1;
     for factors(num, primes) |f| {
         let (base, exp) = f;
-        sum *= (int::pow(base as int, (exp.repr + 1) as uint) as u64 - 1) / (base - 1);
+        sum *= (int::pow(base as int, (exp.repr + 1) as uint) as uint - 1) / (base - 1);
     }
     return sum;
 }
 
-pub fn sum_of_proper_divisors(num: u64, primes: &Prime) -> u64 {
+pub fn sum_of_proper_divisors(num: uint, primes: &Prime) -> uint {
     sum_of_divisors(num, primes) - num
 }
 

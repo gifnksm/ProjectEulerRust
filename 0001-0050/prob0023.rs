@@ -10,8 +10,8 @@ fn main() {
         let dv = dvec::DVec();
         dv.reserve(max_idx + 1);
         for uint::range(2, max_idx + 1) |i| {
-            let sum = sum_of_proper_divisors(i as u64, &p);
-            if sum > i as u64 {
+            let sum = sum_of_proper_divisors(i, &p);
+            if sum > i {
                 dv.push(i)
             }
         }
