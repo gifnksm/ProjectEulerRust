@@ -1,6 +1,9 @@
+use cmp::{ Ord, Eq };
+use bounded::{ Bounded, max_value, min_value };
+
 pub trait Monoid {
     static pure fn mempty() -> self;
-    pure fn mappend(other: &self) -> self;
+    pure fn mappend(&self, other: &self) -> self;
 }
 
 pub struct Sum<T> { repr: T }
@@ -8,7 +11,7 @@ pub pure fn Sum<T>(val: T) -> Sum<T> { Sum { repr: val } }
 
 impl<T: Num> Sum<T> : Monoid {
     static pure fn mempty() -> Sum<T> { Sum(num::from_int(0)) }
-    pure fn mappend(other: &Sum<T>) -> Sum<T> { Sum(self.repr.add(other.repr)) }
+    pure fn mappend(&self, other: &Sum<T>) -> Sum<T> { Sum(self.repr.add(other.repr)) }
 }
 
 impl<T: cmp::Eq> Sum<T> : cmp::Eq {
@@ -19,9 +22,9 @@ impl<T: cmp::Eq> Sum<T> : cmp::Eq {
 pub struct Prod<T> { repr: T }
 pub pure fn Prod<T>(val: T) -> Prod<T> { Prod { repr: val }}
 
-impl <T: Num> Prod<T>: Monoid {
+impl<T: Num> Prod<T> : Monoid {
     static pure fn mempty() -> Prod<T> { Prod(num::from_int(1)) }
-    pure fn mappend(other: &Prod<T>) -> Prod<T> { Prod(self.repr.mul(other.repr)) }
+    pure fn mappend(&self, other: &Prod<T>) -> Prod<T> { Prod(self.repr.mul(other.repr)) }
 }
 
 impl<T: cmp::Eq> Prod<T> : cmp::Eq {
@@ -29,11 +32,41 @@ impl<T: cmp::Eq> Prod<T> : cmp::Eq {
     pure fn ne(other: &Prod<T>) -> bool { self.repr != other.repr }
 }
 
+pub struct Max<T> { repr: T }
+pub pure fn Max<T>(val: T) -> Max<T> { Max{ repr: val } }
+
+impl<T: Copy Bounded Ord> Max<T> : Monoid {
+    static pure fn mempty() -> Max<T> { Max(min_value()) }
+    pure fn mappend(&self, other: &Max<T>) -> Max<T> {
+        if self.repr < other.repr { *other } else { *self }
+    }
+}
+
+impl<T: Eq> Max<T> : Eq {
+    pure fn eq(other: &Max<T>) -> bool { self.repr == other.repr }
+    pure fn ne(other: &Max<T>) -> bool { self.repr != other.repr }
+}
+
+pub struct Min<T> { repr: T }
+pub pure fn Min<T>(val: T) -> Min<T> { Min { repr: val } }
+
+impl<T: Copy Bounded Ord> Min<T> : Monoid {
+    static pure fn mempty() -> Min<T> { Min(max_value()) }
+    pure fn mappend(&self, other: &Min<T>) -> Min<T> {
+        if self.repr > other.repr { *other } else { *self }
+    }
+}
+
+impl<T: Eq> Min<T> : Eq {
+    pure fn eq(other: &Min<T>) -> bool { self.repr == other.repr }
+    pure fn ne(other: &Min<T>) -> bool { self.repr != other.repr }
+}
+
 pub fn mconcat<T: Copy Monoid>(v: &[T]) -> T {
     vec::foldl(mempty(), v, |accum, elt| { elt.mappend(&accum) })
 }
 
-pub fn merge<T: Copy cmp::Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)]) -> ~[(T, M)] {
+pub fn merge<T: Copy Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)]) -> ~[(T, M)] {
     let mut result = ~[];
     let mut (itr1, itr2) = (vec1, vec2);
     while (itr1.is_not_empty() && itr2.is_not_empty()) {
@@ -58,7 +91,7 @@ pub fn merge<T: Copy cmp::Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)])
     return result;
 }
 
-pub fn mergei<T: Copy cmp::Ord, M: Copy Monoid>(vecs: &[~[(T, M)]]) -> ~[(T, M)] {
+pub fn mergei<T: Copy Ord, M: Copy Monoid>(vecs: &[~[(T, M)]]) -> ~[(T, M)] {
     return match vecs.len() {
       0u => ~[],
       1u => ~[] + vecs[0],
@@ -77,25 +110,7 @@ mod tests {
         return (t, Sum(u));
     }
 
-    struct Max<T> { repr: T }
-    pure fn Max<T>(val: T) -> Max<T> { Max { repr: val } }
-    impl <T: Copy cmp::Ord Num> Max<T>: Monoid {
-        static pure fn mempty() -> Max<T> {
-            let neg_max = num::from_int::<T>(int::min_value);
-            let zero    = num::from_int(0);
-            if neg_max < zero {
-                Max::<T>(neg_max)
-            } else {
-                Max::<T>(zero)
-            }
-        }
-        pure fn mappend(other: &Max<T>) -> Max<T> { if self.repr < other.repr { *other } else { self } }
-    }
-    impl <T: cmp::Eq> Max<T>: cmp::Eq {
-        pure fn eq(other: &Max<T>) -> bool { self.repr == other.repr }
-        pure fn ne(other: &Max<T>) -> bool { self.repr != other.repr }
-    }
-    fn to_max<T: Copy, U: Copy cmp::Ord>(tp: &(T, U)) -> (T, Max<U>) {
+    fn to_max<T: Copy, U: Copy Ord>(tp: &(T, U)) -> (T, Max<U>) {
         let (t, u) = *tp;
         return (t, Max(u));
     }
