@@ -7,21 +7,12 @@
 
 extern mod std;
 
-#[warn(non_camel_case_types)]
 mod extcmp;
-#[warn(non_camel_case_types)]
 mod extnum;
-#[warn(non_camel_case_types)]
 mod extvec;
-#[warn(non_camel_case_types)]
 mod arith;
-#[warn(non_camel_case_types)]
 mod calc;
-#[warn(non_camel_case_types)]
 mod prime;
-#[warn(non_camel_case_types)]
 mod monoid;
-#[warn(non_camel_case_types)]
 mod biguint;
-#[warn(non_camel_case_types)]
 mod bigint;
