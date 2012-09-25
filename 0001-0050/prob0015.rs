@@ -18,14 +18,14 @@ fn pow(base: uint, exp: uint) -> uint {
     return result;
 }
 
-fn fact_to_uint(fs: &[(uint, Sum<int>)]) -> uint {
+fn fact_to_uint(fs: &[(uint, int)]) -> uint {
     let mut result = 1;
     for fs.each() |tp| {
         let (base, exp) = *tp;
-        if exp.repr > 0 {
-            result *= pow(base, exp.repr as uint);
+        if exp > 0 {
+            result *= pow(base, exp as uint);
         } else {
-            result /= pow(base, (-exp.repr) as uint);
+            result /= pow(base, (-exp) as uint);
         }
     }
     return result;
@@ -36,22 +36,18 @@ fn main() {
     let mut numer_facts = ~[];
     for uint::range(21, 40 + 1) |num| {
         let mut list = ~[];
-        for prime::factors(num, &primes) |f| {
-            let (b, e) = f;
-            list += [ (b, Sum(e as int)) ];
-        }
+        for prime::factors(num, &primes) |f| { list += [ f ]; }
         numer_facts += [ list ];
     }
-    let numer = mergei(numer_facts);
+    let numer = mergei_as(numer_facts, |i| Sum(i as int));
+
     let mut denom_facts = ~[];
     for uint::range(1, 20 + 1) |num| {
         let mut list = ~[];
-        for prime::factors(num, &primes) |f| {
-            let (b, e) = f;
-            list += [ (b, Sum(-(e as int))) ];
-        }
+        for prime::factors(num, &primes) |f| { list += [ f ]; }
         denom_facts += [ list ];
     }
-    let denom = mergei(denom_facts);
-    io::println(#fmt("%u", fact_to_uint(mergei([numer, denom]))));
+    let denom = mergei_as(denom_facts, |i| Sum(-(i as int)));
+
+    io::println(#fmt("%u", fact_to_uint(merge_as(numer, denom, Sum))));
 }
