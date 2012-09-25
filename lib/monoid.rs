@@ -6,12 +6,20 @@ pub trait Monoid {
     pure fn mappend(&self, other: &self) -> self;
 }
 
+pub trait Unwrap<T> {
+    pure fn unwrap(&self) -> T;
+}
+
 pub struct Sum<T> { repr: T }
 pub pure fn Sum<T>(val: T) -> Sum<T> { Sum { repr: val } }
 
 impl<T: Num> Sum<T> : Monoid {
     static pure fn mempty() -> Sum<T> { Sum(num::from_int(0)) }
     pure fn mappend(&self, other: &Sum<T>) -> Sum<T> { Sum(self.repr.add(other.repr)) }
+}
+
+impl<T: Copy> Sum<T> : Unwrap<T> {
+    pure fn unwrap(&self) -> T { self.repr }
 }
 
 impl<T: cmp::Eq> Sum<T> : cmp::Eq {
@@ -25,6 +33,10 @@ pub pure fn Prod<T>(val: T) -> Prod<T> { Prod { repr: val }}
 impl<T: Num> Prod<T> : Monoid {
     static pure fn mempty() -> Prod<T> { Prod(num::from_int(1)) }
     pure fn mappend(&self, other: &Prod<T>) -> Prod<T> { Prod(self.repr.mul(other.repr)) }
+}
+
+impl<T: Copy> Prod<T> : Unwrap<T> {
+    pure fn unwrap(&self) -> T { self.repr }
 }
 
 impl<T: cmp::Eq> Prod<T> : cmp::Eq {
@@ -42,6 +54,10 @@ impl<T: Copy Bounded Ord> Max<T> : Monoid {
     }
 }
 
+impl<T: Copy> Max<T> : Unwrap<T> {
+    pure fn unwrap(&self) -> T { self.repr }
+}
+
 impl<T: Eq> Max<T> : Eq {
     pure fn eq(other: &Max<T>) -> bool { self.repr == other.repr }
     pure fn ne(other: &Max<T>) -> bool { self.repr != other.repr }
@@ -56,6 +72,11 @@ impl<T: Copy Bounded Ord> Min<T> : Monoid {
         if self.repr > other.repr { *other } else { *self }
     }
 }
+
+impl<T: Copy> Min<T> : Unwrap<T> {
+    pure fn unwrap(&self) -> T { self.repr }
+}
+
 
 impl<T: Eq> Min<T> : Eq {
     pure fn eq(other: &Min<T>) -> bool { self.repr == other.repr }
@@ -103,6 +124,21 @@ pub fn mergei<T: Copy Ord, M: Copy Monoid>(vecs: &[~[(T, M)]]) -> ~[(T, M)] {
     }
 }
 
+pub fn merge_as<T: Copy Ord, U: Copy, MT, M: Copy Monoid Unwrap<MT>>
+    (vec1: &[(T, U)], vec2: &[(T, U)], f: fn(U) -> M) -> ~[(T, MT)] {
+    fn convert<T: Copy, U: Copy, M: Copy>(v: &[(T, U)], f: fn(U) -> M) -> ~[(T, M)] {
+        do v.map |tp| { (tp.first(), f(tp.second())) }
+    }
+    return merge(convert(vec1, f), convert(vec2, f)).map(|tp| (tp.first(), tp.second().unwrap()));
+}
+
+pub fn mergei_as<T: Copy Ord, U: Copy, MT, M: Copy Monoid Unwrap<MT>>(vecs: &[~[(T, U)]], f: fn(U) -> M) -> ~[(T, MT)] {
+    return mergei(
+        vecs.map(|v| v.map(|tp| (tp.first(), f(tp.second()))))
+    ).map(|tp| (tp.first(), tp.second().unwrap()));
+}
+
+
 #[cfg(test)]
 mod tests {
     fn to_sum<T: Copy, U: Copy Num>(tp: &(T, U)) -> (T, Sum<U>) {
@@ -121,13 +157,15 @@ mod tests {
         let arg2 = [(1, 2), (2, 1), (4, 1), (7, 2)];
 
         {
-            let result = [(1, 3), (2, 1), (3, 1), (4, 2), (6, 1), (7, 2)].map(to_sum);
-            assert merge(arg1.map(to_sum), arg2.map(to_sum)) == result;
+            let result = ~[(1, 3), (2, 1), (3, 1), (4, 2), (6, 1), (7, 2)];
+            assert merge(arg1.map(to_sum), arg2.map(to_sum)) == result.map(to_sum);
+            assert merge_as(arg1, arg2, Sum) == result;
         }
 
         {
-            let result = [(1, 2), (2, 1), (3, 1), (4, 1), (6, 1), (7, 2)].map(to_max);
-            assert merge(arg1.map(to_max), arg2.map(to_max)) == result;
+            let result = ~[(1, 2), (2, 1), (3, 1), (4, 1), (6, 1), (7, 2)];
+            assert merge(arg1.map(to_max), arg2.map(to_max)) == result.map(to_max);
+            assert merge_as(arg1, arg2, Max) == result;
         }
 
         {
@@ -144,20 +182,24 @@ mod tests {
     #[test]
     fn test_mergei() {
         {
-            let arg = [~[to_sum(&(1, 1)), to_sum(&(2, 1))], ~[to_sum(&(1, 2)), to_sum(&(3, 1))], ~[to_sum(&(-1, 3))]];
-            let result = [(-1, 3), (1, 3), (2, 1), (3, 1)].map(to_sum);
-            assert mergei(arg) == result;
+            let arg = [~[(1, 1), (2, 1)], ~[(1, 2), (3, 1)], ~[(-1, 3)]];
+            let result = ~[(-1, 3), (1, 3), (2, 1), (3, 1)];
+            assert mergei(arg.map(|v| v.map(to_sum))) == result.map(to_sum);
+            assert mergei_as(arg, Sum) == result;
         }
 
         {
-            let arg = [~[to_sum(&(1, 1))], ~[to_sum(&(1, 2))], ~[to_sum(&(1, 3))]];
-            let result: ~[(int, Sum<int>)] = ~[to_sum(&(1, 6))];
-            assert mergei(arg) == result;
+            let arg = [~[(1, 1)], ~[(1, 2)], ~[(1, 3)]];
+            let result = ~[(1, 6)];
+            assert mergei(arg.map(|v| v.map(to_sum))) == result.map(to_sum);
+            assert mergei_as(arg, Sum) == result;
         }
 
         {
-            let result: ~[(int, Sum<int>)] = ~[];
-            assert mergei([~[], ~[], ~[]]) == result;
+            let arg = [~[], ~[], ~[]];
+            let result: ~[(int, int)] = ~[];
+            assert mergei(arg.map(|v| v.map(to_sum))) == result.map(to_sum);
+            assert mergei_as(arg, Sum) == result;
         }
     }
 }
