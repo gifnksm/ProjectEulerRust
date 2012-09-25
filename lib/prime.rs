@@ -72,13 +72,13 @@ priv fn div_multi(&num: uint, f: uint) -> uint {
     return exp;
 }
 
-pub fn factors(num: uint, primes: &Prime, f: fn((uint, monoid::Sum<int>)) -> bool) {
+pub fn factors(num: uint, primes: &Prime, f: fn((uint, uint)) -> bool) {
     if num == 0 { return; }
     let mut itr = num;
     for primes.each |p| {
         let exp = div_multi(itr, p);
         if exp > 0 {
-            if !f((p, monoid::Sum(exp as int))) { break; }
+            if !f((p, exp)) { break; }
         }
         if itr == 1  { break; }
     };
@@ -89,7 +89,7 @@ pub fn num_of_divisors(num: uint, primes: &Prime) -> uint {
     let mut prod = 1;
     for factors(num, primes) |f| {
         let (_base, exp) = f;
-        prod *= (exp.repr + 1) as uint;
+        prod *= exp + 1;
     }
     return prod;
 }
@@ -99,7 +99,7 @@ pub fn sum_of_divisors(num: uint, primes: &Prime) -> uint {
     let mut sum = 1;
     for factors(num, primes) |f| {
         let (base, exp) = f;
-        sum *= (int::pow(base as int, (exp.repr + 1) as uint) as uint - 1) / (base - 1);
+        sum *= (int::pow(base as int, exp + 1) as uint - 1) / (base - 1);
     }
     return sum;
 }

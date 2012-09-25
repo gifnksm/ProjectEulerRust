@@ -36,7 +36,10 @@ fn main() {
     let mut numer_facts = ~[];
     for uint::range(21, 40 + 1) |num| {
         let mut list = ~[];
-        for prime::factors(num, &primes) |f| { list += [ f ] }
+        for prime::factors(num, &primes) |f| {
+            let (b, e) = f;
+            list += [ (b, Sum(e as int)) ];
+        }
         numer_facts += [ list ];
     }
     let numer = mergei(numer_facts);
@@ -45,7 +48,7 @@ fn main() {
         let mut list = ~[];
         for prime::factors(num, &primes) |f| {
             let (b, e) = f;
-            list += [ (b, Sum(-e.repr)) ];
+            list += [ (b, Sum(-(e as int))) ];
         }
         denom_facts += [ list ];
     }

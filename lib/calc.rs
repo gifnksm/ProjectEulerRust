@@ -8,6 +8,10 @@ pub fn each_fib(f: fn(uint)->bool) {
     }
 }
 
+// pub fn num_of_permutation(n: uint) -> uint {
+    
+// }
+
 #[cfg(test)]
 mod tests {
     #[test]

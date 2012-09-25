@@ -2,7 +2,7 @@ extern mod euler;
 
 use euler::prime;
 use euler::util;
-use euler::monoid::*;
+use euler::monoid::{ mergei, Max };
 
 fn pow(base: uint, exp: uint) -> uint {
     let mut result = 1;
@@ -18,15 +18,11 @@ fn pow(base: uint, exp: uint) -> uint {
     return result;
 }
 
-fn fact_to_uint(fs: &[(uint, Sum<int>)]) -> uint {
+fn fact_to_uint(fs: &[(uint, Max<uint>)]) -> uint {
     let mut result = 1;
     for fs.each() |tp| {
         let (base, exp) = *tp;
-        if exp.repr > 0 {
-            result *= pow(base, exp.repr as uint);
-        } else {
-            result /= pow(base, (-exp.repr) as uint);
-        }
+        result *= pow(base, exp.repr);
     }
     return result;
 }
@@ -36,7 +32,10 @@ fn main() {
     let mut factors = ~[];
     for uint::range(1, 20 + 1) |n| {
         let mut list = ~[];
-        for prime::factors(n, &primes) |f| { list += [ f ]; }
+        for prime::factors(n, &primes) |f| {
+            let (b, e) = f;
+            list += [ (b, Max(e)) ];
+        }
         factors += [ list ];
     };
     io::println(fact_to_uint(mergei(factors)).to_str());
