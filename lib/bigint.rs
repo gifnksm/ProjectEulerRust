@@ -70,10 +70,10 @@ impl BigInt : Num {
         match (self.sign, other.sign) {
             (Zero, _)      => other,
             (_,    Zero)   => self,
-            (Plus, Plus)   => from_biguint(Plus, self.data.add(other.data)),
-            (Plus, Minus)  => self.sub(-other),
-            (Minus, Plus)  => other.sub(-self),
-            (Minus, Minus) => -((-self).add(-other))
+            (Plus, Plus)   => from_biguint(Plus, self.data + other.data),
+            (Plus, Minus)  => self - (-other),
+            (Minus, Plus)  => other - (-self),
+            (Minus, Minus) => -((-self) + (-other))
         }
     }
     pure fn sub(&&other: BigInt) -> BigInt {
@@ -81,20 +81,20 @@ impl BigInt : Num {
             (Zero, _)    => -other,
             (_,    Zero) => self,
             (Plus, Plus) => match self.data.cmp(&other.data) {
-                Lt => from_biguint(Minus, other.data.sub(self.data)),
+                Lt => from_biguint(Minus, other.data - self.data),
                 Eq => zero(),
-                Gt => from_biguint(Plus, self.data.sub(other.data))
+                Gt => from_biguint(Plus, self.data - other.data)
             },
-            (Plus, Minus) => self.add(-other),
-            (Minus, Plus) => -((-self).add(other)),
-            (Minus, Minus) => (-other).sub(-self)
+            (Plus, Minus) => self + (-other),
+            (Minus, Plus) => -((-self) + other),
+            (Minus, Minus) => (-other) - (-self)
         }
     }
     pure fn mul(&&other: BigInt) -> BigInt {
         match (self.sign, other.sign) {
             (Zero, _)     | (_,     Zero)  => zero(),
-            (Plus, Plus)  | (Minus, Minus) => from_biguint(Plus, self.data.mul(other.data)),
-            (Plus, Minus) | (Minus, Plus)  => from_biguint(Minus, self.data.mul(other.data))
+            (Plus, Plus)  | (Minus, Minus) => from_biguint(Plus, self.data * other.data),
+            (Plus, Minus) | (Minus, Plus)  => from_biguint(Minus, self.data * other.data)
         }
     }
     pure fn div(&&other: BigInt) -> BigInt { self.divmod(other).first() }
@@ -136,7 +136,7 @@ impl BigInt : ExtNum {
                 //   = abs(o) d + m
                 //   = o(-d) + m
                 //   = o(-d - 1) + (m + o)
-                ((-d).sub(one()), m.add(other))
+                (-d - one(), m + other)
             },
             (Minus, Plus) => if m.is_zero() {
                 (-d, zero())
@@ -146,7 +146,7 @@ impl BigInt : ExtNum {
                 //   = -abs(o) d - m
                 //   = o (-d) - m
                 //   = o (-d - 1) + (-m + o)
-                ((-d).sub(one()), other.sub(m))
+                (-d - one(), other - m)
             },
             (Minus, Minus) => if m.is_zero() {
                 (d, zero())
@@ -336,14 +336,14 @@ mod tests {
             let b = from_slice(Plus, bVec);
             let c = from_slice(Plus, cVec);
 
-            assert a.add(b) == c;
-            assert b.add(a) == c;
-            assert c.add(-a) == b;
-            assert c.add(-b) == a;
-            assert a.add(-c) == (-b);
-            assert b.add(-c) == (-a);
-            assert (-a).add(-b) == (-c);
-            assert a.add(-a) == zero();
+            assert a + b == c;
+            assert b + a == c;
+            assert c + (-a) == b;
+            assert c + (-b) == a;
+            assert a + (-c) == (-b);
+            assert b + (-c) == (-a);
+            assert (-a) + (-b) == (-c);
+            assert a + (-a) == zero();
         }
     }
 
@@ -355,14 +355,14 @@ mod tests {
             let b = from_slice(Plus, bVec);
             let c = from_slice(Plus, cVec);
 
-            assert c.sub(a) == b;
-            assert c.sub(b) == a;
-            assert (-b).sub(a) == (-c);
-            assert (-a).sub(b) == (-c);
-            assert b.sub(-a) == c;
-            assert a.sub(-b) == c;
-            assert (-c).sub(-a) == (-b);
-            assert a.sub(a) == zero();
+            assert c - a == b;
+            assert c - b == a;
+            assert (-b) - a == (-c);
+            assert (-a) - b == (-c);
+            assert b - (-a) == c;
+            assert a - (-b) == c;
+            assert (-c) - (-a) == (-b);
+            assert a - a == zero();
         }
     }
 
@@ -406,11 +406,11 @@ mod tests {
             let b = from_slice(Plus, bVec);
             let c = from_slice(Plus, cVec);
 
-            assert a.mul(b) == c;
-            assert b.mul(a) == c;
+            assert a * b == c;
+            assert b * a == c;
 
-            assert (-a).mul(b) == -c;
-            assert (-b).mul(a) == -c;
+            assert (-a) * b == -c;
+            assert (-b) * a == -c;
         }
 
         for divmod_quadruples.each |elm| {
@@ -420,8 +420,8 @@ mod tests {
             let c = from_slice(Plus, cVec);
             let d = from_slice(Plus, dVec);
 
-            assert a == b.mul(c).add(d);
-            assert a == c.mul(b).add(d);
+            assert a == b * c + d;
+            assert a == c * b + d;
         }
     }
     
@@ -433,7 +433,7 @@ mod tests {
                 assert m.sign == b.sign;
             }
             assert m.abs() <= b.abs();
-            assert a == b.mul(d).add(m);
+            assert a == b * d + m;
         }
         fn check_divmod(a: BigInt, b: BigInt, c: BigInt, d: BigInt) {
             check_divmod_sub(a, b);
@@ -450,9 +450,9 @@ mod tests {
                 // a == bc + d
                 assert a.divmod(b) == (c, d);
                 // a == (-b)(-c - 1) + (d - b)
-                assert a.divmod(-b) == ((-c).sub(one()), d.sub(b));
+                assert a.divmod(-b) == (-c - one(), d - b);
                 // (-a) == b (-c - 1) + (b - d)
-                assert (-a).divmod(b) == ((-c).sub(one()), b.sub(d));
+                assert (-a).divmod(b) == (-c - one(), b - d);
                 // (-a) == (-b)(c) - d
                 assert (-a).divmod(-b) == (c, -d);
             }
@@ -489,7 +489,7 @@ mod tests {
                 assert r.sign == a.sign;
             }
             assert r.abs() <= b.abs();
-            assert a == b.mul(q).add(r);
+            assert a == b * q + r;
         }
         fn check_quotrem(a: BigInt, b: BigInt, c: BigInt, d: BigInt) {
             check_quotrem_sub(a, b);
