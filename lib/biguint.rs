@@ -46,7 +46,7 @@ impl BigUint {
 
 pub pure fn from_slice(slice: &[BigDigit]) -> BigUint {
     let end = slice.rposition(|n| n != 0).map_default(0, |p| p + 1);
-    return BigUint { data: @[] + vec::view(slice, 0, end) };
+    return BigUint { data: at_vec::append(@[], vec::view(slice, 0, end)) };
 }
 
 pub pure fn from_at_vec(at_vec: @[BigDigit]) -> BigUint {
@@ -55,7 +55,7 @@ pub pure fn from_at_vec(at_vec: @[BigDigit]) -> BigUint {
         data: if end == at_vec.len() {
             at_vec
         } else {
-            @[] + vec::view(at_vec, 0, end)
+            at_vec::append(@[], vec::view(at_vec, 0, end))
         }
     };
 }
@@ -131,9 +131,9 @@ impl BigUint : Shl<uint, BigUint> {
                 carry = hi;
                 lo
             };
-            if carry != 0 { result + [carry] } else { result }
+            if carry != 0 { at_vec::append(result, [carry]) } else { result }
         };
-        return from_at_vec(if data.is_empty() { data } else { at_vec::from_elem(n_unit, 0) + data });
+        return from_at_vec(if data.is_empty() { data } else { at_vec::append(at_vec::from_elem(n_unit, 0), data) });
     }
 }
 
@@ -148,12 +148,12 @@ impl BigUint : Shr<uint, BigUint> {
             let mut borrow = 0;
             let mut result = @[];
             for vec::rev_each(self.data) |elt| {
-                result = @[ (*elt >> n_bits) | borrow ] + result;
+                result = at_vec::append(@[ (*elt >> n_bits) | borrow ], result);
                 borrow = *elt << (uint::bits - n_bits);
             }
             result
         };
-        return from_at_vec(if data.len() < n_unit { @[] } else { @[] + vec::view(data, n_unit, data.len()) });
+        return from_slice(if data.len() < n_unit { &[] } else { vec::view(data, n_unit, data.len() )});
     }
 }
 
@@ -166,7 +166,7 @@ impl BigUint : Num {
             carry = hi;
             lo
         };
-        return from_at_vec(if carry == 0 { sum } else { sum + [carry]});
+        return from_at_vec(if carry == 0 { sum } else { at_vec::append(sum, [carry]) });
     }
 
     pure fn sub(other: &BigUint) -> BigUint {
@@ -192,7 +192,7 @@ impl BigUint : Num {
                 carry = hi;
                 lo
             };
-            return from_at_vec(if carry == 0 { prod } else { prod + [carry]});
+            return from_at_vec(if carry == 0 { prod } else { at_vec::append(prod, [carry]) });
         }
 
         pure fn cut_at(a: &BigUint, n: uint) -> (BigUint, BigUint) {
@@ -350,11 +350,11 @@ impl BigUint : ExtNum {
             let mut r      = n;
             while r > divider {
                 let (d, r0) = r.divmod(&divider);
-                result += @[ r0.to_uint() as BigDigit ];
+                result = at_vec::append(result, &[ r0.to_uint() as BigDigit ]);
                 r = d;
             }
             if r.is_not_zero() {
-                result += @[ r.to_uint() as BigDigit ];
+                result = at_vec::append(result, &[ r.to_uint() as BigDigit ]);
             }
             return result;
         }
