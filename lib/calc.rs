@@ -2,12 +2,13 @@ use dvec::{ DVec };
 use cmp::{ Ord, Eq };
 use to_bytes::{ IterBytes };
 use hash::{ Hash };
+use num::{ from_int };
 use std::map::{ HashMap };
 
-pub fn each_fib(f: fn(uint)->bool) {
-    let mut (prev, cur) = (0, 1);
+pub fn each_fib<T: Num Copy>(f: fn(n: &T)->bool) {
+    let mut (prev, cur) = (from_int::<T>(0), from_int::<T>(1));
     loop {
-        if !f(cur) { break; }
+        if !f(&cur) { break; }
         let next = prev + cur;
         prev = cur;
         cur  = next;
