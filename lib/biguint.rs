@@ -158,7 +158,7 @@ impl BigUint : Shr<uint, BigUint> {
 }
 
 impl BigUint : Num {
-    pure fn add(&&other: BigUint) -> BigUint {
+    pure fn add(other: &BigUint) -> BigUint {
         let mut carry = 0;
         let sum = do at_vec::map(extvec::zip_default(self.data, other.data, (0, 0))) |elm| {
             let (ai, bi) = elm;
@@ -169,7 +169,7 @@ impl BigUint : Num {
         return from_at_vec(if carry == 0 { sum } else { sum + [carry]});
     }
 
-    pure fn sub(&&other: BigUint) -> BigUint {
+    pure fn sub(other: &BigUint) -> BigUint {
         let mut borrow = 0;
         let diff = do at_vec::map(extvec::zip_default(self.data, other.data, (0, 0))) |elm| {
             let (ai, bi) = elm;
@@ -181,10 +181,10 @@ impl BigUint : Num {
         return from_at_vec(diff);
     }
 
-    pure fn mul(&&other: BigUint) -> BigUint {
-        pure fn mul_uint(a: BigUint, n: BigDigit) -> BigUint {
+    pure fn mul(other: &BigUint) -> BigUint {
+        pure fn mul_uint(a: &BigUint, n: BigDigit) -> BigUint {
             if n == 0 { return zero(); }
-            if n == 1 { return a; }
+            if n == 1 { return *a; }
 
             let mut carry = 0;
             let prod = do at_vec::map(a.data) |ai| {
@@ -195,7 +195,7 @@ impl BigUint : Num {
             return from_at_vec(if carry == 0 { prod } else { prod + [carry]});
         }
 
-        pure fn cut_at(a: BigUint, n: uint) -> (BigUint, BigUint) {
+        pure fn cut_at(a: &BigUint, n: uint) -> (BigUint, BigUint) {
             let mid = uint::min(a.data.len(), n);
             return (from_slice(vec::view(a.data, mid, a.data.len())),
                     from_slice(vec::view(a.data, 0, mid)));
@@ -216,10 +216,10 @@ impl BigUint : Num {
         let sLen = self.data.len(), oLen = other.data.len();
         if sLen == 0 || oLen == 0 { return zero(); }
         if sLen == 1 { return mul_uint(other, self.data[0]); }
-        if oLen == 1 { return mul_uint(self, other.data[0]); }
+        if oLen == 1 { return mul_uint(&self, other.data[0]); }
 
         let spLen = uint::max(sLen, oLen) / 2;
-        let (sHi, sLo) = cut_at(self, spLen);
+        let (sHi, sLo) = cut_at(&self, spLen);
         let (oHi, oLo) = cut_at(other, spLen);
         let ll = sLo * oLo;
         let hh = sHi * oHi;
@@ -233,8 +233,8 @@ impl BigUint : Num {
         return ll + (mm << spLen * BigDigit::bits) + (hh << spLen * BigDigit::bits * 2);
     }
 
-    pure fn div(&&other: BigUint) -> BigUint    { self.divmod(other).first()  }
-    pure fn modulo(&&other: BigUint) -> BigUint { self.divmod(other).second() }
+    pure fn div(other: &BigUint) -> BigUint    { self.divmod(other).first()  }
+    pure fn modulo(other: &BigUint) -> BigUint { self.divmod(other).second() }
 
     pure fn neg() -> BigUint { fail }
 
@@ -242,7 +242,7 @@ impl BigUint : Num {
         uint::min(self.to_uint(), int::max_value as uint) as int
     }
 
-    static pure fn from_int(n: int) -> BigUint {
+    static pure fn from_int(++n: int) -> BigUint {
         return if (n < 0) { zero() } else { from_uint(n as uint) };
     }
 }
@@ -250,10 +250,10 @@ impl BigUint : Num {
 impl BigUint : ExtNum {
     pure fn abs() -> BigUint { self }
 
-    pure fn quot(&&other: BigUint) -> BigUint { self.quotrem(other).first() }
-    pure fn rem(&&other: BigUint) -> BigUint { self.quotrem(other).second() }
+    pure fn quot(other: &BigUint) -> BigUint { self.quotrem(other).first() }
+    pure fn rem(other: &BigUint) -> BigUint { self.quotrem(other).second() }
 
-    pure fn divmod(&&other: BigUint) -> (BigUint, BigUint) {
+    pure fn divmod(other: &BigUint) -> (BigUint, BigUint) {
         pure fn div_estimate(a: BigUint, b: BigUint, n: uint) -> (BigUint, BigUint, BigUint) {
             if a.data.len() < n { return (zero(), zero(), a); }
 
@@ -298,9 +298,9 @@ impl BigUint : ExtNum {
         let sLen = self.data.len(), oLen = other.data.len();
         if oLen == 0 { fail }
         if sLen == 0 { return (zero(), zero()); }
-        if other == from_uint(1) { return (self, zero()); }
+        if *other == one() { return (self, zero()); }
 
-        match self.cmp(&other) {
+        match self.cmp(other) {
             Lt => return (zero(), self),
             Eq => return (one(), zero()),
             Gt => {} // Do nothing
@@ -316,7 +316,7 @@ impl BigUint : ExtNum {
         return (d, m >> shift);
     }
 
-    pure fn quotrem(&&other: BigUint) -> (BigUint, BigUint) { self.divmod(other) }
+    pure fn quotrem(other: &BigUint) -> (BigUint, BigUint) { self.divmod(other) }
 
     #[inline(always)]
     pure fn is_zero() -> bool { self.data.is_empty() }
@@ -349,7 +349,7 @@ impl BigUint : ExtNum {
             let mut result = @[];
             let mut r      = n;
             while r > divider {
-                let (d, r0) = r.divmod(divider);
+                let (d, r0) = r.divmod(&divider);
                 result += @[ r0.to_uint() as BigDigit ];
                 r = d;
             }
@@ -611,8 +611,8 @@ mod tests {
             let b = from_slice(bVec);
             let c = from_slice(cVec);
 
-            if a != zero() { assert c.divmod(a) == (b, zero()); }
-            if b != zero() { assert c.divmod(b) == (a, zero()); }
+            if a != zero() { assert c.divmod(&a) == (b, zero()); }
+            if b != zero() { assert c.divmod(&b) == (a, zero()); }
         }
 
         for divmod_quadruples.each |elm| {
@@ -622,7 +622,7 @@ mod tests {
             let c = from_slice(cVec);
             let d = from_slice(dVec);
 
-            if b != zero() { assert a.divmod(b) == (c, d); }
+            if b != zero() { assert a.divmod(&b) == (c, d); }
         }
     }
 

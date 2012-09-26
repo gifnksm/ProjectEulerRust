@@ -13,9 +13,9 @@ pub trait Unwrap<T> {
 pub struct Sum<T> { repr: T }
 pub pure fn Sum<T>(val: T) -> Sum<T> { Sum { repr: val } }
 
-impl<T: Num> Sum<T> : Monoid {
+impl<T: Num Copy> Sum<T> : Monoid {
     static pure fn mempty() -> Sum<T> { Sum(num::from_int(0)) }
-    pure fn mappend(&self, other: &Sum<T>) -> Sum<T> { Sum(self.repr.add(other.repr)) }
+    pure fn mappend(&self, other: &Sum<T>) -> Sum<T> { Sum(self.repr + other.repr) }
 }
 
 impl<T: Copy> Sum<T> : Unwrap<T> {
@@ -30,9 +30,9 @@ impl<T: cmp::Eq> Sum<T> : cmp::Eq {
 pub struct Prod<T> { repr: T }
 pub pure fn Prod<T>(val: T) -> Prod<T> { Prod { repr: val }}
 
-impl<T: Num> Prod<T> : Monoid {
+impl<T: Num Copy> Prod<T> : Monoid {
     static pure fn mempty() -> Prod<T> { Prod(num::from_int(1)) }
-    pure fn mappend(&self, other: &Prod<T>) -> Prod<T> { Prod(self.repr.mul(other.repr)) }
+    pure fn mappend(&self, other: &Prod<T>) -> Prod<T> { Prod(self.repr * other.repr) }
 }
 
 impl<T: Copy> Prod<T> : Unwrap<T> {

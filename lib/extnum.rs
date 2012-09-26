@@ -54,10 +54,10 @@ impl Sign : Ord {
 
 pub trait ExtNum {
     pure fn abs() -> self;
-    pure fn quot(&&other: self) -> self;
-    pure fn rem(&&other: self) -> self;
-    pure fn divmod(&&other: self) -> (self, self);
-    pure fn quotrem(&&other: self) -> (self, self);
+    pure fn quot(other: &self) -> self;
+    pure fn rem(other: &self) -> self;
+    pure fn divmod(other: &self) -> (self, self);
+    pure fn quotrem(other: &self) -> (self, self);
 
     pure fn is_zero() -> bool;
     pure fn is_not_zero() -> bool;

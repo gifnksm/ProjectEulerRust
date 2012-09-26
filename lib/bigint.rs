@@ -66,17 +66,17 @@ impl BigInt : Shr<uint, BigInt> {
 }
 
 impl BigInt : Num {
-    pure fn add(&&other: BigInt) -> BigInt {
+    pure fn add(other: &BigInt) -> BigInt {
         match (self.sign, other.sign) {
-            (Zero, _)      => other,
+            (Zero, _)      => *other,
             (_,    Zero)   => self,
             (Plus, Plus)   => from_biguint(Plus, self.data + other.data),
-            (Plus, Minus)  => self - (-other),
+            (Plus, Minus)  => self - (-*other),
             (Minus, Plus)  => other - (-self),
-            (Minus, Minus) => -((-self) + (-other))
+            (Minus, Minus) => -((-self) + (-*other))
         }
     }
-    pure fn sub(&&other: BigInt) -> BigInt {
+    pure fn sub(other: &BigInt) -> BigInt {
         match (self.sign, other.sign) {
             (Zero, _)    => -other,
             (_,    Zero) => self,
@@ -85,20 +85,20 @@ impl BigInt : Num {
                 Eq => zero(),
                 Gt => from_biguint(Plus, self.data - other.data)
             },
-            (Plus, Minus) => self + (-other),
-            (Minus, Plus) => -((-self) + other),
+            (Plus, Minus) => self + (-*other),
+            (Minus, Plus) => -((-self) + *other),
             (Minus, Minus) => (-other) - (-self)
         }
     }
-    pure fn mul(&&other: BigInt) -> BigInt {
+    pure fn mul(other: &BigInt) -> BigInt {
         match (self.sign, other.sign) {
             (Zero, _)     | (_,     Zero)  => zero(),
             (Plus, Plus)  | (Minus, Minus) => from_biguint(Plus, self.data * other.data),
             (Plus, Minus) | (Minus, Plus)  => from_biguint(Minus, self.data * other.data)
         }
     }
-    pure fn div(&&other: BigInt) -> BigInt { self.divmod(other).first() }
-    pure fn modulo(&&other: BigInt) -> BigInt { self.divmod(other).second() }
+    pure fn div(other: &BigInt) -> BigInt { self.divmod(other).first() }
+    pure fn modulo(other: &BigInt) -> BigInt { self.divmod(other).second() }
     pure fn neg() -> BigInt { from_biguint(self.sign.neg(), self.data) }
 
     pure fn to_int() -> int {
@@ -108,7 +108,7 @@ impl BigInt : Num {
             Minus => uint::min((-self).to_uint(), (int::max_value as uint) + 1) as int
         }
     }
-    static pure fn from_int(n: int) -> BigInt {
+    static pure fn from_int(++n: int) -> BigInt {
         if n > 0 { return from_biguint(Plus,  from_uint(n as uint)); }
         if n < 0 { return from_biguint(Minus, from_uint(uint::max_value - (n as uint) + 1)); }
         return zero();
@@ -118,12 +118,12 @@ impl BigInt : Num {
 impl BigInt : ExtNum {
     pure fn abs() -> BigInt { from_biguint(Plus, self.data) }
 
-    pure fn quot(&&other: BigInt) -> BigInt { self.quotrem(other).first() }
-    pure fn rem(&&other: BigInt) -> BigInt { self.quotrem(other).second() }
+    pure fn quot(other: &BigInt) -> BigInt { self.quotrem(other).first() }
+    pure fn rem(other: &BigInt) -> BigInt { self.quotrem(other).second() }
 
-    pure fn divmod(&&other: BigInt) -> (BigInt, BigInt) {
+    pure fn divmod(other: &BigInt) -> (BigInt, BigInt) {
         // m.sign == other.sign
-        let (d_ui, m_ui) = self.data.divmod(other.data);
+        let (d_ui, m_ui) = self.data.divmod(&other.data);
         let d = from_biguint(Plus, d_ui), m = from_biguint(Plus, m_ui);
         match (self.sign, other.sign) {
             (_,    Zero)   => fail,
@@ -136,7 +136,7 @@ impl BigInt : ExtNum {
                 //   = abs(o) d + m
                 //   = o(-d) + m
                 //   = o(-d - 1) + (m + o)
-                (-d - one(), m + other)
+                (-d - one(), m + *other)
             },
             (Minus, Plus) => if m.is_zero() {
                 (-d, zero())
@@ -160,9 +160,9 @@ impl BigInt : ExtNum {
         }
     }
 
-    pure fn quotrem(&&other: BigInt) -> (BigInt, BigInt) {
+    pure fn quotrem(other: &BigInt) -> (BigInt, BigInt) {
         // m.sign == self.sign
-        let (q_ui, r_ui) = self.data.quotrem(other.data);
+        let (q_ui, r_ui) = self.data.quotrem(&other.data);
         let q = from_biguint(Plus, q_ui), r = from_biguint(Plus, r_ui);
         match (self.sign, other.sign) {
             (_,    Zero)   => fail,
@@ -428,7 +428,7 @@ mod tests {
     #[test]
     fn test_divmod() {
         fn check_divmod_sub(a: BigInt, b: BigInt) {
-            let (d, m) = a.divmod(b);
+            let (d, m) = a.divmod(&b);
             if m.is_not_zero() {
                 assert m.sign == b.sign;
             }
@@ -442,19 +442,19 @@ mod tests {
             check_divmod_sub(-a, -b);
 
             if d.is_zero() {
-                assert a.divmod(b)     == (c, zero());
-                assert (-a).divmod(b)  == (-c, zero());
-                assert (a).divmod(-b)  == (-c, zero());
-                assert (-a).divmod(-b) == (c, zero());
+                assert a.divmod(&b)     == (c, zero());
+                assert (-a).divmod(&b)  == (-c, zero());
+                assert (a).divmod(&-b)  == (-c, zero());
+                assert (-a).divmod(&-b) == (c, zero());
             } else {
                 // a == bc + d
-                assert a.divmod(b) == (c, d);
+                assert a.divmod(&b) == (c, d);
                 // a == (-b)(-c - 1) + (d - b)
-                assert a.divmod(-b) == (-c - one(), d - b);
+                assert a.divmod(&-b) == (-c - one(), d - b);
                 // (-a) == b (-c - 1) + (b - d)
-                assert (-a).divmod(b) == (-c - one(), b - d);
+                assert (-a).divmod(&b) == (-c - one(), b - d);
                 // (-a) == (-b)(c) - d
-                assert (-a).divmod(-b) == (c, -d);
+                assert (-a).divmod(&-b) == (c, -d);
             }
         }
         for mul_triples.each |elm| {
@@ -484,7 +484,7 @@ mod tests {
     #[test]
     fn test_quotrem() {
         fn check_quotrem_sub(a: BigInt, b: BigInt) {
-            let (q, r) = a.quotrem(b);
+            let (q, r) = a.quotrem(&b);
             if r.is_not_zero() {
                 assert r.sign == a.sign;
             }
@@ -498,19 +498,19 @@ mod tests {
             check_quotrem_sub(-a, -b);
 
             if d.is_zero() {
-                assert a.quotrem(b)     == (c, zero());
-                assert (-a).quotrem(b)  == (-c, zero());
-                assert (a).quotrem(-b)  == (-c, zero());
-                assert (-a).quotrem(-b) == (c, zero());
+                assert a.quotrem(&b)     == (c, zero());
+                assert (-a).quotrem(&b)  == (-c, zero());
+                assert (a).quotrem(&-b)  == (-c, zero());
+                assert (-a).quotrem(&-b) == (c, zero());
             } else {
                 // a == bc + d
-                assert a.quotrem(b) == (c, d);
+                assert a.quotrem(&b) == (c, d);
                 // a == (-b)(-c) + d
-                assert a.quotrem(-b) == (-c, d);
+                assert a.quotrem(&-b) == (-c, d);
                 // (-a) == b (-c) + (-d)
-                assert (-a).quotrem(b) == (-c, -d);
+                assert (-a).quotrem(&b) == (-c, -d);
                 // (-a) == (-b)(c) - d
-                assert (-a).quotrem(-b) == (c, -d);
+                assert (-a).quotrem(&-b) == (c, -d);
             }
         }
         for mul_triples.each |elm| {
