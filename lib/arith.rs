@@ -1,4 +1,4 @@
-pure fn isqrt(n: uint) -> uint {
+pub pure fn isqrt(n: uint) -> uint {
     let mut (min, max) = (0, n);
     while min < max {
         let mid = (min + max + 1) / 2;

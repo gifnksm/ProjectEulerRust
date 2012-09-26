@@ -7,13 +7,13 @@
 
 extern mod std;
 
-mod bounded;
-mod extcmp;
-mod extnum;
-mod extvec;
-mod arith;
-mod calc;
-mod prime;
-mod monoid;
-mod biguint;
-mod bigint;
+pub mod bounded;
+pub mod extcmp;
+pub mod extnum;
+pub mod extvec;
+pub mod arith;
+pub mod calc;
+pub mod prime;
+pub mod monoid;
+pub mod biguint;
+pub mod bigint;
