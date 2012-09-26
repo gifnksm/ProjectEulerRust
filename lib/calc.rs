@@ -20,7 +20,7 @@ pub fn factorial(n: uint) -> uint {
     return prod;
 }
 
-fn histogram<T: Eq IterBytes Hash Const Copy>(v: &[T]) -> HashMap<T, uint> {
+pub fn histogram<T: Eq IterBytes Hash Const Copy>(v: &[T]) -> HashMap<T, uint> {
     let map = HashMap::<T, uint>();
     for v.each |k| {
         let val = do map.find(*k).map_default(1) |v| { v + 1 };
