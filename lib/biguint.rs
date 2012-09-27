@@ -45,12 +45,12 @@ impl BigUint {
 }
 
 pub pure fn from_slice(slice: &[BigDigit]) -> BigUint {
-    let end = slice.rposition(|n| n != 0).map_default(0, |p| p + 1);
+    let end = slice.rposition(|n| n != 0).map_default(0, |p| *p + 1);
     return BigUint { data: at_vec::append(@[], vec::view(slice, 0, end)) };
 }
 
 pub pure fn from_at_vec(at_vec: @[BigDigit]) -> BigUint {
-    let end = at_vec.rposition(|n| n != 0).map_default(0, |p| p + 1) ;
+    let end = at_vec.rposition(|n| n != 0).map_default(0, |p| *p + 1) ;
     return BigUint {
         data: if end == at_vec.len() {
             at_vec
@@ -127,7 +127,7 @@ impl BigUint : Shl<uint, BigUint> {
         } else {
             let mut carry = 0;
             let result = do at_vec::map(self.data) |elt| {
-                let (hi, lo) = BigDigit::from_uint((elt as uint) << n_bits | (carry as uint));
+                let (hi, lo) = BigDigit::from_uint((*elt as uint) << n_bits | (carry as uint));
                 carry = hi;
                 lo
             };
@@ -161,7 +161,7 @@ impl BigUint : Num {
     pure fn add(other: &BigUint) -> BigUint {
         let mut carry = 0;
         let sum = do at_vec::map(extvec::zip_default(self.data, other.data, (0, 0))) |elm| {
-            let (ai, bi) = elm;
+            let &(ai, bi) = elm;
             let (hi, lo) = BigDigit::from_uint((ai as uint) + (bi as uint) + (carry as uint));
             carry = hi;
             lo
@@ -172,7 +172,7 @@ impl BigUint : Num {
     pure fn sub(other: &BigUint) -> BigUint {
         let mut borrow = 0;
         let diff = do at_vec::map(extvec::zip_default(self.data, other.data, (0, 0))) |elm| {
-            let (ai, bi) = elm;
+            let &(ai, bi) = elm;
             let (hi, lo) = BigDigit::from_uint((BigDigit::base) + (ai as uint) - (bi as uint) - (borrow as uint));
             borrow = if hi == 0 { 1 }  else { 0 };
             lo
@@ -188,7 +188,7 @@ impl BigUint : Num {
 
             let mut carry = 0;
             let prod = do at_vec::map(a.data) |ai| {
-                let (hi, lo) = BigDigit::from_uint((ai as uint) * (n as uint) + (carry as uint));
+                let (hi, lo) = BigDigit::from_uint((*ai as uint) * (n as uint) + (carry as uint));
                 carry = hi;
                 lo
             };

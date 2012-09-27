@@ -244,7 +244,7 @@ impl BigInt : ExtNum {
             sign  = Minus;
             start = 1;
         }
-        return parse_bytes::<BigUint>(vec::view(buf, start, buf.len()), radix).map(|bu| from_biguint(sign, bu));
+        return parse_bytes::<BigUint>(vec::view(buf, start, buf.len()), radix).map(|bu| from_biguint(sign, *bu));
     }
 
     static fn from_str_radix(s: &str, radix: uint) -> Option<BigInt> { extnum::parse_bytes(str::to_bytes(s), radix) }

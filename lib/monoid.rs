@@ -93,16 +93,16 @@ pub fn merge<T: Copy Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)]) -> ~
     while (itr1.is_not_empty() && itr2.is_not_empty()) {
         let ((v1, m1), (v2, m2)) = (itr1.head(), itr2.head());
         if v1 < v2 {
-            vec::push(result, (v1, m1));
+            result.push((v1, m1));
             itr1 = vec::view(itr1, 1u, itr1.len());
             loop;
         }
         if v2 < v1 {
-            vec::push(result, (v2, m2));
+            result.push((v2, m2));
             itr2 = vec::view(itr2, 1u, itr2.len());
             loop;
         }
-        vec::push(result, (v1, m1.mappend(&m2)));
+        result.push((v1, m1.mappend(&m2)));
         itr1 = vec::view(itr1, 1u, itr1.len());
         itr2 = vec::view(itr2, 1u, itr2.len());
     }

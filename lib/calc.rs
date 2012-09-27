@@ -24,7 +24,7 @@ pub fn factorial(n: uint) -> uint {
 pub fn histogram<T: Eq IterBytes Hash Const Copy>(v: &[T]) -> HashMap<T, uint> {
     let map = HashMap::<T, uint>();
     for v.each |k| {
-        let val = do map.find(*k).map_default(1) |v| { v + 1 };
+        let val = do map.find(*k).map_default(1) |v| { *v + 1 };
         map.insert(*k, val);
     }
     return map;
@@ -43,9 +43,9 @@ mod tests {
     fn test_each_fib() {
         let fib = ~[ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
         let mut calc = ~[];
-        for each_fib |f| {
-            if f > fib.last() { break; }
-            calc += [ f ];
+        for each_fib |f: &uint| {
+            if *f > fib.last() { break; }
+            calc += [ *f ];
         }
         assert fib == calc;
     }
