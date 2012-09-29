@@ -1,10 +1,10 @@
 fn find_max_uint(ns: &[uint]) -> uint {
-    vec::foldl(0u, ns, |acc, n| uint::max(acc, n))
+    vec::foldl(0u, ns, |acc, n| uint::max(acc, *n))
 }
 
 fn find_max_row(row: &[uint], prod_len: uint) -> uint {
     let wins = vec::windowed(prod_len, row);
-    let prods = vec::map(wins, |ns| vec::foldl(1u, *ns, |acc, n| acc * n ) );
+    let prods = vec::map(wins, |ns| vec::foldl(1u, *ns, |acc, n| acc * *n ) );
     find_max_uint(prods)
 }
 

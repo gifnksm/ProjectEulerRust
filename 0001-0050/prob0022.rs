@@ -41,7 +41,7 @@ fn read_whole_name(input: &a/str) -> Option<~[&a/str]> {
 
 fn get_score(pair: &(uint, &str)) -> uint {
     let (n, s) = *pair;
-    n * str::as_bytes_slice(s).map(|c| *c - ('A' as u8) + 1).foldl(0 as uint, |s, e| s + e as uint)
+    n * str::as_bytes_slice(s).map(|c| *c - ('A' as u8) + 1).foldl(0 as uint, |s, e| *s + *e as uint)
 }
 
 fn main() {

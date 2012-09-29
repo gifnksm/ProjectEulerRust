@@ -102,8 +102,8 @@ fn main() {
 53503534226472524250874054075591789781264330331690";
 
     let sum = vec::foldl(0u, do vec::filter_map(str::lines(str::trim(input))) |line| {
-        uint::from_str(str::slice(line, 0u, 12u))
-    }, |sum, num| sum + num);
+        uint::from_str(str::slice(*line, 0u, 12u))
+    }, |sum, num| sum + *num);
 
     io::println(str::slice(#fmt("%u", sum), 0u, 10u));
 }

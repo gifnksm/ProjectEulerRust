@@ -45,12 +45,12 @@ impl BigUint {
 }
 
 pub pure fn from_slice(slice: &[BigDigit]) -> BigUint {
-    let end = slice.rposition(|n| n != 0).map_default(0, |p| *p + 1);
+    let end = slice.rposition(|n| *n != 0).map_default(0, |p| *p + 1);
     return BigUint { data: at_vec::append(@[], vec::view(slice, 0, end)) };
 }
 
 pub pure fn from_at_vec(at_vec: @[BigDigit]) -> BigUint {
-    let end = at_vec.rposition(|n| n != 0).map_default(0, |p| *p + 1) ;
+    let end = at_vec.rposition(|n| *n != 0).map_default(0, |p| *p + 1) ;
     return BigUint {
         data: if end == at_vec.len() {
             at_vec
