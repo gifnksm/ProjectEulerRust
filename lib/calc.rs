@@ -37,6 +37,17 @@ pub fn num_of_permutations<T: Eq IterBytes Hash Copy>(hist: HashMap<T, uint>) ->
     return factorial(sum) / div;
 }
 
+pub fn get_gcd(a: uint, b: uint) -> uint {
+    let mut p = uint::max(a, b);
+    let mut q = uint::min(a, b);
+    loop {
+        let mut r = p % q;
+        if r == 0 { return q; }
+        p = q;
+        q = r;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
@@ -79,5 +90,12 @@ mod tests {
         assert num_of_permutations(histogram(&[1, 2, 3])) == 6;
         assert num_of_permutations(histogram(&[1, 1, 1, 2, 3])) == 20;
         assert num_of_permutations(histogram(&[1, 1, 1, 2, 3, 1, 1])) == 42;
+    }
+
+    #[test]
+    fn test_get_gcd() {
+        assert get_gcd(2, 2) == 2;
+        assert get_gcd(100, 99) == 1;
+        assert get_gcd(8 * 3, 8 * 5) == 8;
     }
 }
