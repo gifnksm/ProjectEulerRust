@@ -2,6 +2,9 @@ extern mod std;
 use std::sort::{ merge_sort };
 use std::map::{ HashMap, set_add };
 
+extern mod euler;
+use euler::calc::{ num_to_digits };
+
 // possible num of digits combinations
 // 1 x 1 = 7 : NG 10 * 10
 // 1 x 2 = 6 : NG 10 * 100
@@ -10,37 +13,6 @@ use std::map::{ HashMap, set_add };
 // 2 x 2 = 5 : NG 100 * 100 = 10000
 // 2 x 3 = 4 : OK
 // 3 x 3 = 3 : NG
-
-pure fn num_to_digits(n: uint) -> ~[uint] {
-    let buf = [mut
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0,
-
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0
-              ]/64;
-    let mut filled_idx = buf.len();
-    let mut itr = n;
-    while itr != 0 {
-        buf[filled_idx - 1] = itr % 10;
-        filled_idx -= 1;
-        itr /= 10;
-    }
-    return vec::from_slice(vec::view(buf, filled_idx, buf.len()));
-}
-
-pure fn digits_to_num(v: &[uint]) -> uint {
-    let mut num = 0;
-    for v.each |n| {
-        num *= 10;
-        num += *n;
-    }
-    return num;
-}
 
 pure fn fill_zero(v: &[uint], n: uint) -> ~[uint] {
     assert n >= v.len();

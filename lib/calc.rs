@@ -48,6 +48,38 @@ pub fn get_gcd(a: uint, b: uint) -> uint {
     }
 }
 
+pub pure fn num_to_digits(n: uint) -> ~[uint] {
+    let buf = [mut
+               0, 0, 0, 0,  0, 0, 0, 0,
+               0, 0, 0, 0,  0, 0, 0, 0,
+               0, 0, 0, 0,  0, 0, 0, 0,
+               0, 0, 0, 0,  0, 0, 0, 0,
+
+               0, 0, 0, 0,  0, 0, 0, 0,
+               0, 0, 0, 0,  0, 0, 0, 0,
+               0, 0, 0, 0,  0, 0, 0, 0,
+               0, 0, 0, 0,  0, 0, 0, 0
+              ]/64;
+    let mut filled_idx = buf.len();
+    let mut itr = n;
+    while itr != 0 {
+        buf[filled_idx - 1] = itr % 10;
+        filled_idx -= 1;
+        itr /= 10;
+    }
+    return vec::from_slice(vec::view(buf, filled_idx, buf.len()));
+}
+
+pub pure fn digits_to_num(v: &[uint]) -> uint {
+    let mut num = 0;
+    for v.each |n| {
+        num *= 10;
+        num += *n;
+    }
+    return num;
+}
+
+
 #[cfg(test)]
 mod tests {
     #[test]
@@ -97,5 +129,34 @@ mod tests {
         assert get_gcd(2, 2) == 2;
         assert get_gcd(100, 99) == 1;
         assert get_gcd(8 * 3, 8 * 5) == 8;
+    }
+
+    #[test]
+    fn test_num_to_digits() {
+        assert num_to_digits(0) == ~[];
+        assert num_to_digits(1) == ~[1];
+        assert num_to_digits(10) == ~[1, 0];
+    }
+
+    #[cfg(target_arch = "x86_64")]
+    #[test]
+    fn test_num_to_digits_64() {
+            assert num_to_digits(-1) == ~[1, 8, 4, 4, 6, 7, 4, 4, 0, 7, 3, 7, 0, 9, 5, 5, 1, 6, 1, 5];
+    }
+
+    #[cfg(target_arch = "x86")]
+    #[cfg(target_arch = "arm")]
+    #[test]
+    fn test_num_to_digits_32() {
+            assert num_to_digits(-1) == ~[4, 2, 9, 4, 9, 6, 7, 2, 9, 5];
+    }
+
+    #[test]
+    fn test_digits_to_num() {
+        assert digits_to_num(~[]) == 0;
+        assert digits_to_num(~[1]) == 1;
+        assert digits_to_num(~[1, 2, 3]) == 123;
+        assert digits_to_num(~[0, 0, 1, 2, 3]) == 123;
+        assert digits_to_num(~[1, 2, 3, 0, 0]) == 12300;
     }
 }
