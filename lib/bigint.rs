@@ -108,7 +108,7 @@ impl BigInt : Num {
             Minus => uint::min((-self).to_uint(), (int::max_value as uint) + 1) as int
         }
     }
-    static pure fn from_int(++n: int) -> BigInt {
+    static pure fn from_int(n: int) -> BigInt {
         if n > 0 { return from_biguint(Plus,  from_uint(n as uint)); }
         if n < 0 { return from_biguint(Minus, from_uint(uint::max_value - (n as uint) + 1)); }
         return zero();

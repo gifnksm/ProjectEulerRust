@@ -8,7 +8,7 @@ use euler::prime::{ Prime, factors };
 
 impl (uint, uint) : IterBytes {
     #[inline(always)]
-    pure fn iter_bytes(++lsb0: bool, f: Cb) {
+    pure fn iter_bytes(lsb0: bool, f: Cb) {
         if lsb0 {
             self.first().iter_bytes(lsb0, f);
             self.second().iter_bytes(lsb0, f);

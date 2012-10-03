@@ -242,7 +242,7 @@ impl BigUint : Num {
         uint::min(self.to_uint(), int::max_value as uint) as int
     }
 
-    static pure fn from_int(++n: int) -> BigUint {
+    static pure fn from_int(n: int) -> BigUint {
         return if (n < 0) { zero() } else { from_uint(n as uint) };
     }
 }
