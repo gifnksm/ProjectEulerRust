@@ -21,8 +21,8 @@ pure fn fill_zero(v: &[uint], n: uint) -> ~[uint] {
 
 pure fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
                       f: fn(uint, &[uint])->bool) {
-    let min_vec = fill_zero(num_to_digits(min), len);
-    let max_vec = fill_zero(num_to_digits(max), len);
+    let min_vec = fill_zero(num_to_digits(min, 10), len);
+    let max_vec = fill_zero(num_to_digits(max, 10), len);
     perm_sub(digits, len, to_some(min_vec), to_some(max_vec), f);
 
     pure fn to_some(v: &a/[uint]) -> Option<&a/[uint]> { Some(v) }
@@ -78,7 +78,7 @@ fn main() {
     for permutate_num(digits, 1, 0, 9) |a, ds| {
         for permutate_num(ds, 4, 1000, 9999 / a) |b, ds| {
             let c = a * b;
-            let c_digits = merge_sort(|a, b| a <= b, num_to_digits(c));
+            let c_digits = merge_sort(|a, b| a <= b, num_to_digits(c, 10));
             if vec::eq(c_digits, ds) { set_add(answer, c); }
         }
     }
@@ -92,7 +92,7 @@ fn main() {
     for permutate_num(digits, 2, 10, 99) |a, ds| {
         for permutate_num(ds, 3, 100, 9999 / a) |b, ds| {
             let c = a * b;
-            let c_digits = merge_sort(|a, b| a <= b, num_to_digits(c));
+            let c_digits = merge_sort(|a, b| a <= b, num_to_digits(c, 10));
             if vec::eq(c_digits, ds) { set_add(answer, c); }
         }
     }
