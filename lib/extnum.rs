@@ -1,5 +1,6 @@
+use cmp::{ Ord, Eq };
 use extcmp::{ Cmp, Eq, Lt, Gt, ExtOrd };
-use cmp::{ Cmp, Ord };
+
 
 pub enum Sign {
     Minus, Zero, Plus
