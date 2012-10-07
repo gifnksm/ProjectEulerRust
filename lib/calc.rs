@@ -79,6 +79,56 @@ pub pure fn digits_to_num(v: &[uint], radix: uint) -> uint {
     return num;
 }
 
+pub pure fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
+                      f: fn(uint, &[uint])->bool) {
+    let min_vec = fill_zero(num_to_digits(min, 10), len);
+    let max_vec = fill_zero(num_to_digits(max, 10), len);
+    return perm_sub(digits, len, to_some(min_vec), to_some(max_vec), f);
+
+    pure fn fill_zero(v: &[uint], n: uint) -> ~[uint] {
+        assert n >= v.len();
+        vec::from_elem(n - v.len(), 0) + v
+    }
+
+    pure fn to_some(v: &a/[uint]) -> Option<&a/[uint]> { Some(v) }
+
+    pure fn perm_sub(digits: &[uint], len: uint, min: Option<&[uint]>, max: Option<&[uint]>,
+                     f: fn(uint, &[uint])->bool) {
+        if len == 0 {
+            f(0, digits);
+            return;
+        }
+
+        let unit = {
+            let mut tmp = 1;
+            for (len-1).times { tmp *= 10 }
+            tmp
+        };
+
+        let buf = vec::to_mut(vec::from_elem(digits.len() - 1, 0));
+
+        for digits.eachi |i, np| {
+            let n = *np;
+
+            let min_vec = match min {
+                Some(v) if n <  v[0] => loop,
+                Some(v) if n == v[0] => Some(vec::view(v, 1, v.len())),
+                _ => None
+            };
+            let max_vec = match max {
+                Some(v) if n >  v[0] => loop,
+                Some(v) if n == v[0] => Some(vec::view(v, 1, v.len())),
+                _ => None
+            };
+
+            for uint::range(0, i)         |j| { buf[j] = digits[j]; }
+            for uint::range(i, buf.len()) |j| { buf[j] = digits[j + 1]; }
+            for perm_sub(buf, len - 1, min_vec, max_vec) |num, ds| {
+                if !f(num + n * unit, ds) { return; }
+            }
+        }
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -158,5 +208,30 @@ mod tests {
         assert digits_to_num(~[1, 2, 3], 10) == 123;
         assert digits_to_num(~[0, 0, 1, 2, 3], 10) == 123;
         assert digits_to_num(~[1, 2, 3, 0, 0], 10) == 12300;
+    }
+
+    #[test]
+    fn test_permutate_num() {
+        let mut nums = ~[ 123, 124, 125, 132, 134, 135, 142, 143, 145, 152, 153, 154,
+                          213, 214, 215, 231, 234, 235, 241, 243, 245, 251, 253, 254,
+                          312, 314, 315, 321, 324, 325, 341, 342, 345, 351, 352, 354,
+                          412, 413, 415, 421, 423, 425, 431, 432, 435, 451, 452, 453,
+                          512, 513, 514, 521, 523, 524, 531, 532, 534, 541, 542, 543];
+        for permutate_num(&[1,2,3,4,5], 3, 0, 555) |n, rest| {
+            assert n == vec::shift(&mut nums);
+        }
+
+        let mut nums = ~[ 123, 124, 125, 132, 134, 135, 142, 143, 145, 152, 153, 154,
+                          213, 214, 215, 231, 234, 235, 241, 243, 245, 251, 253, 254,
+                          312, 314, 315, 321, 324, 325, 341, 342, 345, 351, 352, 354,
+                          412, 413, 415, 421, 423, 425, 431, 432, 435, 451, 452, 453,
+                          512, 513, 514, 521, 523, 524, 531, 532, 534, 541, 542, 543];
+        for permutate_num(&[1,2,3,4,5], 3, 140, 300) |n, rest| {
+            let mut num = vec::shift(&mut nums);
+            while num < 140 || 300 < num {
+                num = vec::shift(&mut nums);
+            }
+            assert n == num;
+        }
     }
 }

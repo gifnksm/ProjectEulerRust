@@ -3,7 +3,7 @@ use std::sort::{ merge_sort };
 use std::map::{ HashMap, set_add };
 
 extern mod euler;
-use euler::calc::{ num_to_digits };
+use euler::calc::{ num_to_digits, permutate_num };
 
 // possible num of digits combinations
 // 1 x 1 = 7 : NG 10 * 10
@@ -13,57 +13,6 @@ use euler::calc::{ num_to_digits };
 // 2 x 2 = 5 : NG 100 * 100 = 10000
 // 2 x 3 = 4 : OK
 // 3 x 3 = 3 : NG
-
-pure fn fill_zero(v: &[uint], n: uint) -> ~[uint] {
-    assert n >= v.len();
-    vec::from_elem(n - v.len(), 0) + v
-}
-
-pure fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
-                      f: fn(uint, &[uint])->bool) {
-    let min_vec = fill_zero(num_to_digits(min, 10), len);
-    let max_vec = fill_zero(num_to_digits(max, 10), len);
-    perm_sub(digits, len, to_some(min_vec), to_some(max_vec), f);
-
-    pure fn to_some(v: &a/[uint]) -> Option<&a/[uint]> { Some(v) }
-    
-    pure fn perm_sub(digits: &[uint], len: uint, min: Option<&[uint]>, max: Option<&[uint]>,
-                     f: fn(uint, &[uint])->bool) {
-        if len == 0 {
-            f(0, digits);
-            return;
-        }
-
-        let unit = {
-            let mut tmp = 1;
-            for (len-1).times { tmp *= 10 }
-            tmp
-        };
-
-        let buf = vec::to_mut(vec::from_elem(digits.len() - 1, 0));
-        
-        for digits.eachi |i, np| {
-            let n = *np;
-
-            let min_vec = match min {
-                Some(v) if n <  v[0] => loop,
-                Some(v) if n == v[0] => Some(vec::view(v, 1, v.len())),
-                _ => None
-            };
-            let max_vec = match max {
-                Some(v) if n >  v[0] => loop,
-                Some(v) if n == v[0] => Some(vec::view(v, 1, v.len())),
-                _ => None
-            };
-
-            for uint::range(0, i)         |j| { buf[j] = digits[j]; }
-            for uint::range(i, buf.len()) |j| { buf[j] = digits[j + 1]; }
-            for perm_sub(buf, len - 1, min_vec, max_vec) |num, ds| {
-                if !f(num + n * unit, ds) { return; }
-            }
-        }
-    }
-}
 
 fn main() {
     let digits = &[1, 2, 3, 4, 5, 6, 7, 8, 9];
