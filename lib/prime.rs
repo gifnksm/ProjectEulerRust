@@ -63,11 +63,11 @@ impl Prime {
     }
 }
 
-priv fn div_multi(&num: uint, f: uint) -> uint {
+priv fn div_multi(num: &mut uint, f: uint) -> uint {
     let mut exp = 0;
-    while (num % f == 0) {
+    while (*num % f == 0) {
         exp += 1;
-        num /= f;
+        *num /= f;
     }
     return exp;
 }
@@ -76,7 +76,7 @@ pub fn factors(num: uint, primes: &Prime, f: fn((uint, uint)) -> bool) {
     if num == 0 { return; }
     let mut itr = num;
     for primes.each |p| {
-        let exp = div_multi(itr, p);
+        let exp = div_multi(&mut itr, p);
         if exp > 0 {
             if !f((p, exp)) { break; }
         }
@@ -161,5 +161,22 @@ mod tests {
         assert !p.is_prime(6);
         assert p.is_prime(7);
         assert !p.is_prime(100);
+    }
+
+    #[test]
+    fn test_factors() {
+        let p = Prime();
+        for factors(1, &p) |f| {
+            fail;
+        }
+
+        for factors(8, &p) |f| {
+            assert f == (2, 3);
+        }
+
+        let mut v = ~[(2, 3), (3, 3)];
+        for factors(8 * 27, &p) |f| {
+            assert f == v.shift();
+        }
     }
 }
