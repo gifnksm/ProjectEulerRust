@@ -79,6 +79,32 @@ pub pure fn digits_to_num(v: &[uint], radix: uint) -> uint {
     return num;
 }
 
+pub pure fn combinate<T: Copy>(elems: &[T], len: uint, f: fn(&[T], &[T])->bool) {
+    if len == 0 {
+        f(~[], elems);
+        return;
+    }
+
+    for uint::range(0, elems.len() - len + 1) |i| {
+        for combinate(vec::view(elems, i + 1, elems.len()), len - 1) |v, rest| {
+            if !f(~[elems[i]] + v, ~[] + vec::view(elems, 0, i) + rest) { return; }
+        }
+    }
+}
+
+pub pure fn combinate_overlap<T: Copy>(elems: &[T], len: uint, f: fn(&[T])->bool) {
+    if len == 0 {
+        f(~[]);
+        return;
+    }
+
+    for uint::range(0, elems.len()) |i| {
+        for combinate_overlap(vec::view(elems, i, elems.len()), len - 1) |v| {
+            if !f(~[elems[i]] + v) { return; }
+        }
+    }
+}
+
 pub pure fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
                       f: fn(uint, &[uint])->bool) {
     let min_vec = fill_zero(num_to_digits(min, 10), len);
@@ -208,6 +234,37 @@ mod tests {
         assert digits_to_num(~[1, 2, 3], 10) == 123;
         assert digits_to_num(~[0, 0, 1, 2, 3], 10) == 123;
         assert digits_to_num(~[1, 2, 3, 0, 0], 10) == 12300;
+    }
+
+    #[test]
+    fn test_combinate() {
+        let mut nums = ~[~[1, 2, 3], ~[1, 2, 4], ~[1, 2, 5], ~[1, 3, 4], ~[1, 3, 5], ~[1, 4, 5],
+                         ~[2, 3, 4], ~[2, 3, 5], ~[2, 4, 5], ~[3, 4, 5]];
+        for combinate(&[1, 2, 3, 4, 5], 3) |n, rest| {
+            assert n == vec::shift(&mut nums);
+        }
+    }
+
+    #[test]
+    fn test_combinate_overlap() {
+        let mut nums = ~[~[1, 1, 1], ~[1, 1, 2], ~[1, 1, 3], ~[1, 1, 4], ~[1, 1, 5],
+                         ~[1, 2, 2], ~[1, 2, 3], ~[1, 2, 4], ~[1, 2, 5],
+                         ~[1, 3, 3], ~[1, 3, 4], ~[1, 3, 5],
+                         ~[1, 4, 4], ~[1, 4, 5],
+                         ~[1, 5, 5],
+                         ~[2, 2, 2], ~[2, 2, 3], ~[2, 2, 4], ~[2, 2, 5],
+                         ~[2, 3, 3], ~[2, 3, 4], ~[2, 3, 5],
+                         ~[2, 4, 4], ~[2, 4, 5],
+                         ~[2, 5, 5],
+                         ~[3, 3, 3], ~[3, 3, 4], ~[3, 3, 5],
+                         ~[3, 4, 4], ~[3, 4, 5],
+                         ~[3, 5, 5],
+                         ~[4, 4, 4], ~[4, 4, 5],
+                         ~[4, 5, 5],
+                         ~[5, 5, 5]];
+        for combinate_overlap(&[1, 2, 3, 4, 5], 3) |n| {
+            assert n == vec::shift(&mut nums);
+        }
     }
 
     #[test]
