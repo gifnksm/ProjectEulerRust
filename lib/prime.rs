@@ -166,7 +166,7 @@ mod tests {
     #[test]
     fn test_factors() {
         let p = Prime();
-        for factors(1, &p) |f| {
+        for factors(1, &p) |_f| {
             fail;
         }
 
