@@ -17,3 +17,4 @@ pub mod prime;
 pub mod monoid;
 pub mod biguint;
 pub mod bigint;
+pub mod reader;
