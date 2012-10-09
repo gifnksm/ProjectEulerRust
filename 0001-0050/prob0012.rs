@@ -2,18 +2,7 @@ extern mod euler;
 
 use euler::prime;
 use euler::monoid::Sum;
-
-fn each_triangles(f: fn(uint) -> bool) {
-    let mut idx = 0;
-    let mut t   = 1;
-    loop {
-        if !f(t) {
-            break;
-        }
-        idx += 1u;
-        t   += idx + 1u;
-    }
-}
+use euler::calc::{ each_triangles };
 
 fn main() {
     let primes = prime::Prime();

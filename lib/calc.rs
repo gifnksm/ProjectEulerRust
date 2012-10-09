@@ -5,6 +5,16 @@ use hash::{ Hash };
 use num::{ from_int };
 use std::map::{ HashMap };
 
+pub fn each_triangles(f: fn(uint) -> bool) {
+    let mut idx = 0;
+    let mut t   = 1;
+    loop {
+        if !f(t) { break; }
+        idx += 1;
+        t   += idx + 1;
+    }
+}
+
 pub fn each_fib<T: Num Copy>(f: fn(n: &T)->bool) {
     let mut (prev, cur) = (from_int::<T>(0), from_int::<T>(1));
     loop {
