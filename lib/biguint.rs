@@ -114,7 +114,7 @@ impl BigUint : Ord {
 }
 
 impl BigUint : ToStr {
-    fn to_str() -> ~str { self.to_str_radix(10) }
+    pure fn to_str() -> ~str { self.to_str_radix(10) }
 }
 
 impl BigUint : Shl<uint, BigUint> {
