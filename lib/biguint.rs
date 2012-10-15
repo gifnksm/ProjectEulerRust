@@ -665,9 +665,9 @@ mod tests {
     #[test]
     fn test_to_str_radix() {
         for to_str_pairs().each |num_pair| {
-            let (n, rs) = *num_pair;
+            let &(n, rs) = num_pair;
             for rs.each |str_pair| {
-                let (radix, str) = *str_pair;
+                let &(radix, str) = str_pair;
                 assert n.to_str_radix(radix) == str;
             }
         }
@@ -676,9 +676,9 @@ mod tests {
     #[test]
     fn test_from_str_radix() {
         for to_str_pairs().each |num_pair| {
-            let (n, rs) = *num_pair;
+            let &(n, rs) = num_pair;
             for rs.each |str_pair| {
-                let (radix, str) = *str_pair;
+                let &(radix, str) = str_pair;
                 assert Some(n) == from_str_radix(str, radix);
             }
         }

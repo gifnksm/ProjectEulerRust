@@ -35,8 +35,8 @@ fn read_whole_word(input: &a/str) -> Result<~[&a/str], ~str> {
                 result.push(name);
                 itr = skip_sep(new_itr);
             }
-            result::Err(move msg) => return result::Err(msg)
+            result::Err(move msg) => return result::Err(move msg)
         }
     }
-    return result::Ok(result);
+    return result::Ok(move result);
 }

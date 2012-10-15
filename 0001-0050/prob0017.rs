@@ -51,7 +51,7 @@ fn to_word_under100(n: uint) -> ~str {
     if n % 10 != 0 {
         return prefix + "-" + to_word_under10(n % 10);
     } else {
-        return prefix;
+        return move prefix;
     }
 }
 
@@ -63,7 +63,7 @@ fn to_word_under1000(n: uint) -> ~str {
     if n % 100 != 0 {
         return prefix + " and " + to_word_under100(n % 100);
     } else {
-        return prefix;
+        return move prefix;
     }
 }
 

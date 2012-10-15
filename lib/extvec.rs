@@ -7,7 +7,7 @@ pub pure fn zip_default<T: Copy, U: Copy>(v1: &[const T], v2: &[const U], def: (
         let e2 = if i < l2 { v2[i] } else { d2 };
         result += ~[(e1, e2)];
     }
-    return result;
+    return move result;
 }
 
 #[cfg(test)]

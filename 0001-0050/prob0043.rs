@@ -38,7 +38,7 @@ impl DigitMap {
 
 fn fill_vec<T: Copy>(v: ~[T], len: uint, init: T) -> ~[T] {
     assert v.len() <= len;
-    if v.len() == len { return v; }
+    if v.len() == len { return move v; }
     return vec::from_elem(len - v.len(), init) + v;
 }
 
@@ -54,7 +54,7 @@ fn main() {
                 Some(move e) => arr.push((ds + *tp.first_ref(), e))
             }
         }
-        arr
+        move arr
     };
     for (&[13, 11, 7, 5, 3, 2, 1]).each |np| {
         let base = *np;
@@ -71,7 +71,7 @@ fn main() {
                     Some(move e) => arr.push((~[ds[0]] + *tp.first_ref(), e))
                 }
             }
-            arr
+            move arr
         };
     }
 

@@ -26,7 +26,7 @@ fn main() {
             }
         }
         if result.is_empty() { break; }
-        l2r_mat.push(result);
+        l2r_mat.push(move result);
         order *= 10;
     }
 

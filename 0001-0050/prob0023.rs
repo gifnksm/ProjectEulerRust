@@ -13,7 +13,7 @@ fn main() {
             let sum = sum_of_proper_divisors(i, &p);
             if sum > i { dv.push(i) }
         }
-        dvec::unwrap(dv)
+        dvec::unwrap(move dv)
     };
 
     let sum_of_abundant = {

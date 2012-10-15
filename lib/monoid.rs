@@ -11,7 +11,7 @@ pub trait Unwrap<T> {
 }
 
 pub struct Sum<T> { repr: T }
-pub pure fn Sum<T>(val: T) -> Sum<T> { Sum { repr: val } }
+pub pure fn Sum<T>(val: T) -> Sum<T> { Sum { repr: move val } }
 
 impl<T: Num Copy> Sum<T> : Monoid {
     static pure fn mempty() -> Sum<T> { Sum(num::from_int(0)) }
@@ -28,7 +28,7 @@ impl<T: cmp::Eq> Sum<T> : cmp::Eq {
 }
 
 pub struct Prod<T> { repr: T }
-pub pure fn Prod<T>(val: T) -> Prod<T> { Prod { repr: val }}
+pub pure fn Prod<T>(val: T) -> Prod<T> { Prod { repr: move val }}
 
 impl<T: Num Copy> Prod<T> : Monoid {
     static pure fn mempty() -> Prod<T> { Prod(num::from_int(1)) }
@@ -45,7 +45,7 @@ impl<T: cmp::Eq> Prod<T> : cmp::Eq {
 }
 
 pub struct Max<T> { repr: T }
-pub pure fn Max<T>(val: T) -> Max<T> { Max{ repr: val } }
+pub pure fn Max<T>(val: T) -> Max<T> { Max{ repr: move val } }
 
 impl<T: Copy Bounded Ord> Max<T> : Monoid {
     static pure fn mempty() -> Max<T> { Max(min_value()) }
@@ -64,7 +64,7 @@ impl<T: Eq> Max<T> : Eq {
 }
 
 pub struct Min<T> { repr: T }
-pub pure fn Min<T>(val: T) -> Min<T> { Min { repr: val } }
+pub pure fn Min<T>(val: T) -> Min<T> { Min { repr: move val } }
 
 impl<T: Copy Bounded Ord> Min<T> : Monoid {
     static pure fn mempty() -> Min<T> { Min(max_value()) }
@@ -109,7 +109,7 @@ pub fn merge<T: Copy Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)]) -> ~
 
     if itr1.is_not_empty() { result += itr1; }
     if itr2.is_not_empty() { result += itr2; }
-    return result;
+    return move result;
 }
 
 pub fn mergei<T: Copy Ord, M: Copy Monoid>(vecs: &[~[(T, M)]]) -> ~[(T, M)] {

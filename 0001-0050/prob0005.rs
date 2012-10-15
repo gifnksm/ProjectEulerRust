@@ -33,7 +33,7 @@ fn main() {
     for uint::range(1, 20 + 1) |n| {
         let mut list = ~[];
         for prime::factors(n, &primes) |f| { list += [ f ]; }
-        factors += [ list ];
+        factors.push(move list);
     };
     io::println(fact_to_uint(mergei_as(factors, Max)).to_str());
 }
