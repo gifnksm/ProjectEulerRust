@@ -59,7 +59,7 @@ pub fn get_gcd(a: uint, b: uint) -> uint {
 }
 
 pub pure fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
-    let buf = [mut
+    let buf: [mut uint * 64] = [mut
                0, 0, 0, 0,  0, 0, 0, 0,
                0, 0, 0, 0,  0, 0, 0, 0,
                0, 0, 0, 0,  0, 0, 0, 0,
@@ -69,7 +69,7 @@ pub pure fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
                0, 0, 0, 0,  0, 0, 0, 0,
                0, 0, 0, 0,  0, 0, 0, 0,
                0, 0, 0, 0,  0, 0, 0, 0
-              ]/64;
+              ];
     let mut filled_idx = buf.len();
     let mut itr = n;
     while itr != 0 {
