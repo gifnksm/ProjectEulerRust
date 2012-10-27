@@ -25,7 +25,7 @@ fn main() {
             nums[i] = itr % 10;
             itr /= 10;
         }
-        quick_sort(|a, b| a < b, nums);
+        quick_sort(nums, |a, b| a < b);
         if vec::eq(nums, comb) {
             io::println(fmt!("%u", num));
             sum += num;

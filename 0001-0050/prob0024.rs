@@ -21,7 +21,7 @@ fn get_at<T: Eq Ord IterBytes Hash Const Copy>(hist: HashMap<T, uint>, n: uint) 
 
     let mut kv = ~[];
     for hist.each |k, v| { kv += [(k, v)]; }
-    quick_sort(|a, b| a.first() <= b.first(), kv);
+    quick_sort(kv, |a, b| a.first() <= b.first());
 
     let mut idx = 0;
     for kv.eachi |i, tp| {

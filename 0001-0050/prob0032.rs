@@ -27,7 +27,7 @@ fn main() {
     for permutate_num(digits, 1, 0, 9) |a, ds| {
         for permutate_num(ds, 4, 1000, 9999 / a) |b, ds| {
             let c = a * b;
-            let c_digits = merge_sort(|a, b| a <= b, num_to_digits(c, 10));
+            let c_digits = merge_sort(num_to_digits(c, 10), |a, b| a <= b);
             if vec::eq(c_digits, ds) { set_add(answer, c); }
         }
     }
@@ -41,7 +41,7 @@ fn main() {
     for permutate_num(digits, 2, 10, 99) |a, ds| {
         for permutate_num(ds, 3, 100, 9999 / a) |b, ds| {
             let c = a * b;
-            let c_digits = merge_sort(|a, b| a <= b, num_to_digits(c, 10));
+            let c_digits = merge_sort(num_to_digits(c, 10), |a, b| a <= b);
             if vec::eq(c_digits, ds) { set_add(answer, c); }
         }
     }

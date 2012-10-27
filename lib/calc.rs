@@ -193,7 +193,7 @@ mod tests {
         fn check(inp: &[uint], result: &[(uint, uint)]) {
             let mut vec = ~[];
             for histogram(inp).each |k, v| { vec += [(k, v)]; }
-            let sorted = std::sort::merge_sort(|a, b| a.first() <= b.first(), vec);
+            let sorted = do std::sort::merge_sort(vec) |a, b| { a.first() <= b.first() };
             assert result == sorted;
         }
         check(&[1, 2, 3], &[(1, 1), (2, 1), (3, 1)]);

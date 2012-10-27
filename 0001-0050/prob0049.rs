@@ -15,9 +15,9 @@ fn main() {
 
         let p2 = p1 + d;
         let p3 = p2 + d;
-        let sorted = merge_sort(|a, b| a <= b, num_to_digits(p1, 10));
-        if merge_sort(|a, b| a <= b, num_to_digits(p2, 10)) != sorted { loop }
-        if merge_sort(|a, b| a <= b, num_to_digits(p3, 10)) != sorted { loop }
+        let sorted = merge_sort(num_to_digits(p1, 10), |a, b| a <= b);
+        if merge_sort(num_to_digits(p2, 10), |a, b| a <= b) != sorted { loop }
+        if merge_sort(num_to_digits(p3, 10), |a, b| a <= b) != sorted { loop }
 
         if !ps.is_prime(p2) { loop; }
         if !ps.is_prime(p3) { loop; }

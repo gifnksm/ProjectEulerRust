@@ -13,7 +13,7 @@ fn get_score(n: uint, s: &str) -> uint {
 fn main() {
     let result = do io::read_whole_file_str(&Path("files/names.txt")).chain |input| {
         do read_whole_word(input).map |names| {
-            merge_sort(|a, b| a < b, *names).mapi(|i, s| get_score(i + 1, *s))
+            merge_sort(*names, |a, b| a < b).mapi(|i, s| get_score(i + 1, *s))
         }
     };
     match result {
