@@ -75,7 +75,7 @@ fn to_word(n: uint) -> ~str {
 
 fn main() {
     let mut sum = 0;
-    for 1000.timesi |i| {
+    for uint::range(0, 1000) |i| {
         let n = i + 1;
         io::println(fmt!("%4u => %s", n, to_word(n)));
         for str::each(to_word(n)) |b| {

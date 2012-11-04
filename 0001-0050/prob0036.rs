@@ -23,7 +23,7 @@ fn to_palindromic(n: uint, radix: uint, is_odd: bool) -> uint{
 fn main() {
     let order_array = &[ 1, 10, 100, 1000, 1000, 10000 ];
     let mut sum = 0;
-    for (order_array.len() - 1).timesi |i| {
+    for uint::range(0, order_array.len() - 1) |i| {
         for [true, false].each |b| {
             let (start, end) = (order_array[i], order_array[i + 1]);
             for uint::range(start, end) |n| {

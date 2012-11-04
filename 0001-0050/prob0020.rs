@@ -5,7 +5,7 @@ use euler::biguint::{ BigUint };
 
 fn main() {
     let mut f = one::<BigUint>();
-    for 100.timesi |i| {
+    for uint::range(0, 100) |i| {
         let n = i + 1;
         f *= from_uint(n);
     }
