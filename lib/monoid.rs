@@ -23,8 +23,8 @@ impl<T: Copy> Sum<T> : Unwrap<T> {
 }
 
 impl<T: cmp::Eq> Sum<T> : cmp::Eq {
-    pure fn eq(other: &Sum<T>) -> bool { self.repr == other.repr }
-    pure fn ne(other: &Sum<T>) -> bool { self.repr != other.repr }
+    pure fn eq(&self, other: &Sum<T>) -> bool { self.repr == other.repr }
+    pure fn ne(&self, other: &Sum<T>) -> bool { self.repr != other.repr }
 }
 
 pub struct Prod<T> { repr: T }
@@ -40,8 +40,8 @@ impl<T: Copy> Prod<T> : Unwrap<T> {
 }
 
 impl<T: cmp::Eq> Prod<T> : cmp::Eq {
-    pure fn eq(other: &Prod<T>) -> bool { self.repr == other.repr }
-    pure fn ne(other: &Prod<T>) -> bool { self.repr != other.repr }
+    pure fn eq(&self, other: &Prod<T>) -> bool { self.repr == other.repr }
+    pure fn ne(&self, other: &Prod<T>) -> bool { self.repr != other.repr }
 }
 
 pub struct Max<T> { repr: T }
@@ -59,8 +59,8 @@ impl<T: Copy> Max<T> : Unwrap<T> {
 }
 
 impl<T: Eq> Max<T> : Eq {
-    pure fn eq(other: &Max<T>) -> bool { self.repr == other.repr }
-    pure fn ne(other: &Max<T>) -> bool { self.repr != other.repr }
+    pure fn eq(&self, other: &Max<T>) -> bool { self.repr == other.repr }
+    pure fn ne(&self, other: &Max<T>) -> bool { self.repr != other.repr }
 }
 
 pub struct Min<T> { repr: T }
@@ -79,8 +79,8 @@ impl<T: Copy> Min<T> : Unwrap<T> {
 
 
 impl<T: Eq> Min<T> : Eq {
-    pure fn eq(other: &Min<T>) -> bool { self.repr == other.repr }
-    pure fn ne(other: &Min<T>) -> bool { self.repr != other.repr }
+    pure fn eq(&self, other: &Min<T>) -> bool { self.repr == other.repr }
+    pure fn ne(&self, other: &Min<T>) -> bool { self.repr != other.repr }
 }
 
 pub fn mconcat<T: Copy Monoid>(v: &[T]) -> T {

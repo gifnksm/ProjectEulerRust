@@ -97,20 +97,20 @@ impl BigUint : ExtOrd {
 
 impl BigUint : Eq {
     #[inline(always)]
-    pure fn eq(other: &BigUint) -> bool { match self.cmp(other) { Eq => true, _ => false } }
+    pure fn eq(&self, other: &BigUint) -> bool { match self.cmp(other) { Eq => true, _ => false } }
     #[inline(always)]
-    pure fn ne(other: &BigUint) -> bool { !self.eq(other) }
+    pure fn ne(&self, other: &BigUint) -> bool { !self.eq(other) }
 }
 
 impl BigUint : Ord {
     #[inline(always)]
-    pure fn lt(other: &BigUint) -> bool { match self.cmp(other) { Lt      => true, _ => false} }
+    pure fn lt(&self, other: &BigUint) -> bool { match self.cmp(other) { Lt      => true, _ => false} }
     #[inline(always)]
-    pure fn le(other: &BigUint) -> bool { match self.cmp(other) { Lt | Eq => true, _ => false} }
+    pure fn le(&self, other: &BigUint) -> bool { match self.cmp(other) { Lt | Eq => true, _ => false} }
     #[inline(always)]
-    pure fn ge(other: &BigUint) -> bool { match self.cmp(other) { Eq | Gt => true, _ => false} }
+    pure fn ge(&self, other: &BigUint) -> bool { match self.cmp(other) { Eq | Gt => true, _ => false} }
     #[inline(always)]
-    pure fn gt(other: &BigUint) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
+    pure fn gt(&self, other: &BigUint) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
 }
 
 impl BigUint : ToStr {

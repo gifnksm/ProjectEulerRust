@@ -41,15 +41,15 @@ impl Sign {
 }
 
 impl Sign : Eq {
-    pure fn eq(other: &Sign) -> bool { match self.cmp(other) { Eq => true, _ => false } }
-    pure fn ne(other: &Sign) -> bool { !self.eq(other) }
+    pure fn eq(&self, other: &Sign) -> bool { match self.cmp(other) { Eq => true, _ => false } }
+    pure fn ne(&self, other: &Sign) -> bool { !self.eq(other) }
 }
 
 impl Sign : Ord {
-    pure fn lt(other: &Sign) -> bool { match self.cmp(other) { Lt      => true, _ => false} }
-    pure fn le(other: &Sign) -> bool { match self.cmp(other) { Lt | Eq => true, _ => false} }
-    pure fn ge(other: &Sign) -> bool { match self.cmp(other) { Eq | Gt => true, _ => false} }
-    pure fn gt(other: &Sign) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
+    pure fn lt(&self, other: &Sign) -> bool { match self.cmp(other) { Lt      => true, _ => false} }
+    pure fn le(&self, other: &Sign) -> bool { match self.cmp(other) { Lt | Eq => true, _ => false} }
+    pure fn ge(&self, other: &Sign) -> bool { match self.cmp(other) { Eq | Gt => true, _ => false} }
+    pure fn gt(&self, other: &Sign) -> bool { match self.cmp(other) { Gt      => true, _ => false} }
 }
 
 
@@ -73,6 +73,6 @@ pub trait ExtNum {
     static pure fn zero() -> self;
     static pure fn one() -> self;
     static pure fn from_uint(n: uint) -> self;
-    static fn parse_bytes(buf: &[u8], radix: uint) -> Option<self>;
-    static fn from_str_radix(s: &str, radix: uint) -> Option<self>;
+    static pub fn parse_bytes(buf: &[u8], radix: uint) -> Option<self>;
+    static pub fn from_str_radix(s: &str, radix: uint) -> Option<self>;
 }
