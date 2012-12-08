@@ -118,7 +118,7 @@ impl BigUint : ToStr {
 }
 
 impl BigUint : Shl<uint, BigUint> {
-    pure fn shl(rhs: &uint) -> BigUint {
+    pure fn shl(&self, rhs: &uint) -> BigUint {
         let n_unit = *rhs / BigDigit::bits;
         let n_bits = *rhs % BigDigit::bits;
 
@@ -138,7 +138,7 @@ impl BigUint : Shl<uint, BigUint> {
 }
 
 impl BigUint : Shr<uint, BigUint> {
-    pure fn shr(rhs: &uint) -> BigUint {
+    pure fn shr(&self, rhs: &uint) -> BigUint {
         let n_unit = *rhs / BigDigit::bits;
         let n_bits = *rhs % BigDigit::bits;
 
@@ -158,7 +158,7 @@ impl BigUint : Shr<uint, BigUint> {
 }
 
 impl BigUint : Num {
-    pure fn add(other: &BigUint) -> BigUint {
+    pure fn add(&self, other: &BigUint) -> BigUint {
         let mut carry = 0;
         let sum = do at_vec::map(extvec::zip_default(self.data, other.data, (0, 0))) |elm| {
             let &(ai, bi) = elm;
@@ -169,7 +169,7 @@ impl BigUint : Num {
         return from_at_vec(if carry == 0 { sum } else { at_vec::append(sum, [carry]) });
     }
 
-    pure fn sub(other: &BigUint) -> BigUint {
+    pure fn sub(&self, other: &BigUint) -> BigUint {
         let mut borrow = 0;
         let diff = do at_vec::map(extvec::zip_default(self.data, other.data, (0, 0))) |elm| {
             let &(ai, bi) = elm;
@@ -181,7 +181,7 @@ impl BigUint : Num {
         return from_at_vec(diff);
     }
 
-    pure fn mul(other: &BigUint) -> BigUint {
+    pure fn mul(&self, other: &BigUint) -> BigUint {
         pure fn mul_uint(a: &BigUint, n: BigDigit) -> BigUint {
             if n == 0 { return zero(); }
             if n == 1 { return *a; }
@@ -216,10 +216,10 @@ impl BigUint : Num {
         let sLen = self.data.len(), oLen = other.data.len();
         if sLen == 0 || oLen == 0 { return zero(); }
         if sLen == 1 { return mul_uint(other, self.data[0]); }
-        if oLen == 1 { return mul_uint(&self, other.data[0]); }
+        if oLen == 1 { return mul_uint(self,  other.data[0]); }
 
         let spLen = uint::max(sLen, oLen) / 2;
-        let (sHi, sLo) = cut_at(&self, spLen);
+        let (sHi, sLo) = cut_at(self,  spLen);
         let (oHi, oLo) = cut_at(other, spLen);
         let ll = sLo * oLo;
         let hh = sHi * oHi;
@@ -233,12 +233,12 @@ impl BigUint : Num {
         return ll + (mm << spLen * BigDigit::bits) + (hh << spLen * BigDigit::bits * 2);
     }
 
-    pure fn div(other: &BigUint) -> BigUint    { self.divmod(other).first()  }
-    pure fn modulo(other: &BigUint) -> BigUint { self.divmod(other).second() }
+    pure fn div(&self, other: &BigUint) -> BigUint    { self.divmod(other).first()  }
+    pure fn modulo(&self, other: &BigUint) -> BigUint { self.divmod(other).second() }
 
-    pure fn neg() -> BigUint { fail }
+    pure fn neg(&self) -> BigUint { fail }
 
-    pure fn to_int() -> int {
+    pure fn to_int(&self) -> int {
         uint::min(self.to_uint(), int::max_value as uint) as int
     }
 

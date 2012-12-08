@@ -58,28 +58,28 @@ impl BigInt : ToStr {
 }
 
 impl BigInt : Shl<uint, BigInt> {
-    pure fn shl(rhs: &uint) -> BigInt { from_biguint(self.sign, self.data << *rhs) }
+    pure fn shl(&self, rhs: &uint) -> BigInt { from_biguint(self.sign, self.data << *rhs) }
 }
 
 impl BigInt : Shr<uint, BigInt> {
-    pure fn shr(rhs: &uint) -> BigInt { from_biguint(self.sign, self.data >> *rhs) }
+    pure fn shr(&self, rhs: &uint) -> BigInt { from_biguint(self.sign, self.data >> *rhs) }
 }
 
 impl BigInt : Num {
-    pure fn add(other: &BigInt) -> BigInt {
+    pure fn add(&self, other: &BigInt) -> BigInt {
         match (self.sign, other.sign) {
             (Zero, _)      => *other,
-            (_,    Zero)   => self,
+            (_,    Zero)   => *self,
             (Plus, Plus)   => from_biguint(Plus, self.data + other.data),
             (Plus, Minus)  => self - (-*other),
-            (Minus, Plus)  => other - (-self),
+            (Minus, Plus)  => other - (-*self),
             (Minus, Minus) => -((-self) + (-*other))
         }
     }
-    pure fn sub(other: &BigInt) -> BigInt {
+    pure fn sub(&self, other: &BigInt) -> BigInt {
         match (self.sign, other.sign) {
             (Zero, _)    => -other,
-            (_,    Zero) => self,
+            (_,    Zero) => *self,
             (Plus, Plus) => match self.data.cmp(&other.data) {
                 Lt => from_biguint(Minus, other.data - self.data),
                 Eq => zero(),
@@ -87,21 +87,21 @@ impl BigInt : Num {
             },
             (Plus, Minus) => self + (-*other),
             (Minus, Plus) => -((-self) + *other),
-            (Minus, Minus) => (-other) - (-self)
+            (Minus, Minus) => (-other) - (-*self)
         }
     }
-    pure fn mul(other: &BigInt) -> BigInt {
+    pure fn mul(&self, other: &BigInt) -> BigInt {
         match (self.sign, other.sign) {
             (Zero, _)     | (_,     Zero)  => zero(),
             (Plus, Plus)  | (Minus, Minus) => from_biguint(Plus, self.data * other.data),
             (Plus, Minus) | (Minus, Plus)  => from_biguint(Minus, self.data * other.data)
         }
     }
-    pure fn div(other: &BigInt) -> BigInt { self.divmod(other).first() }
-    pure fn modulo(other: &BigInt) -> BigInt { self.divmod(other).second() }
-    pure fn neg() -> BigInt { from_biguint(self.sign.neg(), self.data) }
+    pure fn div(&self, other: &BigInt) -> BigInt { self.divmod(other).first() }
+    pure fn modulo(&self, other: &BigInt) -> BigInt { self.divmod(other).second() }
+    pure fn neg(&self) -> BigInt { from_biguint(self.sign.neg(), self.data) }
 
-    pure fn to_int() -> int {
+    pure fn to_int(&self) -> int {
         match self.sign {
             Plus  => uint::min(self.to_uint(), int::max_value as uint) as int,
             Zero  => 0,

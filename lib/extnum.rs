@@ -16,7 +16,7 @@ impl Sign: ExtOrd {
     }
 }
 
-impl Sign {
+pub impl Sign {
     pure fn neg() -> Sign {
         match(self) {
           Minus => Plus,
