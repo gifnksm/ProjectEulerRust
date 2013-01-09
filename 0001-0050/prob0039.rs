@@ -20,7 +20,7 @@ fn main() {
             let (a, b, c) = (m * m - n * n, 2 * m * n, m * m + n * n);
             let s = a + b + c;
             for uint::range(1, limit / s + 1) |k| {
-                map.insert(k * s, map.find(k * s).get_default(0) + 1);
+                map.insert(k * s, map.find(k * s).get_or_default(0) + 1);
             }
         }
     }

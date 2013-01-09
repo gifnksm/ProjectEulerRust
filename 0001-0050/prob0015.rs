@@ -1,8 +1,11 @@
 extern mod euler;
 
-use iter::*;
 use euler::prime;
 use euler::monoid::*;
+
+impl int : Add<int,int> {
+    pure fn add(&self, other: &int) -> int { int::add(*self, *other) }
+}
 
 fn pow(base: uint, exp: uint) -> uint {
     let mut result = 1;

@@ -1,5 +1,3 @@
-use iter::*;
-
 fn main() {
     let mut sum = 0u;
     for uint::range(0u, 1000u) |n| {
