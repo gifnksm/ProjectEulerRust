@@ -17,7 +17,7 @@ fn find_pyrhagorean(sum: uint) -> ~[(uint, uint, uint)] {
 fn main() {
     for find_pyrhagorean(1000).each() |tp| {
         let (a, b, c) = *tp;
-        io::println(#fmt("%u^2 + %u^2 = %u^2", a, b, c));
-        io::println(#fmt("prod: %u", a * b * c));
+        io::println(fmt!("%u^2 + %u^2 = %u^2", a, b, c));
+        io::println(fmt!("prod: %u", a * b * c));
     }
 }

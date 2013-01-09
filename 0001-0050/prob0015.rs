@@ -49,5 +49,5 @@ fn main() {
     }
     let denom = mergei_as(denom_facts, |i| Sum(-(i as int)));
 
-    io::println(#fmt("%u", fact_to_uint(merge_as(numer, denom, Sum))));
+    io::println(fmt!("%u", fact_to_uint(merge_as(numer, denom, Sum))));
 }

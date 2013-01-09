@@ -10,5 +10,5 @@ fn main() {
         }
         sum += p;
     }
-    io::println(#fmt("%u", sum));
+    io::println(fmt!("%u", sum));
 }

@@ -8,5 +8,5 @@ fn square_of_sum(n: u64) -> u64 {
 fn main() {
     let sq_of_sum = square_of_sum(100u64);
     let sum_of_sq = sum_of_square(100u64);
-    io::println(#fmt("%u - %u = %u", sq_of_sum as uint, sum_of_sq as uint, (sq_of_sum - sum_of_sq) as uint));
+    io::println(fmt!("%u - %u = %u", sq_of_sum as uint, sum_of_sq as uint, (sq_of_sum - sum_of_sq) as uint));
 }

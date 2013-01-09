@@ -36,5 +36,5 @@ fn main() {
         max = uint::max(prod, max);
     }
 
-    io::println(#fmt("%u", max));
+    io::println(fmt!("%u", max));
 }

@@ -82,5 +82,5 @@ fn main() {
     let mut max = find_max_grid(grid, 4u);
     max = uint::max(max, find_max_v(grid, 4u));
     max = uint::max(max, find_max_d(grid, 4u));
-    io::println(#fmt("%u", max));
+    io::println(fmt!("%u", max));
 }

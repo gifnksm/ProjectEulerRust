@@ -5,5 +5,5 @@ fn main() {
     for uint::range(0u, 1000u) |n| {
         if n % 3u == 0u || n % 5u == 0u { sum += n; }
     }
-    io::println(#fmt("%u", sum));
+    io::println(fmt!("%u", sum));
 }

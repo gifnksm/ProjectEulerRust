@@ -105,5 +105,5 @@ fn main() {
         uint::from_str(str::slice(*line, 0u, 12u))
     }, |sum, num| sum + *num);
 
-    io::println(str::slice(#fmt("%u", sum), 0u, 10u));
+    io::println(str::slice(fmt!("%u", sum), 0u, 10u));
 }

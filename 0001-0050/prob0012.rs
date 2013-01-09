@@ -9,7 +9,7 @@ fn main() {
     for each_triangles |t| {
         let num = prime::num_of_divisors(t, &primes);
         if num > 500 {
-            io::println(#fmt("%u -> %u", t, num));
+            io::println(fmt!("%u -> %u", t, num));
             break;
         }
     }

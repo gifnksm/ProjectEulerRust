@@ -28,5 +28,5 @@ fn main() {
             max_idx = n;
         }
     }
-    io::println(#fmt("%u => %u", max_idx, max));
+    io::println(fmt!("%u => %u", max_idx, max));
 }
