@@ -1,5 +1,7 @@
 use cmp::{ Ord, Eq };
-use bounded::{ Bounded, max_value, min_value };
+use bounded::{ Bounded };
+use ops::{ Add, Mul };
+use num::{ Zero, One };
 
 pub trait Monoid {
     static pure fn mempty() -> self;
@@ -13,8 +15,8 @@ pub trait Unwrap<T> {
 pub struct Sum<T> { repr: T }
 pub pure fn Sum<T>(val: T) -> Sum<T> { Sum { repr: move val } }
 
-impl<T: Num Copy> Sum<T> : Monoid {
-    static pure fn mempty() -> Sum<T> { Sum(num::from_int(0)) }
+impl<T: Zero Add<T,T> Copy> Sum<T> : Monoid {
+    static pure fn mempty() -> Sum<T> { Sum(Zero::zero()) }
     pure fn mappend(&self, other: &Sum<T>) -> Sum<T> { Sum(self.repr + other.repr) }
 }
 
@@ -30,8 +32,8 @@ impl<T: cmp::Eq> Sum<T> : cmp::Eq {
 pub struct Prod<T> { repr: T }
 pub pure fn Prod<T>(val: T) -> Prod<T> { Prod { repr: move val }}
 
-impl<T: Num Copy> Prod<T> : Monoid {
-    static pure fn mempty() -> Prod<T> { Prod(num::from_int(1)) }
+impl<T: One Mul<T,T> Copy> Prod<T> : Monoid {
+    static pure fn mempty() -> Prod<T> { Prod(One::one()) }
     pure fn mappend(&self, other: &Prod<T>) -> Prod<T> { Prod(self.repr * other.repr) }
 }
 
@@ -48,7 +50,7 @@ pub struct Max<T> { repr: T }
 pub pure fn Max<T>(val: T) -> Max<T> { Max{ repr: move val } }
 
 impl<T: Copy Bounded Ord> Max<T> : Monoid {
-    static pure fn mempty() -> Max<T> { Max(min_value()) }
+    static pure fn mempty() -> Max<T> { Max(Bounded::min_value()) }
     pure fn mappend(&self, other: &Max<T>) -> Max<T> {
         if self.repr < other.repr { *other } else { *self }
     }
@@ -67,7 +69,7 @@ pub struct Min<T> { repr: T }
 pub pure fn Min<T>(val: T) -> Min<T> { Min { repr: move val } }
 
 impl<T: Copy Bounded Ord> Min<T> : Monoid {
-    static pure fn mempty() -> Min<T> { Min(max_value()) }
+    static pure fn mempty() -> Min<T> { Min(Bounded::max_value()) }
     pure fn mappend(&self, other: &Min<T>) -> Min<T> {
         if self.repr > other.repr { *other } else { *self }
     }
@@ -84,7 +86,7 @@ impl<T: Eq> Min<T> : Eq {
 }
 
 pub fn mconcat<T: Copy Monoid>(v: &[T]) -> T {
-    vec::foldl(mempty(), v, |accum, elt| { elt.mappend(&accum) })
+    vec::foldl(Monoid::mempty(), v, |accum, elt| { elt.mappend(&accum) })
 }
 
 pub fn merge<T: Copy Ord, M: Copy Monoid>(vec1: &[(T, M)], vec2: &[(T, M)]) -> ~[(T, M)] {
