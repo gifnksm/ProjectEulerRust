@@ -1,13 +1,13 @@
-extern mod euler;
+use num::{One};
 
-use euler::extnum::{ one, from_uint };
-use euler::biguint::{ BigUint };
+extern mod std;
+use std::bigint::{BigUint};
 
 fn main() {
-    let mut f = one::<BigUint>();
+    let mut f = One::one::<BigUint>();
     for uint::range(0, 100) |i| {
         let n = i + 1;
-        f *= from_uint(n);
+        f *= BigUint::from_uint(n);
     }
     let mut sum = 0;
     for f.to_str().each() |n| {

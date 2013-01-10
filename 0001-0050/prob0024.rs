@@ -3,8 +3,9 @@ extern mod euler;
 
 use either::{ Either, Left, Right };
 use cmp::{ Eq, Ord };
-use to_bytes::{ IterBytes };
-use hash::{ Hash };
+use core::to_bytes::{ IterBytes };
+use core::hash::{ Hash };
+use core::util;
 
 use std::map::{ HashMap, hash_from_vec };
 use std::sort::{ quick_sort };

@@ -1,3 +1,5 @@
+use core::util::unreachable;
+
 pub pure fn Prime() -> Prime {
     Prime { vec: ~[] }
 }
@@ -45,7 +47,7 @@ impl Prime {
             if p * p > num  { return true;  }
             if num % p == 0 { return false; }
         }
-        util::unreachable();
+        unreachable();
     }
 
     fn each(f: fn(uint) -> bool) {

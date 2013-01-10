@@ -1,7 +1,7 @@
 use dvec::{ DVec };
 use cmp::{ Ord, Eq };
-use to_bytes::{ IterBytes };
-use hash::{ Hash };
+use core::to_bytes::{ IterBytes };
+use core::hash::{ Hash };
 use num::{ Num, Zero, One };
 use std::map::{ HashMap };
 
@@ -15,7 +15,7 @@ pub fn each_triangles(f: fn(uint) -> bool) {
     }
 }
 
-pub fn each_fib<T: Num Copy One Zero>(f: fn(n: &T)->bool) {
+pub fn each_fib<T: Num One Zero>(f: fn(n: &T)->bool) {
     let mut (prev, cur) = (Zero::zero::<T>(), One::one::<T>());
     loop {
         if !f(&cur) { break; }

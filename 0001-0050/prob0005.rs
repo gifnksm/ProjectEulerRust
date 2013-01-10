@@ -1,7 +1,6 @@
 extern mod euler;
 
 use euler::prime;
-use euler::util;
 use euler::monoid::{ mergei_as, Max };
 
 fn pow(base: uint, exp: uint) -> uint {
