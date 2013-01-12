@@ -143,6 +143,8 @@ pub fn mergei_as<T: Copy Ord, U: Copy, MT, M: Copy Monoid Unwrap<MT>>(vecs: &[~[
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     fn to_sum<T: Copy, U: Copy Num>(tp: &(T, U)) -> (T, Sum<U>) {
         let (t, u) = *tp;
         return (t, Sum(u));
@@ -155,6 +157,9 @@ mod tests {
 
     #[test]
     fn test_merge() {
+        impl int : Add<int, int> {
+            pub pure fn add(&self, other: &int) -> int { *self + *other }
+        }
         let arg1 = [(1, 1), (3, 1), (4, 1), (6, 1)];
         let arg2 = [(1, 2), (2, 1), (4, 1), (7, 2)];
 

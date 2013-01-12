@@ -8,8 +8,6 @@
 extern mod std;
 
 pub mod bounded;
-pub mod extcmp;
-pub mod extnum;
 pub mod extvec;
 pub mod arith;
 pub mod calc;

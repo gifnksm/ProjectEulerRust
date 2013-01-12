@@ -12,6 +12,8 @@ pub pure fn zip_default<T: Copy, U: Copy>(v1: &[const T], v2: &[const U], def: (
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn test_zip_default() {
         assert zip_default([1, 2, 3], [4u, 5u, 6u], (0, 0u)) == ~[(1, 4u), (2, 5u), (3, 6u)];

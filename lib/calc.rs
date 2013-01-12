@@ -168,6 +168,9 @@ pub pure fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+    use std::sort::{merge_sort};
+
     #[test]
     fn test_each_fib() {
         let fib = ~[ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
@@ -193,7 +196,7 @@ mod tests {
         fn check(inp: &[uint], result: &[(uint, uint)]) {
             let mut vec = ~[];
             for histogram(inp).each |k, v| { vec += [(k, v)]; }
-            let sorted = do std::sort::merge_sort(vec) |a, b| { a.first() <= b.first() };
+            let sorted = do merge_sort(vec) |a, b| { a.first() <= b.first() };
             assert result == sorted;
         }
         check(&[1, 2, 3], &[(1, 1), (2, 1), (3, 1)]);

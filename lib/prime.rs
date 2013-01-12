@@ -112,6 +112,8 @@ pub fn sum_of_proper_divisors(num: uint, primes: &Prime) -> uint {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn test_prime_opidx () {
         let table  = [  2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41 ];
