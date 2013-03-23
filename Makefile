@@ -1,8 +1,23 @@
+UNAME=$(shell uname)
+
+ifeq ($(OS), Windows_NT)
+LIBEXT=.dll
+EXEEXT=.exe
+else ifeq ($(UNAME), Linux)
+LIBEXT=.so
+EXEEXT=
+else ifeq ($(UNAME), Darwin)
+LIBEXT=.dylib
+EXEEXT=
+else
+$(error Unknown OS $(OS) or UNAME $(UNAME))
+endif
+
 SRC=$(wildcard *-*/*.rs)
 LIBSRC=$(wildcard lib/*.rs)
-LIBEULER=./lib/libeuler-*.so
-TARGET=$(SRC:.rs=)
-TESTS=./lib/euler.test
+LIBEULER=./lib/libeuler-*$(LIBEXT)
+TARGET=$(SRC:.rs=$(EXEEXT))
+TESTS=./lib/euler.test$(EXEEXT)
 
 RUSTC_FLAGS=
 LD_FLAGS=-L ./lib
