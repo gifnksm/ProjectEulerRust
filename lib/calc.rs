@@ -211,10 +211,10 @@ mod tests {
 
     #[test]
     fn test_num_of_permutasions() {
-        fail_unless!(num_of_permutations(histogram::<uint>(&[])) == 1);
-        fail_unless!(num_of_permutations(histogram(&[1, 2, 3])) == 6);
-        fail_unless!(num_of_permutations(histogram(&[1, 1, 1, 2, 3])) == 20);
-        fail_unless!(num_of_permutations(histogram(&[1, 1, 1, 2, 3, 1, 1])) == 42);
+        fail_unless!(num_of_permutations(&histogram::<uint>(&[])) == 1);
+        fail_unless!(num_of_permutations(&histogram(&[1, 2, 3])) == 6);
+        fail_unless!(num_of_permutations(&histogram(&[1, 1, 1, 2, 3])) == 20);
+        fail_unless!(num_of_permutations(&histogram(&[1, 1, 1, 2, 3, 1, 1])) == 42);
     }
 
     #[test]
