@@ -10,12 +10,12 @@ fn to_word_under10(n: uint) -> ~str {
         7 => ~"seven",
         8 => ~"eight",
         9 => ~"nine",
-        _ => fail
+        _ => fail!()
     };
 }
 
 fn to_word_under20(n: uint) -> ~str {
-    assert n < 20;
+    fail_unless!(n < 20);
     if n < 10 { return to_word_under10(n); }
     return match n {
         10 => ~"ten",
@@ -28,16 +28,16 @@ fn to_word_under20(n: uint) -> ~str {
         17 => ~"seventeen",
         18 => ~"eighteen",
         19 => ~"nineteen",
-        _  => fail
+        _  => fail!()
     };
 }
 
 fn to_word_under100(n: uint) -> ~str {
-    assert n < 100;
+    fail_unless!(n < 100);
     if n < 20 { return to_word_under20(n); }
 
     let prefix = match n / 10 {
-        0 | 1 => fail,
+        0 | 1 => fail!(),
         2 => ~"twenty",
         3 => ~"thirty",
         4 => ~"forty",
@@ -46,29 +46,29 @@ fn to_word_under100(n: uint) -> ~str {
         7 => ~"seventy",
         8 => ~"eighty",
         9 => ~"ninety",
-        _ => fail
+        _ => fail!()
     };
     if n % 10 != 0 {
         return prefix + "-" + to_word_under10(n % 10);
     } else {
-        return move prefix;
+        return prefix;
     }
 }
 
 fn to_word_under1000(n: uint) -> ~str {
-    assert n < 1000;
+    fail_unless!(n < 1000);
     if n < 100 { return to_word_under100(n); }
 
     let prefix = to_word_under10(n / 100) + " hundred";
     if n % 100 != 0 {
         return prefix + " and " + to_word_under100(n % 100);
     } else {
-        return move prefix;
+        return prefix;
     }
 }
 
 fn to_word(n: uint) -> ~str {
-    assert n <= 1000;
+    fail_unless!(n <= 1000);
     if n < 1000 { return to_word_under1000(n); }
     return ~"one thousand";
 }

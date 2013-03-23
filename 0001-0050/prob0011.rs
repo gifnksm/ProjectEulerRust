@@ -32,7 +32,7 @@ fn find_max_d(grid: &[~[uint]], prod_len: uint) -> uint {
         let mut tl_br = ~[];
         for uint::range(0u, uint::min(num_row, num_col)) |d| {
             let (x, y) = (i + (d as int), d);
-            if x >= 0 && x as uint < num_col && y < num_row {
+            if x >= 0 && (x as uint) < num_col && y < num_row {
                 tl_br += [ grid[y][x] ];
             }
         }
@@ -41,7 +41,7 @@ fn find_max_d(grid: &[~[uint]], prod_len: uint) -> uint {
         let mut bl_tr = ~[];
         for uint::range(0u, uint::min(num_row, num_col)) |d| {
             let (x, y) = (d, (num_col as int - 1 - i) - (d as int));
-            if x < num_col && y >= 0 && y as uint < num_row {
+            if x < num_col && y >= 0 && (y as uint) < num_row {
                 bl_tr += [ grid[y][x] ];
             }
         }

@@ -1,7 +1,7 @@
 extern mod euler;
 use euler::prime::{ Prime };
 
-fn is_r2l(n: uint, ps: &Prime) -> bool {
+fn is_r2l(n: uint, ps: &mut Prime) -> bool {
     let mut itr = n / 10;
     while itr > 0 {
         if !ps.is_prime(itr) {
@@ -13,7 +13,7 @@ fn is_r2l(n: uint, ps: &Prime) -> bool {
 }
 
 fn main() {
-    let ps = Prime();
+    let mut ps = Prime();
     let mut l2r_mat = ~[ ~[ 2, 3, 5, 7 ] ];
     let mut order = 10;
 
@@ -26,7 +26,7 @@ fn main() {
             }
         }
         if result.is_empty() { break; }
-        l2r_mat.push(move result);
+        l2r_mat.push(result);
         order *= 10;
     }
 
@@ -34,7 +34,7 @@ fn main() {
     let mut sum = 0;
     for l2r.each |n| {
         if *n < 10 { loop; }
-        if is_r2l(*n, &ps) {
+        if is_r2l(*n, &mut ps) {
             io::println(fmt!("%u", *n));
             sum += *n;
         }

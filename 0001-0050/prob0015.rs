@@ -3,10 +3,6 @@ extern mod euler;
 use euler::prime;
 use euler::monoid::*;
 
-impl int : Add<int,int> {
-    pure fn add(&self, other: &int) -> int { int::add(*self, *other) }
-}
-
 fn pow(base: uint, exp: uint) -> uint {
     let mut result = 1;
     let mut itr = exp;
@@ -35,20 +31,20 @@ fn fact_to_uint(fs: &[(uint, int)]) -> uint {
 }
 
 fn main() {
-    let primes = prime::Prime();
+    let mut primes = prime::Prime();
     let mut numer_facts = ~[];
     for uint::range(21, 40 + 1) |num| {
         let mut list = ~[];
-        for prime::factors(num, &primes) |f| { list += [ f ]; }
-        numer_facts.push(move list);
+        for prime::factors(num, &mut primes) |f| { list += [ f ]; }
+        numer_facts.push(list);
     }
     let numer = mergei_as(numer_facts, |i| Sum(i as int));
 
     let mut denom_facts = ~[];
     for uint::range(1, 20 + 1) |num| {
         let mut list = ~[];
-        for prime::factors(num, &primes) |f| { list += [ f ]; }
-        denom_facts.push(move list);
+        for prime::factors(num, &mut primes) |f| { list += [ f ]; }
+        denom_facts.push(list);
     }
     let denom = mergei_as(denom_facts, |i| Sum(-(i as int)));
 

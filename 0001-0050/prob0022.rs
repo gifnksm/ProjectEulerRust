@@ -1,4 +1,4 @@
-use io::{WriterUtil};
+use core::io::{ WriterUtil };
 
 extern mod std;
 use std::sort::{ merge_sort };

@@ -1,4 +1,4 @@
-use num::{One};
+use core::num::{ One };
 extern mod std;
 
 use std::bigint::{ BigInt };

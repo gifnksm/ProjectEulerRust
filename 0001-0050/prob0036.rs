@@ -30,7 +30,7 @@ fn main() {
                 let n = to_palindromic(n, 10, *b);
                 if n >= 1000000 { break; }
                 if is_palindromic(n, 2) {
-                    io::println(fmt!("%u = %s", n, uint::to_str(n, 2)));
+                    io::println(fmt!("%u = %s", n, uint::to_str_radix(n, 2)));
                     sum += n;
                 }
             }

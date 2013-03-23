@@ -1,4 +1,4 @@
-use io::{WriterUtil};
+use core::io::{WriterUtil};
 
 extern mod euler;
 use euler::calc::{ each_triangles };
@@ -19,7 +19,7 @@ fn main() {
     match result {
         result::Err(msg) => {
             io::stderr().write_str(fmt!("%s\n", msg));
-            fail
+            fail!()
         }
         result::Ok(values) => {
             let mut flag = vec::from_elem(values.max() + 1, false);

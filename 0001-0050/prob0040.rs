@@ -21,6 +21,7 @@ use core::util;
 // 100 <= n <= 999   => i = 3 * (n - 100) + 2 * 100 - 10 = 3n - 110
 // 1000 <= n <= 9999 => i = 4 * (n - 1000) + 3 * 1000 - 110 = 4n - 1110
 //
+#[deriving(Clone)]
 struct Area {
     num_digit: uint,
     min_val: uint,
@@ -45,7 +46,7 @@ fn IdxValueMap() -> IdxValueMap {
 
 impl IdxValueMap {
     priv fn extend(&mut self) {
-        let last = self.area.last();
+        let last = self.area.last().clone();
         let num_digit = last.num_digit + 1;
         let min_val = last.max_val + 1;
         let max_val = min_val * 10 - 1;
@@ -58,13 +59,13 @@ impl IdxValueMap {
         });
     }
 
-    priv fn each_area(&mut self, f: fn(Area) -> bool) {
+    priv fn each_area(&mut self, f: &fn(Area) -> bool) {
         for uint::range(0, self.area.len()) |i| {
             if !f(self.area[i]) { return; }
         }
         loop {
             self.extend();
-            if !f(self.area.last()) { return; }
+            if !f(*self.area.last()) { return; }
         }
     }
 

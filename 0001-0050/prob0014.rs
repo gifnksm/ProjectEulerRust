@@ -1,9 +1,9 @@
-extern mod std;
-use std::map::HashMap;
+use core::hashmap::linear::{ LinearMap };
 
-fn get_at(map: HashMap<uint, uint>, n: uint) -> uint {
-    match map.find(n) {
-      Some(x) => x,
+fn get_at(map: &mut LinearMap<uint, uint>, n: uint) -> uint {
+    let v = map.find(&n).map(|& &n| n);
+    match v {
+      Some(x) => return x,
       None    => {
         let x = if n % 2 == 0 {
             get_at(map, n / 2) + 1
@@ -17,12 +17,12 @@ fn get_at(map: HashMap<uint, uint>, n: uint) -> uint {
 }
 
 fn main() {
-    let map = std::map::HashMap::<uint, uint>();
+    let mut map = LinearMap::new();
     map.insert(1u, 1u);
     let mut max     = 1u;
     let mut max_idx = 1u;
     for uint::range(2u, 1000000u) |n| {
-        let x = get_at(map, n);
+        let x = get_at(&mut map, n);
         if x > max {
             max     = x;
             max_idx = n;

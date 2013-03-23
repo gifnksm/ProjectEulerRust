@@ -2,7 +2,7 @@ extern mod euler;
 use euler::prime::{ Prime };
 use euler::calc::{ num_to_digits };
 
-fn is_circular_prime(n: uint, ps: &Prime) -> bool {
+fn is_circular_prime(n: uint, ps: &mut Prime) -> bool {
     let buf = num_to_digits(n, 10);
 
     for uint::range(1, buf.len()) |i| {
@@ -16,14 +16,17 @@ fn is_circular_prime(n: uint, ps: &Prime) -> bool {
 }
 
 fn main() {
-    let ps = Prime();
+    let mut ps = Prime();
     let mut cnt = 0;
-    for ps.each() |p| {
+    let mut i = 0;
+    loop {
+        let p = ps.get_at(i);
         if p >= 1000000 { break; }
-        if is_circular_prime(p, &ps) {
+        if is_circular_prime(p, &mut ps) {
             io::println(fmt!("%u", p));
             cnt += 1;
         }
+        i += 1;
     }
     io::println(fmt!("answer: %u", cnt));
 }

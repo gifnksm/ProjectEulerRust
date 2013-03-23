@@ -1,10 +1,15 @@
 fn to_palindromic(n: u64, dup_flag: bool) -> u64 {
-    let cs = str::chars(u64::to_str(n, 10u));
+    let cs = str::chars(u64::to_str(n));
+    let rv = vec::reversed(cs);
     let s = str::from_chars(
-        if dup_flag { cs + vec::tail(vec::reversed(cs)) } else { cs + vec::reversed(cs) }
+        if dup_flag {
+            cs + vec::tail(rv).to_vec()
+        } else {
+            cs + rv
+        }
     );
     match u64::from_str(s) {
-      None    => fail,
+      None    => fail!(),
       Some(x) => x
     }
 }
@@ -17,7 +22,7 @@ mod my_u64 {
     }
 }
 
-fn dividable_pairs(num: u64, min: u64, max: u64, f: fn(u64, u64) -> bool) {
+fn dividable_pairs(num: u64, min: u64, max: u64, f: &fn(u64, u64) -> bool) {
     let mut div = u64::max(my_u64::div_ceil(num, max), min);
     while div * div <= num {
         if num % div == 0u64 {

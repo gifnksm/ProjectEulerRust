@@ -1,4 +1,4 @@
-SRC=$(wildcard 0001-0050/*.rs)
+SRC=$(wildcard *-*/*.rs)
 LIBSRC=$(wildcard lib/*.rs)
 LIBEULER=./lib/libeuler-*.so
 TARGET=$(SRC:.rs=)
@@ -6,7 +6,7 @@ TESTS=./lib/euler.test
 
 RUSTC_FLAGS=
 LD_FLAGS=-L ./lib
-TEST_RUSTC_FLAGS=-g
+TEST_RUSTC_FLAGS=
 
 all: $(TARGET)
 

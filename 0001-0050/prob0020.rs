@@ -1,13 +1,12 @@
-use num::{One};
+use core::num::{ One };
 
 extern mod std;
-use std::bigint::{BigUint};
+use std::bigint::{ BigUint };
 
 fn main() {
     let mut f = One::one::<BigUint>();
     for uint::range(0, 100) |i| {
-        let n = i + 1;
-        f *= BigUint::from_uint(n);
+        f = f * BigUint::from_uint(i + 1);
     }
     let mut sum = 0;
     for f.to_str().each() |n| {

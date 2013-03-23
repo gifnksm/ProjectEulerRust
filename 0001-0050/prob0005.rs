@@ -27,12 +27,12 @@ fn fact_to_uint(fs: &[(uint, uint)]) -> uint {
 }
 
 fn main() {
-    let primes = prime::Prime();
+    let mut primes = prime::Prime();
     let mut factors = ~[];
     for uint::range(1, 20 + 1) |n| {
         let mut list = ~[];
-        for prime::factors(n, &primes) |f| { list += [ f ]; }
-        factors.push(move list);
+        for prime::factors(n, &mut primes) |f| { list += [ f ]; }
+        factors.push(list);
     };
     io::println(fact_to_uint(mergei_as(factors, Max)).to_str());
 }

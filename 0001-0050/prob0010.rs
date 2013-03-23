@@ -4,7 +4,8 @@ use prime = euler::prime;
 
 fn main() {
     let mut sum = 0;
-    for prime::Prime().each |p| {
+    let mut ps = prime::Prime();
+    for ps.each |p| {
         if p >= 2000000 {
             break;
         }

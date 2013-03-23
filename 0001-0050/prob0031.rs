@@ -4,7 +4,7 @@ fn count_ways(sum: uint, coins: &[uint]) -> uint {
     let mut ans = 0;
     for uint::range(0, sum / coins[0] + 1) |n| {
         let d = sum - n * coins[0];
-        ans += count_ways(d, vec::view(coins, 1, coins.len()));
+        ans += count_ways(d, coins.slice(1, coins.len()));
     }
     return ans;
 }

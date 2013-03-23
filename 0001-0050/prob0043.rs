@@ -9,14 +9,14 @@ fn DigitMap() -> DigitMap {
 
 impl DigitMap {
     pure fn is_used(&self, n: uint) -> bool {
-        assert n < 10;
+        fail_unless!(n < 10);
         self.used[n]
     }
 
     priv fn get_used(&self, ds: &[uint]) -> Option<DigitMap> {
-        let mut used: [mut bool * 10] = [mut false, false, false, false, false, false, false, false, false, false];
+        let mut used: [bool * 10] = [false, false, false, false, false, false, false, false, false, false];
         for ds.each |d| {
-            assert *d < 10;
+            fail_unless!(*d < 10);
             if used[*d] || self.is_used(*d) { return None; }
             used[*d] = true;
         }
@@ -37,8 +37,8 @@ impl DigitMap {
 }
 
 fn fill_vec<T: Copy>(v: ~[T], len: uint, init: T) -> ~[T] {
-    assert v.len() <= len;
-    if v.len() == len { return move v; }
+    fail_unless!(v.len() <= len);
+    if v.len() == len { return v; }
     return vec::from_elem(len - v.len(), init) + v;
 }
 
@@ -49,12 +49,12 @@ fn main() {
         let dm = tp.second_ref();
         for uint::range(0, 999 / 17) |n| {
             let mut ds = fill_vec(num_to_digits(n * 17, 10), 3, 0);
-            match move dm.get_used(ds) {
+            match dm.get_used(ds) {
                 None => loop,
-                Some(move e) => arr.push((ds + *tp.first_ref(), e))
+                Some(e) => arr.push((ds + *tp.first_ref(), e))
             }
         }
-        move arr
+        arr
     };
     for (&[13, 11, 7, 5, 3, 2, 1]).each |np| {
         let base = *np;
@@ -66,12 +66,12 @@ fn main() {
                 if ds[1] != tp.first_ref()[0] || ds[2] != tp.first_ref()[1] {
                     loop
                 }
-                match move dm.get_used([ds[0]]) {
+                match dm.get_used([ds[0]]) {
                     None => loop,
-                    Some(move e) => arr.push((~[ds[0]] + *tp.first_ref(), e))
+                    Some(e) => arr.push((~[ds[0]] + *tp.first_ref(), e))
                 }
             }
-            move arr
+            arr
         };
     }
 

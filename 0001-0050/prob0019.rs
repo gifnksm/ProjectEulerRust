@@ -25,7 +25,7 @@ fn day_of_month(y: uint) -> [uint * 12] {
     ] 
 }
 
-fn append_day(y: uint, offset: uint, result: &[mut uint * 7]) -> uint {
+fn append_day(y: uint, offset: uint, result: &mut [uint * 7]) -> uint {
     let mut day = offset;
     for day_of_month(y).each |n| {
         result[day] += 1;
@@ -35,11 +35,11 @@ fn append_day(y: uint, offset: uint, result: &[mut uint * 7]) -> uint {
 }
 
 fn main() {
-    let result = [mut 0, 0, 0, 0, 0, 0, 0];
+    let mut result = [0, 0, 0, 0, 0, 0, 0];
     let mut day = 1; // Monday
     day = (day + day_of_year(1900)) % 7;
     for uint::range(1901, 2000 + 1) |y| {
-        day = append_day(y, day, &result);
+        day = append_day(y, day, &mut result);
         io::println(fmt!("%? %?", result, day));
     }
     io::println(fmt!("%u", result[0]));

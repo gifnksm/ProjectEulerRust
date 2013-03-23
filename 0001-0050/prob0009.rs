@@ -11,7 +11,7 @@ fn find_pyrhagorean(sum: uint) -> ~[(uint, uint, uint)] {
             }
         }
     }
-    return move answer;
+    return answer;
 }
 
 fn main() {

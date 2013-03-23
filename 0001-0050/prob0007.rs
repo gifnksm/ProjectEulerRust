@@ -3,5 +3,6 @@ extern mod euler;
 use euler::prime;
 
 fn main() {
-    io::println(fmt!("%?", prime::Prime().get_at(10000u)));
+    let mut ps = prime::Prime();
+    io::println(fmt!("%?", ps.get_at(10000u)));
 }

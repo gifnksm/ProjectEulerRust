@@ -1,6 +1,7 @@
+use core::hashmap::linear::{ LinearSet };
+
 extern mod std;
 use std::sort::{ merge_sort };
-use std::map::{ HashMap, set_add };
 
 extern mod euler;
 use euler::calc::{ num_to_digits, permutate_num };
@@ -16,7 +17,7 @@ use euler::calc::{ num_to_digits, permutate_num };
 
 fn main() {
     let digits = &[1, 2, 3, 4, 5, 6, 7, 8, 9];
-    let mut answer = HashMap::<uint, ()>();
+    let mut answer = LinearSet::new();
 
     // 1 x 4 = 4
     // a b = c
@@ -28,7 +29,7 @@ fn main() {
         for permutate_num(ds, 4, 1000, 9999 / a) |b, ds| {
             let c = a * b;
             let c_digits = merge_sort(num_to_digits(c, 10), |a, b| a <= b);
-            if vec::eq(c_digits, ds) { set_add(answer, c); }
+            if vec::eq(c_digits, ds) { answer.insert(c); }
         }
     }
 
@@ -42,12 +43,12 @@ fn main() {
         for permutate_num(ds, 3, 100, 9999 / a) |b, ds| {
             let c = a * b;
             let c_digits = merge_sort(num_to_digits(c, 10), |a, b| a <= b);
-            if vec::eq(c_digits, ds) { set_add(answer, c); }
+            if vec::eq(c_digits, ds) { answer.insert(c); }
         }
     }
 
     let mut sum = 0;
-    for answer.each_key |c| {
+    for answer.each |&c| {
         sum += c;
     }
     io::println(fmt!("%u", sum));

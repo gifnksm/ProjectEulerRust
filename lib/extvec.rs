@@ -7,7 +7,7 @@ pub pure fn zip_default<T: Copy, U: Copy>(v1: &[const T], v2: &[const U], def: (
         let e2 = if i < l2 { v2[i] } else { d2 };
         result += ~[(e1, e2)];
     }
-    return move result;
+    return result;
 }
 
 #[cfg(test)]
@@ -16,8 +16,8 @@ mod tests {
 
     #[test]
     fn test_zip_default() {
-        assert zip_default([1, 2, 3], [4u, 5u, 6u], (0, 0u)) == ~[(1, 4u), (2, 5u), (3, 6u)];
-        assert zip_default([1, 2, 3], [4u], (0, 0u)) == ~[(1, 4u), (2, 0u), (3, 0u)];
-        assert zip_default([], [], (0, 0u)) == ~[];
+        fail_unless!(zip_default([1, 2, 3], [4u, 5u, 6u], (0, 0u)) == ~[(1, 4u), (2, 5u), (3, 6u)]);
+        fail_unless!(zip_default([1, 2, 3], [4u], (0, 0u)) == ~[(1, 4u), (2, 0u), (3, 0u)]);
+        fail_unless!(zip_default([], [], (0, 0u)) == ~[]);
     }
 }

@@ -1,4 +1,4 @@
-const triangle: &[&[uint]] = &[
+const triangle: &'static [&'static [uint]] = &[
     &[75],
     &[95, 64],
     &[17, 47, 82],
@@ -17,8 +17,8 @@ const triangle: &[&[uint]] = &[
 ];
 
 fn main() {
-    let init = vec::view(triangle, 0, triangle.len() - 1);
-    let last = vec::last(triangle);
+    let init = triangle.slice(0, triangle.len() - 1);
+    let last = *triangle.last();
     let answer = do init.foldr(vec::from_slice(last)) |elm, prev| {
         do vec::from_fn(elm.len()) |i| {
             elm[i] + uint::max(prev[i], prev[i + 1])

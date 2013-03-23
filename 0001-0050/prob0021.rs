@@ -3,8 +3,8 @@ extern mod euler;
 use euler::prime::{ Prime, sum_of_proper_divisors };
 
 fn main() {
-    let p = Prime();
-    let elms = vec::from_fn(10000, |n| sum_of_proper_divisors(n, &p));
+    let mut p = Prime();
+    let elms = vec::from_fn(10000, |n| sum_of_proper_divisors(n, &mut p));
     let mut amicables = ~[];
     for elms.eachi |n, sum| {
         if *sum >= n { loop }

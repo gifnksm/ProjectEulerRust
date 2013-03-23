@@ -6,7 +6,7 @@
 extern mod euler;
 use euler::prime::{ Prime };
 
-fn get_len(a: int, b: int, ps: &Prime) -> uint {
+fn get_len(a: int, b: int, ps: &mut Prime) -> uint {
     let mut nu = 0;
     loop {
         let n = nu as int;
@@ -24,20 +24,25 @@ fn get_len(a: int, b: int, ps: &Prime) -> uint {
 }
 
 fn main() {
-    let ps = Prime();
-    let mut ans = { len: 0, a: 0, b: 0 };
-    for ps.each |bu| {
+    let mut ps = Prime();
+    let mut ans_a = 0;
+    let mut ans_b = 0;
+    let mut ans_len = 0;
+    let mut i = 0;
+    loop {
+        let mut bu = ps.get_at(i);
         if bu >= 1000 { break; }
         let b = bu as int;
         for int::range(-b, 1000) |a| {
-            let len = get_len(a, b, &ps);
-            if len > ans.len {
-                ans.len = len;
-                ans.a = a;
-                ans.b = b;
+            let len = get_len(a, b, &mut ps);
+            if len > ans_len {
+                ans_len = len;
+                ans_a = a;
+                ans_b = b;
             }
         }
+        i += 1;
     }
-    io::println(fmt!("n^2 + %dn + %d => %u len", ans.a, ans.b, ans.len));
-    io::println(fmt!("a * b = %d", ans.a * ans.b));
+    io::println(fmt!("n^2 + %dn + %d => %u len", ans_a, ans_b, ans_len));
+    io::println(fmt!("a * b = %d", ans_a * ans_b));
 }

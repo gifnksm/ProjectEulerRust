@@ -1,4 +1,4 @@
-use cmp::{ Ord, Eq };
+use core::cmp::{ Ord, Eq };
 
 // P[m] <= minimal sum
 // P[n+i] + P[n] = P[m]
@@ -14,7 +14,7 @@ fn get_pentagonal(i: uint) -> uint {
     return n * (3*n - 1) / 2;
 }
 
-fn binary_search<T: Ord Eq>(key: T, v: &[const T]) -> Option<uint> {
+fn binary_search<T: Ord + Eq>(key: T, v: &[const T]) -> Option<uint> {
     let mut imin = 0;
     let mut imax = v.len();
     while imax >= imin {
@@ -31,7 +31,7 @@ fn binary_search<T: Ord Eq>(key: T, v: &[const T]) -> Option<uint> {
 }
 
 fn is_pentagonal(n: uint, table: &[uint]) -> bool {
-    if table.last() < n { fail }
+    if *table.last() < n { fail!() }
     return binary_search(n, table).is_some();
 }
 

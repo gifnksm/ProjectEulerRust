@@ -4,7 +4,8 @@ use euler::prime;
 
 fn main() {
     let mut num = 600851475143;
-    for prime::Prime().each |p| {
+    let mut ps = prime::Prime();
+    for ps.each |p| {
         while num % p == 0 {
             num /= p;
         }

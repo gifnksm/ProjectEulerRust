@@ -13,7 +13,7 @@ use euler::calc::{ combinate_overlap };
 // 1-6 digits numbers meet conditions
 fn main() {
     let pows = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(|n| int::pow(*n, 5) as uint);
-    let nums = [mut 0, 0, 0, 0, 0, 0, 0];
+    let mut nums = [0, 0, 0, 0, 0, 0, 0];
     let mut sum = 0;
 
     for combinate_overlap(~[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 7) |comb| {

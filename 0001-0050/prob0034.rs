@@ -1,5 +1,5 @@
 fn main() {
-    let mut facts: [mut uint * 10] = [ mut 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+    let mut facts: [uint * 10] = [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
     for uint::range(1, facts.len()) |i| {
         facts[i] = facts[i - 1] * i;
     }

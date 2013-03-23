@@ -1,21 +1,19 @@
-extern mod std;
-use std::map::{ HashMap, Set, set_add };
-
+use core::hashmap::linear::{ LinearSet };
 extern mod euler;
 use euler::prime::{ Prime, factors };
 
 fn main() {
-    let ps  = Prime();
-    let set = HashMap();
+    let mut ps  = Prime();
+    let mut set = LinearSet::new();
 
     for uint::range(2, 101) |a| {
         let mut fs = ~[];
-        for factors(a, &ps) |f| {
+        for factors(a, &mut ps) |f| {
             fs += ~[f];
         }
         for uint::range(2, 101) |b| {
-            set_add(set, fs.map(|f| { (f.first(), f.second() * b) }));
+            set.insert(fs.map(|f| { (f.first(), f.second() * b) }));
         }
     }
-    io::println(fmt!("%u", set.size()));
+    io::println(fmt!("%u", set.len()));
 }
