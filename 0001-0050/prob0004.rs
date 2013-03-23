@@ -15,7 +15,7 @@ fn to_palindromic(n: u64, dup_flag: bool) -> u64 {
 }
 
 mod my_u64 {
-    pub pure fn div_ceil(x: u64, y: u64) -> u64 {
+    pub fn div_ceil(x: u64, y: u64) -> u64 {
         let div = x / y;
         if x % y == 0u64 { return div;}
         else { return div + 1u64; }

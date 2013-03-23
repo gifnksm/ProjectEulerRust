@@ -1,4 +1,4 @@
-const triangle: &'static [&'static [uint]] = &[
+static triangle: &'static [&'static [uint]] = &[
     &[75],
     &[95, 64],
     &[17, 47, 82],

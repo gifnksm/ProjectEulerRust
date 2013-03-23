@@ -1,4 +1,4 @@
-pub pure fn zip_default<T: Copy, U: Copy>(v1: &[const T], v2: &[const U], def: (T, U)) -> ~[(T, U)] {
+pub fn zip_default<T: Copy, U: Copy>(v1: &[const T], v2: &[const U], def: (T, U)) -> ~[(T, U)] {
     let mut result = ~[];
     let (l1, l2) = (vec::len(v1), vec::len(v2));
     let (d1, d2) = def;

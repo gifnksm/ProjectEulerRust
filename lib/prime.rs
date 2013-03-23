@@ -1,6 +1,6 @@
 use core::util::unreachable;
 
-pub pure fn Prime() -> Prime {
+pub fn Prime() -> Prime {
     Prime { vec: ~[] }
 }
 
@@ -9,7 +9,7 @@ pub struct Prime {
 }
 
 impl Prime {
-    priv pure fn is_coprime(&mut self, num: uint) -> bool {
+    priv fn is_coprime(&mut self, num: uint) -> bool {
         for self.vec.each |&p| {
             if p * p > num  { return true; }
             if num % p == 0 { return false; }

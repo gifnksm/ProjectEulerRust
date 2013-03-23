@@ -60,7 +60,7 @@ pub fn get_gcd(a: uint, b: uint) -> uint {
     }
 }
 
-pub pure fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
+pub fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
     let mut buf: [uint * 64] = [
                0, 0, 0, 0,  0, 0, 0, 0,
                0, 0, 0, 0,  0, 0, 0, 0,
@@ -82,7 +82,7 @@ pub pure fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
     return vec::from_slice(buf.slice(filled_idx, buf.len()));
 }
 
-pub pure fn digits_to_num(v: &[uint], radix: uint) -> uint {
+pub fn digits_to_num(v: &[uint], radix: uint) -> uint {
     let mut num = 0;
     for v.each |n| {
         num *= radix;
@@ -91,7 +91,7 @@ pub pure fn digits_to_num(v: &[uint], radix: uint) -> uint {
     return num;
 }
 
-pub pure fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(&[T], &[T])->bool) {
+pub fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(&[T], &[T])->bool) {
     if len == 0 {
         f(~[], elems);
         return;
@@ -104,7 +104,7 @@ pub pure fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(&[T], &[T])->bool)
     }
 }
 
-pub pure fn combinate_overlap<T: Copy>(elems: &[T], len: uint, f: &fn(&[T])->bool) {
+pub fn combinate_overlap<T: Copy>(elems: &[T], len: uint, f: &fn(&[T])->bool) {
     if len == 0 {
         f(~[]);
         return;
@@ -117,20 +117,20 @@ pub pure fn combinate_overlap<T: Copy>(elems: &[T], len: uint, f: &fn(&[T])->boo
     }
 }
 
-pub pure fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
+pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
                       f: &fn(uint, &[uint])->bool) {
     let min_vec = fill_zero(num_to_digits(min, 10), len);
     let max_vec = fill_zero(num_to_digits(max, 10), len);
     return perm_sub(digits, len, to_some(min_vec), to_some(max_vec), f);
 
-    pure fn fill_zero(v: &[uint], n: uint) -> ~[uint] {
+    fn fill_zero(v: &[uint], n: uint) -> ~[uint] {
         fail_unless!(n >= v.len());
         vec::from_elem(n - v.len(), 0) + v
     }
 
-    pure fn to_some(v: &'a [uint]) -> Option<&'a [uint]> { Some(v) }
+    fn to_some(v: &'a [uint]) -> Option<&'a [uint]> { Some(v) }
 
-    pure fn perm_sub(digits: &[uint], len: uint,
+    fn perm_sub(digits: &[uint], len: uint,
                      min: Option<&[uint]>,
                      max: Option<&[uint]>,
                      f: &fn(uint, &[uint])->bool) {

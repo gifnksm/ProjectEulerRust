@@ -8,7 +8,7 @@ fn DigitMap() -> DigitMap {
 }
 
 impl DigitMap {
-    pure fn is_used(&self, n: uint) -> bool {
+    fn is_used(&self, n: uint) -> bool {
         fail_unless!(n < 10);
         self.used[n]
     }

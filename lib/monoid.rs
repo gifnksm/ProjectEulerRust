@@ -5,85 +5,85 @@ use core::ops::{ Add, Mul };
 use core::num::{ Zero, One };
 
 pub trait Monoid {
-    static pure fn mempty() -> Self;
-    pure fn mappend(&self, other: &Self) -> Self;
+    fn mempty() -> Self;
+    fn mappend(&self, other: &Self) -> Self;
 }
 
 pub trait Unwrap<T> {
-    pure fn unwrap(&self) -> T;
+    fn unwrap(&self) -> T;
 }
 
 pub struct Sum<T> { repr: T }
-pub pure fn Sum<T>(val: T) -> Sum<T> { Sum { repr: val } }
+pub fn Sum<T>(val: T) -> Sum<T> { Sum { repr: val } }
 
 impl<T: Zero+Add<T,T>+Copy> Monoid for Sum<T> {
-    static pure fn mempty() -> Sum<T> { Sum(Zero::zero()) }
-    pure fn mappend(&self, other: &Sum<T>) -> Sum<T> { Sum(self.repr + other.repr) }
+    fn mempty() -> Sum<T> { Sum(Zero::zero()) }
+    fn mappend(&self, other: &Sum<T>) -> Sum<T> { Sum(self.repr + other.repr) }
 }
 
 impl<T: Copy> Unwrap<T> for Sum<T> {
-    pure fn unwrap(&self) -> T { self.repr }
+    fn unwrap(&self) -> T { self.repr }
 }
 
 impl<T: Eq> Eq for Sum<T> {
-    pure fn eq(&self, other: &Sum<T>) -> bool { self.repr == other.repr }
-    pure fn ne(&self, other: &Sum<T>) -> bool { self.repr != other.repr }
+    fn eq(&self, other: &Sum<T>) -> bool { self.repr == other.repr }
+    fn ne(&self, other: &Sum<T>) -> bool { self.repr != other.repr }
 }
 
 pub struct Prod<T> { repr: T }
-pub pure fn Prod<T>(val: T) -> Prod<T> { Prod { repr: val }}
+pub fn Prod<T>(val: T) -> Prod<T> { Prod { repr: val }}
 
 impl<T: One+Mul<T,T>+Copy> Monoid for Prod<T> {
-    static pure fn mempty() -> Prod<T> { Prod(One::one()) }
-    pure fn mappend(&self, other: &Prod<T>) -> Prod<T> { Prod(self.repr * other.repr) }
+    fn mempty() -> Prod<T> { Prod(One::one()) }
+    fn mappend(&self, other: &Prod<T>) -> Prod<T> { Prod(self.repr * other.repr) }
 }
 
 impl<T: Copy> Unwrap<T> for Prod<T> {
-    pure fn unwrap(&self) -> T { self.repr }
+    fn unwrap(&self) -> T { self.repr }
 }
 
 impl<T: cmp::Eq> Eq for Prod<T> {
-    pure fn eq(&self, other: &Prod<T>) -> bool { self.repr == other.repr }
-    pure fn ne(&self, other: &Prod<T>) -> bool { self.repr != other.repr }
+    fn eq(&self, other: &Prod<T>) -> bool { self.repr == other.repr }
+    fn ne(&self, other: &Prod<T>) -> bool { self.repr != other.repr }
 }
 
 pub struct Max<T> { repr: T }
-pub pure fn Max<T>(val: T) -> Max<T> { Max{ repr: val } }
+pub fn Max<T>(val: T) -> Max<T> { Max{ repr: val } }
 
 impl<T: Copy+Bounded+Ord> Monoid for Max<T> {
-    static pure fn mempty() -> Max<T> { Max(Bounded::min_value()) }
-    pure fn mappend(&self, other: &Max<T>) -> Max<T> {
+    fn mempty() -> Max<T> { Max(Bounded::min_value()) }
+    fn mappend(&self, other: &Max<T>) -> Max<T> {
         if self.repr < other.repr { *other } else { *self }
     }
 }
 
 impl<T: Copy> Unwrap<T> for Max<T> {
-    pure fn unwrap(&self) -> T { self.repr }
+    fn unwrap(&self) -> T { self.repr }
 }
 
 impl<T: Eq> Eq for Max<T> {
-    pure fn eq(&self, other: &Max<T>) -> bool { self.repr == other.repr }
-    pure fn ne(&self, other: &Max<T>) -> bool { self.repr != other.repr }
+    fn eq(&self, other: &Max<T>) -> bool { self.repr == other.repr }
+    fn ne(&self, other: &Max<T>) -> bool { self.repr != other.repr }
 }
 
 pub struct Min<T> { repr: T }
-pub pure fn Min<T>(val: T) -> Min<T> { Min { repr: val } }
+pub fn Min<T>(val: T) -> Min<T> { Min { repr: val } }
 
 impl<T: Copy+Bounded+Ord> Monoid for Min<T> {
-    static pure fn mempty() -> Min<T> { Min(Bounded::max_value()) }
-    pure fn mappend(&self, other: &Min<T>) -> Min<T> {
+    fn mempty() -> Min<T> { Min(Bounded::max_value()) }
+    fn mappend(&self, other: &Min<T>) -> Min<T> {
         if self.repr > other.repr { *other } else { *self }
     }
 }
 
 impl<T: Copy> Unwrap<T> for Min<T> {
-    pure fn unwrap(&self) -> T { self.repr }
+    fn unwrap(&self) -> T { self.repr }
 }
 
 
 impl<T: Eq> Eq for Min<T> {
-    pure fn eq(&self, other: &Min<T>) -> bool { self.repr == other.repr }
-    pure fn ne(&self, other: &Min<T>) -> bool { self.repr != other.repr }
+    fn eq(&self, other: &Min<T>) -> bool { self.repr == other.repr }
+    fn ne(&self, other: &Min<T>) -> bool { self.repr != other.repr }
 }
 
 pub fn mconcat<T: Copy+Monoid>(v: &[T]) -> T {
