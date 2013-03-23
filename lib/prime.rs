@@ -128,9 +128,9 @@ mod tests {
         let mut ps = Prime();
 
         // Generated primes
-        for table.eachi() |i, p| { fail_unless!(ps.get_at(i) == *p); }
+        for table.eachi() |i, p| { assert_eq!(ps.get_at(i), *p); }
         // Memoized primes
-        for table.eachi() |i, p| { fail_unless!(ps.get_at(i) == *p); }
+        for table.eachi() |i, p| { assert_eq!(ps.get_at(i), *p); }
     }
 
     #[test]
@@ -144,35 +144,35 @@ mod tests {
             if p > *table.last() { break; }
             v1 += [ p ];
         }
-        fail_unless!(table == v1);
+        assert_eq!(table.initn(0), v1.initn(0));
 
         let mut v2 = ~[];
         for ps.each |p| {
             if p > *table.last() { break; }
             v2 += [ p ];
         }
-        fail_unless!(table == v2);
+        assert_eq!(table.initn(0), v2.initn(0));
 
         let mut v3 = ~[];
         for ps.each |p| {
             if p > *table2.last() { break; }
             v3 += [ p ];
         }
-        fail_unless!(table + table2 == v3);
+        assert_eq!(table + table2, v3);
     }
 
     #[test]
     fn test_prime_is_prime() {
         let mut p = Prime();
-        fail_unless!(!p.is_prime(0));
-        fail_unless!(!p.is_prime(1));
-        fail_unless!(p.is_prime(2));
-        fail_unless!(p.is_prime(3));
-        fail_unless!(!p.is_prime(4));
-        fail_unless!(p.is_prime(5));
-        fail_unless!(!p.is_prime(6));
-        fail_unless!(p.is_prime(7));
-        fail_unless!(!p.is_prime(100));
+        assert!(!p.is_prime(0));
+        assert!(!p.is_prime(1));
+        assert!(p.is_prime(2));
+        assert!(p.is_prime(3));
+        assert!(!p.is_prime(4));
+        assert!(p.is_prime(5));
+        assert!(!p.is_prime(6));
+        assert!(p.is_prime(7));
+        assert!(!p.is_prime(100));
     }
 
     #[test]
@@ -183,12 +183,12 @@ mod tests {
         }
 
         for factors(8, &mut p) |f| {
-            fail_unless!(f == (2, 3));
+            assert_eq!(f, (2, 3));
         }
 
         let mut v = ~[(2, 3), (3, 3)];
         for factors(8 * 27, &mut p) |f| {
-            fail_unless!(f == v.shift());
+            assert_eq!(f, v.shift());
         }
     }
 }

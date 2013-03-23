@@ -168,24 +168,27 @@ mod tests {
 
         {
             let result = ~[(1, 3), (2, 1), (3, 1), (4, 2), (6, 1), (7, 2)];
-            fail_unless!(merge(arg1.map(to_sum), arg2.map(to_sum)) == result.map(to_sum));
-            fail_unless!(merge_as(arg1, arg2, Sum) == result);
+            assert_eq!(merge(arg1.map(to_sum), arg2.map(to_sum)),
+                       result.map(to_sum));
+            assert_eq!(merge_as(arg1, arg2, Sum), result);
         }
 
         {
             let result = ~[(1, 2), (2, 1), (3, 1), (4, 1), (6, 1), (7, 2)];
-            fail_unless!(merge(arg1.map(to_max), arg2.map(to_max)) == result.map(to_max));
-            fail_unless!(merge_as(arg1, arg2, Max) == result);
+            assert_eq!(merge(arg1.map(to_max), arg2.map(to_max)),
+                       result.map(to_max));
+            assert_eq!(merge_as(arg1, arg2, Max),
+                       result);
         }
 
         {
             let result = arg1.map(to_sum);
-            fail_unless!(merge(result, []) == result);
+            assert_eq!(merge(result, []), result);
         }
 
         {
             let result: ~[(int, Sum<int>)] = ~[];
-            fail_unless!(merge([], []) == result);
+            assert_eq!(merge([], []), result);
         }
     }
 
@@ -194,22 +197,24 @@ mod tests {
         {
             let arg = [~[(1, 1), (2, 1)], ~[(1, 2), (3, 1)], ~[(-1, 3)]];
             let result = ~[(-1, 3), (1, 3), (2, 1), (3, 1)];
-            fail_unless!(mergei(arg.map(|v| v.map(to_sum))) == result.map(to_sum));
-            fail_unless!(mergei_as(arg, Sum) == result);
+            assert_eq!(mergei(arg.map(|v| v.map(to_sum))), result.map(to_sum));
+            assert_eq!(mergei_as(arg, Sum), result);
         }
 
         {
             let arg = [~[(1, 1)], ~[(1, 2)], ~[(1, 3)]];
             let result = ~[(1, 6)];
-            fail_unless!(mergei(arg.map(|v| v.map(to_sum))) == result.map(to_sum));
-            fail_unless!(mergei_as(arg, Sum) == result);
+            assert_eq!(mergei(arg.map(|v| v.map(to_sum))), result.map(to_sum));
+            assert_eq!(mergei_as(arg, Sum), result);
         }
 
         {
             let arg = [~[], ~[], ~[]];
             let result: ~[(int, int)] = ~[];
-            fail_unless!(mergei(arg.map(|v| v.map(to_sum))) == result.map(to_sum));
-            fail_unless!(mergei_as(arg, Sum) == result);
+            assert_eq!(mergei(arg.map(|v| v.map(to_sum))),
+                       result.map(to_sum));
+            assert_eq!(mergei_as(arg, Sum),
+                       result);
         }
     }
 }

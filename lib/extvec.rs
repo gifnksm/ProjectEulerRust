@@ -16,8 +16,11 @@ mod tests {
 
     #[test]
     fn test_zip_default() {
-        fail_unless!(zip_default([1, 2, 3], [4u, 5u, 6u], (0, 0u)) == ~[(1, 4u), (2, 5u), (3, 6u)]);
-        fail_unless!(zip_default([1, 2, 3], [4u], (0, 0u)) == ~[(1, 4u), (2, 0u), (3, 0u)]);
-        fail_unless!(zip_default([], [], (0, 0u)) == ~[]);
+        assert_eq!(zip_default([1, 2, 3], [4u, 5u, 6u], (0, 0u)),
+                   ~[(1, 4u), (2, 5u), (3, 6u)]);
+        assert_eq!(zip_default([1, 2, 3], [4u], (0, 0u)),
+                   ~[(1, 4u), (2, 0u), (3, 0u)]);
+        assert_eq!(zip_default([], [], (0, 0u)),
+                   ~[]);
     }
 }

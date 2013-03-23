@@ -9,14 +9,14 @@ fn DigitMap() -> DigitMap {
 
 impl DigitMap {
     fn is_used(&self, n: uint) -> bool {
-        fail_unless!(n < 10);
+        assert!(n < 10);
         self.used[n]
     }
 
     priv fn get_used(&self, ds: &[uint]) -> Option<DigitMap> {
         let mut used: [bool * 10] = [false, false, false, false, false, false, false, false, false, false];
         for ds.each |d| {
-            fail_unless!(*d < 10);
+            assert!(*d < 10);
             if used[*d] || self.is_used(*d) { return None; }
             used[*d] = true;
         }
@@ -37,7 +37,7 @@ impl DigitMap {
 }
 
 fn fill_vec<T: Copy>(v: ~[T], len: uint, init: T) -> ~[T] {
-    fail_unless!(v.len() <= len);
+    assert!(v.len() <= len);
     if v.len() == len { return v; }
     return vec::from_elem(len - v.len(), init) + v;
 }
