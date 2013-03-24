@@ -15,18 +15,27 @@ endif
 
 SRC=$(wildcard *.rs)
 DEPSRC=$(wildcard prob*_*/*.rs common/*.rs)
+
 TARGET=$(SRC:.rs=$(EXEEXT))
 TEST=$(SRC:.rs=.test$(EXEEXT))
 
-all: $(TARGET)
+RUSTC_FLAGS=
+RUSTC_DEBUG_FLAGS=-Z debug-info
+RUSTC_RELEASE_FLAGS=--opt-level 3
+
+.PHONY: debug release test clean
+
+debug: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
+debug: $(TARGET)
+
+release: RUSTC_FLAGS+=$(RUSTC_RELEASE_FLAGS)
+release: $(TARGET)
 
 %$(EXEEXT): %.rs $(DEPSRC)
-	rustc --opt-level 3 $< -o $@
+	rustc $(RUSTC_FLAGS) $< -o $@
 
 %.test$(EXEEXT): %.rs $(DEPSRC)
 	rustc --test $< -o $@
-
-.PHONY: test clean
 
 test: $(TEST)
 	@for exe in $(TEST); do echo "$$exe"; ./$$exe; done
