@@ -10,6 +10,17 @@ pub fn zip_default<T: Copy, U: Copy>(v1: &[const T], v2: &[const U], def: (T, U)
     return result;
 }
 
+pub fn each_window<T>(v: &[T], n: uint, f: &fn(&[T])->bool) {
+    let len = v.len();
+    if len < n { return; }
+    for uint::range(0, v.len() - n) |i| {
+        if !f(v.slice(i, i+n)) {
+            return;
+        }
+    }
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
