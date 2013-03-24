@@ -18,17 +18,13 @@ DEPSRC=$(wildcard prob*_*/*.rs common/*.rs)
 TARGET=$(SRC:.rs=$(EXEEXT))
 TEST=$(SRC:.rs=.test$(EXEEXT))
 
-RUSTC_FLAGS=
-LD_FLAGS=
-TEST_RUSTC_FLAGS=
-
 all: $(TARGET)
 
 %$(EXEEXT): %.rs $(DEPSRC)
-	rustc $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
+	rustc --opt-level 3 $< -o $@
 
 %.test$(EXEEXT): %.rs $(DEPSRC)
-	rustc --test $(RUSTC_FLAGS) $(TEST_RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
+	rustc --test $< -o $@
 
 .PHONY: test clean
 
