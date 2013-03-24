@@ -8,6 +8,6 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut ps = Prime();
+    let mut ps = Prime::new();
     return ps.get_at(10000).to_str();
 }

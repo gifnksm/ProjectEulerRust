@@ -18,7 +18,7 @@ fn is_goldbach(n: uint, ps: &mut Prime) -> bool {
 }
 
 fn solve() -> ~str {
-    let mut ps = Prime();
+    let mut ps = Prime::new();
     let mut n = 1;
     loop {
         n += 2;

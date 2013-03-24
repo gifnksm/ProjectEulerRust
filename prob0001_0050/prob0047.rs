@@ -1,4 +1,4 @@
-use common::prime::{ Prime, factors };
+use common::prime::{ Prime, Factors };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -8,13 +8,11 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn num_factors(n: uint, ps: &mut Prime) -> uint {
-    let mut cnt = 0;
-    for factors(n, ps) |_f| { cnt += 1; }
-    return cnt;
+    iter::foldl(&Factors::new(n, ps), 0, |&cnt, _elm| cnt + 1)
 }
 
 fn solve() -> ~str {
-    let mut ps = Prime();
+    let mut ps = Prime::new();
     let mut cnt = 0;
     let len = 4;
     let num_factor = 4;
@@ -22,11 +20,11 @@ fn solve() -> ~str {
     loop {
         if num_factors(n, &mut ps) == num_factor {
             cnt += 1;
+            if cnt == len {
+                return (n + 1 - len).to_str();
+            }
         } else {
             cnt = 0;
-        }
-        if cnt == len {
-            return (n + 1 - len).to_str();
         }
         n += 1;
     }

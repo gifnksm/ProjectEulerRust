@@ -11,7 +11,7 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut ps = Prime();
+    let mut ps = Prime::new();
     for permutate_num(&[7, 6, 5, 4, 3, 2, 1], 7, 0, 9999999) |num, _rest| {
         if ps.is_prime(num) {
             return num.to_str();

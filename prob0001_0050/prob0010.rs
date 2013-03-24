@@ -9,7 +9,7 @@ pub static problem: Problem<'static> = Problem {
 
 fn solve() -> ~str {
     let mut sum = 0;
-    let mut ps = Prime();
+    let mut ps = Prime::new();
     for ps.each |p| {
         if p >= 2000000 {
             break;

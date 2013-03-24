@@ -8,8 +8,9 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut p = Prime();
+    let mut p = Prime::new();
     let elms = vec::from_fn(10000, |n| sum_of_proper_divisors(n, &mut p));
+
     let mut amicables = ~[];
     for elms.eachi |n, sum| {
         if *sum >= n { loop }

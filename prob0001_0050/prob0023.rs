@@ -9,7 +9,7 @@ pub static problem: Problem<'static> = Problem {
 
 fn solve() -> ~str {
     let max_num = 28123;
-    let mut p = Prime();
+    let mut p = Prime::new();
 
     let abundant = {
         let mut dv = ~[];

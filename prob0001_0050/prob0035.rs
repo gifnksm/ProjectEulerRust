@@ -22,16 +22,15 @@ fn is_circular_prime(n: uint, ps: &mut Prime) -> bool {
 }
 
 fn solve() -> ~str {
-    let mut ps = Prime();
+    let mut ps = Prime::new();
     let mut cnt = 0u;
-    let mut i = 0;
-    loop {
-        let p = ps.get_at(i);
+
+    for ps.each_borrow |p, ps| {
         if p >= 1000000 { break; }
-        if is_circular_prime(p, &mut ps) {
+        if is_circular_prime(p, ps) {
             cnt += 1;
         }
-        i += 1;
     }
+
     return cnt.to_str();
 }

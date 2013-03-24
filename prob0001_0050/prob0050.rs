@@ -46,7 +46,7 @@ fn get_longer(p: uint, min_len: uint, ps: &mut Prime) -> Option<uint> {
 
 fn solve() -> ~str {
     let limit = 1000000;
-    let mut ps = Prime();
+    let mut ps = Prime::new();
 
     let mut len = 0;
     let mut num = 0;

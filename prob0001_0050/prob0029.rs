@@ -1,6 +1,6 @@
 use core::hashmap::linear::{ LinearSet };
 
-use common::prime::{ Prime, factors };
+use common::prime::{ Prime, Factors };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -10,16 +10,13 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut ps  = Prime();
+    let mut ps  = Prime::new();
     let mut set = LinearSet::new();
 
     for uint::range(2, 101) |a| {
-        let mut fs = ~[];
-        for factors(a, &mut ps) |f| {
-            fs += ~[f];
-        }
+        let fs = iter::to_vec(&Factors::new(a, &mut ps));
         for uint::range(2, 101) |b| {
-            set.insert(fs.map(|f| { (f.first(), f.second() * b) }));
+            set.insert(fs.map(|&(base, exp)| { (base, (exp as uint) * b) }));
         }
     }
 

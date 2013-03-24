@@ -11,7 +11,8 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut primes = Prime();
+    let mut primes = Prime::new();
+
     for each_triangles |t| {
         let num = num_of_divisors(t, &mut primes);
         if num > 500 {

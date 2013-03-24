@@ -30,24 +30,24 @@ fn get_len(a: int, b: int, ps: &mut Prime) -> uint {
 }
 
 fn solve() -> ~str {
-    let mut ps = Prime();
+    let mut ps = Prime::new();
     let mut ans_a = 0;
     let mut ans_b = 0;
     let mut ans_len = 0;
-    let mut i = 0;
-    loop {
-        let mut bu = ps.get_at(i);
+
+    for ps.each_borrow() |bu, ps| {
         if bu >= 1000 { break; }
+
         let b = bu as int;
         for int::range(-b, 1000) |a| {
-            let len = get_len(a, b, &mut ps);
+            let len = get_len(a, b, ps);
             if len > ans_len {
                 ans_len = len;
                 ans_a = a;
                 ans_b = b;
             }
         }
-        i += 1;
     }
+
     return (ans_a * ans_b).to_str();
 }
