@@ -1,13 +1,6 @@
 # ignore executable files
-*/prob*
-*/prob*.test
-lib/*.test
-
-# don't ignore source files
-!*/prob*.rs
-
-# ignore shared libraries
-lib/*.so
+euler
+euler.test
 
 # ignore attachment files
 files/*.txt
