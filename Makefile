@@ -13,7 +13,8 @@ else
 $(error Unknown OS $(OS) or UNAME $(UNAME))
 endif
 
-SRC=$(wildcard *-*/*.rs)
+SRC=$(wildcard *.rs)
+DEPSRC=$(wildcard *-*/*.rs)
 LIBSRC=$(wildcard lib/*.rs)
 LIBEULER=./lib/libeuler-*$(LIBEXT)
 TARGET=$(SRC:.rs=$(EXEEXT))
@@ -28,7 +29,7 @@ all: $(TARGET)
 $(LIBEULER): ./lib/euler.rc $(LIBSRC)
 	rustc --lib $(RUSTC_FLAGS) $<
 
-%: %.rs $(LIBEULER) $(LIBSRC)
+%: %.rs $(LIBEULER) $(LIBSRC) $(DEPSRC)
 	rustc $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
 
 ./lib/%.test: ./lib/%.rc $(LIBSRC)

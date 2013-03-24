@@ -1,6 +1,6 @@
-fn main() {
-    let prod_len = 5;
-    let input = "
+use euler::extvec::{ each_window };
+
+static input: &'static str = &"
 73167176531330624919225119674426574742355349194934
 96983520312774506326239578318016984801869478851843
 85861560789112949495459501737958331952853208805511
@@ -22,19 +22,18 @@ fn main() {
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450
 ";
-    let nums = vec::filter_map(str::chars(input), |c| uint::from_str(str::from_char(c)));
-    if vec::len(nums) < prod_len {
-        fail!();
-    }
 
-    let mut max = 0u;
-    for uint::range(0u, vec::len(nums) - prod_len) |i| {
-        let mut prod = 1u;
-        for uint::range(0u, prod_len) |j| {
-            prod *= nums[i + j];
-        }
+pub fn solve() -> uint {
+    let prod_len = 5;
+    let nums = do vec::filter_map(str::chars(input)) |c| {
+        uint::from_str(str::from_char(c))
+    };
+
+    let mut max = 0;
+    for each_window(nums, prod_len) |win| {
+        let prod = win.foldl(1, |&p, &n| p * n);
         max = uint::max(prod, max);
     }
 
-    io::println(fmt!("%u", max));
+    return max;
 }

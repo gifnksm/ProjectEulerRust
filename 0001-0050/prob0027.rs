@@ -3,7 +3,6 @@
 // p(1) = 1 + a + b => a > -(1+b)
 // p(2) = 4 + 2a + b
 
-extern mod euler;
 use euler::prime::{ Prime };
 
 fn get_len(a: int, b: int, ps: &mut Prime) -> uint {
@@ -23,7 +22,7 @@ fn get_len(a: int, b: int, ps: &mut Prime) -> uint {
     }
 }
 
-fn main() {
+pub fn solve() -> int {
     let mut ps = Prime();
     let mut ans_a = 0;
     let mut ans_b = 0;
@@ -43,6 +42,7 @@ fn main() {
         }
         i += 1;
     }
-    io::println(fmt!("n^2 + %dn + %d => %u len", ans_a, ans_b, ans_len));
-    io::println(fmt!("a * b = %d", ans_a * ans_b));
+    // io::println(fmt!("n^2 + %dn + %d => %u len", ans_a, ans_b, ans_len));
+    // io::println(fmt!("a * b = %d", ans_a * ans_b));
+    return ans_a * ans_b;
 }

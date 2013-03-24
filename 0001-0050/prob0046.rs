@@ -1,4 +1,3 @@
-extern mod euler;
 use euler::prime::{ Prime };
 use euler::arith::{ isqrt };
 
@@ -11,16 +10,16 @@ fn is_goldbach(n: uint, ps: &mut Prime) -> bool {
     return false;
 }
 
-fn main() {
+pub fn solve() -> uint {
     let mut ps = Prime();
     let mut n = 1;
     loop {
         n += 2;
         if ps.is_prime(n) { loop; }
         if !is_goldbach(n, &mut ps) {
-            io::println(fmt!("%u is not goldbach number", n));
             break
         }
     }
-    io::println(fmt!("answer: %u", n));
+
+    return n;
 }

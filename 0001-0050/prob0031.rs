@@ -9,7 +9,7 @@ fn count_ways(sum: uint, coins: &[uint]) -> uint {
     return ans;
 }
 
-fn main() {
+pub fn solve() -> uint {
     let coins = [ 200, 100, 50, 20, 10, 5, 2, 1 ];
-    io::println(fmt!("%u", count_ways(200, coins)));
+    return count_ways(200, coins);
 }

@@ -1,4 +1,3 @@
-extern mod euler;
 use euler::calc::{ num_to_digits, digits_to_num };
 
 struct DigitMap { used: [ bool * 10] }
@@ -42,7 +41,7 @@ fn fill_vec<T: Copy>(v: ~[T], len: uint, init: T) -> ~[T] {
     return vec::from_elem(len - v.len(), init) + v;
 }
 
-fn main() {
+pub fn solve() -> uint {
     let mut result: ~[(~[uint], DigitMap)] = ~[(~[], DigitMap())];
     result = do result.flat_map |tp| {
         let mut arr = ~[];
@@ -77,9 +76,7 @@ fn main() {
 
     let mut sum = 0;
     for result.each |r| {
-        let n = digits_to_num(*r.first_ref(), 10);
-        io::println(fmt!("%u", n));
-        sum += n;
+        sum += digits_to_num(*r.first_ref(), 10);
     }
-    io::println(fmt!("answer: %u", sum));
+    return sum;
 }

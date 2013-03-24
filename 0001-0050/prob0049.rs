@@ -1,11 +1,9 @@
-extern mod std;
 use std::sort::{ merge_sort };
 
-extern mod euler;
 use euler::prime::{ Prime };
 use euler::calc::{ num_to_digits, permutate_num };
 
-fn main() {
+pub fn solve() -> uint {
     let d = 3330;
 
     let mut ps = Prime();
@@ -30,7 +28,6 @@ fn main() {
 
         if !ps.is_prime(p2) { i += 1; loop; }
         if !ps.is_prime(p3) { i += 1; loop; }
-        io::println(fmt!("answer: %u%u%u", p1, p2, p3));
-        break;
+        return uint::from_str(fmt!("%u%u%u", p1, p2, p3)).get();
     }
 }

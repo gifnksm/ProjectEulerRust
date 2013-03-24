@@ -28,6 +28,6 @@ fn sum(n: uint) -> uint {
     (4 * n*n*n + 3 * n*n + 8 * n - 9) / 6
 }
 
-fn main() {
-    io::println(fmt!("%u", sum(1001)));
+pub fn solve() -> uint{
+    return sum(1001);
 }

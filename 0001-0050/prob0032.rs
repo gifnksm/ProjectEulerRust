@@ -1,9 +1,7 @@
 use core::hashmap::linear::{ LinearSet };
 
-extern mod std;
 use std::sort::{ merge_sort };
 
-extern mod euler;
 use euler::calc::{ num_to_digits, permutate_num };
 
 // possible num of digits combinations
@@ -15,7 +13,7 @@ use euler::calc::{ num_to_digits, permutate_num };
 // 2 x 3 = 4 : OK
 // 3 x 3 = 3 : NG
 
-fn main() {
+pub fn solve() -> uint {
     let digits = &[1, 2, 3, 4, 5, 6, 7, 8, 9];
     let mut answer = LinearSet::new();
 
@@ -51,5 +49,5 @@ fn main() {
     for answer.each |&c| {
         sum += c;
     }
-    io::println(fmt!("%u", sum));
+    return sum;
 }

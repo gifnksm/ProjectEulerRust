@@ -1,4 +1,3 @@
-extern mod euler;
 use euler::prime::{ Prime, factors };
 
 fn num_factors(n: uint, ps: &mut Prime) -> uint {
@@ -7,7 +6,7 @@ fn num_factors(n: uint, ps: &mut Prime) -> uint {
     return cnt;
 }
 
-fn main() {
+pub fn solve() -> uint {
     let mut ps = Prime();
     let mut cnt = 0;
     let len = 4;
@@ -20,8 +19,7 @@ fn main() {
             cnt = 0;
         }
         if cnt == len {
-            io::println(fmt!("answer: %u", n + 1 - len));
-            break;
+            return n + 1 - len;
         }
         n += 1;
     }

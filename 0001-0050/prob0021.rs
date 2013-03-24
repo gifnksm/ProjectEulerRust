@@ -1,8 +1,6 @@
-extern mod euler;
-
 use euler::prime::{ Prime, sum_of_proper_divisors };
 
-fn main() {
+pub fn solve() -> uint {
     let mut p = Prime();
     let elms = vec::from_fn(10000, |n| sum_of_proper_divisors(n, &mut p));
     let mut amicables = ~[];
@@ -18,5 +16,5 @@ fn main() {
         let (a, b) = *pair;
         sum += a + b;
     }
-    io::println(fmt!("%?", sum));
+    return sum;
 }

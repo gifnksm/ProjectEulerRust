@@ -1,10 +1,9 @@
 use core::hashmap::linear::{ LinearMap };
 
-extern mod euler;
 use euler::arith::{ isqrt };
 use euler::calc::{ get_gcd };
 
-fn main() {
+pub fn solve() -> uint {
     // a + b + c = 2m(m + n) <= L
     // 1 <= n <= L / 2m - m
     // if n == 1, a + b + c = 2m^2 + 2m <= L
@@ -34,6 +33,5 @@ fn main() {
         }
     }
 
-    io::println(fmt!("answer: %?", max_key));
+    return max_key;
 }
-

@@ -1,13 +1,11 @@
-extern mod euler;
+use euler::calc::{ each_fib };
 
-use euler::calc;
-
-fn main() {
+pub fn solve() -> uint {
     let max = 4000000;
     let mut sum = 0;
-    for calc::each_fib |f: &uint| {
+    for each_fib |f: &uint| {
         if *f >= max { break; }
         if *f % 2 == 0 { sum += *f; }
     }
-    io::println(sum.to_str());
+    return sum;
 }

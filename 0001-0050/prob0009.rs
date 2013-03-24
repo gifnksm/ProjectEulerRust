@@ -1,23 +1,22 @@
-extern mod euler;
-use arith = euler::arith;
+use core::util::{ unreachable };
 
-fn find_pyrhagorean(sum: uint) -> ~[(uint, uint, uint)] {
-    let mut answer = ~[];
+use euler::arith::{ isqrt };
+
+fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) {
     for uint::range(2, sum - 2) |c| {
-        for uint::range(1, uint::min((sum - c) / 2, arith::isqrt(c*c / 2))) |a| {
+        for uint::range(1, uint::min((sum - c) / 2, isqrt(c*c / 2))) |a| {
             let b = sum - c - a;
             if a * a + b * b == c * c {
-                answer += [(a, b, c)];
+                if !f(a, b, c) { return; }
             }
         }
     }
-    return answer;
 }
 
-fn main() {
-    for find_pyrhagorean(1000).each() |tp| {
-        let (a, b, c) = *tp;
-        io::println(fmt!("%u^2 + %u^2 = %u^2", a, b, c));
-        io::println(fmt!("prod: %u", a * b * c));
+pub fn solve() -> uint {
+    for each_pyrhagorean(1000) |a, b, c| {
+        return a * b * c;
     }
+
+    unreachable();
 }

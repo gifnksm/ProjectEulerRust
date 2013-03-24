@@ -73,16 +73,15 @@ fn to_word(n: uint) -> ~str {
     return ~"one thousand";
 }
 
-fn main() {
+pub fn solve() -> uint {
     let mut sum = 0;
     for uint::range(0, 1000) |i| {
         let n = i + 1;
-        io::println(fmt!("%4u => %s", n, to_word(n)));
         for str::each(to_word(n)) |b| {
             if b != ('-' as u8) && b != (' ' as u8) {
                 sum += 1;
             }
         }
     }
-    io::println(fmt!("%u", sum));
+    return sum;
 }

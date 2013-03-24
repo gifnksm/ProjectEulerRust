@@ -1,8 +1,8 @@
 use core::hashmap::linear::{ LinearSet };
-extern mod euler;
+
 use euler::prime::{ Prime, factors };
 
-fn main() {
+pub fn solve() -> uint {
     let mut ps  = Prime();
     let mut set = LinearSet::new();
 
@@ -15,5 +15,6 @@ fn main() {
             set.insert(fs.map(|f| { (f.first(), f.second() * b) }));
         }
     }
-    io::println(fmt!("%u", set.len()));
+
+    return set.len();
 }

@@ -1,4 +1,4 @@
-extern mod euler;
+use euler::calc::{ num_to_digits };
 use euler::prime::{ Prime };
 
 fn is_r2l(n: uint, ps: &mut Prime) -> bool {
@@ -12,16 +12,18 @@ fn is_r2l(n: uint, ps: &mut Prime) -> bool {
     return true;
 }
 
-fn main() {
+pub fn solve() -> uint {
     let mut ps = Prime();
     let mut l2r_mat = ~[ ~[ 2, 3, 5, 7 ] ];
     let mut order = 10;
 
     loop {
         let mut result = ~[];
-        for l2r_mat[l2r_mat.len() - 1].each |p| {
-            for [ 1, 3, 5, 7, 9 ].each |d| {
-                let n = order * (*d) + (*p);
+        for l2r_mat.last().each |&p| {
+            // 2 can obly be appeared as the mnost left digits
+            if num_to_digits(p, 10)[0] == 2 { loop; }
+            for [ 1, 2, 3, 5, 7, 9 ].each |&d| {
+                let n = order * d + p;
                 if ps.is_prime(n) { result += [n]; }
             }
         }
@@ -35,10 +37,9 @@ fn main() {
     for l2r.each |n| {
         if *n < 10 { loop; }
         if is_r2l(*n, &mut ps) {
-            io::println(fmt!("%u", *n));
             sum += *n;
         }
     }
 
-    io::println(fmt!("answer: %u", sum));
+    return sum;
 }

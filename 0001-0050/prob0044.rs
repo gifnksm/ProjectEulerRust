@@ -11,7 +11,7 @@ use core::cmp::{ Ord, Eq };
 
 fn get_pentagonal(i: uint) -> uint {
     let n = i + 1;
-    return n * (3*n - 1) / 2;
+    return n * (3 * n - 1) / 2;
 }
 
 fn binary_search<T: Ord + Eq>(key: T, v: &[const T]) -> Option<uint> {
@@ -35,7 +35,7 @@ fn is_pentagonal(n: uint, table: &[uint]) -> bool {
     return binary_search(n, table).is_some();
 }
 
-fn main() {
+pub fn solve() -> uint {
     let pentagonal_table = vec::from_fn(10000, get_pentagonal);
 
     let mut m = 0;
@@ -46,8 +46,7 @@ fn main() {
             if (pm - pk) % 2 != 0 { loop; }
             if is_pentagonal(pm - pk, pentagonal_table) {
                 if is_pentagonal(pm + pk, pentagonal_table) {
-                    io::println(fmt!("answer: %u", pm + pk));
-                    return;
+                    return pm - pk;
                 }
             }
         }

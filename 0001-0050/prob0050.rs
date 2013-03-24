@@ -1,4 +1,3 @@
-extern mod euler;
 use euler::prime::{ Prime };
 
 fn get_longer(p: uint, min_len: uint, ps: &mut Prime) -> Option<uint> {
@@ -38,7 +37,7 @@ fn get_longer(p: uint, min_len: uint, ps: &mut Prime) -> Option<uint> {
     }
 }
 
-fn main() {
+pub fn solve() -> uint {
     let limit = 1000000;
     let mut ps = Prime();
 
@@ -50,7 +49,6 @@ fn main() {
         if p > limit { break; }
         match get_longer(p, len, &mut ps) {
             Some(l) => {
-                io::println(fmt!("%u => %u", p, l));
                 len = l;
                 num = p;
             }
@@ -58,6 +56,5 @@ fn main() {
         }
         i += 1;
     }
-    io::println(fmt!("%u: %u", num, len));
-    io::println(fmt!("answer: %u", num));
+    return num;
 }

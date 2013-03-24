@@ -1,4 +1,3 @@
-extern mod euler;
 use euler::calc::{ num_to_digits };
 
 fn is_palindromic(n: uint, radix: uint) -> bool {
@@ -20,7 +19,7 @@ fn to_palindromic(n: uint, radix: uint, is_odd: bool) -> uint{
     return num;
 }
 
-fn main() {
+pub fn solve() -> uint{
     let order_array = &[ 1, 10, 100, 1000, 1000, 10000 ];
     let mut sum = 0;
     for uint::range(0, order_array.len() - 1) |i| {
@@ -30,14 +29,13 @@ fn main() {
                 let n = to_palindromic(n, 10, *b);
                 if n >= 1000000 { break; }
                 if is_palindromic(n, 2) {
-                    io::println(fmt!("%u = %s", n, uint::to_str_radix(n, 2)));
                     sum += n;
                 }
             }
         }
     }
 
-    io::println(fmt!("answer: %u", sum));
+    return sum;
 }
 
 

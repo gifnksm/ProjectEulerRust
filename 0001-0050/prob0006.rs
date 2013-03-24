@@ -1,12 +1,12 @@
-fn sum_of_square(n: u64) -> u64 { n * (n + 1u64) * (2u64 * n + 1u64) / 6u64 }
-fn sum_of_seq(n: u64) -> u64 { n * (n + 1u64) / 2u64 }
-fn square_of_sum(n: u64) -> u64 {
+fn sum_of_square(n: uint) -> uint { n * (n + 1) * (2 * n + 1) / 6 }
+fn sum_of_seq(n: uint) -> uint { n * (n + 1) / 2 }
+fn square_of_sum(n: uint) -> uint {
     let s = sum_of_seq(n);
     return s * s;
 }
 
-fn main() {
-    let sq_of_sum = square_of_sum(100u64);
-    let sum_of_sq = sum_of_square(100u64);
-    io::println(fmt!("%u - %u = %u", sq_of_sum as uint, sum_of_sq as uint, (sq_of_sum - sum_of_sq) as uint));
+pub fn solve() -> uint {
+    let sq_of_sum = square_of_sum(100);
+    let sum_of_sq = sum_of_square(100);
+    return sq_of_sum - sum_of_sq;
 }

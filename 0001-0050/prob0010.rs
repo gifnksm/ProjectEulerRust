@@ -1,15 +1,13 @@
-extern mod euler;
+use euler::prime::{ Prime };
 
-use prime = euler::prime;
-
-fn main() {
+pub fn solve() -> uint {
     let mut sum = 0;
-    let mut ps = prime::Prime();
+    let mut ps = Prime();
     for ps.each |p| {
         if p >= 2000000 {
             break;
         }
         sum += p;
     }
-    io::println(fmt!("%u", sum));
+    return sum;
 }

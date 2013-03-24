@@ -13,7 +13,7 @@ fn hexagonal(i: uint) -> uint {
     return n * (2 * n - 1);
 }
 
-fn main() {
+pub fn solve() -> uint {
     let mut n = 40755 + 1;
     let mut t_i = 0;
     let mut p_i = 0;
@@ -44,6 +44,5 @@ fn main() {
         break;
     }
 
-    io::println(fmt!("T[%u] = P[%u] = H[%u] = %u", t_i, p_i, h_i, triangle(t_i)));
-    io::println(fmt!("answer: %u", triangle(t_i)));
+    return triangle(t_i);
 }

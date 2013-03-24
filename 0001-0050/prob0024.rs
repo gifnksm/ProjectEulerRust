@@ -1,16 +1,13 @@
-extern mod std;
-extern mod euler;
-
 use core::either::{ Either, Left, Right };
 use core::cmp::{ Eq, Ord };
 use core::to_bytes::{ IterBytes };
 use core::hash::{ Hash };
 use core::hashmap::linear::{ LinearMap };
-use core::util;
+use core::util::{ unreachable };
 
 use std::sort::{ quick_sort };
 
-use euler::calc::{ histogram, num_of_permutations };
+use euler::calc::{ histogram, num_of_permutations, digits_to_num };
 
 fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &LinearMap<K, uint>, n: uint) -> Either<uint, ~[K]> {
     if hist.is_empty() {
@@ -43,10 +40,11 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &LinearMap<K, uint>, n: u
         }
     }
 
-    util::unreachable();
+    unreachable();
 }
 
-fn main() {
-    let nums = histogram(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    io::println(fmt!("%?", either::unwrap_right(get_at(&nums, 1000000))));
+pub fn solve() -> uint {
+    let nums = histogram::<uint>(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    let ds = either::unwrap_right(get_at(&nums, 1000000));
+    return digits_to_num(ds, 10);
 }

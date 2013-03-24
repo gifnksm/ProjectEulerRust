@@ -34,13 +34,12 @@ fn append_day(y: uint, offset: uint, result: &mut [uint * 7]) -> uint {
     return day;
 }
 
-fn main() {
+pub fn solve() -> uint {
     let mut result = [0, 0, 0, 0, 0, 0, 0];
     let mut day = 1; // Monday
     day = (day + day_of_year(1900)) % 7;
     for uint::range(1901, 2000 + 1) |y| {
         day = append_day(y, day, &mut result);
-        io::println(fmt!("%? %?", result, day));
     }
-    io::println(fmt!("%u", result[0]));
+    return result[0];
 }

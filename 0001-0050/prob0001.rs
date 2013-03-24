@@ -1,7 +1,9 @@
-fn main() {
-    let mut sum = 0u;
-    for uint::range(0u, 1000u) |n| {
-        if n % 3u == 0u || n % 5u == 0u { sum += n; }
+pub fn solve() -> uint {
+    let mut sum = 0;
+    for uint::range(0, 1000) |n| {
+        if n % 3 == 0 || n % 5 == 0 {
+            sum += n;
+        }
     }
-    io::println(fmt!("%u", sum));
+    return sum;
 }

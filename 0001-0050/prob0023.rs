@@ -1,8 +1,6 @@
-extern mod euler;
-
 use euler::prime::{ Prime, sum_of_proper_divisors };
 
-fn main() {
+pub fn solve() -> uint {
     let max_num = 28123;
     let mut p = Prime();
 
@@ -32,5 +30,5 @@ fn main() {
 
     let sum_of_all_int = (1 + max_num) * max_num / 2;
 
-    io::println(fmt!("%u", sum_of_all_int - sum_of_abundant));
+    return sum_of_all_int - sum_of_abundant;
 }

@@ -1,8 +1,6 @@
-extern mod euler;
+use euler::prime::{ Prime };
 
-use euler::prime;
-
-fn main() {
-    let mut ps = prime::Prime();
-    io::println(fmt!("%?", ps.get_at(10000u)));
+pub fn solve() -> uint {
+    let mut ps = Prime();
+    return ps.get_at(10000);
 }

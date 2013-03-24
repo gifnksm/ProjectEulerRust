@@ -1,11 +1,8 @@
-extern mod euler;
-
 use euler::calc::{ each_fib };
 
-extern mod std;
 use std::bigint::{ BigUint };
 
-fn main() {
+pub fn solve() -> uint {
     let mut i = 0;
     let limit = BigUint::from_str_radix(
         str::from_bytes(vec::from_elem(999, '9' as u8)), 10).get();
@@ -14,5 +11,5 @@ fn main() {
         if *f > limit { break; }
     }
 
-    io::println(fmt!("%d", i));
+    return i;
 }

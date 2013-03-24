@@ -1,4 +1,3 @@
-extern mod euler;
 use euler::calc::{ num_to_digits };
 use core::util;
 
@@ -90,12 +89,12 @@ impl IdxValueMap {
 }
 
 
-fn main() {
+pub fn solve() -> uint {
     let mut map = IdxValueMap();
     let idx = &[ 1, 10, 100, 1000, 10000, 100000, 1000000 ];
     let mut prod = 1;
     for idx.each |i| {
         prod *= map.get_digit_by_idx(*i);
     }
-    io::println(fmt!("answer: %u", prod));
+    return prod;
 }

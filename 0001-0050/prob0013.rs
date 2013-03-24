@@ -1,5 +1,4 @@
-fn main() {
-    let input = ~"
+static input: &'static str = "
 37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538
 74324986199524741059474233309513058123726617309629
@@ -99,12 +98,14 @@ fn main() {
 77158542502016545090413245809786882778948721859617
 72107838435069186155435662884062257473692284509516
 20849603980134001723930671666823555245252804609722
-53503534226472524250874054075591789781264330331690";
+53503534226472524250874054075591789781264330331690
+";
 
-    let sum = vec::foldl(0u, do vec::filter_map(str::lines(str::trim(input))) |line| {
-        uint::from_str(str::slice(line, 0u, 12u))
-    }, |sum, num| sum + *num);
+pub fn solve() -> uint {
+    let sum = vec::foldl(0, do vec::filter_map(str::lines(str::trim(input))) |line| {
+        uint::from_str(line.slice(0, 12))
+    }, |sum, &num| sum + num);
 
-    let sum_str = fmt!("%u", sum);
-    io::println(str::slice(sum_str, 0u, 10u));
+    let sum_str = sum.to_str();
+    return uint::from_str(sum_str.slice(0, 10)).get();
 }

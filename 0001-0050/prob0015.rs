@@ -1,7 +1,5 @@
-extern mod euler;
-
-use euler::prime;
-use euler::monoid::*;
+use euler::prime::{ Prime, factors };
+use euler::monoid::{ Sum, merge_as, mergei_as };
 
 fn pow(base: uint, exp: uint) -> uint {
     let mut result = 1;
@@ -30,12 +28,12 @@ fn fact_to_uint(fs: &[(uint, int)]) -> uint {
     return result;
 }
 
-fn main() {
-    let mut primes = prime::Prime();
+pub fn solve() -> uint {
+    let mut primes = Prime();
     let mut numer_facts = ~[];
     for uint::range(21, 40 + 1) |num| {
         let mut list = ~[];
-        for prime::factors(num, &mut primes) |f| { list += [ f ]; }
+        for factors(num, &mut primes) |f| { list += [ f ]; }
         numer_facts.push(list);
     }
     let numer = mergei_as(numer_facts, |i| Sum(i as int));
@@ -43,10 +41,10 @@ fn main() {
     let mut denom_facts = ~[];
     for uint::range(1, 20 + 1) |num| {
         let mut list = ~[];
-        for prime::factors(num, &mut primes) |f| { list += [ f ]; }
+        for factors(num, &mut primes) |f| { list += [ f ]; }
         denom_facts.push(list);
     }
     let denom = mergei_as(denom_facts, |i| Sum(-(i as int)));
 
-    io::println(fmt!("%u", fact_to_uint(merge_as(numer, denom, Sum))));
+    return fact_to_uint(merge_as(numer, denom, Sum));
 }

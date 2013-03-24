@@ -1,15 +1,16 @@
-extern mod euler;
+use core::util::{ unreachable };
 
-use euler::prime;
+use euler::prime::{ Prime, num_of_divisors };
 use euler::calc::{ each_triangles };
 
-fn main() {
-    let mut primes = prime::Prime();
+pub fn solve() -> uint {
+    let mut primes = Prime();
     for each_triangles |t| {
-        let num = prime::num_of_divisors(t, &mut primes);
+        let num = num_of_divisors(t, &mut primes);
         if num > 500 {
-            io::println(fmt!("%u -> %u", t, num));
-            break;
+            return t;
         }
     }
+
+    unreachable();
 }

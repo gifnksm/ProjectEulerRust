@@ -1,9 +1,8 @@
 use core::num::{ One };
 
-extern mod std;
 use std::bigint::{ BigUint };
 
-fn main() {
+pub fn solve() -> uint {
     let mut f = One::one::<BigUint>();
     for uint::range(0, 100) |i| {
         f = f * BigUint::from_uint(i + 1);
@@ -12,5 +11,5 @@ fn main() {
     for f.to_str().each() |n| {
         sum += (n - '0' as u8) as uint;
     }
-    io::println(fmt!("%u", sum));
+    return sum;
 }
