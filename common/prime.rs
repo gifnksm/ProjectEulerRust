@@ -1,5 +1,7 @@
 use core::util::unreachable;
 
+use common::monoid::{ Sum, merge_as, mergei_as };
+
 pub struct Prime {
     priv vec: ~[uint],
 }
@@ -177,6 +179,22 @@ pub fn sum_of_divisors(num: uint, primes: &mut Prime) -> uint {
 
 pub fn sum_of_proper_divisors(num: uint, primes: &mut Prime) -> uint {
     sum_of_divisors(num, primes) - num
+}
+
+pub fn comb(n: uint, r: uint, ps: &mut Prime) -> uint {
+    let mut numer_facts = ~[];
+    for uint::range(r + 1, n + 1) |i| {
+        numer_facts.push(iter::to_vec(&Factors::new(i, ps)));
+    }
+    let numer = mergei_as(numer_facts, Sum);
+
+    let mut denom_facts = ~[];
+    for uint::range(1, n - r + 1) |num| {
+        denom_facts.push(iter::to_vec(&Factors::new(num, ps)));
+    }
+    let denom = mergei_as(denom_facts, |i| Sum(-i));
+
+    return factors_to_uint(&merge_as(numer, denom, Sum));
 }
 
 #[cfg(test)]
