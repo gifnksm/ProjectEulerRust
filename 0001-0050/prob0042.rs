@@ -1,5 +1,5 @@
-use euler::calc::{ each_triangles };
-use euler::reader::{ read_whole_word };
+use common::calc::{ each_triangles };
+use common::reader::{ read_whole_word };
 
 fn word_value(word: &str) -> uint {
     let mut value = 0;

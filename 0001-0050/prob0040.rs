@@ -1,4 +1,4 @@
-use euler::calc::{ num_to_digits };
+use common::calc::{ num_to_digits };
 use core::util;
 
 // d_(a*10 + b)

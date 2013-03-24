@@ -1,4 +1,4 @@
-use euler::prime::{ Prime };
+use common::prime::{ Prime };
 
 fn get_longer(p: uint, min_len: uint, ps: &mut Prime) -> Option<uint> {
     fn get_prime(n: int, ps: &mut Prime)-> uint {

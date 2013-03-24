@@ -1,5 +1,5 @@
-use euler::calc::{ num_to_digits };
-use euler::prime::{ Prime };
+use common::calc::{ num_to_digits };
+use common::prime::{ Prime };
 
 fn is_r2l(n: uint, ps: &mut Prime) -> bool {
     let mut itr = n / 10;

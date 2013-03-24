@@ -1,8 +1,8 @@
-use bounded::{ Bounded };
-
 use core::cmp::{ Ord, Eq };
 use core::ops::{ Add, Mul };
 use core::num::{ Zero, One };
+
+use common::bounded::{ Bounded };
 
 pub trait Monoid {
     fn mempty() -> Self;

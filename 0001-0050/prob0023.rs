@@ -1,4 +1,4 @@
-use euler::prime::{ Prime, sum_of_proper_divisors };
+use common::prime::{ Prime, sum_of_proper_divisors };
 
 pub fn solve() -> uint {
     let max_num = 28123;

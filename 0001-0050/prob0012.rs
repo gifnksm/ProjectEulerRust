@@ -1,7 +1,7 @@
 use core::util::{ unreachable };
 
-use euler::prime::{ Prime, num_of_divisors };
-use euler::calc::{ each_triangles };
+use common::prime::{ Prime, num_of_divisors };
+use common::calc::{ each_triangles };
 
 pub fn solve() -> uint {
     let mut primes = Prime();

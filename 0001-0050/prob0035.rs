@@ -1,5 +1,5 @@
-use euler::prime::{ Prime };
-use euler::calc::{ num_to_digits };
+use common::prime::{ Prime };
+use common::calc::{ num_to_digits };
 
 fn is_circular_prime(n: uint, ps: &mut Prime) -> bool {
     let buf = num_to_digits(n, 10);

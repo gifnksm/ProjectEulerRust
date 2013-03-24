@@ -1,7 +1,7 @@
 use core::hashmap::linear::{ LinearMap };
 
-use euler::arith::{ isqrt };
-use euler::calc::{ get_gcd };
+use common::arith::{ isqrt };
+use common::calc::{ get_gcd };
 
 pub fn solve() -> uint {
     // a + b + c = 2m(m + n) <= L

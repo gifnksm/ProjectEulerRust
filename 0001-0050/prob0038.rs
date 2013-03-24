@@ -2,7 +2,7 @@ use core::util::{ unreachable };
 
 use std::sort::{ quick_sort };
 
-use euler::calc::{ permutate_num, num_to_digits };
+use common::calc::{ permutate_num, num_to_digits };
 
 pub fn solve() -> uint{
     for permutate_num(~[9, 8, 7, 6, 5, 4, 3, 2, 1], 4, 0, 9999) |num, rest| {

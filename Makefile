@@ -14,32 +14,26 @@ $(error Unknown OS $(OS) or UNAME $(UNAME))
 endif
 
 SRC=$(wildcard *.rs)
-DEPSRC=$(wildcard *-*/*.rs)
-LIBSRC=$(wildcard lib/*.rs)
-LIBEULER=./lib/libeuler-*$(LIBEXT)
+DEPSRC=$(wildcard *-*/*.rs common/*.rs)
 TARGET=$(SRC:.rs=$(EXEEXT))
-TESTS=./lib/euler.test$(EXEEXT)
+TEST=$(SRC:.rs=.test$(EXEEXT))
 
 RUSTC_FLAGS=
-LD_FLAGS=-L ./lib
+LD_FLAGS=
 TEST_RUSTC_FLAGS=
 
 all: $(TARGET)
 
-$(LIBEULER): ./lib/euler.rc $(LIBSRC)
-	rustc --lib $(RUSTC_FLAGS) $<
-
-%: %.rs $(LIBEULER) $(LIBSRC) $(DEPSRC)
+%$(EXEEXT): %.rs $(DEPSRC)
 	rustc $(RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
 
-./lib/%.test: ./lib/%.rc $(LIBSRC)
-	rustc --test $(RUSTC_FLAGS)  $(TEST_RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
+%.test$(EXEEXT): %.rs $(DEPSRC)
+	rustc --test $(RUSTC_FLAGS) $(TEST_RUSTC_FLAGS) $(LD_FLAGS) $< -o $@
 
 .PHONY: test clean
 
-test: $(TESTS)
-	@for exe in $(TESTS); do echo "$$exe"; ./$$exe; done
+test: $(TEST)
+	@for exe in $(TEST); do echo "$$exe"; ./$$exe; done
 
 clean:
-	$(RM) $(TARGET) $(LIBEULER) $(TESTS)
-
+	$(RM) $(TARGET) $(TEST)

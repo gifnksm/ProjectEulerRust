@@ -1,4 +1,4 @@
-use euler::calc::{ each_fib };
+use common::calc::{ each_fib };
 
 use std::bigint::{ BigUint };
 

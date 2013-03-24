@@ -1,5 +1,5 @@
-use euler::prime;
-use euler::monoid::{ mergei_as, Max };
+use common::prime;
+use common::monoid::{ mergei_as, Max };
 
 fn pow(base: uint, exp: uint) -> uint {
     let mut result = 1;

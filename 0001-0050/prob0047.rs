@@ -1,4 +1,4 @@
-use euler::prime::{ Prime, factors };
+use common::prime::{ Prime, factors };
 
 fn num_factors(n: uint, ps: &mut Prime) -> uint {
     let mut cnt = 0;

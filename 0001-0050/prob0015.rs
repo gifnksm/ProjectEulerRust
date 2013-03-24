@@ -1,5 +1,5 @@
-use euler::prime::{ Prime, factors };
-use euler::monoid::{ Sum, merge_as, mergei_as };
+use common::prime::{ Prime, factors };
+use common::monoid::{ Sum, merge_as, mergei_as };
 
 fn pow(base: uint, exp: uint) -> uint {
     let mut result = 1;

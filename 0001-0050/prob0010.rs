@@ -1,4 +1,4 @@
-use euler::prime::{ Prime };
+use common::prime::{ Prime };
 
 pub fn solve() -> uint {
     let mut sum = 0;

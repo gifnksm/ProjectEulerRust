@@ -7,7 +7,7 @@ use core::util::{ unreachable };
 
 use std::sort::{ quick_sort };
 
-use euler::calc::{ histogram, num_of_permutations, digits_to_num };
+use common::calc::{ histogram, num_of_permutations, digits_to_num };
 
 fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &LinearMap<K, uint>, n: uint) -> Either<uint, ~[K]> {
     if hist.is_empty() {

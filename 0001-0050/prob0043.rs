@@ -1,4 +1,4 @@
-use euler::calc::{ num_to_digits, digits_to_num };
+use common::calc::{ num_to_digits, digits_to_num };
 
 struct DigitMap { used: [ bool * 10] }
 

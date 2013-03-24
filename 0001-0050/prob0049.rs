@@ -1,7 +1,7 @@
 use std::sort::{ merge_sort };
 
-use euler::prime::{ Prime };
-use euler::calc::{ num_to_digits, permutate_num };
+use common::prime::{ Prime };
+use common::calc::{ num_to_digits, permutate_num };
 
 pub fn solve() -> uint {
     let d = 3330;

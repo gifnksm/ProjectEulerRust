@@ -1,6 +1,6 @@
 use core::hashmap::linear::{ LinearSet };
 
-use euler::prime::{ Prime, factors };
+use common::prime::{ Prime, factors };
 
 pub fn solve() -> uint {
     let mut ps  = Prime();

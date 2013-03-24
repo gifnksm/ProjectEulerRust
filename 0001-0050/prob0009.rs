@@ -1,6 +1,6 @@
 use core::util::{ unreachable };
 
-use euler::arith::{ isqrt };
+use common::arith::{ isqrt };
 
 fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) {
     for uint::range(2, sum - 2) |c| {

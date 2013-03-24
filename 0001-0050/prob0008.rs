@@ -1,4 +1,4 @@
-use euler::extvec::{ each_window };
+use common::extvec::{ each_window };
 
 static input: &'static str = &"
 73167176531330624919225119674426574742355349194934

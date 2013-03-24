@@ -1,4 +1,4 @@
-use euler::calc::{ num_to_digits };
+use common::calc::{ num_to_digits };
 
 fn is_palindromic(n: uint, radix: uint) -> bool {
     let digits = num_to_digits(n, radix);

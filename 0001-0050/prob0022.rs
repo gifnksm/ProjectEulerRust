@@ -1,6 +1,6 @@
 use std::sort::{ merge_sort };
 
-use euler::reader::{ read_whole_word };
+use common::reader::{ read_whole_word };
 
 fn get_score(n: uint, s: &str) -> uint {
     n * str::as_bytes_slice(s).map(|c| *c - ('A' as u8) + 1).foldl(0 as uint, |s, e| *s + *e as uint)

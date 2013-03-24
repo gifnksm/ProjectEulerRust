@@ -1,5 +1,6 @@
 use core::util::{ unreachable };
-use euler::prime::{ Prime };
+
+use common::prime::{ Prime };
 
 pub fn solve() -> uint {
     let mut num = 600851475143;

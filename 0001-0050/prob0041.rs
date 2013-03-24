@@ -1,7 +1,7 @@
 use core::util::{ unreachable };
 
-use euler::calc::{ permutate_num };
-use euler::prime::{ Prime };
+use common::calc::{ permutate_num };
+use common::prime::{ Prime };
 
 pub fn solve() -> uint {
     let mut ps = Prime();

@@ -3,7 +3,7 @@
 // p(1) = 1 + a + b => a > -(1+b)
 // p(2) = 4 + 2a + b
 
-use euler::prime::{ Prime };
+use common::prime::{ Prime };
 
 fn get_len(a: int, b: int, ps: &mut Prime) -> uint {
     let mut nu = 0;

@@ -1,4 +1,4 @@
-use euler::calc::{ each_fib };
+use common::calc::{ each_fib };
 
 pub fn solve() -> uint {
     let max = 4000000;

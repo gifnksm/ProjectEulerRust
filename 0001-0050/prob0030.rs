@@ -1,6 +1,6 @@
 use std::sort::{ quick_sort };
 
-use euler::calc::{ combinate_overlap };
+use common::calc::{ combinate_overlap };
 
 // 9^5     = 59049
 // 9999    => 9^5 * 4 = 236196

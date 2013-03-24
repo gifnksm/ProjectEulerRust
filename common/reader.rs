@@ -26,7 +26,7 @@ fn read_word(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
     return result::Ok((str::slice(input, 1, 1 + len), itr));
 }
 
-fn read_whole_word(input: &'a str) -> Result<~[&'a str], ~str> {
+pub fn read_whole_word(input: &'a str) -> Result<~[&'a str], ~str> {
     let mut result = ~[];
     let mut itr = input;
     while !itr.is_empty() {

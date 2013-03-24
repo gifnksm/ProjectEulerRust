@@ -1,5 +1,5 @@
-use euler::prime::{ Prime };
-use euler::arith::{ isqrt };
+use common::prime::{ Prime };
+use common::arith::{ isqrt };
 
 fn is_goldbach(n: uint, ps: &mut Prime) -> bool {
     for uint::range(1, isqrt(n / 2) + 1) |s| {

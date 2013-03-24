@@ -2,7 +2,7 @@ use core::hashmap::linear::{ LinearSet };
 
 use std::sort::{ merge_sort };
 
-use euler::calc::{ num_to_digits, permutate_num };
+use common::calc::{ num_to_digits, permutate_num };
 
 // possible num of digits combinations
 // 1 x 1 = 7 : NG 10 * 10
