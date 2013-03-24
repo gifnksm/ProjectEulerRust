@@ -5,8 +5,10 @@ pub struct Prime {
 }
 
 impl Prime {
+    #[inline(always)]
     pub fn new() -> Prime { Prime { vec: ~[] } }
 
+    #[inline(always)]
     priv fn is_coprime(&mut self, num: uint) -> bool {
         for self.vec.each |&p| {
             if p * p > num  { return true; }
@@ -15,6 +17,7 @@ impl Prime {
         return true;
     }
 
+    #[inline(always)]
     priv fn grow_len(&mut self, len: uint) {
         if self.vec.len() >= len { return; }
 
@@ -41,11 +44,13 @@ impl Prime {
         }
     }
 
+    #[inline(always)]
     pub fn get_at(&mut self, idx: uint) -> uint {
         self.grow_len(idx + 1);
         return self.vec[idx];
     }
 
+    #[inline(always)]
     pub fn is_prime(&mut self, num: uint) -> bool {
         if num < 2 { return false; }
 
@@ -56,6 +61,7 @@ impl Prime {
         unreachable();
     }
 
+    #[inline(always)]
     pub fn each(&mut self, f: &fn(uint) -> bool) {
         for self.each_borrow |p, _ps| {
             if !f(p) {
@@ -65,6 +71,7 @@ impl Prime {
         unreachable();
     }
 
+    #[inline(always)]
     pub fn each_borrow(&mut self, f: &fn(uint, &mut Prime) -> bool) {
         let init_len = self.vec.len();
         for uint::range(0, init_len) |i| {
@@ -111,11 +118,13 @@ impl BaseIter<(uint, int)> for Factors<'self> {
 }
 
 impl Factors<'self> {
+    #[inline(always)]
     pub fn new(num: uint, primes: &'a mut Prime) -> Factors<'a> {
         Factors { num: num, prime: primes }
     }
 }
 
+#[inline(always)]
 priv fn pow(base: uint, exp: uint) -> uint {
     let mut result = 1;
     let mut itr = exp;
@@ -130,6 +139,7 @@ priv fn pow(base: uint, exp: uint) -> uint {
     return result;
 }
 
+#[inline(always)]
 pub fn factors_to_uint<IA: BaseIter<(uint, int)>>(fs: &IA) -> uint {
     let mut result = 1;
     for fs.each() |&tp| {
@@ -143,6 +153,7 @@ pub fn factors_to_uint<IA: BaseIter<(uint, int)>>(fs: &IA) -> uint {
     return result;
 }
 
+#[inline(always)]
 pub fn num_of_divisors(num: uint, primes: &mut Prime) -> uint {
     if num == 0 { return 0; }
     let mut prod = 1;
@@ -153,6 +164,7 @@ pub fn num_of_divisors(num: uint, primes: &mut Prime) -> uint {
     return prod;
 }
 
+#[inline(always)]
 pub fn sum_of_divisors(num: uint, primes: &mut Prime) -> uint {
     if num == 0 { return 0; }
     let mut sum = 1;
