@@ -8,10 +8,29 @@ mod prob0001_0050;
 
 priv use common::problem::{ Problem };
 
-fn solve_all(problems: &[Problem]) {
-    for problems.each |p| { p.solve(); }
+priv fn each_problems(f: &fn(&Problem) -> bool) {
+    for prob0001_0050::problems.each |p| {
+        if !f(p) { return; }
+    }
+}
+
+priv fn solve_all() {
+    for each_problems |p| { p.solve(); }
+}
+
+priv fn solve(n: uint) {
+    for each_problems |p| {
+        if p.number() == n { p.solve(); }
+    }
 }
 
 fn main() {
-    solve_all(prob0001_0050::problems);
+    let nums = os::args().filter_mapped(|&s| uint::from_str(s));
+    if nums.is_empty() {
+        solve_all();
+    } else {
+        for nums.each_val |n| {
+            solve(n);
+        }
+    }
 }

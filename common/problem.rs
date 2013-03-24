@@ -24,4 +24,11 @@ pub impl Problem {
             &IntProblem(s) => s.solve()
         }
     }
+
+    fn number(&self) -> uint {
+        match self {
+            &UintProblem(s) => s.number,
+            &IntProblem(s) => s.number
+        }
+    }
 }
