@@ -41,9 +41,8 @@ macro_rules! define_solver(
 #[path="./common/mod.rs"]
 mod common;
 
-#[path="./0001-0050/mod.rs"]
+#[path="./prob0001_0050/mod.rs"]
 mod prob0001_0050;
-
 use prob0001_0050::*;
 
 static solvers: &'static [Wrap] = &[

@@ -14,7 +14,7 @@ $(error Unknown OS $(OS) or UNAME $(UNAME))
 endif
 
 SRC=$(wildcard *.rs)
-DEPSRC=$(wildcard *-*/*.rs common/*.rs)
+DEPSRC=$(wildcard prob*_*/*.rs common/*.rs)
 TARGET=$(SRC:.rs=$(EXEEXT))
 TEST=$(SRC:.rs=.test$(EXEEXT))
 
