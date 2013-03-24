@@ -1,3 +1,11 @@
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 26,
+    answer: "983",
+    solver: solve
+};
+
 fn get_cycle_len(n: uint) -> uint {
     if n == 1 { return 1; }
     let mut buf = vec::from_elem(n, None);
@@ -14,7 +22,7 @@ fn get_cycle_len(n: uint) -> uint {
     }
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut longest_num = 0;
     let mut longest_len = 0;
     for uint::range(2, 1000) |n| {

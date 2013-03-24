@@ -1,3 +1,11 @@
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 31,
+    answer: "73682",
+    solver: solve
+};
+
 fn count_ways(sum: uint, coins: &[uint]) -> uint {
     if coins.len() == 1 { return 1 }
 
@@ -9,7 +17,7 @@ fn count_ways(sum: uint, coins: &[uint]) -> uint {
     return ans;
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let coins = [ 200, 100, 50, 20, 10, 5, 2, 1 ];
     return count_ways(200, coins).to_str();
 }

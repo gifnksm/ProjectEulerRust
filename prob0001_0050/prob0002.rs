@@ -1,6 +1,13 @@
 use common::calc::{ each_fib };
+use common::problem::{ Problem };
 
-pub fn solve() -> ~str {
+pub static problem: Problem<'static> = Problem {
+    id: 2,
+    answer: "4613732",
+    solver: solve
+};
+
+fn solve() -> ~str {
     let max = 4000000;
     let mut sum = 0;
     for each_fib |f: &uint| {

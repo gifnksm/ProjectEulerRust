@@ -1,4 +1,11 @@
 use common::calc::{ num_to_digits };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 36,
+    answer: "872187",
+    solver: solve
+};
 
 fn is_palindromic(n: uint, radix: uint) -> bool {
     let digits = num_to_digits(n, radix);
@@ -19,7 +26,7 @@ fn to_palindromic(n: uint, radix: uint, is_odd: bool) -> uint{
     return num;
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let order_array = &[ 1, 10, 100, 1000, 1000, 10000 ];
     let mut sum = 0;
     for uint::range(0, order_array.len() - 1) |i| {

@@ -1,5 +1,12 @@
 use common::prime;
 use common::monoid::{ mergei_as, Max };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 5,
+    answer: "232792560",
+    solver: solve
+};
 
 fn pow(base: uint, exp: uint) -> uint {
     let mut result = 1;
@@ -24,7 +31,7 @@ fn fact_to_uint(fs: &[(uint, uint)]) -> uint {
     return result;
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut primes = prime::Prime();
     let mut factors = ~[];
     for uint::range(1, 20 + 1) |n| {

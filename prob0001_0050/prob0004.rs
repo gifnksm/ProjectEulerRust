@@ -1,3 +1,11 @@
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 4,
+    answer: "906609",
+    solver: solve
+};
+
 fn to_palindromic(n: uint, dup_flag: bool) -> uint {
     let cs = str::chars(n.to_str());
     let rv = vec::reversed(cs);
@@ -24,7 +32,7 @@ fn dividable_pairs(num: uint, min: uint, max: uint, f: &fn(uint, uint) -> bool) 
     }
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     for [false, true].each |&dup_flag| {
         for uint::range_rev(999, 99) |seed| {
             let num = to_palindromic(seed, dup_flag);

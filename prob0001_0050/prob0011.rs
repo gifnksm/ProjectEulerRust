@@ -1,3 +1,11 @@
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 11,
+    answer: "70600674",
+    solver: solve
+};
+
 fn find_max_uint(ns: &[uint]) -> uint {
     vec::foldl(0u, ns, |acc, n| uint::max(acc, *n))
 }
@@ -73,7 +81,7 @@ static input: &'static str = &"
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 ";
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let grid = do vec::map(str::lines(str::trim(input))) |row| {
         do vec::map(str::split_char(*row, ' ')) |cell| {
             uint::from_str(*cell).get()

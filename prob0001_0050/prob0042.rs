@@ -1,5 +1,12 @@
 use common::calc::{ each_triangles };
 use common::reader::{ read_whole_word };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 42,
+    answer: "162",
+    solver: solve
+};
 
 fn word_value(word: &str) -> uint {
     let mut value = 0;
@@ -9,7 +16,7 @@ fn word_value(word: &str) -> uint {
     return value;
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let result = do io::read_whole_file_str(&Path("files/words.txt")).chain |input| {
         do read_whole_word(input).map |words| { words.map(|w| word_value(*w)) }
     };

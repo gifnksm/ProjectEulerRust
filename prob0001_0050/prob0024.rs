@@ -8,6 +8,13 @@ use core::util::{ unreachable };
 use std::sort::{ quick_sort };
 
 use common::calc::{ histogram, num_of_permutations, digits_to_num };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 24,
+    answer: "2783915460",
+    solver: solve
+};
 
 fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &LinearMap<K, uint>, n: uint) -> Either<uint, ~[K]> {
     if hist.is_empty() {
@@ -43,7 +50,7 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &LinearMap<K, uint>, n: u
     unreachable();
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let nums = histogram::<uint>(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
     let ds = either::unwrap_right(get_at(&nums, 1000000));
     return digits_to_num(ds, 10).to_str();

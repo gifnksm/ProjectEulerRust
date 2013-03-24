@@ -1,5 +1,12 @@
 use common::prime::{ Prime };
 use common::calc::{ num_to_digits };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 35,
+    answer: "55",
+    solver: solve
+};
 
 fn is_circular_prime(n: uint, ps: &mut Prime) -> bool {
     let buf = num_to_digits(n, 10);
@@ -14,7 +21,7 @@ fn is_circular_prime(n: uint, ps: &mut Prime) -> bool {
     return true;
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut ps = Prime();
     let mut cnt = 0u;
     let mut i = 0;

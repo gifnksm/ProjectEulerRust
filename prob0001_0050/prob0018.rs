@@ -1,3 +1,11 @@
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 18,
+    answer: "1074",
+    solver: solve
+};
+
 static triangle: &'static [&'static [uint]] = &[
     &[75],
     &[95, 64],
@@ -16,7 +24,7 @@ static triangle: &'static [&'static [uint]] = &[
     &[04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23]
 ];
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let init = triangle.slice(0, triangle.len() - 1);
     let last = *triangle.last();
     let answer = do init.foldr(vec::from_slice(last)) |elm, prev| {

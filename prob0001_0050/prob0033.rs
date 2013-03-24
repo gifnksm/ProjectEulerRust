@@ -1,4 +1,11 @@
 use common::calc::{ get_gcd };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 33,
+    answer: "100",
+    solver: solve
+};
 
 // AB / AC => NG (10A+B : 10A+C = B : C => 10AC+BC = 10AB+BC => 10A(C-B) = 0 -> trivial)
 // BA / CA => NG
@@ -13,7 +20,7 @@ use common::calc::{ get_gcd };
 // A = 9BC / (10B - C)
 // C > B
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut prod_numer = 1;
     let mut prod_denom = 1;
 

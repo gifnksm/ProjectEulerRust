@@ -9,14 +9,14 @@ mod prob0001_0050;
 priv use common::problem::{ Problem };
 
 priv fn each_problems(f: &fn(&Problem) -> bool) {
-    for prob0001_0050::problems.each |p| {
+    for prob0001_0050::problems.each_val |p| {
         if !f(p) { return; }
     }
 }
 
 priv fn solve(p: &Problem) {
-    assert!(p.answer == (p.solver)());
-    io::println(fmt!("Problem #%u: %s", p.number, p.answer));
+    assert_eq!((p.solver)(), p.answer.to_str());
+    io::println(fmt!("Problem #%u: %s", p.id, p.answer));
 }
 
 fn main() {
@@ -26,7 +26,7 @@ fn main() {
     } else {
         for nums.each_val |n| {
             for each_problems |p| {
-                if p.number == n { solve(p); }
+                if p.id == n { solve(p); }
             }
         }
     }

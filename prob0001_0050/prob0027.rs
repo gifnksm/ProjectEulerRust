@@ -4,6 +4,13 @@
 // p(2) = 4 + 2a + b
 
 use common::prime::{ Prime };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 27,
+    answer: "-59231",
+    solver: solve
+};
 
 fn get_len(a: int, b: int, ps: &mut Prime) -> uint {
     let mut nu = 0;
@@ -22,7 +29,7 @@ fn get_len(a: int, b: int, ps: &mut Prime) -> uint {
     }
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut ps = Prime();
     let mut ans_a = 0;
     let mut ans_b = 0;

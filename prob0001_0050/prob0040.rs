@@ -1,5 +1,13 @@
-use common::calc::{ num_to_digits };
 use core::util;
+
+use common::calc::{ num_to_digits };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 40,
+    answer: "210",
+    solver: solve
+};
 
 // d_(a*10 + b)
 //    0 1 2 3 4 5 6 7 8 9
@@ -89,7 +97,7 @@ impl IdxValueMap {
 }
 
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut map = IdxValueMap();
     let idx = &[ 1, 10, 100, 1000, 10000, 100000, 1000000 ];
     let mut prod = 1;

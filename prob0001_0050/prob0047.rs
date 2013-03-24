@@ -1,4 +1,11 @@
 use common::prime::{ Prime, factors };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 47,
+    answer: "134043",
+    solver: solve
+};
 
 fn num_factors(n: uint, ps: &mut Prime) -> uint {
     let mut cnt = 0;
@@ -6,7 +13,7 @@ fn num_factors(n: uint, ps: &mut Prime) -> uint {
     return cnt;
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut ps = Prime();
     let mut cnt = 0;
     let len = 4;

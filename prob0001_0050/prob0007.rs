@@ -1,6 +1,13 @@
 use common::prime::{ Prime };
+use common::problem::{ Problem };
 
-pub fn solve() -> ~str {
+pub static problem: Problem<'static> = Problem {
+    id: 7,
+    answer: "104743",
+    solver: solve
+};
+
+fn solve() -> ~str {
     let mut ps = Prime();
     return ps.get_at(10000).to_str();
 }

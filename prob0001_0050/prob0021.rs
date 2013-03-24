@@ -1,6 +1,13 @@
 use common::prime::{ Prime, sum_of_proper_divisors };
+use common::problem::{ Problem };
 
-pub fn solve() -> ~str {
+pub static problem: Problem<'static> = Problem {
+    id: 21,
+    answer: "31626",
+    solver: solve
+};
+
+fn solve() -> ~str {
     let mut p = Prime();
     let elms = vec::from_fn(10000, |n| sum_of_proper_divisors(n, &mut p));
     let mut amicables = ~[];

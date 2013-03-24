@@ -1,3 +1,11 @@
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 13,
+    answer: "5537376230",
+    solver: solve
+};
+
 static input: &'static str = "
 37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538
@@ -101,7 +109,7 @@ static input: &'static str = "
 53503534226472524250874054075591789781264330331690
 ";
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let sum = vec::foldl(0, do vec::filter_map(str::lines(str::trim(input))) |line| {
         uint::from_str(line.slice(0, 12))
     }, |sum, &num| sum + num);

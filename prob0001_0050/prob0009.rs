@@ -1,6 +1,13 @@
 use core::util::{ unreachable };
 
 use common::arith::{ isqrt };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 9,
+    answer: "31875000",
+    solver: solve
+};
 
 fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) {
     for uint::range(2, sum - 2) |c| {
@@ -13,7 +20,7 @@ fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) {
     }
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     for each_pyrhagorean(1000) |a, b, c| {
         return (a * b * c).to_str();
     }

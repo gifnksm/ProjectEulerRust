@@ -1,5 +1,12 @@
 use common::calc::{ num_to_digits };
 use common::prime::{ Prime };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 37,
+    answer: "748317",
+    solver: solve
+};
 
 fn is_r2l(n: uint, ps: &mut Prime) -> bool {
     let mut itr = n / 10;
@@ -12,7 +19,7 @@ fn is_r2l(n: uint, ps: &mut Prime) -> bool {
     return true;
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut ps = Prime();
     let mut l2r_mat = ~[ ~[ 2, 3, 5, 7 ] ];
     let mut order = 10;

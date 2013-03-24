@@ -1,5 +1,13 @@
 use core::cmp::{ Ord, Eq };
 
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 44,
+    answer: "5482660",
+    solver: solve
+};
+
 // P[m] <= minimal sum
 // P[n+i] + P[n] = P[m]
 // P[n+i] - P[n] = P[k]
@@ -35,7 +43,7 @@ fn is_pentagonal(n: uint, table: &[uint]) -> bool {
     return binary_search(n, table).is_some();
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let pentagonal_table = vec::from_fn(10000, get_pentagonal);
 
     let mut m = 0;

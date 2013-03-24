@@ -2,7 +2,15 @@ use core::num::{ One };
 
 use std::bigint::{ BigUint };
 
-pub fn solve() -> ~str {
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 20,
+    answer: "648",
+    solver: solve
+};
+
+fn solve() -> ~str {
     let mut f = One::one::<BigUint>();
     for uint::range(0, 100) |i| {
         f = f * BigUint::from_uint(i + 1);

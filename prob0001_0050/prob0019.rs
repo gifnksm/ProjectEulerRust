@@ -1,3 +1,11 @@
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 19,
+    answer: "171",
+    solver: solve
+};
+
 fn is_leap_year(y: uint) -> bool {
     if y % 400 == 0 { return true; }
     if y % 100 == 0 { return false; }
@@ -34,7 +42,7 @@ fn append_day(y: uint, offset: uint, result: &mut [uint * 7]) -> uint {
     return day;
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut result = [0, 0, 0, 0, 0, 0, 0];
     let mut day = 1; // Monday
     day = (day + day_of_year(1900)) % 7;

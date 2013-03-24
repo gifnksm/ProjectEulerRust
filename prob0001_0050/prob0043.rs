@@ -1,4 +1,11 @@
 use common::calc::{ num_to_digits, digits_to_num };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 43,
+    answer: "16695334890",
+    solver: solve
+};
 
 struct DigitMap { used: [ bool * 10] }
 
@@ -41,7 +48,7 @@ fn fill_vec<T: Copy>(v: ~[T], len: uint, init: T) -> ~[T] {
     return vec::from_elem(len - v.len(), init) + v;
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut result: ~[(~[uint], DigitMap)] = ~[(~[], DigitMap())];
     result = do result.flat_map |tp| {
         let mut arr = ~[];

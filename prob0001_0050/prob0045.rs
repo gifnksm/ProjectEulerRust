@@ -1,3 +1,11 @@
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 45,
+    answer: "1533776805",
+    solver: solve
+};
+
 fn triangle(i: uint) -> uint {
     let n = i + 1;
     return n * (n + 1) / 2;
@@ -13,7 +21,7 @@ fn hexagonal(i: uint) -> uint {
     return n * (2 * n - 1);
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut n = 40755 + 1;
     let mut t_i = 0;
     let mut p_i = 0;

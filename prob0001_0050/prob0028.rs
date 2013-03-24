@@ -1,3 +1,11 @@
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 28,
+    answer: "669171001",
+    solver: solve
+};
+
 // 43 44 45 46 47 48 49
 // 42 21 22 23 24 25 26
 // 41 20  7  8  9 10 27
@@ -28,6 +36,6 @@ fn sum(n: uint) -> uint {
     (4 * n*n*n + 3 * n*n + 8 * n - 9) / 6
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     return sum(1001).to_str();
 }

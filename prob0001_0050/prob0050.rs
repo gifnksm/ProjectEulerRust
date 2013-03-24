@@ -1,4 +1,11 @@
 use common::prime::{ Prime };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 50,
+    answer: "997651",
+    solver: solve
+};
 
 fn get_longer(p: uint, min_len: uint, ps: &mut Prime) -> Option<uint> {
     fn get_prime(n: int, ps: &mut Prime)-> uint {
@@ -37,7 +44,7 @@ fn get_longer(p: uint, min_len: uint, ps: &mut Prime) -> Option<uint> {
     }
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let limit = 1000000;
     let mut ps = Prime();
 

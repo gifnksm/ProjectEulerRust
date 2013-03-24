@@ -1,6 +1,13 @@
 use common::prime::{ Prime, sum_of_proper_divisors };
+use common::problem::{ Problem };
 
-pub fn solve() -> ~str {
+pub static problem: Problem<'static> = Problem {
+    id: 23,
+    answer: "4179871",
+    solver: solve
+};
+
+fn solve() -> ~str {
     let max_num = 28123;
     let mut p = Prime();
 

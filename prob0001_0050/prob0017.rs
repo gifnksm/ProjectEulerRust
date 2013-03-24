@@ -1,3 +1,11 @@
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 17,
+    answer: "21124",
+    solver: solve
+};
+
 fn to_word_under10(n: uint) -> ~str {
     return match n {
         0 => ~"zero",
@@ -73,7 +81,7 @@ fn to_word(n: uint) -> ~str {
     return ~"one thousand";
 }
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let mut sum = 0u;
     for uint::range(0, 1000) |i| {
         let n = i + 1;

@@ -3,6 +3,13 @@ use core::hashmap::linear::{ LinearSet };
 use std::sort::{ merge_sort };
 
 use common::calc::{ num_to_digits, permutate_num };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 32,
+    answer: "45228",
+    solver: solve
+};
 
 // possible num of digits combinations
 // 1 x 1 = 7 : NG 10 * 10
@@ -13,7 +20,7 @@ use common::calc::{ num_to_digits, permutate_num };
 // 2 x 3 = 4 : OK
 // 3 x 3 = 3 : NG
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let digits = &[1, 2, 3, 4, 5, 6, 7, 8, 9];
     let mut answer = LinearSet::new();
 

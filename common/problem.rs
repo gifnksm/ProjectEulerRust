@@ -1,5 +1,5 @@
 pub struct Problem {
-    number: uint,
+    id: uint,
     answer: &'self str,
     solver: extern fn() -> ~str
 }

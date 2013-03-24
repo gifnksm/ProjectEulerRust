@@ -1,4 +1,11 @@
 use common::extvec::{ each_window };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 8,
+    answer: "40824",
+    solver: solve
+};
 
 static input: &'static str = &"
 73167176531330624919225119674426574742355349194934
@@ -23,7 +30,7 @@ static input: &'static str = &"
 71636269561882670428252483600823257530420752963450
 ";
 
-pub fn solve() -> ~str {
+fn solve() -> ~str {
     let prod_len = 5;
     let nums = do vec::filter_map(str::chars(input)) |c| {
         uint::from_str(str::from_char(c))

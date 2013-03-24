@@ -2,8 +2,15 @@ use std::sort::{ merge_sort };
 
 use common::prime::{ Prime };
 use common::calc::{ num_to_digits, permutate_num };
+use common::problem::{ Problem };
 
-pub fn solve() -> ~str {
+pub static problem: Problem<'static> = Problem {
+    id: 49,
+    answer: "296962999629",
+    solver: solve
+};
+
+fn solve() -> ~str {
     let d = 3330;
 
     let mut ps = Prime();

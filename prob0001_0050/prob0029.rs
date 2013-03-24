@@ -1,8 +1,15 @@
 use core::hashmap::linear::{ LinearSet };
 
 use common::prime::{ Prime, factors };
+use common::problem::{ Problem };
 
-pub fn solve() -> ~str {
+pub static problem: Problem<'static> = Problem {
+    id: 29,
+    answer: "9183",
+    solver: solve
+};
+
+fn solve() -> ~str {
     let mut ps  = Prime();
     let mut set = LinearSet::new();
 

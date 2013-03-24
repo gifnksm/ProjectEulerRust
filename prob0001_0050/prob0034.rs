@@ -1,4 +1,12 @@
-pub fn solve() -> ~str {
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 34,
+    answer: "40730",
+    solver: solve
+};
+
+fn solve() -> ~str {
     let mut facts: [uint * 10] = [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
     for uint::range(1, facts.len()) |i| {
         facts[i] = facts[i - 1] * i;
