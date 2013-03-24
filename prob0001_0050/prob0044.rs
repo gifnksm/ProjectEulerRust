@@ -35,7 +35,7 @@ fn is_pentagonal(n: uint, table: &[uint]) -> bool {
     return binary_search(n, table).is_some();
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let pentagonal_table = vec::from_fn(10000, get_pentagonal);
 
     let mut m = 0;
@@ -46,7 +46,7 @@ pub fn solve() -> uint {
             if (pm - pk) % 2 != 0 { loop; }
             if is_pentagonal(pm - pk, pentagonal_table) {
                 if is_pentagonal(pm + pk, pentagonal_table) {
-                    return pm - pk;
+                    return (pm - pk).to_str();
                 }
             }
         }

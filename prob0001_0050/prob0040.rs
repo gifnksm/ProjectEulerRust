@@ -89,12 +89,12 @@ impl IdxValueMap {
 }
 
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut map = IdxValueMap();
     let idx = &[ 1, 10, 100, 1000, 10000, 100000, 1000000 ];
     let mut prod = 1;
     for idx.each |i| {
         prod *= map.get_digit_by_idx(*i);
     }
-    return prod;
+    return prod.to_str();
 }

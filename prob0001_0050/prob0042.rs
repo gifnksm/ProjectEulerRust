@@ -9,7 +9,7 @@ fn word_value(word: &str) -> uint {
     return value;
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let result = do io::read_whole_file_str(&Path("files/words.txt")).chain |input| {
         do read_whole_word(input).map |words| { words.map(|w| word_value(*w)) }
     };
@@ -24,11 +24,11 @@ pub fn solve() -> uint {
                 flag[t] = true;
             }
 
-            let mut cnt = 0;
+            let mut cnt = 0u;
             for values.each |v| {
                 if flag[*v] { cnt += 1; }
             }
-            return cnt;
+            return cnt.to_str();
         }
     }
 }

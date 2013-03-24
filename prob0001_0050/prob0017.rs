@@ -73,8 +73,8 @@ fn to_word(n: uint) -> ~str {
     return ~"one thousand";
 }
 
-pub fn solve() -> uint {
-    let mut sum = 0;
+pub fn solve() -> ~str {
+    let mut sum = 0u;
     for uint::range(0, 1000) |i| {
         let n = i + 1;
         for str::each(to_word(n)) |b| {
@@ -83,5 +83,5 @@ pub fn solve() -> uint {
             }
         }
     }
-    return sum;
+    return sum.to_str();
 }

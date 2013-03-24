@@ -2,7 +2,7 @@ use core::hashmap::linear::{ LinearSet };
 
 use common::prime::{ Prime, factors };
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut ps  = Prime();
     let mut set = LinearSet::new();
 
@@ -16,5 +16,5 @@ pub fn solve() -> uint {
         }
     }
 
-    return set.len();
+    return set.len().to_str();
 }

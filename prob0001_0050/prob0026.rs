@@ -14,7 +14,7 @@ fn get_cycle_len(n: uint) -> uint {
     }
 }
 
-pub fn solve() -> uint{
+pub fn solve() -> ~str {
     let mut longest_num = 0;
     let mut longest_len = 0;
     for uint::range(2, 1000) |n| {
@@ -24,5 +24,5 @@ pub fn solve() -> uint{
             longest_len = len;
         }
     }
-    return longest_num;
+    return longest_num.to_str();
 }

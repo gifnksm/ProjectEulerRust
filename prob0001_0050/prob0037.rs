@@ -12,7 +12,7 @@ fn is_r2l(n: uint, ps: &mut Prime) -> bool {
     return true;
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut ps = Prime();
     let mut l2r_mat = ~[ ~[ 2, 3, 5, 7 ] ];
     let mut order = 10;
@@ -41,5 +41,5 @@ pub fn solve() -> uint {
         }
     }
 
-    return sum;
+    return sum.to_str();
 }

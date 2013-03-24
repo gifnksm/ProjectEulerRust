@@ -16,7 +16,7 @@ fn get_len(map: &mut LinearMap<uint, uint>, n: uint) -> uint {
     }
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut map = LinearMap::new();
     map.insert(1u, 1u);
     let mut max     = 1u;
@@ -29,5 +29,5 @@ pub fn solve() -> uint {
         }
     }
 
-    return max_idx;
+    return max_idx.to_str();
 }

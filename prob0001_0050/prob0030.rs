@@ -9,7 +9,7 @@ use common::calc::{ combinate_overlap };
 // 9999999 => 9^5 * 7 = 413343
 
 // 1-6 digits numbers meet conditions
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let pows = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(|n| int::pow(*n, 5) as uint);
     let mut nums = [0, 0, 0, 0, 0, 0, 0];
     let mut sum = 0;
@@ -29,5 +29,5 @@ pub fn solve() -> uint {
         }
     }
 
-    return sum - 1;             // remove 1
+    return (sum - 1).to_str();  // remove 1
 }

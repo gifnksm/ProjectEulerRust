@@ -14,9 +14,9 @@ fn is_circular_prime(n: uint, ps: &mut Prime) -> bool {
     return true;
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut ps = Prime();
-    let mut cnt = 0;
+    let mut cnt = 0u;
     let mut i = 0;
     loop {
         let p = ps.get_at(i);
@@ -26,5 +26,5 @@ pub fn solve() -> uint {
         }
         i += 1;
     }
-    return cnt;
+    return cnt.to_str();
 }

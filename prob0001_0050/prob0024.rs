@@ -43,8 +43,8 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &LinearMap<K, uint>, n: u
     unreachable();
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let nums = histogram::<uint>(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
     let ds = either::unwrap_right(get_at(&nums, 1000000));
-    return digits_to_num(ds, 10);
+    return digits_to_num(ds, 10).to_str();
 }

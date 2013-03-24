@@ -13,7 +13,7 @@ fn hexagonal(i: uint) -> uint {
     return n * (2 * n - 1);
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut n = 40755 + 1;
     let mut t_i = 0;
     let mut p_i = 0;
@@ -44,5 +44,5 @@ pub fn solve() -> uint {
         break;
     }
 
-    return triangle(t_i);
+    return triangle(t_i).to_str();
 }

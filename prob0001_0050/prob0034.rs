@@ -1,4 +1,4 @@
-pub fn solve() -> uint{
+pub fn solve() -> ~str {
     let mut facts: [uint * 10] = [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
     for uint::range(1, facts.len()) |i| {
         facts[i] = facts[i - 1] * i;
@@ -17,5 +17,5 @@ pub fn solve() -> uint{
         }
     }
 
-    return answer - 1 - 2;
+    return (answer - 1 - 2).to_str();
 }

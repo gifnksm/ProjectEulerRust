@@ -13,7 +13,7 @@ use common::calc::{ get_gcd };
 // A = 9BC / (10B - C)
 // C > B
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut prod_numer = 1;
     let mut prod_denom = 1;
 
@@ -39,5 +39,5 @@ pub fn solve() -> uint {
     }
 
     let gcd = get_gcd(prod_numer, prod_denom);
-    return prod_denom / gcd;
+    return (prod_denom / gcd).to_str();
 }

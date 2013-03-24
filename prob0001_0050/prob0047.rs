@@ -6,7 +6,7 @@ fn num_factors(n: uint, ps: &mut Prime) -> uint {
     return cnt;
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut ps = Prime();
     let mut cnt = 0;
     let len = 4;
@@ -19,7 +19,7 @@ pub fn solve() -> uint {
             cnt = 0;
         }
         if cnt == len {
-            return n + 1 - len;
+            return (n + 1 - len).to_str();
         }
         n += 1;
     }

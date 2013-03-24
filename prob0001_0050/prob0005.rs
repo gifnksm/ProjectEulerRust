@@ -24,7 +24,7 @@ fn fact_to_uint(fs: &[(uint, uint)]) -> uint {
     return result;
 }
 
-pub fn solve() -> uint{
+pub fn solve() -> ~str {
     let mut primes = prime::Prime();
     let mut factors = ~[];
     for uint::range(1, 20 + 1) |n| {
@@ -33,5 +33,5 @@ pub fn solve() -> uint{
         factors.push(list);
     };
 
-    return fact_to_uint(mergei_as(factors, Max));
+    return fact_to_uint(mergei_as(factors, Max)).to_str();
 }

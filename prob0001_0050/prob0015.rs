@@ -28,7 +28,7 @@ fn fact_to_uint(fs: &[(uint, int)]) -> uint {
     return result;
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut primes = Prime();
     let mut numer_facts = ~[];
     for uint::range(21, 40 + 1) |num| {
@@ -46,5 +46,5 @@ pub fn solve() -> uint {
     }
     let denom = mergei_as(denom_facts, |i| Sum(-(i as int)));
 
-    return fact_to_uint(merge_as(numer, denom, Sum));
+    return fact_to_uint(merge_as(numer, denom, Sum)).to_str();
 }

@@ -73,7 +73,7 @@ static input: &'static str = &"
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 ";
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let grid = do vec::map(str::lines(str::trim(input))) |row| {
         do vec::map(str::split_char(*row, ' ')) |cell| {
             uint::from_str(*cell).get()
@@ -83,5 +83,5 @@ pub fn solve() -> uint {
     let mut max = find_max_grid(grid, 4u);
     max = uint::max(max, find_max_v(grid, 4u));
     max = uint::max(max, find_max_d(grid, 4u));
-    return max;
+    return max.to_str();
 }

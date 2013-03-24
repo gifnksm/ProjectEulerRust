@@ -13,7 +13,7 @@ use common::calc::{ num_to_digits, permutate_num };
 // 2 x 3 = 4 : OK
 // 3 x 3 = 3 : NG
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let digits = &[1, 2, 3, 4, 5, 6, 7, 8, 9];
     let mut answer = LinearSet::new();
 
@@ -49,5 +49,5 @@ pub fn solve() -> uint {
     for answer.each |&c| {
         sum += c;
     }
-    return sum;
+    return sum.to_str();
 }

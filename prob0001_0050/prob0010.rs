@@ -1,6 +1,6 @@
 use common::prime::{ Prime };
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut sum = 0;
     let mut ps = Prime();
     for ps.each |p| {
@@ -9,5 +9,5 @@ pub fn solve() -> uint {
         }
         sum += p;
     }
-    return sum;
+    return sum.to_str();
 }

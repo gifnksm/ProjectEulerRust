@@ -5,8 +5,8 @@ fn square_of_sum(n: uint) -> uint {
     return s * s;
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let sq_of_sum = square_of_sum(100);
     let sum_of_sq = sum_of_square(100);
-    return sq_of_sum - sum_of_sq;
+    return (sq_of_sum - sum_of_sq).to_str();
 }

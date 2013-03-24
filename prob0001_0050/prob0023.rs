@@ -1,6 +1,6 @@
 use common::prime::{ Prime, sum_of_proper_divisors };
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let max_num = 28123;
     let mut p = Prime();
 
@@ -30,5 +30,5 @@ pub fn solve() -> uint {
 
     let sum_of_all_int = (1 + max_num) * max_num / 2;
 
-    return sum_of_all_int - sum_of_abundant;
+    return (sum_of_all_int - sum_of_abundant).to_str();
 }

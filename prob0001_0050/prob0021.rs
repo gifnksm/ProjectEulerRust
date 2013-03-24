@@ -1,6 +1,6 @@
 use common::prime::{ Prime, sum_of_proper_divisors };
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut p = Prime();
     let elms = vec::from_fn(10000, |n| sum_of_proper_divisors(n, &mut p));
     let mut amicables = ~[];
@@ -16,5 +16,5 @@ pub fn solve() -> uint {
         let (a, b) = *pair;
         sum += a + b;
     }
-    return sum;
+    return sum.to_str();
 }

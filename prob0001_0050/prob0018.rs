@@ -16,7 +16,7 @@ static triangle: &'static [&'static [uint]] = &[
     &[04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23]
 ];
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let init = triangle.slice(0, triangle.len() - 1);
     let last = *triangle.last();
     let answer = do init.foldr(vec::from_slice(last)) |elm, prev| {
@@ -24,5 +24,5 @@ pub fn solve() -> uint {
             elm[i] + uint::max(prev[i], prev[i + 1])
         }
     };
-    return answer[0];
+    return answer[0].to_str();
 }

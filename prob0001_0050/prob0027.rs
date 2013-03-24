@@ -22,7 +22,7 @@ fn get_len(a: int, b: int, ps: &mut Prime) -> uint {
     }
 }
 
-pub fn solve() -> int {
+pub fn solve() -> ~str {
     let mut ps = Prime();
     let mut ans_a = 0;
     let mut ans_b = 0;
@@ -42,7 +42,5 @@ pub fn solve() -> int {
         }
         i += 1;
     }
-    // io::println(fmt!("n^2 + %dn + %d => %u len", ans_a, ans_b, ans_len));
-    // io::println(fmt!("a * b = %d", ans_a * ans_b));
-    return ans_a * ans_b;
+    return (ans_a * ans_b).to_str();
 }

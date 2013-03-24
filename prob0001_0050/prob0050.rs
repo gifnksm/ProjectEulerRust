@@ -37,7 +37,7 @@ fn get_longer(p: uint, min_len: uint, ps: &mut Prime) -> Option<uint> {
     }
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let limit = 1000000;
     let mut ps = Prime();
 
@@ -56,5 +56,5 @@ pub fn solve() -> uint {
         }
         i += 1;
     }
-    return num;
+    return num.to_str();
 }

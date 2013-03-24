@@ -23,7 +23,7 @@ static input: &'static str = &"
 71636269561882670428252483600823257530420752963450
 ";
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let prod_len = 5;
     let nums = do vec::filter_map(str::chars(input)) |c| {
         uint::from_str(str::from_char(c))
@@ -35,5 +35,5 @@ pub fn solve() -> uint {
         max = uint::max(prod, max);
     }
 
-    return max;
+    return max.to_str();
 }

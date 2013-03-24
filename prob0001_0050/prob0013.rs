@@ -101,11 +101,11 @@ static input: &'static str = "
 53503534226472524250874054075591789781264330331690
 ";
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let sum = vec::foldl(0, do vec::filter_map(str::lines(str::trim(input))) |line| {
         uint::from_str(line.slice(0, 12))
     }, |sum, &num| sum + num);
 
     let sum_str = sum.to_str();
-    return uint::from_str(sum_str.slice(0, 10)).get();
+    return sum_str.slice(0, 10).to_str();
 }

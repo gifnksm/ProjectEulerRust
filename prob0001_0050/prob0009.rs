@@ -13,9 +13,9 @@ fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) {
     }
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     for each_pyrhagorean(1000) |a, b, c| {
-        return a * b * c;
+        return (a * b * c).to_str();
     }
 
     unreachable();

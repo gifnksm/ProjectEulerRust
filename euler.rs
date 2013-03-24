@@ -20,7 +20,7 @@ priv fn solve_all() {
 
 priv fn solve(n: uint) {
     for each_problems |p| {
-        if p.number() == n { p.solve(); }
+        if p.number == n { p.solve(); }
     }
 }
 

@@ -41,7 +41,7 @@ fn fill_vec<T: Copy>(v: ~[T], len: uint, init: T) -> ~[T] {
     return vec::from_elem(len - v.len(), init) + v;
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let mut result: ~[(~[uint], DigitMap)] = ~[(~[], DigitMap())];
     result = do result.flat_map |tp| {
         let mut arr = ~[];
@@ -78,5 +78,5 @@ pub fn solve() -> uint {
     for result.each |r| {
         sum += digits_to_num(*r.first_ref(), 10);
     }
-    return sum;
+    return sum.to_str();
 }

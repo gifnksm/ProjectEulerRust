@@ -3,7 +3,7 @@ use std::sort::{ merge_sort };
 use common::prime::{ Prime };
 use common::calc::{ num_to_digits, permutate_num };
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let d = 3330;
 
     let mut ps = Prime();
@@ -28,6 +28,6 @@ pub fn solve() -> uint {
 
         if !ps.is_prime(p2) { i += 1; loop; }
         if !ps.is_prime(p3) { i += 1; loop; }
-        return uint::from_str(fmt!("%u%u%u", p1, p2, p3)).get();
+        return fmt!("%u%u%u", p1, p2, p3);
     }
 }

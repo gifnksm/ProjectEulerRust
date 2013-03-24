@@ -7,11 +7,11 @@ fn pow_mod(base: uint, exponent: uint, modulo: uint) -> uint {
     return acc;
 }
 
-pub fn solve() -> uint {
+pub fn solve() -> ~str {
     let modulo  = 100_0000_0000;
     let mut sum = 0;
     for uint::range(1, 1000 + 1) |n| {
         sum = (sum + pow_mod(n, n, modulo)) % modulo;
     }
-    return sum;
+    return sum.to_str();
 }

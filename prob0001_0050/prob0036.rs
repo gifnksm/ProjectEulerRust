@@ -19,7 +19,7 @@ fn to_palindromic(n: uint, radix: uint, is_odd: bool) -> uint{
     return num;
 }
 
-pub fn solve() -> uint{
+pub fn solve() -> ~str {
     let order_array = &[ 1, 10, 100, 1000, 1000, 10000 ];
     let mut sum = 0;
     for uint::range(0, order_array.len() - 1) |i| {
@@ -35,7 +35,6 @@ pub fn solve() -> uint{
         }
     }
 
-    return sum;
+    return sum.to_str();
 }
-
 
