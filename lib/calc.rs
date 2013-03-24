@@ -201,7 +201,7 @@ mod tests {
             let vec = do merge_sort(iter::to_vec(&histogram(inp))) |a, b| {
                 a.first() <= b.first()
             }.map(|&(&a, &b)| (a, b));
-            assert_eq!(result, vec.initn(0));
+            assert_eq!(vec.initn(0), result);
         }
         check(&[1, 2, 3], ~[(1, 1), (2, 1), (3, 1)]);
         check(&[1, 1, 1, 2, 2, 3, 3, 4], ~[(1, 3), (2, 2), (3, 2), (4, 1)]);
