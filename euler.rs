@@ -5,18 +5,27 @@ mod common;
 
 #[path="./prob0001_0050/mod.rs"]
 mod prob0001_0050;
+#[path="./prob0051_0100/mod.rs"]
+mod prob0051_0100;
 
 priv use common::problem::{ Problem };
 
+priv static problem_sets: &'static [&'static [&'static Problem<'static>]] = &[
+    prob0001_0050::problems,
+    prob0051_0100::problems
+];
+
 priv fn each_problems(f: &fn(&Problem) -> bool) {
-    for prob0001_0050::problems.each_val |p| {
-        if !f(p) { return; }
+    for problem_sets.each_val |ps| {
+        for ps.each_val |p| {
+            if !f(p) { return; }
+        }
     }
 }
 
 priv fn solve(p: &Problem) {
-    assert_eq!((p.solver)(), p.answer.to_str());
     io::println(fmt!("Problem #%u: %s", p.id, p.answer));
+    assert_eq!((p.solver)(), p.answer.to_str());
 }
 
 fn main() {
