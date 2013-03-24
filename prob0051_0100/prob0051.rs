@@ -16,7 +16,7 @@ fn solve() -> ~str {
     let mut ps = Prime::new();
     for ps.each_borrow |p, ps| {
         let ds = num_to_digits(p, 10);
-        let hs = digit_histogram(ds);
+        let hs = digit_histogram(p);
         for hs.eachi |i, &cnt| {
             // 同じ文字が2つ以上登場する数値だけを対象にする
             if cnt <= 1 { loop; }
