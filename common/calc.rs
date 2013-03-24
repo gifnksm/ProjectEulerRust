@@ -30,6 +30,12 @@ pub fn factorial(n: uint) -> uint {
     return prod;
 }
 
+pub fn digit_histogram(n: &[uint]) -> [uint * 10] {
+    let mut hist = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for n.each_val |d| { hist[d] += 1; }
+    return hist;
+}
+
 pub fn histogram<T: Hash + IterBytes + Eq + Copy>(v: &[T]) -> LinearMap<T, uint> {
     let mut map = LinearMap::new::<T, uint>();
     for v.each |k| {
