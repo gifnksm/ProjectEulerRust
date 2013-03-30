@@ -30,8 +30,8 @@ pub fn factorial(n: uint) -> uint {
     return prod;
 }
 
-pub fn digit_histogram(n: uint) -> [uint * 10] {
-    let mut hist = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+pub fn digit_histogram(n: uint) -> [uint, ..10] {
+    let mut hist = [0, ..10];
     let mut itr = n;
     while itr > 0 {
         hist[itr % 10] += 1;
@@ -72,17 +72,7 @@ pub fn get_gcd(a: uint, b: uint) -> uint {
 }
 
 pub fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
-    let mut buf: [uint * 64] = [
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0,
-
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0,
-               0, 0, 0, 0,  0, 0, 0, 0
-              ];
+    let mut buf: [uint, ..64] = [0, ..64];
     let mut filled_idx = buf.len();
     let mut itr = n;
     while itr != 0 {

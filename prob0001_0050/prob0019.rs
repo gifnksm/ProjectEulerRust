@@ -17,7 +17,7 @@ fn day_of_year(y: uint) -> uint {
     if is_leap_year(y) { 366 } else { 365 }
 }
 
-fn day_of_month(y: uint) -> [uint * 12] {
+fn day_of_month(y: uint) -> [uint, ..12] {
     [ 31, // Jan
      if is_leap_year(y) { 29 } else { 28 }, // Feb
      31, // Mar
@@ -33,7 +33,7 @@ fn day_of_month(y: uint) -> [uint * 12] {
     ] 
 }
 
-fn append_day(y: uint, offset: uint, result: &mut [uint * 7]) -> uint {
+fn append_day(y: uint, offset: uint, result: &mut [uint, ..7]) -> uint {
     let mut day = offset;
     for day_of_month(y).each |n| {
         result[day] += 1;
@@ -43,7 +43,7 @@ fn append_day(y: uint, offset: uint, result: &mut [uint * 7]) -> uint {
 }
 
 fn solve() -> ~str {
-    let mut result = [0, 0, 0, 0, 0, 0, 0];
+    let mut result = [0, ..7];
     let mut day = 1; // Monday
     day = (day + day_of_year(1900)) % 7;
     for uint::range(1901, 2000 + 1) |y| {

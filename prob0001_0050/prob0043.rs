@@ -7,10 +7,10 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-struct DigitMap { used: [ bool * 10] }
+struct DigitMap { used: [ bool, ..10] }
 
 fn DigitMap() -> DigitMap {
-    DigitMap { used: [ false, false, false, false, false, false, false, false, false, false ] }
+    DigitMap { used: [ false, ..10 ] }
 }
 
 impl DigitMap {
@@ -20,7 +20,7 @@ impl DigitMap {
     }
 
     priv fn get_used(&self, ds: &[uint]) -> Option<DigitMap> {
-        let mut used: [bool * 10] = [false, false, false, false, false, false, false, false, false, false];
+        let mut used: [bool, ..10] = [false, ..10];
         for ds.each |d| {
             assert!(*d < 10);
             if used[*d] || self.is_used(*d) { return None; }

@@ -7,7 +7,8 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut facts: [uint * 10] = [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+    let mut facts: [uint, ..10] = [ 0, ..10 ];
+    facts[0] = 1;
     for uint::range(1, facts.len()) |i| {
         facts[i] = facts[i - 1] * i;
     }
