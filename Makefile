@@ -14,7 +14,9 @@ $(error Unknown OS $(OS) or UNAME $(UNAME))
 endif
 
 SRC=$(wildcard *.rs)
-DEPSRC=$(wildcard prob*_*/*.rs common/*.rs)
+PROBDIR=$(wildcard prob*_*)
+MODSRC=$(patsubst %,%/mod.rs,$(PROBDIR))
+DEPSRC=$(wildcard common/*.rs)
 
 TARGET=$(SRC:.rs=$(EXEEXT))
 TEST=$(SRC:.rs=.test$(EXEEXT))
@@ -31,14 +33,18 @@ debug: $(TARGET)
 release: RUSTC_FLAGS+=$(RUSTC_RELEASE_FLAGS)
 release: $(TARGET)
 
-%$(EXEEXT): %.rs $(DEPSRC)
+%$(EXEEXT): %.rs $(MODSRC) $(DEPSRC)
 	rustc $(RUSTC_FLAGS) $< -o $@
 
 %.test$(EXEEXT): %.rs $(DEPSRC)
 	rustc --test $< -o $@
 
+.SECONDEXPANSION:
+$(MODSRC): $$(wildcard $$(@D)/prob*.rs)
+	./etc/genmod $(@D) > $@
+
 test: $(TEST)
 	@for exe in $(TEST); do echo "$$exe"; ./$$exe; done
 
 clean:
-	$(RM) $(TARGET) $(TEST)
+	$(RM) $(TARGET) $(TEST) $(MODSRC)

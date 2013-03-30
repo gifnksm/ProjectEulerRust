@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+import sys, glob, os, re
+
+def main():
+    if len(sys.argv) != 2:
+        print("invalid args", file=sys.stderr)
+        print("Usage: %s dirname" % sys.argv[0], file=sys.stderr)
+        sys.exit(1)
+
+    os.chdir(sys.argv[1])
+    mods = [ re.sub(r'\.rs$', r'', file) for file in glob.glob("prob*.rs") ]
+    mods.sort()
+
+    print("priv use common::problem::{ Problem };")
+    print("")
+    for mod in mods:
+        print("pub mod %s;" % mod)
+    print("")
+    print("pub static problems: &'static [&'static Problem<'static>] = &[")
+    print(",\n".join(['    &' + mod + '::problem' for mod in mods]))
+    print("];")
+
+    sys.exit(0)
+
+if __name__ == '__main__':
+    main()
+

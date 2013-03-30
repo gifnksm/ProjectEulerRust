@@ -2,5 +2,8 @@
 euler
 euler.test
 
+# ignore auto generated module files
+prob*_*/mod.rs
+
 # ignore attachment files
 files/*.txt
