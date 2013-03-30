@@ -215,7 +215,7 @@ fn solve() -> ~str {
             let mut p1_cards = [ Card::dummy(), ..5 ];
             let mut p2_cards = [ Card::dummy(), ..5 ];
             let mut i = 0;
-            for str::words_each(line) |word| {
+            for str::each_word(line) |word| {
                 let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
                 cards[i % 5] = FromStr::from_str::<Card>(word).get();
                 i += 1;

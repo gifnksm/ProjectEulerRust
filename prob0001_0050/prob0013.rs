@@ -110,9 +110,12 @@ static input: &'static str = "
 ";
 
 fn solve() -> ~str {
-    let sum = vec::foldl(0, do vec::filter_map(str::lines(str::trim(input))) |line| {
-        uint::from_str(line.slice(0, 12))
-    }, |sum, &num| sum + num);
+    let mut sum = 0;
+    for str::each_line(input.trim()) |line| {
+        for uint::from_str(line.slice(0, 12)).each |&num| {
+            sum += num
+        }
+    }
 
     let sum_str = sum.to_str();
     return sum_str.slice(0, 10).to_str();

@@ -7,7 +7,7 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn to_palindromic(n: uint, dup_flag: bool) -> uint {
-    let cs = str::chars(n.to_str());
+    let cs = str::to_chars(n.to_str());
     let rv = vec::reversed(cs);
     let s = str::from_chars(
         if dup_flag {

@@ -32,8 +32,8 @@ static input: &'static str = &"
 
 fn solve() -> ~str {
     let prod_len = 5;
-    let nums = do vec::filter_map(str::chars(input)) |c| {
-        uint::from_str(str::from_char(c))
+    let nums = do vec::filter_map(str::to_chars(input)) |c| {
+        char::to_digit(c, 10)
     };
 
     let mut max = 0;

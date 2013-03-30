@@ -82,10 +82,16 @@ static input: &'static str = &"
 ";
 
 fn solve() -> ~str {
-    let grid = do vec::map(str::lines(str::trim(input))) |row| {
-        do vec::map(str::split_char(*row, ' ')) |cell| {
-            uint::from_str(*cell).get()
+    let grid = {
+        let mut result = ~[];
+        for str::each_line(input.trim()) |line| {
+            let mut col = ~[];
+            for str::each_word(line) |word| {
+                col.push(uint::from_str(word).get())
+            }
+            result.push(col);
         }
+        result
     };
 
     let mut max = find_max_grid(grid, 4u);
