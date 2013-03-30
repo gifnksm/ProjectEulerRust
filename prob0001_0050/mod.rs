@@ -1,3 +1,5 @@
+priv use common::problem::{ Problem };
+
 pub mod prob0001;
 pub mod prob0002;
 pub mod prob0003;
@@ -48,8 +50,6 @@ pub mod prob0047;
 pub mod prob0048;
 pub mod prob0049;
 pub mod prob0050;
-
-priv use common::problem::{ Problem };
 
 pub static problems: &'static [&'static Problem<'static>] = &[
     &prob0001::problem,

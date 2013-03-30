@@ -1,4 +1,7 @@
 extern mod std;
+priv use std::time::{ precise_time_ns };
+
+priv use common::problem::{ Problem };
 
 #[path="./common/mod.rs"]
 mod common;
@@ -7,10 +10,6 @@ mod common;
 mod prob0001_0050;
 #[path="./prob0051_0100/mod.rs"]
 mod prob0051_0100;
-
-priv use std::time::{ precise_time_ns };
-
-priv use common::problem::{ Problem };
 
 priv static problem_sets: &'static [&'static [&'static Problem<'static>]] = &[
     prob0001_0050::problems,
