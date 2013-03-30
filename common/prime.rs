@@ -90,12 +90,12 @@ impl Prime {
     }
 }
 
-priv struct Factors {
+priv struct Factors<'self> {
     priv num: uint,
     priv prime: &'self mut Prime
 }
 
-impl BaseIter<(uint, int)> for Factors<'self> {
+impl<'self> BaseIter<(uint, int)> for Factors<'self> {
     #[inline(always)]
     fn each(&self, blk: &fn(v: &(uint, int)) -> bool) {
         if self.num == 0 { return; }
@@ -119,9 +119,9 @@ impl BaseIter<(uint, int)> for Factors<'self> {
     fn size_hint(&self) -> Option<uint> { None }
 }
 
-impl Factors<'self> {
+impl<'self> Factors<'self> {
     #[inline(always)]
-    pub fn new(num: uint, primes: &'a mut Prime) -> Factors<'a> {
+    pub fn new<'a>(num: uint, primes: &'a mut Prime) -> Factors<'a> {
         Factors { num: num, prime: primes }
     }
 }

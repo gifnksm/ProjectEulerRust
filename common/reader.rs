@@ -1,4 +1,4 @@
-fn skip_sep(input: &'a str) -> &'a str {
+fn skip_sep<'a>(input: &'a str) -> &'a str {
     let mut itr = input;
     while !itr.is_empty() {
         let (head, tail) = str::slice_shift_char(itr);
@@ -8,7 +8,7 @@ fn skip_sep(input: &'a str) -> &'a str {
     return itr;
 }
 
-fn read_word(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
+fn read_word<'a>(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
     if input.is_empty() { return result::Err(~"string is empty"); }
 
     let mut (c, itr) = str::slice_shift_char(input);
@@ -26,7 +26,7 @@ fn read_word(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
     return result::Ok((str::slice(input, 1, 1 + len), itr));
 }
 
-pub fn read_whole_word(input: &'a str) -> Result<~[&'a str], ~str> {
+pub fn read_whole_word<'a>(input: &'a str) -> Result<~[&'a str], ~str> {
     let mut result = ~[];
     let mut itr = input;
     while !itr.is_empty() {

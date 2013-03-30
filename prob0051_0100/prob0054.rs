@@ -151,7 +151,7 @@ fn cmp_cards3(cs1_hi: &[Card], cs1_mid: &[Card], cs1_lo: &[Card],
 }
 
 #[inline(always)]
-fn ord_tuple(c1: &'a [Card], c2: &'a [Card]) -> (&'a [Card], &'a [Card]) {
+fn ord_tuple<'a>(c1: &'a [Card], c2: &'a [Card]) -> (&'a [Card], &'a [Card]) {
     if cmp_cards(c1, c2) >= 0 { return (c1, c2); }
     return (c2, c1);
 }

@@ -129,7 +129,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
         vec::from_elem(n - v.len(), 0) + v
     }
 
-    fn to_some(v: &'a [uint]) -> Option<&'a [uint]> { Some(v) }
+    fn to_some<'a>(v: &'a [uint]) -> Option<&'a [uint]> { Some(v) }
 
     fn perm_sub(digits: &[uint], len: uint,
                      min: Option<&[uint]>,
