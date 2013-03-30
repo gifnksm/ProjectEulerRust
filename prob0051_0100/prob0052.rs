@@ -1,4 +1,4 @@
-use common::calc::{ num_to_digits, digit_histogram };
+use common::calc::{ digit_histogram };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

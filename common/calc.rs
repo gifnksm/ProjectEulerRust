@@ -1,4 +1,4 @@
-use core::cmp::{ Ord, Eq };
+use core::cmp::{ Eq };
 use core::hash::{ Hash };
 use core::num::{ Zero, One };
 use core::to_bytes::{ IterBytes };

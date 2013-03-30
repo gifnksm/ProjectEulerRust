@@ -3,7 +3,7 @@ use core::util::{ unreachable };
 use std::sort::{ merge_sort };
 
 use common::prime::{ Prime };
-use common::calc::{ num_to_digits, permutate_num };
+use common::calc::{ num_to_digits };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
