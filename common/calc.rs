@@ -1,8 +1,9 @@
 use core::cmp::{ Eq };
 use core::hash::{ Hash };
-use core::num::{ Zero, One };
+use core::num::{ Zero, One, IntConvertible };
 use core::to_bytes::{ IterBytes };
 use core::hashmap::linear::{ LinearMap, LinearSet };
+use core::util::{ swap };
 
 use common::arith::{ isqrt };
 
@@ -240,10 +241,25 @@ pub fn cont_frac_sqrt(n: uint) -> (uint, ~[uint]) {
     }
 }
 
+pub fn fold_cont_frac<
+    T: IntConvertible + Add<T, T> + Mul<T, T>
+    >(an: &[uint]) -> (T, T) {
+    let mut numer = IntConvertible::from_int::<T>(1);
+    let mut denom = IntConvertible::from_int::<T>(0);
+
+    for an.each_reverse |&a| {
+        swap(&mut numer, &mut denom);
+        numer = numer + IntConvertible::from_int::<T>(a as int) * denom;
+    }
+
+    return (numer, denom);
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::sort::{merge_sort};
+    use std::sort::{ merge_sort };
+    use std::bigint::{ BigUint };
 
     #[test]
     fn test_each_fib() {
@@ -408,5 +424,30 @@ mod tests {
         assert_eq!(cont_frac_sqrt(11), (3, ~[3,6]));
         assert_eq!(cont_frac_sqrt(12), (3, ~[2,6]));
         assert_eq!(cont_frac_sqrt(13), (3, ~[1,1,1,1,6]));
+    }
+
+    #[test]
+    fn test_fold_cont_frac() {
+        fn test(an: &[uint], (n, d): (uint, uint)) {
+            assert_eq!(
+                fold_cont_frac::<BigUint>(an),
+                (BigUint::from_uint(n), BigUint::from_uint(d))
+            );
+        }
+        test(~[1, 2], (3, 2));
+        test(~[1, 2, 2], (7, 5));
+        test(~[1, 2, 2, 2], (17, 12));
+        test(~[1, 2, 2, 2, 2], (41, 29));
+
+        test(~[2], (2, 1));
+        test(~[2, 1], (3, 1));
+        test(~[2, 1, 2], (8, 3));
+        test(~[2, 1, 2, 1], (11, 4));
+        test(~[2, 1, 2, 1, 1], (19, 7));
+        test(~[2, 1, 2, 1, 1, 4], (87, 32));
+        test(~[2, 1, 2, 1, 1, 4, 1], (106, 39));
+        test(~[2, 1, 2, 1, 1, 4, 1, 1], (193, 71));
+        test(~[2, 1, 2, 1, 1, 4, 1, 1, 6], (1264, 465));
+        test(~[2, 1, 2, 1, 1, 4, 1, 1, 6, 1], (1457, 536));
     }
 }
