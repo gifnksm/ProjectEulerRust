@@ -25,7 +25,7 @@ static triangle: &'static [&'static [uint]] = &[
 ];
 
 fn solve() -> ~str {
-    let init = triangle.slice(0, triangle.len() - 1);
+    let init = triangle.init();
     let last = *triangle.last();
     let answer = do init.foldr(vec::from_slice(last)) |elm, prev| {
         do vec::from_fn(elm.len()) |i| {
