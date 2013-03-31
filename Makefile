@@ -36,7 +36,7 @@ release: $(TARGET)
 %$(EXEEXT): %.rs $(MODSRC) $(DEPSRC)
 	rustc $(RUSTC_FLAGS) $< -o $@
 
-%.test$(EXEEXT): %.rs $(DEPSRC)
+%.test$(EXEEXT): %.rs $(MODSRC) $(DEPSRC)
 	rustc --test $< -o $@
 
 .SECONDEXPANSION:
