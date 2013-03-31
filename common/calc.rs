@@ -2,7 +2,9 @@ use core::cmp::{ Eq };
 use core::hash::{ Hash };
 use core::num::{ Zero, One };
 use core::to_bytes::{ IterBytes };
-use core::hashmap::linear::{ LinearMap };
+use core::hashmap::linear::{ LinearMap, LinearSet };
+
+use common::arith::{ isqrt };
 
 pub fn each_triangles(f: &fn(uint) -> bool) {
     let mut idx = 0;
@@ -171,6 +173,73 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
     }
 }
 
+pub fn cont_frac_sqrt(n: uint) -> (uint, ~[uint]) {
+    let mut a0 = 0;
+    let mut an = ~[];
+    let mut set = LinearSet::new();
+
+    for each_a(n) |a, pqr| {
+        if a == 0 || set.contains(&(a, pqr)) {
+            break;
+        }
+
+        set.insert((a, pqr));
+        if set.len() == 1 {
+            a0 = a;
+        } else {
+            an.push(a);
+        }
+    }
+    return (a0, an);
+
+    // f_n (p, q, r) := (p sqrt(n) + q)/ r
+    //                = a + (1 / (rp sqrt(n) + rb) / (np^2 - b^2))
+    // a := |f_n(p, q, r)|
+    // b := ar - q
+    // (p, q, r) := (rp / m, rb / m, (np^2 - b^2) / m)
+    #[inline(always)]
+    fn each_a(n: uint, f: &fn(uint, (uint, uint, uint)) -> bool) {
+        let sqn = isqrt(n);
+        let mut (p, q, r) = (1, 0, 1);
+        loop {
+            let a = calc_a(n, sqn, (p, q, r));
+            if a * a == n || p == 0 {
+                p = 0; q = 0; r = 1;
+            } else {
+                let b = a * r - q;
+                let (p2, q2, r2) = (r*p, r*b, n*p*p - b*b);
+                let m = get_gcd(get_gcd(p2, q2), r2);
+                p = p2 / m;
+                q = q2 / m;
+                r = r2 / m;
+            }
+            if !f(a, (p, q, r)) { break; }
+        }
+    }
+
+
+    // a <= f_n(p, q, r) < a + 1
+    // r a - q <= p sqrt(n) < r (a + 1) - pq
+    // (ar - q)^2 <= np^2 < ((a+1)r - q)^2
+    #[inline(always)]
+    fn calc_a(n: uint, sqn: uint, (p, q, r): (uint, uint, uint)) -> uint {
+        // g(a, r, q) := (ar - q)^2
+        #[inline(always)]
+        fn g(a: uint, r: uint, q: uint) -> uint {
+            let s = a * r - q;
+            return s * s;
+        }
+
+        let np2 = n * p * p;
+        let estim_a = (p * sqn + q) / r;
+        let mut a = estim_a;
+        while g(a + 1, r, q) <= np2 {
+            a = a + 1;
+        }
+        return a;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -322,5 +391,22 @@ mod tests {
             }
             assert_eq!(n, num);
         }
+    }
+
+    #[test]
+    fn test_cont_frac_sqrt() {
+        assert_eq!(cont_frac_sqrt(1), (1, ~[]));
+        assert_eq!(cont_frac_sqrt(2), (1, ~[2]));
+        assert_eq!(cont_frac_sqrt(3), (1, ~[1,2]));
+        assert_eq!(cont_frac_sqrt(4), (2, ~[]));
+        assert_eq!(cont_frac_sqrt(5), (2, ~[4]));
+        assert_eq!(cont_frac_sqrt(6), (2, ~[2,4]));
+        assert_eq!(cont_frac_sqrt(7), (2, ~[1,1,1,4]));
+        assert_eq!(cont_frac_sqrt(8), (2, ~[1,4]));
+        assert_eq!(cont_frac_sqrt(9), (3, ~[]));
+        assert_eq!(cont_frac_sqrt(10), (3, ~[6]));
+        assert_eq!(cont_frac_sqrt(11), (3, ~[3,6]));
+        assert_eq!(cont_frac_sqrt(12), (3, ~[2,6]));
+        assert_eq!(cont_frac_sqrt(13), (3, ~[1,1,1,1,6]));
     }
 }
