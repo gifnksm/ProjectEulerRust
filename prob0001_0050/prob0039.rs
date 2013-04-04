@@ -1,4 +1,4 @@
-use core::hashmap::linear::{ LinearMap };
+use core::hashmap::{ HashMap };
 
 use common::arith::{ isqrt };
 use common::calc::{ get_gcd };
@@ -16,7 +16,7 @@ fn solve() -> ~str {
     // if n == 1, a + b + c = 2m^2 + 2m <= L
     // m <= (sqrt(1 + L) - 1)/2
     let limit = 1000;
-    let mut map   = LinearMap::new::<uint, uint>();
+    let mut map   = HashMap::new::<uint, uint>();
 
     for uint::range(1, (isqrt(1 + limit) - 1) / 2) |m| {
         for uint::range(1, uint::min(1 + limit / (2 * m) - m, m)) |n| {

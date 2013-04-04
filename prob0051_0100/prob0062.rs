@@ -1,4 +1,4 @@
-use core::hashmap::linear::{ LinearMap, LinearSet };
+use core::hashmap::{ HashMap, HashSet };
 
 use std::sort::{ quick_sort3 };
 
@@ -12,8 +12,8 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut map = LinearMap::new::<~[uint], ~[uint]>();
-    let mut set = LinearSet::new::<uint>();
+    let mut map = HashMap::new::<~[uint], ~[uint]>();
+    let mut set = HashSet::new::<uint>();
     let mut n     = 0;
     let mut limit = 10;
     loop {

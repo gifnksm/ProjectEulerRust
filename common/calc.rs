@@ -2,7 +2,7 @@ use core::cmp::{ Eq };
 use core::hash::{ Hash };
 use core::num::{ Zero, One, IntConvertible };
 use core::to_bytes::{ IterBytes };
-use core::hashmap::linear::{ LinearMap, LinearSet };
+use core::hashmap::{ HashMap, HashSet };
 use core::util::{ swap };
 
 use common::arith::{ isqrt };
@@ -44,8 +44,8 @@ pub fn digit_histogram(n: uint) -> [uint, ..10] {
 }
 
 
-pub fn histogram<T: Hash + IterBytes + Eq + Copy>(v: &[T]) -> LinearMap<T, uint> {
-    let mut map = LinearMap::new::<T, uint>();
+pub fn histogram<T: Hash + IterBytes + Eq + Copy>(v: &[T]) -> HashMap<T, uint> {
+    let mut map = HashMap::new::<T, uint>();
     for v.each |k| {
         let val = do map.find(k).map_default(1) |v| { *v + 1 };
         map.insert(*k, val);
@@ -177,7 +177,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 pub fn cont_frac_sqrt(n: uint) -> (uint, ~[uint]) {
     let mut a0 = 0;
     let mut an = ~[];
-    let mut set = LinearSet::new();
+    let mut set = HashSet::new();
 
     for each_a(n) |a, pqr| {
         if a == 0 || set.contains(&(a, pqr)) {

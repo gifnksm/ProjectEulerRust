@@ -1,4 +1,4 @@
-use core::hashmap::linear::{ LinearSet };
+use core::hashmap::{ HashSet };
 
 use std::sort::{ merge_sort };
 
@@ -22,7 +22,7 @@ pub static problem: Problem<'static> = Problem {
 
 fn solve() -> ~str {
     let digits = &[1, 2, 3, 4, 5, 6, 7, 8, 9];
-    let mut answer = LinearSet::new();
+    let mut answer = HashSet::new();
 
     // 1 x 4 = 4
     // a b = c

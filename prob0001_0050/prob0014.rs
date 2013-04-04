@@ -1,4 +1,4 @@
-use core::hashmap::linear::{ LinearMap };
+use core::hashmap::{ HashMap };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -7,7 +7,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn get_len(map: &mut LinearMap<uint, uint>, n: uint) -> uint {
+fn get_len(map: &mut HashMap<uint, uint>, n: uint) -> uint {
     let v = map.find(&n).map(|& &n| n);
     match v {
       Some(x) => return x,
@@ -24,7 +24,7 @@ fn get_len(map: &mut LinearMap<uint, uint>, n: uint) -> uint {
 }
 
 fn solve() -> ~str {
-    let mut map = LinearMap::new();
+    let mut map = HashMap::new();
     map.insert(1u, 1u);
     let mut max     = 1u;
     let mut max_idx = 1u;

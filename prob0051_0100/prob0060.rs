@@ -1,5 +1,5 @@
 use core::util::{ unreachable };
-use core::hashmap::linear::{ LinearMap };
+use core::hashmap::{ HashMap };
 
 use common::prime::{ Prime };
 use common::problem::{ Problem };
@@ -26,7 +26,7 @@ fn union_vec(v1: &[uint], v2: &[uint]) -> ~[uint] {
     return result;
 }
 
-fn find_chain(nums: &[uint], set: ~[uint], map: &LinearMap<uint, ~[uint]>) -> ~[~[uint]] {
+fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[uint]] {
     if nums.is_empty() { return ~[ set ]; }
 
     let mut result = ~[];
@@ -40,7 +40,7 @@ fn find_chain(nums: &[uint], set: ~[uint], map: &LinearMap<uint, ~[uint]>) -> ~[
 }
 
 fn each_pair_set(
-    ps: &mut Prime, map: &mut LinearMap<uint, ~[uint]>,
+    ps: &mut Prime, map: &mut HashMap<uint, ~[uint]>,
     f: &fn(&[uint]) -> bool
 ) {
     for ps.each_borrow |n, ps| {
@@ -70,7 +70,7 @@ fn each_pair_set(
 
 fn solve() -> ~str {
     let mut ps  = Prime::new();
-    let mut map = LinearMap::new::<uint, ~[uint]>();
+    let mut map = HashMap::new::<uint, ~[uint]>();
 
     for each_pair_set(&mut ps, &mut map) |set| {
         if set.len() >= 5 {

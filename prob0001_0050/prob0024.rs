@@ -2,7 +2,7 @@ use core::either::{ Either, Left, Right };
 use core::cmp::{ Eq, Ord };
 use core::to_bytes::{ IterBytes };
 use core::hash::{ Hash };
-use core::hashmap::linear::{ LinearMap };
+use core::hashmap::{ HashMap };
 use core::util::{ unreachable };
 
 use std::sort::{ quick_sort };
@@ -16,7 +16,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &LinearMap<K, uint>, n: uint) -> Either<uint, ~[K]> {
+fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &HashMap<K, uint>, n: uint) -> Either<uint, ~[K]> {
     if hist.is_empty() {
         return if n == 1 { Right(~[]) } else { Left(0) }
     }
@@ -30,7 +30,7 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &LinearMap<K, uint>, n: u
 
     let mut idx = 0;
     for kv.eachi |i, &(k, v)| {
-        let mut new_hist = LinearMap::new();
+        let mut new_hist = HashMap::new();
         for kv.slice(0, i).each |&(&k, &v)| {
             new_hist.insert(k, v);
         }
