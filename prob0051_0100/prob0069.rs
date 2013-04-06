@@ -1,0 +1,23 @@
+use common::prime::{ Prime };
+use common::problem::{ Problem };
+
+pub static problem: Problem<'static> = Problem {
+    id: 69,
+    answer: "510510",
+    solver: solve
+};
+
+fn solve() -> ~str {
+    let limit = 1000000;
+
+    let mut ps = Prime::new();
+    let mut n   = 1;
+    let mut val = 1f;
+    for ps.each |p| {
+        if n * p > limit { break; }
+        n   *= p;
+        val *= (p as float) * (p as float - 1f);
+    }
+
+    return n.to_str();
+}
