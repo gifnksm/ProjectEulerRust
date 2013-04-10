@@ -1,3 +1,4 @@
+use core::num::{ FromStrRadix };
 use std::bigint::{ BigUint };
 
 use common::calc::{ each_fib };
@@ -11,7 +12,7 @@ pub static problem: Problem<'static> = Problem {
 
 fn solve() -> ~str {
     let mut i = 0u;
-    let limit = BigUint::from_str_radix(
+    let limit = FromStrRadix::from_str_radix(
         str::from_bytes(vec::from_elem(999, '9' as u8)), 10).get();
     for each_fib |f: &BigUint| {
         i += 1;
