@@ -33,7 +33,7 @@ fn solve() -> ~str {
 
     let mut max_key = 0;
     let mut max_val = 0;
-    for map.each |&(&k, &v)| {
+    for map.each |&k, &v| {
         if max_val < v {
             max_key = k;
             max_val = v;

@@ -52,7 +52,7 @@ impl<T: Hash + IterBytes + Eq + Copy> Relations<T> {
 
     fn find_all_not_preceded(&self) -> ~[T] {
         let mut result = ~[];
-        for self.top.each |&(k, v)| {
+        for self.top.each |k, v| {
             if v.num_prec == 0 { result.push(*k); }
         }
         return result;

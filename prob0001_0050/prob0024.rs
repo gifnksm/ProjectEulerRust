@@ -25,7 +25,8 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &HashMap<K, uint>, n: uin
     if perm < n { return Left(perm); }
 
 
-    let mut kv = iter::to_vec(hist);
+    let mut kv = ~[];
+    for hist.each |k, v| { kv.push((k, v)); }
     quick_sort(kv, |a, b| a.first() <= b.first());
 
     let mut idx = 0;
