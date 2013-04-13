@@ -22,7 +22,7 @@ TARGET=$(SRC:.rs=$(EXEEXT))
 TEST=$(SRC:.rs=.test$(EXEEXT))
 
 RUSTC_FLAGS=
-RUSTC_DEBUG_FLAGS=-Z debug-info
+RUSTC_DEBUG_FLAGS=
 RUSTC_RELEASE_FLAGS=--opt-level 3
 
 .PHONY: debug release test clean
