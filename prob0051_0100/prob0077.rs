@@ -33,7 +33,7 @@ fn count_way(
                 cnt += 1;
                 break;
             }
-            if sum < 2 * p { break; }
+            if p > sum { break; }
 
             cnt += match map.find(&(sum - p, i)).map(|v| **v) {
                 Some(n) => n,
