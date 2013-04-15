@@ -284,9 +284,11 @@ mod tests {
     #[test]
     fn test_histogram() {
         fn check(inp: &[uint], result: &[(uint, uint)]) {
-            let vec = do merge_sort(iter::to_vec(&histogram(inp))) |a, b| {
+            let mut hist = ~[];
+            for histogram(inp).each |&k, &v| { hist.push((k, v)); }
+            let vec = do merge_sort(hist) |a, b| {
                 a.first() <= b.first()
-            }.map(|&(&a, &b)| (a, b));
+            };
             assert_eq!(vec.initn(0), result);
         }
         check(&[1, 2, 3], ~[(1, 1), (2, 1), (3, 1)]);
