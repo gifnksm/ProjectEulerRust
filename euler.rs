@@ -36,8 +36,8 @@ priv fn solve(p: &Problem) -> u64 {
     let comp_answer = (p.solver)();
     let calc_time   = precise_time_ns() - start_time;
 
-    io::println(fmt!("%-5u %-12s %s",
-                     p.id, p.answer, nanosec_to_str(calc_time)));
+    io::println(fmt!("%-5u %-20s %s",
+                     p.id, comp_answer, nanosec_to_str(calc_time)));
 
     assert_eq!(comp_answer, p.answer.to_str());
 
