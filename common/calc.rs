@@ -27,6 +27,22 @@ pub fn each_fib<T: One + Zero + Add<T, T>>(f: &fn(n: &T)->bool) {
     }
 }
 
+pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) {
+    let n0 = if m % 2 == 0 { 1 } else { 2 };
+    for uint::range_step(n0, m, 2) |n| {
+        if get_gcd(m, n) == 1 {
+            let a = m * m - n * n;
+            let b = 2 * m * n;
+            let c = m * m + n * n;
+            if a < b {
+                if !f(a, b, c) { return; }
+            } else {
+                if !f(b, a, c) { return; }
+            }
+        }
+    }
+}
+
 pub fn factorial(n: uint) -> uint {
     let mut prod = 1;
     for uint::range(1, n + 1) |n| { prod *= n; }

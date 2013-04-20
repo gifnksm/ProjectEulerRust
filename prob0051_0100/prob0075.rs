@@ -1,5 +1,5 @@
 use common::arith::{ isqrt };
-use common::calc::{ get_gcd };
+use common::calc::{ each_prim_pythagorean };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -7,23 +7,6 @@ pub static problem: Problem<'static> = Problem {
     answer: "161667",
     solver: solve
 };
-
-fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) {
-    let n0 = if m % 2 == 0 { 1 } else { 2 };
-    for uint::range_step(n0, m, 2) |n| {
-        if get_gcd(m, n) == 1 {
-            let a = m * m - n * n;
-            let b = 2 * m * n;
-            let c = m * m + n * n;
-            if a < b {
-                if !f(a, b, c) { return; }
-            } else {
-                if !f(b, a, c) { return; }
-            }
-        }
-    }
-}
-
 
 fn solve() -> ~str {
     let limit = 1500000;
