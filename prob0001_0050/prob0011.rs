@@ -1,3 +1,4 @@
+use common::extvec::{ each_window };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -11,8 +12,10 @@ fn find_max_uint(ns: &[uint]) -> uint {
 }
 
 fn find_max_row(row: &[uint], prod_len: uint) -> uint {
-    let wins = vec::windowed(prod_len, row);
-    let prods = vec::map(wins, |ns| vec::foldl(1u, *ns, |acc, n| acc * *n ) );
+    let mut prods = ~[];
+    for each_window(row, prod_len) |ns| {
+        prods.push(ns.foldl(1u, |acc, n| acc * *n))
+    }
     find_max_uint(prods)
 }
 
