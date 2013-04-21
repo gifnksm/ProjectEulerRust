@@ -1,4 +1,3 @@
-use common::extvec::{ each_window };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -37,7 +36,7 @@ fn solve() -> ~str {
     };
 
     let mut max = 0;
-    for each_window(nums, prod_len) |win| {
+    for vec::windowed(prod_len, nums) |win| {
         let prod = win.foldl(1, |&p, &n| p * n);
         max = uint::max(prod, max);
     }
