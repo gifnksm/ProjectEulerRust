@@ -111,9 +111,9 @@ pub fn digits_to_num(v: &[uint], radix: uint) -> uint {
     return num;
 }
 
-pub fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(&[T], &[T])->bool) {
+pub fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) {
     if len == 0 {
-        f(~[], elems);
+        f(~[], elems.to_vec());
         return;
     }
 
