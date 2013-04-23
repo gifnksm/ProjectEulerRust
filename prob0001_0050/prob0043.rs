@@ -68,7 +68,7 @@ fn solve() -> ~str {
             let mut arr = ~[];
             let dm = tp.second_ref();
             for uint::range(0, 999 / base) |n| {
-                let mut ds = fill_vec(num_to_digits(n * base, 10), 3, 0);
+                let ds = fill_vec(num_to_digits(n * base, 10), 3, 0);
                 if ds[1] != tp.first_ref()[0] || ds[2] != tp.first_ref()[1] {
                     loop
                 }

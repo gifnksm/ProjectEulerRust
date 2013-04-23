@@ -83,7 +83,7 @@ pub fn get_gcd(a: uint, b: uint) -> uint {
     let mut p = uint::max(a, b);
     let mut q = uint::min(a, b);
     loop {
-        let mut r = p % q;
+        let r = p % q;
         if r == 0 { return q; }
         p = q;
         q = r;

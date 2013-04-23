@@ -32,6 +32,7 @@ fn from_roman(mut s: &str) -> Option<uint> {
                 if d > last_d { return None; }
                 n += d;
                 s = s.slice(ds.len(), s.len());
+                last_d = d;
             }
             None => { return None; }
         }

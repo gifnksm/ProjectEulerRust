@@ -8,7 +8,7 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut num = 600851475143;
+    let num = 600851475143;
 
     let mut ps = Prime::new();
     return iter::max(&Factors::new(num, &mut ps)).first().to_str();

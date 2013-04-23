@@ -16,7 +16,7 @@ fn get_len(a: int, b: int, ps: &mut Prime) -> uint {
     let mut nu = 0;
     loop {
         let n = nu as int;
-        let mut val = n * n + a * n + b;
+        let val = n * n + a * n + b;
         for ps.each |p| {
             if (p as int) == val {
                 nu += 1;

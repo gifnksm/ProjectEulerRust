@@ -27,7 +27,7 @@ fn count_way(
         let mut cnt = 0;
         let mut i = min_idx;
         loop {
-            let mut p = ps.get_at(i);
+            let p = ps.get_at(i);
             if p == sum {
                 map.insert((p, i), 1);
                 cnt += 1;

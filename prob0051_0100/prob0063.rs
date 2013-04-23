@@ -11,7 +11,7 @@ pub static problem: Problem<'static> = Problem {
 fn solve() -> ~str {
     let mut cnt = 1u; // a == 1
     for uint::range(2, 10) |a_uint| {
-        let mut a = BigUint::from_uint(a_uint);
+        let a = BigUint::from_uint(a_uint);
         let mut n = 0;
         let mut an = BigUint::from_uint(1);
         loop {
