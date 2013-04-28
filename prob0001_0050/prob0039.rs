@@ -1,7 +1,6 @@
 use core::hashmap::{ HashMap };
 
 use common::arith::{ isqrt };
-use common::calc::{ get_gcd };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -16,12 +15,12 @@ fn solve() -> ~str {
     // if n == 1, a + b + c = 2m^2 + 2m <= L
     // m <= (sqrt(1 + L) - 1)/2
     let limit = 1000;
-    let mut map   = HashMap::new::<uint, uint>();
+    let mut map = HashMap::new::<uint, uint>();
 
     for uint::range(1, (isqrt(1 + limit) - 1) / 2) |m| {
         for uint::range(1, uint::min(1 + limit / (2 * m) - m, m)) |n| {
             if (m - n) % 2 == 0 { loop; }
-            if get_gcd(m, n) != 1 { loop; }
+            if m.gcd(&n) != 1 { loop; }
             let (a, b, c) = (m * m - n * n, 2 * m * n, m * m + n * n);
             let s = a + b + c;
             for uint::range(1, limit / s + 1) |k| {

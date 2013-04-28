@@ -30,7 +30,7 @@ pub fn each_fib<T: One + Zero + Add<T, T>>(f: &fn(n: &T)->bool) {
 pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) {
     let n0 = if m % 2 == 0 { 1 } else { 2 };
     for uint::range_step(n0, m, 2) |n| {
-        if get_gcd(m, n) == 1 {
+        if m.gcd(&n) == 1 {
             let a = m * m - n * n;
             let b = 2 * m * n;
             let c = m * m + n * n;
@@ -77,17 +77,6 @@ pub fn num_of_permutations<T: Eq + Hash, M: Map<T, uint>>(hist: &M) -> uint {
         div *= factorial(*cnt);
     }
     return factorial(sum) / div;
-}
-
-pub fn get_gcd(a: uint, b: uint) -> uint {
-    let mut p = uint::max(a, b);
-    let mut q = uint::min(a, b);
-    loop {
-        let r = p % q;
-        if r == 0 { return q; }
-        p = q;
-        q = r;
-    }
 }
 
 pub fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
@@ -225,7 +214,7 @@ pub fn cont_frac_sqrt(n: uint) -> (uint, ~[uint]) {
             } else {
                 let b = a * r - q;
                 let (p2, q2, r2) = (r*p, r*b, n*p*p - b*b);
-                let m = get_gcd(get_gcd(p2, q2), r2);
+                let m = p2.gcd(&q2).gcd(&r2);
                 p = p2 / m;
                 q = q2 / m;
                 r = r2 / m;

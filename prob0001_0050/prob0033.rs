@@ -1,4 +1,3 @@
-use common::calc::{ get_gcd };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -45,6 +44,6 @@ fn solve() -> ~str {
         }
     }
 
-    let gcd = get_gcd(prod_numer, prod_denom);
+    let gcd = prod_numer.gcd(&prod_denom);
     return (prod_denom / gcd).to_str();
 }
