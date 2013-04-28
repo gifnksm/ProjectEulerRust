@@ -1,3 +1,4 @@
+use core::num::{ Zero };
 use std::bigint::{ BigUint };
 
 use common::problem::{ Problem };
