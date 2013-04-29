@@ -269,6 +269,22 @@ pub fn solve_pel<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     }
 }
 
+pub fn each_pel<T: IntConvertible + Add<T, T> + Mul<T, T> + Copy>(d: uint, f: &fn(&T, &T)->bool) {
+    let n = IntConvertible::from_int::<T>(d as int);
+    let (x1, y1) = solve_pel(d);
+    let mut (xk, yk) = (copy x1, copy y1);
+    loop {
+        // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
+        // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
+        //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
+        if !f(&xk, &yk) { return; }
+        let xk_1 = xk * x1 + n * yk * y1;
+        let yk_1 = x1 * yk + xk * y1;
+        xk = xk_1;
+        yk = yk_1;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
