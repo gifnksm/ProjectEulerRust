@@ -1,6 +1,6 @@
 use std::bigint::{ BigUint };
 
-use common::calc::{ cont_frac_sqrt, fold_cont_frac };
+use common::calc::{ solve_pel };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -25,21 +25,12 @@ fn each_d(f: &fn(uint) -> bool) {
     }
 }
 
-fn solve_diophantine(d: uint) -> (BigUint, BigUint) {
-    let (a0, an) = cont_frac_sqrt(d);
-    if an.len() % 2 == 0 {
-        return fold_cont_frac::<BigUint>(~[a0] + an.init());
-    } else {
-        return fold_cont_frac::<BigUint>(~[a0] + an + an.init());
-    }
-}
-
 fn solve() -> ~str {
     let mut max_x   = BigUint::from_uint(0);
     let mut max_x_d = 0;
     for each_d |d| {
         if d > 1000 { break; }
-        let (x, _y) = solve_diophantine(d);
+        let (x, _y) = solve_pel::<BigUint>(d);
         if x > max_x { max_x = x; max_x_d = d; }
     }
     return max_x_d.to_str();

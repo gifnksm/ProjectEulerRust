@@ -260,6 +260,15 @@ pub fn fold_cont_frac<
     return (numer, denom);
 }
 
+pub fn solve_pel<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
+    let (a0, an) = cont_frac_sqrt(d);
+    if an.len() % 2 == 0 {
+        return fold_cont_frac::<T>(~[a0] + an.init());
+    } else {
+        return fold_cont_frac::<T>(~[a0] + an + an.init());
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
