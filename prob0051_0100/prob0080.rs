@@ -1,3 +1,5 @@
+use core::num::{ Zero };
+
 use std::bigint::{ BigInt };
 
 use common::arith::{ isqrt };
