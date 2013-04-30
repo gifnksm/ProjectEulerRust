@@ -1,7 +1,7 @@
-use core::util::{ unreachable };
+use core::iterator::{ IteratorUtil };
 
 use common::prime::{ Prime, num_of_divisors };
-use common::calc::{ each_triangles };
+use common::extiter::{ Triangle, nth };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -11,14 +11,10 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut primes = Prime::new();
+    let mut ps = Prime::new();
+    let it = Triangle::new()
+        .transform(|t| num_of_divisors(t, &mut ps))
+        .skip_while(|&n| n <= 500);
 
-    for each_triangles |t| {
-        let num = num_of_divisors(t, &mut primes);
-        if num > 500 {
-            return t.to_str();
-        }
-    }
-
-    unreachable();
+    return nth(it, 0).to_str();
 }

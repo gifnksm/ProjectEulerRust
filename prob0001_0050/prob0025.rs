@@ -11,7 +11,6 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-// Need to implement BigUint#clone()
 fn solve() -> ~str {
     let limit = FromStrRadix::from_str_radix(
         str::from_bytes(vec::from_elem(999, '9' as u8)), 10).get();

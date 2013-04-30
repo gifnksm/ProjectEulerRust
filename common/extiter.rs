@@ -77,10 +77,39 @@ impl<T: Add<T,T> + Copy> Iterator<T> for Fibonacci<T> {
     }
 }
 
+pub struct Triangle {
+    idx: uint,
+    cur:  uint
+}
+
+impl Triangle {
+    pub fn new() -> Triangle { Triangle { idx: 1, cur: 1 } }
+}
+
+impl Iterator<uint> for Triangle {
+    fn next(&mut self) -> Option<uint> {
+        let cur = self.cur;
+        self.idx += 1;
+        self.cur += self.idx;
+        return Some(cur);
+    }
+}
+
 pub fn count_elem<T, IT: Iterator<T>>(mut it: IT) -> uint {
     let mut cnt = 0;
     for it.advance |_| { cnt += 1; }
     return cnt;
+}
+
+pub fn nth<T, IT: Iterator<T>>(mut it: IT, n: uint) -> T {
+    let mut i = n;
+    loop {
+        match it.next() {
+            Some(x) => { if i == 0 { return x; } }
+            None => { fail!("cannot get %uth element", n); }
+        }
+        i -= 1;
+    }
 }
 
 // This cannot use because of ICE.
@@ -145,10 +174,32 @@ mod tests {
     }
 
     #[test]
+    fn test_triangle() {
+        let it = Triangle::new();
+        let tri = ~[1u, 3, 6, 10, 15, 21];
+        assert_eq!(extvec::from_iter(it.take(tri.len())), tri);
+    }
+
+    #[test]
     fn test_count_elem() {
         assert_eq!(count_elem(uint_range(0, 4)), 4);
         assert_eq!(count_elem(uint_range(0, 10)), 10);
         assert_eq!(count_elem(uint_range(10, 0)), 0);
+    }
+
+    #[test]
+    fn test_nth() {
+        let v = &[0, 1, 2, 3, 4];
+        for uint::range(0, v.len()) |i| {
+            assert_eq!(nth(v.iter(), i), &v[i]);
+        }
+    }
+
+    #[test]
+    #[should_fail]
+    fn test_nth_fail() {
+        let v = &[0, 1, 2, 3, 4];
+        nth(v.iter(), 5);
     }
 
     #[test]
@@ -158,7 +209,6 @@ mod tests {
         assert_eq!(sum_uint(uint_range(10, 0)), 0);
     }
 
-
     #[test]
     fn test_max() {
         assert_eq!(max(uint_range(0, 4)), 3);
@@ -167,7 +217,8 @@ mod tests {
         assert_eq!(max(v.iter().transform(|v| *v)), 10);
     }
 
-    #[test] #[should_fail]
+    #[test]
+    #[should_fail]
     fn test_max_fail() {
         assert_eq!(max(uint_range(10, 0)), 0);
     }

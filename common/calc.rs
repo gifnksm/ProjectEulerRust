@@ -7,16 +7,6 @@ use core::util::{ swap };
 
 use common::arith::{ isqrt };
 
-pub fn each_triangles(f: &fn(uint) -> bool) {
-    let mut idx = 0;
-    let mut t   = 1;
-    loop {
-        if !f(t) { break; }
-        idx += 1;
-        t   += idx + 1;
-    }
-}
-
 pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) {
     let n0 = if m % 2 == 0 { 1 } else { 2 };
     for uint::range_step(n0, m, 2) |n| {

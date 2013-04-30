@@ -1,4 +1,5 @@
-use common::calc::{ each_triangles };
+use core::iterator::{ IteratorUtil };
+use common::extiter::{ Triangle };
 use common::reader::{ read_whole_word };
 use common::problem::{ Problem };
 
@@ -17,25 +18,19 @@ fn word_value(word: &str) -> uint {
 }
 
 fn solve() -> ~str {
-    let result = do io::read_whole_file_str(&Path("files/words.txt")).chain |input| {
+    let result = io::read_whole_file_str(&Path("files/words.txt")).chain(|input| {
         do read_whole_word(input).map |words| { words.map(|w| word_value(*w)) }
-    };
-    match result {
-        result::Err(msg) => {
-            fail!(msg)
-        }
-        result::Ok(values) => {
-            let mut flag = vec::from_elem(values.max() + 1, false);
-            for each_triangles |t| {
-                if t >= flag.len() { break; }
-                flag[t] = true;
-            }
+    }).map(|values| {
+        let mut is_tri = vec::from_elem(values.max() + 1, false);
+        let mut it = Triangle::new().take_while(|&t| t < is_tri.len());
+        for it.advance() |t| { is_tri[t] = true; }
 
-            let mut cnt = 0u;
-            for values.each |v| {
-                if flag[*v] { cnt += 1; }
-            }
-            return cnt.to_str();
-        }
+        let mut cnt = 0u;
+        for values.each_val |v| { if is_tri[v] { cnt += 1; } }
+        cnt
+    });
+    match result {
+        result::Err(msg) => { fail!(msg) }
+        result::Ok(cnt) => { return cnt.to_str(); }
     }
 }
