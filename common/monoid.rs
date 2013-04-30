@@ -2,7 +2,7 @@ use core::util;
 use core::cmp::{ Ord, Eq };
 use core::ops::{ Add, Mul };
 use core::num::{ Zero, One };
-use core::iterator::{ Iterator };
+use core::iterator::{ Iterator, IteratorUtil, MapIterator };
 
 use common::bounded::{ Bounded };
 
@@ -138,6 +138,18 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
     }
 }
 
+pub fn merge_monoid_as<K: TotalOrd, V, MT, M: Monoid + Unwrap<MT>, T: Iterator<(K, V)>, U: Iterator<(K, V)>, X>
+    (it1: T, it2: U, conv: &fn(V) -> M,
+     f: &fn(MapIterator<(K, M), (K, MT),
+            MergeMonoidIterator<(K, M), MapIterator<(K, V), (K, M), T>,
+            MapIterator<(K, V), (K, M), U>>>) -> X
+    ) -> X {
+    let it1 = it1.transform(|(k, v)| (k, conv(v)));
+    let it2 = it2.transform(|(k, v)| (k, conv(v)));
+    let it = MergeMonoidIterator::new(it1, it2);
+    return f(it.transform(|(k, m)| (k, m.unwrap())));
+}
+
 pub fn merge<T: Copy + Ord, M: Copy + Monoid>(
     vec1: &[(T, M)], vec2: &[(T, M)]
 ) -> ~[(T, M)] {
@@ -198,12 +210,16 @@ pub fn mergei_as<T: Copy+Ord, U: Copy, MT, M: Copy+Monoid+Unwrap<MT>>(vecs: &[~[
 #[cfg(test)]
 mod tests {
     use super::*;
-    use core::iterator::{ IteratorUtil };
     use common::extvec;
 
     fn to_sum<T, U>(&tp: &(T, U)) -> (T, Sum<U>) {
         let (t, u) = tp;
-        return (t, Sum(u));
+        return (t, Sum(u))
+    }
+
+    fn to_prod<T, U>(&tp: &(T, U)) -> (T, Prod<U>) {
+        let (t, u) = tp;
+        return (t, Prod(u));
     }
 
     fn to_max<T, U>(&tp: &(T, U)) -> (T, Max<U>) {
@@ -211,30 +227,54 @@ mod tests {
         return (t, Max(u));
     }
 
+    fn to_min<T, U>(&tp: &(T, U)) -> (T, Min<U>) {
+        let (t, u) = tp;
+        return (t, Min(u));
+    }
+
     #[test]
     fn test_merge_monoid_iterator() {
-        fn check<M: Monoid + Eq>(v1: &[(int, int)],
-                                 v2: &[(int, int)],
-                                 f: &fn(&(int, int)) -> (int, M),
-                                 result: &[(int, int)]) {
+        fn check<M: Monoid + Unwrap<int> + Eq>(v1: &[(int, int)],
+                                               v2: &[(int, int)],
+                                               f: &fn(int) -> M,
+                                               result: &[(int, int)]) {
+            let conv = |&(x, y): &(int, int)| (x, f(y));
             assert_eq!(
-                extvec::from_iter(MergeMonoidIterator::new(v1.iter().transform(f),
-                                                           v2.iter().transform(f))),
-                result.map(f));
+                extvec::from_iter(MergeMonoidIterator::new(v1.iter().transform(conv),
+                                                           v2.iter().transform(conv))),
+                result.map(conv));
             assert_eq!(
-                extvec::from_iter(MergeMonoidIterator::new(v2.iter().transform(f),
-                                                           v1.iter().transform(f))),
-                result.map(f));
+                extvec::from_iter(MergeMonoidIterator::new(v2.iter().transform(conv),
+                                                           v1.iter().transform(conv))),
+                result.map(conv));
+
+            assert_eq!(merge_monoid_as(v1.iter().transform(|x| *x),
+                                       v2.iter().transform(|x| *x),
+                                       f, |x| extvec::from_iter(x)),
+                       result.to_vec());
+
+            assert_eq!(merge_monoid_as(v2.iter().transform(|x| *x),
+                                       v1.iter().transform(|x| *x),
+                                       f, |x| extvec::from_iter(x)),
+                       result.to_vec());
         }
 
-        let v1 = [(1, 1), (3, 1), (4, 1), (6, 1)];
-        let v2 = [(1, 2), (2, 1), (4, 1), (7, 2)];
+        let v1 = [(1, 1), (3, 1), (4, 3), (6, 1)];
+        let v2 = [(1, 2), (2, 1), (4, 2), (7, 2)];
 
-        check(v1, v2, to_sum, [(1, 3), (2, 1), (3, 1), (4, 2), (6, 1), (7, 2)]);
-        check(v1, v2, to_max, [(1, 2), (2, 1), (3, 1), (4, 1), (6, 1), (7, 2)]);
+        check(v1, v2, Sum, [(1, 3), (2, 1), (3, 1), (4, 5), (6, 1), (7, 2)]);
+        check(v1, v2, Prod, [(1, 2), (2, 1), (3, 1), (4, 6), (6, 1), (7, 2)]);
+        check(v1, v2, Max, [(1, 2), (2, 1), (3, 1), (4, 3), (6, 1), (7, 2)]);
+        check(v1, v2, Min, [(1, 1), (2, 1), (3, 1), (4, 2), (6, 1), (7, 2)]);
 
-        check(v1, [], to_sum, v1);
-        check([], [], to_sum, []);
+        check(v1, [], Sum, v1);
+        check([], [], Sum, []);
+        check(v1, [], Prod, v1);
+        check([], [], Prod, []);
+        check(v1, [], Max, v1);
+        check([], [], Max, []);
+        check(v1, [], Min, v1);
+        check([], [], Min, []);
     }
 
     #[test]
