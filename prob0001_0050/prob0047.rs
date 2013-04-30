@@ -1,4 +1,6 @@
-use common::prime::{ Prime, Factors };
+use core::iterator::{ IteratorUtil };
+
+use common::prime::{ Prime };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -8,7 +10,10 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn num_factors(n: uint, ps: &mut Prime) -> uint {
-    iter::foldl(&Factors::new(n, ps), 0, |&cnt, _elm| cnt + 1)
+    let mut cnt = 0;
+    let mut it = ps.factorize(n);
+    for it.advance |_| { cnt += 1; }
+    return cnt;
 }
 
 fn solve() -> ~str {

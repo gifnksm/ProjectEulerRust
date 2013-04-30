@@ -1,4 +1,7 @@
-use common::prime::{ Prime, Factors, factors_to_uint };
+use core::iterator::{ IteratorUtil };
+
+use common::extvec;
+use common::prime::{ Prime, factors_to_uint };
 use common::monoid::{ mergei_as, Max };
 use common::problem::{ Problem };
 
@@ -9,12 +12,13 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut primes = Prime::new();
+    let mut ps = Prime::new();
     let mut fs = ~[];
 
     for uint::range(1, 20 + 1) |n| {
-        fs.push(iter::to_vec(&Factors::new(n, &mut primes)));
+        fs.push(extvec::from_iter(ps.factorize(n)));
     };
 
-    return factors_to_uint(&mergei_as(fs, Max)).to_str();
+    let mut v = mergei_as(fs, Max);
+    return factors_to_uint(v.iter().transform(|&x| x)).to_str();
 }

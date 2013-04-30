@@ -285,6 +285,21 @@ pub fn each_pel<T: IntConvertible + Add<T, T> + Mul<T, T> + Copy>(d: uint, f: &f
     }
 }
 
+#[inline(always)]
+pub fn pow(base: uint, exp: uint) -> uint {
+    let mut result = 1;
+    let mut itr = exp;
+    let mut pow = base;
+    while itr > 0 {
+        if itr & 0x1 == 0x1 {
+            result *= pow;
+        }
+        itr >>= 1;
+        pow *= pow;
+    }
+    return result;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -336,13 +351,6 @@ mod tests {
     }
 
     #[test]
-    fn test_get_gcd() {
-        assert_eq!(get_gcd(2, 2), 2);
-        assert_eq!(get_gcd(100, 99), 1);
-        assert_eq!(get_gcd(8 * 3, 8 * 5), 8);
-    }
-
-    #[test]
     fn test_num_to_digits() {
         assert_eq!(num_to_digits(0, 10), ~[]);
         assert_eq!(num_to_digits(1, 10), ~[1]);
@@ -376,9 +384,9 @@ mod tests {
     #[test]
     fn test_combinate() {
         let mut nums = ~[
-            &[1, 2, 3], &[1, 2, 4], &[1, 2, 5], &[1, 3, 4], &[1, 3, 5], &[1, 4, 5],
-            &[2, 3, 4], &[2, 3, 5], &[2, 4, 5],
-            &[3, 4, 5]
+            ~[1, 2, 3], ~[1, 2, 4], ~[1, 2, 5], ~[1, 3, 4], ~[1, 3, 5], ~[1, 4, 5],
+            ~[2, 3, 4], ~[2, 3, 5], ~[2, 4, 5],
+            ~[3, 4, 5]
         ];
         for combinate(&[1, 2, 3, 4, 5], 3) |n, _rest| {
             assert_eq!(n, vec::shift(&mut nums));
@@ -481,5 +489,21 @@ mod tests {
         test(~[2, 1, 2, 1, 1, 4, 1, 1], (193, 71));
         test(~[2, 1, 2, 1, 1, 4, 1, 1, 6], (1264, 465));
         test(~[2, 1, 2, 1, 1, 4, 1, 1, 6, 1], (1457, 536));
+    }
+
+    #[test]
+    fn test_pow() {
+        assert_eq!(pow(0, 0), 1);
+        assert_eq!(pow(0, 1), 0);
+        assert_eq!(pow(1, 1), 1);
+        assert_eq!(pow(1, 100), 1);
+
+        assert_eq!(pow(2, 0), 1);
+        assert_eq!(pow(2, 1), 2);
+        assert_eq!(pow(2, 2), 4);
+        assert_eq!(pow(2, 10), 1024);
+
+        assert_eq!(pow(3, 0), 1);
+        assert_eq!(pow(3, 1), 3);
     }
 }
