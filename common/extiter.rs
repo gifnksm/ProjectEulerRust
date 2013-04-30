@@ -77,6 +77,12 @@ impl<T: Add<T,T> + Copy> Iterator<T> for Fibonacci<T> {
     }
 }
 
+pub fn count_elem<T, IT: Iterator<T>>(mut it: IT) -> uint {
+    let mut cnt = 0;
+    for it.advance |_| { cnt += 1; }
+    return cnt;
+}
+
 // This cannot use because of ICE.
 // pub fn sum<T: Add<T, T> + Zero, IT: Iterator<T>>(mut it: IT) -> T {
 //     let mut sum = Zero::zero::<T>();
@@ -89,12 +95,23 @@ pub fn sum_uint<IT: Iterator<uint>>(mut it: IT) -> uint {
     return sum;
 }
 
-pub fn count_elem<T, IT: Iterator<T>>(mut it: IT) -> uint {
-    let mut cnt = 0;
-    for it.advance |_| { cnt += 1; }
-    return cnt;
+pub fn max<T: TotalOrd, IT: Iterator<T>>(mut it: IT) -> T {
+    let mut max = match it.next() {
+        Some(x) => x,
+        None => fail!()
+    };
+    for it.advance |x| { if x.cmp(&max) == Greater { max = x; }}
+    return max;
 }
 
+pub fn min<T: TotalOrd, IT: Iterator<T>>(mut it: IT) -> T {
+    let mut min = match it.next() {
+        Some(x) => x,
+        None => fail!()
+    };
+    for it.advance |x| { if x.cmp(&min) == Less { min = x; }}
+    return min;
+}
 
 #[cfg(test)]
 mod tests {
@@ -128,9 +145,43 @@ mod tests {
     }
 
     #[test]
+    fn test_count_elem() {
+        assert_eq!(count_elem(uint_range(0, 4)), 4);
+        assert_eq!(count_elem(uint_range(0, 10)), 10);
+        assert_eq!(count_elem(uint_range(10, 0)), 0);
+    }
+
+    #[test]
     fn test_sum_uint() {
         assert_eq!(sum_uint(uint_range(0, 4)), 6);
         assert_eq!(sum_uint(uint_range(0, 10)), 45);
         assert_eq!(sum_uint(uint_range(10, 0)), 0);
+    }
+
+
+    #[test]
+    fn test_max() {
+        assert_eq!(max(uint_range(0, 4)), 3);
+        assert_eq!(max(uint_range(0, 10)), 9);
+        let v = ~[0, 10, 9, 2, 3, 5];
+        assert_eq!(max(v.iter().transform(|v| *v)), 10);
+    }
+
+    #[test] #[should_fail]
+    fn test_max_fail() {
+        assert_eq!(max(uint_range(10, 0)), 0);
+    }
+
+    #[test]
+    fn test_min() {
+        assert_eq!(min(uint_range(0, 4)), 0);
+        assert_eq!(min(uint_range(0, 10)), 0);
+        let v = ~[0, 10, 9, 2, 3, 5];
+        assert_eq!(min(v.iter().transform(|v| *v)), 0);
+    }
+
+    #[test] #[should_fail]
+    fn test_min_fail() {
+        min(uint_range(10, 0));
     }
 }

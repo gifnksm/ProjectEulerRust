@@ -252,7 +252,6 @@ fn solve() -> ~str {
 
 #[cfg(test)]
 mod test {
-    use core::num::{ IntConvertible };
     use super::*;
 
     #[test]
