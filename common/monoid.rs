@@ -1,6 +1,8 @@
+use core::util;
 use core::cmp::{ Ord, Eq };
 use core::ops::{ Add, Mul };
 use core::num::{ Zero, One };
+use core::iterator::{ Iterator };
 
 use common::bounded::{ Bounded };
 
@@ -90,6 +92,52 @@ pub fn mconcat<T: Copy+Monoid>(v: &[T]) -> T {
     vec::foldl(Monoid::mempty(), v, |accum, elt| { elt.mappend(&accum) })
 }
 
+struct MergeMonoidIterator<V, T, U> {
+    iter1: T,
+    value1: Option<V>,
+    iter2: U,
+    value2: Option<V>
+}
+
+impl<V, T: Iterator<V>, U: Iterator<V>> MergeMonoidIterator<V, T, U> {
+    pub fn new(iter1: T, iter2: U) -> MergeMonoidIterator<V, T, U> {
+        MergeMonoidIterator { iter1: iter1, value1: None, iter2: iter2, value2: None }
+    }
+}
+
+impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
+    Iterator<(K, V)> for MergeMonoidIterator<(K, V), T, U> {
+    fn next(&mut self) -> Option<(K, V)> {
+        fn return_val<V>(opt: &mut Option<V>) -> Option<V> {
+            let mut result = None;
+            util::swap(opt, &mut result);
+            return result;
+        }
+
+        // Fill value if empty (if iter ends, set None)
+        if self.value1.is_none() { self.value1 = self.iter1.next(); }
+        if self.value2.is_none() { self.value2 = self.iter2.next(); }
+
+        // If one value is None, returns anogher value (with setting None)
+        if self.value1.is_none() { return return_val(&mut self.value2); }
+        if self.value2.is_none() { return return_val(&mut self.value1); }
+
+        // Returns smaller value
+        let cmp = self.value1.get_ref().first_ref().cmp(self.value2.get_ref().first_ref());
+        match cmp {
+            Less    => { return return_val(&mut self.value1); }
+            Greater => { return return_val(&mut self.value2); },
+            Equal   => {
+                let mut r1 = None, r2 = None;
+                util::swap(&mut self.value1, &mut r1);
+                util::swap(&mut self.value2, &mut r2);
+                let ((k, v1), (_, v2)) = (r1.unwrap(), r2.unwrap());
+                return Some((k, v1.mappend(&v2)));
+            }
+        }
+    }
+}
+
 pub fn merge<T: Copy + Ord, M: Copy + Monoid>(
     vec1: &[(T, M)], vec2: &[(T, M)]
 ) -> ~[(T, M)] {
@@ -150,15 +198,43 @@ pub fn mergei_as<T: Copy+Ord, U: Copy, MT, M: Copy+Monoid+Unwrap<MT>>(vecs: &[~[
 #[cfg(test)]
 mod tests {
     use super::*;
+    use core::iterator::{ IteratorUtil };
+    use common::extvec;
 
-    fn to_sum<T: Copy, U: Copy>(tp: &(T, U)) -> (T, Sum<U>) {
-        let (t, u) = *tp;
+    fn to_sum<T, U>(&tp: &(T, U)) -> (T, Sum<U>) {
+        let (t, u) = tp;
         return (t, Sum(u));
     }
 
-    fn to_max<T: Copy, U: Copy+Ord>(tp: &(T, U)) -> (T, Max<U>) {
-        let (t, u) = *tp;
+    fn to_max<T, U>(&tp: &(T, U)) -> (T, Max<U>) {
+        let (t, u) = tp;
         return (t, Max(u));
+    }
+
+    #[test]
+    fn test_merge_monoid_iterator() {
+        fn check<M: Monoid + Eq>(v1: &[(int, int)],
+                                 v2: &[(int, int)],
+                                 f: &fn(&(int, int)) -> (int, M),
+                                 result: &[(int, int)]) {
+            assert_eq!(
+                extvec::from_iter(MergeMonoidIterator::new(v1.iter().transform(f),
+                                                           v2.iter().transform(f))),
+                result.map(f));
+            assert_eq!(
+                extvec::from_iter(MergeMonoidIterator::new(v2.iter().transform(f),
+                                                           v1.iter().transform(f))),
+                result.map(f));
+        }
+
+        let v1 = [(1, 1), (3, 1), (4, 1), (6, 1)];
+        let v2 = [(1, 2), (2, 1), (4, 1), (7, 2)];
+
+        check(v1, v2, to_sum, [(1, 3), (2, 1), (3, 1), (4, 2), (6, 1), (7, 2)]);
+        check(v1, v2, to_max, [(1, 2), (2, 1), (3, 1), (4, 1), (6, 1), (7, 2)]);
+
+        check(v1, [], to_sum, v1);
+        check([], [], to_sum, []);
     }
 
     #[test]
