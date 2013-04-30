@@ -63,12 +63,16 @@ impl<T: Zero + One> Fibonacci<T> {
     pub fn new() -> Fibonacci<T> { Fibonacci { prev: Zero::zero(), cur: One::one() } }
 }
 
-impl<T: Add<T,T> + Clone> Iterator<T> for Fibonacci<T> {
+// Copy must be Clone
+impl<T: Add<T,T> + Copy> Iterator<T> for Fibonacci<T> {
     fn next(&mut self) -> Option<T> {
-        let cur  = self.cur.clone();
         let next = self.prev + self.cur;
-        self.prev = cur.clone();
+        // let cur  = self.cur.clone();
+        let cur  = self.cur;
+        // self.prev = cur.clone();
+        self.prev = cur;
         self.cur  = next;
+        // return Some(cur);
         return Some(cur);
     }
 }
@@ -83,6 +87,12 @@ pub fn sum_uint<IT: Iterator<uint>>(mut it: IT) -> uint {
     let mut sum = 0;
     for it.advance |n| { sum += n; }
     return sum;
+}
+
+pub fn count_elem<T, IT: Iterator<T>>(mut it: IT) -> uint {
+    let mut cnt = 0;
+    for it.advance |_| { cnt += 1; }
+    return cnt;
 }
 
 

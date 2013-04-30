@@ -1,6 +1,6 @@
 use core::cmp::{ Eq };
 use core::hash::{ Hash };
-use core::num::{ Zero, One, IntConvertible };
+use core::num::{ IntConvertible };
 use core::to_bytes::{ IterBytes };
 use core::hashmap::{ HashMap, HashSet };
 use core::util::{ swap };
@@ -14,16 +14,6 @@ pub fn each_triangles(f: &fn(uint) -> bool) {
         if !f(t) { break; }
         idx += 1;
         t   += idx + 1;
-    }
-}
-
-pub fn each_fib<T: One + Zero + Add<T, T>>(f: &fn(n: &T)->bool) {
-    let mut (prev, cur) = (Zero::zero::<T>(), One::one::<T>());
-    loop {
-        if !f(&cur) { break; }
-        let next = prev + cur;
-        prev = cur;
-        cur  = next;
     }
 }
 
@@ -305,17 +295,6 @@ mod tests {
     use super::*;
     use std::sort::{ merge_sort };
     use std::bigint::{ BigUint };
-
-    #[test]
-    fn test_each_fib() {
-        let fib = ~[ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
-        let mut calc = ~[];
-        for each_fib |f: &uint| {
-            if *f > *fib.last() { break; }
-            calc += [ *f ];
-        }
-        assert_eq!(fib, calc);
-    }
 
     #[test]
     fn test_factorial() {

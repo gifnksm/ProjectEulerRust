@@ -1,4 +1,6 @@
-use common::calc::{ each_fib };
+use core::iterator::{ IteratorUtil };
+
+use common::extiter::{ Fibonacci, sum_uint };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -9,10 +11,8 @@ pub static problem: Problem<'static> = Problem {
 
 fn solve() -> ~str {
     let max = 4000000;
-    let mut sum = 0;
-    for each_fib |f: &uint| {
-        if *f >= max { break; }
-        if *f % 2 == 0 { sum += *f; }
-    }
-    return sum.to_str();
+    let it = Fibonacci::new::<uint>()
+        .take_while(|&f| f < max)
+        .filter(|&f| f % 2 == 0);
+    return sum_uint(it).to_str();
 }

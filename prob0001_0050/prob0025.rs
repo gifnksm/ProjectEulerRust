@@ -1,7 +1,8 @@
+use core::iterator::{ IteratorUtil };
 use core::num::{ FromStrRadix };
 use std::bigint::{ BigUint };
 
-use common::calc::{ each_fib };
+use common::extiter::{ Fibonacci, count_elem };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -10,14 +11,11 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
+// Need to implement BigUint#clone()
 fn solve() -> ~str {
-    let mut i = 0u;
     let limit = FromStrRadix::from_str_radix(
         str::from_bytes(vec::from_elem(999, '9' as u8)), 10).get();
-    for each_fib |f: &BigUint| {
-        i += 1;
-        if *f > limit { break; }
-    }
 
-    return i.to_str();
+    let it = Fibonacci::new::<BigUint>().take_while(|&n| n <= limit);
+    return (count_elem(it) + 1).to_str();
 }
