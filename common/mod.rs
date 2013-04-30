@@ -1,5 +1,6 @@
 pub mod bounded;
 pub mod extvec;
+pub mod extiter;
 pub mod arith;
 pub mod calc;
 pub mod prime;

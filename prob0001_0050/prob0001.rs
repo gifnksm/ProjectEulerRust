@@ -1,3 +1,6 @@
+use core::iterator::{ IteratorUtil };
+
+use common::extiter::{ uint_range, sum_uint };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -7,11 +10,6 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut sum = 0;
-    for uint::range(0, 1000) |n| {
-        if n % 3 == 0 || n % 5 == 0 {
-            sum += n;
-        }
-    }
-    return sum.to_str();
+    let it = uint_range(0, 1000).filter(|&n| n % 3 == 0 || n % 5 == 0);
+    return sum_uint(it).to_str();
 }
