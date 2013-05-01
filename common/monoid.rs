@@ -4,8 +4,6 @@ use core::ops::{ Add, Mul };
 use core::num::{ Zero, One, Bounded };
 use core::iterator::{ Iterator };
 
-use common::extvec;
-
 pub trait Monoid {
     fn mempty() -> Self;
     fn mappend(&self, other: &Self) -> Self;
@@ -200,11 +198,6 @@ impl<V, T: Iterator<V>> MergeMultiMonoidIterator<V, T> {
     pub fn new(iters: ~[T]) -> MergeMultiMonoidIterator<V, T> {
         MergeMultiMonoidIterator { values: vec::from_fn(iters.len(), |_| None), iters: iters }
     }
-
-    #[inline(always)]
-    pub fn new_from_iter<U: Iterator<T>>(iters: U) -> MergeMultiMonoidIterator<V, T> {
-        MergeMultiMonoidIterator::new(extvec::from_iter(iters))
-    }
 }
 
 impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
@@ -253,8 +246,8 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 #[cfg(test)]
 mod tests {
     use super::*;
-    use common::extvec;
     use core::iterator::{ IteratorUtil };
+    use common::extiter::{ ExtIteratorUtil };
 
     #[test]
     fn test_mconcat() {
@@ -317,12 +310,12 @@ mod tests {
                                                result: &[(int, int)]) {
             let conv = |&(x, y): &(int, int)| (x, f(y));
             assert_eq!(
-                extvec::from_iter(MergeMonoidIterator::new(v1.iter().transform(conv),
-                                                           v2.iter().transform(conv))),
+                MergeMonoidIterator::new(v1.iter().transform(conv),
+                                         v2.iter().transform(conv)).to_vec(),
                 result.map(conv));
             assert_eq!(
-                extvec::from_iter(MergeMonoidIterator::new(v2.iter().transform(conv),
-                                                           v1.iter().transform(conv))),
+                MergeMonoidIterator::new(v2.iter().transform(conv),
+                                         v1.iter().transform(conv)).to_vec(),
                 result.map(conv));
         }
 
@@ -354,7 +347,7 @@ mod tests {
             for vs.each |v| { iters.push(v.iter().transform(conv)); }
             for vec::each_permutation(iters) |it| {
                 assert_eq!(
-                    extvec::from_iter(MergeMultiMonoidIterator::new(it.to_vec())),
+                    MergeMultiMonoidIterator::new(it.to_owned()).to_vec(),
                     result.map(conv));
             }
         }

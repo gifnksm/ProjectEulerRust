@@ -1,8 +1,7 @@
 use core::iterator::{ Iterator, IteratorUtil };
 use core::util::unreachable;
 
-use common::extiter::{ Range };
-use common::extvec;
+use common::extiter::{ Range, ExtIteratorUtil };
 use common::calc::{ pow };
 use common::monoid::{ Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap };
 
@@ -181,15 +180,19 @@ pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
 pub fn comb(n: uint, r: uint, ps: &mut Prime) -> uint {
     let factorize = |n| ps.factorize(n);
 
-    let numer = MergeMultiMonoidIterator::new(extvec::from_iter(
-        Range::new(r + 1, n + 1).transform(factorize)
+    let numer = MergeMultiMonoidIterator::new(
+        Range::new(r + 1, n + 1)
+        .transform(factorize)
         .transform(|fs| fs.transform(|(base, exp)| (base, Sum(exp))))
-    ));
+        .to_vec()
+    );
 
-    let denom = MergeMultiMonoidIterator::new(extvec::from_iter(
-        Range::new(1, n - r + 1).transform(factorize)
+    let denom = MergeMultiMonoidIterator::new(
+        Range::new(1, n - r + 1)
+        .transform(factorize)
         .transform(|fs| fs.transform(|(base, exp)| (base, Sum(-exp))))
-    ));
+        .to_vec()
+    );
 
     return factors_to_uint(
         MergeMonoidIterator::new(numer, denom).transform(|(a, m)| (a, m.unwrap()))

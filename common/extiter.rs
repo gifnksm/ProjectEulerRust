@@ -115,6 +115,7 @@ impl Iterator<uint> for Triangle {
 pub trait ExtIteratorUtil<A> {
     fn filter_map<'r, B>(self, f: &'r fn(A) -> Option<B>) -> FilterMapIterator<'r, A, B, Self>;
     fn windowed(self, n: uint) -> WindowedIterator<A, Self>;
+    fn to_vec(self) -> ~[A];
 
     fn count_elem(self) -> uint;
     fn nth(self, n: uint) -> A;
@@ -127,6 +128,13 @@ impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
 
     fn windowed(self, n: uint) -> WindowedIterator<A, T> {
         WindowedIterator { iter: self, n: n, vs: ~[] }
+    }
+
+    fn to_vec(self) -> ~[A] {
+        let mut v = ~[];
+        let mut it = self;
+        for it.advance() |x| { v.push(x); }
+        return v;
     }
 
     fn count_elem(self) -> uint {
@@ -236,13 +244,12 @@ impl<A: TotalOrd, T: Iterator<A>> OrderedIterator<A> for T {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use common::extvec;
 
     #[test]
     fn test_uint_range() {
         fn gen(start: uint, end: uint, step: int) -> ~[uint] {
             let s = if step >= 0 { Plus(step as uint) } else { Minus((-step) as uint) };
-            extvec::from_iter(Range::new_with_step(start, end, s))
+            Range::new_with_step(start, end, s).to_vec()
         }
         assert_eq!(gen(0, 3, 1), ~[0, 1, 2]);
         assert_eq!(gen(13, 10, -1), ~[13, 12, 11]);
@@ -262,21 +269,21 @@ mod tests {
     fn test_fibonacci() {
         let it = Fibonacci::new::<uint>();
         let fib = ~[ 1u, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
-        assert_eq!(extvec::from_iter(it.take(fib.len())), fib);
+        assert_eq!(it.take(fib.len()).to_vec(), fib);
     }
 
     #[test]
     fn test_triangle() {
         let it = Triangle::new();
         let tri = ~[1u, 3, 6, 10, 15, 21];
-        assert_eq!(extvec::from_iter(it.take(tri.len())), tri);
+        assert_eq!(it.take(tri.len()).to_vec(), tri);
     }
 
     #[test]
     fn test_filter_map() {
         let it  = Range::new(0, 10).filter_map(|x| if x.is_even() { Some(x*x) } else { None });
         let ans = ~[0*0, 2*2, 4*4, 6*6, 8*8];
-        assert_eq!(extvec::from_iter(it), ans);
+        assert_eq!(it.to_vec(), ans);
     }
 
     #[test]

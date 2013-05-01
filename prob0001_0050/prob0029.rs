@@ -1,6 +1,6 @@
 use core::hashmap::{ HashSet };
 
-use common::extvec;
+use common::extiter::{ ExtIteratorUtil };
 use common::prime::{ Prime };
 use common::problem::{ Problem };
 
@@ -15,7 +15,7 @@ fn solve() -> ~str {
     let mut set = HashSet::new();
 
     for uint::range(2, 101) |a| {
-        let fs = extvec::from_iter(ps.factorize(a));
+        let fs = ps.factorize(a).to_vec();
         for uint::range(2, 101) |b| {
             set.insert(fs.map(|&(base, exp)| { (base, (exp as uint) * b) }));
         }

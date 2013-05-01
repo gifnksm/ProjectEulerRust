@@ -1,5 +1,3 @@
-use core::iterator::{ Iterator };
-
 pub fn zip_default<T: Copy, U: Copy>(v1: &[T], v2: &[U], def: (T, U)) -> ~[(T, U)] {
     let mut result = ~[];
     let (l1, l2) = (vec::len(v1), vec::len(v2));
@@ -10,17 +8,6 @@ pub fn zip_default<T: Copy, U: Copy>(v1: &[T], v2: &[U], def: (T, U)) -> ~[(T, U
         result += ~[(e1, e2)];
     }
     return result;
-}
-
-#[inline(always)]
-pub fn from_iter<T: Iterator<U>, U>(mut iter: T) -> ~[U] {
-    let mut v = ~[];
-    loop {
-        match iter.next() {
-            Some(x) => { v.push(x); }
-            None    => { return v; }
-        }
-    }
 }
 
 #[cfg(test)]
