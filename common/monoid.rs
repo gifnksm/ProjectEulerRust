@@ -204,6 +204,16 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
     }
 }
 
+pub fn merge_multi_monoid_as<K: TotalOrd, V, MT, M: Monoid + Unwrap<MT>, T: Iterator<(K, V)>, X>
+    (iters: &[T],
+     conv: &fn(V) -> M,
+     f: &fn(MapIterator<(K, M), (K, MT), MergeMultiMonoidIterator<(K, M), MapIterator<(K, V), (K, M), T>>>) -> X
+    ) -> X {
+    let conv_snd = |(k, v): (K, V)| (k, conv(v));
+    let it = MergeMultiMonoidIterator::new(iters.map(|&it| it.transform(conv_snd)));
+    return f(it.transform(|(k, m)| (k, m.unwrap())));
+}
+
 pub fn merge<T: Copy + Ord, M: Copy + Monoid>(
     vec1: &[(T, M)], vec2: &[(T, M)]
 ) -> ~[(T, M)] {
@@ -336,13 +346,25 @@ mod tests {
         fn check<M: Monoid + Unwrap<int> + Eq>(vs: &[~[(int, int)]],
                                                f: &fn(int) -> M,
                                                result: &[(int, int)]) {
-            let conv = |&(x, y): &(int, int)| (x, f(y));
-            let mut iters = ~[];
-            for vs.each |v| { iters.push(v.iter().transform(conv)) }
-            for vec::each_permutation(iters) |it| {
-                assert_eq!(
-                    extvec::from_iter(MergeMultiMonoidIterator::new(it.to_vec())),
-                    result.map(conv));
+            {
+                let conv = |&(x, y): &(int, int)| (x, f(y));
+                let mut iters = ~[];
+                for vs.each |v| { iters.push(v.iter().transform(conv)); }
+                for vec::each_permutation(iters) |it| {
+                    assert_eq!(
+                        extvec::from_iter(MergeMultiMonoidIterator::new(it.to_vec())),
+                        result.map(conv));
+                }
+            }
+
+            {
+                let mut iters = ~[];
+                for vs.each |v| { iters.push(v.iter().transform(|&(x, y)| (x, y))); }
+                for vec::each_permutation(iters) |it| {
+                    assert_eq!(
+                        merge_multi_monoid_as(it, f, |x| extvec::from_iter(x)),
+                        result.to_vec());
+                }
             }
         }
 
