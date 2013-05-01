@@ -1,8 +1,7 @@
 use core::iterator::{ IteratorUtil };
 
-use common::extvec;
 use common::prime::{ Prime, factors_to_uint };
-use common::monoid::{ mergei_as, Max };
+use common::monoid::{ Max, MergeMultiMonoidIterator, Unwrap };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -13,12 +12,10 @@ pub static problem: Problem<'static> = Problem {
 
 fn solve() -> ~str {
     let mut ps = Prime::new();
-    let mut fs = ~[];
 
-    for uint::range(1, 20 + 1) |n| {
-        fs.push(extvec::from_iter(ps.factorize(n)));
-    };
-
-    let mut v = mergei_as(fs, Max);
-    return factors_to_uint(v.iter().transform(|&x| x)).to_str();
+    let fs = do vec::from_fn(20) |i| { ps.factorize(i + 1) };
+    let it = MergeMultiMonoidIterator::new(
+        fs.map(|&x| x.transform(|(base, exp)| (base, Max(exp))))
+    ).transform(|(base, m)| (base, m.unwrap()));
+    return factors_to_uint(it).to_str();
 }
