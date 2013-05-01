@@ -1,4 +1,3 @@
-pub mod bounded;
 pub mod extvec;
 pub mod extiter;
 pub mod arith;

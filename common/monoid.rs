@@ -1,10 +1,8 @@
 use core::util;
 use core::cmp::{ Ord, Eq };
 use core::ops::{ Add, Mul };
-use core::num::{ Zero, One };
+use core::num::{ Zero, One, Bounded };
 use core::iterator::{ Iterator, IteratorUtil, MapIterator };
-
-use common::bounded::{ Bounded };
 
 pub trait Monoid {
     fn mempty() -> Self;
