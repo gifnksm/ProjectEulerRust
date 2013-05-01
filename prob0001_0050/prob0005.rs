@@ -1,7 +1,7 @@
 use core::iterator::{ IteratorUtil };
 
 use common::prime::{ Prime, factors_to_uint };
-use common::monoid::{ Max, MergeMultiMonoidIterator, Unwrap };
+use common::monoid::{ Max, MergeMultiMonoidIterator, Wrap };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

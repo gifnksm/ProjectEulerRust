@@ -11,84 +11,111 @@ pub trait Monoid {
     fn mappend(&self, other: &Self) -> Self;
 }
 
-pub trait Unwrap<T> {
-    fn unwrap(&self) -> T;
+pub trait Wrap<T> {
+    fn wrap(T) -> Self;
+    fn unwrap(self) -> T;
+    fn unwrap_ref<'a>(&'a self) -> &'a T;
 }
 
+#[deriving(Eq, Clone)]
 pub struct Sum<T> { repr: T }
+
+#[inline(always)]
 pub fn Sum<T>(val: T) -> Sum<T> { Sum { repr: val } }
 
-impl<T: Zero+Add<T,T>+Copy> Monoid for Sum<T> {
+impl<T: Zero + Add<T, T>> Monoid for Sum<T> {
+    #[inline(always)]
     fn mempty() -> Sum<T> { Sum(Zero::zero()) }
+    #[inline(always)]
     fn mappend(&self, other: &Sum<T>) -> Sum<T> { Sum(self.repr + other.repr) }
 }
 
-impl<T: Copy> Unwrap<T> for Sum<T> {
-    fn unwrap(&self) -> T { self.repr }
+impl<T> Wrap<T> for Sum<T> {
+    #[inline(always)]
+    fn wrap(val: T) -> Sum<T> { Sum(val) }
+    #[inline(always)]
+    fn unwrap(self) -> T { match self { Sum { repr: repr } => repr } }
+    #[inline(always)]
+    fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
-impl<T: Eq> Eq for Sum<T> {
-    fn eq(&self, other: &Sum<T>) -> bool { self.repr == other.repr }
-    fn ne(&self, other: &Sum<T>) -> bool { self.repr != other.repr }
-}
-
+#[deriving(Eq, Clone)]
 pub struct Prod<T> { repr: T }
+
+
+#[inline(always)]
 pub fn Prod<T>(val: T) -> Prod<T> { Prod { repr: val }}
 
-impl<T: One+Mul<T,T>+Copy> Monoid for Prod<T> {
+impl<T: One + Mul<T, T>> Monoid for Prod<T> {
+    #[inline(always)]
     fn mempty() -> Prod<T> { Prod(One::one()) }
+    #[inline(always)]
     fn mappend(&self, other: &Prod<T>) -> Prod<T> { Prod(self.repr * other.repr) }
 }
 
-impl<T: Copy> Unwrap<T> for Prod<T> {
-    fn unwrap(&self) -> T { self.repr }
+impl<T> Wrap<T> for Prod<T> {
+    #[inline(always)]
+    fn wrap(val: T) -> Prod<T> { Prod(val) }
+    #[inline(always)]
+    fn unwrap(self) -> T { match self { Prod { repr: repr } => repr } }
+    #[inline(always)]
+    fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
-impl<T: cmp::Eq> Eq for Prod<T> {
-    fn eq(&self, other: &Prod<T>) -> bool { self.repr == other.repr }
-    fn ne(&self, other: &Prod<T>) -> bool { self.repr != other.repr }
-}
 
+#[deriving(Eq, Clone)]
 pub struct Max<T> { repr: T }
+
+#[inline(always)]
 pub fn Max<T>(val: T) -> Max<T> { Max{ repr: val } }
 
-impl<T: Copy+Bounded+Ord> Monoid for Max<T> {
+impl<T: Copy + Bounded + Ord> Monoid for Max<T> {
+    #[inline(always)]
     fn mempty() -> Max<T> { Max(Bounded::min_value()) }
+    #[inline(always)]
     fn mappend(&self, other: &Max<T>) -> Max<T> {
         if self.repr < other.repr { *other } else { *self }
     }
 }
 
-impl<T: Copy> Unwrap<T> for Max<T> {
-    fn unwrap(&self) -> T { self.repr }
+impl<T> Wrap<T> for Max<T> {
+    #[inline(always)]
+    fn wrap(val: T) -> Max<T> { Max(val) }
+    #[inline(always)]
+    fn unwrap(self) -> T { match self { Max { repr: repr } => repr } }
+    #[inline(always)]
+    fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
-impl<T: Eq> Eq for Max<T> {
-    fn eq(&self, other: &Max<T>) -> bool { self.repr == other.repr }
-    fn ne(&self, other: &Max<T>) -> bool { self.repr != other.repr }
-}
 
+#[deriving(Eq, Clone)]
 pub struct Min<T> { repr: T }
+
+#[inline(always)]
 pub fn Min<T>(val: T) -> Min<T> { Min { repr: val } }
 
-impl<T: Copy+Bounded+Ord> Monoid for Min<T> {
+impl<T: Copy + Bounded + Ord> Monoid for Min<T> {
+    #[inline(always)]
     fn mempty() -> Min<T> { Min(Bounded::max_value()) }
+    #[inline(always)]
     fn mappend(&self, other: &Min<T>) -> Min<T> {
         if self.repr > other.repr { *other } else { *self }
     }
 }
 
-impl<T: Copy> Unwrap<T> for Min<T> {
-    fn unwrap(&self) -> T { self.repr }
+impl<T> Wrap<T> for Min<T> {
+    #[inline(always)]
+    fn wrap(val: T) -> Min<T> { Min(val) }
+    #[inline(always)]
+    fn unwrap(self) -> T { match self { Min { repr: repr } => repr } }
+    #[inline(always)]
+    fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
 
-impl<T: Eq> Eq for Min<T> {
-    fn eq(&self, other: &Min<T>) -> bool { self.repr == other.repr }
-    fn ne(&self, other: &Min<T>) -> bool { self.repr != other.repr }
-}
 
-pub fn mconcat<T: Copy+Monoid>(v: &[T]) -> T {
+#[inline(always)]
+pub fn mconcat<T: Copy + Monoid>(v: &[T]) -> T {
     vec::foldl(Monoid::mempty(), v, |accum, elt| { elt.mappend(&accum) })
 }
 
@@ -138,7 +165,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
     }
 }
 
-pub fn merge_monoid_as<K: TotalOrd, V, MT, M: Monoid + Unwrap<MT>, T: Iterator<(K, V)>, U: Iterator<(K, V)>, X>
+pub fn merge_monoid_as<K: TotalOrd, V, MT, M: Monoid + Wrap<MT>, T: Iterator<(K, V)>, U: Iterator<(K, V)>, X>
     (it1: T, it2: U, conv: &fn(V) -> M,
      f: &fn(MapIterator<(K, M), (K, MT),
             MergeMonoidIterator<(K, M), MapIterator<(K, V), (K, M), T>,
@@ -204,7 +231,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
     }
 }
 
-pub fn merge_multi_monoid_as<K: TotalOrd, V, MT, M: Monoid + Unwrap<MT>, T: Iterator<(K, V)>, X>
+pub fn merge_multi_monoid_as<K: TotalOrd, V, MT, M: Monoid + Wrap<MT>, T: Iterator<(K, V)>, X>
     (iters: &[T],
      conv: &fn(V) -> M,
      f: &fn(MapIterator<(K, M), (K, MT), MergeMultiMonoidIterator<(K, M), MapIterator<(K, V), (K, M), T>>>) -> X
@@ -256,7 +283,7 @@ pub fn mergei<T: Copy+Ord, M: Copy+Monoid>(vecs: &[~[(T, M)]]) -> ~[(T, M)] {
     }
 }
 
-pub fn merge_as<T: Copy+Ord, U: Copy, MT, M: Copy+Monoid+Unwrap<MT>>
+pub fn merge_as<T: Copy+Ord, U: Copy, MT, M: Copy+Monoid+Wrap<MT>>
     (vec1: &[(T, U)], vec2: &[(T, U)], f: &fn(U) -> M) -> ~[(T, MT)] {
     fn convert<T: Copy, U: Copy, M: Copy>(v: &[(T, U)], f: &fn(U) -> M) -> ~[(T, M)] {
         do v.map |tp| { (tp.first(), f(tp.second())) }
@@ -264,7 +291,7 @@ pub fn merge_as<T: Copy+Ord, U: Copy, MT, M: Copy+Monoid+Unwrap<MT>>
     return merge(convert(vec1, f), convert(vec2, f)).map(|tp| (tp.first(), tp.second().unwrap()));
 }
 
-pub fn mergei_as<T: Copy+Ord, U: Copy, MT, M: Copy+Monoid+Unwrap<MT>>(vecs: &[~[(T, U)]], f: &fn(U) -> M) -> ~[(T, MT)] {
+pub fn mergei_as<T: Copy+Ord, U: Copy, MT, M: Copy+Monoid+Wrap<MT>>(vecs: &[~[(T, U)]], f: &fn(U) -> M) -> ~[(T, MT)] {
     return mergei(
         vecs.map(|v| v.map(|tp| (tp.first(), f(tp.second()))))
     ).map(|tp| (tp.first(), tp.second().unwrap()));
@@ -298,7 +325,7 @@ mod tests {
 
     #[test]
     fn test_merge_monoid_iterator() {
-        fn check<M: Monoid + Unwrap<int> + Eq>(v1: &[(int, int)],
+        fn check<M: Monoid + Wrap<int> + Eq>(v1: &[(int, int)],
                                                v2: &[(int, int)],
                                                f: &fn(int) -> M,
                                                result: &[(int, int)]) {
@@ -343,7 +370,7 @@ mod tests {
 
     #[test]
     fn test_merge_multi_monoid_iterator() {
-        fn check<M: Monoid + Unwrap<int> + Eq>(vs: &[~[(int, int)]],
+        fn check<M: Monoid + Wrap<int> + Eq>(vs: &[~[(int, int)]],
                                                f: &fn(int) -> M,
                                                result: &[(int, int)]) {
             {
@@ -456,4 +483,3 @@ mod tests {
         }
     }
 }
-
