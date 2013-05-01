@@ -26,11 +26,10 @@ static triangle: &'static [&'static [uint]] = &[
 
 fn solve() -> ~str {
     let init = triangle.init();
-    let last = *triangle.last();
-    let answer = do init.foldr(vec::from_slice(last)) |elm, prev| {
-        do vec::from_fn(elm.len()) |i| {
-            elm[i] + uint::max(prev[i], prev[i + 1])
-        }
+    let last = triangle.last();
+    let answer = do init.foldr(last.to_vec()) |elm, mut total| {
+        for elm.eachi |i, e| { total[i] = e + uint::max(total[i], total[i + 1]); }
+        total
     };
     return answer[0].to_str();
 }

@@ -28,10 +28,10 @@ fn solve() -> ~str {
         for 100.times {
             n = n * BigUint::from_uint(a);
             let mut sum = 0;
-            let mut (d, m) = n.div_mod(&ten);
+            let mut (d, m) = n.div_rem(&ten);
             sum += digit_sum(m.to_uint());
             while !d.is_zero() {
-                let (d0, m) = d.div_mod(&ten);
+                let (d0, m) = d.div_rem(&ten);
                 sum += digit_sum(m.to_uint());
                 d = d0;
             }

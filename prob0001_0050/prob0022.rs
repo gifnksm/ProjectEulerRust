@@ -1,5 +1,8 @@
+use core::iterator::{ IteratorUtil };
+
 use std::sort::{ merge_sort };
 
+use common::extiter::{ AdditiveIterator };
 use common::reader::{ read_whole_word };
 use common::problem::{ Problem };
 
@@ -14,19 +17,15 @@ fn get_score(n: uint, s: &str) -> uint {
 }
 
 fn solve() -> ~str {
-    let result = do io::read_whole_file_str(&Path("files/names.txt")).chain |input| {
-        do read_whole_word(input).map |names| {
-            merge_sort(*names, |a, b| a < b).mapi(|i, s| get_score(i + 1, *s))
-        }
-    };
+    let result = io::read_whole_file_str(&Path("files/names.txt")).chain(|input| {
+        read_whole_word(input).map(|names| {
+            merge_sort(*names, |a, b| a < b)
+                .mapi(|i, s| get_score(i + 1, *s))
+        })
+    }).map(|scores| scores.iter().transform(|&x| x).sum());
+
     match result {
-        result::Err(msg) => {
-            fail!(fmt!("%s", msg));
-        }
-        result::Ok(scores) => {
-            let mut total_score = 0;
-            for scores.each |s| { total_score += *s; }
-            return total_score.to_str();
-        }
+        result::Err(msg) => { fail!(fmt!("%s", msg)); }
+        result::Ok(score) => { return score.to_str(); }
     }
 }

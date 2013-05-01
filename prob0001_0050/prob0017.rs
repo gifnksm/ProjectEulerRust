@@ -1,3 +1,6 @@
+use core::iterator::{ IteratorUtil };
+
+use common::extiter::{ Range, ExtIteratorUtil, AdditiveIterator };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -82,14 +85,11 @@ fn to_word(n: uint) -> ~str {
 }
 
 fn solve() -> ~str {
-    let mut sum = 0u;
-    for uint::range(0, 1000) |i| {
-        let n = i + 1;
-        for str::each(to_word(n)) |b| {
-            if b != ('-' as u8) && b != (' ' as u8) {
-                sum += 1;
-            }
-        }
-    }
-    return sum.to_str();
+    return Range::new::<uint>(1, 1001)
+        .transform(to_word)
+        .transform(|w| w.char_iter()
+                   .filter(|&c| c != '-' && c != ' ')
+                   .count_elem())
+        .sum()
+        .to_str();
 }

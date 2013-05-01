@@ -1,4 +1,6 @@
 use core::hashmap::{ HashMap };
+
+use common::extiter::{ Range, ExtIteratorUtil };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -8,33 +10,25 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn get_len(map: &mut HashMap<uint, uint>, n: uint) -> uint {
-    let v = map.find(&n).map(|& &n| n);
-    match v {
-      Some(x) => return x,
-      None    => {
-        let x = if n % 2 == 0 {
-            get_len(map, n / 2) + 1
-        } else {
-            get_len(map, 3 * n + 1) + 1
-        };
-        map.insert(n, x);
-        return x;
-      }
+    match map.find(&n) {
+        Some(&x) => { return x; }
+        None => {}
     }
+
+    let x = if n.is_even() {
+        get_len(map, n / 2) + 1
+    } else {
+        get_len(map, 3 * n + 1) + 1
+    };
+    map.insert(n, x);
+    return x;
 }
 
 fn solve() -> ~str {
     let mut map = HashMap::new();
     map.insert(1u, 1u);
-    let mut max     = 1u;
-    let mut max_idx = 1u;
-    for uint::range(2u, 1000000u) |n| {
-        let x = get_len(&mut map, n);
-        if x > max {
-            max     = x;
-            max_idx = n;
-        }
-    }
 
-    return max_idx.to_str();
+    return Range::new::<uint>(2, 1000000)
+        .max_as(|&n| get_len(&mut map, n))
+        .to_str();
 }

@@ -2,6 +2,7 @@ use core::num::{ One };
 
 use std::bigint::{ BigInt };
 
+use common::extiter::{ AdditiveIterator, ExtIteratorUtil };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -12,12 +13,11 @@ pub static problem: Problem<'static> = Problem {
 
 fn solve() -> ~str {
     let mut i = One::one::<BigInt>();
-    for uint::range(0, 1000) |_n| {
-        i = i * BigInt::from_uint(2);
-    }
-    let sum = do str::byte_slice(i.to_str()) |buf| {
-        buf.map(|c| *c - ('0' as u8)).foldl(0, |s, e| *s + (*e as uint))
-    };
-    return sum.to_str();
+    for 1000.times { i = i * BigInt::from_uint(2); }
+    let s = i.to_str();
+    return s.char_iter()
+        .filter_map(|c| char::to_digit(c, 10))
+        .sum()
+        .to_str();
 }
 

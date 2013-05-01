@@ -1,7 +1,8 @@
-use core::num::{ One };
+use core::iterator::{ IteratorUtil };
 
 use std::bigint::{ BigUint };
 
+use common::extiter::{ ExtIteratorUtil, Range, AdditiveIterator, MultiplicativeIterator };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -11,13 +12,11 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut f = One::one::<BigUint>();
-    for uint::range(0, 100) |i| {
-        f = f * BigUint::from_uint(i + 1);
-    }
-    let mut sum = 0;
-    for f.to_str().each() |n| {
-        sum += (n - '0' as u8) as uint;
-    }
-    return sum.to_str();
+    let s = Range::new::<uint>(1, 101)
+        .transform(|n| BigUint::from_uint(n))
+        .prod().to_str();
+    return s.char_iter()
+        .filter_map(|c| char::to_digit(c, 10))
+        .sum()
+        .to_str();
 }

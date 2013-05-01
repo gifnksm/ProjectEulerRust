@@ -1,5 +1,5 @@
 use core::iterator::{ IteratorUtil };
-use core::num::{ FromStrRadix };
+use core::from_str::{ FromStr };
 use std::bigint::{ BigUint };
 
 use common::extiter::{ Fibonacci, ExtIteratorUtil };
@@ -12,9 +12,7 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let limit = FromStrRadix::from_str_radix(
-        str::from_bytes(vec::from_elem(999, '9' as u8)), 10).get();
-
+    let limit = FromStr::from_str(str::repeat("9", 999)).get();
     let it = Fibonacci::new::<BigUint>().take_while(|&n| n <= limit);
     return (it.count_elem() + 1).to_str();
 }

@@ -50,6 +50,7 @@ impl<T: Integer> Range<T> {
 }
 
 impl<T: Integer> Iterator<T> for Range<T> {
+    #[inline(always)]
     fn next(&mut self) -> Option<T> {
         if self.cnt <= Zero::zero() { return None; }
         self.cnt = self.cnt - One::one();
@@ -69,6 +70,54 @@ impl<T: Integer> Iterator<T> for Range<T> {
     }
 }
 
+
+struct Area2DIterator {
+    cur: (int, int),
+    dv: (int, int),
+    cnt: uint
+}
+
+impl Area2DIterator {
+    #[inline(always)]
+    pub fn new((x0, y0): (int, int), (dx, dy): (int, int), (x_min, y_min): (int, int), (x_max, y_max): (int, int)) -> Area2DIterator {
+        if dx == 0 && dy == 0 { fail!("Area2DIterator::new called with (dx, dy) == (0, 0)") }
+
+        #[inline(always)]
+        fn get_cnt(p0: int, dp: int, min: int, max: int) -> uint {
+            if p0 < min || max < p0 { return 0; }
+            return match dp.cmp(&0) {
+                Equal   => uint::max_value,
+                Greater => ((max + 1 - p0) / dp) as uint,
+                Less    => (p0 + 1 - min) / (-dp) as uint
+            };
+        }
+
+        Area2DIterator {
+            cur: (x0, y0),
+            dv: (dx, dy),
+            cnt: uint::min(get_cnt(x0, dx, x_min, x_max), get_cnt(y0, dy, y_min, y_max))
+        }
+    }
+
+    #[inline(always)]
+    pub fn new_from_matrix(start: (int, int), dv: (int, int), (w, h): (int, int)) -> Area2DIterator {
+        assert!(w > 0 && h > 0);
+        Area2DIterator::new(start, dv, (0, 0), (w - 1, h - 1))
+    }
+}
+
+impl Iterator<(int, int)> for Area2DIterator {
+    #[inline(always)]
+    fn next(&mut self) -> Option<(int, int)> {
+        if self.cnt <= 0 { return None; }
+        self.cnt -= 1;
+        let ((x, y), (dx, dy)) = (self.cur, self.dv);
+        self.cur = (x + dx, y + dy);
+        return Some((x, y));
+    }
+}
+
+
 pub struct Fibonacci<T> {
     prev: T,
     cur: T
@@ -80,6 +129,7 @@ impl<T: Zero + One> Fibonacci<T> {
 
 // Copy must be Clone
 impl<T: Add<T,T> + Copy> Iterator<T> for Fibonacci<T> {
+    #[inline(always)]
     fn next(&mut self) -> Option<T> {
         let next = self.prev + self.cur;
         // let cur  = self.cur.clone();
@@ -102,6 +152,7 @@ impl Triangle {
 }
 
 impl Iterator<uint> for Triangle {
+    #[inline(always)]
     fn next(&mut self) -> Option<uint> {
         let cur = self.cur;
         self.idx += 1;
@@ -115,21 +166,32 @@ impl Iterator<uint> for Triangle {
 pub trait ExtIteratorUtil<A> {
     fn filter_map<'r, B>(self, f: &'r fn(A) -> Option<B>) -> FilterMapIterator<'r, A, B, Self>;
     fn windowed(self, n: uint) -> WindowedIterator<A, Self>;
-    fn to_vec(self) -> ~[A];
+    fn chain2<U: Iterator<A>>(self, other: U) -> ChainIterator<Self, U>;
 
+    fn to_vec(self) -> ~[A];
     fn count_elem(self) -> uint;
     fn nth(self, n: uint) -> A;
+    fn max_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A;
+    fn min_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A;
 }
 
 impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
+    #[inline(always)]
     fn filter_map<'r, B>(self, f: &'r fn(A) -> Option<B>) -> FilterMapIterator<'r, A, B, T> {
         FilterMapIterator { iter: self, f: f }
     }
 
+    #[inline(always)]
     fn windowed(self, n: uint) -> WindowedIterator<A, T> {
         WindowedIterator { iter: self, n: n, vs: ~[] }
     }
 
+    #[inline(always)]
+    fn chain2<U: Iterator<A>>(self, other: U) -> ChainIterator<T, U> {
+        ChainIterator { a: self, b: other, flag: false }
+    }
+
+    #[inline(always)]
     fn to_vec(self) -> ~[A] {
         let mut v = ~[];
         let mut it = self;
@@ -137,6 +199,7 @@ impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
         return v;
     }
 
+    #[inline(always)]
     fn count_elem(self) -> uint {
         let mut it = self;
         let mut cnt = 0;
@@ -144,6 +207,7 @@ impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
         return cnt;
     }
 
+    #[inline(always)]
     fn nth(self, n: uint) -> A {
         let mut i = n;
         let mut it = self;
@@ -154,6 +218,40 @@ impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
             }
             i -= 1;
         }
+    }
+
+    #[inline(always)]
+    fn max_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A {
+        let mut it = self;
+        let mut (max_val, max_key) = match it.next() {
+            Some(x) => (f(&x), x),
+            None => fail!("cannot get maximum element of empty iterator")
+        };
+        for it.advance |key| {
+            let val = f(&key);
+            if val.cmp(&max_val) == Greater {
+                max_val = val;
+                max_key = key;
+            }
+        }
+        return max_key;
+    }
+
+    #[inline(always)]
+    fn min_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A {
+        let mut it = self;
+        let mut (min_val, min_key) = match it.next() {
+            Some(x) => (f(&x), x),
+            None => fail!("cannot get minimum element of empty iterator")
+        };
+        for it.advance |key| {
+            let val = f(&key);
+            if val.cmp(&min_val) == Less {
+                min_val = val;
+                min_key = key;
+            }
+        }
+        return min_key;
     }
 }
 
@@ -201,11 +299,34 @@ impl<'self, A: Clone, T: Iterator<A>> Iterator<~[A]> for WindowedIterator<A, T> 
     }
 }
 
+pub struct ChainIterator<T, U> {
+    priv a: T,
+    priv b: U,
+    priv flag: bool
+}
+
+impl<A, T: Iterator<A>, U: Iterator<A>> Iterator<A> for ChainIterator<T, U> {
+    #[inline]
+    fn next(&mut self) -> Option<A> {
+        if self.flag {
+            self.b.next()
+        } else {
+            match self.a.next() {
+                Some(x) => return Some(x),
+                _ => ()
+            }
+            self.flag = true;
+            self.b.next()
+        }
+    }
+}
+
 pub trait AdditiveIterator<A> {
     fn sum(self) -> A;
 }
 
 impl<A: Add<A, A> + Zero, T: Iterator<A>> AdditiveIterator<A> for T {
+    #[inline(always)]
     fn sum(self) -> A {
         let mut sum = Zero::zero::<A>();
         let mut it = self;
@@ -214,12 +335,30 @@ impl<A: Add<A, A> + Zero, T: Iterator<A>> AdditiveIterator<A> for T {
     }
 }
 
+pub trait MultiplicativeIterator<A> {
+    fn prod(self) -> A;
+}
+
+impl<A: Mul<A, A> + One, T: Iterator<A>> MultiplicativeIterator<A> for T {
+    #[inline(always)]
+    fn prod(self) -> A {
+        let mut prod = One::one::<A>();
+        let mut it = self;
+        for it.advance |n| { prod = prod * n; }
+        return prod;
+    }
+}
+
 pub trait OrderedIterator<A> {
     fn max(self) -> A;
     fn min(self) -> A;
+
+    fn max_opt(self) -> Option<A>;
+    fn min_opt(self) -> Option<A>;
 }
 
 impl<A: TotalOrd, T: Iterator<A>> OrderedIterator<A> for T {
+    #[inline(always)]
     fn max(self) -> A {
         let mut it = self;
         let mut max = match it.next() {
@@ -230,6 +369,7 @@ impl<A: TotalOrd, T: Iterator<A>> OrderedIterator<A> for T {
         return max;
     }
 
+    #[inline(always)]
     fn min(self) -> A {
         let mut it = self;
         let mut min = match it.next() {
@@ -239,6 +379,28 @@ impl<A: TotalOrd, T: Iterator<A>> OrderedIterator<A> for T {
         for it.advance |x| { if x.cmp(&min) == Less { min = x; }}
         return min;
     }
+
+    #[inline(always)]
+    fn max_opt(self) -> Option<A> {
+        let mut it = self;
+        let mut max = match it.next() {
+            Some(x) => x,
+            None => { return None; }
+        };
+        for it.advance |x| { if x.cmp(&max) == Greater { max = x; }}
+        return Some(max);
+    }
+
+    #[inline(always)]
+    fn min_opt(self) -> Option<A> {
+        let mut it = self;
+        let mut min = match it.next() {
+            Some(x) => x,
+            None => { return None; }
+        };
+        for it.advance |x| { if x.cmp(&min) == Less { min = x; }}
+        return Some(min);
+    }
 }
 
 #[cfg(test)]
@@ -246,7 +408,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_uint_range() {
+    fn test_range() {
         fn gen(start: uint, end: uint, step: int) -> ~[uint] {
             let s = if step >= 0 { Plus(step as uint) } else { Minus((-step) as uint) };
             Range::new_with_step(start, end, s).to_vec()
@@ -263,6 +425,30 @@ mod tests {
                    ~[uint::min_value + 2]);
         assert_eq!(gen(uint::min_value + 3, uint::min_value, -2),
                    ~[uint::min_value + 3, uint::min_value + 1]);
+    }
+
+    #[test]
+    fn test_area2d() {
+        assert_eq!(Area2DIterator::new((0, 0), (1, 1), (0, 0), (3, 3)).to_vec(),
+                  ~[(0, 0), (1, 1), (2, 2), (3, 3)]);
+        assert_eq!(Area2DIterator::new((1, 1), (1, 1), (0, 0), (3, 3)).to_vec(),
+                  ~[(1, 1), (2, 2), (3, 3)]);
+        assert_eq!(Area2DIterator::new((3, 3), (1, 1), (0, 0), (3, 3)).to_vec(),
+                  ~[(3, 3)]);
+        assert_eq!(Area2DIterator::new((0, 0), (2, 2), (0, 0), (3, 3)).to_vec(),
+                  ~[(0, 0), (2, 2)]);
+
+        assert_eq!(Area2DIterator::new((0, 0), (0, 1), (0, 0), (3, 3)).to_vec(),
+                  ~[(0, 0), (0, 1), (0, 2), (0, 3)]);
+        assert_eq!(Area2DIterator::new((0, 0), (0, 1), (0, 0), (3, 5)).to_vec(),
+                  ~[(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)]);
+        assert_eq!(Area2DIterator::new((0, 0), (1, 2), (0, 0), (3, 5)).to_vec(),
+                  ~[(0, 0), (1, 2), (2, 4)]);
+
+        assert_eq!(Area2DIterator::new((3, 3), (-1, -1), (0, 0), (3, 3)).to_vec(),
+                  ~[(3, 3), (2, 2), (1, 1), (0, 0)]);
+        assert_eq!(Area2DIterator::new((3, 3), (-2, -2), (0, 0), (3, 3)).to_vec(),
+                  ~[(3, 3), (1, 1)]);
     }
 
     #[test]
@@ -284,6 +470,31 @@ mod tests {
         let it  = Range::new(0, 10).filter_map(|x| if x.is_even() { Some(x*x) } else { None });
         let ans = ~[0*0, 2*2, 4*4, 6*6, 8*8];
         assert_eq!(it.to_vec(), ans);
+    }
+
+    #[test]
+    fn test_chain2() {
+        use core::iterator::{ Counter };
+
+        let xs = [0u, 1, 2, 3, 4, 5];
+        let ys = [30u, 40, 50, 60];
+        let expected = [0, 1, 2, 3, 4, 5, 30, 40, 50, 60];
+        let mut it = xs.iter().chain2(ys.iter());
+        let mut i = 0;
+        for it.advance |&x: &uint| {
+            assert_eq!(x, expected[i]);
+            i += 1;
+        }
+        assert_eq!(i, expected.len());
+
+        let ys = Counter::new(30u, 10).take(4);
+        let mut it = xs.iter().transform(|&x| x).chain2(ys);
+        let mut i = 0;
+        for it.advance |x: uint| {
+            assert_eq!(x, expected[i]);
+            i += 1;
+        }
+        assert_eq!(i, expected.len());
     }
 
     #[test]
@@ -309,10 +520,30 @@ mod tests {
     }
 
     #[test]
+    fn test_max_as() {
+        let v = [3, 2, 1, -1];
+        assert_eq!(Range::new(0, 4).max_as(|&k| v[k]), 0);
+    }
+
+    #[test]
+    fn test_min_as() {
+        let v = [3, 2, 1, -1];
+        assert_eq!(Range::new(0, 4).min_as(|&k| v[k]), 3);
+    }
+
+
+    #[test]
     fn test_sum() {
         assert_eq!(Range::new(0, 4).sum(), 6);
         assert_eq!(Range::new(0, 10).sum(), 45);
         assert_eq!(Range::new(10, 0).sum(), 0);
+    }
+
+    #[test]
+    fn test_prod() {
+        assert_eq!(Range::new(0, 4).prod(), 0);
+        assert_eq!(Range::new(1, 5).prod(), 24);
+        assert_eq!(Range::new(10, 0).prod(), 1);
     }
 
     #[test]

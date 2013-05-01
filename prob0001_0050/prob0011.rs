@@ -1,3 +1,5 @@
+use core::iterator::{ IteratorUtil };
+use common::extiter::{ ExtIteratorUtil, Area2DIterator, OrderedIterator, MultiplicativeIterator };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -5,60 +7,6 @@ pub static problem: Problem<'static> = Problem {
     answer: "70600674",
     solver: solve
 };
-
-fn find_max_uint(ns: &[uint]) -> uint {
-    vec::foldl(0u, ns, |acc, n| uint::max(acc, *n))
-}
-
-fn find_max_row(row: &[uint], prod_len: uint) -> uint {
-    let mut prods = ~[];
-    for vec::windowed(prod_len, row) |ns| {
-        prods.push(ns.foldl(1u, |acc, n| acc * *n))
-    }
-    find_max_uint(prods)
-}
-
-fn find_max_grid(grid: &[~[uint]], prod_len: uint) -> uint {
-    find_max_uint(vec::map(grid, |row| find_max_row(*row, prod_len)))
-}
-
-fn find_max_v(grid: &[~[uint]], prod_len: uint) -> uint {
-    if vec::is_empty(grid) { return 0u; }
-
-    let mut max = 0u;
-    for uint::range(0u, vec::len(grid[0])) |i| {
-        let col = vec::map(grid, |row| row[i]);
-        max = uint::max(max, find_max_row(col, prod_len));
-    }
-    return max;
-}
-
-fn find_max_d(grid: &[~[uint]], prod_len: uint) -> uint {
-    if vec::is_empty(grid) { return 0u; }
-    let num_row = vec::len(grid);
-    let num_col = vec::len(grid[0]);
-    let mut max = 0u;
-    for int::range(-(num_row as int) + 1, num_col as int) |i| {
-        let mut tl_br = ~[];
-        for uint::range(0u, uint::min(num_row, num_col)) |d| {
-            let (x, y) = (i + (d as int), d);
-            if x >= 0 && (x as uint) < num_col && y < num_row {
-                tl_br += [ grid[y][x] ];
-            }
-        }
-        max = uint::max(max, find_max_row(tl_br, prod_len));
-
-        let mut bl_tr = ~[];
-        for uint::range(0u, uint::min(num_row, num_col)) |d| {
-            let (x, y) = (d, (num_col as int - 1 - i) - (d as int));
-            if x < num_col && y >= 0 && (y as uint) < num_row {
-                bl_tr += [ grid[y][x] ];
-            }
-        }
-        max = uint::max(max, find_max_row(bl_tr, prod_len));
-    }
-    return max;
-}
 
 static input: &'static str = &"
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -96,8 +44,28 @@ fn solve() -> ~str {
         result
     };
 
-    let mut max = find_max_grid(grid, 4u);
-    max = uint::max(max, find_max_v(grid, 4u));
-    max = uint::max(max, find_max_d(grid, 4u));
-    return max.to_str();
+    let prod_len = 4;
+    let (w, h) = (grid[0].len() as int, grid.len() as int);
+    macro_rules! iter (
+        ($p0:expr, $dp1:expr, $dp2:expr) => (
+            Area2DIterator::new_from_matrix($p0, $dp1, (w, h))
+            .transform(|p0| Area2DIterator::new_from_matrix(p0, $dp2, (w, h)))
+        )
+    );
+
+    let row = iter!((0, 0), (0, 1), (1, 0));
+    let col = iter!((0, 0), (1, 0), (0, 1));
+
+    let diag_tr = iter!((w-1, 0), (-1, 0), ( 1, 1));
+    let diag_bl = iter!((  0, 1), ( 0, 1), ( 1, 1));
+    let diag_tl = iter!((  0, 0), ( 1, 0), (-1, 1));
+    let diag_br = iter!((w-1, 1), ( 0, 1), (-1, 1));
+
+    let it = row.chain2(col).chain2(diag_tr).chain2(diag_bl).chain2(diag_tl).chain2(diag_br);
+
+    return it.transform(|row: Area2DIterator| {
+        row.windowed(prod_len)
+            .transform(|ns| ns.iter().transform(|&(x, y)| grid[y][x]).prod())
+            .max_opt().get_or_default(0)
+    }).max().to_str();
 }

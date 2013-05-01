@@ -1,3 +1,4 @@
+use common::extiter::{ ExtIteratorUtil, Range };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -23,14 +24,7 @@ fn get_cycle_len(n: uint) -> uint {
 }
 
 fn solve() -> ~str {
-    let mut longest_num = 0;
-    let mut longest_len = 0;
-    for uint::range(2, 1000) |n| {
-        let len = get_cycle_len(n);
-        if longest_len < len {
-            longest_num = n;
-            longest_len = len;
-        }
-    }
-    return longest_num.to_str();
+    return Range::new::<uint>(2, 1000)
+        .max_as(|&n| get_cycle_len(n))
+        .to_str();
 }

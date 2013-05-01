@@ -7,35 +7,33 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
+fn is_abundant(n: uint, ps: &mut Prime) -> bool {
+    let sum = sum_of_proper_divisors(n, ps);
+    return sum > n;
+}
+
 fn solve() -> ~str {
     let max_num = 28123;
-    let mut p = Prime::new();
+    let mut ps = Prime::new();
 
-    let abundant = {
-        let mut dv = ~[];
-        vec::reserve(&mut dv, max_num + 1);
-        for uint::range(2, max_num + 1) |i| {
-            let sum = sum_of_proper_divisors(i, &mut p);
-            if sum > i { dv.push(i) }
+    let abundant = do vec::build_sized(max_num + 1) |push| {
+        for uint::range(2, max_num + 1) |n| {
+            if is_abundant(n, &mut ps) { push(n); }
         }
-        dv
     };
 
-    let sum_of_abundant = {
-        let mut sum = 0;
-        let mut v = vec::from_elem(max_num + 1,  false);
-        for abundant.eachi |i, ai| {
-            for abundant.slice(i, abundant.len()).each |aj| {
-                let s = *ai + *aj;
-                if s > max_num { break; }
-                if !v[s] { sum += s; }
-                v[s] = true;
-            }
+    let mut sum_of_sum_abundant = 0;
+    let mut is_sum_abundant = vec::from_elem(max_num + 1, false);
+    for abundant.eachi |i, &a| {
+        for abundant.tailn(i).each |&b| {
+            let s = a + b;
+            if s > max_num { break; }
+            if !is_sum_abundant[s] { sum_of_sum_abundant += s; }
+            is_sum_abundant[s] = true;
         }
-        sum
-    };
+    }
 
     let sum_of_all_int = (1 + max_num) * max_num / 2;
 
-    return (sum_of_all_int - sum_of_abundant).to_str();
+    return (sum_of_all_int - sum_of_sum_abundant).to_str();
 }

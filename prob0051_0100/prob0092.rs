@@ -9,7 +9,7 @@ pub static problem: Problem<'static> = Problem {
 fn square_digit_sum(mut n: uint) -> uint {
     let mut sum = 0;
     while n > 0 {
-        let (d, m) = n.div_mod(&10);
+        let (d, m) = n.div_rem(&10);
         sum += m * m;
         n = d;
     }
