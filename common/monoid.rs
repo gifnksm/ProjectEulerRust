@@ -150,6 +150,60 @@ pub fn merge_monoid_as<K: TotalOrd, V, MT, M: Monoid + Unwrap<MT>, T: Iterator<(
     return f(it.transform(|(k, m)| (k, m.unwrap())));
 }
 
+struct MergeMultiMonoidIterator<V, T> {
+    iters:  ~[T],
+    values: ~[Option<V>]
+}
+
+impl<V, T: Iterator<V>> MergeMultiMonoidIterator<V, T> {
+    pub fn new(iters: ~[T]) -> MergeMultiMonoidIterator<V, T> {
+        MergeMultiMonoidIterator { values: vec::from_fn(iters.len(), |_| None), iters: iters }
+    }
+}
+
+impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
+    Iterator<(K, V)> for MergeMultiMonoidIterator<(K, V), T> {
+    fn next(&mut self) -> Option<(K, V)> {
+        fn get_ref<'a, K, V>(opt: &'a Option<(K, V)>) -> &'a K { opt.get_ref().first_ref() }
+
+        let len = self.iters.len();
+        if len == 0 { return None; }
+
+        // Fill value if empty (if iter ends, set None)
+        for uint::range(0, len) |i| {
+            if self.values[i].is_none() { self.values[i] = self.iters[i].next(); }
+        }
+
+        let mut min_idx = ~[];
+        for uint::range(0, len) |i| {
+            if self.values[i].is_none() { loop; }
+            if min_idx.is_empty() { min_idx.push(i); loop; }
+
+            match get_ref(&self.values[min_idx[0]]).cmp(get_ref(&self.values[i])) {
+                Less    => {},
+                Greater => { min_idx = ~[i];  }
+                Equal   => { min_idx.push(i); }
+            }
+        }
+
+        if min_idx.is_empty() { return None; }
+        let mut result = None;
+        for min_idx.each_val |i| {
+            if result.is_none() {
+                util::swap(&mut self.values[i], &mut result);
+            } else {
+                let mut r1 = None, r2 = None;
+                util::swap(&mut r1, &mut self.values[i]);
+                util::swap(&mut r2, &mut result);
+                let ((k, v1), (_, v2)) = (r1.unwrap(), r2.unwrap());
+                result = Some((k, v1.mappend(&v2)));
+            }
+        }
+
+        return result;
+    }
+}
+
 pub fn merge<T: Copy + Ord, M: Copy + Monoid>(
     vec1: &[(T, M)], vec2: &[(T, M)]
 ) -> ~[(T, M)] {
@@ -275,6 +329,52 @@ mod tests {
         check([], [], Max, []);
         check(v1, [], Min, v1);
         check([], [], Min, []);
+    }
+
+    #[test]
+    fn test_merge_multi_monoid_iterator() {
+        fn check<M: Monoid + Unwrap<int> + Eq>(vs: &[~[(int, int)]],
+                                               f: &fn(int) -> M,
+                                               result: &[(int, int)]) {
+            let conv = |&(x, y): &(int, int)| (x, f(y));
+            let mut iters = ~[];
+            for vs.each |v| { iters.push(v.iter().transform(conv)) }
+            for vec::each_permutation(iters) |it| {
+                assert_eq!(
+                    extvec::from_iter(MergeMultiMonoidIterator::new(it.to_vec())),
+                    result.map(conv));
+            }
+        }
+
+        {
+            let v = [~[(1, 1), (2, 1), (3, 5), (4, 0), (5, 3)],
+                     ~[(1, 2), (3, 2)],
+                     ~[(-1, 3), (4, 2), (7, 1)],
+                     ~[]];
+            check(v, Sum, [(-1, 3), (1, 3), (2, 1), (3, 7), (4, 2), (5, 3), (7, 1)]);
+            check(v, Prod, [(-1, 3), (1, 2), (2, 1), (3, 10), (4, 0), (5, 3), (7, 1)]);
+            check(v, Max, [(-1, 3), (1, 2), (2, 1), (3, 5), (4, 2), (5, 3), (7, 1)]);
+            check(v, Min, [(-1, 3), (1, 1), (2, 1), (3, 2), (4, 0), (5, 3), (7, 1)]);
+        }
+
+        {
+            let v = [~[(1, 2), (2, 1)],
+                     ~[(1, 3)],
+                     ~[(1, 0)],
+                     ~[(1, -4)]];
+            check(v, Sum,  [(1, 1), (2, 1)]);
+            check(v, Prod, [(1, 0), (2, 1)]);
+            check(v, Max,  [(1, 3), (2, 1)]);
+            check(v, Min,  [(1, -4), (2, 1)]);
+        }
+
+        {
+            let v = [~[], ~[], ~[]];
+            check(v, Sum, []);
+            check(v, Prod, []);
+            check(v, Max, []);
+            check(v, Min, []);
+        }
     }
 
     #[test]
