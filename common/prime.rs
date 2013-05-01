@@ -1,9 +1,10 @@
 use core::iterator::{ Iterator, IteratorUtil };
 use core::util::unreachable;
 
+use common::extiter::{ uint_range };
 use common::extvec;
 use common::calc::{ pow };
-use common::monoid::{ Sum, merge_as, mergei_as };
+use common::monoid::{ Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap };
 
 pub struct Prime<'self> {
     priv vec: ~[uint],
@@ -178,20 +179,21 @@ pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
 
 #[inline(always)]
 pub fn comb(n: uint, r: uint, ps: &mut Prime) -> uint {
-    let mut numer_facts = ~[];
-    for uint::range(r + 1, n + 1) |i| {
-        numer_facts.push(extvec::from_iter(ps.factorize(i)));
-    }
-    let numer = mergei_as(numer_facts, Sum);
+    let factorize = |n| ps.factorize(n);
 
-    let mut denom_facts = ~[];
-    for uint::range(1, n - r + 1) |num| {
-        denom_facts.push(extvec::from_iter(ps.factorize(num)));
-    }
-    let denom = mergei_as(denom_facts, |i| Sum(-i));
+    let numer = MergeMultiMonoidIterator::new(extvec::from_iter(
+        uint_range(r + 1, n + 1).transform(factorize)
+        .transform(|fs| fs.transform(|(base, exp)| (base, Sum(exp))))
+    ));
 
-    let mut v = merge_as(numer, denom, Sum);
-    return factors_to_uint(v.iter().transform(|&x| x));
+    let denom = MergeMultiMonoidIterator::new(extvec::from_iter(
+        uint_range(1, n - r + 1).transform(factorize)
+        .transform(|fs| fs.transform(|(base, exp)| (base, Sum(-exp))))
+    ));
+
+    return factors_to_uint(
+        MergeMonoidIterator::new(numer, denom).transform(|(a, m)| (a, m.unwrap()))
+    );
 }
 
 #[inline(always)]

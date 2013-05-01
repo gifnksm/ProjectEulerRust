@@ -2,7 +2,9 @@ use core::util;
 use core::cmp::{ Ord, Eq };
 use core::ops::{ Add, Mul };
 use core::num::{ Zero, One, Bounded };
-use core::iterator::{ Iterator, IteratorUtil, MapIterator };
+use core::iterator::{ Iterator };
+
+use common::extvec;
 
 pub trait Monoid {
     fn mempty() -> Self;
@@ -188,18 +190,6 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
     }
 }
 
-pub fn merge_monoid_as<K: TotalOrd, V, MT, M: Monoid + Wrap<MT>, T: Iterator<(K, V)>, U: Iterator<(K, V)>, X>
-    (it1: T, it2: U, conv: &fn(V) -> M,
-     f: &fn(MapIterator<(K, M), (K, MT),
-            MergeMonoidIterator<(K, M), MapIterator<(K, V), (K, M), T>,
-            MapIterator<(K, V), (K, M), U>>>) -> X
-    ) -> X {
-    let it1 = it1.transform(|(k, v)| (k, conv(v)));
-    let it2 = it2.transform(|(k, v)| (k, conv(v)));
-    let it = MergeMonoidIterator::new(it1, it2);
-    return f(it.transform(|(k, m)| (k, m.unwrap())));
-}
-
 struct MergeMultiMonoidIterator<V, T> {
     iters:  ~[T],
     values: ~[Option<V>]
@@ -209,6 +199,11 @@ impl<V, T: Iterator<V>> MergeMultiMonoidIterator<V, T> {
     #[inline(always)]
     pub fn new(iters: ~[T]) -> MergeMultiMonoidIterator<V, T> {
         MergeMultiMonoidIterator { values: vec::from_fn(iters.len(), |_| None), iters: iters }
+    }
+
+    #[inline(always)]
+    pub fn new_from_iter<U: Iterator<T>>(iters: U) -> MergeMultiMonoidIterator<V, T> {
+        MergeMultiMonoidIterator::new(extvec::from_iter(iters))
     }
 }
 
@@ -255,77 +250,11 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
     }
 }
 
-pub fn merge_multi_monoid_as<K: TotalOrd, V, MT, M: Monoid + Wrap<MT>, T: Iterator<(K, V)>, X>
-    (iters: &[T],
-     conv: &fn(V) -> M,
-     f: &fn(MapIterator<(K, M), (K, MT), MergeMultiMonoidIterator<(K, M), MapIterator<(K, V), (K, M), T>>>) -> X
-    ) -> X {
-    let conv_snd = |(k, v): (K, V)| (k, conv(v));
-    let it = MergeMultiMonoidIterator::new(iters.map(|&it| it.transform(conv_snd)));
-    return f(it.transform(|(k, m)| (k, m.unwrap())));
-}
-
-pub fn merge<T: Copy + Ord, M: Copy + Monoid>(
-    vec1: &[(T, M)], vec2: &[(T, M)]
-) -> ~[(T, M)] {
-    let (l1, l2) = (vec1.len(), vec2.len());
-
-    let mut result = ~[];
-    let mut (i1, i2) = (0, 0);
-    while i1 < l1 && i2 < l2 {
-        let (v1, m1) = vec1[i1];
-        let (v2, m2) = vec2[i2];
-        if v1 < v2 {
-            result.push((v1, m1));
-            i1 += 1;
-            loop;
-        }
-        if v2 < v1 {
-            result.push((v2, m2));
-            i2 += 1;
-            loop;
-        }
-        result.push((v1, m1.mappend(&m2)));
-        i1 += 1;
-        i2 += 1;
-    }
-
-    if i1 < l1 { result += vec1.slice(i1, l1); }
-    if i2 < l2 { result += vec2.slice(i2, l2); }
-    return result;
-}
-
-pub fn mergei<T: Copy+Ord, M: Copy+Monoid>(vecs: &[~[(T, M)]]) -> ~[(T, M)] {
-    return match vecs.len() {
-      0u => ~[],
-      1u => ~[] + vecs[0],
-      len  => {
-        let pre  = mergei(vecs.slice(0u, len / 2u));
-        let post = mergei(vecs.slice(len / 2u, len));
-        merge(pre, post)
-      }
-    }
-}
-
-pub fn merge_as<T: Copy+Ord, U: Copy, MT, M: Copy+Monoid+Wrap<MT>>
-    (vec1: &[(T, U)], vec2: &[(T, U)], f: &fn(U) -> M) -> ~[(T, MT)] {
-    fn convert<T: Copy, U: Copy, M: Copy>(v: &[(T, U)], f: &fn(U) -> M) -> ~[(T, M)] {
-        do v.map |tp| { (tp.first(), f(tp.second())) }
-    }
-    return merge(convert(vec1, f), convert(vec2, f)).map(|tp| (tp.first(), tp.second().unwrap()));
-}
-
-pub fn mergei_as<T: Copy+Ord, U: Copy, MT, M: Copy+Monoid+Wrap<MT>>(vecs: &[~[(T, U)]], f: &fn(U) -> M) -> ~[(T, MT)] {
-    return mergei(
-        vecs.map(|v| v.map(|tp| (tp.first(), f(tp.second()))))
-    ).map(|tp| (tp.first(), tp.second().unwrap()));
-}
-
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use common::extvec;
+    use core::iterator::{ IteratorUtil };
 
     #[test]
     fn test_mconcat() {
@@ -395,16 +324,6 @@ mod tests {
                 extvec::from_iter(MergeMonoidIterator::new(v2.iter().transform(conv),
                                                            v1.iter().transform(conv))),
                 result.map(conv));
-
-            assert_eq!(merge_monoid_as(v1.iter().transform(|x| *x),
-                                       v2.iter().transform(|x| *x),
-                                       f, |x| extvec::from_iter(x)),
-                       result.to_vec());
-
-            assert_eq!(merge_monoid_as(v2.iter().transform(|x| *x),
-                                       v1.iter().transform(|x| *x),
-                                       f, |x| extvec::from_iter(x)),
-                       result.to_vec());
         }
 
         let v1 = [(1, 1), (3, 1), (4, 3), (6, 1)];
@@ -428,27 +347,15 @@ mod tests {
     #[test]
     fn test_merge_multi_monoid_iterator() {
         fn check<M: Monoid + Wrap<int> + Eq>(vs: &[~[(int, int)]],
-                                               f: &fn(int) -> M,
-                                               result: &[(int, int)]) {
-            {
-                let conv = |&(x, y): &(int, int)| (x, f(y));
-                let mut iters = ~[];
-                for vs.each |v| { iters.push(v.iter().transform(conv)); }
-                for vec::each_permutation(iters) |it| {
-                    assert_eq!(
-                        extvec::from_iter(MergeMultiMonoidIterator::new(it.to_vec())),
-                        result.map(conv));
-                }
-            }
-
-            {
-                let mut iters = ~[];
-                for vs.each |v| { iters.push(v.iter().transform(|&(x, y)| (x, y))); }
-                for vec::each_permutation(iters) |it| {
-                    assert_eq!(
-                        merge_multi_monoid_as(it, f, |x| extvec::from_iter(x)),
-                        result.to_vec());
-                }
+                                             f: &fn(int) -> M,
+                                             result: &[(int, int)]) {
+            let conv = |&(x, y): &(int, int)| (x, f(y));
+            let mut iters = ~[];
+            for vs.each |v| { iters.push(v.iter().transform(conv)); }
+            for vec::each_permutation(iters) |it| {
+                assert_eq!(
+                    extvec::from_iter(MergeMultiMonoidIterator::new(it.to_vec())),
+                    result.map(conv));
             }
         }
 
@@ -480,63 +387,6 @@ mod tests {
             check(v, Prod, []);
             check(v, Max, []);
             check(v, Min, []);
-        }
-    }
-
-    #[test]
-    fn test_merge() {
-        let arg1 = [(1, 1), (3, 1), (4, 1), (6, 1)];
-        let arg2 = [(1, 2), (2, 1), (4, 1), (7, 2)];
-
-        {
-            let result = ~[(1, 3), (2, 1), (3, 1), (4, 2), (6, 1), (7, 2)];
-            assert_eq!(merge(arg1.map(to_sum), arg2.map(to_sum)),
-                       result.map(to_sum));
-            assert_eq!(merge_as(arg1, arg2, Sum), result);
-        }
-
-        {
-            let result = ~[(1, 2), (2, 1), (3, 1), (4, 1), (6, 1), (7, 2)];
-            assert_eq!(merge(arg1.map(to_max), arg2.map(to_max)),
-                       result.map(to_max));
-            assert_eq!(merge_as(arg1, arg2, Max),
-                       result);
-        }
-
-        {
-            let result = arg1.map(to_sum);
-            assert_eq!(merge(result, []), result);
-        }
-
-        {
-            let result: ~[(int, Sum<int>)] = ~[];
-            assert_eq!(merge([], []), result);
-        }
-    }
-
-    #[test]
-    fn test_mergei() {
-        {
-            let arg = [~[(1, 1), (2, 1)], ~[(1, 2), (3, 1)], ~[(-1, 3)]];
-            let result = ~[(-1, 3), (1, 3), (2, 1), (3, 1)];
-            assert_eq!(mergei(arg.map(|v| v.map(to_sum))), result.map(to_sum));
-            assert_eq!(mergei_as(arg, Sum), result);
-        }
-
-        {
-            let arg = [~[(1, 1)], ~[(1, 2)], ~[(1, 3)]];
-            let result = ~[(1, 6)];
-            assert_eq!(mergei(arg.map(|v| v.map(to_sum))), result.map(to_sum));
-            assert_eq!(mergei_as(arg, Sum), result);
-        }
-
-        {
-            let arg = [~[], ~[], ~[]];
-            let result: ~[(int, int)] = ~[];
-            assert_eq!(mergei(arg.map(|v| v.map(to_sum))),
-                       result.map(to_sum));
-            assert_eq!(mergei_as(arg, Sum),
-                       result);
         }
     }
 }
