@@ -1,7 +1,7 @@
 use core::iterator::{ Iterator, IteratorUtil };
 use core::util::unreachable;
 
-use common::extiter::{ uint_range };
+use common::extiter::{ Range };
 use common::extvec;
 use common::calc::{ pow };
 use common::monoid::{ Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap };
@@ -182,12 +182,12 @@ pub fn comb(n: uint, r: uint, ps: &mut Prime) -> uint {
     let factorize = |n| ps.factorize(n);
 
     let numer = MergeMultiMonoidIterator::new(extvec::from_iter(
-        uint_range(r + 1, n + 1).transform(factorize)
+        Range::new(r + 1, n + 1).transform(factorize)
         .transform(|fs| fs.transform(|(base, exp)| (base, Sum(exp))))
     ));
 
     let denom = MergeMultiMonoidIterator::new(extvec::from_iter(
-        uint_range(1, n - r + 1).transform(factorize)
+        Range::new(1, n - r + 1).transform(factorize)
         .transform(|fs| fs.transform(|(base, exp)| (base, Sum(-exp))))
     ));
 

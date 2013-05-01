@@ -1,55 +1,70 @@
 use core::iterator::{ Iterator, IteratorUtil };
 use core::num::{ Zero, One };
+use core::util;
 
-pub struct UintRange {
-    cur: uint,
-    cnt: uint,
-    step: int,
-}
+pub enum Step<T> { Plus(T), Minus(T) }
 
-impl UintRange {
-    pub fn new(start: uint, stop: uint, step: int) -> UintRange {
-        if step == 0 {
-            fail!("UintRange::new called with step == 0");
+impl<T> Step<T> {
+    fn ref_abs<'a>(&'a self) -> &'a T {
+        match *self {
+            Plus(ref s) => s,
+            Minus(ref s) => s
         }
-
-        let mut cnt = 0;
-        if step > 0 && start < stop {
-            let diff = (stop - start);
-            cnt = diff / (step as uint);
-            if diff % (step as uint) != 0 { cnt += 1; }
-        }
-        if step < 0 && start > stop {
-            let diff = (start - stop);
-            cnt = diff / ((-step) as uint);
-            if diff % ((-step) as uint) != 0 { cnt += 1; }
-        }
-        UintRange { cur: start, cnt: cnt, step: step }
     }
 }
 
-pub fn uint_range(start: uint, stop: uint) -> UintRange {
-    UintRange::new(start, stop, 1)
+
+pub struct Range<T> {
+    cur: T,
+    step: Step<T>,
+    cnt: T,
 }
 
-impl Iterator<uint> for UintRange {
-    fn next(&mut self) -> Option<uint> {
-        if self.cnt == 0 { return None; }
+impl<T: Integer> Range<T> {
+    pub fn new_with_step(start: T, stop: T, step: Step<T>) -> Range<T> {
+        if step.ref_abs().is_zero() { fail!("Range::new() called with step == 0"); }
 
-        let val = self.cur;
+        let mut cnt = Zero::zero();
+        match step {
+            Plus(ref abs_step) if start < stop => {
+                let diff = (stop - start);
+                cnt = diff / *abs_step;
+                if !diff.is_multiple_of(abs_step) { cnt = cnt + One::one(); }
+            }
+            Minus(ref abs_step) if start > stop => {
+                let diff = (start - stop);
+                cnt = diff / *abs_step;
+                if !diff.is_multiple_of(abs_step) { cnt = cnt + One::one(); }
+            }
+            _ => { }
+        }
+        return Range { cur: start, cnt: cnt, step: step };
+    }
 
-        match self.step.cmp(&0) {
-            Greater => {
-                self.cnt -= 1;
-                self.cur += (self.step as uint);
+    pub fn new(start: T, stop: T) -> Range<T> {
+        Range::new_with_step(start, stop, Plus(One::one()))
+    }
+    pub fn new_rev(start: T, stop: T) -> Range<T> {
+        Range::new_with_step(start, stop, Minus(One::one()))
+    }
+}
+
+impl<T: Integer> Iterator<T> for Range<T> {
+    fn next(&mut self) -> Option<T> {
+        if self.cnt <= Zero::zero() { return None; }
+        self.cnt = self.cnt - One::one();
+
+        match self.step {
+            Plus(ref abs_step) => {
+                let mut val = self.cur + *abs_step;
+                util::swap(&mut val, &mut self.cur);
                 return Some(val);
-            },
-            Less => {
-                self.cnt -= 1;
-                self.cur -= ((- self.step) as uint);
+            }
+            Minus(ref abs_step) => {
+                let mut val = self.cur - *abs_step;
+                util::swap(&mut val, &mut self.cur);
                 return Some(val);
-            },
-            Equal => { fail!() }
+            }
         }
     }
 }
@@ -79,7 +94,7 @@ impl<T: Add<T,T> + Copy> Iterator<T> for Fibonacci<T> {
 
 pub struct Triangle {
     idx: uint,
-    cur:  uint
+    cur: uint
 }
 
 impl Triangle {
@@ -226,7 +241,8 @@ mod tests {
     #[test]
     fn test_uint_range() {
         fn gen(start: uint, end: uint, step: int) -> ~[uint] {
-            extvec::from_iter(UintRange::new(start, end, step))
+            let s = if step >= 0 { Plus(step as uint) } else { Minus((-step) as uint) };
+            extvec::from_iter(Range::new_with_step(start, end, s))
         }
         assert_eq!(gen(0, 3, 1), ~[0, 1, 2]);
         assert_eq!(gen(13, 10, -1), ~[13, 12, 11]);
@@ -258,16 +274,16 @@ mod tests {
 
     #[test]
     fn test_filter_map() {
-        let it  = uint_range(0, 10).filter_map(|x| if x.is_even() { Some(x*x) } else { None });
-        let ans = ~[0*0u, 2*2, 4*4, 6*6, 8*8];
+        let it  = Range::new(0, 10).filter_map(|x| if x.is_even() { Some(x*x) } else { None });
+        let ans = ~[0*0, 2*2, 4*4, 6*6, 8*8];
         assert_eq!(extvec::from_iter(it), ans);
     }
 
     #[test]
     fn test_count_elem() {
-        assert_eq!(uint_range(0, 4).count_elem(), 4);
-        assert_eq!(uint_range(0, 10).count_elem(), 10);
-        assert_eq!(uint_range(10, 0).count_elem(), 0);
+        assert_eq!(Range::new(0, 4).count_elem(), 4);
+        assert_eq!(Range::new(0, 10).count_elem(), 10);
+        assert_eq!(Range::new(10, 0).count_elem(), 0);
     }
 
     #[test]
@@ -287,15 +303,15 @@ mod tests {
 
     #[test]
     fn test_sum() {
-        assert_eq!(uint_range(0, 4).sum(), 6);
-        assert_eq!(uint_range(0, 10).sum(), 45);
-        assert_eq!(uint_range(10, 0).sum(), 0);
+        assert_eq!(Range::new(0, 4).sum(), 6);
+        assert_eq!(Range::new(0, 10).sum(), 45);
+        assert_eq!(Range::new(10, 0).sum(), 0);
     }
 
     #[test]
     fn test_max() {
-        assert_eq!(uint_range(0, 4).max(), 3);
-        assert_eq!(uint_range(0, 10).max(), 9);
+        assert_eq!(Range::new(0, 4).max(), 3);
+        assert_eq!(Range::new(0, 10).max(), 9);
         let v = ~[0, 10, 9, 2, 3, 5];
         assert_eq!(v.iter().transform(|v| *v).max(), 10);
     }
@@ -303,19 +319,19 @@ mod tests {
     #[test]
     #[should_fail]
     fn test_max_fail() {
-        uint_range(10, 0).max();
+        Range::new(10, 0).max();
     }
 
     #[test]
     fn test_min() {
-        assert_eq!(uint_range(0, 4).min(), 0);
-        assert_eq!(uint_range(0, 10).min(), 0);
+        assert_eq!(Range::new(0, 4).min(), 0);
+        assert_eq!(Range::new(0, 10).min(), 0);
         let v = ~[0, 10, 9, 2, 3, 5];
         assert_eq!(v.iter().transform(|v| *v).min(), 0);
     }
 
     #[test] #[should_fail]
     fn test_min_fail() {
-        uint_range(10, 0).min();
+        Range::new(10, 0).min();
     }
 }
