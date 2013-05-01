@@ -1,6 +1,6 @@
 use core::iterator::{ IteratorUtil };
 
-use common::extiter;
+use common::extiter::{ AdditiveIterator };
 use common::extiter::{ Fibonacci };
 use common::problem::{ Problem };
 
@@ -12,8 +12,9 @@ pub static problem: Problem<'static> = Problem {
 
 fn solve() -> ~str {
     let max = 4000000;
-    let it = Fibonacci::new::<uint>()
+    return Fibonacci::new::<uint>()
         .take_while(|&f| f < max)
-        .filter(|&f| f % 2 == 0);
-    return extiter::sum(it).to_str();
+        .filter(|&f| f % 2 == 0)
+        .sum()
+        .to_str();
 }

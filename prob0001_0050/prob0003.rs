@@ -1,6 +1,6 @@
 use core::iterator::{ IteratorUtil };
 
-use common::extiter;
+use common::extiter::{ OrderedIterator };
 use common::prime::{ Prime };
 use common::problem::{ Problem };
 
@@ -14,6 +14,8 @@ fn solve() -> ~str {
     let num = 600851475143;
 
     let mut ps = Prime::new();
-    let it = ps.factorize(num).transform(|(base, _exp)| base);
-    return extiter::max(it).to_str();
+    return ps.factorize(num)
+        .transform(|(base, _exp)| base)
+        .max()
+        .to_str();
 }

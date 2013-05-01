@@ -1,7 +1,7 @@
 use core::iterator::{ IteratorUtil };
 
 use common::prime::{ Prime, num_of_divisors };
-use common::extiter::{ Triangle, nth };
+use common::extiter::{ Triangle, ExtIteratorUtil };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -16,5 +16,5 @@ fn solve() -> ~str {
         .transform(|t| (t, num_of_divisors(t, &mut ps)))
         .skip_while(|&(_t, n)| n <= 500);
 
-    return nth(it, 0).first().to_str();
+    return it.nth(0).first().to_str();
 }

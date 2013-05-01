@@ -2,7 +2,7 @@ use core::iterator::{ IteratorUtil };
 use core::num::{ FromStrRadix };
 use std::bigint::{ BigUint };
 
-use common::extiter::{ Fibonacci, count_elem };
+use common::extiter::{ Fibonacci, ExtIteratorUtil };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -16,5 +16,5 @@ fn solve() -> ~str {
         str::from_bytes(vec::from_elem(999, '9' as u8)), 10).get();
 
     let it = Fibonacci::new::<BigUint>().take_while(|&n| n <= limit);
-    return (count_elem(it) + 1).to_str();
+    return (it.count_elem() + 1).to_str();
 }

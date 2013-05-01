@@ -1,4 +1,7 @@
+use core::iterator::{ IteratorUtil };
+
 use common::problem::{ Problem };
+use common::extiter::{ ExtIteratorUtil, OrderedIterator };
 
 pub static problem: Problem<'static> = Problem {
     id: 8,
@@ -31,15 +34,10 @@ static input: &'static str = &"
 
 fn solve() -> ~str {
     let prod_len = 5;
-    let nums = do vec::filter_map(str::to_chars(input)) |c| {
-        char::to_digit(c, 10)
-    };
-
-    let mut max = 0;
-    for vec::windowed(prod_len, nums) |win| {
-        let prod = win.foldl(1, |&p, &n| p * n);
-        max = uint::max(prod, max);
-    }
-
-    return max.to_str();
+    return input.char_iter()
+        .filter_map(|c| char::to_digit(c, 10))
+        .windowed(prod_len)
+        .transform(|win| win.foldl(1, |&p, &n| p * n))
+        .max()
+        .to_str();
 }
