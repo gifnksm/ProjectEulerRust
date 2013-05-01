@@ -112,15 +112,9 @@ pub fn nth<T, IT: Iterator<T>>(mut it: IT, n: uint) -> T {
     }
 }
 
-// This cannot use because of ICE.
-// pub fn sum<T: Add<T, T> + Zero, IT: Iterator<T>>(mut it: IT) -> T {
-//     let mut sum = Zero::zero::<T>();
-//     for it.advance |n| { sum += n; }
-//     return sum;
-// }
-pub fn sum_uint<IT: Iterator<uint>>(mut it: IT) -> uint {
-    let mut sum = 0;
-    for it.advance |n| { sum += n; }
+pub fn sum<T: Add<T, T> + Zero, IT: Iterator<T>>(mut it: IT) -> T {
+    let mut sum = Zero::zero::<T>();
+    for it.advance |n| { sum = sum + n; }
     return sum;
 }
 
