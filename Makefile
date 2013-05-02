@@ -24,14 +24,18 @@ TEST=$(SRC:.rs=.test$(EXEEXT))
 RUSTC_FLAGS=
 RUSTC_DEBUG_FLAGS=
 RUSTC_RELEASE_FLAGS=--opt-level 3
+RUSTC_PARSE_FLAGS=--no-trans
 
-.PHONY: debug release test clean
+.PHONY: debug release parse test clean
 
 debug: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
 debug: $(TARGET)
 
 release: RUSTC_FLAGS+=$(RUSTC_RELEASE_FLAGS)
 release: $(TARGET)
+
+parse: RUSTC_FLAGS+=$(RUSTC_PARSE_FLAGS)
+parse: $(TARGET)
 
 %$(EXEEXT): %.rs $(MODSRC) $(DEPSRC)
 	rustc $(RUSTC_FLAGS) $< -o $@
