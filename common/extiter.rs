@@ -127,17 +127,13 @@ impl<T: Zero + One> Fibonacci<T> {
     pub fn new() -> Fibonacci<T> { Fibonacci { prev: Zero::zero(), cur: One::one() } }
 }
 
-// Copy must be Clone
-impl<T: Add<T,T> + Copy> Iterator<T> for Fibonacci<T> {
+impl<T: Add<T,T> + Clone> Iterator<T> for Fibonacci<T> {
     #[inline(always)]
     fn next(&mut self) -> Option<T> {
         let next = self.prev + self.cur;
-        // let cur  = self.cur.clone();
-        let cur  = self.cur;
-        // self.prev = cur.clone();
-        self.prev = cur;
+        let cur  = self.cur.clone();
+        self.prev = cur.clone();
         self.cur  = next;
-        // return Some(cur);
         return Some(cur);
     }
 }
