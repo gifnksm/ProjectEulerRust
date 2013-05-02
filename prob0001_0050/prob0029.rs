@@ -15,9 +15,11 @@ fn solve() -> ~str {
     let mut set = HashSet::new();
 
     for uint::range(2, 101) |a| {
-        let fs = ps.factorize(a).to_vec();
+        let a_factor = ps.factorize(a).to_vec();
         for uint::range(2, 101) |b| {
-            set.insert(fs.map(|&(base, exp)| { (base, (exp as uint) * b) }));
+            let ab_factor = a_factor
+                .map(|&(base, exp)| (base, (exp) as uint * b));
+            set.insert(ab_factor);
         }
     }
 

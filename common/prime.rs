@@ -32,7 +32,7 @@ impl<'self> Prime {
             if self.vec.len() >= len { return; }
             num = 2;
         } else {
-            num = self.vec.last().clone();
+            num = vec::last(self.vec).clone();
         }
 
         if num == 2 {

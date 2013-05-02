@@ -11,11 +11,11 @@ pub static problem: Problem<'static> = Problem {
 // AB / CA => (10A + B : 10C + A = B : C => 10AC + BC = 10BC + AB => A(10C-B) = 9BC)
 // BA / AC => (10B + A : 10A + C = B : C => 10BC + AC = 10AB + BC => A(10B-C) = 9BC)
 //
-// * AB / CA = B / C
+// * Pattern 1: AB / CA = B / C
 // A = 9BC / (10C - B)
 // C > B
 //
-// * BA / AC = B / C
+// * Pattern 2: BA / AC = B / C
 // A = 9BC / (10B - C)
 // C > B
 
@@ -25,16 +25,14 @@ fn solve() -> ~str {
 
     for uint::range(1, 10) |b| {
         for uint::range(b + 1, 10) |c| {
+            // Pattern 1
             let a_numer = 9 * b * c;
             let a_denom = 10 * c - b;
             if a_numer % a_denom == 0 && a_numer < 10 * a_denom {
                 prod_numer *= b;
                 prod_denom *= c;
             }
-        }
-    }
-    for uint::range(1, 10) |b| {
-        for uint::range(b + 1, 10) |c| {
+            // Pattern 2
             let a_numer = 9 * b * c;
             let a_denom = 10 * b - c;
             if a_numer % a_denom == 0 && a_numer < 10 * a_denom {

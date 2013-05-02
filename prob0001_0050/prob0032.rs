@@ -34,7 +34,7 @@ fn solve() -> ~str {
         for permutate_num(ds, 4, 1000, 9999 / a) |b, ds| {
             let c = a * b;
             let c_digits = merge_sort(num_to_digits(c, 10), |a, b| a <= b);
-            if vec::eq(c_digits, ds) { answer.insert(c); }
+            if ds == c_digits { answer.insert(c); }
         }
     }
 
@@ -48,13 +48,11 @@ fn solve() -> ~str {
         for permutate_num(ds, 3, 100, 9999 / a) |b, ds| {
             let c = a * b;
             let c_digits = merge_sort(num_to_digits(c, 10), |a, b| a <= b);
-            if vec::eq(c_digits, ds) { answer.insert(c); }
+            if ds == c_digits { answer.insert(c); }
         }
     }
 
     let mut sum = 0;
-    for answer.each |&c| {
-        sum += c;
-    }
+    for answer.each |&c| { sum += c; }
     return sum.to_str();
 }

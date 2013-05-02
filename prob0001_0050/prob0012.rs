@@ -13,7 +13,6 @@ pub static problem: Problem<'static> = Problem {
 fn solve() -> ~str {
     let mut ps = Prime::new();
     return Triangle::new()
-        .transform(|t| (t, num_of_divisors(t, &mut ps)))
-        .skip_while(|&(_t, n)| n <= 500)
-        .nth(0).first().to_str();
+        .skip_while(|&t| num_of_divisors(t, &mut ps) <= 500)
+        .nth(0).to_str();
 }

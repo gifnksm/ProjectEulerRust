@@ -167,6 +167,9 @@ pub trait ExtIteratorUtil<A> {
     fn to_vec(self) -> ~[A];
     fn count_elem(self) -> uint;
     fn nth(self, n: uint) -> A;
+    fn first(self) -> A;
+    fn last(self) -> A;
+
     fn max_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A;
     fn min_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A;
 }
@@ -214,6 +217,20 @@ impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
             }
             i -= 1;
         }
+    }
+
+    #[inline(always)]
+    fn first(self) -> A { self.nth(0) }
+
+    #[inline(always)]
+    fn last(self) -> A {
+        let mut it = self;
+        let mut elm = match it.next() {
+            Some(x) => x,
+            None    => fail!("last: empty iterator")
+        };
+        for it.advance |e| { elm = e; }
+        return elm;
     }
 
     #[inline(always)]
