@@ -1,149 +1,147 @@
-use core::iterator::{ Iterator, IteratorUtil };
-use core::util::unreachable;
+use core::iterator::{ Iterator, IteratorUtil, Counter };
+use core::util;
+use core::task;
 
-use common::extiter::{ Range, ExtIteratorUtil };
+use common::extiter::{ Range, ExtIteratorUtil, MultiplicativeIterator };
 use common::calc::{ pow };
 use common::monoid::{ Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap };
 
-pub struct Prime<'self> {
-    priv vec: ~[uint],
+static PRIMES_BELOW100: &'static [uint] = &[
+    2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
+    43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
+];
+
+fn tls_prime_nums(_v: @~[uint]) {}
+
+#[inline(always)]
+fn get_task_prime() -> @mut ~[uint] {
+    fn task_prime_key(_v: @@mut ~[uint]) {}
+
+    let r = unsafe { task::local_data::local_data_get(task_prime_key) };
+    let nums = match r {
+        None => {
+            let nums = @mut vec::from_slice(PRIMES_BELOW100);
+            unsafe { task::local_data::local_data_set(task_prime_key, @nums); }
+            nums
+        }
+        Some(@nums) => nums
+    };
+
+    return nums;
 }
 
-impl<'self> Prime {
-    #[inline(always)]
-    pub fn new() -> Prime { Prime { vec: ~[] } }
+#[inline(always)]
+fn with_task_prime<T>(f: &fn(&mut ~[uint]) -> T) -> T {
+    let nums = get_task_prime();
+    return f(nums);
+}
 
-    #[inline(always)]
-    priv fn is_coprime(&mut self, num: uint) -> bool {
-        for self.vec.each |&p| {
-            if p * p > num  { return true; }
-            if num % p == 0 { return false; }
-        }
-        return true;
+#[inline(always)]
+priv fn is_coprime(nums: &[uint], n: uint) -> bool {
+    for nums.each |&p| {
+        if p * p > n  { return true; }
+        if n % p == 0 { return false; }
     }
+    return true;
+}
 
-    #[inline(always)]
-    priv fn grow_len(&mut self, len: uint) {
-        if self.vec.len() >= len { return; }
+#[inline(always)]
+priv fn grow(nums: &mut ~[uint], len: uint) {
+    if nums.len() >= len { return; }
 
-        let mut num;
-        if self.vec.is_empty() {
-            self.vec.push(2);
-            if self.vec.len() >= len { return; }
-            num = 2;
-        } else {
-            num = vec::last(self.vec).clone();
-        }
+    let mut it = Counter::new(vec::last(*nums) + 2, 2);
+    for it.advance |n| {
+        if !is_coprime(*nums, n) { loop; }
 
-        if num == 2 {
-            self.vec.push(3);
-            if self.vec.len() >= len { return; }
-            num = 3;
-        }
-
-        while self.vec.len() < len {
-            num += 2;
-            if self.is_coprime(num) {
-                self.vec.push(num);
-            }
-        }
-    }
-
-    #[inline(always)]
-    pub fn get_at(&mut self, idx: uint) -> uint {
-        self.grow_len(idx + 1);
-        return self.vec[idx];
-    }
-
-    #[inline(always)]
-    pub fn is_prime(&mut self, num: uint) -> bool {
-        if num < 2 { return false; }
-
-        for self.each |p| {
-            if p * p > num  { return true;  }
-            if num % p == 0 { return false; }
-        }
-        unreachable();
-    }
-
-    #[inline(always)]
-    pub fn iter(&'self mut self) -> PrimeIterator<'self> {
-        PrimeIterator::new(self)
-    }
-
-    #[inline(always)]
-    pub fn factorize(&'self mut self, n: uint) -> FactorIterator<'self> {
-        FactorIterator::new(n, self)
-    }
-
-    #[inline(always)]
-    pub fn each(&mut self, f: &fn(uint) -> bool) {
-        for self.each_borrow |p, _ps| {
-            if !f(p) {
-                return;
-            }
-        }
-        unreachable();
-    }
-
-    #[inline(always)]
-    pub fn each_borrow(&mut self, f: &fn(uint, &mut Prime) -> bool) {
-        let init_len = self.vec.len();
-        for uint::range(0, init_len) |i| {
-            let p = self.vec[i];
-            if !f(p, self) { return; }
-        }
-
-        let mut idx = init_len;
-        loop {
-            let p = self.get_at(idx);
-            if !f(p, self) { return; }
-            idx += 1;
-        }
+        nums.push(n);
+        if nums.len() >= len { return; }
     }
 }
 
-priv struct PrimeIterator<'self> {
-    prime: &'self mut Prime,
-    idx: uint
-}
+#[inline(always)]
+pub fn iter() -> PrimeIterator { PrimeIterator::new() }
 
-impl<'self> PrimeIterator<'self> {
-    #[inline(always)]
-    pub fn new<'a>(ps: &'a mut Prime) -> PrimeIterator<'a> {
-        PrimeIterator { prime: ps, idx: 0 }
+#[inline(always)]
+pub fn each(f: &fn(uint) -> bool) {
+    let nums = get_task_prime();
+
+    let mut it = Counter::new::<uint>(0, 1);
+    for it.advance |i| {
+        grow(nums, i + 1);
+        if !f(nums[i]) { return; }
     }
 }
 
-impl<'self> Iterator<uint> for PrimeIterator<'self> {
+#[inline(always)]
+pub fn contains(n: uint) -> bool {
+    fn inner(nums: &mut ~[uint], n: uint) -> bool {
+        let len = vec::uniq_len(nums);
+        let last = nums[len - 1];;
+        if n < last {
+            return vec::bsearch_elem(*nums, &n).is_some();
+        }
+
+        let mut it = Counter::new::<uint>(0, 1);
+        for it.advance |i| {
+            grow(nums, i + 1);
+            let p = nums[i];
+            if p * p > n { return true; }
+            if n % p == 0 { return false; }
+        }
+        util::unreachable();
+    }
+    return with_task_prime(|nums| inner(nums, n));
+}
+
+#[inline(always)]
+pub fn nth(i: uint) -> uint {
+    let nums = get_task_prime();
+
+    grow(nums, i + 1);
+    return nums[i];
+}
+
+priv struct PrimeIterator {
+    priv idx: uint
+}
+
+impl PrimeIterator {
+    #[inline(always)]
+    pub fn new() -> PrimeIterator { PrimeIterator { idx: 0 } }
+}
+
+impl Iterator<uint> for PrimeIterator {
     #[inline(always)]
     fn next(&mut self) -> Option<uint> {
-        let p = self.prime.get_at(self.idx);
+        let p = nth(self.idx);
         self.idx += 1;
         return Some(p);
     }
 }
 
+#[inline(always)]
+pub fn factorize(n: uint) -> FactorIterator { FactorIterator::new(n) }
+
 pub type Factor = (uint, int);
 
-priv struct FactorIterator<'self> {
+priv struct FactorIterator {
     priv num: uint,
-    priv primeIter: PrimeIterator<'self>
+    priv prime_iter: PrimeIterator
 }
 
-impl<'self> FactorIterator<'self> {
+impl FactorIterator {
     #[inline(always)]
-    pub fn new<'a>(num: uint, primes: &'a mut Prime) -> FactorIterator<'a> {
-        FactorIterator { num: num, primeIter: primes.iter() }
+    pub fn new(num: uint) -> FactorIterator {
+        FactorIterator { num: num, prime_iter: PrimeIterator::new() }
     }
 }
 
-impl<'self> Iterator<Factor> for FactorIterator<'self> {
+impl Iterator<Factor> for FactorIterator {
     fn next(&mut self) -> Option<Factor> {
         if self.num == 0 || self.num == 1 { return None; }
 
         while self.num > 1 {
-            let p = self.primeIter.next().get();
+            let p = self.prime_iter.next().get();
 
             if p * p > self.num {
                 let n = self.num;
@@ -177,9 +175,7 @@ pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
 }
 
 #[inline(always)]
-pub fn comb(n: uint, r: uint, ps: &mut Prime) -> uint {
-    let factorize = |n| ps.factorize(n);
-
+pub fn comb(n: uint, r: uint) -> uint {
     let numer = MergeMultiMonoidIterator::new(
         Range::new(r + 1, n + 1)
         .transform(factorize)
@@ -200,35 +196,30 @@ pub fn comb(n: uint, r: uint, ps: &mut Prime) -> uint {
 }
 
 #[inline(always)]
-pub fn num_of_divisors(num: uint, ps: &mut Prime) -> uint {
-    if num == 0 { return 0; }
-    let mut prod = 1;
-    let mut it = ps.factorize(num);
-    for it.advance |(_base, exp)| {
-        prod *= (exp as uint) + 1;
-    }
-    return prod;
+pub fn num_of_divisors(n: uint) -> uint {
+    if n == 0 { return 0; }
+    return factorize(n)
+        .transform(|(_base, exp)| (exp as uint) + 1)
+        .prod();
 }
 
 #[inline(always)]
-pub fn num_of_proper_divisors(num: uint, ps: &mut Prime) -> uint {
-    num_of_proper_divisors(num, ps) - 1
+pub fn num_of_proper_divisors(n: uint) -> uint {
+    num_of_proper_divisors(n) - 1
 }
 
 #[inline(always)]
-pub fn sum_of_divisors(num: uint, ps: &mut Prime) -> uint {
-    if num == 0 { return 0; }
-    let mut sum = 1;
-    let mut it = ps.factorize(num);
-    for it.advance |(base, exp)| {
-        sum *= (pow(base, (exp as uint) + 1) - 1) / (base - 1);
-    }
-    return sum;
+pub fn sum_of_divisors(n: uint) -> uint {
+    if n == 0 { return 0; }
+    return factorize(n)
+        .transform(|(base, exp)| {
+            (pow(base, (exp as uint) + 1) - 1) / (base - 1)
+        }).prod();
 }
 
 #[inline(always)]
-pub fn sum_of_proper_divisors(num: uint, ps: &mut Prime) -> uint {
-    sum_of_divisors(num, ps) - num
+pub fn sum_of_proper_divisors(n: uint) -> uint {
+    sum_of_divisors(n) - n
 }
 
 #[cfg(test)]
@@ -236,67 +227,64 @@ mod tests {
     use super::*;
     use core::iterator::{ IteratorUtil };
 
-    static PRIMES_BELOW100: &'static [uint] = &[
+    static PRIMES_BELOW200: &'static [uint] = &[
         2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
-        43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
+        43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
+        101, 103, 107, 109, 113, 127, 131, 137, 139, 149,
+        151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199
     ];
 
     #[test]
-    fn test_prime_opidx () {
-        let mut ps = Prime::new();
-
-        // Generated primes
-        for PRIMES_BELOW100.eachi() |i, &p| { assert_eq!(ps.get_at(i), p) }
-        // Memoized primes
-        for PRIMES_BELOW100.eachi() |i, &p| { assert_eq!(ps.get_at(i), p) }
-    }
-
-    #[test]
     fn test_prime_each() {
-        let table = PRIMES_BELOW100.slice(0, 13);
-        let table2 = PRIMES_BELOW100.slice(13, PRIMES_BELOW100.len());
-        let mut ps = Prime::new();
+        let table = PRIMES_BELOW200.slice(0, 13);
+        let table2 = PRIMES_BELOW200.slice(13, PRIMES_BELOW200.len());
 
         let mut v1 = ~[];
-        for ps.each |p| {
-            if p > *table.last() { break; }
+        for each |p| {
+            if p > *vec::last(table) { break; }
             v1 += [ p ];
         }
         assert_eq!(table.initn(0), v1.initn(0));
 
         let mut v2 = ~[];
-        for ps.each |p| {
-            if p > *table.last() { break; }
+        for each |p| {
+            if p > *vec::last(table) { break; }
             v2 += [ p ];
         }
         assert_eq!(table.initn(0), v2.initn(0));
 
         let mut v3 = ~[];
-        for ps.each |p| {
-            if p > *table2.last() { break; }
+        for each |p| {
+            if p > *vec::last(table2) { break; }
             v3 += [ p ];
         }
         assert_eq!(~[] + table + table2, v3);
     }
 
     #[test]
-    fn test_prime_is_prime() {
-        let mut p = Prime::new();
-        assert!(!p.is_prime(0));
-        assert!(!p.is_prime(1));
-        assert!(p.is_prime(2));
-        assert!(p.is_prime(3));
-        assert!(!p.is_prime(4));
-        assert!(p.is_prime(5));
-        assert!(!p.is_prime(6));
-        assert!(p.is_prime(7));
-        assert!(!p.is_prime(100));
+    fn test_prime_contains() {
+        assert!(!contains(0));
+        assert!(!contains(1));
+        assert!(contains(2));
+        assert!(contains(3));
+        assert!(!contains(4));
+        assert!(contains(5));
+        assert!(!contains(6));
+        assert!(contains(7));
+        assert!(!contains(100));
     }
 
     #[test]
-    fn test_prime_iterator() {
-        let mut p = Prime::new();
-        let mut it = p.iter();
+    fn test_prime_index() {
+        // Generated primes
+        for PRIMES_BELOW200.eachi() |i, &p| { assert_eq!(nth(i), p); }
+        // Memoized primes
+        for PRIMES_BELOW200.eachi() |i, &p| { assert_eq!(nth(i), p); }
+    }
+
+    #[test]
+    fn test_iter() {
+        let mut it = iter();
 
         let mut i = 0;
         let ys = &[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41 ];
@@ -308,11 +296,10 @@ mod tests {
     }
 
     #[test]
-    fn test_factor_iterator() {
+    fn test_factorize() {
         fn check(n: uint, fs: &[Factor]) {
-            let mut ps = Prime::new();
             let mut v = ~[];
-            let mut it = ps.factorize(n);
+            let mut it = factorize(n);
             for it.advance |f| { v.push(f); }
 
             assert_eq!(v.initn(0), fs);
@@ -361,62 +348,57 @@ mod tests {
 
     #[test]
     fn test_comb() {
-        let mut ps = Prime::new();
-        assert_eq!(comb(2, 2, &mut ps), 1);
-        assert_eq!(comb(3, 2, &mut ps), 3);
-        assert_eq!(comb(4, 2, &mut ps), 6);
-        assert_eq!(comb(5, 2, &mut ps), 10);
+        assert_eq!(comb(2, 2), 1);
+        assert_eq!(comb(3, 2), 3);
+        assert_eq!(comb(4, 2), 6);
+        assert_eq!(comb(5, 2), 10);
 
-        assert_eq!(comb(40, 20, &mut ps), 137846528820);
+        assert_eq!(comb(40, 20), 137846528820);
     }
 
     #[test]
     fn test_num_of_divisors() {
-        let mut ps = Prime::new();
+        assert_eq!(num_of_divisors(1), 1);
+        assert_eq!(num_of_divisors(2), 2);
+        assert_eq!(num_of_divisors(3), 2);
+        assert_eq!(num_of_divisors(4), 3);
+        assert_eq!(num_of_divisors(5), 2);
+        assert_eq!(num_of_divisors(6), 4);
+        assert_eq!(num_of_divisors(7), 2);
+        assert_eq!(num_of_divisors(8), 4);
+        assert_eq!(num_of_divisors(9), 3);
+        assert_eq!(num_of_divisors(10), 4);
+        assert_eq!(num_of_divisors(11), 2);
+        assert_eq!(num_of_divisors(12), 6);
 
-        assert_eq!(num_of_divisors(1, &mut ps), 1);
-        assert_eq!(num_of_divisors(2, &mut ps), 2);
-        assert_eq!(num_of_divisors(3, &mut ps), 2);
-        assert_eq!(num_of_divisors(4, &mut ps), 3);
-        assert_eq!(num_of_divisors(5, &mut ps), 2);
-        assert_eq!(num_of_divisors(6, &mut ps), 4);
-        assert_eq!(num_of_divisors(7, &mut ps), 2);
-        assert_eq!(num_of_divisors(8, &mut ps), 4);
-        assert_eq!(num_of_divisors(9, &mut ps), 3);
-        assert_eq!(num_of_divisors(10, &mut ps), 4);
-        assert_eq!(num_of_divisors(11, &mut ps), 2);
-        assert_eq!(num_of_divisors(12, &mut ps), 6);
+        assert_eq!(num_of_divisors(24), 8);
+        assert_eq!(num_of_divisors(36), 9);
+        assert_eq!(num_of_divisors(48), 10);
+        assert_eq!(num_of_divisors(60), 12);
 
-        assert_eq!(num_of_divisors(24, &mut ps), 8);
-        assert_eq!(num_of_divisors(36, &mut ps), 9);
-        assert_eq!(num_of_divisors(48, &mut ps), 10);
-        assert_eq!(num_of_divisors(60, &mut ps), 12);
-
-        assert_eq!(num_of_divisors(50, &mut ps), 6);
+        assert_eq!(num_of_divisors(50), 6);
     }
 
     #[test]
     fn test_sum_of_divisors() {
-        let mut ps = Prime::new();
+        assert_eq!(sum_of_divisors(1), 1);
+        assert_eq!(sum_of_divisors(2), 3);
+        assert_eq!(sum_of_divisors(3), 4);
+        assert_eq!(sum_of_divisors(4), 7);
+        assert_eq!(sum_of_divisors(5), 6);
+        assert_eq!(sum_of_divisors(6), 12);
+        assert_eq!(sum_of_divisors(7), 8);
+        assert_eq!(sum_of_divisors(8), 15);
+        assert_eq!(sum_of_divisors(9), 13);
+        assert_eq!(sum_of_divisors(10), 18);
+        assert_eq!(sum_of_divisors(11), 12);
+        assert_eq!(sum_of_divisors(12), 28);
 
-        assert_eq!(sum_of_divisors(1, &mut ps), 1);
-        assert_eq!(sum_of_divisors(2, &mut ps), 3);
-        assert_eq!(sum_of_divisors(3, &mut ps), 4);
-        assert_eq!(sum_of_divisors(4, &mut ps), 7);
-        assert_eq!(sum_of_divisors(5, &mut ps), 6);
-        assert_eq!(sum_of_divisors(6, &mut ps), 12);
-        assert_eq!(sum_of_divisors(7, &mut ps), 8);
-        assert_eq!(sum_of_divisors(8, &mut ps), 15);
-        assert_eq!(sum_of_divisors(9, &mut ps), 13);
-        assert_eq!(sum_of_divisors(10, &mut ps), 18);
-        assert_eq!(sum_of_divisors(11, &mut ps), 12);
-        assert_eq!(sum_of_divisors(12, &mut ps), 28);
+        assert_eq!(sum_of_divisors(24), 60);
+        assert_eq!(sum_of_divisors(36), 91);
+        assert_eq!(sum_of_divisors(48), 124);
+        assert_eq!(sum_of_divisors(60), 168);
 
-        assert_eq!(sum_of_divisors(24, &mut ps), 60);
-        assert_eq!(sum_of_divisors(36, &mut ps), 91);
-        assert_eq!(sum_of_divisors(48, &mut ps), 124);
-        assert_eq!(sum_of_divisors(60, &mut ps), 168);
-
-        assert_eq!(sum_of_divisors(50, &mut ps), 93);
+        assert_eq!(sum_of_divisors(50), 93);
     }
 }

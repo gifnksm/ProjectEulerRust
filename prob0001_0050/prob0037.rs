@@ -1,5 +1,5 @@
 use common::calc::{ num_to_digits };
-use common::prime::{ Prime };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -8,19 +8,16 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn is_r2l(n: uint, ps: &mut Prime) -> bool {
+fn is_r2l(n: uint) -> bool {
     let mut itr = n / 10;
     while itr > 0 {
-        if !ps.is_prime(itr) {
-            return false;
-        }
+        if !prime::contains(itr) { return false; }
         itr /= 10;
     }
     return true;
 }
 
 fn solve() -> ~str {
-    let mut ps = Prime::new();
     let mut l2r_mat = ~[ ~[ 2, 3, 5, 7 ] ];
     let mut order = 10;
 
@@ -32,7 +29,7 @@ fn solve() -> ~str {
 
             for [ 1, 2, 3, 5, 7, 9 ].each |&d| {
                 let n = order * d + p;
-                if ps.is_prime(n) { result.push(n); }
+                if prime::contains(n) { result.push(n); }
             }
         }
 
@@ -45,9 +42,7 @@ fn solve() -> ~str {
     let mut sum = 0;
     for l2r.each |n| {
         if *n < 10 { loop; }
-        if is_r2l(*n, &mut ps) {
-            sum += *n;
-        }
+        if is_r2l(*n) { sum += *n; }
     }
 
     return sum.to_str();

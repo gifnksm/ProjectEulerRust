@@ -1,6 +1,8 @@
+use core::iterator::{ Counter, IteratorUtil };
 use core::hashmap::{ HashMap };
 
-use common::prime::{ Prime };
+use common::extiter::{ ExtIteratorUtil };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -9,25 +11,22 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn count_way(
-    sum: uint, map: &mut HashMap<(uint, uint), uint>, ps: &mut Prime
-) -> uint {
+fn count_way(sum: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
+    let cnt = count_sub(sum, 0, map);
 
-    let cnt = count_sub(sum, 0, map, ps);
-    if ps.is_prime(sum) {
+    if prime::contains(sum) {
         return cnt - 1;
     } else {
         return cnt;
     }
 
     fn count_sub(
-        sum: uint, min_idx: uint, map: &mut HashMap<(uint, uint), uint>,
-        ps: &mut Prime
+        sum: uint, min_idx: uint, map: &mut HashMap<(uint, uint), uint>
     ) -> uint {
         let mut cnt = 0;
         let mut i = min_idx;
         loop {
-            let p = ps.get_at(i);
+            let p = prime::nth(i);
             if p == sum {
                 map.insert((p, i), 1);
                 cnt += 1;
@@ -37,7 +36,7 @@ fn count_way(
 
             cnt += match map.find(&(sum - p, i)).map(|v| **v) {
                 Some(n) => n,
-                None    => count_sub(sum - p, i, map, ps)
+                None    => count_sub(sum - p, i, map)
             };
             i += 1;
         }
@@ -48,12 +47,9 @@ fn count_way(
 }
 
 fn solve() -> ~str {
-    let mut ps = Prime::new();
     let mut map = HashMap::new();
-    let mut n = 1;
-    loop {
-        let cnt = count_way(n, &mut map, &mut ps);
-        if cnt > 5000 { return n.to_str(); }
-        n += 1;
-    }
+    return Counter::new::<uint>(1, 1)
+        .skip_while(|&n| count_way(n, &mut map) <= 5000)
+        .first()
+        .to_str();
 }

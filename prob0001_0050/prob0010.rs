@@ -1,6 +1,6 @@
 use core::iterator::{ IteratorUtil };
 
-use common::prime::{ Prime };
+use common::prime;
 use common::extiter::{ AdditiveIterator };
 use common::problem::{ Problem };
 
@@ -11,9 +11,9 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut ps = Prime::new();
-    return ps.iter()
-        .take_while(|&p| p < 2000000)
+    let limit = 2000000;
+    return prime::iter()
+        .take_while(|&p| p < limit)
         .sum()
         .to_str();
 }

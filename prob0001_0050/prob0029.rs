@@ -1,7 +1,7 @@
 use core::hashmap::{ HashSet };
 
 use common::extiter::{ ExtIteratorUtil };
-use common::prime::{ Prime };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -11,11 +11,10 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut ps  = Prime::new();
     let mut set = HashSet::new();
 
     for uint::range(2, 101) |a| {
-        let a_factor = ps.factorize(a).to_vec();
+        let a_factor = prime::factorize(a).to_vec();
         for uint::range(2, 101) |b| {
             let ab_factor = a_factor
                 .map(|&(base, exp)| (base, (exp) as uint * b));

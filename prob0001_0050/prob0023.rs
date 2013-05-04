@@ -1,4 +1,4 @@
-use common::prime::{ Prime, sum_of_proper_divisors };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -7,18 +7,17 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn is_abundant(n: uint, ps: &mut Prime) -> bool {
-    let sum = sum_of_proper_divisors(n, ps);
-    return sum > n;
+#[inline(always)]
+fn is_abundant(n: uint) -> bool {
+    prime::sum_of_proper_divisors(n) > n
 }
 
 fn solve() -> ~str {
     let max_num = 28123;
-    let mut ps = Prime::new();
 
     let abundant = do vec::build_sized(max_num + 1) |push| {
         for uint::range(2, max_num + 1) |n| {
-            if is_abundant(n, &mut ps) { push(n); }
+            if is_abundant(n) { push(n); }
         }
     };
 

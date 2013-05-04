@@ -2,7 +2,7 @@ use core::util::{ unreachable };
 
 use std::sort::{ merge_sort };
 
-use common::prime::{ Prime };
+use common::prime;
 use common::calc::{ num_to_digits };
 use common::problem::{ Problem };
 
@@ -15,8 +15,7 @@ pub static problem: Problem<'static> = Problem {
 fn solve() -> ~str {
     let d = 3330;
 
-    let mut ps = Prime::new();
-    for ps.each_borrow |p1, ps| {
+    for prime::each |p1| {
         if p1 < 1000 { loop; }
         if p1 > 9999 - 2 * d { fail!(); }
         if p1 == 1487 { loop; }
@@ -31,8 +30,8 @@ fn solve() -> ~str {
             loop;
         }
 
-        if !ps.is_prime(p2) { loop; }
-        if !ps.is_prime(p3) { loop; }
+        if !prime::contains(p2) { loop; }
+        if !prime::contains(p3) { loop; }
         return fmt!("%u%u%u", p1, p2, p3);
     }
 

@@ -1,6 +1,6 @@
 use core::hashmap::{ HashSet };
 
-use common::prime::{ Prime };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -15,14 +15,13 @@ fn solve() -> ~str {
     let mut cnt = 0u;
     let mut set = HashSet::with_capacity(2000000);
 
-    let mut ps = Prime::new();
-    for ps.each_borrow |p, ps| {
+    for prime::each |p| {
         let p4 = p * p * p * p;
         if p4 >= limit { break; }
-        for ps.each_borrow |q, ps| {
+        for prime::each |q| {
             let q3 = q * q * q;
             if p4 + q3 >= limit { break; }
-            for ps.each |r| {
+            for prime::each |r| {
                 let r2 = r * r;
                 let s = p4 + q3 + r2;
                 if s >= limit { break; }

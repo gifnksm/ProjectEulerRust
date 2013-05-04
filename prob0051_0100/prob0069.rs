@@ -1,4 +1,4 @@
-use common::prime::{ Prime };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -10,10 +10,9 @@ pub static problem: Problem<'static> = Problem {
 fn solve() -> ~str {
     let limit = 1000000;
 
-    let mut ps = Prime::new();
     let mut n   = 1;
     let mut val = 1f;
-    for ps.each |p| {
+    for prime::each |p| {
         if n * p > limit { break; }
         n   *= p;
         val *= (p as float) * (p as float - 1f);

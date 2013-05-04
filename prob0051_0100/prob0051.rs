@@ -1,6 +1,6 @@
 use core::util::{ unreachable };
 
-use common::prime::{ Prime };
+use common::prime;
 use common::calc::{ num_to_digits, digits_to_num, digit_histogram };
 use common::problem::{ Problem };
 
@@ -13,8 +13,7 @@ pub static problem: Problem<'static> = Problem {
 fn solve() -> ~str {
     let num_family = 8;
 
-    let mut ps = Prime::new();
-    for ps.each_borrow |p, ps| {
+    for prime::each |p| {
         let ds = num_to_digits(p, 10);
         let hs = digit_histogram(p);
         for hs.eachi |i, &cnt| {
@@ -28,7 +27,7 @@ fn solve() -> ~str {
             let mut cnt = 1;
             for uint::range(i + 1, 10) |j| {
                 let buf = ds.map(|&d| if d == i { j } else { d });
-                if ps.is_prime(digits_to_num(buf, 10)) {
+                if prime::contains(digits_to_num(buf, 10)) {
                     cnt += 1;
                 }
             }

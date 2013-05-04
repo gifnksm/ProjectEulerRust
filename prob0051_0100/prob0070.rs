@@ -1,4 +1,4 @@
-use common::prime::{ Prime };
+use common::prime;
 use common::calc::{ digit_histogram };
 use common::problem::{ Problem };
 
@@ -18,12 +18,11 @@ fn solve() -> ~str {
     // phi(p) = p - 1 (if p is prime) => phi(p) is not permutation of p
     // phi(p1 * p2) = (p1 - 1) * (p2 - 1)
 
-    let mut ps = Prime::new();
     let mut min_n   = 0;
     let mut min_n_phi = float::infinity;
-    for ps.each_borrow |p1, ps| {
+    for prime::each |p1| {
         if p1 * p1 > limit { break; }
-        for ps.each |p2| {
+        for prime::each |p2| {
             if p2 < p1 { loop; }
 
             let n = p1 * p2;

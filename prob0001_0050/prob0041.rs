@@ -1,7 +1,7 @@
-use core::util::{ unreachable };
+use core::util;
 
 use common::calc::{ permutate_num };
-use common::prime::{ Prime };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -11,12 +11,9 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut ps = Prime::new();
     for permutate_num(&[7, 6, 5, 4, 3, 2, 1], 7, 0, 9999999) |num, _rest| {
-        if ps.is_prime(num) {
-            return num.to_str();
-        }
+        if prime::contains(num) { return num.to_str(); }
     }
 
-    unreachable();
+    util::unreachable();
 }

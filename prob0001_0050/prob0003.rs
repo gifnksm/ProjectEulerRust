@@ -1,7 +1,7 @@
 use core::iterator::{ IteratorUtil };
 
 use common::extiter::{ OrderedIterator };
-use common::prime::{ Prime };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -13,8 +13,7 @@ pub static problem: Problem<'static> = Problem {
 fn solve() -> ~str {
     let num = 600851475143;
 
-    let mut ps = Prime::new();
-    return ps.factorize(num)
+    return prime::factorize(num)
         .transform(|(base, _exp)| base)
         .max()
         .to_str();

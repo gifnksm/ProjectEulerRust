@@ -1,7 +1,7 @@
-use core::util::{ unreachable };
+use core::util;
 use core::hashmap::{ HashMap };
 
-use common::prime::{ Prime };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -39,23 +39,20 @@ fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[
     return result;
 }
 
-fn each_pair_set(
-    ps: &mut Prime, map: &mut HashMap<uint, ~[uint]>,
-    f: &fn(&[uint]) -> bool
-) {
-    for ps.each_borrow |n, ps| {
+fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) {
+    for prime::each |n| {
         let mut pairs = ~[];
 
         let n_str = n.to_str();
-        for ps.each_borrow |m, ps| {
+        for prime::each |m| {
             if m > n { break; }
             let m_str = m.to_str();
 
             let nm = uint::from_str(n_str + m_str).get();
-            if !ps.is_prime(nm) { loop; }
+            if !prime::contains(nm) { loop; }
 
             let mn = uint::from_str(m_str + n_str).get();
-            if !ps.is_prime(mn) { loop; }
+            if !prime::contains(mn) { loop; }
 
             pairs.push(m);
         }
@@ -69,15 +66,14 @@ fn each_pair_set(
 }
 
 fn solve() -> ~str {
-    let mut ps  = Prime::new();
     let mut map = HashMap::new::<uint, ~[uint]>();
 
-    for each_pair_set(&mut ps, &mut map) |set| {
+    for each_pair_set(&mut map) |set| {
         if set.len() >= 5 {
             return set.foldl(0u, |s, &n| s + n).to_str();
         }
     }
 
-    unreachable();
+    util::unreachable();
 }
 

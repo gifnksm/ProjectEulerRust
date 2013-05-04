@@ -1,6 +1,6 @@
 use core::iterator::{ IteratorUtil };
 
-use common::prime::{ Prime, factors_to_uint };
+use common::prime;
 use common::monoid::{ Max, MergeMultiMonoidIterator, Wrap };
 use common::problem::{ Problem };
 
@@ -11,11 +11,9 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut ps = Prime::new();
-
-    let fs = do vec::from_fn(20) |i| { ps.factorize(i + 1) };
+    let fs = do vec::from_fn(20) |i| { prime::factorize(i + 1) };
     let it = MergeMultiMonoidIterator::new(
         fs.map(|&x| x.transform(|(base, exp)| (base, Max(exp))))
     ).transform(|(base, m)| (base, m.unwrap()));
-    return factors_to_uint(it).to_str();
+    return prime::factors_to_uint(it).to_str();
 }

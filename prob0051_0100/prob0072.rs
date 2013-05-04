@@ -1,4 +1,4 @@
-use common::prime::{ Prime };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -13,8 +13,7 @@ fn solve() -> ~str {
     let mut v = vec::from_fn(limit + 1, |n| n);
     v[1] = 0;
 
-    let mut ps = Prime::new();
-    for ps.each |p| {
+    for prime::each |p| {
         if p > limit { break; }
         for uint::range_step(p, limit + 1, p as int) |n| {
             v[n] = v[n] * (p - 1) / p;

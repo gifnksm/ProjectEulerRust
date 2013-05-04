@@ -1,4 +1,6 @@
-use common::prime::{ Prime };
+use core::iterator::{ IteratorUtil };
+
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -7,17 +9,13 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn get_longer(p: uint, min_len: uint, ps: &mut Prime) -> Option<uint> {
-    fn get_prime(n: int, ps: &mut Prime)-> uint {
-        if n < 0 { 0 } else { ps.get_at(n as uint) }
-    }
-
+fn get_longer(p: uint, min_len: uint) -> Option<uint> {
     let max_avg = if min_len == 0 { p } else { p / min_len };
 
     let mut start_idx = 0;
     let mut end_idx   = 0;
-    let mut start     = ps.get_at(0);
-    let mut sum       = ps.get_at(0);
+    let mut start     = prime::nth(0);
+    let mut sum       = prime::nth(0);
     loop {
         let len = (end_idx - start_idx + 1) as uint;
         if sum / len > max_avg { return None; }
@@ -31,14 +29,18 @@ fn get_longer(p: uint, min_len: uint, ps: &mut Prime) -> Option<uint> {
 
         if sum < p {
             end_idx += 1;
-            sum += get_prime(end_idx, ps);
+            if end_idx >= 0 { sum += prime::nth(end_idx as uint); }
             loop;
         }
 
         if sum > p {
             sum -= start;
             start_idx += 1;
-            start = get_prime(start_idx, ps);
+            if start_idx < 0 {
+                start = 0;
+            } else {
+                start = prime::nth(start_idx as uint)
+            }
             loop;
         }
     }
@@ -46,22 +48,19 @@ fn get_longer(p: uint, min_len: uint, ps: &mut Prime) -> Option<uint> {
 
 fn solve() -> ~str {
     let limit = 1000000;
-    let mut ps = Prime::new();
+
+    let mut it = prime::iter().take_while(|&p| p <= limit);
 
     let mut len = 0;
     let mut num = 0;
-    let mut i = 0;
-    loop {
-        let p = ps.get_at(i);
-        if p > limit { break; }
-        match get_longer(p, len, &mut ps) {
+    for it.advance |p| {
+        match get_longer(p, len) {
             Some(l) => {
                 len = l;
                 num = p;
             }
             None => {}
         }
-        i += 1;
     }
     return num.to_str();
 }

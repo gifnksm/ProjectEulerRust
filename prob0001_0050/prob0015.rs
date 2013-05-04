@@ -1,4 +1,4 @@
-use common::prime::{ Prime, comb };
+use common::prime;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -8,6 +8,5 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut primes = Prime::new();
-    return comb(40, 20, &mut primes).to_str();
+    return prime::comb(40, 20).to_str();
 }

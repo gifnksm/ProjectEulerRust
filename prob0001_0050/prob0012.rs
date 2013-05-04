@@ -1,6 +1,6 @@
 use core::iterator::{ IteratorUtil };
 
-use common::prime::{ Prime, num_of_divisors };
+use common::prime;
 use common::extiter::{ Triangle, ExtIteratorUtil };
 use common::problem::{ Problem };
 
@@ -11,8 +11,7 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    let mut ps = Prime::new();
     return Triangle::new()
-        .skip_while(|&t| num_of_divisors(t, &mut ps) <= 500)
+        .skip_while(|&t| prime::num_of_divisors(t) <= 500)
         .nth(0).to_str();
 }
