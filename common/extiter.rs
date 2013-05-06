@@ -172,6 +172,9 @@ pub trait ExtIteratorUtil<A> {
 
     fn max_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A;
     fn min_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A;
+
+    fn all(self, f: &fn(&A) -> bool) -> bool;
+    fn any(self, f: &fn(&A) -> bool) -> bool;
 }
 
 impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
@@ -265,6 +268,20 @@ impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
             }
         }
         return min_key;
+    }
+
+    #[inline(always)]
+    fn all(self, f: &fn(&A) -> bool) -> bool {
+        let mut it = self;
+        for it.advance |x| { if !f(&x) { return false; } }
+        return true;
+    }
+
+    #[inline(always)]
+    fn any(self, f: &fn(&A) -> bool) -> bool {
+        let mut it = self;
+        for it.advance |x| { if f(&x) { return true; } }
+        return false;
     }
 }
 
