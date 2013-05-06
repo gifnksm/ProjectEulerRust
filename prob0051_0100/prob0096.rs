@@ -10,18 +10,23 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-static WIDTH: uint = 9;
-static HEIGHT: uint = 9;
+static BOARD_WIDTH: uint = 9;
+static BOARD_HEIGHT: uint = 9;
+static GROUP_WIDTH: uint = 3;
+static GROUP_HEIGHT: uint = 3;
+static MAX_NUMBER: uint = 9;
+type BITS = u16;
+static MASK_ALL: BITS = 0x1ff;
 
 struct SuDoku {
     name: ~str,
-    map: [[u16, .. WIDTH], .. HEIGHT]
+    map: [[BITS, .. BOARD_WIDTH], .. BOARD_HEIGHT]
 }
 
 impl TotalEq for SuDoku {
     #[inline(always)]
     fn equals(&self, other: &SuDoku) -> bool {
-        self.name == other.name && Range::new(0, HEIGHT).all(|&y| self.map[y] == other.map[y])
+        self.name == other.name && Range::new(0, BOARD_HEIGHT).all(|&y| self.map[y] == other.map[y])
     }
 }
 
@@ -54,10 +59,8 @@ impl Clone for SuDoku {
     }
 }
 
-static MASK_ALL: u16 = 0x1ff;
-
 impl SuDoku {
-    fn get_num(&self, x: uint, y: uint) -> u16 {
+    fn get_num(&self, x: uint, y: uint) -> BITS {
         match self.map[y][x].population_count() {
             0 => -1,
             1 => self.map[y][x].trailing_zeros() + 1,
@@ -66,14 +69,14 @@ impl SuDoku {
     }
 
     fn to_str_debug(&self) -> ~str {
-        let row_strs = do vec::build_sized(HEIGHT) |push| {
-            for uint::range(0, HEIGHT) |y| {
-                let cell_strs = do vec::build_sized(WIDTH) |push| {
-                    for uint::range(0, WIDTH) |x| {
+        let row_strs = do vec::build_sized(BOARD_HEIGHT) |push| {
+            for uint::range(0, BOARD_HEIGHT) |y| {
+                let cell_strs = do vec::build_sized(BOARD_WIDTH) |push| {
+                    for uint::range(0, BOARD_WIDTH) |x| {
                         let s = self.map[y][x].to_str_radix(2);
                         push(str::replace(fmt!("%s:%s",
                                                self.get_num(x, y).to_str(),
-                                               str::repeat("0", 9 - s.len()) + s), "0", "_"));
+                                               str::repeat("0", MAX_NUMBER - s.len()) + s), "0", "_"));
                     }
                 };
                 push(str::connect(cell_strs, " "));
@@ -86,12 +89,12 @@ impl SuDoku {
 fn read_sudoku<T: Reader>(r: T) -> SuDoku {
     let mut sudoku = SuDoku {
         name: r.read_line(),
-        map: [[MASK_ALL, .. WIDTH], .. HEIGHT]
+        map: [[MASK_ALL, .. BOARD_WIDTH], .. BOARD_HEIGHT]
     };
 
-    for uint::range(0, HEIGHT) |y| {
+    for uint::range(0, BOARD_HEIGHT) |y| {
         let line = r.read_line();
-        for uint::range(0, WIDTH) |x| {
+        for uint::range(0, BOARD_WIDTH) |x| {
             let n = char::to_digit(line[x] as char, 10).get();
             if n != 0 { sudoku.map[y][x] = 1 << (n - 1); }
         }
@@ -100,50 +103,46 @@ fn read_sudoku<T: Reader>(r: T) -> SuDoku {
 }
 
 fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
-    let mut answers = ~[];
+    let group_it = Range::new(0, GROUP_WIDTH * GROUP_HEIGHT)
+        .transform(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH));
 
     loop {
         let bkup = puzzle.clone();
 
-        for uint::range(0, HEIGHT) |y| {
-            for uint::range(0, WIDTH) |x| {
+        for uint::range(0, BOARD_HEIGHT) |y| {
+            for uint::range(0, BOARD_WIDTH) |x| {
                 if puzzle.map[y][x].population_count() != 1 { loop; }
 
-                let bits = puzzle.map[y][x];
-                for uint::range(0, WIDTH) |x2| {
-                    if x2 != x { puzzle.map[y][x2] &= (!bits & MASK_ALL); }
-                }
-                for uint::range(0, HEIGHT) |y2| {
-                    if y2 != y { puzzle.map[y2][x] &= (!bits & MASK_ALL); }
-                }
-                let x0 = x / 3 * 3, y0 = y / 3 * 3;
-                for uint::range(x0, x0 + 3) |x2| {
-                    for uint::range(y0, y0 + 3) |y2| {
-                        if x2 != x && y2 != y { puzzle.map[y2][x2] &= (!bits & MASK_ALL); }
-                    }
-                }
+                let x0 = x / GROUP_WIDTH * GROUP_WIDTH, y0 = y / GROUP_HEIGHT * GROUP_HEIGHT;
+                let row = Range::new(0, BOARD_WIDTH).transform(|x| (x, y));
+                let col = Range::new(0, BOARD_HEIGHT).transform(|y| (x, y));
+                let grp = group_it.transform(|(dx, dy)| (x0 + dx, y0 + dy));
+
+                let mut it = row.chain(col).chain(grp).filter(|&pos: &(uint, uint)| pos != (x, y));
+                let mask = !puzzle.map[y][x] & MASK_ALL;
+                for it.advance |(x, y)| { puzzle.map[y][x] &= mask; }
             }
         }
 
-        for uint::range(0, 9) |n| {
+        for uint::range(0, MAX_NUMBER) |n| {
             let bit = 1 << n;
 
-            for uint::range(0, HEIGHT) |y| {
-                let it = Range::new(0, WIDTH).filter(|&x| puzzle.map[y][x] & bit != 0);
+            for uint::range(0, BOARD_HEIGHT) |y| {
+                let it = Range::new(0, BOARD_WIDTH).filter(|&x| puzzle.map[y][x] & bit != 0);
                 if it.count_elem() != 1 { loop; }
                 puzzle.map[y][it.first()] = bit;
             }
 
-            for uint::range(0, WIDTH) |x| {
-                let it = Range::new(0, HEIGHT).filter(|&y| puzzle.map[y][x] & bit != 0);
+            for uint::range(0, BOARD_WIDTH) |x| {
+                let it = Range::new(0, BOARD_HEIGHT).filter(|&y| puzzle.map[y][x] & bit != 0);
                 if it.count_elem() != 1 { loop; }
                 puzzle.map[it.first()][x] = bit;
             }
 
-            for uint::range_step(0, HEIGHT, 3) |y0| {
-                for uint::range_step(0, WIDTH, 3) |x0| {
-                    let it = Range::new(0u, 3 * 3)
-                        .transform(|i| (x0 + i % 3, y0 + i / 3))
+            for uint::range_step(0, BOARD_HEIGHT, GROUP_WIDTH as int) |y0| {
+                for uint::range_step(0, BOARD_WIDTH, GROUP_HEIGHT as int) |x0| {
+                    let it = group_it
+                        .transform(|(dx, dy)| (x0 + dx, y0 + dy))
                         .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
                     if it.count_elem() != 1 { loop; }
                     let (x, y) = it.first();
@@ -152,26 +151,28 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
             }
         }
 
-        if puzzle == bkup {
-            let it = Range::new(0, HEIGHT * WIDTH)
-                .transform(|i| (i % WIDTH, i / WIDTH))
-                .transform(|(x, y)| (x, y, puzzle.map[y][x].population_count()));
+        if puzzle == bkup { break; }
+    }
 
-            if it.any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
-            if it.all(|&(_x, _y, cnt)| cnt == 1) { answers.push(puzzle); break; }
+    let it = Range::new(0, BOARD_HEIGHT * BOARD_WIDTH)
+        .transform(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
+        .transform(|(x, y)| (x, y, puzzle.map[y][x].population_count()));
 
-            let (x, y, cnt) = it.filter(|&(_x, _y, cnt)| cnt > 1)
-                .min_as(|&(_x, _y, cnt)| cnt);
+    if it.any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
+    if it.all(|&(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
 
-            for uint::range(0, 9) |n| {
-                let bit = 1 << n;
-                if puzzle.map[y][x] & bit == 0 { loop; }
-                let mut p2 = puzzle.clone();
-                p2.map[y][x] = bit;
-                answers.push_all(solve_sudoku(p2));
-            }
-            break;
-        }
+    let (x, y, _cnt) = it
+        .filter(|&(_x, _y, cnt)| cnt > 1)
+        .min_as(|&(_x, _y, cnt)| cnt);
+
+    let mut answers = ~[];
+    for uint::range(0, MAX_NUMBER) |n| {
+        let bit = 1 << n;
+        if puzzle.map[y][x] & bit == 0 { loop; }
+        
+        let mut p2 = puzzle.clone();
+        p2.map[y][x] = bit;
+        answers.push_all(solve_sudoku(p2));
     }
 
     return answers;
