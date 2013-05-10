@@ -18,10 +18,9 @@ fn get_score(n: uint, s: &str) -> uint {
 
 fn solve() -> ~str {
     let result = io::read_whole_file_str(&Path("files/names.txt")).chain(|input| {
-        read_whole_word(input).map(|names| {
-            merge_sort(*names, |a, b| a < b)
-                .mapi(|i, s| get_score(i + 1, *s))
-        })
+        read_whole_word(input)
+            .map(|&names| names.map(|s| s.to_str()))
+            .map(|&names| merge_sort(names, |a, b| a < b).mapi(|i, &s| get_score(i + 1, s)))
     }).map(|scores| scores.iter().transform(|&x| x).sum());
 
     match result {

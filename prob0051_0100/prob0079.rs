@@ -62,7 +62,7 @@ impl<T: Hash + IterBytes + Eq + Copy> Relations<T> {
         let mut result = ~[];
         do self.top.pop(&prec).map |p| {
             for p.succ.each |&s| {
-                do self.top.find_mut(&s).map |y| {
+                do self.top.find_mut(&s).map |&y| {
                     y.num_prec -= 1;
                     if y.num_prec == 0 {
                         result.push(s);

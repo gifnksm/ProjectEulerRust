@@ -1,6 +1,6 @@
 use core::iterator::{ Iterator, IteratorUtil, Counter };
 use core::util;
-use core::task;
+use core::local_data;
 
 use common::extiter::{ Range, ExtIteratorUtil, MultiplicativeIterator };
 use common::calc::{ pow };
@@ -17,11 +17,11 @@ fn tls_prime_nums(_v: @~[uint]) {}
 fn get_task_prime() -> @mut ~[uint] {
     fn task_prime_key(_v: @@mut ~[uint]) {}
 
-    let r = unsafe { task::local_data::local_data_get(task_prime_key) };
+    let r = unsafe { local_data::local_data_get(task_prime_key) };
     let nums = match r {
         None => {
             let nums = @mut vec::from_slice(PRIMES_BELOW100);
-            unsafe { task::local_data::local_data_set(task_prime_key, @nums); }
+            unsafe { local_data::local_data_set(task_prime_key, @nums); }
             nums
         }
         Some(@nums) => nums

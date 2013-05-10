@@ -1,5 +1,3 @@
-use core::cmp::{ Ord, Eq };
-
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -22,25 +20,9 @@ fn get_pentagonal(i: uint) -> uint {
     return n * (3 * n - 1) / 2;
 }
 
-fn binary_search<T: Ord + Eq>(key: T, v: &[const T]) -> Option<uint> {
-    let mut imin = 0;
-    let mut imax = v.len();
-    while imax >= imin {
-        let imid = imin + (imax - imin) / 2;
-        if v[imid] < key {
-            imin = imid + 1;
-        } else if v[imid] > key {
-            imax = imid - 1;
-        } else {
-            return Some(imid);
-        }
-    }
-    return None;
-}
-
 fn is_pentagonal(n: uint, table: &[uint]) -> bool {
     if *table.last() < n { fail!() }
-    return binary_search(n, table).is_some();
+    return vec::bsearch_elem(table, &n).is_some();
 }
 
 fn solve() -> ~str {
