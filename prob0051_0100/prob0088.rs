@@ -7,22 +7,19 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn each_sum_product(start: uint, end: uint, f: &fn(uint, uint, uint) -> bool) {
-    for sub(start, end, 0, 1, 0) |sum, prod, len| {
-        if !f(sum, prod, len) { return; }
-    }
+fn each_sum_product(start: uint, end: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
+    return sub(start, end, 0, 1, 0, f);
 
     fn sub(start: uint, end: uint, sum: uint, prod: uint, len: uint,
-           f: &fn(uint, uint, uint) -> bool) {
+           f: &fn(uint, uint, uint) -> bool) -> bool {
         for uint::range(start, end / prod + 1) |n| {
             if len > 0 {
-                if !f(sum + n, prod * n, len + 1) { return; }
+                if !f(sum + n, prod * n, len + 1) { return false; }
             }
 
-            for sub(n, end, sum + n, prod * n, len + 1) |sum1, prod1, len1| {
-                if !f(sum1, prod1, len1) { return; }
-            }
+            if !sub(n, end, sum + n, prod * n, len + 1, f) { return false; }
         }
+        return true;
     }
 }
 

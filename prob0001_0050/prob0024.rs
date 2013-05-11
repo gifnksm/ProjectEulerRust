@@ -3,11 +3,11 @@ use core::cmp::{ Eq, Ord };
 use core::to_bytes::{ IterBytes };
 use core::hash::{ Hash };
 use core::hashmap::{ HashMap };
-use core::util::{ unreachable };
+use core::util;
 
-use std::sort::{ quick_sort };
+use std::sort;
 
-use common::calc::{ histogram, num_of_permutations, digits_to_num };
+use common::calc;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -21,38 +21,38 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &HashMap<K, uint>, n: uin
         return if n == 1 { Right(~[]) } else { Left(0) }
     }
 
-    let perm = num_of_permutations(hist);
+    let perm = calc::num_of_permutations(hist);
     if perm < n { return Left(perm); }
 
 
     let mut kv = ~[];
-    for hist.each |k, v| { kv.push((k, v)); }
-    quick_sort(kv, |a, b| a.first() <= b.first());
+    for hist.each |&k, &v| { kv.push((k, v)); }
+    sort::quick_sort(kv, |a, b| a.first() <= b.first());
 
     let mut idx = 0;
     for kv.eachi |i, &(k, v)| {
         let mut new_hist = HashMap::new();
-        for kv.slice(0, i).each |&(&k, &v)| {
+        for kv.slice(0, i).each |&(k, v)| {
             new_hist.insert(k, v);
         }
-        if *v > 1 {
-            new_hist.insert(*k, v - 1);
+        if v > 1 {
+            new_hist.insert(k, v - 1);
         }
-        for kv.slice(i + 1, kv.len()).each |&(&k, &v)| {
+        for kv.slice(i + 1, kv.len()).each |&(k, v)| {
             new_hist.insert(k, v);
         }
 
         match get_at(&new_hist, n - idx) {
             Left(cnt) => idx += cnt,
-            Right(ans) => return Right(~[*k] + ans)
+            Right(ans) => return Right(~[k] + ans)
         }
     }
 
-    unreachable();
+    util::unreachable();
 }
 
 fn solve() -> ~str {
-    let nums = histogram::<uint>(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    let nums = calc::histogram::<uint>(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
     let ds = either::unwrap_right(get_at(&nums, 1000000));
-    return digits_to_num(ds, 10).to_str();
+    return calc::digits_to_num(ds, 10).to_str();
 }

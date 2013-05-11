@@ -21,6 +21,6 @@ fn solve() -> ~str {
     }
 
     let mut cnt = 0u;
-    for v.each_val |phi| { cnt += phi; }
+    for v.each |&phi| { cnt += phi; }
     return cnt.to_str();
 }

@@ -32,17 +32,17 @@ fn solve() -> ~str {
     for vec::each_permutation([0u, 1u, 2u, 3u, 4u]) |idx| {
         for map[5].eachi |i, v5| {
             if i < 10 { loop; }
-            for v5.each_val |n5| {
+            for v5.each |&n5| {
                 if n5 < 10 { loop; }
-                for map[idx[0]][n5].each_val |n0| {
+                for map[idx[0]][n5].each |&n0| {
                     if n0 < 10 { loop; }
-                    for map[idx[1]][n0].each_val |n1| {
+                    for map[idx[1]][n0].each |&n1| {
                         if n1 < 10 { loop; }
-                        for map[idx[2]][n1].each_val |n2| {
+                        for map[idx[2]][n1].each |&n2| {
                             if n2 < 10 { loop; }
-                            for map[idx[3]][n2].each_val |n3| {
+                            for map[idx[3]][n2].each |&n3| {
                                 if n3 < 10 { loop; }
-                                for map[idx[4]][n3].each_val |n4| {
+                                for map[idx[4]][n3].each |&n4| {
                                     if n4 < 10 { loop; }
                                     if n4 == i {
                                         result.push(~[

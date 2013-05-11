@@ -22,14 +22,15 @@ fn to_palindromic(n: uint, dup_flag: bool) -> uint {
     }
 }
 
-fn dividable_pairs(num: uint, min: uint, max: uint, f: &fn(uint, uint) -> bool) {
+fn dividable_pairs(num: uint, min: uint, max: uint, f: &fn(uint, uint) -> bool) -> bool {
     let mut div = uint::max(uint::div_ceil(num, max), min);
     while div * div <= num && div <= max {
         if num % div == 0 {
-            if !f(div, num / div) { break; }
+            if !f(div, num / div) { return false; }
         }
         div += 1;
     }
+    return true;
 }
 
 fn solve() -> ~str {

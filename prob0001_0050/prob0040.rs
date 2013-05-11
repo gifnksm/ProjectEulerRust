@@ -66,13 +66,13 @@ impl IdxValueMap {
         });
     }
 
-    priv fn each_area(&mut self, f: &fn(Area) -> bool) {
+    priv fn each_area(&mut self, f: &fn(Area) -> bool) -> bool {
         for uint::range(0, self.area.len()) |i| {
-            if !f(self.area[i]) { return; }
+            if !f(self.area[i]) { return false; }
         }
         loop {
             self.extend();
-            if !f(*self.area.last()) { return; }
+            if !f(*self.area.last()) { return false; }
         }
     }
 

@@ -26,7 +26,7 @@ fn solve() -> ~str {
         for it.advance() |t| { is_tri[t] = true; }
 
         let mut cnt = 0u;
-        for values.each_val |v| { if is_tri[v] { cnt += 1; } }
+        for values.each |&v| { if is_tri[v] { cnt += 1; } }
         cnt
     });
     match result {

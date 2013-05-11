@@ -62,14 +62,15 @@ priv fn grow(nums: &mut ~[uint], len: uint) {
 pub fn iter() -> PrimeIterator { PrimeIterator::new() }
 
 #[inline(always)]
-pub fn each(f: &fn(uint) -> bool) {
+pub fn each(f: &fn(uint) -> bool) -> bool {
     let nums = get_task_prime();
 
     let mut it = Counter::new::<uint>(0, 1);
     for it.advance |i| {
         grow(nums, i + 1);
-        if !f(nums[i]) { return; }
+        if !f(nums[i]) { return false; }
     }
+    return true;
 }
 
 #[inline(always)]

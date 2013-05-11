@@ -7,7 +7,7 @@ use core::util::{ swap };
 
 use common::arith::{ isqrt };
 
-pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) {
+pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     let n0 = if m % 2 == 0 { 1 } else { 2 };
     for uint::range_step(n0, m, 2) |n| {
         if m.gcd(&n) == 1 {
@@ -15,12 +15,13 @@ pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) {
             let b = 2 * m * n;
             let c = m * m + n * n;
             if a < b {
-                if !f(a, b, c) { return; }
+                if !f(a, b, c) { return false; }
             } else {
-                if !f(b, a, c) { return; }
+                if !f(b, a, c) { return false; }
             }
         }
     }
+    return true;
 }
 
 pub fn factorial(n: uint) -> uint {
@@ -80,34 +81,32 @@ pub fn digits_to_num(v: &[uint], radix: uint) -> uint {
     return num;
 }
 
-pub fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) {
-    if len == 0 {
-        f(~[], elems.to_vec());
-        return;
-    }
+pub fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> bool {
+    if len == 0 { return f(~[], elems.to_vec()); }
 
     for uint::range(0, elems.len() - len + 1) |i| {
         for combinate(elems.slice(i + 1, elems.len()), len - 1) |v, rest| {
-            if !f(~[elems[i]] + v, ~[] + elems.slice(0, i) + rest) { return; }
+            if !f(~[elems[i]] + v, ~[] + elems.slice(0, i) + rest) { return false; }
         }
     }
+
+    return true;
 }
 
-pub fn combinate_overlap<T: Copy>(elems: &[T], len: uint, f: &fn(&[T])->bool) {
-    if len == 0 {
-        f(~[]);
-        return;
-    }
+pub fn combinate_overlap<T: Copy>(elems: &[T], len: uint, f: &fn(&[T])->bool) -> bool {
+    if len == 0 { return f(~[]); }
 
     for uint::range(0, elems.len()) |i| {
         for combinate_overlap(elems.slice(i, elems.len()), len - 1) |v| {
-            if !f(~[elems[i]] + v) { return; }
+            if !f(~[elems[i]] + v) { return false; }
         }
     }
+
+    return true;
 }
 
 pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
-                      f: &fn(uint, &[uint])->bool) {
+                      f: &fn(uint, &[uint])->bool) -> bool {
     let min_vec = fill_zero(num_to_digits(min, 10), len);
     let max_vec = fill_zero(num_to_digits(max, 10), len);
     return perm_sub(digits, len, to_some(min_vec), to_some(max_vec), f);
@@ -122,11 +121,8 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
     fn perm_sub(digits: &[uint], len: uint,
                      min: Option<&[uint]>,
                      max: Option<&[uint]>,
-                     f: &fn(uint, &[uint])->bool) {
-        if len == 0 {
-            f(0, digits);
-            return;
-        }
+                     f: &fn(uint, &[uint])->bool) -> bool {
+        if len == 0 { return f(0, digits); }
 
         let unit = {
             let mut tmp = 1;
@@ -153,9 +149,11 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
             for uint::range(0, i)         |j| { buf[j] = digits[j]; }
             for uint::range(i, buf.len()) |j| { buf[j] = digits[j + 1]; }
             for perm_sub(buf, len - 1, min_vec, max_vec) |num, ds| {
-                if !f(num + n * unit, ds) { return; }
+                if !f(num + n * unit, ds) { return false; }
             }
         }
+
+        return true;
     }
 }
 
@@ -184,7 +182,7 @@ pub fn cont_frac_sqrt(n: uint) -> (uint, ~[uint]) {
     // b := ar - q
     // (p, q, r) := (rp / m, rb / m, (np^2 - b^2) / m)
     #[inline(always)]
-    fn each_a(n: uint, f: &fn(uint, (uint, uint, uint)) -> bool) {
+    fn each_a(n: uint, f: &fn(uint, (uint, uint, uint)) -> bool) -> bool {
         let sqn = isqrt(n);
         let mut (p, q, r) = (1, 0, 1);
         loop {
@@ -199,7 +197,7 @@ pub fn cont_frac_sqrt(n: uint) -> (uint, ~[uint]) {
                 q = q2 / m;
                 r = r2 / m;
             }
-            if !f(a, (p, q, r)) { break; }
+            if !f(a, (p, q, r)) { return false; }
         }
     }
 
@@ -249,7 +247,9 @@ pub fn solve_pel<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     }
 }
 
-pub fn each_pel<T: IntConvertible + Add<T, T> + Mul<T, T> + Copy>(d: uint, f: &fn(&T, &T)->bool) {
+pub fn each_pel<
+    T: IntConvertible + Add<T, T> + Mul<T, T> + Copy
+    >(d: uint, f: &fn(&T, &T)->bool) -> bool {
     let n = IntConvertible::from_int::<T>(d as int);
     let (x1, y1) = solve_pel(d);
     let mut (xk, yk) = (copy x1, copy y1);
@@ -257,7 +257,7 @@ pub fn each_pel<T: IntConvertible + Add<T, T> + Mul<T, T> + Copy>(d: uint, f: &f
         // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
         // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
         //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
-        if !f(&xk, &yk) { return; }
+        if !f(&xk, &yk) { return false; }
         let xk_1 = xk * x1 + n * yk * y1;
         let yk_1 = x1 * yk + xk * y1;
         xk = xk_1;

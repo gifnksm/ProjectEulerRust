@@ -227,7 +227,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 
         if min_idx.is_empty() { return None; }
         let mut result = None;
-        for min_idx.each_val |i| {
+        for min_idx.each |&i| {
             if result.is_none() {
                 util::swap(&mut self.values[i], &mut result);
             } else {
@@ -343,11 +343,10 @@ mod tests {
                                              f: &fn(int) -> M,
                                              result: &[(int, int)]) {
             let conv = |&(x, y): &(int, int)| (x, f(y));
-            let mut iters = ~[];
-            for vs.each |v| { iters.push(v.iter().transform(conv)); }
+            let iters = vec::from_fn(vs.len(), |i| vs[i].iter().transform(conv));
             for vec::each_permutation(iters) |it| {
                 assert_eq!(
-                    MergeMultiMonoidIterator::new(it.to_owned()).to_vec(),
+                    MergeMultiMonoidIterator::new(vec::from_slice(it)).to_vec(),
                     result.map(conv));
             }
         }

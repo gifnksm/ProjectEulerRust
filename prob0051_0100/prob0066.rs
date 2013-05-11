@@ -9,7 +9,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn each_d(f: &fn(uint) -> bool) {
+fn each_d(f: &fn(uint) -> bool) -> bool {
     let mut d      = 0;
     let mut sqrt   = 1;
     let mut square = 1;
@@ -21,7 +21,7 @@ fn each_d(f: &fn(uint) -> bool) {
             square = sqrt * sqrt;
             loop;
         }
-        if !f(d) { break; }
+        if !f(d) { return false; }
     }
 }
 

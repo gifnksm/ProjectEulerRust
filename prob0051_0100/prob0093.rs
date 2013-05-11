@@ -17,7 +17,7 @@ pub static problem: Problem<'static> = Problem {
 enum Op { Add, Sub, Mul, Div }
 
 #[inline(always)]
-fn each_numseq(f: &fn(&[Rational]) -> bool) {
+fn each_numseq(f: &fn(&[Rational]) -> bool) -> bool {
     for int::range(1, 10) |a| {
         let ra = Ratio::from_integer(a);
         for int::range(a + 1, 10) |b| {
@@ -26,49 +26,49 @@ fn each_numseq(f: &fn(&[Rational]) -> bool) {
                 let rc = Ratio::from_integer(c);
                 for int::range(c + 1, 10) |d| {
                     let rd = Ratio::from_integer(d);
-                    if !f(&[ra, rb, rc, rd]) { return; }
+                    if !f(&[ra, rb, rc, rd]) { return false; }
                 }
             }
         }
     }
+    return true;
 }
 
 #[inline(always)]
-fn each_opseq(f: &fn(&[Op]) -> bool) {
+fn each_opseq(f: &fn(&[Op]) -> bool) -> bool {
     let ops = ~[ Add, Sub, Mul, Div ];
     for uint::range(0, ops.len()) |i1| {
         for uint::range(0, ops.len()) |i2| {
             for uint::range(0, ops.len()) |i3| {
-                if !f(&[ops[i1], ops[i2], ops[i3]]) { return; }
+                if !f(&[ops[i1], ops[i2], ops[i3]]) { return false; }
             }
         }
     }
+    return true;
 }
 
-fn each_value(num: &[Rational], op: &[Op], f: &fn(n: Rational) -> bool) {
+fn each_value(num: &[Rational], op: &[Op], f: &fn(n: Rational) -> bool) -> bool {
     assert_eq!(num.len() - 1, op.len());
-    if num.len() == 1 {
-        !f(num[0]);
-        return;
-    }
+    if num.len() == 1 { return f(num[0]); }
 
     for combinate(num, 1) |v1, rest| {
         let a = v1[0];
         for each_value(rest, op.tailn(1)) |b| {
             match op[0] {
-                Add => { if !f(a + b) { return; } }
-                Mul => { if !f(a * b) { return; } }
+                Add => { if !f(a + b) { return false; } }
+                Mul => { if !f(a * b) { return false; } }
                 Sub => {
-                    if !f(a - b) { return; }
-                    if !f(b - a) { return; }
+                    if !f(a - b) { return false; }
+                    if !f(b - a) { return false; }
                 }
                 Div => {
-                    if !b.is_zero() && !f(a / b) { return; }
-                    if !a.is_zero() && !f(b / a) { return; }
+                    if !b.is_zero() && !f(a / b) { return false; }
+                    if !a.is_zero() && !f(b / a) { return false; }
                 }
             }
         }
     }
+    return true;
 }
 
 fn count_seqlen(nums: &[Rational]) -> uint {

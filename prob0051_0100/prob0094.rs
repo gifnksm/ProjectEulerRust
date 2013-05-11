@@ -35,24 +35,25 @@ pub static problem: Problem<'static> = Problem {
 // side length L := a + a + b = 6k+4, 6k+2
 // L <= 1000000000
 // k <= (100000000 - 4) / 6, (100000000 - 2) / 6
-fn each_ab(f: &fn(uint, uint) -> bool) {
+fn each_ab(f: &fn(uint, uint) -> bool) -> bool {
     for each_pel::<BigUint>(3) |x, _y| {
         match x.to_uint() % 3 {
             1 => {
                 let k = (x.to_uint() - 1) / 3;
                 let a = 2 * k + 1;
                 let b = a + 1;
-                if !f(a, b) { return; }
+                if !f(a, b) { return false; }
             }
             2 => {
                 let k = (x.to_uint() - 2) / 3;
                 let a = 2 * k + 1;
                 let b = a - 1;
-                if !f(a, b) { return; }
+                if !f(a, b) { return false; }
             }
             _ => fail!()
         }
     }
+    return true;
 }
 
 fn solve() -> ~str {

@@ -1,6 +1,6 @@
-use std::sort::{ quick_sort };
+use std::sort;
 
-use common::calc::{ combinate_overlap, num_to_digits, pow };
+use common::calc;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -18,14 +18,14 @@ pub static problem: Problem<'static> = Problem {
 // 1-6 digits numbers meet conditions
 fn solve() -> ~str {
     let len = 7;
-    let pows = vec::from_fn(10, |i| pow(i, 5));
+    let pows = vec::from_fn(10, |i| calc::pow(i, 5));
 
     let mut sum = 0;
-    for combinate_overlap(~[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], len) |comb| {
+    for calc::combinate_overlap(~[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], len) |comb| {
         let num = comb.foldl(0u, |a, &e| a + pows[e]);
 
-        let mut nums = num_to_digits(num, 10);
-        quick_sort(nums, |a, b| a < b);
+        let mut nums = calc::num_to_digits(num, 10);
+        sort::quick_sort(nums, |a, b| a < b);
 
         let zero_len = len - nums.len();
         if comb.tailn(zero_len) == nums &&

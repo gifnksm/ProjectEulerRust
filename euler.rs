@@ -16,12 +16,13 @@ priv static problem_sets: &'static [&'static [&'static Problem<'static>]] = &[
     prob0051_0100::problems
 ];
 
-priv fn each_problems(f: &fn(&Problem) -> bool) {
-    for problem_sets.each_val |ps| {
-        for ps.each_val |p| {
-            if !f(p) { return; }
+priv fn each_problems(f: &fn(&Problem) -> bool) -> bool {
+    for problem_sets.each |&ps| {
+        for ps.each |&p| {
+            if !f(p) { return false; }
         }
     }
+    return true;
 }
 
 priv static NSEC_PER_SEC: u64 = 1000000000;
@@ -55,7 +56,7 @@ fn main() {
             solve_cnt += 1;
         }
     } else {
-        for nums.each_val |n| {
+        for nums.each |&n| {
             for each_problems |p| {
                 if p.id == n {
                     total_time += solve(p);

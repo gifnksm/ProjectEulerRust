@@ -1,6 +1,6 @@
 use core::util;
 
-use common::calc::{ permutate_num };
+use common::calc;
 use common::prime;
 use common::problem::{ Problem };
 
@@ -11,7 +11,7 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn solve() -> ~str {
-    for permutate_num(&[7, 6, 5, 4, 3, 2, 1], 7, 0, 9999999) |num, _rest| {
+    for calc::permutate_num(&[7, 6, 5, 4, 3, 2, 1], 7, 0, 9999999) |num, _rest| {
         if prime::contains(num) { return num.to_str(); }
     }
 

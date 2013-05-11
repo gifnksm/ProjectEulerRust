@@ -1,4 +1,4 @@
-use core::to_bytes::{ IterBytes, Cb };
+use core::to_bytes::{ IterBytes };
 use core::hashmap::{ HashSet };
 
 use common::problem::{ Problem };
@@ -9,19 +9,8 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-#[deriving(Eq)]
+#[deriving(Eq, IterBytes)]
 struct Point { x: uint, y: uint }
-
-impl IterBytes for Point {
-    fn iter_bytes(&self, lsb0: bool, f: Cb) {
-        for self.x.iter_bytes(lsb0) |bytes| {
-            if !f(bytes) { return; }
-        }
-        for self.y.iter_bytes(lsb0) |bytes| {
-            if !f(bytes) { return; }
-        }
-    }
-}
 
 fn solve() -> ~str {
     let result = io::file_reader(&Path("files/matrix.txt")).map(|file| {

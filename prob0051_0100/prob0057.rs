@@ -21,11 +21,11 @@ pub static problem: Problem<'static> = Problem {
 //  n[i+1] = 2d[i] + n[i]
 //  d[i+1] = d[i] + n[i]
 
-fn each_frac(f: &fn(&BigUint, &BigUint) -> bool) {
+fn each_frac(f: &fn(&BigUint, &BigUint) -> bool) -> bool {
     let mut n = BigUint::from_uint(3);
     let mut d = BigUint::from_uint(2);
     loop {
-        if !f(&n, &d) { return; }
+        if !f(&n, &d) { return false; }
         let new_n = BigUint::from_uint(2) * d + n;
         let new_d = n + d;
         n = new_n;

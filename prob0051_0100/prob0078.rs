@@ -15,17 +15,17 @@ static million: int = 1000000;
 fn penta(n: int) -> int { n * (3 * n - 1) / 2 }
 
 #[inline(always)]
-fn each_penta(f: &fn(int) -> bool) {
+fn each_penta(f: &fn(int) -> bool) -> bool {
     let mut i = 1;
     loop {
-        if !f(penta(i)) { break; }
-        if !f(penta(-i)) { break; }
+        if !f(penta(i)) { return false; }
+        if !f(penta(-i)) { return false; }
         i += 1;
     }
 }
 
 #[inline(always)]
-fn each_way(f: &fn(int, int) -> bool) {
+fn each_way(f: &fn(int, int) -> bool) -> bool {
     let mut v = HashMap::new();
     v.insert(0, 1);
 
@@ -42,7 +42,7 @@ fn each_way(f: &fn(int, int) -> bool) {
             i += 1;
         }
 
-        if !f((n + million) % million, way) { return; }
+        if !f((n + million) % million, way) { return false; }
         v.insert(n, way);
         n += 1;
     }

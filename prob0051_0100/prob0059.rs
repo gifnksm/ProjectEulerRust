@@ -71,7 +71,7 @@ fn find_key(count: &[uint], ref_freq: &[float]) -> u8 {
 
 fn solve() -> ~str {
     let mut freq_dict = ~[0f, ..256];
-    for english_frequency.each_val |(c, f)| {
+    for english_frequency.each |&(c, f)| {
         freq_dict[c as u8] = f;
     }
 
