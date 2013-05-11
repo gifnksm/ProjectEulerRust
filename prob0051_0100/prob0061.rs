@@ -19,7 +19,7 @@ fn create_map(f: &fn(uint) -> uint) -> ~[~[uint]] {
 }
 
 fn solve() -> ~str {
-    let mut map = ~[
+    let map = ~[
         create_map(|n| n * (n + 1) / 2),
         create_map(|n| n * n),
         create_map(|n| n * (3 * n - 1) / 2),
@@ -63,7 +63,7 @@ fn solve() -> ~str {
         }
     }
 
-    let mut sum = result.foldl(0u, |s, vs| s + vs.foldl(0u, |s, &n| s + n));
+    let sum = result.foldl(0u, |s, vs| s + vs.foldl(0u, |s, &n| s + n));
     return sum.to_str();
 }
 

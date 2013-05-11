@@ -28,7 +28,7 @@ fn get_count(m: uint) -> uint {
 // cuboid: (a, b, c),  a <= b <= c <= M
 // => S = sqrt(c^2 + (a + b)^2)
 fn solve() -> ~str {
-    let mut limit_cnt = 1000000;
+    let limit_cnt = 1000000;
 
     let mut lim = 1;
     let mut cnt = get_count(lim);

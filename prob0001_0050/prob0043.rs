@@ -54,7 +54,7 @@ fn solve() -> ~str {
         let mut arr = ~[];
         let dm = tp.second_ref();
         for uint::range(0, 999 / 17) |n| {
-            let mut ds = fill_vec(num_to_digits(n * 17, 10), 3, 0);
+            let ds = fill_vec(num_to_digits(n * 17, 10), 3, 0);
             match dm.get_used(ds) {
                 None => loop,
                 Some(e) => arr.push((ds + *tp.first_ref(), e))
