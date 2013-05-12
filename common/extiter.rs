@@ -162,7 +162,6 @@ impl Iterator<uint> for Triangle {
 pub trait ExtIteratorUtil<A> {
     fn filter_map<'r, B>(self, f: &'r fn(A) -> Option<B>) -> FilterMapIterator<'r, A, B, Self>;
     fn windowed(self, n: uint) -> WindowedIterator<A, Self>;
-    fn chain2<U: Iterator<A>>(self, other: U) -> ChainIterator<Self, U>;
 
     fn to_vec(self) -> ~[A];
     fn count_elem(self) -> uint;
@@ -186,11 +185,6 @@ impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
     #[inline(always)]
     fn windowed(self, n: uint) -> WindowedIterator<A, T> {
         WindowedIterator { iter: self, n: n, vs: ~[] }
-    }
-
-    #[inline(always)]
-    fn chain2<U: Iterator<A>>(self, other: U) -> ChainIterator<T, U> {
-        ChainIterator { a: self, b: other, flag: false }
     }
 
     #[inline(always)]
@@ -326,28 +320,6 @@ impl<'self, A: Clone, T: Iterator<A>> Iterator<~[A]> for WindowedIterator<A, T> 
             }
         }
         return Some(self.vs.clone());
-    }
-}
-
-pub struct ChainIterator<T, U> {
-    priv a: T,
-    priv b: U,
-    priv flag: bool
-}
-
-impl<A, T: Iterator<A>, U: Iterator<A>> Iterator<A> for ChainIterator<T, U> {
-    #[inline]
-    fn next(&mut self) -> Option<A> {
-        if self.flag {
-            self.b.next()
-        } else {
-            match self.a.next() {
-                Some(x) => return Some(x),
-                _ => ()
-            }
-            self.flag = true;
-            self.b.next()
-        }
     }
 }
 
@@ -500,31 +472,6 @@ mod tests {
         let it  = Range::new(0, 10).filter_map(|x| if x.is_even() { Some(x*x) } else { None });
         let ans = ~[0*0, 2*2, 4*4, 6*6, 8*8];
         assert_eq!(it.to_vec(), ans);
-    }
-
-    #[test]
-    fn test_chain2() {
-        use core::iterator::{ Counter };
-
-        let xs = [0u, 1, 2, 3, 4, 5];
-        let ys = [30u, 40, 50, 60];
-        let expected = [0, 1, 2, 3, 4, 5, 30, 40, 50, 60];
-        let mut it = xs.iter().chain2(ys.iter());
-        let mut i = 0;
-        for it.advance |&x: &uint| {
-            assert_eq!(x, expected[i]);
-            i += 1;
-        }
-        assert_eq!(i, expected.len());
-
-        let ys = Counter::new(30u, 10).take(4);
-        let mut it = xs.iter().transform(|&x| x).chain2(ys);
-        let mut i = 0;
-        for it.advance |x: uint| {
-            assert_eq!(x, expected[i]);
-            i += 1;
-        }
-        assert_eq!(i, expected.len());
     }
 
     #[test]
