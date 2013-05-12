@@ -69,7 +69,7 @@ pub fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
         filled_idx -= 1;
         itr /= radix;
     }
-    return vec::from_slice(buf.slice(filled_idx, buf.len()));
+    return buf.slice(filled_idx, buf.len()).to_owned();
 }
 
 pub fn digits_to_num(v: &[uint], radix: uint) -> uint {

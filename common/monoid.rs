@@ -346,7 +346,7 @@ mod tests {
             let iters = vec::from_fn(vs.len(), |i| vs[i].iter().transform(conv));
             for vec::each_permutation(iters) |it| {
                 assert_eq!(
-                    MergeMultiMonoidIterator::new(vec::from_slice(it)).to_vec(),
+                    MergeMultiMonoidIterator::new(vec::to_owned(it)).to_vec(),
                     result.map(conv));
             }
         }

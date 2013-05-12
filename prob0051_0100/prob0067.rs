@@ -20,7 +20,7 @@ fn solve() -> ~str {
     }).map(|triangle| {
         let init = triangle.init();
         let last = triangle.last();
-        (do init.foldr(vec::from_slice(*last)) |elm, prev| {
+        (do init.foldr(last.to_owned()) |elm, prev| {
             do vec::from_fn(elm.len()) |i| {
                 elm[i] + uint::max(prev[i], prev[i + 1])
             }

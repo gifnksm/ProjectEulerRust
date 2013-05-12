@@ -20,7 +20,7 @@ fn get_task_prime() -> @mut ~[uint] {
     let r = unsafe { local_data::local_data_get(task_prime_key) };
     let nums = match r {
         None => {
-            let nums = @mut vec::from_slice(PRIMES_BELOW100);
+            let nums = @mut PRIMES_BELOW100.to_owned();
             unsafe { local_data::local_data_set(task_prime_key, @nums); }
             nums
         }
