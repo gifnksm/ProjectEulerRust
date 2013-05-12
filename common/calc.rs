@@ -238,6 +238,7 @@ pub fn fold_cont_frac<
     return (numer, denom);
 }
 
+/// solve pel equation x^2 - y^2 = 1
 pub fn solve_pel<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = cont_frac_sqrt(d);
     if an.len() % 2 == 0 {
@@ -247,6 +248,7 @@ pub fn solve_pel<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     }
 }
 
+/// each (x, y) sufficient x^2 - y^2 = 1
 pub fn each_pel<
     T: IntConvertible + Add<T, T> + Mul<T, T> + Copy
     >(d: uint, f: &fn(&T, &T)->bool) -> bool {
@@ -262,6 +264,37 @@ pub fn each_pel<
         let yk_1 = x1 * yk + xk * y1;
         xk = xk_1;
         yk = yk_1;
+    }
+}
+
+/// solve pel equation x^2 - y^2 = -1
+pub fn solve_pel_neg<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
+    let (a0, an) = cont_frac_sqrt(d);
+    if an.len() % 2 == 0 {
+        return fold_cont_frac::<T>(~[a0] + an + an.init());
+    } else {
+        return fold_cont_frac::<T>(~[a0] + an.init());
+    }
+}
+
+/// each (x, y) sufficient x^2 - y^2 = -1
+pub fn each_pel_neg<
+    T: IntConvertible + Add<T, T> + Mul<T, T> + Copy
+    >(d: uint, f: &fn(&T, &T)->bool) -> bool {
+    let n = IntConvertible::from_int::<T>(d as int);
+    let (x1, y1) = solve_pel_neg(d);
+    let mut (xk, yk) = (copy x1, copy y1);
+    let mut cnt = 0u;
+    loop {
+        // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
+        // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
+        //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
+        if cnt.is_even() && !f(&xk, &yk) { return false; }
+        let xk_1 = xk * x1 + n * yk * y1;
+        let yk_1 = x1 * yk + xk * y1;
+        xk = xk_1;
+        yk = yk_1;
+        cnt += 1;
     }
 }
 
