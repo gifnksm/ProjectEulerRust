@@ -26,9 +26,7 @@ fn solve() -> ~str {
     let one = One::one();
     let limit = FromStr::from_str("1000000000000").get();
     for calc::each_pel_neg::<BigUint>(2) |&x, &y| {
-        // BigUint::is_even is brokwn
-        // if x.is_even() || y.is_even() { loop; }
-        if (x >> 1) << 1 == x || (y >> 1) << 1 == y { loop; }
+        if x.is_even() || y.is_even() { loop; }
         let b = (y + one) >> 1;
         let s = (x + one) >> 1;
         if s > limit { return b.to_str(); }
