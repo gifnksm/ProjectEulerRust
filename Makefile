@@ -53,22 +53,18 @@ RUSTC_RELEASE_FLAGS=--opt-level 3
 
 debug:
 	make BINDIR=$(DEBUG_BINDIR) LIBDIR=$(DEBUG_LIBDIR) debug_bin
-
 release:
 	make BINDIR=$(RELEASE_BINDIR) LIBDIR=$(RELEASE_LIBDIR) release_bin
-
-test: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
-test: BINDIR=$(TEST_BINDIR)
-test: LIBDIR=$(TEST_LIBDIR)
 test:
 	make BINDIR=$(TEST_BINDIR) LIBDIR=$(TEST_LIBDIR) test_bin
-	@for exe in $(TEST); do echo "$$exe"; ./$$exe || exit 1; done
 
 debug_bin: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
 debug_bin: $(TARGET)
 release_bin: RUSTC_FLAGS+=$(RUSTC_RELEASE_FLAGS)
 release_bin: $(TARGET)
+test_bin: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
 test_bin: $(TEST)
+	@for exe in $(TEST); do echo "$$exe"; ./$$exe || exit 1; done
 
 $(TARGET): $(TARGETDEP)
 	rustc -o $@ $(RUSTC_FLAGS) $(TARGETSRC)
@@ -76,12 +72,14 @@ $(TARGETTEST): $(TARGETDEP)
 	rustc --test -o $@ $(RUSTC_FLAGS) $(TARGETSRC)
 
 $(COMMONLIB): $(COMMONDEP)
+	$(RM) $(patsubst %.so,%-*.so,$@)
 	rustc --lib --out-dir $(LIBDIR) $(RUSTC_FLAGS) $(COMMONSRC)
 	touch $@
 $(COMMONTEST): $(COMMONDEP)
 	rustc --test -o $@ $(RUSTC_FLAGS) $(COMMONSRC)
 
 $(LIBDIR)/libprob%.so: prob%.rs $(PROBDEP)
+	$(RM) $(patsubst %.so,%-*.so,$@)
 	rustc --lib --out-dir $(LIBDIR) $(RUSTC_FLAGS) $<
 	touch $@
 $(BINDIR)/prob%.test$(EXEEXT): prob%.rs $(PROBDEP)
