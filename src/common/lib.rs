@@ -13,3 +13,4 @@ pub mod monoid;
 pub mod reader;
 pub mod problem;
 pub mod card;
+pub mod poly;
