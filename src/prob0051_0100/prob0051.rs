@@ -1,5 +1,9 @@
-use core::util::{ unreachable };
+#[link(name = "prob0051", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::util::{ unreachable };
 use common::prime;
 use common::calc::{ num_to_digits, digits_to_num, digit_histogram };
 use common::problem::{ Problem };
@@ -10,7 +14,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let num_family = 8;
 
     for prime::each |p| {

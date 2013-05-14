@@ -1,5 +1,9 @@
-use core::hashmap::{ HashMap };
+#[link(name = "prob0039", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::hashmap::{ HashMap };
 use common::arith::{ isqrt };
 use common::problem::{ Problem };
 
@@ -9,7 +13,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     // a + b + c = 2m(m + n) <= L
     // 1 <= n <= L / 2m - m
     // if n == 1, a + b + c = 2m^2 + 2m <= L

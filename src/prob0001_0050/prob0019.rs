@@ -1,3 +1,8 @@
+#[link(name = "prob0019", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -42,7 +47,7 @@ fn append_day(y: uint, offset: uint, result: &mut [uint, ..7]) -> uint {
     return day;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut result = [0, ..7];
     let mut day = 1; // Monday
     day = (day + day_of_year(1900)) % 7;

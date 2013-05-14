@@ -1,3 +1,8 @@
+#[link(name = "prob0070", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::prime;
 use common::calc::{ digit_histogram };
 use common::problem::{ Problem };
@@ -8,7 +13,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 10000000;
 
     // n / phi(n) = 1 / \Pi_{k=1}^d (1 - 1/p_k)

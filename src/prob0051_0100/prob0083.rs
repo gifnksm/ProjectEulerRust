@@ -1,6 +1,10 @@
+#[link(name = "prob0083", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use core::to_bytes::{ IterBytes };
 use core::hashmap::{ HashSet };
-
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -12,7 +16,7 @@ pub static problem: Problem<'static> = Problem {
 #[deriving(Eq, IterBytes)]
 struct Point { x: uint, y: uint }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/matrix.txt")).map(|file| {
         let mut mat = ~[];
         for file.each_line |line| {

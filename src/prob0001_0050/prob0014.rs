@@ -1,5 +1,9 @@
-use core::hashmap::{ HashMap };
+#[link(name = "prob0014", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::hashmap::{ HashMap };
 use common::extiter::{ Range, ExtIteratorUtil };
 use common::problem::{ Problem };
 
@@ -24,7 +28,7 @@ fn get_len(map: &mut HashMap<uint, uint>, n: uint) -> uint {
     return x;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut map = HashMap::new();
     map.insert(1u, 1u);
 

@@ -1,3 +1,8 @@
+#[link(name = "prob0004", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -33,7 +38,7 @@ fn dividable_pairs(num: uint, min: uint, max: uint, f: &fn(uint, uint) -> bool) 
     return true;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     for [false, true].each |&dup_flag| {
         for uint::range_rev(999, 99) |seed| {
             let num = to_palindromic(seed, dup_flag);

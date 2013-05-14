@@ -5,7 +5,7 @@ use core::to_bytes::{ IterBytes };
 use core::hashmap::{ HashMap, HashSet };
 use core::util::{ swap };
 
-use common::arith::{ isqrt };
+use arith::{ isqrt };
 
 pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     let n0 = if m % 2 == 0 { 1 } else { 2 };

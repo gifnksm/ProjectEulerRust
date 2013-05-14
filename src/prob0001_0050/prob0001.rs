@@ -1,5 +1,9 @@
-use core::iterator::{ IteratorUtil };
+#[link(name = "prob0001", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::iterator::{ IteratorUtil };
 use common::extiter::{ Range };
 use common::extiter::{ AdditiveIterator };
 use common::problem::{ Problem };
@@ -10,7 +14,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     Range::new(0, 1000)
         .filter(|&n| n % 3 == 0 || n % 5 == 0)
         .sum()

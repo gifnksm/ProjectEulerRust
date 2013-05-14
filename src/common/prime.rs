@@ -2,9 +2,9 @@ use core::iterator::{ Iterator, IteratorUtil, Counter };
 use core::util;
 use core::local_data;
 
-use common::extiter::{ Range, ExtIteratorUtil, MultiplicativeIterator };
-use common::calc::{ pow };
-use common::monoid::{ Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap };
+use extiter::{ Range, ExtIteratorUtil, MultiplicativeIterator };
+use calc::{ pow };
+use monoid::{ Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap };
 
 static PRIMES_BELOW100: &'static [uint] = &[
     2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,

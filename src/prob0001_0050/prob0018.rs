@@ -1,3 +1,8 @@
+#[link(name = "prob0018", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -24,7 +29,7 @@ static triangle: &'static [&'static [uint]] = &[
     &[04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23]
 ];
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let init = triangle.init();
     let last = triangle.last();
     let answer = do init.foldr(last.to_vec()) |elm, mut total| {

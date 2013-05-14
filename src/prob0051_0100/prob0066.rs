@@ -1,5 +1,9 @@
-use std::bigint::{ BigUint };
+#[link(name = "prob0066", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod std;
+extern mod common;
+use std::bigint::{ BigUint };
 use common::calc::{ solve_pel };
 use common::problem::{ Problem };
 
@@ -25,7 +29,7 @@ fn each_d(f: &fn(uint) -> bool) -> bool {
     }
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut max_x   = BigUint::from_uint(0);
     let mut max_x_d = 0;
     for each_d |d| {

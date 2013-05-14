@@ -1,5 +1,9 @@
-use core::hashmap::{ HashSet };
+#[link(name = "prob0029", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::hashmap::{ HashSet };
 use common::extiter::{ ExtIteratorUtil };
 use common::prime;
 use common::problem::{ Problem };
@@ -10,7 +14,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut set = HashSet::new();
 
     for uint::range(2, 101) |a| {

@@ -1,5 +1,9 @@
-use core::iterator::{ IteratorUtil };
+#[link(name = "prob0002", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::iterator::{ IteratorUtil };
 use common::extiter::{ AdditiveIterator };
 use common::extiter::{ Fibonacci };
 use common::problem::{ Problem };
@@ -10,7 +14,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let max = 4000000;
     return Fibonacci::new::<uint>()
         .take_while(|&f| f < max)

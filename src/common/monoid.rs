@@ -247,7 +247,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 mod tests {
     use super::*;
     use core::iterator::{ IteratorUtil };
-    use common::extiter::{ ExtIteratorUtil };
+    use extiter::{ ExtIteratorUtil };
 
     #[test]
     fn test_mconcat() {

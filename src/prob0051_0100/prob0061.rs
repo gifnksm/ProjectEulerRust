@@ -1,3 +1,7 @@
+#[link(name = "prob0061", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -18,7 +22,7 @@ fn create_map(f: &fn(uint) -> uint) -> ~[~[uint]] {
     return result;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let map = ~[
         create_map(|n| n * (n + 1) / 2),
         create_map(|n| n * n),

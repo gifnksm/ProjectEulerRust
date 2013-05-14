@@ -1,3 +1,8 @@
+#[link(name = "prob0088", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use core::hashmap::{ HashSet };
 use common::problem::{ Problem };
 
@@ -23,7 +28,7 @@ fn each_sum_product(start: uint, end: uint, f: &fn(uint, uint, uint) -> bool) ->
     }
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 12000;
 
     let start = 2;

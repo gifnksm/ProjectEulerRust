@@ -1,6 +1,10 @@
+#[link(name = "prob0096", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use core::num::{ ToStrRadix };
 use core::iterator::{ IteratorUtil };
-
 use common::extiter::{ ExtIteratorUtil, Range };
 use common::problem::{ Problem };
 
@@ -178,7 +182,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
     return answers;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/sudoku.txt")).map(|&file| {
         let mut puzzles = ~[];
         while !file.eof() { puzzles.push(read_sudoku(file)); }

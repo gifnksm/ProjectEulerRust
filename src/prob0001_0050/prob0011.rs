@@ -1,3 +1,8 @@
+#[link(name = "prob0011", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use core::iterator::{ IteratorUtil };
 use common::extiter::{ ExtIteratorUtil, Area2DIterator, OrderedIterator, MultiplicativeIterator };
 use common::problem::{ Problem };
@@ -31,7 +36,7 @@ static input: &'static str = &"
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 ";
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let grid = {
         let mut result = ~[];
         for str::each_line(input.trim()) |line| {

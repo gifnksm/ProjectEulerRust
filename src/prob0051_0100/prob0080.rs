@@ -1,7 +1,11 @@
+#[link(name = "prob0080", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::num::{ Zero };
-
 use std::bigint::{ BigInt };
-
 use common::arith::{ isqrt };
 use common::problem::{ Problem };
 
@@ -33,7 +37,7 @@ fn sqrt_newton_raphson(n: uint, precision: uint) -> ~str {
     return ((n * x_1 * ds) >> shift).to_str();
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut total = 0;
     for uint::range(2, 101) |n| {
         let isqn = isqrt(n);

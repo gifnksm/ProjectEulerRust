@@ -1,3 +1,8 @@
+#[link(name = "prob0043", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::calc::{ num_to_digits, digits_to_num };
 use common::problem::{ Problem };
 
@@ -48,7 +53,7 @@ fn fill_vec<T: Copy>(v: ~[T], len: uint, init: T) -> ~[T] {
     return vec::from_elem(len - v.len(), init) + v;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut result: ~[(~[uint], DigitMap)] = ~[(~[], DigitMap())];
     result = do result.flat_map |tp| {
         let mut arr = ~[];

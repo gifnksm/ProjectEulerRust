@@ -1,3 +1,8 @@
+#[link(name = "prob0026", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::extiter::{ ExtIteratorUtil, Range };
 use common::problem::{ Problem };
 
@@ -23,7 +28,7 @@ fn get_cycle_len(n: uint) -> uint {
     }
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     return Range::new::<uint>(2, 1000)
         .max_as(|&n| get_cycle_len(n))
         .to_str();

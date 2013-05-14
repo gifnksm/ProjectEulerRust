@@ -1,6 +1,10 @@
+#[link(name = "prob0047", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use core::util;
 use core::iterator::{ Counter, IteratorUtil };
-
 use common::prime;
 use common::extiter::{ ExtIteratorUtil };
 use common::problem::{ Problem };
@@ -11,7 +15,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let len = 4;
     let num_factor = 4;
 

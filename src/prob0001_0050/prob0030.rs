@@ -1,5 +1,10 @@
-use std::sort;
+#[link(name = "prob0030", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod std;
+extern mod common;
+
+use std::sort;
 use common::calc;
 use common::problem::{ Problem };
 
@@ -16,7 +21,7 @@ pub static problem: Problem<'static> = Problem {
 // 9999999 => 9^5 * 7 = 413343
 
 // 1-6 digits numbers meet conditions
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let len = 7;
     let pows = vec::from_fn(10, |i| calc::pow(i, 5));
 

@@ -1,5 +1,9 @@
-use core::util;
+#[link(name = "prob0040", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::util;
 use common::calc::{ num_to_digits };
 use common::problem::{ Problem };
 
@@ -97,7 +101,7 @@ impl IdxValueMap {
 }
 
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut map = IdxValueMap();
     let idx = &[ 1, 10, 100, 1000, 10000, 100000, 1000000 ];
     let mut prod = 1;

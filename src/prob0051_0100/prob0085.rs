@@ -1,3 +1,8 @@
+#[link(name = "prob0085", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -29,7 +34,7 @@ fn min_idx(i_a: (uint, uint), i_b: (uint, uint), target: uint) -> (uint, uint) {
     return i_b;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let target = 2000000;
 
     let mut x = 1;

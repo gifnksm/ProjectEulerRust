@@ -1,3 +1,8 @@
+#[link(name = "prob0048", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -15,7 +20,7 @@ fn pow_mod(base: uint, exponent: uint, modulo: uint) -> uint {
     return acc;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let modulo  = 100_0000_0000;
     let mut sum = 0;
     for uint::range(1, 1000 + 1) |n| {

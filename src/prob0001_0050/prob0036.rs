@@ -1,3 +1,8 @@
+#[link(name = "prob0036", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::calc::{ num_to_digits };
 use common::problem::{ Problem };
 
@@ -26,7 +31,7 @@ fn to_palindromic(n: uint, radix: uint, is_odd: bool) -> uint{
     return num;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let order_array = &[ 1, 10, 100, 1000, 1000, 10000 ];
     let mut sum = 0;
     for uint::range(0, order_array.len() - 1) |i| {

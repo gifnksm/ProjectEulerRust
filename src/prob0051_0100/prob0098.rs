@@ -1,9 +1,13 @@
+#[link(name = "prob0098", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::iterator::{ IteratorUtil };
 use core::hashmap::{ HashMap };
 use core::util;
-
 use std::sort;
-
 use common::arith;
 use common::calc;
 use common::reader;
@@ -38,7 +42,7 @@ fn is_square(n: uint) -> bool {
     return (sq * sq == n);
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let result = io::read_whole_file_str(&Path("files/words.txt"))
         .chain(|input| {
             do reader::read_whole_word(input).map |words| {

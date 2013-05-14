@@ -1,5 +1,9 @@
-use core::from_str::{ FromStr };
+#[link(name = "prob0054", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::from_str::{ FromStr };
 use common::card::{ Card };
 use common::problem::{ Problem };
 
@@ -206,7 +210,7 @@ fn judge(p1_cards: &[Card, ..5], p2_cards: &[Card, ..5]) -> int {
     };
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let result = do io::file_reader(&Path("files/poker.txt")).map |file| {
         let mut p1_win = 0u;
         let mut p2_win = 0u;

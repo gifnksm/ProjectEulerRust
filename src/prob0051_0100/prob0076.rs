@@ -1,5 +1,9 @@
-use core::hashmap::{ HashMap };
+#[link(name = "prob0076", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::hashmap::{ HashMap };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -30,6 +34,6 @@ fn count_way(sum: uint) -> uint {
     }
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     return count_way(100).to_str();
 }

@@ -1,5 +1,10 @@
-use std::bigint::{ BigUint };
+#[link(name = "prob0057", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod std;
+extern mod common;
+
+use std::bigint::{ BigUint };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -33,7 +38,7 @@ fn each_frac(f: &fn(&BigUint, &BigUint) -> bool) -> bool {
     }
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut i = 0;
     let mut cnt = 0u;
     for each_frac |n, d| {

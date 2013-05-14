@@ -1,6 +1,10 @@
+#[link(name = "prob0077", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use core::iterator::{ Counter, IteratorUtil };
 use core::hashmap::{ HashMap };
-
 use common::extiter::{ ExtIteratorUtil };
 use common::prime;
 use common::problem::{ Problem };
@@ -46,7 +50,7 @@ fn count_way(sum: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     }
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut map = HashMap::new();
     return Counter::new::<uint>(1, 1)
         .skip_while(|&n| count_way(n, &mut map) <= 5000)

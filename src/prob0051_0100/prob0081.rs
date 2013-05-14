@@ -1,3 +1,8 @@
+#[link(name = "prob0081", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -6,7 +11,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/matrix.txt")).map(|file| {
         let mut mat = ~[];
         for file.each_line |line| {

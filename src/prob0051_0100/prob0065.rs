@@ -1,5 +1,10 @@
-use std::bigint::{ BigUint };
+#[link(name = "prob0065", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod std;
+extern mod common;
+
+use std::bigint::{ BigUint };
 use common::calc::{ fold_cont_frac };
 use common::problem::{ Problem };
 
@@ -17,7 +22,7 @@ fn napier_seq(i: uint) -> uint {
     }
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let len = 100;
 
     let napier = vec::from_fn(len, napier_seq);

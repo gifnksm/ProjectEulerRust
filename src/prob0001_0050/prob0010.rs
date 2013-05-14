@@ -1,5 +1,9 @@
-use core::iterator::{ IteratorUtil };
+#[link(name = "prob0010", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::iterator::{ IteratorUtil };
 use common::prime;
 use common::extiter::{ AdditiveIterator };
 use common::problem::{ Problem };
@@ -10,7 +14,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 2000000;
     return prime::iter()
         .take_while(|&p| p < limit)

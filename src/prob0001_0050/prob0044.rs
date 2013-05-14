@@ -1,3 +1,8 @@
+#[link(name = "prob0044", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -25,7 +30,7 @@ fn is_pentagonal(n: uint, table: &[uint]) -> bool {
     return vec::bsearch_elem(table, &n).is_some();
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let pentagonal_table = vec::from_fn(10000, get_pentagonal);
 
     let mut m = 0;

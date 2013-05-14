@@ -1,3 +1,8 @@
+#[link(name = "prob0037", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::calc::{ num_to_digits };
 use common::prime;
 use common::problem::{ Problem };
@@ -17,7 +22,7 @@ fn is_r2l(n: uint) -> bool {
     return true;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut l2r_mat = ~[ ~[ 2, 3, 5, 7 ] ];
     let mut order = 10;
 

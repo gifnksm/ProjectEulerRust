@@ -1,7 +1,11 @@
+#[link(name = "prob0097", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::num::{ One, Zero };
-
 use std::bigint::{ BigUint };
-
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -36,7 +40,7 @@ fn add_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
     (a + *b) % *unit
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let unit = BigUint::from_uint(100_0000_0000);
     return add_unit(
         &mul_unit(&BigUint::from_uint(28433),

@@ -1,5 +1,10 @@
-use std::bigint::{ BigUint };
+#[link(name = "prob0063", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod std;
+extern mod common;
+
+use std::bigint::{ BigUint };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -8,7 +13,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut cnt = 1u; // a == 1
     for uint::range(2, 10) |a_uint| {
         let a = BigUint::from_uint(a_uint);

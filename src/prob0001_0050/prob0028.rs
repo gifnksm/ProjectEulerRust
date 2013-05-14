@@ -1,3 +1,8 @@
+#[link(name = "prob0028", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -36,6 +41,6 @@ fn sum(n: uint) -> uint {
     (4 * n*n*n + 3 * n*n + 8 * n - 9) / 6
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     return sum(1001).to_str();
 }

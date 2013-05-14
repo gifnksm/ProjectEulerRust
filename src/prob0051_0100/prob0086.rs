@@ -1,4 +1,9 @@
-use common::calc::{ each_prim_pythagorean };
+#[link(name = "prob0086", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
+use common::calc;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -10,7 +15,7 @@ pub static problem: Problem<'static> = Problem {
 fn get_count(m: uint) -> uint {
     let mut cnt = 0u;
     for uint::range(0, m) |max_a| {
-        for each_prim_pythagorean(max_a) |p, q, _| {
+        for calc::each_prim_pythagorean(max_a) |p, q, _| {
             for uint::range(1, m / q + 1) |k| {
                 cnt += k * p / 2;
             }
@@ -27,7 +32,7 @@ fn get_count(m: uint) -> uint {
 
 // cuboid: (a, b, c),  a <= b <= c <= M
 // => S = sqrt(c^2 + (a + b)^2)
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit_cnt = 1000000;
 
     let mut lim = 1;

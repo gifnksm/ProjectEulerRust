@@ -1,5 +1,9 @@
-use core::iterator::{ IteratorUtil };
+#[link(name = "prob0008", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::iterator::{ IteratorUtil };
 use common::problem::{ Problem };
 use common::extiter::{ ExtIteratorUtil, OrderedIterator };
 
@@ -32,7 +36,7 @@ static input: &'static str = &"
 71636269561882670428252483600823257530420752963450
 ";
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let prod_len = 5;
     return input.char_iter()
         .filter_map(|c| char::to_digit(c, 10))

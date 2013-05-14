@@ -1,3 +1,8 @@
+#[link(name = "prob0075", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::arith::{ isqrt };
 use common::calc::{ each_prim_pythagorean };
 use common::problem::{ Problem };
@@ -8,7 +13,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 1500000;
     let mut v = vec::from_elem(limit + 1, 0);
     for uint::range(2, isqrt(limit / 2)) |m| {

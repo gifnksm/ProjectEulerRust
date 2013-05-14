@@ -1,5 +1,9 @@
-use core::iterator::{ IteratorUtil };
+#[link(name = "prob0021", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::iterator::{ IteratorUtil };
 use common::extiter::{ AdditiveIterator };
 use common::prime;
 use common::problem::{ Problem };
@@ -10,7 +14,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 10000;
 
     let sum_of_divs = vec::from_fn(limit, |n| prime::sum_of_proper_divisors(n));

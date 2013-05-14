@@ -1,3 +1,8 @@
+#[link(name = "prob0033", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -19,7 +24,7 @@ pub static problem: Problem<'static> = Problem {
 // A = 9BC / (10B - C)
 // C > B
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut prod_numer = 1;
     let mut prod_denom = 1;
 

@@ -1,5 +1,9 @@
-use core::hashmap::{ HashSet };
+#[link(name = "prob0087", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::hashmap::{ HashSet };
 use common::prime;
 use common::problem::{ Problem };
 
@@ -9,7 +13,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 50000000;
 
     let mut cnt = 0u;

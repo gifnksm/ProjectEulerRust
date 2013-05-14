@@ -1,3 +1,8 @@
+#[link(name = "prob0053", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -9,7 +14,7 @@ pub static problem: Problem<'static> = Problem {
 // nCr-1 = r/(n-r+1) nCr!
 // nCr = n/(n-r) n-1Cr
 // nC(r+1) = (n-r)/(r+1) nCr
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 1000000;
 
     let mut r = 0;

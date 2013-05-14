@@ -1,10 +1,14 @@
+#[link(name = "prob0093", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::num::{ Zero };
 use core::hashmap::{ HashSet };
 use core::iterator::{ Counter, IteratorUtil };
 use core::util::{ unreachable };
-
 use std::rational::{ Rational, Ratio };
-
 use common::calc::{ combinate, digits_to_num };
 use common::problem::{ Problem };
 
@@ -90,7 +94,7 @@ fn count_seqlen(nums: &[Rational]) -> uint {
     unreachable();
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut max_seq = ~"";
     let mut max_cnt = 0;
     for each_numseq |nums| {

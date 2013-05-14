@@ -1,7 +1,11 @@
+#[link(name = "prob0016", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::num::{ One };
-
 use std::bigint::{ BigInt };
-
 use common::extiter::{ AdditiveIterator, ExtIteratorUtil };
 use common::problem::{ Problem };
 
@@ -11,7 +15,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut i = One::one::<BigInt>();
     for 1000.times { i = i * BigInt::from_uint(2); }
     let s = i.to_str();

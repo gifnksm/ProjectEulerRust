@@ -1,7 +1,11 @@
+#[link(name = "prob0032", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::hashmap::{ HashSet };
-
 use std::sort::{ merge_sort };
-
 use common::calc::{ num_to_digits, permutate_num };
 use common::problem::{ Problem };
 
@@ -20,7 +24,7 @@ pub static problem: Problem<'static> = Problem {
 // 2 x 3 = 4 : OK
 // 3 x 3 = 3 : NG
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let digits = &[1, 2, 3, 4, 5, 6, 7, 8, 9];
     let mut answer = HashSet::new();
 

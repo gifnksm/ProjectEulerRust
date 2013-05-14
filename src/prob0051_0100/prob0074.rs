@@ -1,3 +1,8 @@
+#[link(name = "prob0074", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use core::hashmap::{ HashMap };
 use common::problem::{ Problem };
 
@@ -64,7 +69,7 @@ fn get_chain_len(
     return chain_len + loop_len;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 1000000;
     let factorial = {
         let mut val = [1, ..10];

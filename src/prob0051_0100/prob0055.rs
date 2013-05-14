@@ -1,6 +1,11 @@
+#[link(name = "prob0055", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::from_str::{ FromStr };
 use std::bigint::{ BigUint };
-
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -27,7 +32,7 @@ fn is_lychrel(n: uint) -> bool {
     return true;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut cnt = 0u;
     for uint::range(1, 10001) |n| {
         if is_lychrel(n) { cnt += 1; }

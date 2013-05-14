@@ -1,5 +1,9 @@
-use core::hashmap::{ HashMap, HashSet };
+#[link(name = "prob0079", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::hashmap::{ HashMap, HashSet };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -86,7 +90,7 @@ fn tsort<T: Hash + IterBytes + Eq + Copy>(rels: &mut Relations<T>) -> ~[T] {
 }
 
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/keylog.txt")).map(|file| {
         let mut rels = Relations::new();
         for file.each_line |line| {

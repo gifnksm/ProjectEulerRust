@@ -1,5 +1,9 @@
-use core::iterator::{ IteratorUtil };
+#[link(name = "prob0035", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::iterator::{ IteratorUtil };
 use common::prime;
 use common::extiter::{ ExtIteratorUtil };
 use common::calc::{ num_to_digits };
@@ -26,7 +30,7 @@ fn is_circular_prime(n: uint) -> bool {
     return true;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     return prime::iter()
         .take_while(|&p| p < 1000000)
         .filter(|&p| is_circular_prime(p))

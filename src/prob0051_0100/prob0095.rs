@@ -1,5 +1,9 @@
-use core::iterator::{ IteratorUtil };
+#[link(name = "prob0095", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::iterator::{ IteratorUtil };
 use common::extiter::{ Range, ExtIteratorUtil };
 use common::problem::{ Problem };
 
@@ -38,7 +42,7 @@ fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) ->
     }
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 1000000;
     let mut len_map = vec::from_elem(limit + 1, None);
     let mut div_map = vec::from_elem(limit + 1, 1);

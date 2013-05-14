@@ -1,3 +1,8 @@
+#[link(name = "prob0045", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -21,7 +26,7 @@ fn hexagonal(i: uint) -> uint {
     return n * (2 * n - 1);
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut n = 40755 + 1;
     let mut t_i = 0;
     let mut p_i = 0;

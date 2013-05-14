@@ -1,9 +1,13 @@
+#[link(name = "prob0100", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::from_str::{ FromStr };
 use core::util;
 use core::num::{ One };
-
 use std::bigint::{ BigUint };
-
 use common::calc;
 use common::problem::{ Problem };
 
@@ -22,7 +26,7 @@ pub static problem: Problem<'static> = Problem {
 // x^2 - 2y = -1
 // s = (x + 1) / 2
 // b = (y + 1) / 2
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let one = One::one();
     let limit = FromStr::from_str("1000000000000").get();
     for calc::each_pel_neg::<BigUint>(2) |&x, &y| {

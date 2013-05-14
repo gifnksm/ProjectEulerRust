@@ -1,3 +1,7 @@
+#[link(name = "prob0052", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
 use common::calc::{ digit_histogram };
 use common::problem::{ Problem };
 
@@ -7,7 +11,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut n = 0;
     let mut order = 0;
     let mut limit = 0;

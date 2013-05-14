@@ -1,3 +1,8 @@
+#[link(name = "prob0092", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -31,7 +36,7 @@ fn is_reach_89(n: uint, map: &mut [Option<bool>]) -> bool {
     return result;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 10000000;
     let mut cnt = 0u;
 

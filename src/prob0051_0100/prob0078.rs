@@ -1,6 +1,10 @@
+#[link(name = "prob0078", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use core::hashmap::{ HashMap };
 use core::util::{ unreachable };
-
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -48,7 +52,7 @@ fn each_way(f: &fn(int, int) -> bool) -> bool {
     }
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     for each_way |n, way| {
         if way % million == 0 {
             return n.to_str();

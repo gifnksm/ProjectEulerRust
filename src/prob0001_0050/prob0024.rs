@@ -1,12 +1,16 @@
+#[link(name = "prob0024", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::either::{ Either, Left, Right };
 use core::cmp::{ Eq, Ord };
 use core::to_bytes::{ IterBytes };
 use core::hash::{ Hash };
 use core::hashmap::{ HashMap };
 use core::util;
-
 use std::sort;
-
 use common::calc;
 use common::problem::{ Problem };
 
@@ -51,7 +55,7 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &HashMap<K, uint>, n: uin
     util::unreachable();
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let nums = calc::histogram::<uint>(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
     let ds = either::unwrap_right(get_at(&nums, 1000000));
     return calc::digits_to_num(ds, 10).to_str();

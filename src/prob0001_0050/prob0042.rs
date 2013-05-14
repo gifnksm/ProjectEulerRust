@@ -1,3 +1,8 @@
+#[link(name = "prob0042", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use core::iterator::{ IteratorUtil };
 use common::extiter::{ Triangle };
 use common::reader::{ read_whole_word };
@@ -17,7 +22,7 @@ fn word_value(word: &str) -> uint {
     return value;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let result = io::read_whole_file_str(&Path("files/words.txt")).chain(|input| {
         do read_whole_word(input).map |words| { words.map(|w| word_value(*w)) }
     }).map(|values| {

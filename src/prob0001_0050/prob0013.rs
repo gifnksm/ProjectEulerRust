@@ -1,3 +1,8 @@
+#[link(name = "prob0013", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -109,7 +114,7 @@ static input: &'static str = "
 53503534226472524250874054075591789781264330331690
 ";
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut sum = 0;
     for str::each_line(input.trim()) |line| {
         for uint::from_str(line.slice(0, 12)).each |&num| {

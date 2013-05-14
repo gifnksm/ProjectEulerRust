@@ -1,3 +1,8 @@
+#[link(name = "prob0031", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -17,7 +22,7 @@ fn count_ways(sum: uint, coins: &[uint]) -> uint {
     return ans;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let coins = [ 200, 100, 50, 20, 10, 5, 2, 1 ];
     return count_ways(200, coins).to_str();
 }

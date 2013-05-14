@@ -1,26 +1,14 @@
 extern mod std;
-priv use std::time::{ precise_time_ns };
+extern mod common;
 
+priv use std::time;
 priv use common::problem::{ Problem };
 
-#[path="./common/mod.rs"]
-mod common;
-
-#[path="./prob0001_0050/mod.rs"]
-mod prob0001_0050;
-#[path="./prob0051_0100/mod.rs"]
-mod prob0051_0100;
-
-priv static problem_sets: &'static [&'static [&'static Problem<'static>]] = &[
-    prob0001_0050::problems,
-    prob0051_0100::problems
-];
+priv mod problem;
 
 priv fn each_problems(f: &fn(&Problem) -> bool) -> bool {
-    for problem_sets.each |&ps| {
-        for ps.each |&p| {
-            if !f(p) { return false; }
-        }
+    for problem::problems.each |&p| {
+        if !f(p) { return false; }
     }
     return true;
 }
@@ -33,9 +21,9 @@ priv fn nanosec_to_str(nsec: u64) -> ~str {
 }
 
 priv fn solve(p: &Problem) -> u64 {
-    let start_time = precise_time_ns();
+    let start_time = time::precise_time_ns();
     let comp_answer = (p.solver)();
-    let calc_time   = precise_time_ns() - start_time;
+    let calc_time   = time::precise_time_ns() - start_time;
 
     io::println(fmt!("%-5u %-20s %s",
                      p.id, comp_answer, nanosec_to_str(calc_time)));

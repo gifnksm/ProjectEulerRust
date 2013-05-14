@@ -1,3 +1,8 @@
+#[link(name = "prob0069", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::prime;
 use common::problem::{ Problem };
 
@@ -7,7 +12,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 1000000;
 
     let mut n   = 1;

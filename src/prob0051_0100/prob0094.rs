@@ -1,5 +1,10 @@
-use std::bigint::{ BigUint };
+#[link(name = "prob0094", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod std;
+extern mod common;
+
+use std::bigint::{ BigUint };
 use common::calc::{ each_pel };
 use common::problem::{ Problem };
 
@@ -56,7 +61,7 @@ fn each_ab(f: &fn(uint, uint) -> bool) -> bool {
     return true;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 1000000000;
     let mut total = 0;
 

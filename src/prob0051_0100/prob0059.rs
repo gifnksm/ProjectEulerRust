@@ -1,3 +1,7 @@
+#[link(name = "prob0059", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -69,7 +73,7 @@ fn find_key(count: &[uint], ref_freq: &[float]) -> u8 {
     return min_key as u8;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut freq_dict = ~[0f, ..256];
     for english_frequency.each |&(c, f)| {
         freq_dict[c as u8] = f;

@@ -1,5 +1,10 @@
-use std::sort::{ quick_sort };
+#[link(name = "prob0084", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod std;
+extern mod common;
+
+use std::sort::{ quick_sort };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -222,7 +227,7 @@ fn get_trans(roll_map: &[(float, float)]) -> ~[~[float]] {
     //         mul_mat(trans_square, trans_doubles)));
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let trans = get_trans(create_roll_map(4));
     let mut vec = do create_mat(trans.len(), 1) |i, _j| {
         if i == 0 { 1f } else { 0f }

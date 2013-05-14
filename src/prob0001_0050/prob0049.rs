@@ -1,9 +1,13 @@
-use core::util::{ unreachable };
+#[link(name = "prob0049", vers = "0.0")];
+#[crate_type = "lib"];
 
-use std::sort::{ merge_sort };
+extern mod std;
+extern mod common;
 
+use core::util;
+use std::sort;
 use common::prime;
-use common::calc::{ num_to_digits };
+use common::calc;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -12,7 +16,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let d = 3330;
 
     for prime::each |p1| {
@@ -22,11 +26,11 @@ fn solve() -> ~str {
 
         let p2 = p1 + d;
         let p3 = p2 + d;
-        let sorted = merge_sort(num_to_digits(p1, 10), |a, b| a <= b);
-        if merge_sort(num_to_digits(p2, 10), |a, b| a <= b) != sorted {
+        let sorted = sort::merge_sort(calc::num_to_digits(p1, 10), |a, b| a <= b);
+        if sort::merge_sort(calc::num_to_digits(p2, 10), |a, b| a <= b) != sorted {
             loop;
         }
-        if merge_sort(num_to_digits(p3, 10), |a, b| a <= b) != sorted {
+        if sort::merge_sort(calc::num_to_digits(p3, 10), |a, b| a <= b) != sorted {
             loop;
         }
 
@@ -35,5 +39,5 @@ fn solve() -> ~str {
         return fmt!("%u%u%u", p1, p2, p3);
     }
 
-    unreachable();
+    util::unreachable();
 }

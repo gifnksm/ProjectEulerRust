@@ -3,19 +3,19 @@
 import sys, glob, os, re
 
 def main():
-    if len(sys.argv) != 2:
+    if len(sys.argv) < 2:
         print("invalid args", file=sys.stderr)
         print("Usage: %s dirname" % sys.argv[0], file=sys.stderr)
         sys.exit(1)
 
-    os.chdir(sys.argv[1])
-    mods = [ re.sub(r'\.rs$', r'', file) for file in glob.glob("prob*.rs") ]
+    mods = [ re.sub(r'.+/prob(\d+)\.rs$', r'prob\1', file)
+             for dir in sys.argv[1:] for file in glob.glob("%s/prob*.rs" % dir) ]
     mods.sort()
 
-    print("priv use common::problem::{ Problem };")
-    print("")
     for mod in mods:
-        print("pub mod %s;" % mod)
+        print("extern mod %s;" % mod)
+    print("")
+    print("priv use common::problem::{ Problem };")
     print("")
     print("pub static problems: &'static [&'static Problem<'static>] = &[")
     print(",\n".join(['    &' + mod + '::problem' for mod in mods]))

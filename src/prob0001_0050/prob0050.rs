@@ -1,5 +1,9 @@
-use core::iterator::{ IteratorUtil };
+#[link(name = "prob0050", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::iterator::{ IteratorUtil };
 use common::prime;
 use common::problem::{ Problem };
 
@@ -46,7 +50,7 @@ fn get_longer(p: uint, min_len: uint) -> Option<uint> {
     }
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let limit = 1000000;
 
     let mut it = prime::iter().take_while(|&p| p <= limit);

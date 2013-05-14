@@ -1,3 +1,8 @@
+#[link(name = "prob0034", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -6,7 +11,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut facts: [uint, ..10] = [ 0, ..10 ];
     facts[0] = 1;
     for uint::range(1, facts.len()) |i| {

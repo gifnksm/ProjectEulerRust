@@ -1,7 +1,11 @@
+#[link(name = "prob0062", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::hashmap::{ HashMap, HashSet };
-
 use std::sort::{ quick_sort3 };
-
 use common::calc::{ num_to_digits };
 use common::problem::{ Problem };
 
@@ -11,7 +15,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut map = HashMap::new::<~[uint], ~[uint]>();
     let mut set = HashSet::new::<uint>();
     let mut n     = 0;

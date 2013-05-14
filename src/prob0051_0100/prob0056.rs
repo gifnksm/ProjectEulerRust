@@ -1,6 +1,11 @@
+#[link(name = "prob0056", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod common;
+
 use core::num::{ Zero };
 use std::bigint::{ BigUint };
-
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -19,7 +24,7 @@ fn digit_sum(n: uint) -> uint {
     return sum;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let ten = BigUint::from_uint(1000000000);
 
     let mut max = 0u;

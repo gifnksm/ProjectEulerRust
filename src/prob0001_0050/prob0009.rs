@@ -1,5 +1,9 @@
-use core::util::{ unreachable };
+#[link(name = "prob0009", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::util::{ unreachable };
 use common::arith::{ isqrt };
 use common::problem::{ Problem };
 
@@ -22,7 +26,7 @@ fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     return true;
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     for each_pyrhagorean(1000) |a, b, c| {
         return (a * b * c).to_str();
     }

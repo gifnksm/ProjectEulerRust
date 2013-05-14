@@ -1,5 +1,9 @@
-use core::iterator::{ IteratorUtil };
+#[link(name = "prob0017", vers = "0.0")];
+#[crate_type = "lib"];
 
+extern mod common;
+
+use core::iterator::{ IteratorUtil };
 use common::extiter::{ Range, ExtIteratorUtil, AdditiveIterator };
 use common::problem::{ Problem };
 
@@ -84,7 +88,7 @@ fn to_word(n: uint) -> ~str {
     return ~"one thousand";
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     return Range::new::<uint>(1, 1001)
         .transform(to_word)
         .transform(|w| w.char_iter()

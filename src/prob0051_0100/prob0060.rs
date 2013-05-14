@@ -1,3 +1,8 @@
+#[link(name = "prob0060", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use core::util;
 use core::hashmap::{ HashMap };
 
@@ -66,7 +71,7 @@ fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> b
     util::unreachable();
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut map = HashMap::new::<uint, ~[uint]>();
 
     for each_pair_set(&mut map) |set| {

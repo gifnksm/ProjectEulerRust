@@ -1,4 +1,9 @@
-use common::calc::{ combinate };
+#[link(name = "prob0090", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
+use common::calc;
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -7,9 +12,9 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let mut all_combs = ~[];
-    for combinate(vec::from_fn(10, |i| i), 6) |mut cs, _| {
+    for calc::combinate(vec::from_fn(10, |i| i), 6) |mut cs, _| {
         match (cs.contains(&6), cs.contains(&9)) {
             (false, true)  => cs.push(6),
             (true,  false) => cs.push(9),

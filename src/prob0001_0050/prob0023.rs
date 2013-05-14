@@ -1,3 +1,8 @@
+#[link(name = "prob0023", vers = "0.0")];
+#[crate_type = "lib"];
+
+extern mod common;
+
 use common::prime;
 use common::problem::{ Problem };
 
@@ -12,7 +17,7 @@ fn is_abundant(n: uint) -> bool {
     prime::sum_of_proper_divisors(n) > n
 }
 
-fn solve() -> ~str {
+pub fn solve() -> ~str {
     let max_num = 28123;
 
     let abundant = do vec::build_sized(max_num + 1) |push| {
