@@ -1,9 +1,14 @@
 # ignore executable files
-euler
-euler.test
+bin/debug/*
+bin/release/*
+bin/test/*
+
+# ignore library files
+lib/debug/*
+lib/release/*
 
 # ignore auto generated module files
-prob*_*/mod.rs
+src/problem.rs
 
 # ignore attachment files
 files/*.txt
