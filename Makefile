@@ -13,13 +13,13 @@ else
 $(error Unknown OS $(OS) or UNAME $(UNAME))
 endif
 
-SRC=$(wildcard *.rs)
-PROBDIR=$(wildcard prob*_*)
+SRC=$(wildcard src/*.rs)
+PROBDIR=$(wildcard src/prob*_*)
 MODSRC=$(patsubst %,%/mod.rs,$(PROBDIR))
-DEPSRC=$(wildcard common/*.rs)
+DEPSRC=$(wildcard src/common/*.rs)
 
-TARGET=$(SRC:.rs=$(EXEEXT))
-TEST=$(SRC:.rs=.test$(EXEEXT))
+TARGET=$(patsubst src/%,bin/%,$(SRC:.rs=$(EXEEXT)))
+TEST=$(patsubst src/%,bin/%,$(SRC:.rs=.test$(EXEEXT)))
 
 RUSTC_FLAGS=
 RUSTC_DEBUG_FLAGS=
@@ -37,10 +37,10 @@ release: $(TARGET)
 parse: RUSTC_FLAGS+=$(RUSTC_PARSE_FLAGS)
 parse: $(TARGET)
 
-%$(EXEEXT): %.rs $(MODSRC) $(DEPSRC)
+bin/%$(EXEEXT): src/%.rs $(MODSRC) $(DEPSRC)
 	rustc $(RUSTC_FLAGS) $< -o $@
 
-%.test$(EXEEXT): %.rs $(MODSRC) $(DEPSRC)
+bin/%.test$(EXEEXT): src/%.rs $(MODSRC) $(DEPSRC)
 	rustc --test $< -o $@
 
 .SECONDEXPANSION:
