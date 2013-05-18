@@ -3,9 +3,8 @@
 
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
+use core::iterator::{ IteratorUtil, AdditiveIterator };
 use common::extiter::{ Range };
-use common::extiter::{ AdditiveIterator };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

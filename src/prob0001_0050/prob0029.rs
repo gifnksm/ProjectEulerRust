@@ -4,7 +4,7 @@
 extern mod common;
 
 use core::hashmap::{ HashSet };
-use common::extiter::{ ExtIteratorUtil };
+use core::iterator::{ IteratorUtil };
 use common::prime;
 use common::problem::{ Problem };
 

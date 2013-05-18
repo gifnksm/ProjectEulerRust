@@ -3,9 +3,9 @@
 
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
+use core::iterator::{ IteratorUtil, OrdIterator };
 use common::problem::{ Problem };
-use common::extiter::{ ExtIteratorUtil, OrderedIterator };
+use common::extiter::{ ExtIteratorUtil };
 
 pub static problem: Problem<'static> = Problem {
     id: 8,
@@ -43,5 +43,6 @@ pub fn solve() -> ~str {
         .windowed(prod_len)
         .transform(|win| win.foldl(1, |&p, &n| p * n))
         .max()
+        .get()
         .to_str();
 }

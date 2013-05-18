@@ -3,8 +3,7 @@
 
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
-use common::extiter::{ AdditiveIterator };
+use core::iterator::{ IteratorUtil, AdditiveIterator };
 use common::extiter::{ Fibonacci };
 use common::problem::{ Problem };
 

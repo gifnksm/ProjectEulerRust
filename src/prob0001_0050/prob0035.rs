@@ -5,7 +5,6 @@ extern mod common;
 
 use core::iterator::{ IteratorUtil };
 use common::prime;
-use common::extiter::{ ExtIteratorUtil };
 use common::calc::{ num_to_digits };
 use common::problem::{ Problem };
 
@@ -34,6 +33,6 @@ pub fn solve() -> ~str {
     return prime::iter()
         .take_while(|&p| p < 1000000)
         .filter(|&p| is_circular_prime(p))
-        .count_elem()
+        .count()
         .to_str();
 }

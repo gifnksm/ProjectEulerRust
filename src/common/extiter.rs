@@ -160,74 +160,16 @@ impl Iterator<uint> for Triangle {
 
 
 pub trait ExtIteratorUtil<A> {
-    fn filter_map<'r, B>(self, f: &'r fn(A) -> Option<B>) -> FilterMapIterator<'r, A, B, Self>;
     fn windowed(self, n: uint) -> WindowedIterator<A, Self>;
-
-    fn to_vec(self) -> ~[A];
-    fn count_elem(self) -> uint;
-    fn nth(self, n: uint) -> A;
-    fn first(self) -> A;
-    fn last(self) -> A;
 
     fn max_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A;
     fn min_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A;
-
-    fn all(self, f: &fn(&A) -> bool) -> bool;
-    fn any(self, f: &fn(&A) -> bool) -> bool;
 }
 
 impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
     #[inline(always)]
-    fn filter_map<'r, B>(self, f: &'r fn(A) -> Option<B>) -> FilterMapIterator<'r, A, B, T> {
-        FilterMapIterator { iter: self, f: f }
-    }
-
-    #[inline(always)]
     fn windowed(self, n: uint) -> WindowedIterator<A, T> {
         WindowedIterator { iter: self, n: n, vs: ~[] }
-    }
-
-    #[inline(always)]
-    fn to_vec(self) -> ~[A] {
-        let mut v = ~[];
-        let mut it = self;
-        for it.advance() |x| { v.push(x); }
-        return v;
-    }
-
-    #[inline(always)]
-    fn count_elem(self) -> uint {
-        let mut it = self;
-        let mut cnt = 0;
-        for it.advance |_| { cnt += 1; }
-        return cnt;
-    }
-
-    #[inline(always)]
-    fn nth(self, n: uint) -> A {
-        let mut i = n;
-        let mut it = self;
-        loop {
-            match it.next() {
-                Some(x) => { if i == 0 { return x; }}
-                None => { fail!("cannot get %uth element", n) }
-            }
-            i -= 1;
-        }
-    }
-
-    #[inline(always)]
-    fn first(self) -> A { self.nth(0) }
-
-    #[inline(always)]
-    fn last(self) -> A {
-        let mut it = self;
-        let mut elm = match it.next() {
-            Some(x) => x,
-            None    => fail!("last: empty iterator")
-        };
-        for it.advance |e| { elm = e; }
-        return elm;
     }
 
     #[inline(always)]
@@ -263,42 +205,6 @@ impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
         }
         return min_key;
     }
-
-    #[inline(always)]
-    fn all(self, f: &fn(&A) -> bool) -> bool {
-        let mut it = self;
-        for it.advance |x| { if !f(&x) { return false; } }
-        return true;
-    }
-
-    #[inline(always)]
-    fn any(self, f: &fn(&A) -> bool) -> bool {
-        let mut it = self;
-        for it.advance |x| { if f(&x) { return true; } }
-        return false;
-    }
-}
-
-pub struct FilterMapIterator<'self, A, B, T> {
-    priv iter: T,
-    priv f: &'self fn(A) -> Option<B>
-}
-
-impl<'self, A, B, T: Iterator<A>> Iterator<B> for FilterMapIterator<'self, A, B, T> {
-    #[inline]
-    fn next(&mut self) -> Option<B> {
-        loop {
-            match self.iter.next() {
-                None    => { return None; }
-                Some(a) => {
-                    match (self.f)(a) {
-                        Some(b) => { return Some(b); }
-                        None    => { loop; }
-                    }
-                }
-            }
-        }
-    }
 }
 
 pub struct WindowedIterator<A, T> {
@@ -320,88 +226,6 @@ impl<'self, A: Clone, T: Iterator<A>> Iterator<~[A]> for WindowedIterator<A, T> 
             }
         }
         return Some(self.vs.clone());
-    }
-}
-
-pub trait AdditiveIterator<A> {
-    fn sum(self) -> A;
-}
-
-impl<A: Add<A, A> + Zero, T: Iterator<A>> AdditiveIterator<A> for T {
-    #[inline(always)]
-    fn sum(self) -> A {
-        let mut sum = Zero::zero::<A>();
-        let mut it = self;
-        for it.advance |n| { sum = sum + n; }
-        return sum;
-    }
-}
-
-pub trait MultiplicativeIterator<A> {
-    fn prod(self) -> A;
-}
-
-impl<A: Mul<A, A> + One, T: Iterator<A>> MultiplicativeIterator<A> for T {
-    #[inline(always)]
-    fn prod(self) -> A {
-        let mut prod = One::one::<A>();
-        let mut it = self;
-        for it.advance |n| { prod = prod * n; }
-        return prod;
-    }
-}
-
-pub trait OrderedIterator<A> {
-    fn max(self) -> A;
-    fn min(self) -> A;
-
-    fn max_opt(self) -> Option<A>;
-    fn min_opt(self) -> Option<A>;
-}
-
-impl<A: TotalOrd, T: Iterator<A>> OrderedIterator<A> for T {
-    #[inline(always)]
-    fn max(self) -> A {
-        let mut it = self;
-        let mut max = match it.next() {
-            Some(x) => x,
-            None => fail!("cannot get maximum element of empty iterator")
-        };
-        for it.advance |x| { if x.cmp(&max) == Greater { max = x; }}
-        return max;
-    }
-
-    #[inline(always)]
-    fn min(self) -> A {
-        let mut it = self;
-        let mut min = match it.next() {
-            Some(x) => x,
-            None => fail!("cannot get minimum element of empty iterator")
-        };
-        for it.advance |x| { if x.cmp(&min) == Less { min = x; }}
-        return min;
-    }
-
-    #[inline(always)]
-    fn max_opt(self) -> Option<A> {
-        let mut it = self;
-        let mut max = match it.next() {
-            Some(x) => x,
-            None => { return None; }
-        };
-        for it.advance |x| { if x.cmp(&max) == Greater { max = x; }}
-        return Some(max);
-    }
-
-    #[inline(always)]
-    fn min_opt(self) -> Option<A> {
-        let mut it = self;
-        let mut min = match it.next() {
-            Some(x) => x,
-            None => { return None; }
-        };
-        for it.advance |x| { if x.cmp(&min) == Less { min = x; }}
-        return Some(min);
     }
 }
 
@@ -465,88 +289,5 @@ mod tests {
         let it = Triangle::new();
         let tri = ~[1u, 3, 6, 10, 15, 21];
         assert_eq!(it.take(tri.len()).to_vec(), tri);
-    }
-
-    #[test]
-    fn test_filter_map() {
-        let it  = Range::new(0, 10).filter_map(|x| if x.is_even() { Some(x*x) } else { None });
-        let ans = ~[0*0, 2*2, 4*4, 6*6, 8*8];
-        assert_eq!(it.to_vec(), ans);
-    }
-
-    #[test]
-    fn test_count_elem() {
-        assert_eq!(Range::new(0, 4).count_elem(), 4);
-        assert_eq!(Range::new(0, 10).count_elem(), 10);
-        assert_eq!(Range::new(10, 0).count_elem(), 0);
-    }
-
-    #[test]
-    fn tespt_nth() {
-        let v = &[0, 1, 2, 3, 4];
-        for uint::range(0, v.len()) |i| {
-            assert_eq!(v.iter().nth(i), &v[i]);
-        }
-    }
-
-    #[test]
-    #[should_fail]
-    fn test_nth_fail() {
-        let v = &[0, 1, 2, 3, 4];
-        v.iter().nth(5);
-    }
-
-    #[test]
-    fn test_max_as() {
-        let v = [3, 2, 1, -1];
-        assert_eq!(Range::new(0, 4).max_as(|&k| v[k]), 0);
-    }
-
-    #[test]
-    fn test_min_as() {
-        let v = [3, 2, 1, -1];
-        assert_eq!(Range::new(0, 4).min_as(|&k| v[k]), 3);
-    }
-
-
-    #[test]
-    fn test_sum() {
-        assert_eq!(Range::new(0, 4).sum(), 6);
-        assert_eq!(Range::new(0, 10).sum(), 45);
-        assert_eq!(Range::new(10, 0).sum(), 0);
-    }
-
-    #[test]
-    fn test_prod() {
-        assert_eq!(Range::new(0, 4).prod(), 0);
-        assert_eq!(Range::new(1, 5).prod(), 24);
-        assert_eq!(Range::new(10, 0).prod(), 1);
-    }
-
-    #[test]
-    fn test_max() {
-        assert_eq!(Range::new(0, 4).max(), 3);
-        assert_eq!(Range::new(0, 10).max(), 9);
-        let v = ~[0, 10, 9, 2, 3, 5];
-        assert_eq!(v.iter().transform(|v| *v).max(), 10);
-    }
-
-    #[test]
-    #[should_fail]
-    fn test_max_fail() {
-        Range::new(10, 0).max();
-    }
-
-    #[test]
-    fn test_min() {
-        assert_eq!(Range::new(0, 4).min(), 0);
-        assert_eq!(Range::new(0, 10).min(), 0);
-        let v = ~[0, 10, 9, 2, 3, 5];
-        assert_eq!(v.iter().transform(|v| *v).min(), 0);
-    }
-
-    #[test] #[should_fail]
-    fn test_min_fail() {
-        Range::new(10, 0).min();
     }
 }

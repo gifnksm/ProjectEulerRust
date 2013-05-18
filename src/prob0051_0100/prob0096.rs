@@ -132,23 +132,23 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
             let bit = 1 << n;
 
             for uint::range(0, BOARD_HEIGHT) |y| {
-                let it = Range::new(0, BOARD_WIDTH).filter(|&x| puzzle.map[y][x] & bit != 0);
-                if it.count_elem() != 1 { loop; }
+                let mut it = Range::new(0, BOARD_WIDTH).filter(|&x| puzzle.map[y][x] & bit != 0);
+                if (copy it).count() != 1 { loop; }
                 puzzle.map[y][it.first()] = bit;
             }
 
             for uint::range(0, BOARD_WIDTH) |x| {
-                let it = Range::new(0, BOARD_HEIGHT).filter(|&y| puzzle.map[y][x] & bit != 0);
-                if it.count_elem() != 1 { loop; }
+                let mut it = Range::new(0, BOARD_HEIGHT).filter(|&y| puzzle.map[y][x] & bit != 0);
+                if (copy it).count() != 1 { loop; }
                 puzzle.map[it.first()][x] = bit;
             }
 
             for uint::range_step(0, BOARD_HEIGHT, GROUP_WIDTH as int) |y0| {
                 for uint::range_step(0, BOARD_WIDTH, GROUP_HEIGHT as int) |x0| {
-                    let it = group_it
+                    let mut it = group_it
                         .transform(|(dx, dy)| (x0 + dx, y0 + dy))
                         .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
-                    if it.count_elem() != 1 { loop; }
+                    if (copy it).count() != 1 { loop; }
                     let (x, y) = it.first();
                     puzzle.map[y][x] = bit;
                 }
@@ -162,8 +162,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
         .transform(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
         .transform(|(x, y)| (x, y, puzzle.map[y][x].population_count()));
 
-    if it.any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
-    if it.all(|&(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
+    if (copy it).any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
+    if (copy it).all(|&(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
 
     let (x, y, _cnt) = it
         .filter(|&(_x, _y, cnt)| cnt > 1)

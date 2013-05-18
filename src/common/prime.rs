@@ -1,8 +1,8 @@
-use core::iterator::{ Iterator, IteratorUtil, Counter };
+use core::iterator::{ Iterator, IteratorUtil, Counter, MultiplicativeIterator };
 use core::util;
 use core::local_data;
 
-use extiter::{ Range, ExtIteratorUtil, MultiplicativeIterator };
+use extiter::{ Range };
 use calc::{ pow };
 use monoid::{ Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap };
 
@@ -201,7 +201,7 @@ pub fn num_of_divisors(n: uint) -> uint {
     if n == 0 { return 0; }
     return factorize(n)
         .transform(|(_base, exp)| (exp as uint) + 1)
-        .prod();
+        .product();
 }
 
 #[inline(always)]
@@ -215,7 +215,7 @@ pub fn sum_of_divisors(n: uint) -> uint {
     return factorize(n)
         .transform(|(base, exp)| {
             (pow(base, (exp as uint) + 1) - 1) / (base - 1)
-        }).prod();
+        }).product();
 }
 
 #[inline(always)]

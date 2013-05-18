@@ -4,14 +4,13 @@
 extern mod std;
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
+use core::iterator::{ IteratorUtil, OrdIterator };
 use core::hashmap::{ HashMap };
 use core::util;
 use std::sort;
 use common::arith;
 use common::calc;
 use common::reader;
-use common::extiter::{ OrderedIterator };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -121,7 +120,7 @@ pub fn solve() -> ~str {
                 }
 
                 if !nums.is_empty() {
-                    max = nums.iter().transform(|&x| x).max();
+                    max = nums.iter().transform(|&x| x).max().get();
                     break;
                 }
             }

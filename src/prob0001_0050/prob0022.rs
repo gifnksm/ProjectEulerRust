@@ -4,9 +4,8 @@
 extern mod std;
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
+use core::iterator::{ IteratorUtil, AdditiveIterator };
 use std::sort::{ merge_sort };
-use common::extiter::{ AdditiveIterator };
 use common::reader::{ read_whole_word };
 use common::problem::{ Problem };
 

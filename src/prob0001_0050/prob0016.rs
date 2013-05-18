@@ -5,8 +5,8 @@ extern mod std;
 extern mod common;
 
 use core::num::{ One };
+use core::iterator::{ AdditiveIterator, IteratorUtil };
 use std::bigint::{ BigInt };
-use common::extiter::{ AdditiveIterator, ExtIteratorUtil };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

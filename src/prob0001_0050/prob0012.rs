@@ -5,7 +5,7 @@ extern mod common;
 
 use core::iterator::{ IteratorUtil };
 use common::prime;
-use common::extiter::{ Triangle, ExtIteratorUtil };
+use common::extiter::{ Triangle };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

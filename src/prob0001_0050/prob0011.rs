@@ -3,8 +3,8 @@
 
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
-use common::extiter::{ ExtIteratorUtil, Area2DIterator, OrderedIterator, MultiplicativeIterator };
+use core::iterator::{ IteratorUtil, OrdIterator, MultiplicativeIterator };
+use common::extiter::{ ExtIteratorUtil, Area2DIterator };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -70,7 +70,7 @@ pub fn solve() -> ~str {
 
     return it.transform(|row: Area2DIterator| {
         row.windowed(prod_len)
-            .transform(|ns| ns.iter().transform(|&(x, y)| grid[y][x]).prod())
-            .max_opt().get_or_default(0)
-    }).max().to_str();
+            .transform(|ns| ns.iter().transform(|&(x, y)| grid[y][x]).product())
+            .max().get_or_default(0)
+    }).max().get().to_str();
 }

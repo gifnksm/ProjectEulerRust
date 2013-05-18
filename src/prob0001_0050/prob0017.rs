@@ -3,8 +3,8 @@
 
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
-use common::extiter::{ Range, ExtIteratorUtil, AdditiveIterator };
+use core::iterator::{ IteratorUtil, AdditiveIterator };
+use common::extiter::{ Range };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -93,7 +93,7 @@ pub fn solve() -> ~str {
         .transform(to_word)
         .transform(|w| w.char_iter()
                    .filter(|&c| c != '-' && c != ' ')
-                   .count_elem())
+                   .count())
         .sum()
         .to_str();
 }

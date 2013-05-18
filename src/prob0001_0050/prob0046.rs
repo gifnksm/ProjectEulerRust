@@ -4,7 +4,6 @@
 extern mod common;
 
 use core::iterator::{ Counter, IteratorUtil };
-use common::extiter::{ ExtIteratorUtil };
 use common::prime;
 use common::arith;
 use common::problem::{ Problem };

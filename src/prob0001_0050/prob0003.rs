@@ -3,8 +3,7 @@
 
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
-use common::extiter::{ OrderedIterator };
+use core::iterator::{ IteratorUtil, OrdIterator };
 use common::prime;
 use common::problem::{ Problem };
 
@@ -20,5 +19,6 @@ pub fn solve() -> ~str {
     return prime::factorize(num)
         .transform(|(base, _exp)| base)
         .max()
+        .get()
         .to_str();
 }

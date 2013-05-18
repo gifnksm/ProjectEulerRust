@@ -5,7 +5,6 @@ extern mod common;
 
 use core::iterator::{ Counter, IteratorUtil };
 use core::hashmap::{ HashMap };
-use common::extiter::{ ExtIteratorUtil };
 use common::prime;
 use common::problem::{ Problem };
 
