@@ -25,7 +25,7 @@ fn get_len(a: int, b: int) -> uint {
         .take_while(|&n| {
             let val = n * n + a * n + b;
             (val >= 0 && prime::contains(val as uint))
-        }).last() as uint;
+        }).last().get() as uint;
 }
 
 pub fn solve() -> ~str {

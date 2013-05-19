@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
+use core::iterator::{ Iterator, IteratorUtil };
 use common::prime;
 use common::extiter::{ Triangle };
 use common::problem::{ Problem };
@@ -17,5 +17,5 @@ pub static problem: Problem<'static> = Problem {
 pub fn solve() -> ~str {
     return Triangle::new()
         .skip_while(|&t| prime::num_of_divisors(t) <= 500)
-        .nth(0).to_str();
+        .next().get().to_str();
 }

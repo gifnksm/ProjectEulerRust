@@ -4,7 +4,7 @@
 extern mod common;
 
 use core::num::{ ToStrRadix };
-use core::iterator::{ IteratorUtil };
+use core::iterator::{ Iterator, IteratorUtil };
 use common::extiter::{ ExtIteratorUtil, Range };
 use common::problem::{ Problem };
 
@@ -134,13 +134,13 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
             for uint::range(0, BOARD_HEIGHT) |y| {
                 let mut it = Range::new(0, BOARD_WIDTH).filter(|&x| puzzle.map[y][x] & bit != 0);
                 if (copy it).count() != 1 { loop; }
-                puzzle.map[y][it.first()] = bit;
+                puzzle.map[y][it.next().get()] = bit;
             }
 
             for uint::range(0, BOARD_WIDTH) |x| {
                 let mut it = Range::new(0, BOARD_HEIGHT).filter(|&y| puzzle.map[y][x] & bit != 0);
                 if (copy it).count() != 1 { loop; }
-                puzzle.map[it.first()][x] = bit;
+                puzzle.map[it.next().get()][x] = bit;
             }
 
             for uint::range_step(0, BOARD_HEIGHT, GROUP_WIDTH as int) |y0| {
@@ -149,7 +149,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
                         .transform(|(dx, dy)| (x0 + dx, y0 + dy))
                         .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
                     if (copy it).count() != 1 { loop; }
-                    let (x, y) = it.first();
+                    let (x, y) = it.next().get();
                     puzzle.map[y][x] = bit;
                 }
             }

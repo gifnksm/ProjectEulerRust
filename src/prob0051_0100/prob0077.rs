@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::iterator::{ Counter, IteratorUtil };
+use core::iterator::{ Counter, Iterator, IteratorUtil };
 use core::hashmap::{ HashMap };
 use common::prime;
 use common::problem::{ Problem };
@@ -53,6 +53,7 @@ pub fn solve() -> ~str {
     let mut map = HashMap::new();
     return Counter::new::<uint>(1, 1)
         .skip_while(|&n| count_way(n, &mut map) <= 5000)
-        .first()
+        .next()
+        .get()
         .to_str();
 }

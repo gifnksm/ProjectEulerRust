@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::iterator::{ Counter, IteratorUtil };
+use core::iterator::{ Counter, Iterator, IteratorUtil };
 use common::prime;
 use common::arith;
 use common::problem::{ Problem };
@@ -27,6 +27,7 @@ pub fn solve() -> ~str {
     return Counter::new::<uint>(3, 2)
         .filter(|&n| !prime::contains(n))
         .skip_while(|&n| is_goldbach(n))
-        .first()
+        .next()
+        .get()
         .to_str();
 }
