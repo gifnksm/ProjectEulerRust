@@ -86,11 +86,11 @@ mod test {
             assert_eq!(add(a, b), c.to_owned());
             assert_eq!(add(b, a), c.to_owned());
         }
-        check(~[], ~[], ~[]);
-        check(~[0, 0], ~[], ~[]);
-        check(~[0, 0], ~[1], ~[1]);
-        check(~[1, 0], ~[1], ~[2]);
-        check(~[1, 0, 1], ~[1], ~[2, 0, 1]);
+        check([], [], []);
+        check([0, 0], [], []);
+        check([0, 0], [1], [1]);
+        check([1, 0], [1], [2]);
+        check([1, 0, 1], [1], [2, 0, 1]);
     }
 
     #[test]
@@ -99,14 +99,14 @@ mod test {
             assert_eq!(mul(a, b), c.to_owned());
             assert_eq!(mul(b, a), c.to_owned());
         }
-        check(~[], ~[], ~[]);
-        check(~[0, 0], ~[], ~[]);
-        check(~[0, 0], ~[1], ~[]);
-        check(~[1, 0], ~[1], ~[1]);
-        check(~[1, 0, 1], ~[1], ~[1, 0, 1]);
-        check(~[1, 1], ~[1, 1], ~[1, 2, 1]);
-        check(~[1, 1], ~[1, 0, 1], ~[1, 1, 1, 1]);
-        check(~[0, 0, 1], ~[0, 0, 1], ~[0, 0, 0, 0, 1]);
+        check([], [], []);
+        check([0, 0], [], []);
+        check([0, 0], [1], []);
+        check([1, 0], [1], [1]);
+        check([1, 0, 1], [1], [1, 0, 1]);
+        check([1, 1], [1, 1], [1, 2, 1]);
+        check([1, 1], [1, 0, 1], [1, 1, 1, 1]);
+        check([0, 0, 1], [0, 0, 1], [0, 0, 0, 0, 1]);
     }
 
     #[test]
@@ -116,24 +116,24 @@ mod test {
                 assert_eq!(eval(pol, n), f(n));
             }
         }
-        check(&[], |_x| 0);
-        check(&[1], |_x| 1);
-        check(&[1, 1], |x| x + 1);
-        check(&[0, 1], |x| x);
-        check(&[10, -10, 10], |x| 10*x*x - 10 * x + 10);
+        check([], |_x| 0);
+        check([1], |_x| 1);
+        check([1, 1], |x| x + 1);
+        check([0, 1], |x| x);
+        check([10, -10, 10], |x| 10*x*x - 10 * x + 10);
     }
 
     #[test]
     fn test_poly_to_str() {
-        assert_eq!(to_str::<int>(&[], "x"), ~"0");
-        assert_eq!(to_str(&[1], "x"), ~"1");
-        assert_eq!(to_str(&[1, 1], "x"), ~"1+x");
-        assert_eq!(to_str(&[1, 1, 1], "x"), ~"1+x+x^2");
-        assert_eq!(to_str(&[2, 2, 2], "x"), ~"2+2*x+2*x^2");
-        assert_eq!(to_str(&[0, 0, 0, 1], "x"), ~"x^3");
-        assert_eq!(to_str(&[0, 0, 0, -1], "x"), ~"-x^3");
-        assert_eq!(to_str(&[-1, 0, 0, -1], "x"), ~"-1-x^3");
-        assert_eq!(to_str(&[-1, 1, 0, -1], "x"), ~"-1+x-x^3");
-        assert_eq!(to_str(&[-1, 1, -1, -1], "x"), ~"-1+x-x^2-x^3");
+        assert_eq!(to_str::<int>([], "x"), ~"0");
+        assert_eq!(to_str([1], "x"), ~"1");
+        assert_eq!(to_str([1, 1], "x"), ~"1+x");
+        assert_eq!(to_str([1, 1, 1], "x"), ~"1+x+x^2");
+        assert_eq!(to_str([2, 2, 2], "x"), ~"2+2*x+2*x^2");
+        assert_eq!(to_str([0, 0, 0, 1], "x"), ~"x^3");
+        assert_eq!(to_str([0, 0, 0, -1], "x"), ~"-x^3");
+        assert_eq!(to_str([-1, 0, 0, -1], "x"), ~"-1-x^3");
+        assert_eq!(to_str([-1, 1, 0, -1], "x"), ~"-1+x-x^3");
+        assert_eq!(to_str([-1, 1, -1, -1], "x"), ~"-1+x-x^2-x^3");
     }
 }

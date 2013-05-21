@@ -277,8 +277,8 @@ mod tests {
         check_wrap(v2, Min, 0);
         check_wrap(v3, Min, 0);
 
-        assert_eq!(mconcat(~[~[], ~[1, 2, 3], ~[4], ~[5]]), ~[1, 2, 3, 4, 5]);
-        assert_eq!(mconcat(~[~"", ~"abc", ~"d", ~"e"]), ~"abcde");
+        assert_eq!(mconcat([~[], ~[1, 2, 3], ~[4], ~[5]]), ~[1, 2, 3, 4, 5]);
+        assert_eq!(mconcat([~"", ~"abc", ~"d", ~"e"]), ~"abcde");
     }
 
     fn to_sum<T, U>(&tp: &(T, U)) -> (T, Sum<U>) {

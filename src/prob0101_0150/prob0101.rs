@@ -36,7 +36,7 @@ fn op(ns: &[(BigInt, BigInt)]) -> ~[Ratio<BigInt>] {
             if i == j { loop; }
 
             let &(xj, _yj) = &ns[j];
-            term = poly::mul(term, ~[Ratio::new(-xj, xi - xj), Ratio::new(One::one(), xi - xj)]);
+            term = poly::mul(term, [Ratio::new(-xj, xi - xj), Ratio::new(One::one(), xi - xj)]);
         }
         poly = poly::add(poly, term);
     }

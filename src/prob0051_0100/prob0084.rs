@@ -269,13 +269,13 @@ mod test {
 
     #[test]
     fn test_mul_mat() {
-        assert_eq!(mul_mat(~[~[1f, 2f, 3f]], ~[~[1f], ~[2f], ~[3f]]),
+        assert_eq!(mul_mat([~[1f, 2f, 3f]], [~[1f], ~[2f], ~[3f]]),
                    ~[~[14f]]);
-        assert_eq!(mul_mat(~[~[1f, 2f, 3f], ~[4f, 5f, 6f], ~[7f, 8f, 9f]],
-                           ~[~[1f], ~[0f], ~[0f]]),
+        assert_eq!(mul_mat([~[1f, 2f, 3f], ~[4f, 5f, 6f], ~[7f, 8f, 9f]],
+                           [~[1f], ~[0f], ~[0f]]),
                    ~[~[1f], ~[4f], ~[7f]]);
-        assert_eq!(mul_mat(~[~[1f, 2f, 3f], ~[4f, 5f, 6f], ~[7f, 8f, 9f]],
-                           ~[~[1f, 0f], ~[0f, 0f], ~[0f, 1f]]),
+        assert_eq!(mul_mat([~[1f, 2f, 3f], ~[4f, 5f, 6f], ~[7f, 8f, 9f]],
+                           [~[1f, 0f], ~[0f, 0f], ~[0f, 1f]]),
                    ~[~[1f, 3f], ~[4f, 6f], ~[7f, 9f]]);
     }
 }

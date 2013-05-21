@@ -26,7 +26,7 @@ pub fn solve() -> ~str {
     let pows = vec::from_fn(10, |i| calc::pow(i, 5));
 
     let mut sum = 0;
-    for calc::combinate_overlap(~[0, 1, 2, 3, 4, 5, 6, 7, 8, 9], len) |comb| {
+    for calc::combinate_overlap([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], len) |comb| {
         let num = comb.foldl(0u, |a, &e| a + pows[e]);
 
         let mut nums = calc::num_to_digits(num, 10);

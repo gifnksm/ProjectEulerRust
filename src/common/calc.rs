@@ -94,7 +94,7 @@ pub fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> b
 }
 
 pub fn combinate_overlap<T: Copy>(elems: &[T], len: uint, f: &fn(&[T])->bool) -> bool {
-    if len == 0 { return f(~[]); }
+    if len == 0 { return f([]); }
 
     for uint::range(0, elems.len()) |i| {
         for combinate_overlap(elems.slice(i, elems.len()), len - 1) |v| {
@@ -338,18 +338,18 @@ mod tests {
             };
             assert_eq!(vec.initn(0), result);
         }
-        check(&[1, 2, 3], ~[(1, 1), (2, 1), (3, 1)]);
-        check(&[1, 1, 1, 2, 2, 3, 3, 4], ~[(1, 3), (2, 2), (3, 2), (4, 1)]);
-        check(&[1, 1, 1, 2, 2, 1, 1], ~[(1, 5), (2, 2)]);
-        check(&[], ~[]);
+        check([1, 2, 3], [(1, 1), (2, 1), (3, 1)]);
+        check([1, 1, 1, 2, 2, 3, 3, 4], [(1, 3), (2, 2), (3, 2), (4, 1)]);
+        check([1, 1, 1, 2, 2, 1, 1], [(1, 5), (2, 2)]);
+        check([], []);
     }
 
     #[test]
     fn test_num_of_permutasions() {
         assert_eq!(num_of_permutations(&histogram::<uint>(&[])), 1);
-        assert_eq!(num_of_permutations(&histogram(&[1, 2, 3])), 6);
-        assert_eq!(num_of_permutations(&histogram(&[1, 1, 1, 2, 3])), 20);
-        assert_eq!(num_of_permutations(&histogram(&[1, 1, 1, 2, 3, 1, 1])), 42);
+        assert_eq!(num_of_permutations(&histogram([1, 2, 3])), 6);
+        assert_eq!(num_of_permutations(&histogram([1, 1, 1, 2, 3])), 20);
+        assert_eq!(num_of_permutations(&histogram([1, 1, 1, 2, 3, 1, 1])), 42);
     }
 
     #[test]
@@ -376,11 +376,11 @@ mod tests {
 
     #[test]
     fn test_digits_to_num() {
-        assert_eq!(digits_to_num(~[], 10), 0);
-        assert_eq!(digits_to_num(~[1], 10), 1);
-        assert_eq!(digits_to_num(~[1, 2, 3], 10), 123);
-        assert_eq!(digits_to_num(~[0, 0, 1, 2, 3], 10), 123);
-        assert_eq!(digits_to_num(~[1, 2, 3, 0, 0], 10), 12300);
+        assert_eq!(digits_to_num([], 10), 0);
+        assert_eq!(digits_to_num([1], 10), 1);
+        assert_eq!(digits_to_num([1, 2, 3], 10), 123);
+        assert_eq!(digits_to_num([0, 0, 1, 2, 3], 10), 123);
+        assert_eq!(digits_to_num([1, 2, 3, 0, 0], 10), 12300);
     }
 
     #[test]
@@ -476,21 +476,21 @@ mod tests {
                 (BigUint::from_uint(n), BigUint::from_uint(d))
             );
         }
-        test(~[1, 2], (3, 2));
-        test(~[1, 2, 2], (7, 5));
-        test(~[1, 2, 2, 2], (17, 12));
-        test(~[1, 2, 2, 2, 2], (41, 29));
+        test([1, 2], (3, 2));
+        test([1, 2, 2], (7, 5));
+        test([1, 2, 2, 2], (17, 12));
+        test([1, 2, 2, 2, 2], (41, 29));
 
-        test(~[2], (2, 1));
-        test(~[2, 1], (3, 1));
-        test(~[2, 1, 2], (8, 3));
-        test(~[2, 1, 2, 1], (11, 4));
-        test(~[2, 1, 2, 1, 1], (19, 7));
-        test(~[2, 1, 2, 1, 1, 4], (87, 32));
-        test(~[2, 1, 2, 1, 1, 4, 1], (106, 39));
-        test(~[2, 1, 2, 1, 1, 4, 1, 1], (193, 71));
-        test(~[2, 1, 2, 1, 1, 4, 1, 1, 6], (1264, 465));
-        test(~[2, 1, 2, 1, 1, 4, 1, 1, 6, 1], (1457, 536));
+        test([2], (2, 1));
+        test([2, 1], (3, 1));
+        test([2, 1, 2], (8, 3));
+        test([2, 1, 2, 1], (11, 4));
+        test([2, 1, 2, 1, 1], (19, 7));
+        test([2, 1, 2, 1, 1, 4], (87, 32));
+        test([2, 1, 2, 1, 1, 4, 1], (106, 39));
+        test([2, 1, 2, 1, 1, 4, 1, 1], (193, 71));
+        test([2, 1, 2, 1, 1, 4, 1, 1, 6], (1264, 465));
+        test([2, 1, 2, 1, 1, 4, 1, 1, 6, 1], (1457, 536));
     }
 
     #[test]
