@@ -1,11 +1,11 @@
 #[link(name = "prob0055", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::from_str::{ FromStr };
-use std::bigint::{ BigUint };
+use std::from_str::{ FromStr };
+use extra::bigint::{ BigUint };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

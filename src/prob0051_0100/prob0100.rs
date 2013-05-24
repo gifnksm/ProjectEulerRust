@@ -1,13 +1,13 @@
 #[link(name = "prob0100", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::from_str::{ FromStr };
-use core::util;
-use core::num::{ One };
-use std::bigint::{ BigUint };
+use std::from_str::{ FromStr };
+use std::util;
+use std::num::{ One };
+use extra::bigint::{ BigUint };
 use common::calc;
 use common::problem::{ Problem };
 

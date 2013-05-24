@@ -1,9 +1,9 @@
 #[link(name = "prob0066", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
-use std::bigint::{ BigUint };
+use extra::bigint::{ BigUint };
 use common::calc::{ solve_pel };
 use common::problem::{ Problem };
 

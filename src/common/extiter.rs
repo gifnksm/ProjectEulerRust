@@ -1,6 +1,6 @@
-use core::iterator::{ Iterator, IteratorUtil };
-use core::num::{ Zero, One };
-use core::util;
+use std::iterator::{ Iterator, IteratorUtil };
+use std::num::{ Zero, One };
+use std::util;
 
 pub enum Step<T> { Plus(T), Minus(T) }
 

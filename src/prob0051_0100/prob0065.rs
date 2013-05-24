@@ -1,10 +1,10 @@
 #[link(name = "prob0065", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use std::bigint::{ BigUint };
+use extra::bigint::{ BigUint };
 use common::calc::{ fold_cont_frac };
 use common::problem::{ Problem };
 

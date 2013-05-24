@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::hashmap::{ HashSet };
+use std::hashmap::{ HashSet };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

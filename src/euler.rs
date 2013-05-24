@@ -1,7 +1,7 @@
-extern mod std;
+extern mod extra;
 extern mod common;
 
-priv use std::time;
+priv use extra::time;
 priv use common::problem::{ Problem };
 
 priv mod problem;

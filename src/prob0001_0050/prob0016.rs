@@ -1,12 +1,12 @@
 #[link(name = "prob0016", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::num::{ One };
-use core::iterator::{ AdditiveIterator, IteratorUtil };
-use std::bigint::{ BigInt };
+use std::num::{ One };
+use std::iterator::{ AdditiveIterator, IteratorUtil };
+use extra::bigint::{ BigInt };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

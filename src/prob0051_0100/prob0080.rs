@@ -1,11 +1,11 @@
 #[link(name = "prob0080", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::num::{ Zero };
-use std::bigint::{ BigInt };
+use std::num::{ Zero };
+use extra::bigint::{ BigInt };
 use common::arith::{ isqrt };
 use common::problem::{ Problem };
 

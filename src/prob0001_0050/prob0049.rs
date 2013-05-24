@@ -1,11 +1,11 @@
 #[link(name = "prob0049", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::util;
-use std::sort;
+use std::util;
+use extra::sort;
 use common::prime;
 use common::calc;
 use common::problem::{ Problem };

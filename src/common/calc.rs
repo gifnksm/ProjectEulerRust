@@ -1,9 +1,9 @@
-use core::cmp::{ Eq };
-use core::hash::{ Hash };
-use core::num::{ IntConvertible };
-use core::to_bytes::{ IterBytes };
-use core::hashmap::{ HashMap, HashSet };
-use core::util::{ swap };
+use std::cmp::{ Eq };
+use std::hash::{ Hash };
+use std::num::{ IntConvertible };
+use std::to_bytes::{ IterBytes };
+use std::hashmap::{ HashMap, HashSet };
+use std::util::{ swap };
 
 use arith::{ isqrt };
 
@@ -316,8 +316,8 @@ pub fn pow(base: uint, exp: uint) -> uint {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::sort::{ merge_sort };
-    use std::bigint::{ BigUint };
+    use extra::sort::{ merge_sort };
+    use extra::bigint::{ BigUint };
 
     #[test]
     fn test_factorial() {

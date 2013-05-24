@@ -1,6 +1,6 @@
-use core::iterator::{ Iterator, IteratorUtil, Counter, MultiplicativeIterator };
-use core::util;
-use core::local_data;
+use std::iterator::{ Iterator, IteratorUtil, Counter, MultiplicativeIterator };
+use std::util;
+use std::local_data;
 
 use extiter::{ Range };
 use calc::{ pow };
@@ -226,7 +226,7 @@ pub fn sum_of_proper_divisors(n: uint) -> uint {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use core::iterator::{ IteratorUtil };
+    use std::iterator::{ IteratorUtil };
 
     static PRIMES_BELOW200: &'static [uint] = &[
         2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,

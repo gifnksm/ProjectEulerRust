@@ -1,16 +1,16 @@
 #[link(name = "prob0024", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::either::{ Either, Left, Right };
-use core::cmp::{ Eq, Ord };
-use core::to_bytes::{ IterBytes };
-use core::hash::{ Hash };
-use core::hashmap::{ HashMap };
-use core::util;
-use std::sort;
+use std::either::{ Either, Left, Right };
+use std::cmp::{ Eq, Ord };
+use std::to_bytes::{ IterBytes };
+use std::hash::{ Hash };
+use std::hashmap::{ HashMap };
+use std::util;
+use extra::sort;
 use common::calc;
 use common::problem::{ Problem };
 

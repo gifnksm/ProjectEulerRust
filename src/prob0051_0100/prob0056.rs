@@ -1,11 +1,11 @@
 #[link(name = "prob0056", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::num::{ Zero };
-use std::bigint::{ BigUint };
+use std::num::{ Zero };
+use extra::bigint::{ BigUint };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {
@@ -40,7 +40,7 @@ pub fn solve() -> ~str {
                 sum += digit_sum(m.to_uint());
                 d = d0;
             }
-            // following core causes core dumps...
+            // following code causes core dumps...
             // let s = n.to_str();
             // for str::each_char(s) |c| {
             //     let d = char::to_digit(c, 10);

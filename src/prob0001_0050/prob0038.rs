@@ -2,10 +2,10 @@
 #[crate_type = "lib"];
 
 extern mod common;
-extern mod std;
+extern mod extra;
 
-use core::util::{ unreachable };
-use std::sort::{ quick_sort };
+use std::util::{ unreachable };
+use extra::sort::{ quick_sort };
 use common::calc::{ permutate_num, num_to_digits };
 use common::problem::{ Problem };
 

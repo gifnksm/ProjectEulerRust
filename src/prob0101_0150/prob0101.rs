@@ -1,12 +1,12 @@
 #[link(name = "prob0101", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::num::{ Zero, One };
-use std::bigint::{ BigInt };
-use std::rational::{ Ratio };
+use std::num::{ Zero, One };
+use extra::bigint::{ BigInt };
+use extra::rational::{ Ratio };
 use common::poly;
 use common::problem::{ Problem };
 

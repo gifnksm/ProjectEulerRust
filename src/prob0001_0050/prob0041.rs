@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::util;
+use std::util;
 use common::calc;
 use common::prime;
 use common::problem::{ Problem };

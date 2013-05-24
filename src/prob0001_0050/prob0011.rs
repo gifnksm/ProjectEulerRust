@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::iterator::{ IteratorUtil, OrdIterator, MultiplicativeIterator };
+use std::iterator::{ IteratorUtil, OrdIterator, MultiplicativeIterator };
 use common::extiter::{ ExtIteratorUtil, Area2DIterator };
 use common::problem::{ Problem };
 

@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::iterator::{ Iterator, IteratorUtil };
+use std::iterator::{ Iterator, IteratorUtil };
 use common::prime;
 use common::extiter::{ Triangle };
 use common::problem::{ Problem };

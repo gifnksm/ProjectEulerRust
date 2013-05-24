@@ -1,11 +1,11 @@
 #[link(name = "prob0062", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::hashmap::{ HashMap, HashSet };
-use std::sort::{ quick_sort3 };
+use std::hashmap::{ HashMap, HashSet };
+use extra::sort::{ quick_sort3 };
 use common::calc::{ num_to_digits };
 use common::problem::{ Problem };
 

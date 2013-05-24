@@ -1,12 +1,12 @@
 #[link(name = "prob0025", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
-use core::from_str::{ FromStr };
-use std::bigint::{ BigUint };
+use std::iterator::{ IteratorUtil };
+use std::from_str::{ FromStr };
+use extra::bigint::{ BigUint };
 use common::extiter::{ Fibonacci };
 use common::problem::{ Problem };
 

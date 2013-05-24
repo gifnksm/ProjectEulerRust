@@ -3,8 +3,8 @@
 
 extern mod common;
 
-use core::num::{ ToStrRadix };
-use core::iterator::{ Iterator, IteratorUtil };
+use std::num::{ ToStrRadix };
+use std::iterator::{ Iterator, IteratorUtil };
 use common::extiter::{ ExtIteratorUtil, Range };
 use common::problem::{ Problem };
 

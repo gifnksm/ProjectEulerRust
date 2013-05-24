@@ -1,13 +1,13 @@
 #[link(name = "prob0098", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::iterator::{ IteratorUtil, OrdIterator };
-use core::hashmap::{ HashMap };
-use core::util;
-use std::sort;
+use std::iterator::{ IteratorUtil, OrdIterator };
+use std::hashmap::{ HashMap };
+use std::util;
+use extra::sort;
 use common::arith;
 use common::calc;
 use common::reader;

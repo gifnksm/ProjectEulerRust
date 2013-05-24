@@ -1,14 +1,14 @@
 #[link(name = "prob0093", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::num::{ Zero };
-use core::hashmap::{ HashSet };
-use core::iterator::{ Counter, IteratorUtil };
-use core::util::{ unreachable };
-use std::rational::{ Rational, Ratio };
+use std::num::{ Zero };
+use std::hashmap::{ HashSet };
+use std::iterator::{ Counter, IteratorUtil };
+use std::util::{ unreachable };
+use extra::rational::{ Rational, Ratio };
 use common::calc::{ combinate, digits_to_num };
 use common::problem::{ Problem };
 

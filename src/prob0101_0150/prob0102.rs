@@ -1,7 +1,7 @@
 #[link(name = "prob0102", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
 use common::problem::{ Problem };

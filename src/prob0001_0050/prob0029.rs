@@ -3,8 +3,8 @@
 
 extern mod common;
 
-use core::hashmap::{ HashSet };
-use core::iterator::{ IteratorUtil };
+use std::hashmap::{ HashSet };
+use std::iterator::{ IteratorUtil };
 use common::prime;
 use common::problem::{ Problem };
 

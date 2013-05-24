@@ -3,8 +3,8 @@
 
 extern mod common;
 
-use core::hashmap::{ HashMap };
-use core::util::{ unreachable };
+use std::hashmap::{ HashMap };
+use std::util::{ unreachable };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

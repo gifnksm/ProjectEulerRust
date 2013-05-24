@@ -1,11 +1,11 @@
 #[link(name = "prob0020", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::iterator::{ IteratorUtil, AdditiveIterator, MultiplicativeIterator };
-use std::bigint::{ BigUint };
+use std::iterator::{ IteratorUtil, AdditiveIterator, MultiplicativeIterator };
+use extra::bigint::{ BigUint };
 use common::extiter::{ Range };
 use common::problem::{ Problem };
 

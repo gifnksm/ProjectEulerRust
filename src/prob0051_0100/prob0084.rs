@@ -1,10 +1,10 @@
 #[link(name = "prob0084", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use std::sort::{ quick_sort };
+use extra::sort::{ quick_sort };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

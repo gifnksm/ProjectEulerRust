@@ -3,8 +3,8 @@
 
 extern mod common;
 
-use core::util;
-use core::hashmap::{ HashMap };
+use std::util;
+use std::hashmap::{ HashMap };
 
 use common::prime;
 use common::problem::{ Problem };

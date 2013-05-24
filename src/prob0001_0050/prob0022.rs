@@ -1,11 +1,11 @@
 #[link(name = "prob0022", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod std;
+extern mod extra;
 extern mod common;
 
-use core::iterator::{ IteratorUtil, AdditiveIterator };
-use std::sort::{ merge_sort };
+use std::iterator::{ IteratorUtil, AdditiveIterator };
+use extra::sort::{ merge_sort };
 use common::reader::{ read_whole_word };
 use common::problem::{ Problem };
 

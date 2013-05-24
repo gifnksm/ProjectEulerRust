@@ -3,8 +3,8 @@
 
 extern mod common;
 
-use core::to_bytes::{ IterBytes };
-use core::hashmap::{ HashSet };
+use std::to_bytes::{ IterBytes };
+use std::hashmap::{ HashSet };
 use common::problem::{ Problem };
 
 pub static problem: Problem<'static> = Problem {

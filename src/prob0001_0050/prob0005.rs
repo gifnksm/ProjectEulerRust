@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
+use std::iterator::{ IteratorUtil };
 use common::prime;
 use common::monoid::{ Max, MergeMultiMonoidIterator, Wrap };
 use common::problem::{ Problem };

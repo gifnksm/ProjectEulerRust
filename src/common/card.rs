@@ -1,4 +1,4 @@
-use core::from_str::{ FromStr };
+use std::from_str::{ FromStr };
 
 pub enum Suit {
     Dummy, Spade, Heart, Dia, Club

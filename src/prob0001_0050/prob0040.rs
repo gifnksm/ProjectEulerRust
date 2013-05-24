@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::util;
+use std::util;
 use common::calc::{ num_to_digits };
 use common::problem::{ Problem };
 

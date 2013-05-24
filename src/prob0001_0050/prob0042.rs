@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::iterator::{ IteratorUtil };
+use std::iterator::{ IteratorUtil };
 use common::extiter::{ Triangle };
 use common::reader::{ read_whole_word };
 use common::problem::{ Problem };

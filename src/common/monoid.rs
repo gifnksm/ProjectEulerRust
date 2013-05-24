@@ -1,8 +1,8 @@
-use core::util;
-use core::cmp::{ Ord, Eq };
-use core::ops::{ Add, Mul };
-use core::num::{ Zero, One, Bounded };
-use core::iterator::{ Iterator };
+use std::util;
+use std::cmp::{ Ord, Eq };
+use std::ops::{ Add, Mul };
+use std::num::{ Zero, One, Bounded };
+use std::iterator::{ Iterator };
 
 pub trait Monoid {
     fn mempty() -> Self;
@@ -246,7 +246,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 #[cfg(test)]
 mod tests {
     use super::*;
-    use core::iterator::{ IteratorUtil };
+    use std::iterator::{ IteratorUtil };
 
     #[test]
     fn test_mconcat() {

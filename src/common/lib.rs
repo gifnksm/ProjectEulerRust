@@ -2,7 +2,7 @@
 #[crate_type = "lib"];
 
 #[cfg(test)]
-extern mod std;
+extern mod extra;
 
 pub mod extvec;
 pub mod extiter;

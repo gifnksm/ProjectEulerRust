@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::hashmap::{ HashMap };
+use std::hashmap::{ HashMap };
 use common::extiter::{ Range, ExtIteratorUtil };
 use common::problem::{ Problem };
 

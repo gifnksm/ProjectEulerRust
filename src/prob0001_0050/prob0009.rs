@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::util::{ unreachable };
+use std::util::{ unreachable };
 use common::arith::{ isqrt };
 use common::problem::{ Problem };
 

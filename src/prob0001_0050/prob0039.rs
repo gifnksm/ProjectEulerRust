@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::hashmap::{ HashMap };
+use std::hashmap::{ HashMap };
 use common::arith::{ isqrt };
 use common::problem::{ Problem };
 

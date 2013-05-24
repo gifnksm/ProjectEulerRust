@@ -1,4 +1,4 @@
-use core::num::{ Zero, One };
+use std::num::{ Zero, One };
 
 fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
     // FIXME #6468 use v.rposition

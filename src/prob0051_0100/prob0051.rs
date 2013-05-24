@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::util::{ unreachable };
+use std::util::{ unreachable };
 use common::prime;
 use common::calc::{ num_to_digits, digits_to_num, digit_histogram };
 use common::problem::{ Problem };

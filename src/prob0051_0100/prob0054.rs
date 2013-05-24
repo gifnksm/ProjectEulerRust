@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use core::from_str::{ FromStr };
+use std::from_str::{ FromStr };
 use common::card::{ Card };
 use common::problem::{ Problem };
 
