@@ -34,7 +34,7 @@ pub fn solve() -> ~str {
         quick_sort3(ds);
 
         let v = match map.pop(&ds) {
-            Some(nums) => nums + ~[ cube ],
+            Some(nums) => nums + [ cube ],
             None       => ~[cube]
         };
         if v.len() == 5 {
