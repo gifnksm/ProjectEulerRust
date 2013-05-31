@@ -1,3 +1,5 @@
+use std::{uint, vec};
+
 pub fn zip_default<T: Copy, U: Copy>(v1: &[T], v2: &[U], def: (T, U)) -> ~[(T, U)] {
     let mut result = ~[];
     let (l1, l2) = (vec::len(v1), vec::len(v2));

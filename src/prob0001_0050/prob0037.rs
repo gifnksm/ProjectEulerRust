@@ -3,9 +3,10 @@
 
 extern mod common;
 
-use common::calc::{ num_to_digits };
+use std::vec;
+use common::calc::{num_to_digits};
 use common::prime;
-use common::problem::{ Problem };
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 37,

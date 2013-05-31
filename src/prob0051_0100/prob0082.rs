@@ -3,7 +3,8 @@
 
 extern mod common;
 
-use common::problem::{ Problem };
+use std::{uint, vec, io};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 82,

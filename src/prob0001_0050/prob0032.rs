@@ -4,10 +4,10 @@
 extern mod extra;
 extern mod common;
 
-use std::hashmap::{ HashSet };
-use extra::sort::{ merge_sort };
-use common::calc::{ num_to_digits, permutate_num };
-use common::problem::{ Problem };
+use std::hashmap::{HashSet};
+use extra::sort::{merge_sort};
+use common::calc::{num_to_digits, permutate_num};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 32,

@@ -3,9 +3,10 @@
 
 extern mod common;
 
+use std::{float};
 use common::prime;
-use common::calc::{ digit_histogram };
-use common::problem::{ Problem };
+use common::calc::{digit_histogram};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 70,

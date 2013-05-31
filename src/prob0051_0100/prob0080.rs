@@ -4,10 +4,11 @@
 extern mod extra;
 extern mod common;
 
-use std::num::{ Zero };
-use extra::bigint::{ BigInt };
-use common::arith::{ isqrt };
-use common::problem::{ Problem };
+use std::{str, char, uint};
+use std::num::{Zero};
+use extra::bigint::{BigInt};
+use common::arith;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 80,
@@ -40,7 +41,7 @@ fn sqrt_newton_raphson(n: uint, precision: uint) -> ~str {
 pub fn solve() -> ~str {
     let mut total = 0;
     for uint::range(2, 101) |n| {
-        let isqn = isqrt(n);
+        let isqn = arith::isqrt(n);
         if isqn * isqn == n { loop; }
 
         let sqn = sqrt_newton_raphson(n, 100);

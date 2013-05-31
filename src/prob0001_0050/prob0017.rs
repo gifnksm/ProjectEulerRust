@@ -3,9 +3,9 @@
 
 extern mod common;
 
-use std::iterator::{ IteratorUtil, AdditiveIterator };
-use common::extiter::{ Range };
-use common::problem::{ Problem };
+use std::iterator::{IteratorUtil, AdditiveIterator};
+use common::extiter::{Range};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 17,

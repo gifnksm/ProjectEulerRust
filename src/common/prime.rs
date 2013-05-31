@@ -1,10 +1,9 @@
-use std::iterator::{ Iterator, IteratorUtil, Counter, MultiplicativeIterator };
-use std::util;
-use std::local_data;
+use std::iterator::{Iterator, IteratorUtil, Counter, MultiplicativeIterator};
+use std::{util, local_data, vec};
 
-use extiter::{ Range };
-use calc::{ pow };
-use monoid::{ Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap };
+use extiter::{Range};
+use calc::{pow};
+use monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
 
 static PRIMES_BELOW100: &'static [uint] = &[
     2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
@@ -226,7 +225,8 @@ pub fn sum_of_proper_divisors(n: uint) -> uint {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::iterator::{ IteratorUtil };
+    use std::vec;
+    use std::iterator::{IteratorUtil};
 
     static PRIMES_BELOW200: &'static [uint] = &[
         2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,

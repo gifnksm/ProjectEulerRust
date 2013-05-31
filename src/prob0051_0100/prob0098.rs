@@ -4,14 +4,12 @@
 extern mod extra;
 extern mod common;
 
-use std::iterator::{ IteratorUtil, OrdIterator };
-use std::hashmap::{ HashMap };
-use std::util;
+use std::{util, uint, str, vec, io};
+use std::iterator::{IteratorUtil, OrdIterator};
+use std::hashmap::{HashMap};
 use extra::sort;
-use common::arith;
-use common::calc;
-use common::reader;
-use common::problem::{ Problem };
+use common::{arith, calc, reader};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 98,

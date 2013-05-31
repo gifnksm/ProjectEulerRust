@@ -1,4 +1,5 @@
-use std::num::{ Zero, One };
+use std::{str, uint, vec};
+use std::num::{Zero, One};
 
 fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
     // FIXME #6468 use v.rposition
@@ -79,6 +80,7 @@ pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~s
 #[cfg(test)]
 mod test {
     use super::*;
+    use std::{int};
 
     #[test]
     fn test_poly_add() {

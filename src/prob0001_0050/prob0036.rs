@@ -3,8 +3,9 @@
 
 extern mod common;
 
-use common::calc::{ num_to_digits };
-use common::problem::{ Problem };
+use std::uint;
+use common::calc::{num_to_digits};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 36,

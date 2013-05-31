@@ -4,10 +4,11 @@
 extern mod extra;
 extern mod common;
 
-use std::iterator::{ IteratorUtil, AdditiveIterator };
-use extra::sort::{ merge_sort };
-use common::reader::{ read_whole_word };
-use common::problem::{ Problem };
+use std::{str, io, result};
+use std::iterator::{IteratorUtil, AdditiveIterator};
+use extra::sort::{merge_sort};
+use common::reader::{read_whole_word};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 22,

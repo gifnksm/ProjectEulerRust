@@ -3,10 +3,11 @@
 
 extern mod common;
 
-use std::num::{ ToStrRadix };
-use std::iterator::{ Iterator, IteratorUtil };
-use common::extiter::{ ExtIteratorUtil, Range };
-use common::problem::{ Problem };
+use std::{uint, io, char, str, vec};
+use std::num::{ToStrRadix};
+use std::iterator::{Iterator, IteratorUtil};
+use common::extiter::{ExtIteratorUtil, Range};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 96,

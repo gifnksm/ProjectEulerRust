@@ -4,9 +4,10 @@
 extern mod extra;
 extern mod common;
 
-use std::from_str::{ FromStr };
-use extra::bigint::{ BigUint };
-use common::problem::{ Problem };
+use std::{str, vec, uint};
+use std::from_str::{FromStr};
+use extra::bigint::{BigUint};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 55,

@@ -4,7 +4,7 @@
 extern mod common;
 
 use common::prime;
-use common::problem::{ Problem };
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 7,

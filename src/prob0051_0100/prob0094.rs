@@ -4,9 +4,9 @@
 extern mod extra;
 extern mod common;
 
-use extra::bigint::{ BigUint };
-use common::calc::{ each_pel };
-use common::problem::{ Problem };
+use extra::bigint::{BigUint};
+use common::calc::{each_pel};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 94,

@@ -4,10 +4,11 @@
 extern mod extra;
 extern mod common;
 
-use std::num::{ One };
-use std::iterator::{ AdditiveIterator, IteratorUtil };
-use extra::bigint::{ BigInt };
-use common::problem::{ Problem };
+use std::{char};
+use std::num::{One};
+use std::iterator::{AdditiveIterator, IteratorUtil};
+use extra::bigint::{BigInt};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 16,

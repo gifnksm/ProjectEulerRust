@@ -4,9 +4,10 @@
 extern mod extra;
 extern mod common;
 
+use std::vec;
 use extra::sort;
 use common::calc;
-use common::problem::{ Problem };
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 30,

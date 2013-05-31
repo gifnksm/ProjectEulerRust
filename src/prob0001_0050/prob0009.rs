@@ -3,9 +3,9 @@
 
 extern mod common;
 
-use std::util::{ unreachable };
-use common::arith::{ isqrt };
-use common::problem::{ Problem };
+use std::{uint, util};
+use common::arith;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 9,
@@ -15,7 +15,7 @@ pub static problem: Problem<'static> = Problem {
 
 fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     for uint::range(2, sum - 2) |c| {
-        for uint::range(1, uint::min((sum - c) / 2, isqrt(c*c / 2))) |a| {
+        for uint::range(1, uint::min((sum - c) / 2, arith::isqrt(c*c / 2))) |a| {
             let b = sum - c - a;
             if a * a + b * b == c * c {
                 if !f(a, b, c) { return false; }
@@ -31,5 +31,5 @@ pub fn solve() -> ~str {
         return (a * b * c).to_str();
     }
 
-    unreachable();
+    util::unreachable();
 }

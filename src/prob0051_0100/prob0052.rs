@@ -2,8 +2,8 @@
 #[crate_type = "lib"];
 
 extern mod common;
-use common::calc::{ digit_histogram };
-use common::problem::{ Problem };
+use common::calc::{digit_histogram};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 52,

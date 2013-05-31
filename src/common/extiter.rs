@@ -1,6 +1,6 @@
-use std::iterator::{ Iterator, IteratorUtil };
-use std::num::{ Zero, One };
-use std::util;
+use std::iterator::{Iterator, IteratorUtil};
+use std::num::{Zero, One};
+use std::{util, uint};
 
 pub enum Step<T> { Plus(T), Minus(T) }
 
@@ -232,6 +232,7 @@ impl<'self, A: Clone, T: Iterator<A>> Iterator<~[A]> for WindowedIterator<A, T> 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::uint;
 
     #[test]
     fn test_range() {

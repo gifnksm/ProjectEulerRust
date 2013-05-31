@@ -4,13 +4,13 @@
 extern mod extra;
 extern mod common;
 
-use std::num::{ Zero };
-use std::hashmap::{ HashSet };
-use std::iterator::{ Counter, IteratorUtil };
-use std::util::{ unreachable };
-use extra::rational::{ Rational, Ratio };
-use common::calc::{ combinate, digits_to_num };
-use common::problem::{ Problem };
+use std::{uint, int, util};
+use std::num::{Zero};
+use std::hashmap::{HashSet};
+use std::iterator::{Counter, IteratorUtil};
+use extra::rational::{Rational, Ratio};
+use common::calc;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 93,
@@ -55,7 +55,7 @@ fn each_value(num: &[Rational], op: &[Op], f: &fn(n: Rational) -> bool) -> bool 
     assert_eq!(num.len() - 1, op.len());
     if num.len() == 1 { return f(num[0]); }
 
-    for combinate(num, 1) |v1, rest| {
+    for calc::combinate(num, 1) |v1, rest| {
         let a = v1[0];
         for each_value(rest, op.tailn(1)) |b| {
             match op[0] {
@@ -91,7 +91,7 @@ fn count_seqlen(nums: &[Rational]) -> uint {
         if !set.contains(&i) { return i - 1; }
     }
 
-    unreachable();
+    util::unreachable();
 }
 
 pub fn solve() -> ~str {
@@ -101,7 +101,7 @@ pub fn solve() -> ~str {
         let cnt = count_seqlen(nums);
         if cnt > max_cnt {
             max_cnt = cnt;
-            max_seq = digits_to_num(nums.map(|r| r.numer as uint), 10).to_str();
+            max_seq = calc::digits_to_num(nums.map(|r| r.numer as uint), 10).to_str();
         }
     }
 

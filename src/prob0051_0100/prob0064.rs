@@ -3,8 +3,9 @@
 
 extern mod common;
 
-use common::calc::{ cont_frac_sqrt };
-use common::problem::{ Problem };
+use std::uint;
+use common::calc;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 64,
@@ -15,7 +16,7 @@ pub static problem: Problem<'static> = Problem {
 pub fn solve() -> ~str {
     let mut cnt = 0u;
     for uint::range(1, 10001) |n| {
-        let (_a0, an) = cont_frac_sqrt(n);
+        let (_a0, an) = calc::cont_frac_sqrt(n);
         let period = an.len();
         if period % 2 == 1 { cnt += 1; }
     }

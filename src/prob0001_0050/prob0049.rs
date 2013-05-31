@@ -8,7 +8,7 @@ use std::util;
 use extra::sort;
 use common::prime;
 use common::calc;
-use common::problem::{ Problem };
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 49,

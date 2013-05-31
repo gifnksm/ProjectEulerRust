@@ -4,9 +4,10 @@
 extern mod extra;
 extern mod common;
 
-use std::num::{ Zero };
-use extra::bigint::{ BigUint };
-use common::problem::{ Problem };
+use std::{uint};
+use std::num::{Zero};
+use extra::bigint::{BigUint};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 56,

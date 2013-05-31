@@ -3,8 +3,9 @@
 
 extern mod common;
 
-use common::calc::{ num_to_digits, digits_to_num };
-use common::problem::{ Problem };
+use std::{uint, vec};
+use common::calc;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 43,
@@ -59,7 +60,7 @@ pub fn solve() -> ~str {
         let mut arr = ~[];
         let dm = tp.second_ref();
         for uint::range(0, 999 / 17) |n| {
-            let ds = fill_vec(num_to_digits(n * 17, 10), 3, 0);
+            let ds = fill_vec(calc::num_to_digits(n * 17, 10), 3, 0);
             match dm.get_used(ds) {
                 None => loop,
                 Some(e) => arr.push((ds + *tp.first_ref(), e))
@@ -73,7 +74,7 @@ pub fn solve() -> ~str {
             let mut arr = ~[];
             let dm = tp.second_ref();
             for uint::range(0, 999 / base) |n| {
-                let ds = fill_vec(num_to_digits(n * base, 10), 3, 0);
+                let ds = fill_vec(calc::num_to_digits(n * base, 10), 3, 0);
                 if ds[1] != tp.first_ref()[0] || ds[2] != tp.first_ref()[1] {
                     loop
                 }
@@ -88,7 +89,7 @@ pub fn solve() -> ~str {
 
     let mut sum = 0;
     for result.each |r| {
-        sum += digits_to_num(*r.first_ref(), 10);
+        sum += calc::digits_to_num(*r.first_ref(), 10);
     }
     return sum.to_str();
 }

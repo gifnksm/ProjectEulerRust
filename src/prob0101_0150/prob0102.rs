@@ -4,7 +4,8 @@
 extern mod extra;
 extern mod common;
 
-use common::problem::{ Problem };
+use std::{int, io};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 102,

@@ -3,10 +3,11 @@
 
 extern mod common;
 
-use std::hashmap::{ HashSet };
-use std::iterator::{ IteratorUtil };
+use std::uint;
+use std::hashmap::{HashSet};
+use std::iterator::{IteratorUtil};
 use common::prime;
-use common::problem::{ Problem };
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 29,

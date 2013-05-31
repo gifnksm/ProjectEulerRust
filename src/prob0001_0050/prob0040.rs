@@ -3,9 +3,9 @@
 
 extern mod common;
 
-use std::util;
-use common::calc::{ num_to_digits };
-use common::problem::{ Problem };
+use std::{util, uint};
+use common::calc;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 40,
@@ -96,7 +96,7 @@ impl IdxValueMap {
     pub fn get_digit_by_idx(&mut self, idx: uint) -> uint {
         let area = self.get_area_by_idx(idx);
         let val  = area.min_val + ((idx - area.min_idx) / area.num_digit);
-        return num_to_digits(val, 10)[(idx - area.min_idx) % area.num_digit];
+        return calc::num_to_digits(val, 10)[(idx - area.min_idx) % area.num_digit];
     }
 }
 

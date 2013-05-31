@@ -4,9 +4,10 @@
 extern mod extra;
 extern mod common;
 
-use extra::bigint::{ BigUint };
-use common::calc::{ fold_cont_frac };
-use common::problem::{ Problem };
+use std::{char, str, vec};
+use extra::bigint::{BigUint};
+use common::calc;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 65,
@@ -27,7 +28,7 @@ pub fn solve() -> ~str {
 
     let napier = vec::from_fn(len, napier_seq);
 
-    let (n, _d) = fold_cont_frac::<BigUint>(napier);
+    let (n, _d) = calc::fold_cont_frac::<BigUint>(napier);
     let mut sum = 0;
     for str::each_char(n.to_str()) |c| {
         sum += char::to_digit(c, 10).get();

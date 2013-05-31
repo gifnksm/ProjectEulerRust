@@ -3,9 +3,10 @@
 
 extern mod common;
 
-use std::to_bytes::{ IterBytes };
-use std::hashmap::{ HashSet };
-use common::problem::{ Problem };
+use std::{vec, uint, io};
+use std::to_bytes::{IterBytes};
+use std::hashmap::{HashSet};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 83,

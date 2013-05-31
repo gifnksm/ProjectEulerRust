@@ -2,7 +2,8 @@
 #[crate_type = "lib"];
 
 extern mod common;
-use common::problem::{ Problem };
+use std::vec;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 61,

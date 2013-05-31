@@ -4,11 +4,12 @@
 extern mod extra;
 extern mod common;
 
-use std::num::{ Zero, One };
-use extra::bigint::{ BigInt };
-use extra::rational::{ Ratio };
+use std::{uint, vec};
+use std::num::{Zero, One};
+use extra::bigint::{BigInt};
+use extra::rational::{Ratio};
 use common::poly;
-use common::problem::{ Problem };
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 101,

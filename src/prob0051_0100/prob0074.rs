@@ -3,8 +3,9 @@
 
 extern mod common;
 
-use std::hashmap::{ HashMap };
-use common::problem::{ Problem };
+use std::{uint, vec};
+use std::hashmap::{HashMap};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 74,

@@ -1,11 +1,11 @@
-use std::cmp::{ Eq };
-use std::hash::{ Hash };
-use std::num::{ IntConvertible };
-use std::to_bytes::{ IterBytes };
-use std::hashmap::{ HashMap, HashSet };
-use std::util::{ swap };
+use std::cmp::{Eq};
+use std::hash::{Hash};
+use std::num::{IntConvertible};
+use std::to_bytes::{IterBytes};
+use std::hashmap::{HashMap, HashSet};
+use std::{util, uint, vec};
 
-use arith::{ isqrt };
+use arith::{isqrt};
 
 pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     let n0 = if m % 2 == 0 { 1 } else { 2 };
@@ -231,7 +231,7 @@ pub fn fold_cont_frac<
     let mut denom = IntConvertible::from_int::<T>(0);
 
     for an.each_reverse |&a| {
-        swap(&mut numer, &mut denom);
+        util::swap(&mut numer, &mut denom);
         numer = numer + IntConvertible::from_int::<T>(a as int) * denom;
     }
 
@@ -316,8 +316,9 @@ pub fn pow(base: uint, exp: uint) -> uint {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use extra::sort::{ merge_sort };
-    use extra::bigint::{ BigUint };
+    use std::vec;
+    use extra::sort::{merge_sort};
+    use extra::bigint::{BigUint};
 
     #[test]
     fn test_factorial() {

@@ -3,9 +3,10 @@
 
 extern mod common;
 
-use std::hashmap::{ HashMap };
-use common::arith::{ isqrt };
-use common::problem::{ Problem };
+use std::uint;
+use std::hashmap::{HashMap};
+use common::arith;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 39,
@@ -21,7 +22,7 @@ pub fn solve() -> ~str {
     let limit = 1000;
     let mut map = HashMap::new::<uint, uint>();
 
-    for uint::range(1, (isqrt(1 + limit) - 1) / 2) |m| {
+    for uint::range(1, (arith::isqrt(1 + limit) - 1) / 2) |m| {
         for uint::range(1, uint::min(1 + limit / (2 * m) - m, m)) |n| {
             if (m - n) % 2 == 0 { loop; }
             if m.gcd(&n) != 1 { loop; }

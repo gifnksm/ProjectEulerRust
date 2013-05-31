@@ -4,8 +4,9 @@
 extern mod extra;
 extern mod common;
 
-use extra::sort::{ quick_sort };
-use common::problem::{ Problem };
+use std::{uint, vec, str};
+use extra::sort;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 84,
@@ -249,7 +250,7 @@ pub fn solve() -> ~str {
         let (p, sq) = pairs[dst];
         pairs[dst] = (p + vs[0], sq);
     }
-    quick_sort(pairs, |&(p1, _), &(p2, _)| p1 >= p2);
+    sort::quick_sort(pairs, |&(p1, _), &(p2, _)| p1 >= p2);
     return str::concat(
         do pairs.slice(0, 3).map |&(_, sq)| { fmt!("%02u", sq.to_uint()) }
     );
@@ -258,6 +259,7 @@ pub fn solve() -> ~str {
 #[cfg(test)]
 mod test {
     use super::*;
+    use std::uint;
 
     #[test]
     fn test_int_convertible_square() {

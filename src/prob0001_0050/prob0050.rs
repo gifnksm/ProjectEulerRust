@@ -3,9 +3,9 @@
 
 extern mod common;
 
-use std::iterator::{ IteratorUtil };
+use std::iterator::{IteratorUtil};
 use common::prime;
-use common::problem::{ Problem };
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 50,

@@ -3,10 +3,10 @@
 
 extern mod common;
 
-use std::util::{ unreachable };
+use std::{util, uint};
 use common::prime;
-use common::calc::{ num_to_digits, digits_to_num, digit_histogram };
-use common::problem::{ Problem };
+use common::calc;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 51,
@@ -18,8 +18,8 @@ pub fn solve() -> ~str {
     let num_family = 8;
 
     for prime::each |p| {
-        let ds = num_to_digits(p, 10);
-        let hs = digit_histogram(p);
+        let ds = calc::num_to_digits(p, 10);
+        let hs = calc::digit_histogram(p);
         for hs.eachi |i, &cnt| {
             // 同じ文字が2つ以上登場する数値だけを対象にする
             if cnt <= 1 { loop; }
@@ -31,7 +31,7 @@ pub fn solve() -> ~str {
             let mut cnt = 1;
             for uint::range(i + 1, 10) |j| {
                 let buf = ds.map(|&d| if d == i { j } else { d });
-                if prime::contains(digits_to_num(buf, 10)) {
+                if prime::contains(calc::digits_to_num(buf, 10)) {
                     cnt += 1;
                 }
             }
@@ -41,6 +41,6 @@ pub fn solve() -> ~str {
         }
     }
 
-    unreachable();
+    util::unreachable();
 }
 

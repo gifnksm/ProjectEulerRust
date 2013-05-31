@@ -4,10 +4,11 @@
 extern mod extra;
 extern mod common;
 
-use std::hashmap::{ HashMap, HashSet };
-use extra::sort::{ quick_sort3 };
-use common::calc::{ num_to_digits };
-use common::problem::{ Problem };
+use std::uint;
+use std::hashmap::{HashMap, HashSet};
+use extra::sort;
+use common::calc;
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 62,
@@ -30,8 +31,8 @@ pub fn solve() -> ~str {
         }
 
         let cube = n * n * n;
-        let mut ds = num_to_digits(cube, 10);
-        quick_sort3(ds);
+        let mut ds = calc::num_to_digits(cube, 10);
+        sort::quick_sort3(ds);
 
         let v = match map.pop(&ds) {
             Some(nums) => nums + [ cube ],

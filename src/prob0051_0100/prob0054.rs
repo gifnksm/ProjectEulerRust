@@ -3,9 +3,10 @@
 
 extern mod common;
 
-use std::from_str::{ FromStr };
-use common::card::{ Card };
-use common::problem::{ Problem };
+use std::{vec, result, str, io};
+use std::from_str::{FromStr};
+use common::card::{Card};
+use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
     id: 54,
