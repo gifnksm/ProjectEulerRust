@@ -67,6 +67,6 @@ impl FromStr for Card {
     }
 }
 
-pub impl Card {
-    fn dummy() -> Card { Card { num: 0, suit: Dummy } }
+impl Card {
+    pub fn dummy() -> Card { Card { num: 0, suit: Dummy } }
 }

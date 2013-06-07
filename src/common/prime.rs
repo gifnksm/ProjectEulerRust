@@ -1,8 +1,8 @@
-use std::iterator::{Iterator, IteratorUtil, Counter, MultiplicativeIterator};
+use std::iterator::{Iterator, IteratorUtil, Counter, MultiplicativeIterator, MapIterator};
 use std::{util, local_data, vec};
 
 use extiter::{Range};
-use calc::{pow};
+use calc;
 use monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
 
 static PRIMES_BELOW100: &'static [uint] = &[
@@ -166,9 +166,9 @@ pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
     let mut result = 1;
     for fs.advance |(base, exp)| {
         if exp > 0 {
-            result *= pow(base, exp as uint);
+            result *= calc::pow(base, exp as uint);
         } else {
-            result /= pow(base, (-exp) as uint);
+            result /= calc::pow(base, (-exp) as uint);
         }
     }
     return result;
@@ -176,22 +176,22 @@ pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
 
 #[inline(always)]
 pub fn comb(n: uint, r: uint) -> uint {
-    let numer = MergeMultiMonoidIterator::new(
-        Range::new(r + 1, n + 1)
+    let ns: ~[MapIterator<(uint, int), (uint, Sum<int>), FactorIterator>]
+        = Range::new(r + 1, n + 1)
         .transform(factorize)
         .transform(|fs| fs.transform(|(base, exp)| (base, Sum(exp))))
-        .to_vec()
-    );
+        .collect();
+    let numer = MergeMultiMonoidIterator::new(ns);
 
-    let denom = MergeMultiMonoidIterator::new(
-        Range::new(1, n - r + 1)
+    let ds: ~[MapIterator<(uint, int), (uint, Sum<int>), FactorIterator>]
+        = Range::new(1, n - r + 1)
         .transform(factorize)
         .transform(|fs| fs.transform(|(base, exp)| (base, Sum(-exp))))
-        .to_vec()
-    );
+        .collect();
+    let denom = MergeMultiMonoidIterator::new(ds);
 
     return factors_to_uint(
-        MergeMonoidIterator::new(numer, denom).transform(|(a, m)| (a, m.unwrap()))
+        MergeMonoidIterator::new(numer, denom).transform(|(a, m): (uint, Sum<int>)| (a, m.unwrap()))
     );
 }
 
@@ -213,7 +213,7 @@ pub fn sum_of_divisors(n: uint) -> uint {
     if n == 0 { return 0; }
     return factorize(n)
         .transform(|(base, exp)| {
-            (pow(base, (exp as uint) + 1) - 1) / (base - 1)
+            (calc::pow(base, (exp as uint) + 1) - 1) / (base - 1)
         }).product();
 }
 

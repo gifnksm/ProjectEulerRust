@@ -19,7 +19,7 @@ pub fn solve() -> ~str {
     let mut set = HashSet::new();
 
     for uint::range(2, 101) |a| {
-        let a_factor = prime::factorize(a).to_vec();
+        let a_factor: ~[(uint, int)] = prime::factorize(a).collect();
         for uint::range(2, 101) |b| {
             let ab_factor = a_factor
                 .map(|&(base, exp)| (base, (exp) as uint * b));

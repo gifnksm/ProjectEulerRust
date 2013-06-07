@@ -4,6 +4,7 @@ extern mod common;
 use std::{uint, vec, io, old_iter, os};
 use std::iterator::{Iterator, IteratorUtil};
 use extra::{time, term};
+use extra::term::Terminal;
 use common::problem::{Problem};
 use common::extiter::{Range};
 
@@ -24,9 +25,10 @@ fn bench<T>(f: &fn() -> T) -> (u64, T) {
 }
 
 fn color_print(writer: @io::Writer, color: u8, s: &str) {
-    term::fg(writer, color);
+    let term = Terminal::new(writer);
+    term.iter(|&t| t.fg(color));
     print(s);
-    term::reset(writer);
+    term.iter(|&t| t.reset());
 }
 
 fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
@@ -51,7 +53,7 @@ fn parse_num(s: &str) -> ~[uint] {
         }
     }
     if ns.len() > 2 { return ~[]; }
-    return Range::new(ns[0], ns[1] + 1).to_vec();
+    return Range::new(ns[0], ns[1] + 1).collect();
 }
 
 struct ArgIterator<'self> {

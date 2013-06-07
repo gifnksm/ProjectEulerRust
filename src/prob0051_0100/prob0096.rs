@@ -118,7 +118,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
             for uint::range(0, BOARD_WIDTH) |x| {
                 if puzzle.map[y][x].population_count() != 1 { loop; }
 
-                let x0 = x / GROUP_WIDTH * GROUP_WIDTH, y0 = y / GROUP_HEIGHT * GROUP_HEIGHT;
+                let (x0, y0) = (x / GROUP_WIDTH * GROUP_WIDTH,
+                                y / GROUP_HEIGHT * GROUP_HEIGHT);
                 let row = Range::new(0, BOARD_WIDTH).transform(|x| (x, y));
                 let col = Range::new(0, BOARD_HEIGHT).transform(|y| (x, y));
                 let grp = group_it.transform(|(dx, dy)| (x0 + dx, y0 + dy));
