@@ -4,6 +4,7 @@
 extern mod common;
 
 use std::uint;
+use std::iterator::{IteratorUtil};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -33,7 +34,7 @@ static triangle: &'static [&'static [uint]] = &[
 pub fn solve() -> ~str {
     let init = triangle.init();
     let last = triangle.last();
-    let answer = do init.foldr(last.to_vec()) |elm, mut total| {
+    let answer = do init.rev_iter().fold(last.to_vec()) |mut total, elm| {
         for elm.eachi |i, e| { total[i] = e + uint::max(total[i], total[i + 1]); }
         total
     };

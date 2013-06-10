@@ -238,7 +238,7 @@ mod tests {
     fn test_range() {
         fn gen(start: uint, end: uint, step: int) -> ~[uint] {
             let s = if step >= 0 { Plus(step as uint) } else { Minus((-step) as uint) };
-            Range::new_with_step(start, end, s).to_vec()
+            Range::new_with_step(start, end, s).collect()
         }
         assert_eq!(gen(0, 3, 1), ~[0, 1, 2]);
         assert_eq!(gen(13, 10, -1), ~[13, 12, 11]);
@@ -256,39 +256,47 @@ mod tests {
 
     #[test]
     fn test_area2d() {
-        assert_eq!(Area2DIterator::new((0, 0), (1, 1), (0, 0), (3, 3)).to_vec(),
-                  ~[(0, 0), (1, 1), (2, 2), (3, 3)]);
-        assert_eq!(Area2DIterator::new((1, 1), (1, 1), (0, 0), (3, 3)).to_vec(),
-                  ~[(1, 1), (2, 2), (3, 3)]);
-        assert_eq!(Area2DIterator::new((3, 3), (1, 1), (0, 0), (3, 3)).to_vec(),
-                  ~[(3, 3)]);
-        assert_eq!(Area2DIterator::new((0, 0), (2, 2), (0, 0), (3, 3)).to_vec(),
-                  ~[(0, 0), (2, 2)]);
+        let vs: ~[(int, int)] = Area2DIterator::new((0, 0), (1, 1), (0, 0), (3, 3)).collect();
+        assert_eq!(vs, ~[(0, 0), (1, 1), (2, 2), (3, 3)]);
 
-        assert_eq!(Area2DIterator::new((0, 0), (0, 1), (0, 0), (3, 3)).to_vec(),
-                  ~[(0, 0), (0, 1), (0, 2), (0, 3)]);
-        assert_eq!(Area2DIterator::new((0, 0), (0, 1), (0, 0), (3, 5)).to_vec(),
-                  ~[(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)]);
-        assert_eq!(Area2DIterator::new((0, 0), (1, 2), (0, 0), (3, 5)).to_vec(),
-                  ~[(0, 0), (1, 2), (2, 4)]);
+        let vs: ~[(int, int)] = Area2DIterator::new((1, 1), (1, 1), (0, 0), (3, 3)).collect();
+        assert_eq!(vs, ~[(1, 1), (2, 2), (3, 3)]);
 
-        assert_eq!(Area2DIterator::new((3, 3), (-1, -1), (0, 0), (3, 3)).to_vec(),
-                  ~[(3, 3), (2, 2), (1, 1), (0, 0)]);
-        assert_eq!(Area2DIterator::new((3, 3), (-2, -2), (0, 0), (3, 3)).to_vec(),
-                  ~[(3, 3), (1, 1)]);
+        let vs: ~[(int, int)] = Area2DIterator::new((3, 3), (1, 1), (0, 0), (3, 3)).collect();
+        assert_eq!(vs, ~[(3, 3)]);
+
+        let vs: ~[(int, int)] = Area2DIterator::new((0, 0), (2, 2), (0, 0), (3, 3)).collect();
+        assert_eq!(vs, ~[(0, 0), (2, 2)]);
+
+        let vs: ~[(int, int)] = Area2DIterator::new((0, 0), (0, 1), (0, 0), (3, 3)).collect();
+        assert_eq!(vs, ~[(0, 0), (0, 1), (0, 2), (0, 3)]);
+
+        let vs: ~[(int, int)] = Area2DIterator::new((0, 0), (0, 1), (0, 0), (3, 5)).collect();
+        assert_eq!(vs, ~[(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)]);
+
+        let vs: ~[(int, int)] = Area2DIterator::new((0, 0), (1, 2), (0, 0), (3, 5)).collect();
+        assert_eq!(vs, ~[(0, 0), (1, 2), (2, 4)]);
+
+        let vs: ~[(int, int)] = Area2DIterator::new((3, 3), (-1, -1), (0, 0), (3, 3)).collect();
+        assert_eq!(vs, ~[(3, 3), (2, 2), (1, 1), (0, 0)]);
+
+        let vs: ~[(int, int)] = Area2DIterator::new((3, 3), (-2, -2), (0, 0), (3, 3)).collect();
+        assert_eq!(vs, ~[(3, 3), (1, 1)]);
     }
 
     #[test]
     fn test_fibonacci() {
         let it = Fibonacci::new::<uint>();
         let fib = ~[ 1u, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
-        assert_eq!(it.take(fib.len()).to_vec(), fib);
+        let gen: ~[uint] = it.take(fib.len()).collect();
+        assert_eq!(gen, fib);
     }
 
     #[test]
     fn test_triangle() {
         let it = Triangle::new();
         let tri = ~[1u, 3, 6, 10, 15, 21];
-        assert_eq!(it.take(tri.len()).to_vec(), tri);
+        let gen: ~[uint] = it.take(tri.len()).collect();
+        assert_eq!(gen, tri);
     }
 }

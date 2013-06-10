@@ -3,6 +3,7 @@
 
 extern mod common;
 
+use std::iterator::{IteratorUtil};
 use std::{uint, vec, str, io};
 use common::problem::{Problem};
 
@@ -26,9 +27,9 @@ pub fn solve() -> ~str {
     }).map(|triangle| {
         let init = triangle.init();
         let last = triangle.last();
-        (do init.foldr(last.to_owned()) |elm, prev| {
-            do vec::from_fn(elm.len()) |i| {
-                elm[i] + uint::max(prev[i], prev[i + 1])
+        (do init.rev_iter().fold(last.to_owned()) |prev, elem| {
+            do vec::from_fn(elem.len()) |i| {
+                elem[i] + uint::max(prev[i], prev[i + 1])
             }
         })[0]
     });

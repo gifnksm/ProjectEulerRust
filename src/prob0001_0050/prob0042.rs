@@ -17,7 +17,7 @@ pub static problem: Problem<'static> = Problem {
 
 fn word_value(word: &str) -> uint {
     let mut value = 0;
-    for word.each |b| {
+    for word.bytes_iter().advance |b| {
         value += (b - ('A' as u8) + 1) as uint;
     }
     return value;

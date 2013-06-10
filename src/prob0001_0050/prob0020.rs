@@ -20,7 +20,7 @@ pub fn solve() -> ~str {
     let s = Range::new::<uint>(1, 101)
         .transform(|n| BigUint::from_uint(n))
         .product().to_str();
-    return s.char_iter()
+    return s.iter()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()
         .to_str();

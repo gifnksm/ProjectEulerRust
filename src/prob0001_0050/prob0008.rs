@@ -39,7 +39,7 @@ static input: &'static str = &"
 
 pub fn solve() -> ~str {
     let prod_len = 5;
-    return input.char_iter()
+    return input.iter()
         .filter_map(|c| char::to_digit(c, 10))
         .windowed(prod_len)
         .transform(|win| win.foldl(1, |&p, &n| p * n))

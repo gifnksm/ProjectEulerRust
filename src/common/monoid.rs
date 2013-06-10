@@ -305,18 +305,21 @@ mod tests {
     #[test]
     fn test_merge_monoid_iterator() {
         fn check<M: Monoid + Wrap<int> + Eq>(v1: &[(int, int)],
-                                               v2: &[(int, int)],
-                                               f: &fn(int) -> M,
-                                               result: &[(int, int)]) {
+                                             v2: &[(int, int)],
+                                             f: &fn(int) -> M,
+                                             result: &[(int, int)]) {
             let conv = |&(x, y): &(int, int)| (x, f(y));
-            assert_eq!(
-                MergeMonoidIterator::new(v1.iter().transform(conv),
-                                         v2.iter().transform(conv)).to_vec(),
-                result.map(conv));
-            assert_eq!(
-                MergeMonoidIterator::new(v2.iter().transform(conv),
-                                         v1.iter().transform(conv)).to_vec(),
-                result.map(conv));
+            let merged: ~[(int, M)] = MergeMonoidIterator::new(
+                v1.iter().transform(conv),
+                v2.iter().transform(conv)
+            ).collect();
+            assert_eq!(merged, result.map(conv));
+
+            let merged: ~[(int, M)] = MergeMonoidIterator::new(
+                v2.iter().transform(conv),
+                v1.iter().transform(conv)
+            ).collect();
+            assert_eq!(merged, result.map(conv));
         }
 
         let v1 = [(1, 1), (3, 1), (4, 3), (6, 1)];
@@ -345,9 +348,8 @@ mod tests {
             let conv = |&(x, y): &(int, int)| (x, f(y));
             let iters = vec::from_fn(vs.len(), |i| vs[i].iter().transform(conv));
             for vec::each_permutation(iters) |it| {
-                assert_eq!(
-                    MergeMultiMonoidIterator::new(vec::to_owned(it)).to_vec(),
-                    result.map(conv));
+                let merged: ~[(int, M)] = MergeMultiMonoidIterator::new(vec::to_owned(it)).collect();
+                assert_eq!(merged, result.map(conv));
             }
         }
 

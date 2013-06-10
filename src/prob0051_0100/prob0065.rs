@@ -4,7 +4,8 @@
 extern mod extra;
 extern mod common;
 
-use std::{char, str, vec};
+use std::{char, vec};
+use std::iterator::{IteratorUtil, AdditiveIterator};
 use extra::bigint::{BigUint};
 use common::calc;
 use common::problem::{Problem};
@@ -29,10 +30,10 @@ pub fn solve() -> ~str {
     let napier = vec::from_fn(len, napier_seq);
 
     let (n, _d) = calc::fold_cont_frac::<BigUint>(napier);
-    let mut sum = 0;
-    for str::each_char(n.to_str()) |c| {
-        sum += char::to_digit(c, 10).get();
-    }
-    return sum.to_str();
+    let ns = n.to_str();
+    return ns.iter()
+        .filter_map(|c| char::to_digit(c, 10))
+        .sum()
+        .to_str();
 }
 

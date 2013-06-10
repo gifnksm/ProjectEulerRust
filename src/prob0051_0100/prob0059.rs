@@ -2,7 +2,8 @@
 #[crate_type = "lib"];
 
 extern mod common;
-use std::{uint, vec, float, u8, str, io};
+use std::iterator::{IteratorUtil};
+use std::{uint, float, u8, str, io};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -48,7 +49,7 @@ fn trans_map<T: Copy>(key: u8, src: &[T], dst: &mut [T]) {
 
 fn get_dist(a: &[float], b: &[float]) -> float {
     let mut sum = 0f;
-    for vec::each2(a, b) |&na, &nb| {
+    for a.iter().zip(b.iter()).advance |(&na, &nb)| {
         sum += (na - nb) * (na - nb);
     }
     return sum;

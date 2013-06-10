@@ -1,6 +1,7 @@
 use std::cmp::{Eq};
 use std::hash::{Hash};
 use std::num::{IntConvertible};
+use std::iterator::{IteratorUtil};
 use std::to_bytes::{IterBytes};
 use std::hashmap::{HashMap, HashSet};
 use std::{util, uint, vec};
@@ -230,7 +231,7 @@ pub fn fold_cont_frac<
     let mut numer = IntConvertible::from_int::<T>(1);
     let mut denom = IntConvertible::from_int::<T>(0);
 
-    for an.each_reverse |&a| {
+    for an.rev_iter().advance |&a| {
         util::swap(&mut numer, &mut denom);
         numer = numer + IntConvertible::from_int::<T>(a as int) * denom;
     }

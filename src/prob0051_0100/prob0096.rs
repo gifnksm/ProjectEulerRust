@@ -31,7 +31,7 @@ struct SuDoku {
 impl TotalEq for SuDoku {
     #[inline(always)]
     fn equals(&self, other: &SuDoku) -> bool {
-        self.name == other.name && Range::new(0, BOARD_HEIGHT).all(|&y| self.map[y] == other.map[y])
+        self.name == other.name && Range::new(0, BOARD_HEIGHT).all(|y| self.map[y] == other.map[y])
     }
 }
 
@@ -164,8 +164,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
         .transform(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
         .transform(|(x, y)| (x, y, puzzle.map[y][x].population_count()));
 
-    if (copy it).any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
-    if (copy it).all(|&(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
+    if (copy it).any(|(_x, _y, cnt)| cnt == 0) { return ~[]; }
+    if (copy it).all(|(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
 
     let (x, y, _cnt) = it
         .filter(|&(_x, _y, cnt)| cnt > 1)

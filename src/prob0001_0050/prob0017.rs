@@ -91,7 +91,7 @@ fn to_word(n: uint) -> ~str {
 pub fn solve() -> ~str {
     return Range::new::<uint>(1, 1001)
         .transform(to_word)
-        .transform(|w| w.char_iter()
+        .transform(|w| w.iter()
                    .filter(|&c| c != '-' && c != ' ')
                    .count())
         .sum()

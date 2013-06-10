@@ -3,7 +3,8 @@
 
 extern mod common;
 
-use std::{vec, result, str, io};
+use std::{result, str, io};
+use std::iterator::{IteratorUtil};
 use std::from_str::{FromStr};
 use common::card::{Card};
 use common::problem::{Problem};
@@ -101,7 +102,7 @@ fn hand(cards: &[Card, ..5]) -> Hand {
         _ => { /* Do nothing */ }
     }
 
-    let is_flush    = suit_count.any(|v| v.len() == 5);
+    let is_flush    = suit_count.iter().any(|v| v.len() == 5);
     let is_straight = {
         let mut min_idx = 0;
         for num_count.eachi |i, v| {
@@ -132,7 +133,7 @@ fn cmp_card(c1: &Card, c2: &Card) -> int {
 #[inline(always)]
 fn cmp_cards(cs1: &[Card], cs2: &[Card]) -> int {
     assert_eq!(cs1.len(), cs2.len());
-    for vec::each2(cs1, cs2) |c1, c2| {
+    for cs1.iter().zip(cs2.iter()).advance |(c1, c2)| {
         let cmp = cmp_card(c1, c2);
         if cmp != 0 { return cmp; }
     }
