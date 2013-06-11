@@ -4,7 +4,7 @@
 extern mod extra;
 extern mod common;
 
-use std::{uint, vec, str};
+use std::{uint, vec};
 use extra::sort;
 use common::problem::{Problem};
 
@@ -251,9 +251,7 @@ pub fn solve() -> ~str {
         pairs[dst] = (p + vs[0], sq);
     }
     sort::quick_sort(pairs, |&(p1, _), &(p2, _)| p1 >= p2);
-    return str::concat(
-        do pairs.slice(0, 3).map |&(_, sq)| { fmt!("%02u", sq.to_uint()) }
-    );
+    return pairs.slice(0, 3).map(|&(_, sq)| { fmt!("%02u", sq.to_uint()) }).concat();
 }
 
 #[cfg(test)]

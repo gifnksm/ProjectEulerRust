@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use std::{float, str, io};
+use std::{float, io};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -19,7 +19,7 @@ pub fn solve() -> ~str {
             let mut max = 0f;
             let mut max_idx = 1;
             for input.each_line |line| {
-                for str::find_char(line, ',').each |&idx| {
+                for line.find(',').each |&idx| {
                     let base = float::from_str(line.slice(0, idx)).get();
                     let exp  = float::from_str(line.slice(idx + 1, line.len())).get();
                     let ln = exp * base.ln();

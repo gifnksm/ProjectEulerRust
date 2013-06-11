@@ -3,8 +3,8 @@
 
 extern mod common;
 
-use std::{result, str, io};
-use std::iterator::{IteratorUtil};
+use std::{result, io};
+use std::iterator::{IteratorUtil, Counter};
 use std::from_str::{FromStr};
 use common::card::{Card};
 use common::problem::{Problem};
@@ -220,11 +220,9 @@ pub fn solve() -> ~str {
         for file.each_line |line| {
             let mut p1_cards = [ Card::dummy(), ..5 ];
             let mut p2_cards = [ Card::dummy(), ..5 ];
-            let mut i = 0;
-            for str::each_word(line) |word| {
+            for line.word_iter().zip(Counter::new(0u, 1)).advance |(word, i)| {
                 let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
                 cards[i % 5] = FromStr::from_str::<Card>(word).get();
-                i += 1;
             }
             let cmp = judge(&p1_cards, &p2_cards);
             if cmp > 0 { p1_win += 1;  }

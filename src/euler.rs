@@ -1,7 +1,7 @@
 extern mod extra;
 extern mod common;
 
-use std::{uint, vec, io, old_iter, os};
+use std::{uint, vec, io, os};
 use std::iterator::{Iterator, IteratorUtil};
 use extra::{time, term};
 use extra::term::Terminal;
@@ -41,21 +41,6 @@ fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
     println(fmt!("] %5s %13s %20s", name, nanosec_to_str(time), comp_answer));
 }
 
-fn parse_num(s: &str) -> ~[uint] {
-    if !s.contains_char('-') {
-        return old_iter::to_vec(&uint::from_str(s));
-    }
-    let mut ns = ~[];
-    for s.each_split_char('-') |ss| {
-        match uint::from_str(ss) {
-            Some(n) => { ns.push(n); }
-            None    => { return ~[]; }
-        }
-    }
-    if ns.len() > 2 { return ~[]; }
-    return Range::new(ns[0], ns[1] + 1).collect();
-}
-
 struct ArgIterator<'self> {
     args: &'self [~str],
     idx: uint,
@@ -81,7 +66,7 @@ impl<'self> ArgIterator<'self> {
         }
 
         let mut ns = ~[];
-        for self.args[self.idx].each_split_char('-') |ss| {
+        for self.args[self.idx].split_iter('-').advance |ss| {
             match uint::from_str(ss) {
                 Some(n) => { ns.push(n); }
                 None    => { return; }

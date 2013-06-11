@@ -4,7 +4,7 @@
 extern mod common;
 
 use std::iterator::{IteratorUtil};
-use std::{uint, vec, str, io};
+use std::{uint, vec, io};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -17,11 +17,7 @@ pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/triangle.txt")).map(|file| {
         let mut triangle = ~[];
         for file.each_line |line| {
-            let mut nums = ~[];
-            for str::each_word(line) |word| {
-                nums.push(uint::from_str(word).get())
-            }
-            triangle.push(nums);
+            triangle.push(line.word_iter().filter_map(uint::from_str).collect::<~[uint]>())
         }
         triangle
     }).map(|triangle| {

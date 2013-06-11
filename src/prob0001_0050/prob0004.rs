@@ -3,7 +3,8 @@
 
 extern mod common;
 
-use std::{str, vec, uint};
+use std::{str, uint};
+use std::iterator::{IteratorUtil};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -13,19 +14,12 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn to_palindromic(n: uint, dup_flag: bool) -> uint {
-    let cs = str::to_chars(n.to_str());
-    let rv = vec::reversed(cs);
-    let s = str::from_chars(
-        if dup_flag {
-            cs + vec::tail(rv).to_vec()
-        } else {
-            cs + rv
-        }
-    );
-    match uint::from_str(s) {
-      None    => fail!(),
-      Some(x) => x
-    }
+    let ns = n.to_str();
+    let mut rv = ns.rev_iter();
+    if dup_flag { rv.next(); }
+
+    let chars: ~[char] = ns.iter().chain(rv).collect();
+    return uint::from_str(str::from_chars(chars)).get();
 }
 
 fn dividable_pairs(num: uint, min: uint, max: uint, f: &fn(uint, uint) -> bool) -> bool {

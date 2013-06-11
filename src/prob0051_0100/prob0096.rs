@@ -52,9 +52,9 @@ impl ToStr for SuDoku {
                     (1u << cell.trailing_zeros()).to_str()
                 }
             };
-            str::concat(cells)
+            cells.concat()
         };
-        return self.name + "\n" + str::connect(rows, "\n");
+        return self.name + "\n" + rows.connect("\n");
     }
 }
 
@@ -84,10 +84,10 @@ impl SuDoku {
                                                str::repeat("0", MAX_NUMBER - s.len()) + s), "0", "_"));
                     }
                 };
-                push(str::connect(cell_strs, " "));
+                push(cell_strs.connect(" "));
             }
         };
-        return self.name + "\n" + str::connect(row_strs, "\n");
+        return self.name + "\n" + row_strs.connect("\n");
     }
 }
 

@@ -25,7 +25,7 @@ fn read_word<'a>(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
         len += 1;
     }
 
-    return result::Ok((str::slice(input, 1, 1 + len), itr));
+    return result::Ok((input.slice(1, 1 + len), itr));
 }
 
 pub fn read_whole_word<'a>(input: &'a str) -> Result<~[&'a str], ~str> {

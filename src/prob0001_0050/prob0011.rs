@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use std::{str, uint};
+use std::{uint};
 use std::iterator::{IteratorUtil, OrdIterator, MultiplicativeIterator};
 use common::extiter::{ExtIteratorUtil, Area2DIterator};
 use common::problem::{Problem};
@@ -38,17 +38,11 @@ static input: &'static str = &"
 ";
 
 pub fn solve() -> ~str {
-    let grid = {
-        let mut result = ~[];
-        for str::each_line(input.trim()) |line| {
-            let mut col = ~[];
-            for str::each_word(line) |word| {
-                col.push(uint::from_str(word).get())
-            }
-            result.push(col);
-        }
-        result
-    };
+    let grid: ~[~[uint]] = input
+        .trim()
+        .line_iter()
+        .transform(|line| line.word_iter().filter_map(uint::from_str).collect::<~[uint]>())
+        .collect();
 
     let prod_len = 4;
     let (w, h) = (grid[0].len() as int, grid.len() as int);

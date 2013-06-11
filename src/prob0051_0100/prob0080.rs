@@ -4,10 +4,12 @@
 extern mod extra;
 extern mod common;
 
-use std::{str, char, uint};
+use std::{char};
+use std::iterator::{IteratorUtil, AdditiveIterator};
 use std::num::{Zero};
 use extra::bigint::{BigInt};
 use common::arith;
+use common::extiter::{Range};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -38,17 +40,18 @@ fn sqrt_newton_raphson(n: uint, precision: uint) -> ~str {
     return ((n * x_1 * ds) >> shift).to_str();
 }
 
-pub fn solve() -> ~str {
-    let mut total = 0;
-    for uint::range(2, 101) |n| {
-        let isqn = arith::isqrt(n);
-        if isqn * isqn == n { loop; }
+fn is_square(n: uint) -> bool {
+    let isq = arith::isqrt(n);
+    return isq * isq == n;
+}
 
-        let sqn = sqrt_newton_raphson(n, 100);
-        let sum = str::to_chars(sqn)
-            .filter_mapped(|&c| char::to_digit(c, 10))
-            .foldl(0u, |d, &s| d + s);
-        total += sum;
-    }
-    return total.to_str();
+pub fn solve() -> ~str {
+    return Range::new(2u, 101)
+        .filter(|&n| !is_square(n))
+        .transform(|n| {
+            let sqn = sqrt_newton_raphson(n, 100);
+            sqn.iter()
+                .filter_map(|c| char::to_digit(c, 10))
+                .sum()
+        }).sum().to_str();
 }

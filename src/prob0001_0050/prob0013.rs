@@ -3,7 +3,8 @@
 
 extern mod common;
 
-use std::{str, uint};
+use std::{uint};
+use std::iterator::{IteratorUtil, AdditiveIterator};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -116,12 +117,11 @@ static input: &'static str = "
 ";
 
 pub fn solve() -> ~str {
-    let mut sum = 0;
-    for str::each_line(input.trim()) |line| {
-        for uint::from_str(line.slice(0, 12)).each |&num| {
-            sum += num
-        }
-    }
+    let sum = input
+        .trim()
+        .line_iter()
+        .filter_map(|line| uint::from_str(line.slice(0, 12)))
+        .sum();
 
     let sum_str = sum.to_str();
     return sum_str.slice(0, 10).to_str();

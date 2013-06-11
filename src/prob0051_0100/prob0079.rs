@@ -3,7 +3,8 @@
 
 extern mod common;
 
-use std::{vec, str, io, uint, char};
+use std::{io, uint, char};
+use std::iterator::{IteratorUtil};
 use std::hashmap::{HashMap, HashSet};
 use common::problem::{Problem};
 
@@ -95,7 +96,7 @@ pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/keylog.txt")).map(|file| {
         let mut rels = Relations::new();
         for file.each_line |line| {
-            let ds = vec::filter_map(str::to_chars(line), |c| char::to_digit(c, 10));
+            let ds: ~[uint] = line.iter().filter_map(|c| char::to_digit(c, 10)).collect();
             for uint::range(1, ds.len()) |i| {
                 rels.set_dependant(ds[i - 1], ds[i]);
             }
@@ -105,6 +106,6 @@ pub fn solve() -> ~str {
 
     match result {
         Err(msg) => fail!(msg),
-        Ok(value) => return str::concat(value.map(|d| d.to_str()))
+        Ok(value) => return value.map(|d| d.to_str()).concat()
     }
 }

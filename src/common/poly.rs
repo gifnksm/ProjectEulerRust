@@ -1,4 +1,4 @@
-use std::{str, uint, vec};
+use std::{uint, vec};
 use std::num::{Zero, One};
 
 fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
@@ -74,7 +74,7 @@ pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~s
         s.push(term);
     }
 
-    return str::concat(s);
+    return s.concat();
 }
 
 #[cfg(test)]

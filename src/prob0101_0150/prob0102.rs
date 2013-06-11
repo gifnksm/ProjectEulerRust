@@ -5,6 +5,7 @@ extern mod extra;
 extern mod common;
 
 use std::{int, io};
+use std::iterator::{IteratorUtil};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -55,10 +56,10 @@ pub fn solve() -> ~str {
         .map(|input| {
             let mut cnt = 0u;
             for input.each_line |line| {
-                let mut ns = ~[];
-                for line.each_split_char(',') |n| {
-                    ns.push(int::from_str(n).get());
-                }
+                let ns = line
+                    .split_iter(',')
+                    .filter_map(int::from_str)
+                    .collect::<~[int]>();
                 let ps = ((ns[0], ns[1]), (ns[2], ns[3]), (ns[4], ns[5]));
                 if is_inside(ps, (0, 0)) { cnt += 1; }
             }

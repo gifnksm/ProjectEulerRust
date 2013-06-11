@@ -3,7 +3,7 @@
 
 extern mod common;
 use std::iterator::{IteratorUtil};
-use std::{uint, float, u8, str, io};
+use std::{uint, float, u8, io};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -83,12 +83,8 @@ pub fn solve() -> ~str {
 
     let result = io::read_whole_file_str(&Path("files/cipher1.txt"))
         .map(|&input| {
-            let mut val = ~[];
-            for str::each_split_char(input.trim(), ',') |n| {
-                val.push(u8::from_str(n).get());
-            }
-            val
-        }).map(|&input| {
+            input.trim().split_iter(',').filter_map(u8::from_str).collect()
+        }).map(|&input: &~[u8]| {
             let mut freq = [~[0, ..256], ~[0, ..256], ~[0, ..256]];
             for input.eachi |i, &n| {
                 freq[i % 3][n] += 1;

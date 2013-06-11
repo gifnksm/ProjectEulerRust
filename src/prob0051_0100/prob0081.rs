@@ -4,6 +4,7 @@
 extern mod common;
 
 use std::{uint, vec, io};
+use std::iterator::{IteratorUtil};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -16,11 +17,7 @@ pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/matrix.txt")).map(|file| {
         let mut mat = ~[];
         for file.each_line |line| {
-            let mut row = ~[];
-            for line.each_split_char(',') |n| {
-                row.push(uint::from_str(n).get());
-            }
-            mat.push(row);
+            mat.push(line.split_iter(',').filter_map(uint::from_str).collect::<~[uint]>());
             assert_eq!(mat[0].len(), mat.last().len());
         }
         let w = mat[0].len();
