@@ -70,6 +70,27 @@ impl<T: Integer> Iterator<T> for Range<T> {
     }
 }
 
+struct DigitIterator {
+    n: uint,
+    radix: uint
+}
+
+impl DigitIterator {
+    pub fn new(n: uint, radix: uint) -> DigitIterator {
+        DigitIterator { n: n, radix: radix }
+    }
+}
+
+impl Iterator<uint> for DigitIterator {
+    #[inline(always)]
+    fn next(&mut self) -> Option<uint> {
+        if self.n == 0 { return None; }
+        let (d, r) = self.n.div_rem(&self.radix);
+        self.n = d;
+        return Some(r);
+    }
+}
+
 
 struct Area2DIterator {
     cur: (int, int),
@@ -229,6 +250,36 @@ impl<'self, A: Clone, T: Iterator<A>> Iterator<~[A]> for WindowedIterator<A, T> 
     }
 }
 
+pub trait HigherIterator<A, U, T> {
+    pub fn flatten(self) -> FlattenIterator<Self, U>;
+}
+
+impl<A, U: Iterator<A>, T: Iterator<U>> HigherIterator<A, U, T> for T {
+    pub fn flatten(self) -> FlattenIterator<T, U> {
+        let mut it = self;
+        let inner = it.next();
+        return FlattenIterator { outer_iter: it, inner_iter: inner };
+    }
+}
+
+pub struct FlattenIterator<T, U> {
+    priv outer_iter: T,
+    priv inner_iter: Option<U>
+}
+
+impl<'self, A, U: Iterator<A>, T: Iterator<U>> Iterator<A> for FlattenIterator<T, U> {
+    fn next(&mut self) -> Option<A> {
+        if self.inner_iter.is_none() { return None; }
+        {
+            let it = self.inner_iter.get_mut_ref();
+            let next = it.next();
+            if next.is_some() { return next; }
+        }
+        self.inner_iter = self.outer_iter.next();
+        return self.next();
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -252,6 +303,12 @@ mod tests {
                    ~[uint::min_value + 2]);
         assert_eq!(gen(uint::min_value + 3, uint::min_value, -2),
                    ~[uint::min_value + 3, uint::min_value + 1]);
+    }
+
+    #[test]
+    fn test_digit() {
+        let vs: ~[uint] = DigitIterator::new(123456789, 10).collect();
+        assert_eq!(vs, ~[9, 8, 7, 6, 5, 4, 3, 2, 1]);
     }
 
     #[test]
@@ -298,5 +355,20 @@ mod tests {
         let tri = ~[1u, 3, 6, 10, 15, 21];
         let gen: ~[uint] = it.take(tri.len()).collect();
         assert_eq!(gen, tri);
+    }
+
+    #[test]
+    fn test_higher() {
+        let mut it = Range::new(0u, 2).transform(|i| Range::new(i, i + 3)).flatten();
+        let gen = it.collect::<~[uint]>();
+        assert_eq!(gen, ~[0, 1, 2, 1, 2, 3]);
+
+        let mut it = Range::new(0u, 0).transform(|i| Range::new(i, i + 3)).flatten();
+        let gen = it.collect::<~[uint]>();
+        assert_eq!(gen, ~[]);
+
+        let mut it = Range::new(0u, 2).transform(|i| Range::new(i, i)).flatten();
+        let gen = it.collect::<~[uint]>();
+        assert_eq!(gen, ~[]);
     }
 }

@@ -3,8 +3,10 @@
 
 extern mod common;
 
-use std::{str, uint};
+use std::uint;
 use std::iterator::{IteratorUtil};
+use common::calc;
+use common::extiter::{Range, HigherIterator};
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -12,15 +14,6 @@ pub static problem: Problem<'static> = Problem {
     answer: "906609",
     solver: solve
 };
-
-fn to_palindromic(n: uint, dup_flag: bool) -> uint {
-    let ns = n.to_str();
-    let mut rv = ns.rev_iter();
-    if dup_flag { rv.next(); }
-
-    let chars: ~[char] = ns.iter().chain(rv).collect();
-    return uint::from_str(str::from_chars(chars)).get();
-}
 
 fn dividable_pairs(num: uint, min: uint, max: uint, f: &fn(uint, uint) -> bool) -> bool {
     let mut div = uint::max(uint::div_ceil(num, max), min);
@@ -34,12 +27,17 @@ fn dividable_pairs(num: uint, min: uint, max: uint, f: &fn(uint, uint) -> bool) 
 }
 
 pub fn solve() -> ~str {
-    for [false, true].each |&dup_flag| {
-        for uint::range_rev(999, 99) |seed| {
-            let num = to_palindromic(seed, dup_flag);
-            for dividable_pairs(num, 100, 999) |d1, d2| {
-                return (d1 * d2).to_str();
-            }
+    let it1 = Range::new_rev(999u, 99).transform(|seed| {
+        calc::to_palindromic(seed, 10, false)
+    });
+    let it2 = Range::new_rev(999u, 99).transform(|seed| {
+        calc::to_palindromic(seed, 10, true)
+    });
+
+    let mut it = it1.chain(it2);
+    for it.advance |num| {
+        for dividable_pairs(num, 100, 999) |d1, d2| {
+            return (d1 * d2).to_str();
         }
     }
 

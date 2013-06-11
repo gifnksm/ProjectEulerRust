@@ -14,9 +14,9 @@ pub static problem: Problem<'static> = Problem {
 };
 
 pub fn solve() -> ~str {
-    let max = 4000000;
+    let limit = 4000000;
     return Fibonacci::new::<uint>()
-        .take_while(|&f| f < max)
+        .take_while(|&f| f < limit)
         .filter(|&f| f % 2 == 0)
         .sum()
         .to_str();

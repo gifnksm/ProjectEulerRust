@@ -7,6 +7,7 @@ use std::hashmap::{HashMap, HashSet};
 use std::{util, uint, vec};
 
 use arith::{isqrt};
+use extiter::{Range};
 
 pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     let n0 = if m % 2 == 0 { 1 } else { 2 };
@@ -80,6 +81,21 @@ pub fn digits_to_num(v: &[uint], radix: uint) -> uint {
         num += *n;
     }
     return num;
+}
+
+pub fn to_palindromic(n: uint, radix: uint, dup_flag: bool) -> uint {
+    let digits = num_to_digits(n, radix);
+    let mut rv = digits.rev_iter();
+    if dup_flag { rv.next(); }
+
+    return digits.iter().chain(rv).fold(0, |sum, &i| sum * radix + i);
+}
+
+pub fn is_palindromic(n: uint, radix: uint) -> bool {
+    let digits = num_to_digits(n, radix);
+    return Range::new(0, digits.len() / 2).all(|i| {
+        digits[i] == digits[digits.len() - 1 - i]
+    });
 }
 
 pub fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> bool {
@@ -299,7 +315,6 @@ pub fn each_pel_neg<
     }
 }
 
-#[inline(always)]
 pub fn pow(base: uint, exp: uint) -> uint {
     let mut result = 1;
     let mut itr = exp;
@@ -383,6 +398,27 @@ mod tests {
         assert_eq!(digits_to_num([1, 2, 3], 10), 123);
         assert_eq!(digits_to_num([0, 0, 1, 2, 3], 10), 123);
         assert_eq!(digits_to_num([1, 2, 3, 0, 0], 10), 12300);
+    }
+
+    #[test]
+    fn test_to_palindromic() {
+        assert_eq!(to_palindromic(10, 10, true), 101);
+        assert_eq!(to_palindromic(10, 10, false), 1001);
+
+        assert_eq!(to_palindromic(0xabc, 16, true), 0xabcba);
+        assert_eq!(to_palindromic(0xabc, 16, false), 0xabccba);
+    }
+
+    #[test]
+    fn test_is_palindromic() {
+        assert!(is_palindromic(0, 10));
+        assert!(is_palindromic(1, 10));
+        assert!(is_palindromic(9, 10));
+        assert!(is_palindromic(11, 10));
+        assert!(is_palindromic(121, 10));
+        assert!(!is_palindromic(123, 10));
+        assert!(is_palindromic(1221, 10));
+        assert!(is_palindromic(12321, 10));
     }
 
     #[test]
