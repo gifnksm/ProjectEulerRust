@@ -16,13 +16,12 @@ endif
 BINDIR=
 LIBDIR=
 
-PROBDIR=$(wildcard src/prob*_*)
-VPATH=$(PROBDIR)
+VPATH=src
 
-TARGETSRC=src/euler.rs
+TARGETSRC=src/euler/main.rs
 COMMONSRC=src/common/lib.rs
-PROBSRC=$(sort $(wildcard src/prob*_*/prob*.rs))
-MODSRC=src/problem.rs
+PROBSRC=$(sort $(wildcard src/prob*.rs))
+MODSRC=src/euler/problem.rs
 
 DEBUG_BINDIR=bin/debug
 DEBUG_LIBDIR=lib/debug
@@ -86,7 +85,7 @@ $(BINDIR)/prob%.test$(EXEEXT): prob%.rs $(PROBDEP)
 	rustc --test -o $@ $(RUSTC_FLAGS) $<
 
 $(MODSRC): $(PROBSRC)
-	./etc/genmod $(PROBDIR) > $@
+	./etc/genmod ./src > $@
 
 clean:
 	$(RM) $(MODSRC) $(DEBUG_BINDIR)/* $(DEBUG_LIBDIR)/* $(RELEASE_BINDIR)/* $(RELEASE_LIBDIR)/* $(TEST_BINDIR)/* $(TEST_LIBDIR)/*

@@ -8,7 +8,7 @@ lib/debug/*
 lib/release/*
 
 # ignore auto generated module files
-src/problem.rs
+src/euler/problem.rs
 
 # ignore attachment files
 files/*.txt
