@@ -61,7 +61,7 @@ pub fn solve() -> ~str {
     let diag_tl = iter!((  0, 0), ( 1, 0), (-1, 1));
     let diag_br = iter!((w-1, 1), ( 0, 1), (-1, 1));
 
-    let it = row.chain(col).chain(diag_tr).chain(diag_bl).chain(diag_tl).chain(diag_br);
+    let it = row.chain_(col).chain_(diag_tr).chain_(diag_bl).chain_(diag_tl).chain_(diag_br);
 
     return it.transform(|row: Area2DIterator| {
         row.windowed(prod_len)

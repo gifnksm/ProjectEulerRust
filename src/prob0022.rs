@@ -4,10 +4,10 @@
 extern mod extra;
 extern mod common;
 
-use std::{str, io, result};
+use std::{io, result};
 use std::iterator::{IteratorUtil, AdditiveIterator};
-use extra::sort::{merge_sort};
-use common::reader::{read_whole_word};
+use extra::sort;
+use common::reader;
 use common::problem::{Problem};
 
 pub static problem: Problem<'static> = Problem {
@@ -17,14 +17,14 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn get_score(n: uint, s: &str) -> uint {
-    n * str::as_bytes_slice(s).map(|c| *c - ('A' as u8) + 1).foldl(0 as uint, |s, e| *s + *e as uint)
+    n * s.as_bytes().map(|c| *c - ('A' as u8) + 1).foldl(0 as uint, |s, e| *s + *e as uint)
 }
 
 pub fn solve() -> ~str {
     let result = io::read_whole_file_str(&Path("files/names.txt")).chain(|input| {
-        read_whole_word(input)
+        reader::read_whole_word(input)
             .map(|&names| names.map(|s| s.to_str()))
-            .map(|&names| merge_sort(names, |a, b| a < b).mapi(|i, &s| get_score(i + 1, s)))
+            .map(|&names| sort::merge_sort(names, |a, b| a < b).mapi(|i, &s| get_score(i + 1, s)))
     }).map(|scores| scores.iter().transform(|&x| x).sum());
 
     match result {

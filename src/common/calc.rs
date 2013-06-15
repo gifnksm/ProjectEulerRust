@@ -88,7 +88,7 @@ pub fn to_palindromic(n: uint, radix: uint, dup_flag: bool) -> uint {
     let mut rv = digits.rev_iter();
     if dup_flag { rv.next(); }
 
-    return digits.iter().chain(rv).fold(0, |sum, &i| sum * radix + i);
+    return digits.iter().chain_(rv).fold(0, |sum, &i| sum * radix + i);
 }
 
 pub fn is_palindromic(n: uint, radix: uint) -> bool {

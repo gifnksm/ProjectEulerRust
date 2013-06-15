@@ -3,11 +3,11 @@
 
 extern mod common;
 
-use std::{uint, io, char, str, vec};
-use std::num::{ToStrRadix};
+use std::{uint, io, char, vec};
+use std::num::ToStrRadix;
 use std::iterator::{Iterator, IteratorUtil};
 use common::extiter::{ExtIteratorUtil, Range};
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 96,
@@ -79,9 +79,9 @@ impl SuDoku {
                 let cell_strs = do vec::build_sized(BOARD_WIDTH) |push| {
                     for uint::range(0, BOARD_WIDTH) |x| {
                         let s = self.map[y][x].to_str_radix(2);
-                        push(str::replace(fmt!("%s:%s",
-                                               self.get_num(x, y).to_str(),
-                                               str::repeat("0", MAX_NUMBER - s.len()) + s), "0", "_"));
+                        push(fmt!("%s:%s",
+                                  self.get_num(x, y).to_str(),
+                                  "0".repeat(MAX_NUMBER - s.len()) + s).replace("0", "_"));
                     }
                 };
                 push(cell_strs.connect(" "));
@@ -124,7 +124,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
                 let col = Range::new(0, BOARD_HEIGHT).transform(|y| (x, y));
                 let grp = group_it.transform(|(dx, dy)| (x0 + dx, y0 + dy));
 
-                let mut it = row.chain(col).chain(grp).filter(|&pos: &(uint, uint)| pos != (x, y));
+                let mut it = row.chain_(col).chain_(grp).filter(|&pos: &(uint, uint)| pos != (x, y));
                 let mask = !puzzle.map[y][x] & MASK_ALL;
                 for it.advance |(x, y)| { puzzle.map[y][x] &= mask; }
             }
@@ -164,7 +164,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
         .transform(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
         .transform(|(x, y)| (x, y, puzzle.map[y][x].population_count()));
 
-    if (copy it).any(|(_x, _y, cnt)| cnt == 0) { return ~[]; }
+    if (copy it).any_(|(_x, _y, cnt)| cnt == 0) { return ~[]; }
     if (copy it).all(|(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
 
     let (x, y, _cnt) = it

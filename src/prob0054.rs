@@ -102,7 +102,7 @@ fn hand(cards: &[Card, ..5]) -> Hand {
         _ => { /* Do nothing */ }
     }
 
-    let is_flush    = suit_count.iter().any(|v| v.len() == 5);
+    let is_flush    = suit_count.iter().any_(|v| v.len() == 5);
     let is_straight = {
         let mut min_idx = 0;
         for num_count.eachi |i, v| {

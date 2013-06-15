@@ -345,7 +345,7 @@ mod tests {
     fn test_fibonacci() {
         let it = Fibonacci::new::<uint>();
         let fib = ~[ 1u, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
-        let gen: ~[uint] = it.take(fib.len()).collect();
+        let gen: ~[uint] = it.take_(fib.len()).collect();
         assert_eq!(gen, fib);
     }
 
@@ -353,7 +353,7 @@ mod tests {
     fn test_triangle() {
         let it = Triangle::new();
         let tri = ~[1u, 3, 6, 10, 15, 21];
-        let gen: ~[uint] = it.take(tri.len()).collect();
+        let gen: ~[uint] = it.take_(tri.len()).collect();
         assert_eq!(gen, tri);
     }
 

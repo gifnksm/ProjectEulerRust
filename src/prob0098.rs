@@ -4,12 +4,12 @@
 extern mod extra;
 extern mod common;
 
-use std::{util, uint, str, vec, io};
+use std::{util, uint, vec, io};
 use std::iterator::{IteratorUtil, OrdIterator};
-use std::hashmap::{HashMap};
+use std::hashmap::HashMap;
 use extra::sort;
 use common::{arith, calc, reader};
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 98,
@@ -74,8 +74,8 @@ pub fn solve() -> ~str {
             }
         }).map(|&word_pairs| {
             do word_pairs.map |&(w1, w2)| {
-                let cs1 = str::byte_slice_no_callback(w1).init();
-                let cs2 = str::byte_slice_no_callback(w2).init();
+                let cs1 = w1.as_bytes();
+                let cs2 = w2.as_bytes();
                 let get_pos = |&c: &u8| cs1.position_elem(&c).get();
                 (w1.len(), cs1.map(get_pos), cs2.map(get_pos))
             }

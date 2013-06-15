@@ -4,7 +4,8 @@
 extern mod common;
 
 use std::{float, io};
-use common::problem::{Problem};
+use std::iterator::IteratorUtil;
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 99,
@@ -19,7 +20,8 @@ pub fn solve() -> ~str {
             let mut max = 0f;
             let mut max_idx = 1;
             for input.each_line |line| {
-                for line.find(',').each |&idx| {
+                let opt = line.find(',');
+                for opt.iter().advance |&idx| {
                     let base = float::from_str(line.slice(0, idx)).get();
                     let exp  = float::from_str(line.slice(idx + 1, line.len())).get();
                     let ln = exp * base.ln();

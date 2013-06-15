@@ -59,7 +59,8 @@ impl<'self> ArgIterator<'self> {
         if self.idx >= self.args.len() { return; }
 
         if !self.args[self.idx].contains_char('-') {
-            for uint::from_str(self.args[self.idx]).each |&n| {
+            let n = uint::from_str(self.args[self.idx]);
+            for n.iter().advance |&n| {
                 self.cur_range = Range::new(n, n + 1);
             }
             return;

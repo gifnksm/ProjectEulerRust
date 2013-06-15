@@ -1,9 +1,9 @@
-use std::{str, result};
+use std::result;
 
 fn skip_sep<'a>(input: &'a str) -> &'a str {
     let mut itr = input;
     while !itr.is_empty() {
-        let (head, tail) = str::slice_shift_char(itr);
+        let (head, tail) = itr.slice_shift_char();
         if head != '\n' && head != ',' { return itr; }
         itr = tail;
     }
@@ -13,12 +13,12 @@ fn skip_sep<'a>(input: &'a str) -> &'a str {
 fn read_word<'a>(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
     if input.is_empty() { return result::Err(~"string is empty"); }
 
-    let mut (c, itr) = str::slice_shift_char(input);
+    let mut (c, itr) = input.slice_shift_char();
     if c != '\"' { return result::Err(~"string does not start with `\"`"); }
 
     let mut len = 0;
     loop {
-        let (new_c, new_itr) = str::slice_shift_char(itr);
+        let (new_c, new_itr) = itr.slice_shift_char();
         c   = new_c;
         itr = new_itr;
         if c == '\"' { break; }

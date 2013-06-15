@@ -16,9 +16,8 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn reverse(n: &BigUint) -> BigUint {
-    let mut s = n.to_str().to_bytes();
-    vec::reverse(s);
-    let rev = str::from_bytes(s);
+    let s = n.to_str();
+    let rev = str::from_bytes(vec::reversed(s.as_bytes()));
     return FromStr::from_str(rev).get();
 }
 

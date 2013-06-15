@@ -4,10 +4,10 @@
 extern mod common;
 
 use std::uint;
-use std::iterator::{IteratorUtil};
+use std::iterator::IteratorUtil;
 use common::calc;
-use common::extiter::{Range, HigherIterator};
-use common::problem::{Problem};
+use common::extiter::Range;
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 4,
@@ -34,7 +34,7 @@ pub fn solve() -> ~str {
         calc::to_palindromic(seed, 10, true)
     });
 
-    let mut it = it1.chain(it2);
+    let mut it = it1.chain_(it2);
     for it.advance |num| {
         for dividable_pairs(num, 100, 999) |d1, d2| {
             return (d1 * d2).to_str();
