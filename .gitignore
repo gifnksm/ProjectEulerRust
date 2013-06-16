@@ -12,3 +12,7 @@ src/euler/problem.rs
 
 # ignore attachment files
 files/*.txt
+
+# ignore dependency files
+makefile.depend
+
