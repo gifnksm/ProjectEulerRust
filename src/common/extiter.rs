@@ -12,6 +12,14 @@ impl<T> Step<T> {
     }
 }
 
+impl<T: Add<T, T> + Sub<T, T>> Step<T> {
+    fn add_to(&self, val: &T) -> T {
+        match *self {
+            Plus(ref s)  => val + *s,
+            Minus(ref s) => val - *s
+        }
+    }
+}
 
 pub struct Range<T> {
     cur: T,
@@ -40,9 +48,12 @@ impl<T: Integer> Range<T> {
         return Range { cur: start, cnt: cnt, step: step };
     }
 
+    #[inline(always)]
     pub fn new(start: T, stop: T) -> Range<T> {
         Range::new_with_step(start, stop, Plus(One::one()))
     }
+
+    #[inline(always)]
     pub fn new_rev(start: T, stop: T) -> Range<T> {
         Range::new_with_step(start, stop, Minus(One::one()))
     }
@@ -54,18 +65,9 @@ impl<T: Integer> Iterator<T> for Range<T> {
         if self.cnt <= Zero::zero() { return None; }
         self.cnt = self.cnt - One::one();
 
-        match self.step {
-            Plus(ref abs_step) => {
-                let mut val = self.cur + *abs_step;
-                util::swap(&mut val, &mut self.cur);
-                return Some(val);
-            }
-            Minus(ref abs_step) => {
-                let mut val = self.cur - *abs_step;
-                util::swap(&mut val, &mut self.cur);
-                return Some(val);
-            }
-        }
+        let mut val = self.step.add_to(&self.cur);
+        util::swap(&mut val, &mut self.cur);
+        return Some(val);
     }
 }
 

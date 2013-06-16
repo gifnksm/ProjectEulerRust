@@ -27,24 +27,23 @@ fn count_way(sum: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
         sum: uint, min_idx: uint, map: &mut HashMap<(uint, uint), uint>
     ) -> uint {
         let mut cnt = 0;
-        let mut i = min_idx;
-        loop {
+        for Counter::new(min_idx, 1).advance |i| {
             let p = prime::nth(i);
-            if p == sum {
-                map.insert((p, i), 1);
-                cnt += 1;
+            if p >= sum {
+                if p == sum  {
+                    map.insert((p, i), 1);
+                    cnt += 1;
+                }
+                map.insert((sum, i), cnt);
                 break;
             }
-            if p > sum { break; }
 
             cnt += match map.find(&(sum - p, i)).map(|v| **v) {
                 Some(n) => n,
                 None    => count_sub(sum - p, i, map)
             };
-            i += 1;
         }
 
-        map.insert((sum, i), cnt);
         return cnt;
     }
 }

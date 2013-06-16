@@ -18,8 +18,6 @@ pub static problem: Problem<'static> = Problem {
 // p(0) = b         => b must be prime
 // p(1) = 1 + a + b => a > -(1+b)
 // p(2) = 4 + 2a + b
-
-
 fn get_len(a: int, b: int) -> uint {
     return Counter::new(0, 1)
         .take_while(|&n| {
@@ -29,24 +27,13 @@ fn get_len(a: int, b: int) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let mut max_a = 0;
-    let mut max_b = 0;
-    let mut max_len = 0;
-
-    for prime::each() |b| {
-        let b = b as int;
-        if b >= 1000 { break; }
-
-        let (a, len) = Range::new(-b, 1000)
-            .transform(|a| (a, get_len(a, b)))
-            .max_as(|&(_a, len)| len);
-
-        if len > max_len {
-            max_a = a;
-            max_b = b;
-            max_len = len;
-        }
-    }
-
-    return (max_a * max_b).to_str();
+    let (a, b, _len) = prime::iter()
+        .take_while(|&p| p < 1000)
+        .transform(|p| {
+            let b = p as int;
+            Range::new(-(b as int), 1000)
+                .transform(|a| (a, b, get_len(a, b)))
+                .max_as(|&(_a, _b, len)| len)
+        }).max_as(|&(_a, _b, len)| len);
+    return (a * b).to_str();
 }
