@@ -2,11 +2,10 @@ extern mod extra;
 extern mod common;
 
 use std::{uint, vec, io, os};
-use std::iterator::{Iterator, IteratorUtil};
 use extra::{time, term};
 use extra::term::Terminal;
-use common::problem::{Problem};
-use common::extiter::{Range};
+use common::problem::Problem;
+use common::extiter::Range;
 
 mod problem;
 

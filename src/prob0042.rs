@@ -4,10 +4,9 @@
 extern mod common;
 
 use std::{io, result, vec};
-use std::iterator::{IteratorUtil};
-use common::extiter::{Triangle};
+use common::extiter::Triangle;
 use common::reader;
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 42,

@@ -4,10 +4,8 @@
 extern mod common;
 
 use std::uint;
-use std::iterator::{IteratorUtil};
-use common::prime;
-use common::calc::{num_to_digits};
-use common::problem::{Problem};
+use common::{prime, calc};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 35,
@@ -17,7 +15,7 @@ pub static problem: Problem<'static> = Problem {
 
 #[inline(always)]
 fn is_circular_prime(n: uint) -> bool {
-    let buf = num_to_digits(n, 10);
+    let buf = calc::num_to_digits(n, 10);
 
     for uint::range(1, buf.len()) |i| {
         let mut num = 0;

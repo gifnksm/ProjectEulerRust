@@ -5,10 +5,10 @@ extern mod extra;
 extern mod common;
 
 use std::{io, result};
-use std::iterator::{IteratorUtil, AdditiveIterator};
+use std::iterator::AdditiveIterator;
 use extra::sort;
 use common::reader;
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 22,

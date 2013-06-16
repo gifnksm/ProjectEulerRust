@@ -247,7 +247,6 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 mod tests {
     use super::*;
     use std::vec;
-    use std::iterator::{IteratorUtil};
 
     #[test]
     fn test_mconcat() {

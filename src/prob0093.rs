@@ -5,12 +5,12 @@ extern mod extra;
 extern mod common;
 
 use std::{uint, int, util};
-use std::num::{Zero};
-use std::hashmap::{HashSet};
-use std::iterator::{Counter, IteratorUtil};
+use std::num::Zero;
+use std::hashmap::HashSet;
+use std::iterator::Counter;
 use extra::rational::{Rational, Ratio};
 use common::calc;
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 93,

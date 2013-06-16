@@ -3,9 +3,9 @@
 
 extern mod common;
 
-use std::iterator::{IteratorUtil, AdditiveIterator};
-use common::extiter::{Fibonacci};
-use common::problem::{Problem};
+use std::iterator::AdditiveIterator;
+use common::extiter::Fibonacci;
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 2,

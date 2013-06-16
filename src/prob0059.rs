@@ -2,9 +2,8 @@
 #[crate_type = "lib"];
 
 extern mod common;
-use std::iterator::{IteratorUtil};
 use std::{uint, float, u8, io};
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 59,

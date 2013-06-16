@@ -4,10 +4,9 @@
 extern mod common;
 
 use std::vec;
-use std::iterator::{IteratorUtil};
 use common::prime;
 use common::monoid::{Max, MergeMultiMonoidIterator, Wrap};
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 5,

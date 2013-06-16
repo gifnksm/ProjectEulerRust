@@ -4,7 +4,6 @@
 extern mod common;
 
 use std::{float, io};
-use std::iterator::IteratorUtil;
 use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {

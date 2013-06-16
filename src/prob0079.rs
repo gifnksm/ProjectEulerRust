@@ -4,9 +4,8 @@
 extern mod common;
 
 use std::{io, uint, char};
-use std::iterator::{IteratorUtil};
 use std::hashmap::{HashMap, HashSet};
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 79,

@@ -4,10 +4,9 @@
 extern mod common;
 
 use std::uint;
-use std::iterator::{Counter, Iterator, IteratorUtil};
-use common::prime;
-use common::arith;
-use common::problem::{Problem};
+use std::iterator::Counter;
+use common::{arith, prime};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 46,

@@ -3,9 +3,9 @@
 
 extern mod common;
 
-use std::hashmap::{HashMap};
+use std::hashmap::HashMap;
 use common::extiter::{Range, ExtIteratorUtil};
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 14,

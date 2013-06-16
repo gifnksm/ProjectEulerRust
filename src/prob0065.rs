@@ -5,10 +5,10 @@ extern mod extra;
 extern mod common;
 
 use std::{char, vec};
-use std::iterator::{IteratorUtil, AdditiveIterator};
-use extra::bigint::{BigUint};
+use std::iterator::AdditiveIterator;
+use extra::bigint::BigUint;
 use common::calc;
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 65,

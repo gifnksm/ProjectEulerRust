@@ -4,9 +4,9 @@
 extern mod common;
 
 use std::char;
-use std::iterator::{IteratorUtil, OrdIterator};
-use common::problem::{Problem};
-use common::extiter::{ExtIteratorUtil};
+use std::iterator::OrdIterator;
+use common::problem::Problem;
+use common::extiter::ExtIteratorUtil;
 
 pub static problem: Problem<'static> = Problem {
     id: 8,

@@ -4,10 +4,9 @@
 extern mod common;
 
 use std::{result, io};
-use std::iterator::{IteratorUtil, Counter};
-use std::from_str::{FromStr};
-use common::card::{Card};
-use common::problem::{Problem};
+use std::iterator::Counter;
+use common::card::Card;
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 54,

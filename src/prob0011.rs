@@ -3,10 +3,10 @@
 
 extern mod common;
 
-use std::{uint};
-use std::iterator::{IteratorUtil, OrdIterator, MultiplicativeIterator};
+use std::uint;
+use std::iterator::{OrdIterator, MultiplicativeIterator};
 use common::extiter::{ExtIteratorUtil, Area2DIterator};
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 11,

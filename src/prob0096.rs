@@ -5,7 +5,6 @@ extern mod common;
 
 use std::{uint, io, char, vec};
 use std::num::ToStrRadix;
-use std::iterator::{Iterator, IteratorUtil};
 use common::extiter::{ExtIteratorUtil, Range};
 use common::problem::Problem;
 

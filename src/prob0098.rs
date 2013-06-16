@@ -5,7 +5,7 @@ extern mod extra;
 extern mod common;
 
 use std::{util, uint, vec, io};
-use std::iterator::{IteratorUtil, OrdIterator};
+use std::iterator::OrdIterator;
 use std::hashmap::HashMap;
 use extra::sort;
 use common::{arith, calc, reader};

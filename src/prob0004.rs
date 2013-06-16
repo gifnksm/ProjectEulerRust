@@ -4,7 +4,6 @@
 extern mod common;
 
 use std::uint;
-use std::iterator::IteratorUtil;
 use common::calc;
 use common::extiter::Range;
 use common::problem::Problem;

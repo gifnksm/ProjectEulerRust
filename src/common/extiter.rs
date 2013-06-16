@@ -1,4 +1,3 @@
-use std::iterator::{Iterator, IteratorUtil};
 use std::num::{Zero, One};
 use std::{util, uint};
 

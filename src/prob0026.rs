@@ -5,7 +5,7 @@ extern mod common;
 
 use std::vec;
 use common::extiter::{ExtIteratorUtil, Range};
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 26,

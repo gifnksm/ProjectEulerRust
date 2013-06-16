@@ -1,8 +1,4 @@
-use std::cmp::{Eq};
-use std::hash::{Hash};
-use std::num::{IntConvertible};
-use std::iterator::{IteratorUtil};
-use std::to_bytes::{IterBytes};
+use std::num::IntConvertible;
 use std::hashmap::{HashMap, HashSet};
 use std::{util, uint, vec};
 

@@ -4,8 +4,6 @@
 extern mod extra;
 extern mod common;
 
-use std::iterator::IteratorUtil;
-use std::from_str::FromStr;
 use extra::bigint::BigUint;
 use common::extiter::Fibonacci;
 use common::problem::Problem;

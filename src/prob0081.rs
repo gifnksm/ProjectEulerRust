@@ -4,8 +4,7 @@
 extern mod common;
 
 use std::{uint, vec, io};
-use std::iterator::{IteratorUtil};
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 81,
