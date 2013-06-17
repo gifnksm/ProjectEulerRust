@@ -31,17 +31,17 @@ impl<T: Hash + IterBytes + Eq + Copy> Relations<T> {
 
     fn set_dependant(&mut self, prec: T, succ: T) {
         if !self.top.contains_key(&prec) {
-            self.top.insert(prec, Relation::new());
+            self.top.insert(copy prec, Relation::new());
         }
         if !self.top.contains_key(&succ) {
-            self.top.insert(succ, Relation::new());
+            self.top.insert(copy succ, Relation::new());
         }
 
         let mut contained = true;
         match self.top.find_mut(&prec) {
             Some(s) => {
                 if !s.succ.contains(&succ) {
-                    s.succ.insert(succ);
+                    s.succ.insert(copy succ);
                     contained = false;
                 }
             }
@@ -58,7 +58,7 @@ impl<T: Hash + IterBytes + Eq + Copy> Relations<T> {
     fn find_all_not_preceded(&self) -> ~[T] {
         let mut result = ~[];
         for self.top.each |k, v| {
-            if v.num_prec == 0 { result.push(*k); }
+            if v.num_prec == 0 { result.push(copy *k); }
         }
         return result;
     }
@@ -70,7 +70,7 @@ impl<T: Hash + IterBytes + Eq + Copy> Relations<T> {
                 do self.top.find_mut(&s).map |&y| {
                     y.num_prec -= 1;
                     if y.num_prec == 0 {
-                        result.push(s);
+                        result.push(copy s);
                     }
                 };
             }
@@ -84,7 +84,7 @@ fn tsort<T: Hash + IterBytes + Eq + Copy>(rels: &mut Relations<T>) -> ~[T] {
     let mut queue = rels.find_all_not_preceded();
     while !queue.is_empty() {
         let prec = queue.shift();
-        sorted.push(prec);
+        sorted.push(copy prec);
         queue.push_all(rels.delete_and_find(prec));
     }
     return sorted;

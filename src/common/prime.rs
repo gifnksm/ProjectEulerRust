@@ -30,12 +30,6 @@ fn get_task_prime() -> @mut ~[uint] {
 }
 
 #[inline(always)]
-fn with_task_prime<T>(f: &fn(&mut ~[uint]) -> T) -> T {
-    let nums = get_task_prime();
-    return f(nums);
-}
-
-#[inline(always)]
 priv fn is_coprime(nums: &[uint], n: uint) -> bool {
     for nums.each |&p| {
         if p * p > n  { return true; }
@@ -74,23 +68,21 @@ pub fn each(f: &fn(uint) -> bool) -> bool {
 
 #[inline(always)]
 pub fn contains(n: uint) -> bool {
-    fn inner(nums: &mut ~[uint], n: uint) -> bool {
-        let len = vec::uniq_len(nums);
-        let last = nums[len - 1];;
-        if n < last {
-            return vec::bsearch_elem(*nums, &n).is_some();
-        }
-
-        let mut it = Counter::new::<uint>(0, 1);
-        for it.advance |i| {
-            grow(nums, i + 1);
-            let p = nums[i];
-            if p * p > n { return true; }
-            if n % p == 0 { return false; }
-        }
-        util::unreachable();
+    let nums = get_task_prime();
+    let len = nums.len();
+    let last = nums[len - 1];
+    if n < last {
+        return vec::bsearch_elem(*nums, &n).is_some();
     }
-    return with_task_prime(|nums| inner(nums, n));
+
+    let mut it = Counter::new::<uint>(0, 1);
+    for it.advance |i| {
+        grow(nums, i + 1);
+        let p = nums[i];
+        if p * p > n { return true; }
+        if n % p == 0 { return false; }
+    }
+    util::unreachable();
 }
 
 #[inline(always)]

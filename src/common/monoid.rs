@@ -20,7 +20,7 @@ impl Monoid for ~str {
     #[inline(always)]
     fn mempty() -> ~str { ~"" }
     #[inline(always)]
-    fn mappend(&self, other: &~str) -> ~str { self + *other }
+    fn mappend(&self, other: &~str) -> ~str { *self + *other }
 }
 
 

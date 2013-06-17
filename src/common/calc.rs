@@ -43,7 +43,7 @@ pub fn histogram<T: Hash + IterBytes + Eq + Copy>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::new::<T, uint>();
     for v.each |k| {
         let val = do map.find(k).map_default(1) |v| { *v + 1 };
-        map.insert(*k, val);
+        map.insert(copy *k, val);
     }
     return map;
 }
@@ -99,7 +99,7 @@ pub fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> b
 
     for uint::range(0, elems.len() - len + 1) |i| {
         for combinate(elems.slice(i + 1, elems.len()), len - 1) |v, rest| {
-            if !f(~[elems[i]] + v, ~[] + elems.slice(0, i) + rest) { return false; }
+            if !f(~[copy elems[i]] + v, ~[] + elems.slice(0, i) + rest) { return false; }
         }
     }
 
@@ -111,7 +111,7 @@ pub fn combinate_overlap<T: Copy>(elems: &[T], len: uint, f: &fn(&[T])->bool) ->
 
     for uint::range(0, elems.len()) |i| {
         for combinate_overlap(elems.slice(i, elems.len()), len - 1) |v| {
-            if !f(~[elems[i]] + v) { return false; }
+            if !f(~[copy elems[i]] + v) { return false; }
         }
     }
 

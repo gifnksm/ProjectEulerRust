@@ -40,7 +40,7 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &HashMap<K, uint>, n: uin
             new_hist.insert(k, v);
         }
         if v > 1 {
-            new_hist.insert(k, v - 1);
+            new_hist.insert(copy k, v - 1);
         }
         for kv.slice(i + 1, kv.len()).each |&(k, v)| {
             new_hist.insert(k, v);
