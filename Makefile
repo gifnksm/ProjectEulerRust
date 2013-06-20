@@ -24,7 +24,7 @@ PROB_SRC=$(sort $(wildcard src/prob*.rs))
 MOD_SRC=src/euler/problem.rs
 SRC=$(EULER_SRC) $(COMMON_SRC) $(PROB_SRC) $(MOD_SRC)
 
-DEPEND=makefile.depend
+DEPEND=depend.mk
 
 DEBUG_BINDIR=bin/debug
 DEBUG_LIBDIR=lib/debug

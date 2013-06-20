@@ -14,5 +14,5 @@ src/euler/problem.rs
 files/*.txt
 
 # ignore dependency files
-makefile.depend
+depend.mk
 
