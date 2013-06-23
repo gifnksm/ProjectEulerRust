@@ -26,5 +26,5 @@ pub fn solve() -> ~str {
         }
     }
 
-    return v.count(&1).to_str();
+    return v.iter().count(|&x| x == 1).to_str();
 }

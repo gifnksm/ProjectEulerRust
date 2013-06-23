@@ -138,7 +138,7 @@ impl<T> WrapMonoid<T> for Min<T> {}
 
 #[inline(always)]
 pub fn mconcat<T: Monoid>(v: &[T]) -> T {
-    v.foldl(Monoid::mempty::<T>(), |accum, elem| { accum.mappend(elem) })
+    v.iter().fold(Monoid::mempty::<T>(), |accum, elem| { accum.mappend(elem) })
 }
 
 struct MergeMonoidIterator<V, T, U> {

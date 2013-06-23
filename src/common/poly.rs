@@ -29,8 +29,8 @@ pub fn mul<T: Zero + Add<T, T> + Mul<T, T>>(a: &[T], b: &[T]) -> ~[T] {
 
     if a.is_empty() || b.is_empty() { return ~[]; }
     let mut prod = vec::from_fn(a.len() + b.len() - 1, |_i| Zero::zero::<T>());
-    for a.eachi |i, &na| {
-        for b.eachi |j, &nb| {
+    for a.iter().enumerate().advance |(i, &na)| {
+        for b.iter().enumerate().advance |(j, &nb)| {
             prod[i + j] = prod[i + j] + na * nb;
         }
     }
@@ -54,7 +54,7 @@ pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~s
     let one = One::one();
 
     let mut s = ~[];
-    for a.eachi |i, &n| {
+    for a.iter().enumerate().advance |(i, &n)| {
         // output n*x^i / -n*x^i
         if n.is_zero() { loop; }
 

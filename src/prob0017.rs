@@ -93,7 +93,7 @@ pub fn solve() -> ~str {
         .transform(to_word)
         .transform(|w| w.iter()
                    .filter(|&c| c != '-' && c != ' ')
-                   .count())
+                   .len_())
         .sum()
         .to_str();
 }

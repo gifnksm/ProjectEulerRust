@@ -20,7 +20,7 @@ pub fn solve() -> ~str {
     for prime::each |p| {
         let ds = calc::num_to_digits(p, 10);
         let hs = calc::digit_histogram(p);
-        for hs.eachi |i, &cnt| {
+        for hs.iter().enumerate().advance |(i, &cnt)| {
             // 同じ文字が2つ以上登場する数値だけを対象にする
             if cnt <= 1 { loop; }
 

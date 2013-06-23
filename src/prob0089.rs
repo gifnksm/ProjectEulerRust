@@ -33,8 +33,8 @@ fn from_roman(mut s: &str) -> Option<uint> {
 
     let mut n = 0;
     while !s.is_empty() {
-        match roman_pairs.find(|&(ds, _d)| s.starts_with(ds)) {
-            Some((ds, d)) => {
+        match roman_pairs.iter().find_(|& &(ds, _d)| s.starts_with(ds)) {
+            Some(&(ds, d)) => {
                 if d > last_d { return None; }
                 n += d;
                 s = s.slice(ds.len(), s.len());

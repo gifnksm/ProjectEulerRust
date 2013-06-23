@@ -33,8 +33,10 @@ static triangle: &'static [&'static [uint]] = &[
 pub fn solve() -> ~str {
     let init = triangle.init();
     let last = triangle.last();
-    let answer = do init.rev_iter().fold(last.to_vec()) |mut total, elm| {
-        for elm.eachi |i, e| { total[i] = e + uint::max(total[i], total[i + 1]); }
+    let answer = do init.rev_iter().fold(last.to_owned()) |mut total, elm| {
+        for elm.iter().enumerate().advance |(i, &e)| {
+            total[i] = e + uint::max(total[i], total[i + 1]);
+        }
         total
     };
     return answer[0].to_str();

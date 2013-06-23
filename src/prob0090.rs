@@ -5,7 +5,7 @@ extern mod common;
 
 use std::vec;
 use common::calc;
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 90,
@@ -16,7 +16,7 @@ pub static problem: Problem<'static> = Problem {
 pub fn solve() -> ~str {
     let mut all_combs = ~[];
     for calc::combinate(vec::from_fn(10, |i| i), 6) |mut cs, _| {
-        match (cs.contains(&6), cs.contains(&9)) {
+        match (cs.iter().any_(|&x| x == 6), cs.iter().any_(|&x| x == 9)) {
             (false, true)  => cs.push(6),
             (true,  false) => cs.push(9),
             _ => {}
@@ -30,13 +30,13 @@ pub fn solve() -> ~str {
     };
 
     let mut cnt = 0u;
-    for all_combs.eachi |i, cs1| {
+    for all_combs.iter().enumerate().advance |(i, cs1)| {
         for all_combs.tailn(i + 1).each |cs2| {
             let cond = |&(a, b): &(uint, uint)| {
-                (cs1.contains(&a) && cs2.contains(&b)) ||
-                    (cs1.contains(&b) && cs2.contains(&a))
+                (cs1.iter().any_(|&x| x == a) && cs2.iter().any_(|&x| x == b)) ||
+                    (cs1.iter().any_(|&x| x == b) && cs2.iter().any_(|&x| x == a))
             };
-            if nums.all(cond) { cnt += 1; }
+            if nums.iter().all(cond) { cnt += 1; }
         }
     }
     return cnt.to_str();

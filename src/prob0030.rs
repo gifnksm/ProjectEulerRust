@@ -5,6 +5,7 @@ extern mod extra;
 extern mod common;
 
 use std::vec;
+use std::iterator::AdditiveIterator;
 use extra::sort;
 use common::calc;
 use common::problem::{Problem};
@@ -27,15 +28,15 @@ pub fn solve() -> ~str {
     let pows = vec::from_fn(10, |i| calc::pow(i, 5));
 
     let mut sum = 0;
-    for calc::combinate_overlap([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], len) |comb| {
-        let num = comb.foldl(0u, |a, &e| a + pows[e]);
+    for calc::combinate_overlap([0u, 1, 2, 3, 4, 5, 6, 7, 8, 9], len) |comb| {
+        let num = comb.iter().transform(|&e| pows[e]).sum();
 
         let mut nums = calc::num_to_digits(num, 10);
         sort::quick_sort(nums, |a, b| a < b);
 
         let zero_len = len - nums.len();
         if comb.tailn(zero_len) == nums &&
-            comb.slice(0, zero_len).all(|&x| x == 0) {
+            comb.iter().take_(zero_len).all(|&x| x == 0) {
             sum += num;
         }
     }

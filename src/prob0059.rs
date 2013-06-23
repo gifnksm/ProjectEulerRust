@@ -3,6 +3,7 @@
 
 extern mod common;
 use std::{uint, float, u8, io};
+use std::iterator::AdditiveIterator;
 use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
@@ -41,7 +42,7 @@ static english_frequency: &'static [(char, float)] = &[
 ];
 
 fn trans_map<T: Copy>(key: u8, src: &[T], dst: &mut [T]) {
-    for src.eachi |i, &f| {
+    for src.iter().enumerate().advance |(i, &f)| {
         dst[(i as u8) ^ key] = f;
     }
 }
@@ -55,10 +56,12 @@ fn get_dist(a: &[float], b: &[float]) -> float {
 }
 
 fn find_key(count: &[uint], ref_freq: &[float]) -> u8 {
-    let total = count.foldl(0, |&s, &n| s + n);
+    let total = count.iter().transform(|&x| x).sum();
 
     let mut freq = ~[0f, ..256];
-    for count.eachi |i, &n| { freq[i] = (n as float) / (total as float) }
+    for freq.mut_iter().zip(count.iter()).advance |(f, &n)| {
+        *f = (n as float) / (total as float);
+    }
 
     let mut freq_buf = ~[0f, ..256];
     let mut min_key  = 0;
@@ -82,18 +85,17 @@ pub fn solve() -> ~str {
 
     let result = io::read_whole_file_str(&Path("files/cipher1.txt"))
         .map(|&input| {
-            input.trim().split_iter(',').filter_map(u8::from_str).collect()
-        }).map(|&input: &~[u8]| {
+            let code_list = input.trim().split_iter(',')
+                .filter_map(u8::from_str).collect::<~[u8]>();
+
             let mut freq = [~[0, ..256], ~[0, ..256], ~[0, ..256]];
-            for input.eachi |i, &n| {
-                freq[i % 3][n] += 1;
-            }
-            (freq.map(|&f| find_key(f, freq_dict)), input)
-        }).map(|&(key, input)| {
-            let l = key.len();
-            do input.mapi |i, &n| { n ^ key[i % l] }
-        }).map(|&input| {
-            input.foldl(0u, |s, &n| s + (n as uint))
+            for code_list.iter().enumerate().advance |(i, &n)| { freq[i % 3][n] += 1; }
+
+            let keys = freq.map(|&f| find_key(f, freq_dict));
+            let l = keys.len();
+            code_list.iter().enumerate()
+                .transform(|(i, &n)| (n ^ keys[i % l]) as uint)
+                .sum()
         });
 
     return match result {

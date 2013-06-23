@@ -34,7 +34,7 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &HashMap<K, uint>, n: uin
     sort::quick_sort(kv, |a, b| a.first() <= b.first());
 
     let mut idx = 0;
-    for kv.eachi |i, &(k, v)| {
+    for kv.iter().enumerate().advance |(i, &(k, v))| {
         let mut new_hist = HashMap::new();
         for kv.slice(0, i).each |&(k, v)| {
             new_hist.insert(k, v);

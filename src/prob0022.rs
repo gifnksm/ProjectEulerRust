@@ -17,7 +17,7 @@ pub static problem: Problem<'static> = Problem {
 };
 
 fn get_score(n: uint, s: &str) -> uint {
-    n * s.as_bytes().map(|c| *c - ('A' as u8) + 1).foldl(0 as uint, |s, e| *s + *e as uint)
+    n * s.bytes_iter().transform(|c| (c - ('A' as u8) + 1) as uint).sum()
 }
 
 pub fn solve() -> ~str {

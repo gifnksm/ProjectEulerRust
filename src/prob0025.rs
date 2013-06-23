@@ -17,5 +17,5 @@ pub static problem: Problem<'static> = Problem {
 pub fn solve() -> ~str {
     let limit = FromStr::from_str("9".repeat(999)).get();
     let mut it = Fibonacci::new::<BigUint>().take_while(|&n| n <= limit);
-    return (it.count() + 1).to_str();
+    return (it.len_() + 1).to_str();
 }

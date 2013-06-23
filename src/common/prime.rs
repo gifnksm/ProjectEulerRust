@@ -269,9 +269,9 @@ mod tests {
     #[test]
     fn test_prime_index() {
         // Generated primes
-        for PRIMES_BELOW200.eachi() |i, &p| { assert_eq!(nth(i), p); }
+        for PRIMES_BELOW200.iter().enumerate().advance |(i, &p)| { assert_eq!(nth(i), p); }
         // Memoized primes
-        for PRIMES_BELOW200.eachi() |i, &p| { assert_eq!(nth(i), p); }
+        for PRIMES_BELOW200.iter().enumerate().advance |(i, &p)| { assert_eq!(nth(i), p); }
     }
 
     #[test]

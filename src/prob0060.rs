@@ -4,9 +4,10 @@
 extern mod common;
 
 use std::{util, uint};
-use std::hashmap::{HashMap};
+use std::hashmap::HashMap;
+use std::iterator::AdditiveIterator;
 use common::prime;
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 60,
@@ -75,7 +76,7 @@ pub fn solve() -> ~str {
 
     for each_pair_set(&mut map) |set| {
         if set.len() >= 5 {
-            return set.foldl(0u, |s, &n| s + n).to_str();
+            return set.iter().transform(|&x| x).sum().to_str();
         }
     }
 

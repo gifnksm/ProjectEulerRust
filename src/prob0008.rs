@@ -42,7 +42,7 @@ pub fn solve() -> ~str {
     return input.iter()
         .filter_map(|c| char::to_digit(c, 10))
         .windowed(prod_len)
-        .transform(|win| win.foldl(1, |&p, &n| p * n))
+        .transform(|win| win.iter().fold(1, |p, &n| p * n))
         .max()
         .get()
         .to_str();

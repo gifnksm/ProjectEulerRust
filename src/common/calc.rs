@@ -95,7 +95,7 @@ pub fn is_palindromic(n: uint, radix: uint) -> bool {
 }
 
 pub fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> bool {
-    if len == 0 { return f(~[], elems.to_vec()); }
+    if len == 0 { return f(~[], elems.to_owned()); }
 
     for uint::range(0, elems.len() - len + 1) |i| {
         for combinate(elems.slice(i + 1, elems.len()), len - 1) |v, rest| {
@@ -145,9 +145,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
         let mut buf = vec::from_elem(digits.len() - 1, 0);
 
-        for digits.eachi |i, np| {
-            let n = *np;
-
+        for digits.iter().enumerate().advance |(i, &n)| {
             let min_vec = match min {
                 Some(v) if n <  v[0] => loop,
                 Some(v) if n == v[0] => Some(vec::slice(v, 1, v.len())),

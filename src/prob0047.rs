@@ -21,7 +21,7 @@ pub fn solve() -> ~str {
     let mut cnt = 0;
     let mut it = Counter::new::<uint>(1, 1);
     for it.advance |n| {
-        if prime::factorize(n).count() != num_factor {
+        if prime::factorize(n).len_() != num_factor {
             cnt = 0;
             loop;
         }

@@ -134,13 +134,13 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
             for uint::range(0, BOARD_HEIGHT) |y| {
                 let mut it = Range::new(0, BOARD_WIDTH).filter(|&x| puzzle.map[y][x] & bit != 0);
-                if (copy it).count() != 1 { loop; }
+                if (copy it).len_() != 1 { loop; }
                 puzzle.map[y][it.next().get()] = bit;
             }
 
             for uint::range(0, BOARD_WIDTH) |x| {
                 let mut it = Range::new(0, BOARD_HEIGHT).filter(|&y| puzzle.map[y][x] & bit != 0);
-                if (copy it).count() != 1 { loop; }
+                if (copy it).len_() != 1 { loop; }
                 puzzle.map[it.next().get()][x] = bit;
             }
 
@@ -149,7 +149,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
                     let mut it = group_it
                         .transform(|(dx, dy)| (x0 + dx, y0 + dy))
                         .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
-                    if (copy it).count() != 1 { loop; }
+                    if (copy it).len_() != 1 { loop; }
                     let (x, y) = it.next().get();
                     puzzle.map[y][x] = bit;
                 }

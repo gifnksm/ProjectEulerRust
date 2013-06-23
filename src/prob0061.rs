@@ -3,7 +3,8 @@
 
 extern mod common;
 use std::vec;
-use common::problem::{Problem};
+use std::iterator::AdditiveIterator;
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 61,
@@ -35,7 +36,7 @@ pub fn solve() -> ~str {
 
     let mut result = ~[];
     for vec::each_permutation([0u, 1u, 2u, 3u, 4u]) |idx| {
-        for map[5].eachi |i, v5| {
+        for map[5].iter().enumerate().advance |(i, v5)| {
             if i < 10 { loop; }
             for v5.each |&n5| {
                 if n5 < 10 { loop; }
@@ -68,7 +69,7 @@ pub fn solve() -> ~str {
         }
     }
 
-    let sum = result.foldl(0u, |s, vs| s + vs.foldl(0u, |s, &n| s + n));
+    let sum = result.iter().transform(|vs| vs.iter().transform(|&x| x).sum()).sum();
     return sum.to_str();
 }
 

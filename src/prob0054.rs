@@ -104,13 +104,13 @@ fn hand(cards: &[Card, ..5]) -> Hand {
     let is_flush    = suit_count.iter().any_(|v| v.len() == 5);
     let is_straight = {
         let mut min_idx = 0;
-        for num_count.eachi |i, v| {
+        for num_count.iter().enumerate().advance |(i, v)| {
             if v.len() > 0 {
                 min_idx = i;
                 break;
             }
         }
-        num_count.slice(min_idx, min_idx + 5).all(|v| v.len() == 1)
+        num_count.slice(min_idx, min_idx + 5).iter().all(|v| v.len() == 1)
     };
 
     return match (is_flush, is_straight) {

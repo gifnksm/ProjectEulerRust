@@ -31,7 +31,6 @@ fn is_circular_prime(n: uint) -> bool {
 pub fn solve() -> ~str {
     return prime::iter()
         .take_while(|&p| p < 1000000)
-        .filter(|&p| is_circular_prime(p))
-        .count()
+        .count(is_circular_prime)
         .to_str();
 }

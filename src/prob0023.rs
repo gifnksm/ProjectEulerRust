@@ -29,7 +29,7 @@ pub fn solve() -> ~str {
 
     let mut sum_of_sum_abundant = 0;
     let mut is_sum_abundant = vec::from_elem(max_num + 1, false);
-    for abundant.eachi |i, &a| {
+    for abundant.iter().enumerate().advance |(i, &a)| {
         for abundant.tailn(i).each |&b| {
             let s = a + b;
             if s > max_num { break; }

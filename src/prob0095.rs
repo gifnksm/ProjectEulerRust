@@ -32,7 +32,7 @@ fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) ->
         match itr_map.position_elem(&n) {
             Some(idx) => {
                 let len = itr_map.len() - idx;
-                for itr_map.eachi |i, &m| {
+                for itr_map.iter().enumerate().advance |(i, &m)| {
                     len_map[m] = Some(if i < idx { 0 } else { len });
                 }
                 return if idx != 0 { 0 } else { len };
