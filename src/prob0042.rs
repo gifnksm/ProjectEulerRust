@@ -30,9 +30,7 @@ pub fn solve() -> ~str {
         let mut it = Triangle::new().take_while(|&t| t < is_tri.len());
         for it.advance() |t| { is_tri[t] = true; }
 
-        let mut cnt = 0u;
-        for values.each |&v| { if is_tri[v] { cnt += 1; } }
-        cnt
+        values.iter().count(|&v| is_tri[v])
     });
     match result {
         result::Err(msg) => { fail!(msg) }

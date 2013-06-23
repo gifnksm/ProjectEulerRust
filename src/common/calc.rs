@@ -41,7 +41,7 @@ pub fn digit_histogram(n: uint) -> [uint, ..10] {
 
 pub fn histogram<T: Hash + IterBytes + Eq + Copy>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::new::<T, uint>();
-    for v.each |k| {
+    for v.iter().advance |k| {
         let val = do map.find(k).map_default(1) |v| { *v + 1 };
         map.insert(copy *k, val);
     }
@@ -71,12 +71,7 @@ pub fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
 }
 
 pub fn digits_to_num(v: &[uint], radix: uint) -> uint {
-    let mut num = 0;
-    for v.each |n| {
-        num *= radix;
-        num += *n;
-    }
-    return num;
+    v.iter().fold(0, |accum, &n| accum * radix + n)
 }
 
 pub fn to_palindromic(n: uint, radix: uint, dup_flag: bool) -> uint {

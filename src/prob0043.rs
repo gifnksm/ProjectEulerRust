@@ -4,6 +4,7 @@
 extern mod common;
 
 use std::{uint, vec};
+use std::iterator::AdditiveIterator;
 use common::calc;
 use common::problem::{Problem};
 
@@ -27,10 +28,10 @@ impl DigitMap {
 
     priv fn get_used(&self, ds: &[uint]) -> Option<DigitMap> {
         let mut used: [bool, ..10] = [false, ..10];
-        for ds.each |d| {
-            assert!(*d < 10);
-            if used[*d] || self.is_used(*d) { return None; }
-            used[*d] = true;
+        for ds.iter().advance |&d| {
+            assert!(d < 10);
+            if used[d] || self.is_used(d) { return None; }
+            used[d] = true;
         }
 
         Some(DigitMap { used: [
@@ -68,8 +69,8 @@ pub fn solve() -> ~str {
         }
         arr
     };
-    for (&[13, 11, 7, 5, 3, 2, 1]).each |np| {
-        let base = *np;
+    let base_list = [13u, 11, 7, 5, 3, 2, 1];
+    for base_list.iter().advance |&base| {
         result = do result.flat_map |tp| {
             let mut arr = ~[];
             let dm = tp.second_ref();
@@ -87,9 +88,8 @@ pub fn solve() -> ~str {
         };
     }
 
-    let mut sum = 0;
-    for result.each |r| {
-        sum += calc::digits_to_num(*r.first_ref(), 10);
-    }
-    return sum.to_str();
+    return result.iter()
+        .transform(|&r| calc::digits_to_num(r.first(), 10))
+        .sum()
+        .to_str();
 }

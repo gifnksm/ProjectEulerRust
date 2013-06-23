@@ -25,7 +25,7 @@ fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) ->
         n = div_map[n];
 
         if n >= len_map.len() {
-            for itr_map.each |&n| { len_map[n] = Some(0); }
+            for itr_map.iter().advance |&n| { len_map[n] = Some(0); }
             return 0;
         }
 

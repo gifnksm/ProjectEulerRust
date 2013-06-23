@@ -36,13 +36,13 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &HashMap<K, uint>, n: uin
     let mut idx = 0;
     for kv.iter().enumerate().advance |(i, &(k, v))| {
         let mut new_hist = HashMap::new();
-        for kv.slice(0, i).each |&(k, v)| {
+        for kv.slice(0, i).iter().advance |&(k, v)| {
             new_hist.insert(k, v);
         }
         if v > 1 {
             new_hist.insert(copy k, v - 1);
         }
-        for kv.slice(i + 1, kv.len()).each |&(k, v)| {
+        for kv.slice(i + 1, kv.len()).iter().advance |&(k, v)| {
             new_hist.insert(k, v);
         }
 

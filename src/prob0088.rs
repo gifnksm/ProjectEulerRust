@@ -49,7 +49,7 @@ pub fn solve() -> ~str {
     }
 
     let mut set = HashSet::new();
-    for nums.each |&n| {
+    for nums.iter().advance |&n| {
         if n != uint::max_value { set.insert(n); }
     }
 

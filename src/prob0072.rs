@@ -4,8 +4,9 @@
 extern mod common;
 
 use std::{uint, vec};
+use std::iterator::AdditiveIterator;
 use common::prime;
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 72,
@@ -26,7 +27,5 @@ pub fn solve() -> ~str {
         }
     }
 
-    let mut cnt = 0u;
-    for v.each |&phi| { cnt += phi; }
-    return cnt.to_str();
+    return v.iter().transform(|&x| x).sum().to_str();
 }

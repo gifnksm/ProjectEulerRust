@@ -227,7 +227,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 
         if min_idx.is_empty() { return None; }
         let mut result = None;
-        for min_idx.each |&i| {
+        for min_idx.iter().advance |&i| {
             if result.is_none() {
                 util::swap(&mut self.values[i], &mut result);
             } else {

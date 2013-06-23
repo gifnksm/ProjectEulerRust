@@ -17,7 +17,8 @@ pub fn solve() -> ~str {
     let order_array = &[ 1, 10, 100, 1000, 1000, 10000 ];
     let mut sum = 0;
     for uint::range(0, order_array.len() - 1) |i| {
-        for [true, false].each |b| {
+        let tf = [true, false];
+        for tf.iter().advance |b| {
             let (start, end) = (order_array[i], order_array[i + 1]);
             for uint::range(start, end) |n| {
                 let n = calc::to_palindromic(n, 10, *b);

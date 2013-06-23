@@ -190,7 +190,7 @@ pub fn solve() -> ~str {
         puzzles
     }).map(|&puzzles| {
         let mut answers = ~[];
-        for puzzles.each |&p| {
+        for puzzles.iter().advance |&p| {
             let mut ans = solve_sudoku(p);
             assert_eq!(ans.len(), 1);
             answers.push(ans.pop());
@@ -198,7 +198,7 @@ pub fn solve() -> ~str {
         answers
     }).map(|&answers| {
         let mut sum = 0;
-        for answers.each |ans| {
+        for answers.iter().advance |ans| {
             sum += 100 * ans.get_num(0, 0) + 10 * ans.get_num(1, 0) + ans.get_num(2, 0);
         }
         sum

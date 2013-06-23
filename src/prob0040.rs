@@ -4,6 +4,7 @@
 extern mod common;
 
 use std::{util, uint};
+use std::iterator::MultiplicativeIterator;
 use common::calc;
 use common::problem::{Problem};
 
@@ -41,21 +42,23 @@ struct Area {
     max_idx: uint
 }
 
+impl Area {
+    pub fn new() -> Area {
+        Area {
+            num_digit: 0,
+            min_val: 0, max_val: 0,
+            min_idx: 0, max_idx: 0
+        }
+    }
+}
+
 struct IdxValueMap {
     priv area: ~[Area]
 }
 
-fn IdxValueMap() -> IdxValueMap {
-    return IdxValueMap { area: ~[ Area {
-        num_digit: 0,
-        min_val: 0,
-        max_val: 0,
-        min_idx: 0,
-        max_idx: 0
-    } ] };
-}
-
 impl IdxValueMap {
+    pub fn new() -> IdxValueMap { IdxValueMap { area: ~[ Area::new() ] } }
+
     priv fn extend(&mut self) {
         let last = self.area.last().clone();
         let num_digit = last.num_digit + 1;
@@ -102,11 +105,7 @@ impl IdxValueMap {
 
 
 pub fn solve() -> ~str {
-    let mut map = IdxValueMap();
-    let idx = &[ 1, 10, 100, 1000, 10000, 100000, 1000000 ];
-    let mut prod = 1;
-    for idx.each |i| {
-        prod *= map.get_digit_by_idx(*i);
-    }
-    return prod.to_str();
+    let mut map = IdxValueMap::new();
+    let idx = &[ 1u, 10, 100, 1000, 10000, 100000, 1000000 ];
+    return idx.iter().transform(|&i| map.get_digit_by_idx(i)).product().to_str();
 }

@@ -10,8 +10,6 @@ static PRIMES_BELOW100: &'static [uint] = &[
     43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
 ];
 
-fn tls_prime_nums(_v: @~[uint]) {}
-
 #[inline(always)]
 fn get_task_prime() -> @mut ~[uint] {
     fn task_prime_key(_v: @@mut ~[uint]) {}
@@ -31,11 +29,9 @@ fn get_task_prime() -> @mut ~[uint] {
 
 #[inline(always)]
 priv fn is_coprime(nums: &[uint], n: uint) -> bool {
-    for nums.each |&p| {
-        if p * p > n  { return true; }
-        if n % p == 0 { return false; }
-    }
-    return true;
+    return nums.iter()
+        .take_while(|& &p| p * p <= n)
+        .all(|&p| n % p != 0);
 }
 
 #[inline(always)]

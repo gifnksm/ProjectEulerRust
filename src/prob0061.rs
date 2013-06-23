@@ -38,17 +38,17 @@ pub fn solve() -> ~str {
     for vec::each_permutation([0u, 1u, 2u, 3u, 4u]) |idx| {
         for map[5].iter().enumerate().advance |(i, v5)| {
             if i < 10 { loop; }
-            for v5.each |&n5| {
+            for v5.iter().advance |&n5| {
                 if n5 < 10 { loop; }
-                for map[idx[0]][n5].each |&n0| {
+                for map[idx[0]][n5].iter().advance |&n0| {
                     if n0 < 10 { loop; }
-                    for map[idx[1]][n0].each |&n1| {
+                    for map[idx[1]][n0].iter().advance |&n1| {
                         if n1 < 10 { loop; }
-                        for map[idx[2]][n1].each |&n2| {
+                        for map[idx[2]][n1].iter().advance |&n2| {
                             if n2 < 10 { loop; }
-                            for map[idx[3]][n2].each |&n3| {
+                            for map[idx[3]][n2].iter().advance |&n3| {
                                 if n3 < 10 { loop; }
-                                for map[idx[4]][n3].each |&n4| {
+                                for map[idx[4]][n3].iter().advance |&n4| {
                                     if n4 < 10 { loop; }
                                     if n4 == i {
                                         result.push(~[

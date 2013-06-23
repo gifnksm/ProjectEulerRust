@@ -65,7 +65,7 @@ fn hand(cards: &[Card, ..5]) -> Hand {
     let mut num_count = [~[], ..13];
     let mut suit_count = [~[], ..4];
 
-    for cards.each |&c| {
+    for cards.iter().advance |&c| {
         let val = if c.num == 1 { 12 } else { c.num - 2 };
         num_count[12 - val].push(c);
         suit_count[c.suit as uint - 1].push(c);
@@ -78,7 +78,7 @@ fn hand(cards: &[Card, ..5]) -> Hand {
     let mut pairs = ~[];
     let mut three = ~[];
     let mut four  = ~[];
-    for num_count.each |v| {
+    for num_count.iter().advance |v| {
         match v.len() {
             0 => { /* Do nothing */ },
             1 => single.push(v[0]),

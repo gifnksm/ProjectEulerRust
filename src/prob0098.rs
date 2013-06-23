@@ -28,9 +28,7 @@ fn check_digit(idx: &[uint], ds: &[uint]) -> bool {
 
 #[inline(always)]
 fn idx_to_num(idx: &[uint], ds: &[uint]) -> uint {
-    let mut num = 0;
-    for idx.each |&i| { num = 10 * num + ds[i]; }
-    return num;
+    idx.iter().fold(0u, |num, &i| 10 * num + ds[i])
 }
 
 #[inline(always)]
@@ -44,7 +42,7 @@ pub fn solve() -> ~str {
         .chain(|input| {
             do reader::read_whole_word(input).map |words| {
                 let mut map = ~HashMap::new();
-                for words.each |&word| {
+                for words.iter().advance |&word| {
                     let mut cs: ~[char] = word.iter().collect();
                     sort::quick_sort(cs, |a, b| a <= b);
                     match map.pop(&cs) {
@@ -64,7 +62,7 @@ pub fn solve() -> ~str {
             }
         }).map(|&words| {
             do vec::build_sized(words.len()) |push| {
-                for words.each |elt| {
+                for words.iter().advance |elt| {
                     for uint::range(0, elt.len()) |i| {
                         for uint::range(i + 1, elt.len()) |j| {
                             push((elt[i].clone(), elt[j].clone()))
@@ -86,7 +84,7 @@ pub fn solve() -> ~str {
             do vec::build |push| {
                 let mut cur_len = uint::max_value;
                 let mut cur_group = ~[];
-                for idx_pairs.each |&(len, v1, v2)| {
+                for idx_pairs.iter().advance |&(len, v1, v2)| {
                     if cur_group.is_empty() || cur_len == len {
                         cur_len = len;
                         cur_group.push((v1, v2));
@@ -100,14 +98,14 @@ pub fn solve() -> ~str {
         }).map(|&groups| {
             let mut max = 0;
 
-            for groups.each |&(len, pairs)| {
+            for groups.iter().advance |&(len, pairs)| {
                 let mut nums = ~[];
 
                 let start = calc::pow(10, len) - 1;
                 let end   = calc::pow(10, len - 1);
                 for uint::range_rev(arith::isqrt(start), arith::isqrt(end)) |n| {
                     let ds = calc::num_to_digits(n * n, 10);
-                    for pairs.each |&(v1, v2)| {
+                    for pairs.iter().advance |&(v1, v2)| {
                         if ds[v2[0]] == 0 { loop; }
                         if !check_digit(v1, ds) { loop; }
                         let num2 = idx_to_num(v2, ds);

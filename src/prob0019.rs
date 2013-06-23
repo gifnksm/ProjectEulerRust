@@ -41,7 +41,8 @@ fn day_of_month(y: uint) -> [uint, ..12] {
 
 fn append_day(y: uint, offset: uint, result: &mut [uint, ..7]) -> uint {
     let mut day = offset;
-    for day_of_month(y).each |n| {
+    let dom = day_of_month(y);
+    for dom.iter().advance |n| {
         result[day] += 1;
         day = (day + *n) % 7;
     }
