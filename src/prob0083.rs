@@ -5,6 +5,7 @@ extern mod common;
 
 use std::{vec, uint, io};
 use std::hashmap::HashSet;
+use common::extiter::ExtIteratorUtil;
 use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
@@ -41,15 +42,9 @@ pub fn solve() -> ~str {
         loop {
             if open.is_empty() { fail!(); }
 
-            let mut min_dist = uint::max_value;
-            let mut min_pt   = Point { x: w, y: h};
-            for open.each |&pt| {
-                let d = dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1);
-                if d < min_dist {
-                    min_dist = d;
-                    min_pt = pt;
-                }
-            }
+            let min_pt = open.iter()
+                .transform(|&pt| pt)
+                .min_as(|pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1));
 
             if min_pt == goal { break; }
             open.remove(&min_pt);

@@ -4,8 +4,9 @@
 extern mod common;
 
 use std::{uint, vec};
-use std::hashmap::{HashSet};
-use common::problem::{Problem};
+use std::iterator::AdditiveIterator;
+use std::hashmap::HashSet;
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 88,
@@ -53,7 +54,5 @@ pub fn solve() -> ~str {
         if n != uint::max_value { set.insert(n); }
     }
 
-    let mut sum = 0;
-    for set.each |&n| { sum += n; }
-    return sum.to_str();
+    return set.iter().transform(|&x| x).sum().to_str();
 }

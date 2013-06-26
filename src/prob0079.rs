@@ -56,17 +56,16 @@ impl<T: Hash + IterBytes + Eq + Copy> Relations<T> {
     }
 
     fn find_all_not_preceded(&self) -> ~[T] {
-        let mut result = ~[];
-        for self.top.each |k, v| {
-            if v.num_prec == 0 { result.push(copy *k); }
-        }
-        return result;
+        return self.top.iter()
+            .filter(|&(&_k, &v)| v.num_prec == 0)
+            .transform(|(&k, &_v)| k)
+            .collect::<~[T]>();
     }
 
     fn delete_and_find(&mut self, prec: T) -> ~[T] {
         let mut result = ~[];
         do self.top.pop(&prec).map |p| {
-            for p.succ.each |&s| {
+            for p.succ.iter().advance |&s| {
                 do self.top.find_mut(&s).map |&y| {
                     y.num_prec -= 1;
                     if y.num_prec == 0 {

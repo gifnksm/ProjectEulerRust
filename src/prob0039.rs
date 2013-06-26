@@ -4,9 +4,10 @@
 extern mod common;
 
 use std::uint;
-use std::hashmap::{HashMap};
+use std::hashmap::HashMap;
 use common::arith;
-use common::problem::{Problem};
+use common::extiter::ExtIteratorUtil;
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 39,
@@ -35,14 +36,6 @@ pub fn solve() -> ~str {
         }
     }
 
-    let mut max_key = 0;
-    let mut max_val = 0;
-    for map.each |&k, &v| {
-        if max_val < v {
-            max_key = k;
-            max_val = v;
-        }
-    }
-
+    let (max_key, _max_val) = map.iter().max_as(|&(&_k, &v)| v);
     return max_key.to_str();
 }

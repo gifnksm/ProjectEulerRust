@@ -48,10 +48,10 @@ pub fn histogram<T: Hash + IterBytes + Eq + Copy>(v: &[T]) -> HashMap<T, uint> {
     return map;
 }
 
-pub fn num_of_permutations<T: Eq + Hash, M: Map<T, uint>>(hist: &M) -> uint {
+pub fn num_of_permutations<T: Eq + Hash>(hist: &HashMap<T, uint>) -> uint {
     let mut sum = 0;
     let mut div = 1;
-    for hist.each_value |cnt| {
+    for hist.iter().advance |(_, cnt)| {
         sum += *cnt;
         div *= factorial(*cnt);
     }
@@ -322,7 +322,7 @@ pub fn pow(base: uint, exp: uint) -> uint {
 mod tests {
     use super::*;
     use std::vec;
-    use extra::sort::{merge_sort};
+    use extra::sort::Sort;
     use extra::bigint::{BigUint};
 
     #[test]
@@ -337,11 +337,11 @@ mod tests {
     #[test]
     fn test_histogram() {
         fn check(inp: &[uint], result: &[(uint, uint)]) {
-            let mut hist = ~[];
-            for histogram(inp).each |&k, &v| { hist.push((k, v)); }
-            let vec = do merge_sort(hist) |a, b| {
-                a.first() <= b.first()
-            };
+            let hist = histogram(inp);
+            let mut vec = hist.iter()
+                .transform(|(&k, &v)| (k, v))
+                .collect::<~[(uint, uint)]>();
+            vec.qsort();
             assert_eq!(vec.initn(0), result);
         }
         check([1, 2, 3], [(1, 1), (2, 1), (3, 1)]);

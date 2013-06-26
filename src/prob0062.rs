@@ -4,11 +4,10 @@
 extern mod extra;
 extern mod common;
 
-use std::uint;
 use std::hashmap::{HashMap, HashSet};
 use extra::sort;
 use common::calc;
-use common::problem::{Problem};
+use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
     id: 62,
@@ -47,10 +46,6 @@ pub fn solve() -> ~str {
         map.insert(ds, v);
     }
 
-    let mut answer = uint::max_value;
-    for set.each |&n| {
-        if n < answer { answer = n; }
-    }
-    return answer.to_str();
+    return set.iter().min().unwrap().to_str();
 }
 
