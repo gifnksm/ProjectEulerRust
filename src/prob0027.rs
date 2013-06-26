@@ -34,6 +34,8 @@ pub fn solve() -> ~str {
             Range::new(-(b as int), 1000)
                 .transform(|a| (a, b, get_len(a, b)))
                 .max_as(|&(_a, _b, len)| len)
-        }).max_as(|&(_a, _b, len)| len);
+                .unwrap()
+        }).max_as(|&(_a, _b, len)| len)
+        .unwrap();
     return (a * b).to_str();
 }

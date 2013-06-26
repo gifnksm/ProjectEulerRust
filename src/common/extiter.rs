@@ -184,8 +184,8 @@ impl Iterator<uint> for Triangle {
 pub trait ExtIteratorUtil<A> {
     fn windowed(self, n: uint) -> WindowedIterator<A, Self>;
 
-    fn max_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A;
-    fn min_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A;
+    fn max_as<B: TotalOrd>(&mut self, f: &fn(&A) -> B) -> Option<A>;
+    fn min_as<B: TotalOrd>(&mut self, f: &fn(&A) -> B) -> Option<A>;
 }
 
 impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
@@ -195,37 +195,33 @@ impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
     }
 
     #[inline(always)]
-    fn max_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A {
-        let mut it = self;
-        let mut (max_val, max_key) = match it.next() {
-            Some(x) => (f(&x), x),
-            None => fail!("cannot get maximum element of empty iterator")
-        };
-        for it.advance |key| {
-            let val = f(&key);
-            if val.cmp(&max_val) == Greater {
-                max_val = val;
-                max_key = key;
+    fn max_as<B: Ord>(&mut self, f: &fn(&A) -> B) -> Option<A> {
+        self.fold(None, |max: Option<(A, B)>, x| {
+            let x_val = f(&x);
+            match max {
+                None             => Some((x, x_val)),
+                Some((y, y_val)) => if x_val > y_val {
+                    Some((x, x_val))
+                } else {
+                    Some((y, y_val))
+                }
             }
-        }
-        return max_key;
+        }).map_consume(|(x, _)| x)
     }
 
     #[inline(always)]
-    fn min_as<B: TotalOrd>(self, f: &fn(&A) -> B) -> A {
-        let mut it = self;
-        let mut (min_val, min_key) = match it.next() {
-            Some(x) => (f(&x), x),
-            None => fail!("cannot get minimum element of empty iterator")
-        };
-        for it.advance |key| {
-            let val = f(&key);
-            if val.cmp(&min_val) == Less {
-                min_val = val;
-                min_key = key;
+    fn min_as<B: Ord>(&mut self, f: &fn(&A) -> B) -> Option<A> {
+        self.fold(None, |min: Option<(A, B)>, x| {
+            let x_val = f(&x);
+            match min {
+                None             => Some((x, x_val)),
+                Some((y, y_val)) => if x_val < y_val {
+                    Some((x, x_val))
+                } else {
+                    Some((y, y_val))
+                }
             }
-        }
-        return min_key;
+        }).map_consume(|(x, _)| x)
     }
 }
 

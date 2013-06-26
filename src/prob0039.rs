@@ -36,6 +36,6 @@ pub fn solve() -> ~str {
         }
     }
 
-    let (max_key, _max_val) = map.iter().max_as(|&(&_k, &v)| v);
+    let (max_key, _max_val) = map.iter().max_as(|&(&_k, &v)| v).unwrap();
     return max_key.to_str();
 }

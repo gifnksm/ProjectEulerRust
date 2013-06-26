@@ -32,5 +32,6 @@ fn get_cycle_len(n: uint) -> uint {
 pub fn solve() -> ~str {
     return Range::new::<uint>(2, 1000)
         .max_as(|&n| get_cycle_len(n))
+        .unwrap()
         .to_str();
 }

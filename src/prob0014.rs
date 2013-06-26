@@ -34,5 +34,6 @@ pub fn solve() -> ~str {
 
     return Range::new::<uint>(2, 1000000)
         .max_as(|&n| get_len(&mut map, n))
+        .unwrap()
         .to_str();
 }

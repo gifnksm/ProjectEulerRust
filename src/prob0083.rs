@@ -44,7 +44,8 @@ pub fn solve() -> ~str {
 
             let min_pt = open.iter()
                 .transform(|&pt| pt)
-                .min_as(|pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1));
+                .min_as(|pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1))
+                .unwrap();
 
             if min_pt == goal { break; }
             open.remove(&min_pt);

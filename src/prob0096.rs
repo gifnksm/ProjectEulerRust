@@ -168,7 +168,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
     let (x, y, _cnt) = it
         .filter(|&(_x, _y, cnt)| cnt > 1)
-        .min_as(|&(_x, _y, cnt)| cnt);
+        .min_as(|&(_x, _y, cnt)| cnt)
+        .unwrap();
 
     let mut answers = ~[];
     for uint::range(0, MAX_NUMBER) |n| {
