@@ -5,7 +5,6 @@ extern mod common;
 
 use std::{vec, uint, io};
 use std::hashmap::HashSet;
-use common::extiter::ExtIteratorUtil;
 use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
@@ -44,7 +43,7 @@ pub fn solve() -> ~str {
 
             let min_pt = open.iter()
                 .transform(|&pt| pt)
-                .min_as(|pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1))
+                .min_by(|pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1))
                 .unwrap();
 
             if min_pt == goal { break; }

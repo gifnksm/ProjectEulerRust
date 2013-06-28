@@ -6,7 +6,6 @@ extern mod common;
 use std::uint;
 use std::hashmap::HashMap;
 use common::arith;
-use common::extiter::ExtIteratorUtil;
 use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
@@ -36,6 +35,6 @@ pub fn solve() -> ~str {
         }
     }
 
-    let (max_key, _max_val) = map.iter().max_as(|&(&_k, &v)| v).unwrap();
+    let (max_key, _max_val) = map.iter().max_by(|&(&_k, &v)| v).unwrap();
     return max_key.to_str();
 }

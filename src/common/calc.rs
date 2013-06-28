@@ -321,7 +321,6 @@ pub fn pow(base: uint, exp: uint) -> uint {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::vec;
     use extra::sort::Sort;
     use extra::bigint::{BigUint};
 

@@ -4,7 +4,7 @@
 extern mod common;
 
 use std::vec;
-use common::extiter::{ExtIteratorUtil, Range};
+use common::extiter::Range;
 use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
@@ -31,7 +31,7 @@ fn get_cycle_len(n: uint) -> uint {
 
 pub fn solve() -> ~str {
     return Range::new::<uint>(2, 1000)
-        .max_as(|&n| get_cycle_len(n))
+        .max_by(|&n| get_cycle_len(n))
         .unwrap()
         .to_str();
 }

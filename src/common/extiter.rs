@@ -183,45 +183,12 @@ impl Iterator<uint> for Triangle {
 
 pub trait ExtIteratorUtil<A> {
     fn windowed(self, n: uint) -> WindowedIterator<A, Self>;
-
-    fn max_as<B: TotalOrd>(&mut self, f: &fn(&A) -> B) -> Option<A>;
-    fn min_as<B: TotalOrd>(&mut self, f: &fn(&A) -> B) -> Option<A>;
 }
 
 impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
     #[inline(always)]
     fn windowed(self, n: uint) -> WindowedIterator<A, T> {
         WindowedIterator { iter: self, n: n, vs: ~[] }
-    }
-
-    #[inline(always)]
-    fn max_as<B: Ord>(&mut self, f: &fn(&A) -> B) -> Option<A> {
-        self.fold(None, |max: Option<(A, B)>, x| {
-            let x_val = f(&x);
-            match max {
-                None             => Some((x, x_val)),
-                Some((y, y_val)) => if x_val > y_val {
-                    Some((x, x_val))
-                } else {
-                    Some((y, y_val))
-                }
-            }
-        }).map_consume(|(x, _)| x)
-    }
-
-    #[inline(always)]
-    fn min_as<B: Ord>(&mut self, f: &fn(&A) -> B) -> Option<A> {
-        self.fold(None, |min: Option<(A, B)>, x| {
-            let x_val = f(&x);
-            match min {
-                None             => Some((x, x_val)),
-                Some((y, y_val)) => if x_val < y_val {
-                    Some((x, x_val))
-                } else {
-                    Some((y, y_val))
-                }
-            }
-        }).map_consume(|(x, _)| x)
     }
 }
 

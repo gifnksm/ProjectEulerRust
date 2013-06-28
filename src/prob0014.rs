@@ -4,7 +4,7 @@
 extern mod common;
 
 use std::hashmap::HashMap;
-use common::extiter::{Range, ExtIteratorUtil};
+use common::extiter::Range;
 use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
@@ -33,7 +33,7 @@ pub fn solve() -> ~str {
     map.insert(1u, 1u);
 
     return Range::new::<uint>(2, 1000000)
-        .max_as(|&n| get_len(&mut map, n))
+        .max_by(|&n| get_len(&mut map, n))
         .unwrap()
         .to_str();
 }

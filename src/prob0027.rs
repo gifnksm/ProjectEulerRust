@@ -4,7 +4,7 @@
 extern mod common;
 
 use std::iterator::Counter;
-use common::extiter::{ExtIteratorUtil, Range};
+use common::extiter::Range;
 use common::prime;
 use common::problem::Problem;
 
@@ -29,13 +29,12 @@ fn get_len(a: int, b: int) -> uint {
 pub fn solve() -> ~str {
     let (a, b, _len) = prime::iter()
         .take_while(|&p| p < 1000)
-        .transform(|p| {
+        .filter_map(|p| {
             let b = p as int;
             Range::new(-(b as int), 1000)
                 .transform(|a| (a, b, get_len(a, b)))
-                .max_as(|&(_a, _b, len)| len)
-                .unwrap()
-        }).max_as(|&(_a, _b, len)| len)
+                .max_by(|&(_a, _b, len)| len)
+        }).max_by(|&(_a, _b, len)| len)
         .unwrap();
     return (a * b).to_str();
 }

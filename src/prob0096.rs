@@ -5,7 +5,7 @@ extern mod common;
 
 use std::{uint, io, char, vec};
 use std::num::ToStrRadix;
-use common::extiter::{ExtIteratorUtil, Range};
+use common::extiter::Range;
 use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
@@ -168,7 +168,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
     let (x, y, _cnt) = it
         .filter(|&(_x, _y, cnt)| cnt > 1)
-        .min_as(|&(_x, _y, cnt)| cnt)
+        .min_by(|&(_x, _y, cnt)| cnt)
         .unwrap();
 
     let mut answers = ~[];
