@@ -38,7 +38,7 @@ priv fn is_coprime(nums: &[uint], n: uint) -> bool {
 priv fn grow(nums: &mut ~[uint], len: uint) {
     if nums.len() >= len { return; }
 
-    let mut it = Counter::new(vec::last(*nums) + 2, 2);
+    let mut it = Counter::new(nums.last() + 2, 2);
     for it.advance |n| {
         if !is_coprime(*nums, n) { loop; }
 
@@ -229,21 +229,21 @@ mod tests {
 
         let mut v1 = ~[];
         for each |p| {
-            if p > *vec::last(table) { break; }
+            if p > *table.last() { break; }
             v1 += [ p ];
         }
         assert_eq!(table.initn(0), v1.initn(0));
 
         let mut v2 = ~[];
         for each |p| {
-            if p > *vec::last(table) { break; }
+            if p > *table.last() { break; }
             v2 += [ p ];
         }
         assert_eq!(table.initn(0), v2.initn(0));
 
         let mut v3 = ~[];
         for each |p| {
-            if p > *vec::last(table2) { break; }
+            if p > *table2.last() { break; }
             v3 += [ p ];
         }
         assert_eq!(~[] + table + table2, v3);

@@ -143,12 +143,12 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
         for digits.iter().enumerate().advance |(i, &n)| {
             let min_vec = match min {
                 Some(v) if n <  v[0] => loop,
-                Some(v) if n == v[0] => Some(vec::slice(v, 1, v.len())),
+                Some(v) if n == v[0] => Some(v.slice(1, v.len())),
                 _ => None
             };
             let max_vec = match max {
                 Some(v) if n >  v[0] => loop,
-                Some(v) if n == v[0] => Some(vec::slice(v, 1, v.len())),
+                Some(v) if n == v[0] => Some(v.slice(1, v.len())),
                 _ => None
             };
 
@@ -418,7 +418,7 @@ mod tests {
             ~[3, 4, 5]
         ];
         for combinate(&[1, 2, 3, 4, 5], 3) |n, _rest| {
-            assert_eq!(n, vec::shift(&mut nums));
+            assert_eq!(n, nums.shift());
         }
     }
 
@@ -443,7 +443,7 @@ mod tests {
         ];
 
         for combinate_overlap(&[1, 2, 3, 4, 5], 3) |n| {
-            assert_eq!(n, vec::shift(&mut nums));
+            assert_eq!(n, nums.shift());
         }
     }
 
@@ -458,7 +458,7 @@ mod tests {
         ];
 
         for permutate_num(&[1, 2, 3, 4, 5], 3, 0, 555) |n, _rest| {
-            assert_eq!(n, vec::shift(&mut nums));
+            assert_eq!(n, nums.shift());
         }
 
         let mut nums = ~[
@@ -470,9 +470,9 @@ mod tests {
         ];
 
         for permutate_num(&[1, 2, 3, 4, 5], 3, 140, 300) |n, _rest| {
-            let mut num = vec::shift(&mut nums);
+            let mut num = nums.shift();
             while num < 140 || 300 < num {
-                num = vec::shift(&mut nums);
+                num = nums.shift();
             }
             assert_eq!(n, num);
         }
