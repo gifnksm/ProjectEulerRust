@@ -23,7 +23,7 @@ fn bench<T>(f: &fn() -> T) -> (u64, T) {
     return (end_time - start_time, result);
 }
 
-fn color_print(writer: @io::Writer, color: u8, s: &str) {
+fn color_print(writer: @io::Writer, color: term::color::Color, s: &str) {
     let term = Terminal::new(writer);
     term.iter(|&t| t.fg(color));
     print(s);
@@ -33,9 +33,9 @@ fn color_print(writer: @io::Writer, color: u8, s: &str) {
 fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
     print("[");
     if correct {
-        color_print(io::stdout(), term::color_green, "OK");
+        color_print(io::stdout(), term::color::green, "OK");
     } else {
-        color_print(io::stdout(), term::color_red, "NG");
+        color_print(io::stdout(), term::color::red, "NG");
     }
     println(fmt!("] %5s %13s %20s", name, nanosec_to_str(time), comp_answer));
 }
@@ -93,40 +93,36 @@ impl<'self> Iterator<uint> for ArgIterator<'self> {
     }
 }
 
-fn main() {
-    let args = os::args();
-    let mut it = if args.tail().is_empty() {
-        @Range::new(0, problem::problems.len())
-            .transform(|i| problem::problems[i])
-            as @Iterator<&Problem>
-    } else {
-        @ArgIterator::new(args.tail()).filter_map(|n| {
-            vec::bsearch(problem::problems, |&p| p.id.cmp(&n))
-                .map(|&i| problem::problems[i])
-        }) as @Iterator<&Problem>
-    };
-
-
+fn solve_all<T: Iterator<&'static Problem<'static>>>(mut it: T) {
     let mut total_time  = 0;
     let mut solve_cnt   = 0;
     let mut all_correct = true;
 
-    loop {
-        match it.next() {
-            Some(&p) => {
-                let (time, answer) = do bench { (p.solver)() };
-                let correct = p.answer == answer;
-                print_result(correct, p.id.to_str(), time, answer);
+    for it.advance() |p| {
+        let (time, answer) = do bench { (p.solver)() };
+        let correct = p.answer == answer;
+        print_result(correct, p.id.to_str(), time, answer);
 
-                total_time += time;
-                solve_cnt  += 1;
-                all_correct &= correct;
-            }
-            None => { break; }
-        }
+        total_time += time;
+        solve_cnt  += 1;
+        all_correct &= correct;
     }
 
     if solve_cnt > 1 {
         print_result(all_correct, "TOTAL", total_time, "");
     }
+}
+
+fn main() {
+    let args = os::args();
+    let args = args.tail();
+
+    if args.is_empty() {
+        solve_all(Range::new(0, problem::problems.len())
+                  .transform(|i| problem::problems[i]))
+    } else {
+        solve_all(ArgIterator::new(args)
+                  .filter_map(|n| vec::bsearch(problem::problems, |&p| p.id.cmp(&n)))
+                  .transform(|i| problem::problems[i]));
+    };
 }
