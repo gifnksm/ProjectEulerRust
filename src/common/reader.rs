@@ -1,5 +1,29 @@
 use std::result;
 
+pub trait ReaderIterator<T> {
+    fn line_iter<'a>(&'a self) -> ReaderLineIterator<'a, T>;
+}
+
+impl<T: Reader> ReaderIterator<T> for T {
+    fn line_iter<'a>(&'a self) -> ReaderLineIterator<'a, T> {
+        ReaderLineIterator { reader: self }
+    }
+}
+
+struct ReaderLineIterator<'self, T> {
+    priv reader: &'self T
+}
+
+impl<'self, T: Reader> Iterator<~str> for ReaderLineIterator<'self, T> {
+    fn next(&mut self) -> Option<~str> {
+        if self.reader.eof() {
+            None
+        } else {
+            Some(self.reader.read_line())
+        }
+    }
+}
+
 fn skip_sep<'a>(input: &'a str) -> &'a str {
     let mut itr = input;
     while !itr.is_empty() {

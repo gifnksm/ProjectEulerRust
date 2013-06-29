@@ -5,9 +5,9 @@ extern mod common;
 extern mod extra;
 
 use std::{io, uint, vec};
-use std::io::Reader;
 use std::iterator::AdditiveIterator;
 use extra::sort::Sort;
+use common::reader::ReaderIterator;
 use common::problem::Problem;
 
 pub static problem: Problem<'static> = Problem {
@@ -16,31 +16,7 @@ pub static problem: Problem<'static> = Problem {
     solver: solve
 };
 
-pub trait ReaderIterator<T> {
-    fn line_iter<'a>(&'a self) -> ReaderLineIterator<'a, T>;
-}
-
-impl<T: Reader> ReaderIterator<T> for T {
-    fn line_iter<'a>(&'a self) -> ReaderLineIterator<'a, T> {
-        ReaderLineIterator { reader: self }
-    }
-}
-
-struct ReaderLineIterator<'self, T> {
-    priv reader: &'self T
-}
-
-impl<'self, T: Reader> Iterator<~str> for ReaderLineIterator<'self, T> {
-    fn next(&mut self) -> Option<~str> {
-        if self.reader.eof() {
-            None
-        } else {
-            Some(self.reader.read_line())
-        }
-    }
-}
-
-pub fn is_sss(nums: ~[uint]) -> bool {
+fn is_sss(nums: ~[uint]) -> bool {
     let mut sums: ~[uint] = ~[0];
     for nums.iter().advance |&n| {
         let mut i = 0;
