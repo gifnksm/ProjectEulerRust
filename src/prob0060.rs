@@ -38,7 +38,7 @@ fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[
 
     for nums.iter().advance |&n| {
         let union_nums = union_vec(nums, *map.find(&n).get());
-        result += find_chain(union_nums, ~[n] + set, map);
+        result.push_all(find_chain(union_nums, ~[n] + set, map));
     }
 
     return result;

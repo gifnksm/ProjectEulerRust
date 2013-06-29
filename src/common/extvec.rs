@@ -7,7 +7,7 @@ pub fn zip_default<T: Copy, U: Copy>(v1: &[T], v2: &[U], def: (T, U)) -> ~[(T, U
     for uint::range(0, uint::max(l1, l2)) |i| {
         let e1 = if i < l1 { copy v1[i] } else { copy d1 };
         let e2 = if i < l2 { copy v2[i] } else { copy d2 };
-        result += [(e1, e2)];
+        result.push((e1, e2));
     }
     return result;
 }

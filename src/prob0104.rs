@@ -2,7 +2,6 @@
 #[crate_type = "lib"];
 
 extern mod common;
-extern mod extra;
 
 use std::u64;
 use std::iterator::UnfoldrIterator;

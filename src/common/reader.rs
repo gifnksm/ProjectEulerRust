@@ -13,7 +13,9 @@ fn skip_sep<'a>(input: &'a str) -> &'a str {
 fn read_word<'a>(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
     if input.is_empty() { return result::Err(~"string is empty"); }
 
-    let mut (c, itr) = input.slice_shift_char();
+    let (c, itr) = input.slice_shift_char();
+    let mut c = c;
+    let mut itr = itr;
     if c != '\"' { return result::Err(~"string does not start with `\"`"); }
 
     let mut len = 0;

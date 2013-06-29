@@ -178,7 +178,8 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
             Less    => { return return_val(&mut self.value1); }
             Greater => { return return_val(&mut self.value2); },
             Equal   => {
-                let mut (r1, r2) = (None, None);
+                let mut r1 = None;
+                let mut r2 = None;
                 util::swap(&mut self.value1, &mut r1);
                 util::swap(&mut self.value2, &mut r2);
                 let ((k, v1), (_, v2)) = (r1.unwrap(), r2.unwrap());
@@ -231,7 +232,8 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
             if result.is_none() {
                 util::swap(&mut self.values[i], &mut result);
             } else {
-                let mut (r1, r2) = (None, None);
+                let mut r1 = None;
+                let mut r2 = None;
                 util::swap(&mut r1, &mut self.values[i]);
                 util::swap(&mut r2, &mut result);
                 let ((k, v1), (_, v2)) = (r1.unwrap(), r2.unwrap());

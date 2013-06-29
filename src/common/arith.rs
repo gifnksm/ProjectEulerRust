@@ -1,5 +1,6 @@
 pub fn isqrt(n: uint) -> uint {
-    let mut (min, max) = (0, n);
+    let mut min = 0;
+    let mut max = n;
     while min < max {
         let mid = (min + max + 1) / 2;
         if (mid * mid) == n {

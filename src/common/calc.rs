@@ -190,7 +190,9 @@ pub fn cont_frac_sqrt(n: uint) -> (uint, ~[uint]) {
     #[inline(always)]
     fn each_a(n: uint, f: &fn(uint, (uint, uint, uint)) -> bool) -> bool {
         let sqn = isqrt(n);
-        let mut (p, q, r) = (1, 0, 1);
+        let mut p = 1;
+        let mut q = 0;
+        let mut r = 1;
         loop {
             let a = calc_a(n, sqn, (p, q, r));
             if a * a == n || p == 0 {
@@ -260,7 +262,8 @@ pub fn each_pel<
     >(d: uint, f: &fn(&T, &T)->bool) -> bool {
     let n = IntConvertible::from_int::<T>(d as int);
     let (x1, y1) = solve_pel(d);
-    let mut (xk, yk) = (copy x1, copy y1);
+    let mut xk = copy x1;
+    let mut yk = copy y1;
     loop {
         // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
         // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
@@ -289,7 +292,8 @@ pub fn each_pel_neg<
     >(d: uint, f: &fn(&T, &T)->bool) -> bool {
     let n = IntConvertible::from_int::<T>(d as int);
     let (x1, y1) = solve_pel_neg(d);
-    let mut (xk, yk) = (copy x1, copy y1);
+    let mut xk = copy x1;
+    let mut yk = copy y1;
     let mut cnt = 0u;
     loop {
         // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k

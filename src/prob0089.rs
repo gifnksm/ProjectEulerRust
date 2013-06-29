@@ -49,19 +49,19 @@ fn from_roman(mut s: &str) -> Option<uint> {
 
 fn to_roman(mut n: uint) -> ~str {
     let mut s = ~"";
-    while n >= 1000 { n -= 1000; s += "M"; }
-    if n >= 900 { n -= 900; s += "CM"; }
-    if n >= 500 { n -= 500; s += "D"; }
-    if n >= 400 { n -= 400; s += "CD"; }
-    while n >= 100 { n -= 100; s += "C"; }
-    if n >= 90 { n -= 90; s += "XC"; }
-    if n >= 50 { n -= 50; s += "L"; }
-    if n >= 40 { n -= 40; s += "XL"; }
-    while n >= 10 { n -= 10; s += "X"; }
-    if n >= 9 { n -= 9; s += "IX"; }
-    if n >= 5 { n -= 5; s += "V"; }
-    if n >= 4 { n -= 4; s += "IV"; }
-    while n > 0 { n -= 1; s += "I"; }
+    while n >= 1000 { n -= 1000; s.push_str("M"); }
+    if n >= 900 { n -= 900; s.push_str("CM"); }
+    if n >= 500 { n -= 500; s.push_str("D"); }
+    if n >= 400 { n -= 400; s.push_str("CD"); }
+    while n >= 100 { n -= 100; s.push_str("C"); }
+    if n >= 90 { n -= 90; s.push_str("XC"); }
+    if n >= 50 { n -= 50; s.push_str("L"); }
+    if n >= 40 { n -= 40; s.push_str("XL"); }
+    while n >= 10 { n -= 10; s.push_str("X"); }
+    if n >= 9 { n -= 9; s.push_str("IX"); }
+    if n >= 5 { n -= 5; s.push_str("V"); }
+    if n >= 4 { n -= 4; s.push_str("IV"); }
+    while n > 0 { n -= 1; s.push_str("I"); }
     return s;
 }
 

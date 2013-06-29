@@ -229,21 +229,21 @@ mod tests {
         let mut v1 = ~[];
         for each |p| {
             if p > *table.last() { break; }
-            v1 += [ p ];
+            v1.push(p);
         }
         assert_eq!(table.initn(0), v1.initn(0));
 
         let mut v2 = ~[];
         for each |p| {
             if p > *table.last() { break; }
-            v2 += [ p ];
+            v2.push(p);
         }
         assert_eq!(table.initn(0), v2.initn(0));
 
         let mut v3 = ~[];
         for each |p| {
             if p > *table2.last() { break; }
-            v3 += [ p ];
+            v3.push(p);
         }
         assert_eq!(~[] + table + table2, v3);
     }
