@@ -34,6 +34,7 @@ TEST_BINDIR=bin/test
 TEST_LIBDIR=lib/debug
 
 TARGET=$(BINDIR)/euler$(EXEEXT)
+LIBTEST=$(patsubst %,$(BINDIR)/%.test$(EXEEXT),common)
 TEST=$(patsubst %,$(BINDIR)/%.test$(EXEEXT),euler common $(patsubst %.rs,%,$(notdir $(PROB_SRC))))
 
 RUSTC_FLAGS=-L $(LIBDIR)
@@ -48,6 +49,8 @@ release:
 	make BINDIR=$(RELEASE_BINDIR) LIBDIR=$(RELEASE_LIBDIR) release_bin
 test:
 	make BINDIR=$(TEST_BINDIR) LIBDIR=$(TEST_LIBDIR) test_bin
+libtest:
+	make BINDIR=$(TEST_BINDIR) LIBDIR=$(TEST_LIBDIR) libtest_bin
 depend: $(DEPEND)
 
 clean:
@@ -68,6 +71,9 @@ release_bin: $(TARGET)
 test_bin: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
 test_bin: $(TEST)
 	@for exe in $(TEST); do echo "$$exe"; ./$$exe || exit 1; done
+libtest_bin: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
+libtest_bin: $(LIBTEST)
+	@for exe in $(LIBTEST); do echo "$$exe"; ./$$exe || exit 1; done
 
 -include $(DEPEND)
 
