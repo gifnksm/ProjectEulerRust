@@ -1,15 +1,10 @@
 #[link(name = "prob0045", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
 
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 45,
-    answer: "1533776805",
-    solver: solve
-};
+
+pub static expected_answer: &'static str = "1533776805";
 
 fn triangle(i: uint) -> uint {
     let n = i + 1;

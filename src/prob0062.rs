@@ -7,13 +7,8 @@ extern mod common;
 use std::hashmap::{HashMap, HashSet};
 use extra::sort;
 use common::calc;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 62,
-    answer: "127035954683",
-    solver: solve
-};
+pub static expected_answer: &'static str = "127035954683";
 
 pub fn solve() -> ~str {
     let mut map = HashMap::new::<~[uint], ~[uint]>();

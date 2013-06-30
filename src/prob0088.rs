@@ -1,18 +1,13 @@
 #[link(name = "prob0088", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::{uint, vec};
 use std::iterator::AdditiveIterator;
 use std::hashmap::HashSet;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 88,
-    answer: "7587457",
-    solver: solve
-};
+pub static expected_answer: &'static str = "7587457";
 
 fn each_sum_product(start: uint, end: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     return sub(start, end, 0, 1, 0, f);

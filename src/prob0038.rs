@@ -7,13 +7,8 @@ extern mod extra;
 use std::{vec, util};
 use extra::sort;
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 38,
-    answer: "932718654",
-    solver: solve
-};
+pub static expected_answer: &'static str = "932718654";
 
 pub fn solve() -> ~str {
     for calc::permutate_num([9, 8, 7, 6, 5, 4, 3, 2, 1], 4, 0, 9999) |num, rest| {

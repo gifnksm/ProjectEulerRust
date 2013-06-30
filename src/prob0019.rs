@@ -1,16 +1,11 @@
 #[link(name = "prob0019", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::uint;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 19,
-    answer: "171",
-    solver: solve
-};
+pub static expected_answer: &'static str = "171";
 
 fn is_leap_year(y: uint) -> bool {
     if y % 400 == 0 { return true; }

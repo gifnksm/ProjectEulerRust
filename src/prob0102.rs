@@ -1,16 +1,11 @@
 #[link(name = "prob0102", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::{int, io};
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 102,
-    answer: "228",
-    solver: solve
-};
+pub static expected_answer: &'static str = "228";
 
 type Point = (int, int);
 type Triangle = (Point, Point, Point);

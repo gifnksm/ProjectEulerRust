@@ -3,13 +3,8 @@
 
 extern mod common;
 use common::calc::{digit_histogram};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 52,
-    answer: "142857",
-    solver: solve
-};
+pub static expected_answer: &'static str = "142857";
 
 pub fn solve() -> ~str {
     let mut n = 0;

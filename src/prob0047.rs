@@ -6,13 +6,8 @@ extern mod common;
 use std::util;
 use std::iterator::Counter;
 use common::prime;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 47,
-    answer: "134043",
-    solver: solve
-};
+pub static expected_answer: &'static str = "134043";
 
 pub fn solve() -> ~str {
     let len = 4;

@@ -6,13 +6,8 @@ extern mod common;
 use std::iterator::Counter;
 use common::extiter::Range;
 use common::prime;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 27,
-    answer: "-59231",
-    solver: solve
-};
+pub static expected_answer: &'static str = "-59231";
 
 // p(n) = n^2 + an + b is prime for n = 0 .. N
 // p(0) = b         => b must be prime

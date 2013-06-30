@@ -1,17 +1,12 @@
 #[link(name = "prob0079", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::{io, uint, char};
 use std::hashmap::{HashMap, HashSet};
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 79,
-    answer: "73162890",
-    solver: solve
-};
+pub static expected_answer: &'static str = "73162890";
 
 struct Relation<T> {
     num_prec: uint,

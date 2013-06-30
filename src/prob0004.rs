@@ -6,13 +6,8 @@ extern mod common;
 use std::uint;
 use common::calc;
 use common::extiter::Range;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 4,
-    answer: "906609",
-    solver: solve
-};
+pub static expected_answer: &'static str = "906609";
 
 fn dividable_pairs(num: uint, min: uint, max: uint, f: &fn(uint, uint) -> bool) -> bool {
     let mut div = uint::max(uint::div_ceil(num, max), min);

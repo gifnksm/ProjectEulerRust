@@ -6,13 +6,8 @@ extern mod common;
 use std::vec;
 use common::calc::{num_to_digits};
 use common::prime;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 37,
-    answer: "748317",
-    solver: solve
-};
+pub static expected_answer: &'static str = "748317";
 
 fn is_r2l(n: uint) -> bool {
     let mut itr = n / 10;

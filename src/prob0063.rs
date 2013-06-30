@@ -2,17 +2,12 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+
 
 use std::uint;
 use extra::bigint::{BigUint};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 63,
-    answer: "49",
-    solver: solve
-};
+pub static expected_answer: &'static str = "49";
 
 pub fn solve() -> ~str {
     let mut cnt = 1u; // a == 1

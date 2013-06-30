@@ -1,16 +1,11 @@
 #[link(name = "prob0053", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::uint;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 53,
-    answer: "4075",
-    solver: solve
-};
+pub static expected_answer: &'static str = "4075";
 
 // nCr-1 = r/(n-r+1) nCr!
 // nCr = n/(n-r) n-1Cr

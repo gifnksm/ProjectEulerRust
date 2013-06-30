@@ -5,13 +5,8 @@ extern mod common;
 
 use std::uint;
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 36,
-    answer: "872187",
-    solver: solve
-};
+pub static expected_answer: &'static str = "872187";
 
 pub fn solve() -> ~str {
     let order_array = &[ 1, 10, 100, 1000, 1000, 10000 ];

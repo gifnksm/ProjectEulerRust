@@ -5,13 +5,8 @@ extern mod common;
 
 use std::{uint, util};
 use common::arith;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 9,
-    answer: "31875000",
-    solver: solve
-};
+pub static expected_answer: &'static str = "31875000";
 
 fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     for uint::range(2, sum - 2) |c| {

@@ -6,13 +6,8 @@ extern mod common;
 use std::uint;
 use std::iterator::Counter;
 use common::{arith, prime};
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 46,
-    answer: "5777",
-    solver: solve
-};
+pub static expected_answer: &'static str = "5777";
 
 fn is_goldbach(n: uint) -> bool {
     for uint::range(1, arith::isqrt(n / 2) + 1) |s| {

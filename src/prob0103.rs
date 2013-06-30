@@ -2,17 +2,12 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+
 
 use std::{uint, vec};
 use extra::priority_queue::PriorityQueue;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 103,
-    answer: "20313839404245",
-    solver: solve
-};
+pub static expected_answer: &'static str = "20313839404245";
 
 struct SSSElem {
     avg: float,

@@ -1,16 +1,11 @@
 #[link(name = "prob0044", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::{vec, uint};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 44,
-    answer: "5482660",
-    solver: solve
-};
+pub static expected_answer: &'static str = "5482660";
 
 // P[m] <= minimal sum
 // P[n+i] + P[n] = P[m]

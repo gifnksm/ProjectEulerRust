@@ -1,17 +1,12 @@
 #[link(name = "prob0078", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::hashmap::{HashMap};
 use std::util::{unreachable};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 78,
-    answer: "55374",
-    solver: solve
-};
+pub static expected_answer: &'static str = "55374";
 
 static million: int = 1000000;
 

@@ -5,14 +5,9 @@ extern mod common;
 
 use std::char;
 use std::iterator::OrdIterator;
-use common::problem::Problem;
 use common::extiter::ExtIteratorUtil;
 
-pub static problem: Problem<'static> = Problem {
-    id: 8,
-    answer: "40824",
-    solver: solve
-};
+pub static expected_answer: &'static str = "40824";
 
 static input: &'static str = &"
 73167176531330624919225119674426574742355349194934

@@ -5,13 +5,8 @@ extern mod common;
 
 use std::vec;
 use common::calc;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 90,
-    answer: "1217",
-    solver: solve
-};
+pub static expected_answer: &'static str = "1217";
 
 pub fn solve() -> ~str {
     let mut all_combs = ~[];

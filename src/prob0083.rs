@@ -1,17 +1,12 @@
 #[link(name = "prob0083", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::{vec, uint, io};
 use std::hashmap::HashSet;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 83,
-    answer: "425185",
-    solver: solve
-};
+pub static expected_answer: &'static str = "425185";
 
 #[deriving(Eq, IterBytes)]
 struct Point { x: uint, y: uint }

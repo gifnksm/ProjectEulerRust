@@ -1,15 +1,7 @@
 #[link(name = "prob0006", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
-
-use common::problem::{Problem};
-
-pub static problem: Problem<'static> = Problem {
-    id: 6,
-    answer: "25164150",
-    solver: solve
-};
+pub static expected_answer: &'static str = "25164150";
 
 fn sum_of_square(n: uint) -> uint { n * (n + 1) * (2 * n + 1) / 6 }
 fn sum_of_seq(n: uint) -> uint { n * (n + 1) / 2 }

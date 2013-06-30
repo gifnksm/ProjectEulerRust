@@ -14,11 +14,16 @@ def main():
 
     for mod in mods:
         print("extern mod %s;" % mod)
-    print("")
-    print("priv use common::problem::{ Problem };")
-    print("")
-    print("pub static problems: &'static [&'static Problem<'static>] = &[")
-    print(",\n".join(['    &' + mod + '::problem' for mod in mods]))
+
+    print("""
+pub struct Problem<'self> {
+    id: uint,
+    answer: &'self str,
+    solve: extern fn() -> ~str
+}
+
+pub static problems: &'static [&'static Problem<'static>] = &[""")
+    print(",\n".join(['    &Problem { id: %s, answer: %s::expected_answer, solve: %s::solve}' % (int(re.sub('^prob0+', "", mod)), mod, mod) for mod in mods]))
     print("];")
 
     sys.exit(0)

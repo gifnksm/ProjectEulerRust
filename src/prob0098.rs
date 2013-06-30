@@ -9,13 +9,8 @@ use std::iterator::OrdIterator;
 use std::hashmap::HashMap;
 use extra::sort;
 use common::{arith, calc, reader};
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 98,
-    answer: "18769",
-    solver: solve
-};
+pub static expected_answer: &'static str = "18769";
 
 #[inline(always)]
 fn check_digit(idx: &[uint], ds: &[uint]) -> bool {

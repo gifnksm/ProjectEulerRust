@@ -6,13 +6,8 @@ extern mod common;
 use std::{util, uint};
 use std::iterator::MultiplicativeIterator;
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 40,
-    answer: "210",
-    solver: solve
-};
+pub static expected_answer: &'static str = "210";
 
 // d_(a*10 + b)
 //    0 1 2 3 4 5 6 7 8 9

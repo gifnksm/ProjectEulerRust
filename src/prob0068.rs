@@ -1,15 +1,10 @@
 #[link(name = "prob0068", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
 
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 68,
-    answer: "6531031914842725",
-    solver: solve
-};
+
+pub static expected_answer: &'static str = "6531031914842725";
 
 pub fn solve() -> ~str {
     // solve by hand...

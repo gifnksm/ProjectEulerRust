@@ -5,13 +5,8 @@ extern mod common;
 
 use std::hashmap::HashMap;
 use common::extiter::Range;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 14,
-    answer: "837799",
-    solver: solve
-};
+pub static expected_answer: &'static str = "837799";
 
 fn get_len(map: &mut HashMap<uint, uint>, n: uint) -> uint {
     match map.find(&n) {

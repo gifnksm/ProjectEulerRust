@@ -4,13 +4,8 @@
 extern mod common;
 
 use common::prime;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 58,
-    answer: "26241",
-    solver: solve
-};
+pub static expected_answer: &'static str = "26241";
 
 pub fn solve() -> ~str {
     let mut side = 1;

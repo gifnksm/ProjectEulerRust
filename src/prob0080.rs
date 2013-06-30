@@ -10,13 +10,8 @@ use std::num::Zero;
 use extra::bigint::BigInt;
 use common::arith;
 use common::extiter::Range;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 80,
-    answer: "40886",
-    solver: solve
-};
+pub static expected_answer: &'static str = "40886";
 
 fn sqrt_newton_raphson(n: uint, precision: uint) -> ~str {
     assert!(precision >= 1);

@@ -6,13 +6,8 @@ extern mod common;
 use std::uint;
 use std::hashmap::HashSet;
 use common::prime;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 29,
-    answer: "9183",
-    solver: solve
-};
+pub static expected_answer: &'static str = "9183";
 
 pub fn solve() -> ~str {
     let mut set = HashSet::new();

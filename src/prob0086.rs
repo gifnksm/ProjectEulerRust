@@ -5,13 +5,8 @@ extern mod common;
 
 use std::uint;
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 86,
-    answer: "1818",
-    solver: solve
-};
+pub static expected_answer: &'static str = "1818";
 
 fn get_count(m: uint) -> uint {
     let mut cnt = 0u;

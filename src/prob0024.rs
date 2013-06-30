@@ -12,13 +12,8 @@ use std::hash::{Hash};
 use std::hashmap::{HashMap};
 use extra::sort;
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 24,
-    answer: "2783915460",
-    solver: solve
-};
+pub static expected_answer: &'static str = "2783915460";
 
 fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &HashMap<K, uint>, n: uint) -> Either<uint, ~[K]> {
     if hist.is_empty() {

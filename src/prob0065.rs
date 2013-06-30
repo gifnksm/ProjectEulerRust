@@ -8,13 +8,8 @@ use std::{char, vec};
 use std::iterator::AdditiveIterator;
 use extra::bigint::BigUint;
 use common::calc;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 65,
-    answer: "272",
-    solver: solve
-};
+pub static expected_answer: &'static str = "272";
 
 fn napier_seq(i: uint) -> uint {
     match i {

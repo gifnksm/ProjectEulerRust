@@ -5,13 +5,8 @@ extern mod common;
 
 use std::iterator::AdditiveIterator;
 use common::extiter::Range;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 17,
-    answer: "21124",
-    solver: solve
-};
+pub static expected_answer: &'static str = "21124";
 
 fn to_word_under10(n: uint) -> ~str {
     return match n {

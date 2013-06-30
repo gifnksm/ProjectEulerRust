@@ -6,13 +6,8 @@ extern mod common;
 use std::vec;
 use std::iterator::AdditiveIterator;
 use common::prime;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 21,
-    answer: "31626",
-    solver: solve
-};
+pub static expected_answer: &'static str = "31626";
 
 pub fn solve() -> ~str {
     let limit = 10000;

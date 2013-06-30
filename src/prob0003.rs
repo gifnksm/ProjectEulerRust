@@ -5,13 +5,8 @@ extern mod common;
 
 use std::iterator::OrdIterator;
 use common::prime;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 3,
-    answer: "6857",
-    solver: solve
-};
+pub static expected_answer: &'static str = "6857";
 
 pub fn solve() -> ~str {
     let num = 600851475143;

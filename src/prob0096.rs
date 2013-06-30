@@ -6,13 +6,8 @@ extern mod common;
 use std::{uint, io, char, vec};
 use std::num::ToStrRadix;
 use common::extiter::Range;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 96,
-    answer: "24702",
-    solver: solve
-};
+pub static expected_answer: &'static str = "24702";
 
 static BOARD_WIDTH: uint = 9;
 static BOARD_HEIGHT: uint = 9;

@@ -4,7 +4,7 @@ extern mod common;
 use std::{uint, vec, io, os};
 use extra::{time, term};
 use extra::term::Terminal;
-use common::problem::Problem;
+use problem::Problem;
 use common::extiter::Range;
 
 mod problem;
@@ -99,7 +99,7 @@ fn solve_all<T: Iterator<&'static Problem<'static>>>(mut it: T) {
     let mut all_correct = true;
 
     for it.advance() |p| {
-        let (time, answer) = do bench { (p.solver)() };
+        let (time, answer) = do bench { (p.solve)() };
         let correct = p.answer == answer;
         print_result(correct, p.id.to_str(), time, answer);
 

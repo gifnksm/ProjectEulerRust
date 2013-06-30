@@ -6,13 +6,8 @@ extern mod common;
 
 use common::prime;
 use common::calc;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 49,
-    answer: "296962999629",
-    solver: solve
-};
+pub static expected_answer: &'static str = "296962999629";
 
 pub fn solve() -> ~str {
     let d = 3330;

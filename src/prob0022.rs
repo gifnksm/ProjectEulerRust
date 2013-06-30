@@ -8,13 +8,8 @@ use std::{io, result};
 use std::iterator::AdditiveIterator;
 use extra::sort;
 use common::reader;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 22,
-    answer: "871198282",
-    solver: solve
-};
+pub static expected_answer: &'static str = "871198282";
 
 fn get_score(n: uint, s: &str) -> uint {
     n * s.bytes_iter().transform(|c| (c - ('A' as u8) + 1) as uint).sum()

@@ -2,16 +2,11 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+
 
 use extra::bigint::{BigUint};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 57,
-    answer: "153",
-    solver: solve
-};
+pub static expected_answer: &'static str = "153";
 
 // a[0] = 1 + 1/2
 // a[1] = 1 + 1/(2 + 1/2)

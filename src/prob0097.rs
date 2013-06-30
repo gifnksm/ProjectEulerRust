@@ -2,17 +2,12 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+
 
 use std::num::{One, Zero};
 use extra::bigint::{BigUint};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 97,
-    answer: "8739992577",
-    solver: solve
-};
+pub static expected_answer: &'static str = "8739992577";
 
 #[inline(always)]
 fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {

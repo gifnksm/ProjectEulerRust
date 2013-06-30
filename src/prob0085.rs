@@ -1,15 +1,10 @@
 #[link(name = "prob0085", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
 
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 85,
-    answer: "2772",
-    solver: solve
-};
+
+pub static expected_answer: &'static str = "2772";
 
 // x by y => C = (1 + 2 + .. + x) * (1 + 2 + .. + y) recutangulars
 //             = (x (1 + x) / 2) * (y (1 + y)) / 2

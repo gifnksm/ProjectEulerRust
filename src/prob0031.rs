@@ -1,16 +1,11 @@
 #[link(name = "prob0031", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::uint;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 31,
-    answer: "73682",
-    solver: solve
-};
+pub static expected_answer: &'static str = "73682";
 
 fn count_ways(sum: uint, coins: &[uint]) -> uint {
     if coins.len() == 1 { return 1 }

@@ -1,16 +1,11 @@
 #[link(name = "prob0089", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::{uint, io};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 89,
-    answer: "743",
-    solver: solve
-};
+pub static expected_answer: &'static str = "743";
 
 static roman_pairs: &'static [(&'static str, uint)] = &[
     ("IV", 4),

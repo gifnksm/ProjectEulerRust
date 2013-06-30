@@ -5,13 +5,8 @@ extern mod common;
 
 use common::prime;
 use common::extiter::Triangle;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 12,
-    answer: "76576500",
-    solver: solve
-};
+pub static expected_answer: &'static str = "76576500";
 
 pub fn solve() -> ~str {
     return Triangle::new()

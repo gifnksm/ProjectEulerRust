@@ -1,16 +1,11 @@
 #[link(name = "prob0034", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::uint;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 34,
-    answer: "40730",
-    solver: solve
-};
+pub static expected_answer: &'static str = "40730";
 
 pub fn solve() -> ~str {
     let mut facts: [uint, ..10] = [ 0, ..10 ];

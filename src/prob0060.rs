@@ -7,13 +7,8 @@ use std::{util, uint};
 use std::hashmap::HashMap;
 use std::iterator::AdditiveIterator;
 use common::prime;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 60,
-    answer: "26033",
-    solver: solve
-};
+pub static expected_answer: &'static str = "26033";
 
 fn union_vec(v1: &[uint], v2: &[uint]) -> ~[uint] {
     let mut result = ~[];

@@ -5,13 +5,8 @@ extern mod common;
 
 use std::vec;
 use common::extiter::Range;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 26,
-    answer: "983",
-    solver: solve
-};
+pub static expected_answer: &'static str = "983";
 
 fn get_cycle_len(n: uint) -> uint {
     if n == 1 { return 1; }

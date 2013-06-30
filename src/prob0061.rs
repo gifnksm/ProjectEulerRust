@@ -1,16 +1,11 @@
 #[link(name = "prob0061", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 use std::vec;
 use std::iterator::AdditiveIterator;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 61,
-    answer: "28684",
-    solver: solve
-};
+pub static expected_answer: &'static str = "28684";
 
 fn create_map(f: &fn(uint) -> uint) -> ~[~[uint]] {
     let mut result = vec::from_elem(100, ~[]);

@@ -8,13 +8,8 @@ use std::char;
 use std::iterator::{AdditiveIterator, MultiplicativeIterator};
 use extra::bigint::BigUint;
 use common::extiter::Range;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 20,
-    answer: "648",
-    solver: solve
-};
+pub static expected_answer: &'static str = "648";
 
 pub fn solve() -> ~str {
     let s = Range::new::<uint>(1, 101)

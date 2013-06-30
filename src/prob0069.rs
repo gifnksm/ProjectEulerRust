@@ -4,13 +4,8 @@
 extern mod common;
 
 use common::prime;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 69,
-    answer: "510510",
-    solver: solve
-};
+pub static expected_answer: &'static str = "510510";
 
 pub fn solve() -> ~str {
     let limit = 1000000;

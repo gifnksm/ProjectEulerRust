@@ -5,13 +5,8 @@ extern mod common;
 
 use std::iterator::AdditiveIterator;
 use common::prime;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 10,
-    answer: "142913828922",
-    solver: solve
-};
+pub static expected_answer: &'static str = "142913828922";
 
 pub fn solve() -> ~str {
     let limit = 2000000;

@@ -1,16 +1,11 @@
 #[link(name = "prob0071", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::uint;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 71,
-    answer: "428570",
-    solver: solve
-};
+pub static expected_answer: &'static str = "428570";
 
 pub fn solve() -> ~str {
     let limit = 1000000;

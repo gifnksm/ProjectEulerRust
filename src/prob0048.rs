@@ -1,16 +1,11 @@
 #[link(name = "prob0048", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::uint;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 48,
-    answer: "9110846700",
-    solver: solve
-};
+pub static expected_answer: &'static str = "9110846700";
 
 fn pow_mod(base: uint, exponent: uint, modulo: uint) -> uint {
     if base == 0 { return 0; }

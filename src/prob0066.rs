@@ -5,13 +5,8 @@ extern mod extra;
 extern mod common;
 use extra::bigint::{BigUint};
 use common::calc::{solve_pel};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 66,
-    answer: "661",
-    solver: solve
-};
+pub static expected_answer: &'static str = "661";
 
 fn each_d(f: &fn(uint) -> bool) -> bool {
     let mut d      = 0;

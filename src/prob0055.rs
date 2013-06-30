@@ -2,18 +2,13 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+
 
 use std::{str, vec, uint};
 use std::from_str::{FromStr};
 use extra::bigint::{BigUint};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 55,
-    answer: "249",
-    solver: solve
-};
+pub static expected_answer: &'static str = "249";
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_str();

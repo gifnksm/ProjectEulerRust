@@ -1,15 +1,10 @@
 #[link(name = "prob0073", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
 
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 73,
-    answer: "7295372",
-    solver: solve
-};
+
+pub static expected_answer: &'static str = "7295372";
 
 fn count_between(
     (na, da): (uint, uint), (nb, db): (uint, uint), max_d: uint

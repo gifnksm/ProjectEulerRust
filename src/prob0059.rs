@@ -1,16 +1,11 @@
 #[link(name = "prob0059", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 use std::{uint, float, u8, io};
 use std::iterator::AdditiveIterator;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 59,
-    answer: "107359",
-    solver: solve
-};
+pub static expected_answer: &'static str = "107359";
 
 static english_frequency: &'static [(char, float)] = &[
     ('a', 0.08167),

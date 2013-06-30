@@ -1,16 +1,11 @@
 #[link(name = "prob0018", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::uint;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 18,
-    answer: "1074",
-    solver: solve
-};
+pub static expected_answer: &'static str = "1074";
 
 static triangle: &'static [&'static [uint]] = &[
     &[75],

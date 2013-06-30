@@ -2,19 +2,13 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
 
 use std::char;
 use std::num::One;
 use std::iterator::AdditiveIterator;
 use extra::bigint::BigInt;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 16,
-    answer: "1366",
-    solver: solve
-};
+pub static expected_answer: &'static str = "1366";
 
 pub fn solve() -> ~str {
     let mut i = One::one::<BigInt>();

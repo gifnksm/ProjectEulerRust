@@ -5,13 +5,8 @@ extern mod common;
 
 use std::iterator::AdditiveIterator;
 use common::extiter::Range;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 1,
-    answer: "233168",
-    solver: solve
-};
+pub static expected_answer: &'static str = "233168";
 
 pub fn solve() -> ~str {
     Range::new(0, 1000)

@@ -1,17 +1,10 @@
 #[link(name = "prob0013", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
-
 use std::uint;
 use std::iterator::AdditiveIterator;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 13,
-    answer: "5537376230",
-    solver: solve
-};
+pub static expected_answer: &'static str = "5537376230";
 
 static input: &'static str = "
 37107287533902102798797998220837590246510135740250

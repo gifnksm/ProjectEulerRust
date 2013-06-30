@@ -9,13 +9,8 @@ use std::num::{Zero, One};
 use extra::bigint::{BigInt};
 use extra::rational::{Ratio};
 use common::poly;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 101,
-    answer: "37076114526",
-    solver: solve
-};
+pub static expected_answer: &'static str = "37076114526";
 
 fn u(n: BigInt) -> BigInt {
     let mut sum = Zero::zero::<BigInt>();

@@ -1,16 +1,11 @@
 #[link(name = "prob0091", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::uint;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 91,
-    answer: "14234",
-    solver: solve
-};
+pub static expected_answer: &'static str = "14234";
 
 fn count_right_o(x_max: uint, y_max: uint) -> uint {
     return x_max * y_max;

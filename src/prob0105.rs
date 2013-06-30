@@ -8,13 +8,8 @@ use std::{io, uint, vec};
 use std::iterator::AdditiveIterator;
 use extra::sort::Sort;
 use common::reader::ReaderIterator;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 105,
-    answer: "73702",
-    solver: solve
-};
+pub static expected_answer: &'static str = "73702";
 
 fn is_sss(nums: ~[uint]) -> bool {
     let mut sums: ~[uint] = ~[0];

@@ -5,13 +5,8 @@ extern mod common;
 
 use std::hashmap::{HashSet};
 use common::prime;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 87,
-    answer: "1097343",
-    solver: solve
-};
+pub static expected_answer: &'static str = "1097343";
 
 pub fn solve() -> ~str {
     let limit = 50000000;

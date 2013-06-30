@@ -6,13 +6,8 @@ extern mod common;
 use std::uint;
 use std::hashmap::HashMap;
 use common::arith;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 39,
-    answer: "840",
-    solver: solve
-};
+pub static expected_answer: &'static str = "840";
 
 pub fn solve() -> ~str {
     // a + b + c = 2m(m + n) <= L

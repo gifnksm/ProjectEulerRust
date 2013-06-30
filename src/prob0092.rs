@@ -1,16 +1,11 @@
 #[link(name = "prob0092", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::{vec, uint};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 92,
-    answer: "8581146",
-    solver: solve
-};
+pub static expected_answer: &'static str = "8581146";
 
 fn square_digit_sum(mut n: uint) -> uint {
     let mut sum = 0;

@@ -8,13 +8,8 @@ use std::vec;
 use std::iterator::AdditiveIterator;
 use extra::sort;
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 30,
-    answer: "443839",
-    solver: solve
-};
+pub static expected_answer: &'static str = "443839";
 
 // 9^5     = 59049
 // 9999    => 9^5 * 4 = 236196

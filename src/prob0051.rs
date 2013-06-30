@@ -6,13 +6,8 @@ extern mod common;
 use std::{util, uint};
 use common::prime;
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 51,
-    answer: "121313",
-    solver: solve
-};
+pub static expected_answer: &'static str = "121313";
 
 pub fn solve() -> ~str {
     let num_family = 8;

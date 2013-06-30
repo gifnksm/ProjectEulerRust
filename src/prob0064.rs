@@ -5,13 +5,8 @@ extern mod common;
 
 use std::uint;
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 64,
-    answer: "1322",
-    solver: solve
-};
+pub static expected_answer: &'static str = "1322";
 
 pub fn solve() -> ~str {
     let mut cnt = 0u;

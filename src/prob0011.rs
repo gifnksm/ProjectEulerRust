@@ -6,13 +6,8 @@ extern mod common;
 use std::uint;
 use std::iterator::{OrdIterator, MultiplicativeIterator};
 use common::extiter::{ExtIteratorUtil, Area2DIterator};
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 11,
-    answer: "70600674",
-    solver: solve
-};
+pub static expected_answer: &'static str = "70600674";
 
 static input: &'static str = &"
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08

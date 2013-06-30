@@ -2,18 +2,13 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+
 
 use std::{uint};
 use std::num::{Zero};
 use extra::bigint::{BigUint};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 56,
-    answer: "972",
-    solver: solve
-};
+pub static expected_answer: &'static str = "972";
 
 fn digit_sum(n: uint) -> uint {
     let mut sum = 0;

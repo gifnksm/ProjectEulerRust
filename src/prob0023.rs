@@ -5,13 +5,8 @@ extern mod common;
 
 use std::{uint, vec};
 use common::prime;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 23,
-    answer: "4179871",
-    solver: solve
-};
+pub static expected_answer: &'static str = "4179871";
 
 #[inline(always)]
 fn is_abundant(n: uint) -> bool {

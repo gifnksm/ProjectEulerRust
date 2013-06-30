@@ -1,17 +1,12 @@
 #[link(name = "prob0074", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::{uint, vec};
 use std::hashmap::{HashMap};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 74,
-    answer: "402",
-    solver: solve
-};
+pub static expected_answer: &'static str = "402";
 
 enum Length {
     Loop(uint), Chain(uint), Unknown

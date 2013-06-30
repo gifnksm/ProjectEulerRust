@@ -1,16 +1,11 @@
 #[link(name = "prob0099", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::{float, io};
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 99,
-    answer: "709",
-    solver: solve
-};
+pub static expected_answer: &'static str = "709";
 
 pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/base_exp.txt"))

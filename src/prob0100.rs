@@ -9,13 +9,8 @@ use std::util;
 use std::num::{One};
 use extra::bigint::{BigUint};
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 100,
-    answer: "756872327473",
-    solver: solve
-};
+pub static expected_answer: &'static str = "756872327473";
 
 // b/s * (b-1)/(s-1) = 1/2
 // 2b(b - 1) = s * (s-1)

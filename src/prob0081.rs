@@ -1,16 +1,11 @@
 #[link(name = "prob0081", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::{uint, vec, io};
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 81,
-    answer: "427337",
-    solver: solve
-};
+pub static expected_answer: &'static str = "427337";
 
 pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/matrix.txt")).map(|file| {

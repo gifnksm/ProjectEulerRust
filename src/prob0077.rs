@@ -6,13 +6,8 @@ extern mod common;
 use std::iterator::Counter;
 use std::hashmap::HashMap;
 use common::prime;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 77,
-    answer: "71",
-    solver: solve
-};
+pub static expected_answer: &'static str = "71";
 
 fn count_way(sum: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     let cnt = count_sub(sum, 0, map);

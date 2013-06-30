@@ -1,17 +1,12 @@
 #[link(name = "prob0104", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::u64;
 use std::iterator::UnfoldrIterator;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 104,
-    answer: "329468",
-    solver: solve
-};
+pub static expected_answer: &'static str = "329468";
 
 fn is_pandigit(n: u64) -> bool {
     let mut hist = [false, .. 10];

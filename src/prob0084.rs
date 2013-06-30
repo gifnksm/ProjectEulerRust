@@ -2,17 +2,12 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+
 
 use std::{uint, vec};
 use extra::sort;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 84,
-    answer: "101524",
-    solver: solve
-};
+pub static expected_answer: &'static str = "101524";
 
 pub enum Square {
     GO, A1, CC1, A2, T1, R1, B1, CH1, B2, B3, JAIL,

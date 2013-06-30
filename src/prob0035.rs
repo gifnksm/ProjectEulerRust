@@ -5,13 +5,8 @@ extern mod common;
 
 use std::uint;
 use common::{prime, calc};
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 35,
-    answer: "55",
-    solver: solve
-};
+pub static expected_answer: &'static str = "55";
 
 #[inline(always)]
 fn is_circular_prime(n: uint) -> bool {

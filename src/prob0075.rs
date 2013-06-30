@@ -6,13 +6,8 @@ extern mod common;
 use std::{uint, vec};
 use common::arith;
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 75,
-    answer: "161667",
-    solver: solve
-};
+pub static expected_answer: &'static str = "161667";
 
 pub fn solve() -> ~str {
     let limit = 1500000;

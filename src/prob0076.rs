@@ -1,17 +1,12 @@
 #[link(name = "prob0076", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::uint;
 use std::hashmap::{HashMap};
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 76,
-    answer: "190569291",
-    solver: solve
-};
+pub static expected_answer: &'static str = "190569291";
 
 fn count_way(sum: uint) -> uint {
     let mut map = HashMap::new();

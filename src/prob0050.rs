@@ -4,13 +4,8 @@
 extern mod common;
 
 use common::prime;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 50,
-    answer: "997651",
-    solver: solve
-};
+pub static expected_answer: &'static str = "997651";
 
 fn get_longer(p: uint, min_len: uint) -> Option<uint> {
     let max_avg = if min_len == 0 { p } else { p / min_len };

@@ -1,16 +1,11 @@
 #[link(name = "prob0033", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+
 
 use std::uint;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 33,
-    answer: "100",
-    solver: solve
-};
+pub static expected_answer: &'static str = "100";
 
 // AB / AC => NG (10A+B : 10A+C = B : C => 10AC+BC = 10AB+BC => 10A(C-B) = 0 -> trivial)
 // BA / CA => NG

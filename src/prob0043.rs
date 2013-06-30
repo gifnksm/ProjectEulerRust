@@ -6,13 +6,8 @@ extern mod common;
 use std::{uint, vec};
 use std::iterator::AdditiveIterator;
 use common::calc;
-use common::problem::{Problem};
 
-pub static problem: Problem<'static> = Problem {
-    id: 43,
-    answer: "16695334890",
-    solver: solve
-};
+pub static expected_answer: &'static str = "16695334890";
 
 struct DigitMap { used: [ bool, ..10] }
 

@@ -10,13 +10,8 @@ use std::hashmap::HashSet;
 use std::iterator::Counter;
 use extra::rational::{Rational, Ratio};
 use common::calc;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 93,
-    answer: "1258",
-    solver: solve
-};
+pub static expected_answer: &'static str = "1258";
 
 enum Op { Add, Sub, Mul, Div }
 

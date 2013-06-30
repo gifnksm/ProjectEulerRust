@@ -6,13 +6,8 @@ extern mod common;
 use std::{result, io};
 use std::iterator::Counter;
 use common::card::Card;
-use common::problem::Problem;
 
-pub static problem: Problem<'static> = Problem {
-    id: 54,
-    answer: "376",
-    solver: solve
-};
+pub static expected_answer: &'static str = "376";
 
 enum Hand {
     Hi            ( [Card, ..5] ),
