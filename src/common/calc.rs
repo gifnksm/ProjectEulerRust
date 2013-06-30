@@ -326,7 +326,7 @@ pub fn pow(base: uint, exp: uint) -> uint {
 mod tests {
     use super::*;
     use extra::sort::Sort;
-    use extra::bigint::{BigUint};
+    use extra::bigint::BigUint;
 
     #[test]
     fn test_factorial() {

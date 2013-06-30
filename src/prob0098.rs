@@ -70,7 +70,7 @@ pub fn solve() -> ~str {
                 let cs1 = w1.as_bytes();
                 let cs2 = w2.as_bytes();
                 let get_pos = |&c: &u8| cs1.position_elem(&c).get();
-                (w1.len(), cs1.map(get_pos), cs2.map(get_pos))
+                (w1.len(), cs1.map(|c| get_pos(c)), cs2.map(|c| get_pos(c)))
             }
         }).map(|mut &words| {
             sort::quick_sort(words, |&(l1, _, _), &(l2, _, _)| l1 >= l2);

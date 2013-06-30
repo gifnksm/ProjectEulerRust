@@ -309,18 +309,17 @@ mod tests {
                                              v2: &[(int, int)],
                                              f: &fn(int) -> M,
                                              result: &[(int, int)]) {
-            let conv = |&(x, y): &(int, int)| (x, f(y));
             let merged: ~[(int, M)] = MergeMonoidIterator::new(
-                v1.iter().transform(conv),
-                v2.iter().transform(conv)
+                v1.iter().transform(|&(x, y)| (x, f(y))),
+                v2.iter().transform(|&(x, y)| (x, f(y)))
             ).collect();
-            assert_eq!(merged, result.map(conv));
+            assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
 
             let merged: ~[(int, M)] = MergeMonoidIterator::new(
-                v2.iter().transform(conv),
-                v1.iter().transform(conv)
+                v2.iter().transform(|&(x, y)| (x, f(y))),
+                v1.iter().transform(|&(x, y)| (x, f(y)))
             ).collect();
-            assert_eq!(merged, result.map(conv));
+            assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
         }
 
         let v1 = [(1, 1), (3, 1), (4, 3), (6, 1)];
@@ -343,14 +342,14 @@ mod tests {
 
     #[test]
     fn test_merge_multi_monoid_iterator() {
-        fn check<M: Monoid + Wrap<int> + Eq>(vs: &[~[(int, int)]],
-                                             f: &fn(int) -> M,
-                                             result: &[(int, int)]) {
-            let conv = |&(x, y): &(int, int)| (x, f(y));
-            let iters = vec::from_fn(vs.len(), |i| vs[i].iter().transform(conv));
-            for vec::each_permutation(iters) |it| {
-                let merged: ~[(int, M)] = MergeMultiMonoidIterator::new(vec::to_owned(it)).collect();
-                assert_eq!(merged, result.map(conv));
+        fn check<M: Monoid + Wrap<int> + Eq + Copy>(vs: &[~[(int, int)]],
+                                                    f: &fn(int) -> M,
+                                                    result: &[(int, int)]) {
+            for vec::each_permutation(vs) |vs| {
+                let vs = vs.map(|ks| ks.map(|&(x, y)| (x, f(y))));
+                let iters = vec::from_fn(vs.len(), |i| vs[i].iter().transform(|&x| copy x));
+                let merged = MergeMultiMonoidIterator::new(iters).collect::<~[(int, M)]>();
+                assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
             }
         }
 

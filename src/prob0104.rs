@@ -53,8 +53,8 @@ pub fn solve() -> ~str {
         Some(n0)
     };
 
-    let first = UnfoldrIterator::new(next_fib_first10, (0, 0));
-    let last = UnfoldrIterator::new(next_fib_last10, (0, 1));
+    let first = UnfoldrIterator::new((0, 0), next_fib_first10);
+    let last  = UnfoldrIterator::new((0, 1), next_fib_last10);
     let mut it = first.zip(last).enumerate().filter(|&(_, (f, l))| is_pandigit(f) && is_pandigit(l));
     let (k, _) = it.next().unwrap();
     return k.to_str();

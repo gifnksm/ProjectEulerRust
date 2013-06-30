@@ -19,7 +19,7 @@ fn each_sum_product(start: uint, end: uint, f: &fn(uint, uint, uint) -> bool) ->
                 if !f(sum + n, prod * n, len + 1) { return false; }
             }
 
-            if !sub(n, end, sum + n, prod * n, len + 1, f) { return false; }
+            if !sub(n, end, sum + n, prod * n, len + 1, |a, b, c| f(a, b, c)) { return false; }
         }
         return true;
     }

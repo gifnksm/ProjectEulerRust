@@ -103,7 +103,8 @@ fn read_sudoku<T: Reader>(r: T) -> SuDoku {
 
 fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
     let group_it = Range::new(0, GROUP_WIDTH * GROUP_HEIGHT)
-        .transform(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH));
+        .transform(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
+        .collect::<~[(uint, uint)]>();
 
     loop {
         let bkup = puzzle.clone();
@@ -116,9 +117,10 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
                                 y / GROUP_HEIGHT * GROUP_HEIGHT);
                 let row = Range::new(0, BOARD_WIDTH).transform(|x| (x, y));
                 let col = Range::new(0, BOARD_HEIGHT).transform(|y| (x, y));
-                let grp = group_it.transform(|(dx, dy)| (x0 + dx, y0 + dy));
+                let grp = group_it.iter().transform(|&(dx, dy)| (x0 + dx, y0 + dy));
 
-                let mut it = row.chain_(col).chain_(grp).filter(|&pos: &(uint, uint)| pos != (x, y));
+                let mut it = row.chain_(col).chain_(grp)
+                    .filter(|&pos: &(uint, uint)| pos != (x, y));
                 let mask = !puzzle.map[y][x] & MASK_ALL;
                 for it.advance |(x, y)| { puzzle.map[y][x] &= mask; }
             }
@@ -128,24 +130,30 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
             let bit = 1 << n;
 
             for uint::range(0, BOARD_HEIGHT) |y| {
-                let mut it = Range::new(0, BOARD_WIDTH).filter(|&x| puzzle.map[y][x] & bit != 0);
-                if (copy it).len_() != 1 { loop; }
-                puzzle.map[y][it.next().get()] = bit;
+                let mut it = Range::new(0, BOARD_WIDTH)
+                    .filter(|&x| puzzle.map[y][x] & bit != 0);
+                let next = it.next();
+                if next.is_none() || it.next().is_some() { loop; }
+                puzzle.map[y][next.unwrap()] = bit;
             }
 
             for uint::range(0, BOARD_WIDTH) |x| {
-                let mut it = Range::new(0, BOARD_HEIGHT).filter(|&y| puzzle.map[y][x] & bit != 0);
-                if (copy it).len_() != 1 { loop; }
-                puzzle.map[it.next().get()][x] = bit;
+                let mut it = Range::new(0, BOARD_HEIGHT)
+                    .filter(|&y| puzzle.map[y][x] & bit != 0);
+                let next = it.next();
+                if next.is_none() || it.next().is_some() { loop; }
+                puzzle.map[next.unwrap()][x] = bit;
             }
 
             for uint::range_step(0, BOARD_HEIGHT, GROUP_WIDTH as int) |y0| {
                 for uint::range_step(0, BOARD_WIDTH, GROUP_HEIGHT as int) |x0| {
                     let mut it = group_it
-                        .transform(|(dx, dy)| (x0 + dx, y0 + dy))
+                        .iter()
+                        .transform(|&(dx, dy)| (x0 + dx, y0 + dy))
                         .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
-                    if (copy it).len_() != 1 { loop; }
-                    let (x, y) = it.next().get();
+                    let next = it.next();
+                    if next.is_none() || it.next().is_some() { loop; }
+                    let (x, y) = next.unwrap();
                     puzzle.map[y][x] = bit;
                 }
             }
@@ -156,14 +164,15 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
     let it = Range::new(0, BOARD_HEIGHT * BOARD_WIDTH)
         .transform(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
-        .transform(|(x, y)| (x, y, puzzle.map[y][x].population_count()));
+        .transform(|(x, y)| (x, y, puzzle.map[y][x].population_count()))
+        .collect::<~[(uint, uint, u16)]>();
 
-    if (copy it).any_(|(_x, _y, cnt)| cnt == 0) { return ~[]; }
-    if (copy it).all(|(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
+    if it.iter().any_(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
+    if it.iter().all(|&(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
 
-    let (x, y, _cnt) = it
-        .filter(|&(_x, _y, cnt)| cnt > 1)
-        .min_by(|&(_x, _y, cnt)| cnt)
+    let (x, y, _cnt) = *it.iter()
+        .filter(|& &(_x, _y, cnt)| cnt > 1)
+        .min_by(|& &(_x, _y, cnt)| cnt)
         .unwrap();
 
     let mut answers = ~[];
