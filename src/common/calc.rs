@@ -2,8 +2,8 @@ use std::num::IntConvertible;
 use std::hashmap::{HashMap, HashSet};
 use std::{util, uint, vec};
 
-use arith::{isqrt};
-use extiter::{Range};
+use arith::isqrt;
+use extiter::Range;
 
 pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     let n0 = if m % 2 == 0 { 1 } else { 2 };

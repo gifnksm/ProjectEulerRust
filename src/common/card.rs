@@ -1,5 +1,4 @@
-use std::{char};
-use std::from_str::{FromStr};
+use std::char;
 
 pub enum Suit {
     Dummy, Spade, Heart, Dia, Club

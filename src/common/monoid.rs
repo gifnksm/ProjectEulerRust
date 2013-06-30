@@ -2,7 +2,6 @@ use std::{vec, uint, util};
 use std::cmp::{Ord, Eq};
 use std::ops::{Add, Mul};
 use std::num::{Zero, One, Bounded};
-use std::iterator::{Iterator};
 
 pub trait Monoid {
     fn mempty() -> Self;

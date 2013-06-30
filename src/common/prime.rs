@@ -1,8 +1,8 @@
 use std::iterator::{Counter, MultiplicativeIterator, MapIterator};
 use std::{util, local_data, vec};
 
-use extiter::{Range};
 use calc;
+use extiter::Range;
 use monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
 
 static PRIMES_BELOW100: &'static [uint] = &[
