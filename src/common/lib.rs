@@ -4,7 +4,6 @@
 #[cfg(test)]
 extern mod extra;
 
-pub mod extvec;
 pub mod extiter;
 pub mod arith;
 pub mod calc;
