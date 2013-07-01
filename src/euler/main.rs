@@ -1,7 +1,7 @@
 extern mod extra;
 extern mod common;
 
-use std::{uint, vec, io, os};
+use std::{uint, io, os};
 use extra::{time, term};
 use extra::term::Terminal;
 use problem::Problem;
@@ -122,7 +122,7 @@ fn main() {
                   .transform(|i| problem::problems[i]))
     } else {
         solve_all(ArgIterator::new(args)
-                  .filter_map(|n| vec::bsearch(problem::problems, |&p| p.id.cmp(&n)))
+                  .filter_map(|n| problem::problems.bsearch(|&p| p.id.cmp(&n)))
                   .transform(|i| problem::problems[i]));
     };
 }

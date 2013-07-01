@@ -1,5 +1,5 @@
 use std::iterator::{Counter, MultiplicativeIterator, MapIterator};
-use std::{util, local_data, vec};
+use std::{util, local_data};
 
 use calc;
 use extiter::Range;
@@ -68,7 +68,7 @@ pub fn contains(n: uint) -> bool {
     let len = nums.len();
     let last = nums[len - 1];
     if n < last {
-        return vec::bsearch_elem(*nums, &n).is_some();
+        return nums.bsearch_elem(&n).is_some();
     }
 
     let mut it = Counter::new::<uint>(0, 1);

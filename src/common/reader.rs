@@ -2,11 +2,16 @@ use std::result;
 
 pub trait ReaderIterator<T> {
     fn line_iter<'a>(&'a self) -> ReaderLineIterator<'a, T>;
+    fn sep_iter<'a>(&'a self, c: u8, include: bool) -> ReaderSplitIterator<'a, T>;
 }
 
 impl<T: Reader> ReaderIterator<T> for T {
     fn line_iter<'a>(&'a self) -> ReaderLineIterator<'a, T> {
         ReaderLineIterator { reader: self }
+    }
+
+    fn sep_iter<'a>(&'a self, c: u8, include: bool) -> ReaderSplitIterator<'a, T> {
+        ReaderSplitIterator { reader: self, c: c, include: include }
     }
 }
 
@@ -20,6 +25,22 @@ impl<'self, T: Reader> Iterator<~str> for ReaderLineIterator<'self, T> {
             None
         } else {
             Some(self.reader.read_line())
+        }
+    }
+}
+
+struct ReaderSplitIterator<'self, T> {
+    priv reader: &'self T,
+    priv c: u8,
+    priv include: bool
+}
+
+impl<'self, T: Reader> Iterator<~str> for ReaderSplitIterator<'self, T> {
+    fn next(&mut self) -> Option<~str> {
+        if self.reader.eof() {
+            None
+        } else {
+            Some(self.reader.read_until(self.c, self.include))
         }
     }
 }

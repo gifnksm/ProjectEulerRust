@@ -2,8 +2,7 @@ use std::{uint, vec};
 use std::num::{Zero, One};
 
 fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
-    // FIXME #6468 use v.rposition
-    let len = vec::rposition(v, |&n| !n.is_zero()).map_default(Zero::zero(), |&p| p + 1);
+    let len = v.rposition(|&n| !n.is_zero()).map_default(Zero::zero(), |&p| p + 1);
     return v.slice(0, len);
 }
 

@@ -23,7 +23,7 @@ fn get_pentagonal(i: uint) -> uint {
 
 fn is_pentagonal(n: uint, table: &[uint]) -> bool {
     if *table.last() < n { fail!() }
-    return vec::bsearch_elem(table, &n).is_some();
+    return table.bsearch_elem(&n).is_some();
 }
 
 pub fn solve() -> ~str {

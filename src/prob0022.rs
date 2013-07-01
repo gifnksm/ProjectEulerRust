@@ -6,8 +6,8 @@ extern mod common;
 
 use std::{io, result};
 use std::iterator::AdditiveIterator;
-use extra::sort;
-use common::reader;
+use extra::sort::Sort;
+use common::reader::ReaderIterator;
 
 pub static expected_answer: &'static str = "871198282";
 
@@ -16,11 +16,16 @@ fn get_score(n: uint, s: &str) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let result = io::read_whole_file_str(&Path("files/names.txt")).chain(|input| {
-        reader::read_whole_word(input)
-            .map(|&names| names.map(|s| s.to_str()))
-            .map(|&names| sort::merge_sort(names, |a, b| a < b).mapi(|i, &s| get_score(i + 1, s)))
-    }).map(|scores| scores.iter().transform(|&x| x).sum());
+    let result = io::file_reader(&Path("files/names.txt")).map(|input| {
+        let mut ss = input.sep_iter(',' as u8, false)
+            .transform(|s| s.trim().trim_chars(&'"').to_str())
+            .collect::<~[~str]>();
+        ss.qsort();
+        ss.iter()
+            .enumerate()
+            .transform(|(i, &s)| {  get_score(i + 1, s)} )
+            .sum()
+    });
 
     match result {
         result::Err(msg) => { fail!(fmt!("%s", msg)); }
