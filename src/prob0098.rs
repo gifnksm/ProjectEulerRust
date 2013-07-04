@@ -42,7 +42,7 @@ pub fn solve() -> ~str {
                     sort::quick_sort(cs, |a, b| a <= b);
                     match map.pop(&cs) {
                         None     => { map.insert(cs, ~[word.to_str()]); }
-                        Some(ws) => { map.insert(cs, ws + [word.to_str()]); }
+                        Some(ws) => { map.insert(cs, vec::append_one(ws, word.to_str())); }
                     }
                 }
                 map

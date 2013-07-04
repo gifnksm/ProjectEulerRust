@@ -33,9 +33,9 @@ fn color_print(writer: @io::Writer, color: term::color::Color, s: &str) {
 fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
     print("[");
     if correct {
-        color_print(io::stdout(), term::color::green, "OK");
+        color_print(io::stdout(), term::color::GREEN, "OK");
     } else {
-        color_print(io::stdout(), term::color::red, "NG");
+        color_print(io::stdout(), term::color::RED, "NG");
     }
     println(fmt!("] %5s %13s %20s", name, nanosec_to_str(time), comp_answer));
 }

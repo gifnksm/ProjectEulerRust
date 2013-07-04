@@ -4,6 +4,7 @@
 extern mod extra;
 extern mod common;
 
+use std::vec;
 use std::hashmap::{HashMap, HashSet};
 use extra::sort;
 use common::calc;
@@ -29,7 +30,7 @@ pub fn solve() -> ~str {
         sort::quick_sort3(ds);
 
         let v = match map.pop(&ds) {
-            Some(nums) => nums + [ cube ],
+            Some(nums) => vec::append_one(nums, cube),
             None       => ~[cube]
         };
         if v.len() == 5 {

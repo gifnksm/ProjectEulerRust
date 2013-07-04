@@ -12,7 +12,7 @@ pub static expected_answer: &'static str = "249";
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_str();
-    let rev = str::from_bytes(vec::reversed(s.as_bytes()));
+    let rev = str::from_chars(s.rev_iter().collect::<~[char]>());
     return FromStr::from_str(rev).get();
 }
 

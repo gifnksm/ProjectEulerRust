@@ -65,7 +65,7 @@ impl SSSElem {
         }
 
         let avg = (self.avg * (len as float) + n as float) / ((len as float) + 1f);
-        let sss = self.sss + [n];
+        let sss = vec::append_one(self.sss.to_owned(), n);
         return Some(SSSElem { avg: avg, sss: sss, sums: sums });
     }
 

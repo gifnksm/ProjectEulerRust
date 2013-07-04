@@ -46,7 +46,7 @@ pub fn solve() -> ~str {
     let un = vec::from_fn(11, |n| (BigInt::from_uint(n + 1), u(BigInt::from_uint(n + 1))));
     let mut sum = Zero::zero::<BigInt>();
     for uint::range(1, un.len()) |i| {
-        let poly = vec::map_consume(op(un.slice(0, i)), |Ratio { numer: numer, _ }| numer);
+        let poly = op(un.slice(0, i)).consume_iter().transform(|x| x.numer).collect::<~[BigInt]>();
         sum = sum + poly::eval(poly, BigInt::from_uint(i + 1));
     }
     return sum.to_str();
