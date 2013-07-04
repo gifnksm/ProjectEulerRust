@@ -4,7 +4,7 @@
 
 
 
-pub static expected_answer: &'static str = "6531031914842725";
+pub static EXPECTED_ANSWER: &'static str = "6531031914842725";
 
 pub fn solve() -> ~str {
     // solve by hand...

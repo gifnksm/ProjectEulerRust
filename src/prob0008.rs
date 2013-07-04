@@ -7,9 +7,9 @@ use std::char;
 use std::iterator::OrdIterator;
 use common::extiter::ExtIteratorUtil;
 
-pub static expected_answer: &'static str = "40824";
+pub static EXPECTED_ANSWER: &'static str = "40824";
 
-static input: &'static str = &"
+static INPUT: &'static str = &"
 73167176531330624919225119674426574742355349194934
 96983520312774506326239578318016984801869478851843
 85861560789112949495459501737958331952853208805511
@@ -34,7 +34,7 @@ static input: &'static str = &"
 
 pub fn solve() -> ~str {
     let prod_len = 5;
-    return input.iter()
+    return INPUT.iter()
         .filter_map(|c| char::to_digit(c, 10))
         .windowed(prod_len)
         .transform(|win| win.iter().fold(1, |p, &n| p * n))

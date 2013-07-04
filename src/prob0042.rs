@@ -7,7 +7,7 @@ use std::{io, result, vec};
 use common::extiter::Triangle;
 use common::reader;
 
-pub static expected_answer: &'static str = "162";
+pub static EXPECTED_ANSWER: &'static str = "162";
 
 fn word_value(word: &str) -> uint {
     let mut value = 0;

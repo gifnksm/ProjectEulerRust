@@ -7,7 +7,7 @@ extern mod common;
 use extra::bigint::{BigUint};
 use common::calc::{each_pel};
 
-pub static expected_answer: &'static str = "518408346";
+pub static EXPECTED_ANSWER: &'static str = "518408346";
 
 // triangle a-a-b's area
 // S(a, b) := b * sqrt(4a^2-b^2) / 4

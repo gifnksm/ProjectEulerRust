@@ -5,7 +5,7 @@
 
 use std::{uint, vec, io};
 
-pub static expected_answer: &'static str = "7273";
+pub static EXPECTED_ANSWER: &'static str = "7273";
 
 pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/triangle.txt")).map(|file| {

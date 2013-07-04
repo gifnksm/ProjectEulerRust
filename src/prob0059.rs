@@ -5,9 +5,9 @@
 use std::{uint, float, u8, io};
 use std::iterator::AdditiveIterator;
 
-pub static expected_answer: &'static str = "107359";
+pub static EXPECTED_ANSWER: &'static str = "107359";
 
-static english_frequency: &'static [(char, float)] = &[
+static ENGLISH_FREQUENCY: &'static [(char, float)] = &[
     ('a', 0.08167),
     ('b', 0.01492),
     ('c', 0.02782),
@@ -74,7 +74,7 @@ fn find_key(count: &[uint], ref_freq: &[float]) -> u8 {
 
 pub fn solve() -> ~str {
     let mut freq_dict = ~[0f, ..256];
-    for english_frequency.iter().advance |&(c, f)| {
+    for ENGLISH_FREQUENCY.iter().advance |&(c, f)| {
         freq_dict[c as u8] = f;
     }
 

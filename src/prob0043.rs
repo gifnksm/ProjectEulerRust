@@ -7,7 +7,7 @@ use std::{uint, vec};
 use std::iterator::AdditiveIterator;
 use common::calc;
 
-pub static expected_answer: &'static str = "16695334890";
+pub static EXPECTED_ANSWER: &'static str = "16695334890";
 
 struct DigitMap { used: [ bool, ..10] }
 

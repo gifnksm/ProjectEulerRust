@@ -7,7 +7,7 @@ extern mod extra;
 use std::num::{One, Zero};
 use extra::bigint::{BigUint};
 
-pub static expected_answer: &'static str = "8739992577";
+pub static EXPECTED_ANSWER: &'static str = "8739992577";
 
 #[inline(always)]
 fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {

@@ -4,9 +4,9 @@
 use std::uint;
 use std::iterator::AdditiveIterator;
 
-pub static expected_answer: &'static str = "5537376230";
+pub static EXPECTED_ANSWER: &'static str = "5537376230";
 
-static input: &'static str = "
+static INPUT: &'static str = "
 37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538
 74324986199524741059474233309513058123726617309629
@@ -110,7 +110,7 @@ static input: &'static str = "
 ";
 
 pub fn solve() -> ~str {
-    let sum = input
+    let sum = INPUT
         .trim()
         .line_iter()
         .filter_map(|line| uint::from_str(line.slice(0, 12)))

@@ -6,7 +6,7 @@
 use std::{vec, uint, io};
 use std::hashmap::HashSet;
 
-pub static expected_answer: &'static str = "425185";
+pub static EXPECTED_ANSWER: &'static str = "425185";
 
 #[deriving(Eq, IterBytes)]
 struct Point { x: uint, y: uint }

@@ -6,7 +6,7 @@ extern mod common;
 use std::{uint, vec};
 use common::prime;
 
-pub static expected_answer: &'static str = "4179871";
+pub static EXPECTED_ANSWER: &'static str = "4179871";
 
 #[inline(always)]
 fn is_abundant(n: uint) -> bool {

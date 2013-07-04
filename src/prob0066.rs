@@ -6,7 +6,7 @@ extern mod common;
 use extra::bigint::{BigUint};
 use common::calc::{solve_pel};
 
-pub static expected_answer: &'static str = "661";
+pub static EXPECTED_ANSWER: &'static str = "661";
 
 fn each_d(f: &fn(uint) -> bool) -> bool {
     let mut d      = 0;

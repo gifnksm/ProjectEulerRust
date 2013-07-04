@@ -4,7 +4,7 @@
 
 
 
-pub static expected_answer: &'static str = "7295372";
+pub static EXPECTED_ANSWER: &'static str = "7295372";
 
 fn count_between(
     (na, da): (uint, uint), (nb, db): (uint, uint), max_d: uint

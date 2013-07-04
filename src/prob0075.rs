@@ -7,7 +7,7 @@ use std::{uint, vec};
 use common::arith;
 use common::calc;
 
-pub static expected_answer: &'static str = "161667";
+pub static EXPECTED_ANSWER: &'static str = "161667";
 
 pub fn solve() -> ~str {
     let limit = 1500000;

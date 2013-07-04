@@ -7,7 +7,7 @@ extern mod common;
 use common::prime;
 use common::calc;
 
-pub static expected_answer: &'static str = "296962999629";
+pub static EXPECTED_ANSWER: &'static str = "296962999629";
 
 pub fn solve() -> ~str {
     let d = 3330;

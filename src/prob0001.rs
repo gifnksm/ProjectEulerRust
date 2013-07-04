@@ -6,7 +6,7 @@ extern mod common;
 use std::iterator::AdditiveIterator;
 use common::extiter::Range;
 
-pub static expected_answer: &'static str = "233168";
+pub static EXPECTED_ANSWER: &'static str = "233168";
 
 pub fn solve() -> ~str {
     Range::new(0, 1000)

@@ -6,7 +6,7 @@ extern mod common;
 use std::uint;
 use common::calc;
 
-pub static expected_answer: &'static str = "872187";
+pub static EXPECTED_ANSWER: &'static str = "872187";
 
 pub fn solve() -> ~str {
     let order_array = &[ 1, 10, 100, 1000, 1000, 10000 ];

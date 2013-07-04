@@ -6,7 +6,7 @@ extern mod common;
 use std::hashmap::{HashSet};
 use common::prime;
 
-pub static expected_answer: &'static str = "1097343";
+pub static EXPECTED_ANSWER: &'static str = "1097343";
 
 pub fn solve() -> ~str {
     let limit = 50000000;

@@ -8,7 +8,7 @@ use std::num::One;
 use std::iterator::AdditiveIterator;
 use extra::bigint::BigInt;
 
-pub static expected_answer: &'static str = "1366";
+pub static EXPECTED_ANSWER: &'static str = "1366";
 
 pub fn solve() -> ~str {
     let mut i = One::one::<BigInt>();

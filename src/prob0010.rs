@@ -6,7 +6,7 @@ extern mod common;
 use std::iterator::AdditiveIterator;
 use common::prime;
 
-pub static expected_answer: &'static str = "142913828922";
+pub static EXPECTED_ANSWER: &'static str = "142913828922";
 
 pub fn solve() -> ~str {
     let limit = 2000000;

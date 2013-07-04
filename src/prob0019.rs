@@ -5,7 +5,7 @@
 
 use std::uint;
 
-pub static expected_answer: &'static str = "171";
+pub static EXPECTED_ANSWER: &'static str = "171";
 
 fn is_leap_year(y: uint) -> bool {
     if y % 400 == 0 { return true; }

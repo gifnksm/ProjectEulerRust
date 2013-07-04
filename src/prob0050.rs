@@ -5,7 +5,7 @@ extern mod common;
 
 use common::prime;
 
-pub static expected_answer: &'static str = "997651";
+pub static EXPECTED_ANSWER: &'static str = "997651";
 
 fn get_longer(p: uint, min_len: uint) -> Option<uint> {
     let max_avg = if min_len == 0 { p } else { p / min_len };

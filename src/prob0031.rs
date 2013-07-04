@@ -5,7 +5,7 @@
 
 use std::uint;
 
-pub static expected_answer: &'static str = "73682";
+pub static EXPECTED_ANSWER: &'static str = "73682";
 
 fn count_ways(sum: uint, coins: &[uint]) -> uint {
     if coins.len() == 1 { return 1 }

@@ -9,7 +9,7 @@ use std::iterator::AdditiveIterator;
 use extra::sort::Sort;
 use common::reader::ReaderIterator;
 
-pub static expected_answer: &'static str = "871198282";
+pub static EXPECTED_ANSWER: &'static str = "871198282";
 
 fn get_score(n: uint, s: &str) -> uint {
     n * s.bytes_iter().transform(|c| (c - ('A' as u8) + 1) as uint).sum()

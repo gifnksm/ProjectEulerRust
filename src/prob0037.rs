@@ -7,7 +7,7 @@ use std::vec;
 use common::calc::{num_to_digits};
 use common::prime;
 
-pub static expected_answer: &'static str = "748317";
+pub static EXPECTED_ANSWER: &'static str = "748317";
 
 fn is_r2l(n: uint) -> bool {
     let mut itr = n / 10;

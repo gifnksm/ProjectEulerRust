@@ -7,7 +7,7 @@ use std::iterator::Counter;
 use std::hashmap::HashMap;
 use common::prime;
 
-pub static expected_answer: &'static str = "71";
+pub static EXPECTED_ANSWER: &'static str = "71";
 
 fn count_way(sum: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     let cnt = count_sub(sum, 0, map);

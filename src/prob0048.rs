@@ -5,7 +5,7 @@
 
 use std::uint;
 
-pub static expected_answer: &'static str = "9110846700";
+pub static EXPECTED_ANSWER: &'static str = "9110846700";
 
 fn pow_mod(base: uint, exponent: uint, modulo: uint) -> uint {
     if base == 0 { return 0; }

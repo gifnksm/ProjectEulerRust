@@ -7,7 +7,7 @@ use std::vec;
 use common::prime;
 use common::monoid::{Max, MergeMultiMonoidIterator, Wrap};
 
-pub static expected_answer: &'static str = "232792560";
+pub static EXPECTED_ANSWER: &'static str = "232792560";
 
 pub fn solve() -> ~str {
     let fs = do vec::from_fn(20) |i| { prime::factorize(i + 1) };

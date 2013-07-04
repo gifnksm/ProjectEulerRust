@@ -5,7 +5,7 @@
 
 use std::{vec, uint};
 
-pub static expected_answer: &'static str = "5482660";
+pub static EXPECTED_ANSWER: &'static str = "5482660";
 
 // P[m] <= minimal sum
 // P[n+i] + P[n] = P[m]

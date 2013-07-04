@@ -9,7 +9,7 @@ use std::iterator::{AdditiveIterator, MultiplicativeIterator};
 use extra::bigint::BigUint;
 use common::extiter::Range;
 
-pub static expected_answer: &'static str = "648";
+pub static EXPECTED_ANSWER: &'static str = "648";
 
 pub fn solve() -> ~str {
     let s = Range::new::<uint>(1, 101)

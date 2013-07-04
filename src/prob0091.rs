@@ -5,7 +5,7 @@
 
 use std::uint;
 
-pub static expected_answer: &'static str = "14234";
+pub static EXPECTED_ANSWER: &'static str = "14234";
 
 fn count_right_o(x_max: uint, y_max: uint) -> uint {
     return x_max * y_max;

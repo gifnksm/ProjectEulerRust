@@ -7,7 +7,7 @@ use std::uint;
 use std::hashmap::HashMap;
 use common::arith;
 
-pub static expected_answer: &'static str = "840";
+pub static EXPECTED_ANSWER: &'static str = "840";
 
 pub fn solve() -> ~str {
     // a + b + c = 2m(m + n) <= L

@@ -6,7 +6,7 @@ extern mod common;
 use std::{vec, uint};
 use common::extiter::Range;
 
-pub static expected_answer: &'static str = "14316";
+pub static EXPECTED_ANSWER: &'static str = "14316";
 
 #[inline(always)]
 fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) -> uint {

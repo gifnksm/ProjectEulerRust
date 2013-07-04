@@ -1,14 +1,12 @@
 #[link(name = "prob0078", vers = "0.0")];
 #[crate_type = "lib"];
 
+use std::hashmap::HashMap;
+use std::util::unreachable;
 
+pub static EXPECTED_ANSWER: &'static str = "55374";
 
-use std::hashmap::{HashMap};
-use std::util::{unreachable};
-
-pub static expected_answer: &'static str = "55374";
-
-static million: int = 1000000;
+static MILLION: int = 1000000;
 
 #[inline(always)]
 fn penta(n: int) -> int { n * (3 * n - 1) / 2 }
@@ -37,11 +35,11 @@ fn each_way(f: &fn(int, int) -> bool) -> bool {
 
             let sign = if i % 4 > 1 { -1 } else { 1 };
             way += sign * *v.get(&(n - p));
-            way %= million;
+            way %= MILLION;
             i += 1;
         }
 
-        if !f((n + million) % million, way) { return false; }
+        if !f((n + MILLION) % MILLION, way) { return false; }
         v.insert(n, way);
         n += 1;
     }
@@ -49,7 +47,7 @@ fn each_way(f: &fn(int, int) -> bool) -> bool {
 
 pub fn solve() -> ~str {
     for each_way |n, way| {
-        if way % million == 0 {
+        if way % MILLION == 0 {
             return n.to_str();
         }
     }

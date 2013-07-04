@@ -5,7 +5,7 @@ extern mod common;
 
 use common::prime;
 
-pub static expected_answer: &'static str = "510510";
+pub static EXPECTED_ANSWER: &'static str = "510510";
 
 pub fn solve() -> ~str {
     let limit = 1000000;

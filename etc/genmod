@@ -22,8 +22,8 @@ pub struct Problem<'self> {
     solve: extern fn() -> ~str
 }
 
-pub static problems: &'static [&'static Problem<'static>] = &[""")
-    print(",\n".join(['    &Problem { id: %s, answer: %s::expected_answer, solve: %s::solve}' % (int(re.sub('^prob0+', "", mod)), mod, mod) for mod in mods]))
+pub static PROBLEMS: &'static [&'static Problem<'static>] = &[""")
+    print(",\n".join(['    &Problem { id: %s, answer: %s::EXPECTED_ANSWER, solve: %s::solve}' % (int(re.sub('^prob0+', "", mod)), mod, mod) for mod in mods]))
     print("];")
 
     sys.exit(0)

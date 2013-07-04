@@ -8,7 +8,7 @@ use std::hashmap::HashMap;
 use std::iterator::AdditiveIterator;
 use common::prime;
 
-pub static expected_answer: &'static str = "26033";
+pub static EXPECTED_ANSWER: &'static str = "26033";
 
 fn union_vec(v1: &[uint], v2: &[uint]) -> ~[uint] {
     let mut result = ~[];

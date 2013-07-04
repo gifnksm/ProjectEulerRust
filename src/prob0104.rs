@@ -6,7 +6,7 @@
 use std::u64;
 use std::iterator::UnfoldrIterator;
 
-pub static expected_answer: &'static str = "329468";
+pub static EXPECTED_ANSWER: &'static str = "329468";
 
 fn is_pandigit(n: u64) -> bool {
     let mut hist = [false, .. 10];

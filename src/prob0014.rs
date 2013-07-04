@@ -6,7 +6,7 @@ extern mod common;
 use std::hashmap::HashMap;
 use common::extiter::Range;
 
-pub static expected_answer: &'static str = "837799";
+pub static EXPECTED_ANSWER: &'static str = "837799";
 
 fn get_len(map: &mut HashMap<uint, uint>, n: uint) -> uint {
     match map.find(&n) {

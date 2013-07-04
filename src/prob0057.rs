@@ -6,7 +6,7 @@ extern mod extra;
 
 use extra::bigint::{BigUint};
 
-pub static expected_answer: &'static str = "153";
+pub static EXPECTED_ANSWER: &'static str = "153";
 
 // a[0] = 1 + 1/2
 // a[1] = 1 + 1/(2 + 1/2)

@@ -5,7 +5,7 @@
 
 use std::{int, io};
 
-pub static expected_answer: &'static str = "228";
+pub static EXPECTED_ANSWER: &'static str = "228";
 
 type Point = (int, int);
 type Triangle = (Point, Point, Point);

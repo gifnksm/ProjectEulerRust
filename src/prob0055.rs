@@ -4,11 +4,11 @@
 extern mod extra;
 
 
-use std::{str, vec, uint};
+use std::{str, uint};
 use std::from_str::{FromStr};
 use extra::bigint::{BigUint};
 
-pub static expected_answer: &'static str = "249";
+pub static EXPECTED_ANSWER: &'static str = "249";
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_str();

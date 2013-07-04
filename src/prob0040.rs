@@ -7,7 +7,7 @@ use std::{util, uint};
 use std::iterator::MultiplicativeIterator;
 use common::calc;
 
-pub static expected_answer: &'static str = "210";
+pub static EXPECTED_ANSWER: &'static str = "210";
 
 // d_(a*10 + b)
 //    0 1 2 3 4 5 6 7 8 9

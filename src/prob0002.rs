@@ -6,7 +6,7 @@ extern mod common;
 use std::iterator::AdditiveIterator;
 use common::extiter::Fibonacci;
 
-pub static expected_answer: &'static str = "4613732";
+pub static EXPECTED_ANSWER: &'static str = "4613732";
 
 pub fn solve() -> ~str {
     let limit = 4000000;

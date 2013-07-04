@@ -10,7 +10,7 @@ use std::hashmap::HashMap;
 use extra::sort;
 use common::{arith, calc, reader};
 
-pub static expected_answer: &'static str = "18769";
+pub static EXPECTED_ANSWER: &'static str = "18769";
 
 #[inline(always)]
 fn check_digit(idx: &[uint], ds: &[uint]) -> bool {

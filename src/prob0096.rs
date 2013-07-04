@@ -7,7 +7,7 @@ use std::{uint, io, char, vec};
 use std::num::ToStrRadix;
 use common::extiter::Range;
 
-pub static expected_answer: &'static str = "24702";
+pub static EXPECTED_ANSWER: &'static str = "24702";
 
 static BOARD_WIDTH: uint = 9;
 static BOARD_HEIGHT: uint = 9;

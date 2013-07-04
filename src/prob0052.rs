@@ -4,7 +4,7 @@
 extern mod common;
 use common::calc::{digit_histogram};
 
-pub static expected_answer: &'static str = "142857";
+pub static EXPECTED_ANSWER: &'static str = "142857";
 
 pub fn solve() -> ~str {
     let mut n = 0;

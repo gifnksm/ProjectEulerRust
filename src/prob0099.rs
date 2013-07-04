@@ -5,7 +5,7 @@
 
 use std::{float, io};
 
-pub static expected_answer: &'static str = "709";
+pub static EXPECTED_ANSWER: &'static str = "709";
 
 pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/base_exp.txt"))

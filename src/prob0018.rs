@@ -5,9 +5,9 @@
 
 use std::uint;
 
-pub static expected_answer: &'static str = "1074";
+pub static EXPECTED_ANSWER: &'static str = "1074";
 
-static triangle: &'static [&'static [uint]] = &[
+static TRIANGLE: &'static [&'static [uint]] = &[
     &[75],
     &[95, 64],
     &[17, 47, 82],
@@ -26,8 +26,8 @@ static triangle: &'static [&'static [uint]] = &[
 ];
 
 pub fn solve() -> ~str {
-    let init = triangle.init();
-    let last = triangle.last();
+    let init = TRIANGLE.init();
+    let last = TRIANGLE.last();
     let answer = do init.rev_iter().fold(last.to_owned()) |mut total, elm| {
         for elm.iter().enumerate().advance |(i, &e)| {
             total[i] = e + uint::max(total[i], total[i + 1]);

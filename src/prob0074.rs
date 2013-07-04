@@ -6,7 +6,7 @@
 use std::{uint, vec};
 use std::hashmap::{HashMap};
 
-pub static expected_answer: &'static str = "402";
+pub static EXPECTED_ANSWER: &'static str = "402";
 
 enum Length {
     Loop(uint), Chain(uint), Unknown

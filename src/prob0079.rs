@@ -6,7 +6,7 @@
 use std::{io, uint, char};
 use std::hashmap::{HashMap, HashSet};
 
-pub static expected_answer: &'static str = "73162890";
+pub static EXPECTED_ANSWER: &'static str = "73162890";
 
 struct Relation<T> {
     num_prec: uint,

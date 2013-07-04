@@ -7,7 +7,7 @@ use std::{util, uint};
 use common::prime;
 use common::calc;
 
-pub static expected_answer: &'static str = "121313";
+pub static EXPECTED_ANSWER: &'static str = "121313";
 
 pub fn solve() -> ~str {
     let num_family = 8;

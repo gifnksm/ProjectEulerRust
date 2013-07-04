@@ -11,7 +11,7 @@ use extra::bigint::BigInt;
 use common::arith;
 use common::extiter::Range;
 
-pub static expected_answer: &'static str = "40886";
+pub static EXPECTED_ANSWER: &'static str = "40886";
 
 fn sqrt_newton_raphson(n: uint, precision: uint) -> ~str {
     assert!(precision >= 1);

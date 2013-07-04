@@ -5,7 +5,7 @@
 
 use std::{vec, uint};
 
-pub static expected_answer: &'static str = "8581146";
+pub static EXPECTED_ANSWER: &'static str = "8581146";
 
 fn square_digit_sum(mut n: uint) -> uint {
     let mut sum = 0;

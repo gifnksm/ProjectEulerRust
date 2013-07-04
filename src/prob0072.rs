@@ -7,7 +7,7 @@ use std::{uint, vec};
 use std::iterator::AdditiveIterator;
 use common::prime;
 
-pub static expected_answer: &'static str = "303963552391";
+pub static EXPECTED_ANSWER: &'static str = "303963552391";
 
 pub fn solve() -> ~str {
     let limit = 1000000;

@@ -118,11 +118,11 @@ fn main() {
     let args = args.tail();
 
     if args.is_empty() {
-        solve_all(Range::new(0, problem::problems.len())
-                  .transform(|i| problem::problems[i]))
+        solve_all(Range::new(0, problem::PROBLEMS.len())
+                  .transform(|i| problem::PROBLEMS[i]))
     } else {
         solve_all(ArgIterator::new(args)
-                  .filter_map(|n| problem::problems.bsearch(|&p| p.id.cmp(&n)))
-                  .transform(|i| problem::problems[i]));
+                  .filter_map(|n| problem::PROBLEMS.bsearch(|&p| p.id.cmp(&n)))
+                  .transform(|i| problem::PROBLEMS[i]));
     };
 }

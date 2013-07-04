@@ -5,7 +5,7 @@
 
 use std::uint;
 
-pub static expected_answer: &'static str = "428570";
+pub static EXPECTED_ANSWER: &'static str = "428570";
 
 pub fn solve() -> ~str {
     let limit = 1000000;

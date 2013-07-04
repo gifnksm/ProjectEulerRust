@@ -6,7 +6,7 @@ extern mod common;
 use std::{uint, util};
 use common::arith;
 
-pub static expected_answer: &'static str = "31875000";
+pub static EXPECTED_ANSWER: &'static str = "31875000";
 
 fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     for uint::range(2, sum - 2) |c| {

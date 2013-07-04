@@ -8,7 +8,7 @@ use std::{uint};
 use std::num::{Zero};
 use extra::bigint::{BigUint};
 
-pub static expected_answer: &'static str = "972";
+pub static EXPECTED_ANSWER: &'static str = "972";
 
 fn digit_sum(n: uint) -> uint {
     let mut sum = 0;

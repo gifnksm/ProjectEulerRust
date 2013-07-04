@@ -1,13 +1,11 @@
 #[link(name = "prob0089", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
 use std::{uint, io};
 
-pub static expected_answer: &'static str = "743";
+pub static EXPECTED_ANSWER: &'static str = "743";
 
-static roman_pairs: &'static [(&'static str, uint)] = &[
+static ROMAN_PAIRS: &'static [(&'static str, uint)] = &[
     ("IV", 4),
     ("IX", 9),
     ("XL", 40),
@@ -28,7 +26,7 @@ fn from_roman(mut s: &str) -> Option<uint> {
 
     let mut n = 0;
     while !s.is_empty() {
-        match roman_pairs.iter().find_(|& &(ds, _d)| s.starts_with(ds)) {
+        match ROMAN_PAIRS.iter().find_(|& &(ds, _d)| s.starts_with(ds)) {
             Some(&(ds, d)) => {
                 if d > last_d { return None; }
                 n += d;

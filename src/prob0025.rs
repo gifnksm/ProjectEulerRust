@@ -7,7 +7,7 @@ extern mod common;
 use extra::bigint::BigUint;
 use common::extiter::Fibonacci;
 
-pub static expected_answer: &'static str = "4782";
+pub static EXPECTED_ANSWER: &'static str = "4782";
 
 pub fn solve() -> ~str {
     let limit = FromStr::from_str("9".repeat(999)).get();

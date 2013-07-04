@@ -9,7 +9,7 @@ use std::hashmap::HashSet;
 use extra::sort;
 use common::calc;
 
-pub static expected_answer: &'static str = "45228";
+pub static EXPECTED_ANSWER: &'static str = "45228";
 
 // possible num of digits combinations
 // 1 x 1 = 7 : NG 10 * 10

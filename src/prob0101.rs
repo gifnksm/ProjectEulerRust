@@ -10,7 +10,7 @@ use extra::bigint::{BigInt};
 use extra::rational::{Ratio};
 use common::poly;
 
-pub static expected_answer: &'static str = "37076114526";
+pub static EXPECTED_ANSWER: &'static str = "37076114526";
 
 fn u(n: BigInt) -> BigInt {
     let mut sum = Zero::zero::<BigInt>();

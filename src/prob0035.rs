@@ -6,7 +6,7 @@ extern mod common;
 use std::uint;
 use common::{prime, calc};
 
-pub static expected_answer: &'static str = "55";
+pub static EXPECTED_ANSWER: &'static str = "55";
 
 #[inline(always)]
 fn is_circular_prime(n: uint) -> bool {

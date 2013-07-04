@@ -7,7 +7,7 @@ use std::uint;
 use std::hashmap::HashSet;
 use common::prime;
 
-pub static expected_answer: &'static str = "9183";
+pub static EXPECTED_ANSWER: &'static str = "9183";
 
 pub fn solve() -> ~str {
     let mut set = HashSet::new();

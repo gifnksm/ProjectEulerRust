@@ -5,7 +5,7 @@
 use std::vec;
 use std::iterator::AdditiveIterator;
 
-pub static expected_answer: &'static str = "28684";
+pub static EXPECTED_ANSWER: &'static str = "28684";
 
 fn create_map(f: &fn(uint) -> uint) -> ~[~[uint]] {
     let mut result = vec::from_elem(100, ~[]);

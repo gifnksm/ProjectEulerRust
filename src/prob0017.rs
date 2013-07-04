@@ -6,7 +6,7 @@ extern mod common;
 use std::iterator::AdditiveIterator;
 use common::extiter::Range;
 
-pub static expected_answer: &'static str = "21124";
+pub static EXPECTED_ANSWER: &'static str = "21124";
 
 fn to_word_under10(n: uint) -> ~str {
     return match n {

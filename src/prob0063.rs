@@ -7,7 +7,7 @@ extern mod extra;
 use std::uint;
 use extra::bigint::{BigUint};
 
-pub static expected_answer: &'static str = "49";
+pub static EXPECTED_ANSWER: &'static str = "49";
 
 pub fn solve() -> ~str {
     let mut cnt = 1u; // a == 1

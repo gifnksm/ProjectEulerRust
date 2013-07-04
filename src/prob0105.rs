@@ -9,7 +9,7 @@ use std::iterator::AdditiveIterator;
 use extra::sort::Sort;
 use common::reader::ReaderIterator;
 
-pub static expected_answer: &'static str = "73702";
+pub static EXPECTED_ANSWER: &'static str = "73702";
 
 fn is_sss(nums: ~[uint]) -> bool {
     let mut sums: ~[uint] = ~[0];

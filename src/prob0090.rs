@@ -6,7 +6,7 @@ extern mod common;
 use std::vec;
 use common::calc;
 
-pub static expected_answer: &'static str = "1217";
+pub static EXPECTED_ANSWER: &'static str = "1217";
 
 pub fn solve() -> ~str {
     let mut all_combs = ~[];

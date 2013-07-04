@@ -7,7 +7,7 @@ use std::iterator::Counter;
 use common::extiter::Range;
 use common::prime;
 
-pub static expected_answer: &'static str = "-59231";
+pub static EXPECTED_ANSWER: &'static str = "-59231";
 
 // p(n) = n^2 + an + b is prime for n = 0 .. N
 // p(0) = b         => b must be prime

@@ -5,7 +5,7 @@ extern mod common;
 
 use common::prime;
 
-pub static expected_answer: &'static str = "26241";
+pub static EXPECTED_ANSWER: &'static str = "26241";
 
 pub fn solve() -> ~str {
     let mut side = 1;

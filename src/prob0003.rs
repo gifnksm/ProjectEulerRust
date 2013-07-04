@@ -6,7 +6,7 @@ extern mod common;
 use std::iterator::OrdIterator;
 use common::prime;
 
-pub static expected_answer: &'static str = "6857";
+pub static EXPECTED_ANSWER: &'static str = "6857";
 
 pub fn solve() -> ~str {
     let num = 600851475143;

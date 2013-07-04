@@ -6,7 +6,7 @@ extern mod common;
 use std::uint;
 use common::calc;
 
-pub static expected_answer: &'static str = "1818";
+pub static EXPECTED_ANSWER: &'static str = "1818";
 
 fn get_count(m: uint) -> uint {
     let mut cnt = 0u;

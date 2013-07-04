@@ -7,7 +7,7 @@ use std::{float};
 use common::prime;
 use common::calc::{digit_histogram};
 
-pub static expected_answer: &'static str = "8319823";
+pub static EXPECTED_ANSWER: &'static str = "8319823";
 
 pub fn solve() -> ~str {
     let limit = 10000000;

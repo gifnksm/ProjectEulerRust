@@ -5,7 +5,7 @@ extern mod common;
 
 use common::prime;
 
-pub static expected_answer: &'static str = "104743";
+pub static EXPECTED_ANSWER: &'static str = "104743";
 
 pub fn solve() -> ~str {
     return prime::nth(10000).to_str();

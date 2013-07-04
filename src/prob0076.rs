@@ -6,7 +6,7 @@
 use std::uint;
 use std::hashmap::{HashMap};
 
-pub static expected_answer: &'static str = "190569291";
+pub static EXPECTED_ANSWER: &'static str = "190569291";
 
 fn count_way(sum: uint) -> uint {
     let mut map = HashMap::new();

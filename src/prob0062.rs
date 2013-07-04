@@ -9,7 +9,7 @@ use std::hashmap::{HashMap, HashSet};
 use extra::sort;
 use common::calc;
 
-pub static expected_answer: &'static str = "127035954683";
+pub static EXPECTED_ANSWER: &'static str = "127035954683";
 
 pub fn solve() -> ~str {
     let mut map = HashMap::new::<~[uint], ~[uint]>();

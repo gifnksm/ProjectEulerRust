@@ -3,11 +3,10 @@
 
 extern mod extra;
 
-
 use std::{uint, vec};
 use extra::sort;
 
-pub static expected_answer: &'static str = "101524";
+pub static EXPECTED_ANSWER: &'static str = "101524";
 
 pub enum Square {
     GO, A1, CC1, A2, T1, R1, B1, CH1, B2, B3, JAIL,
@@ -37,7 +36,7 @@ impl Square {
     }
 }
 
-static num_square: uint = NumSquare as uint;
+static NUM_SQUARE: uint = NumSquare as uint;
 
 #[inline(always)]
 fn create_mat<T>(h: uint, w: uint, f: &fn(uint, uint) -> T) -> ~[~[T]] {
@@ -73,12 +72,12 @@ pub fn trans_mat(m: &[~[float]]) -> ~[~[float]] {
 fn print_mat(mat: &[~[float]]) {
     print("     ");
     for uint::range(0, mat[0].len()) |j| {
-        print(fmt!(" %-4? ", Square::from_uint(j % num_square)));
+        print(fmt!(" %-4? ", Square::from_uint(j % NUM_SQUARE)));
     }
     println("");
     for uint::range(0, mat.len()) |i| {
         let mut sum = 0f;
-        print(fmt!("%-4? ", Square::from_uint(i % num_square)));
+        print(fmt!("%-4? ", Square::from_uint(i % NUM_SQUARE)));
         for uint::range(0, mat[i].len()) |j| {
             if mat[i][j] == 0f {
                 print("0     ");
@@ -123,16 +122,16 @@ fn create_roll_map(dice_side: uint) -> ~[(float, float)] {
 }
 
 fn get_trans(roll_map: &[(float, float)]) -> ~[~[float]] {
-    let trans_singles = do create_mat(num_square, num_square) |dst, src| {
-        let diff = (dst + num_square - src) % num_square;
+    let trans_singles = do create_mat(NUM_SQUARE, NUM_SQUARE) |dst, src| {
+        let diff = (dst + NUM_SQUARE - src) % NUM_SQUARE;
         if diff < roll_map.len() { roll_map[diff].first() } else { 0f }
     };
-    let trans_doubles = do create_mat(num_square, num_square) |dst, src| {
-        let diff = (dst + num_square - src) % num_square;
+    let trans_doubles = do create_mat(NUM_SQUARE, NUM_SQUARE) |dst, src| {
+        let diff = (dst + NUM_SQUARE - src) % NUM_SQUARE;
         if diff < roll_map.len() { roll_map[diff].second() } else { 0f }
     };
 
-    let trans_cc = do create_mat(num_square, num_square) |dst, src| {
+    let trans_cc = do create_mat(NUM_SQUARE, NUM_SQUARE) |dst, src| {
         match Square::from_uint(src) {
             CC1 | CC2 | CC3 => {
                 match Square::from_uint(dst) {
@@ -145,7 +144,7 @@ fn get_trans(roll_map: &[(float, float)]) -> ~[~[float]] {
         }
     };
 
-    let trans_ch = do create_mat(num_square, num_square) |dst, src| {
+    let trans_ch = do create_mat(NUM_SQUARE, NUM_SQUARE) |dst, src| {
         match Square::from_uint(src) {
             ch @ CH1 | ch @ CH2 | ch @ CH3 => {
                 match Square::from_uint(dst) {
@@ -178,14 +177,14 @@ fn get_trans(roll_map: &[(float, float)]) -> ~[~[float]] {
         }
     };
 
-    let trans_g2j = do create_mat(num_square, num_square) |dst, src| {
+    let trans_g2j = do create_mat(NUM_SQUARE, NUM_SQUARE) |dst, src| {
         match Square::from_uint(src) {
             G2J => match Square::from_uint(dst) { JAIL => 1f, _ => 0f },
             _ => { if src == dst { 1f } else { 0f } }
         }
     };
 
-    let trans_all_g2j = do create_mat(num_square, num_square) |dst, _src| {
+    let trans_all_g2j = do create_mat(NUM_SQUARE, NUM_SQUARE) |dst, _src| {
         match Square::from_uint(dst) { JAIL => 1f, _ => 0f }
     };
 
@@ -194,11 +193,11 @@ fn get_trans(roll_map: &[(float, float)]) -> ~[~[float]] {
     let trans_sq_doubles  = mul_mat(trans_square, trans_doubles);
     let trans_g2j_doubles = mul_mat(trans_all_g2j, trans_doubles);
 
-    return do create_mat(num_square * 3, num_square * 3) |i, j| {
-        let dst_block = i / num_square;
-        let dst = i % num_square;
-        let src_block = j / num_square;
-        let src = j % num_square;
+    return do create_mat(NUM_SQUARE * 3, NUM_SQUARE * 3) |i, j| {
+        let dst_block = i / NUM_SQUARE;
+        let dst = i % NUM_SQUARE;
+        let src_block = j / NUM_SQUARE;
+        let src = j % NUM_SQUARE;
 
         match (dst_block, src_block) {
             (0, 0) => trans_sq_singles[dst][src],
@@ -237,11 +236,11 @@ pub fn solve() -> ~str {
         vec = vec2;
     }
 
-    let mut pairs = do vec::from_fn(num_square) |i| {
+    let mut pairs = do vec::from_fn(NUM_SQUARE) |i| {
         (0f, Square::from_uint(i))
     };
     for vec.iter().enumerate().advance |(i, vs)| {
-        let dst = i % num_square;
+        let dst = i % NUM_SQUARE;
         let (p, sq) = pairs[dst];
         pairs[dst] = (p + vs[0], sq);
     }

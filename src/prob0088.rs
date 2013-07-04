@@ -7,7 +7,7 @@ use std::{uint, vec};
 use std::iterator::AdditiveIterator;
 use std::hashmap::HashSet;
 
-pub static expected_answer: &'static str = "7587457";
+pub static EXPECTED_ANSWER: &'static str = "7587457";
 
 fn each_sum_product(start: uint, end: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     return sub(start, end, 0, 1, 0, f);

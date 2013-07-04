@@ -5,7 +5,7 @@
 
 use std::uint;
 
-pub static expected_answer: &'static str = "40730";
+pub static EXPECTED_ANSWER: &'static str = "40730";
 
 pub fn solve() -> ~str {
     let mut facts: [uint, ..10] = [ 0, ..10 ];

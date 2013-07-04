@@ -7,7 +7,7 @@ extern mod extra;
 use std::{uint, vec};
 use extra::priority_queue::PriorityQueue;
 
-pub static expected_answer: &'static str = "20313839404245";
+pub static EXPECTED_ANSWER: &'static str = "20313839404245";
 
 struct SSSElem {
     avg: float,

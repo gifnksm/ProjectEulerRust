@@ -7,7 +7,7 @@ use std::{result, io};
 use std::iterator::Counter;
 use common::card::Card;
 
-pub static expected_answer: &'static str = "376";
+pub static EXPECTED_ANSWER: &'static str = "376";
 
 enum Hand {
     Hi            ( [Card, ..5] ),

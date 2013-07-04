@@ -6,7 +6,7 @@ extern mod common;
 use common::prime;
 use common::extiter::Triangle;
 
-pub static expected_answer: &'static str = "76576500";
+pub static EXPECTED_ANSWER: &'static str = "76576500";
 
 pub fn solve() -> ~str {
     return Triangle::new()

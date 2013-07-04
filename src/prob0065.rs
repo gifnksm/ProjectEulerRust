@@ -9,7 +9,7 @@ use std::iterator::AdditiveIterator;
 use extra::bigint::BigUint;
 use common::calc;
 
-pub static expected_answer: &'static str = "272";
+pub static EXPECTED_ANSWER: &'static str = "272";
 
 fn napier_seq(i: uint) -> uint {
     match i {

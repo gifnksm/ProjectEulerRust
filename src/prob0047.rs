@@ -7,7 +7,7 @@ use std::util;
 use std::iterator::Counter;
 use common::prime;
 
-pub static expected_answer: &'static str = "134043";
+pub static EXPECTED_ANSWER: &'static str = "134043";
 
 pub fn solve() -> ~str {
     let len = 4;

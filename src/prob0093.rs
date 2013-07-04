@@ -11,7 +11,7 @@ use std::iterator::Counter;
 use extra::rational::{Rational, Ratio};
 use common::calc;
 
-pub static expected_answer: &'static str = "1258";
+pub static EXPECTED_ANSWER: &'static str = "1258";
 
 enum Op { Add, Sub, Mul, Div }
 
