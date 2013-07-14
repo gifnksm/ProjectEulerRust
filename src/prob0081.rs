@@ -17,15 +17,15 @@ pub fn solve() -> ~str {
         let w = mat[0].len();
         let h = mat.len();
         ((w, h), mat)
-    }).map(|&((w, h), mat)| {
-        let mut sum = vec::from_fn(h, |_y| vec::from_elem(w, 0));
+    }).map(|&((ref w, ref h), ref mat)| {
+        let mut sum = vec::from_fn(*h, |_y| vec::from_elem(*w, 0));
         sum[0][0] = mat[0][0];
-        for uint::range(1, h) |y| {
+        for uint::range(1, *h) |y| {
             sum[y][0] = mat[y][0] + sum[y - 1][0];
         }
-        for uint::range(1, w) |x| {
+        for uint::range(1, *w) |x| {
             sum[0][x] = mat[0][x] + sum[0][x - 1];
-            for uint::range(1, h) |y| {
+            for uint::range(1, *h) |y| {
                 sum[y][x] = mat[y][x] + uint::min(sum[y - 1][x], sum[y][x - 1]);
             }
         }

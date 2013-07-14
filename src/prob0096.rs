@@ -167,7 +167,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
         .transform(|(x, y)| (x, y, puzzle.map[y][x].population_count()))
         .collect::<~[(uint, uint, u16)]>();
 
-    if it.iter().any_(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
+    if it.iter().any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
     if it.iter().all(|&(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
 
     let (x, y, _cnt) = *it.iter()
@@ -193,15 +193,12 @@ pub fn solve() -> ~str {
         let mut puzzles = ~[];
         while !file.eof() { puzzles.push(read_sudoku(file)); }
         puzzles
-    }).map(|&puzzles| {
-        let mut answers = ~[];
-        for puzzles.iter().advance |&p| {
-            let mut ans = solve_sudoku(p);
-            assert_eq!(ans.len(), 1);
-            answers.push(ans.pop());
-        }
-        answers
-    }).map(|&answers| {
+            .consume_iter()
+            .transform(solve_sudoku)
+            .peek_(|ans| assert_eq!(ans.len(), 1))
+            .transform(|ans| ans[0])
+            .collect::<~[SuDoku]>()
+    }).map(|answers| {
         let mut sum = 0;
         for answers.iter().advance |ans| {
             sum += 100 * ans.get_num(0, 0) + 10 * ans.get_num(1, 0) + ans.get_num(2, 0);

@@ -11,7 +11,7 @@ pub static EXPECTED_ANSWER: &'static str = "1217";
 pub fn solve() -> ~str {
     let mut all_combs = ~[];
     for calc::combinate(vec::from_fn(10, |i| i), 6) |mut cs, _| {
-        match (cs.iter().any_(|&x| x == 6), cs.iter().any_(|&x| x == 9)) {
+        match (cs.iter().any(|&x| x == 6), cs.iter().any(|&x| x == 9)) {
             (false, true)  => cs.push(6),
             (true,  false) => cs.push(9),
             _ => {}
@@ -28,8 +28,8 @@ pub fn solve() -> ~str {
     for all_combs.iter().enumerate().advance |(i, cs1)| {
         for all_combs.tailn(i + 1).iter().advance |cs2| {
             let cond = |&(a, b): &(uint, uint)| {
-                (cs1.iter().any_(|&x| x == a) && cs2.iter().any_(|&x| x == b)) ||
-                    (cs1.iter().any_(|&x| x == b) && cs2.iter().any_(|&x| x == a))
+                (cs1.iter().any(|&x| x == a) && cs2.iter().any(|&x| x == b)) ||
+                    (cs1.iter().any(|&x| x == b) && cs2.iter().any(|&x| x == a))
             };
             if nums.iter().all(cond) { cnt += 1; }
         }

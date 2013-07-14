@@ -17,11 +17,11 @@ pub fn solve() -> ~str {
         let w = mat[0].len();
         let h = mat.len();
         ((w, h), mat)
-    }).map(|&((w, h), mat)| {
-        let mut sum = vec::from_fn(h, |_y| vec::from_elem(w, 0));
-        for uint::range(0, h) |y| { sum[y][0] = mat[y][0]; }
-        for uint::range(1, w) |x| {
-            for uint::range(0, h) |y| {
+    }).map(|&((ref w, ref h), ref mat)| {
+        let mut sum = vec::from_fn(*h, |_y| vec::from_elem(*w, 0));
+        for uint::range(0, *h) |y| { sum[y][0] = mat[y][0]; }
+        for uint::range(1, *w) |x| {
+            for uint::range(0, *h) |y| {
                 let mut min = sum[y][x - 1];
 
                 let mut s = 0;
@@ -31,7 +31,7 @@ pub fn solve() -> ~str {
                 }
 
                 let mut s = 0;
-                for uint::range(1, h - y) |dy| {
+                for uint::range(1, *h - y) |dy| {
                     s += mat[y + dy][x];
                     min = uint::min(sum[y + dy][x - 1] + s, min);
                 }
@@ -40,7 +40,7 @@ pub fn solve() -> ~str {
             }
         }
         let mut min = uint::max_value;
-        for uint::range(0, h) |y| {
+        for uint::range(0, *h) |y| {
             min = uint::min(sum[y][w - 1], min);
         }
         min

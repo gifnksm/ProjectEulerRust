@@ -84,7 +84,7 @@ pub fn solve() -> ~str {
     }
 
     return result.iter()
-        .transform(|&r| calc::digits_to_num(r.first(), 10))
+        .transform(|r| calc::digits_to_num(r.first(), 10))
         .sum()
         .to_str();
 }

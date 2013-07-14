@@ -123,7 +123,7 @@ pub fn each_sss(f: &fn(&SSSElem) -> bool) -> bool {
 // (a, b, c) => SSS if a > b > c && a + b > c
 // (a, b, c, d) +> SSS if a > b > c > d && a + b > d && 
 pub fn solve() -> ~str {
-    for each_sss |&sss| {
+    for each_sss |sss| {
         if sss.sss.len() == 7 {
             return sss.sss.map(|&n| n.to_str()).concat();
         }

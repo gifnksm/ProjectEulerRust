@@ -1,5 +1,6 @@
 use std::iterator::{Counter, MultiplicativeIterator, MapIterator};
-use std::{util, local_data};
+use std::local_data;
+use std::local_data::Key;
 
 use calc;
 use extiter::Range;
@@ -10,21 +11,17 @@ static PRIMES_BELOW100: &'static [uint] = &[
     43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
 ];
 
-#[inline(always)]
-fn get_task_prime() -> @mut ~[uint] {
-    fn task_prime_key(_v: @@mut ~[uint]) {}
+static TASK_PRIME_KEY: Key<~[uint]> = &Key;
 
-    let r = unsafe { local_data::local_data_get(task_prime_key) };
-    let nums = match r {
-        None => {
-            let nums = @mut PRIMES_BELOW100.to_owned();
-            unsafe { local_data::local_data_set(task_prime_key, @nums); }
-            nums
-        }
-        Some(@nums) => nums
+fn with_task_prime<T>(f: &fn(&mut ~[uint]) -> T) -> T {
+
+    let mut nums = match local_data::pop(TASK_PRIME_KEY) {
+        Some(x) => x,
+        None    => PRIMES_BELOW100.to_owned()
     };
-
-    return nums;
+    let result = f(&mut nums);
+    local_data::set(TASK_PRIME_KEY, nums);
+    result
 }
 
 #[inline(always)]
@@ -38,10 +35,9 @@ priv fn is_coprime(nums: &[uint], n: uint) -> bool {
 priv fn grow(nums: &mut ~[uint], len: uint) {
     if nums.len() >= len { return; }
 
-    let mut it = Counter::new(nums.last() + 2, 2);
+    let mut it = Counter::new(nums.last() + 2, 2)
+        .filter(|&n| is_coprime(*nums, n));
     for it.advance |n| {
-        if !is_coprime(*nums, n) { loop; }
-
         nums.push(n);
         if nums.len() >= len { return; }
     }
@@ -52,41 +48,39 @@ pub fn iter() -> PrimeIterator { PrimeIterator::new() }
 
 #[inline(always)]
 pub fn each(f: &fn(uint) -> bool) -> bool {
-    let nums = get_task_prime();
-
-    let mut it = Counter::new::<uint>(0, 1);
-    for it.advance |i| {
-        grow(nums, i + 1);
-        if !f(nums[i]) { return false; }
+    do with_task_prime |nums| {
+        let mut it = Counter::new::<uint>(0, 1);
+        for it.advance |i| {
+            grow(nums, i + 1);
+            if !f(nums[i]) { break }
+        }
     }
-    return true;
+    false
 }
 
 #[inline(always)]
 pub fn contains(n: uint) -> bool {
-    let nums = get_task_prime();
-    let len = nums.len();
-    let last = nums[len - 1];
-    if n < last {
-        return nums.bsearch_elem(&n).is_some();
+    do with_task_prime |nums| {
+        let len = nums.len();
+        let last = nums[len - 1];
+        if n < last {
+            nums.bsearch_elem(&n).is_some()
+        } else {
+            Counter::new::<uint>(0, 1)
+                .peek_(|&i| grow(nums, i + 1))
+                .transform(|i| nums[i])
+                .take_while(|&p| p * p <= n)
+                .all(|p| n % p != 0)
+        }
     }
-
-    let mut it = Counter::new::<uint>(0, 1);
-    for it.advance |i| {
-        grow(nums, i + 1);
-        let p = nums[i];
-        if p * p > n { return true; }
-        if n % p == 0 { return false; }
-    }
-    util::unreachable();
 }
 
 #[inline(always)]
 pub fn nth(i: uint) -> uint {
-    let nums = get_task_prime();
-
-    grow(nums, i + 1);
-    return nums[i];
+    do with_task_prime |nums| {
+        grow(nums, i + 1);
+        nums[i]
+    }
 }
 
 priv struct PrimeIterator {

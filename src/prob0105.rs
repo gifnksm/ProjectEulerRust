@@ -11,7 +11,7 @@ use common::reader::ReaderIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "73702";
 
-fn is_sss(nums: ~[uint]) -> bool {
+fn is_sss(nums: &[uint]) -> bool {
     let mut sums: ~[uint] = ~[0];
     for nums.iter().advance |&n| {
         let mut i = 0;
@@ -61,7 +61,7 @@ pub fn solve() -> ~str {
                     let mut hd = nums.slice(0, len_hd).iter().transform(|&x| x);
                     let mut tl = nums.slice(len - len_tl, len).iter().transform(|&x| x);
                     hd.sum() > tl.sum()
-                }).filter(|&nums| is_sss(nums))
+                }).filter(|nums| is_sss(*nums))
                 .transform(|nums| nums.iter().transform(|&x| x).sum())
                 .sum()
         });

@@ -24,25 +24,25 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Copy>(hist: &HashMap<K, uint>, n: uin
     if perm < n { return Left(perm); }
 
 
-    let mut kv = hist.iter().transform(|(&k, &v)| (k, v)).collect::<~[(K, uint)]>();
+    let mut kv = hist.iter().transform(|(k, v)| (copy *k, *v)).collect::<~[(K, uint)]>();
     sort::quick_sort(kv, |a, b| a.first() <= b.first());
 
     let mut idx = 0;
-    for kv.iter().enumerate().advance |(i, &(k, v))| {
+    for kv.iter().enumerate().advance |(i, &(ref all_k, ref all_v))| {
         let mut new_hist = HashMap::new();
-        for kv.slice(0, i).iter().advance |&(k, v)| {
-            new_hist.insert(k, v);
+        for kv.slice(0, i).iter().advance |&(ref k, ref v)| {
+            new_hist.insert(copy *k, *v);
         }
-        if v > 1 {
-            new_hist.insert(copy k, v - 1);
+        if *all_v > 1 {
+            new_hist.insert(copy *all_k, *all_v - 1);
         }
-        for kv.slice(i + 1, kv.len()).iter().advance |&(k, v)| {
-            new_hist.insert(k, v);
+        for kv.slice(i + 1, kv.len()).iter().advance |&(ref k, ref v)| {
+            new_hist.insert(copy *k, *v);
         }
 
         match get_at(&new_hist, n - idx) {
             Left(cnt) => idx += cnt,
-            Right(ans) => return Right(~[k] + ans)
+            Right(ans) => return Right(~[copy *all_k] + ans)
         }
     }
 

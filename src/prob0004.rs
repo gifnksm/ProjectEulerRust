@@ -9,32 +9,38 @@ use common::extiter::Range;
 
 pub static EXPECTED_ANSWER: &'static str = "906609";
 
-fn dividable_pairs(num: uint, min: uint, max: uint, f: &fn(uint, uint) -> bool) -> bool {
-    let mut div = uint::max(uint::div_ceil(num, max), min);
-    while div * div <= num && div <= max {
-        if num % div == 0 {
-            if !f(div, num / div) { return false; }
-        }
-        div += 1;
+struct DividablePairsIterator { num: uint, max: uint, div: uint }
+
+impl DividablePairsIterator {
+    fn new(num: uint, min: uint, max: uint) -> DividablePairsIterator {
+        let div = uint::max(uint::div_ceil(num, max), min);
+        DividablePairsIterator { num: num, div: div, max: max }
     }
-    return true;
+}
+
+impl Iterator<(uint, uint)> for DividablePairsIterator {
+    fn next(&mut self) -> Option<(uint, uint)> {
+        while self.div * self.div <= self.num && self.div <= self. max {
+            if self.num % self.div == 0 {
+                let tp = (self.div, self.num / self.div);
+                self.div += 1;
+                return Some(tp);
+            }
+            self.div += 1;
+        }
+        return None;
+    }
 }
 
 pub fn solve() -> ~str {
-    let it1 = Range::new_rev(999u, 99).transform(|seed| {
-        calc::to_palindromic(seed, 10, false)
-    });
-    let it2 = Range::new_rev(999u, 99).transform(|seed| {
-        calc::to_palindromic(seed, 10, true)
-    });
+    let it1 = Range::new_rev(999u, 99).transform(|seed| calc::to_palindromic(seed, 10, false));
+    let it2 = Range::new_rev(999u, 99).transform(|seed| calc::to_palindromic(seed, 10, true));
 
-    let mut it = it1.chain_(it2);
-    for it.advance |num| {
-        for dividable_pairs(num, 100, 999) |d1, d2| {
-            return (d1 * d2).to_str();
-        }
-    }
-
-    fail!();
+    it1.chain_(it2)
+        .flat_map_(|n| DividablePairsIterator::new(n, 100, 999))
+        .next()
+        .map_consume(|(d1, d2)| d1 * d2)
+        .get()
+        .to_str()
 }
 

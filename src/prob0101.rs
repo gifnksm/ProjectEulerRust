@@ -26,13 +26,13 @@ fn u(n: BigInt) -> BigInt {
 fn op(ns: &[(BigInt, BigInt)]) -> ~[Ratio<BigInt>] {
     let mut poly = ~[];
     for uint::range(0, ns.len()) |i| {
-        let &(xi, yi) = &ns[i];
-        let mut term = ~[ Ratio::from_integer(yi) ];
+        let (ref xi, ref yi) = ns[i];
+        let mut term = ~[ Ratio::from_integer(yi.clone()) ];
         for uint::range(0, ns.len()) |j| {
             if i == j { loop; }
 
-            let &(xj, _yj) = &ns[j];
-            term = poly::mul(term, [Ratio::new(-xj, xi - xj), Ratio::new(One::one(), xi - xj)]);
+            let (ref xj, ref _yj) = ns[j];
+            term = poly::mul(term, [Ratio::new(-xj, xi - *xj), Ratio::new(One::one(), xi - *xj)]);
         }
         poly = poly::add(poly, term);
     }

@@ -251,8 +251,9 @@ mod tests {
 
     #[test]
     fn test_mconcat() {
-        fn check_wrap<T, M: Monoid + Eq>(v: &[T], f: &fn(T) -> M, result: T) {
-            assert_eq!(mconcat(v.map(|&x| f(x))), f(result));
+        fn check_wrap<T: Eq + Copy, M: Monoid + Wrap<T>>(v: &[T], f: &fn(T) -> M, result: T) {
+            let ms = v.to_owned().consume_iter().transform(f).collect::<~[M]>();
+            assert_eq!(mconcat(ms).unwrap(), result);
         }
 
         let v1 = [1, 2, 3, 4];
@@ -282,25 +283,10 @@ mod tests {
         assert_eq!(mconcat([~"", ~"abc", ~"d", ~"e"]), ~"abcde");
     }
 
-    fn to_sum<T, U>(&tp: &(T, U)) -> (T, Sum<U>) {
-        let (t, u) = tp;
-        return (t, Sum(u))
-    }
-
-    fn to_prod<T, U>(&tp: &(T, U)) -> (T, Prod<U>) {
-        let (t, u) = tp;
-        return (t, Prod(u));
-    }
-
-    fn to_max<T, U>(&tp: &(T, U)) -> (T, Max<U>) {
-        let (t, u) = tp;
-        return (t, Max(u));
-    }
-
-    fn to_min<T, U>(&tp: &(T, U)) -> (T, Min<U>) {
-        let (t, u) = tp;
-        return (t, Min(u));
-    }
+    fn to_sum <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Sum<U>)  { (tp.n0(), Sum(tp.n1())) }
+    fn to_prod<T: Clone, U: Clone>(tp: &(T, U)) -> (T, Prod<U>) { (tp.n0(), Prod(tp.n1())) }
+    fn to_max <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Max<U>)  { (tp.n0(), Max(tp.n1())) }
+    fn to_min <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Min<U>)  { (tp.n0(), Min(tp.n1())) }
 
     #[test]
     fn test_merge_monoid_iterator() {
@@ -345,9 +331,8 @@ mod tests {
                                                     f: &fn(int) -> M,
                                                     result: &[(int, int)]) {
             for vec::each_permutation(vs) |vs| {
-                let vs = vs.map(|ks| ks.map(|&(x, y)| (x, f(y))));
-                let iters = vec::from_fn(vs.len(), |i| vs[i].iter().transform(|&x| copy x));
-                let merged = MergeMultiMonoidIterator::new(iters).collect::<~[(int, M)]>();
+                let vs = vs.map(|ks| ks.map(|&(x, y)| (x, f(y))).consume_iter());
+                let merged = MergeMultiMonoidIterator::new(vs).collect::<~[(int, M)]>();
                 assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
             }
         }

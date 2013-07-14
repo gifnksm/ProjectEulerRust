@@ -2,7 +2,7 @@ use std::{uint, vec};
 use std::num::{Zero, One};
 
 fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
-    let len = v.rposition(|&n| !n.is_zero()).map_default(Zero::zero(), |&p| p + 1);
+    let len = v.rposition(|n| !n.is_zero()).map_default(Zero::zero(), |&p| p + 1);
     return v.slice(0, len);
 }
 
@@ -28,9 +28,9 @@ pub fn mul<T: Zero + Add<T, T> + Mul<T, T>>(a: &[T], b: &[T]) -> ~[T] {
 
     if a.is_empty() || b.is_empty() { return ~[]; }
     let mut prod = vec::from_fn(a.len() + b.len() - 1, |_i| Zero::zero::<T>());
-    for a.iter().enumerate().advance |(i, &na)| {
-        for b.iter().enumerate().advance |(j, &nb)| {
-            prod[i + j] = prod[i + j] + na * nb;
+    for a.iter().enumerate().advance |(i, na)| {
+        for b.iter().enumerate().advance |(j, nb)| {
+            prod[i + j] = prod[i + j] + (*na) * (*nb);
         }
     }
     return prod;
@@ -53,23 +53,23 @@ pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~s
     let one = One::one();
 
     let mut s = ~[];
-    for a.iter().enumerate().advance |(i, &n)| {
+    for a.iter().enumerate().advance |(i, n)| {
         // output n*x^i / -n*x^i
         if n.is_zero() { loop; }
 
         let term = if i.is_zero() {
             n.to_str()
         } else if i == 1 {
-            if n == one { x.to_str() }
-            else if n == -one { fmt!("-%s", x) }
+            if (*n) == one { x.to_str() }
+            else if (*n) == -one { fmt!("-%s", x) }
             else { fmt!("%s*%s", n.to_str(), x) }
         } else {
-            if n == one { fmt!("%s^%u", x, i) }
-            else if n == -one { fmt!("-%s^%u", x, i) }
+            if (*n) == one { fmt!("%s^%u", x, i) }
+            else if (*n) == -one { fmt!("-%s^%u", x, i) }
             else { fmt!("%s*%s^%u", n.to_str(), x, i) }
         };
 
-        if s.len() > 0 && n > Zero::zero() { s.push(~"+"); }
+        if s.len() > 0 && (*n) > Zero::zero() { s.push(~"+"); }
         s.push(term);
     }
 

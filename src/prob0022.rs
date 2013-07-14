@@ -23,7 +23,7 @@ pub fn solve() -> ~str {
         ss.qsort();
         ss.iter()
             .enumerate()
-            .transform(|(i, &s)| {  get_score(i + 1, s)} )
+            .transform(|(i, s)| {  get_score(i + 1, *s)} )
             .sum()
     });
 

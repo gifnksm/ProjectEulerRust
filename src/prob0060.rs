@@ -58,8 +58,8 @@ fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> b
         }
 
         let chain = find_chain(pairs, ~[n], map);
-        for chain.iter().advance |&cs| {
-            if !f(cs) { return false; }
+        for chain.iter().advance |cs| {
+            if !f(*cs) { return false; }
         }
 
         map.insert(n, pairs);

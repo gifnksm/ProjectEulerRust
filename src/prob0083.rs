@@ -21,7 +21,9 @@ pub fn solve() -> ~str {
         let w = mat[0].len();
         let h = mat.len();
         ((w, h), mat)
-    }).map(|&((w, h), mat)| {
+    }).map(|&((ref w, ref h), ref mat)| {
+        let w = *w;
+        let h = *h;
         let start = Point { x: 0,     y: 0 };
         let goal  = Point { x: w - 1, y: h - 1 };
 

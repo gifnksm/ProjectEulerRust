@@ -25,9 +25,9 @@ fn bench<T>(f: &fn() -> T) -> (u64, T) {
 
 fn color_print(writer: @io::Writer, color: term::color::Color, s: &str) {
     let term = Terminal::new(writer);
-    term.iter(|&t| t.fg(color));
+    term.iter(|t| { t.fg(color); });
     print(s);
-    term.iter(|&t| t.reset());
+    term.iter(|t| { t.reset(); });
 }
 
 fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
