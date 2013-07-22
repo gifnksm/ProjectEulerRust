@@ -39,11 +39,11 @@ pub fn digit_histogram(n: uint) -> [uint, ..10] {
 }
 
 
-pub fn histogram<T: Hash + IterBytes + Eq + Copy>(v: &[T]) -> HashMap<T, uint> {
+pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::new::<T, uint>();
     for v.iter().advance |k| {
         let val = do map.find(k).map_default(1) |v| { *v + 1 };
-        map.insert(copy *k, val);
+        map.insert(k.clone(), val);
     }
     return map;
 }
@@ -89,24 +89,24 @@ pub fn is_palindromic(n: uint, radix: uint) -> bool {
     });
 }
 
-pub fn combinate<T: Copy>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> bool {
+pub fn combinate<T: Clone>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> bool {
     if len == 0 { return f(~[], elems.to_owned()); }
 
     for uint::range(0, elems.len() - len + 1) |i| {
         for combinate(elems.slice(i + 1, elems.len()), len - 1) |v, rest| {
-            if !f(~[copy elems[i]] + v, ~[] + elems.slice(0, i) + rest) { return false; }
+            if !f(~[elems[i].clone()] + v, ~[] + elems.slice(0, i) + rest) { return false; }
         }
     }
 
     return true;
 }
 
-pub fn combinate_overlap<T: Copy>(elems: &[T], len: uint, f: &fn(&[T])->bool) -> bool {
+pub fn combinate_overlap<T: Clone>(elems: &[T], len: uint, f: &fn(&[T])->bool) -> bool {
     if len == 0 { return f([]); }
 
     for uint::range(0, elems.len()) |i| {
         for combinate_overlap(elems.slice(i, elems.len()), len - 1) |v| {
-            if !f(~[copy elems[i]] + v) { return false; }
+            if !f(~[elems[i].clone()] + v) { return false; }
         }
     }
 
@@ -121,7 +121,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
     fn fill_zero(v: &[uint], n: uint) -> ~[uint] {
         assert!(n >= v.len());
-        vec::from_elem(n - v.len(), 0) + v
+        vec::from_elem(n - v.len(), 0u) + v
     }
 
     fn to_some<'a>(v: &'a [uint]) -> Option<&'a [uint]> { Some(v) }
@@ -138,7 +138,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
             tmp
         };
 
-        let mut buf = vec::from_elem(digits.len() - 1, 0);
+        let mut buf = vec::from_elem(digits.len() - 1, 0u);
 
         for digits.iter().enumerate().advance |(i, &n)| {
             let min_vec = match min {
@@ -258,12 +258,12 @@ pub fn solve_pel<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
 
 /// each (x, y) sufficient x^2 - y^2 = 1
 pub fn each_pel<
-    T: IntConvertible + Add<T, T> + Mul<T, T> + Copy
+    T: IntConvertible + Add<T, T> + Mul<T, T> + Clone
     >(d: uint, f: &fn(&T, &T)->bool) -> bool {
     let n = IntConvertible::from_int::<T>(d as int);
-    let (x1, y1) = solve_pel(d);
-    let mut xk = copy x1;
-    let mut yk = copy y1;
+    let (x1, y1) = solve_pel::<T>(d);
+    let mut xk = x1.clone();
+    let mut yk = y1.clone();
     loop {
         // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
         // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
@@ -288,12 +288,12 @@ pub fn solve_pel_neg<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, 
 
 /// each (x, y) sufficient x^2 - y^2 = -1
 pub fn each_pel_neg<
-    T: IntConvertible + Add<T, T> + Mul<T, T> + Copy
+    T: IntConvertible + Add<T, T> + Mul<T, T> + Clone
     >(d: uint, f: &fn(&T, &T)->bool) -> bool {
     let n = IntConvertible::from_int::<T>(d as int);
-    let (x1, y1) = solve_pel_neg(d);
-    let mut xk = copy x1;
-    let mut yk = copy y1;
+    let (x1, y1) = solve_pel_neg::<T>(d);
+    let mut xk = x1.clone();
+    let mut yk = y1.clone();
     let mut cnt = 0u;
     loop {
         // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k

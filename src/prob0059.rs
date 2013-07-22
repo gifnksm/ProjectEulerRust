@@ -36,9 +36,9 @@ static ENGLISH_FREQUENCY: &'static [(char, float)] = &[
     ('z', 0.00074)
 ];
 
-fn trans_map<T: Copy>(key: u8, src: &[T], dst: &mut [T]) {
+fn trans_map<T: Clone>(key: u8, src: &[T], dst: &mut [T]) {
     for src.iter().enumerate().advance |(i, f)| {
-        dst[(i as u8) ^ key] = copy *f;
+        dst[(i as u8) ^ key] = f.clone();
     }
 }
 
@@ -83,10 +83,10 @@ pub fn solve() -> ~str {
             let code_list = input.trim().split_iter(',')
                 .filter_map(u8::from_str).collect::<~[u8]>();
 
-            let mut freq = [~[0, ..256], ~[0, ..256], ~[0, ..256]];
+            let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
             for code_list.iter().enumerate().advance |(i, &n)| { freq[i % 3][n] += 1; }
 
-            let keys = freq.map(|f| find_key(copy *f, freq_dict));
+            let keys = freq.map(|f| find_key(f.clone(), freq_dict));
             let l = keys.len();
             code_list.iter().enumerate()
                 .transform(|(i, &n)| (n ^ keys[i % l]) as uint)

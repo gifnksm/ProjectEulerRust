@@ -79,9 +79,9 @@ pub fn solve() -> ~str {
                 for idx_pairs.iter().advance |&(ref len, ref v1, ref v2)| {
                     if cur_group.is_empty() || cur_len == *len {
                         cur_len = *len;
-                        cur_group.push((copy *v1, copy *v2));
+                        cur_group.push((v1.clone(), v2.clone()));
                     } else {
-                        push((cur_len, util::replace(&mut cur_group, ~[(copy *v1, copy *v2)])));
+                        push((cur_len, util::replace(&mut cur_group, ~[(v1.clone(), v2.clone())])));
                         cur_len = *len;
                     }
                 }

@@ -21,22 +21,22 @@ struct Relations<T> {
     top: HashMap<T, Relation<T>>
 }
 
-impl<T: Hash + IterBytes + Eq + Copy> Relations<T> {
+impl<T: Hash + IterBytes + Eq + Clone> Relations<T> {
     fn new() -> Relations<T> { Relations { top: HashMap::new() } }
 
     fn set_dependant(&mut self, prec: T, succ: T) {
         if !self.top.contains_key(&prec) {
-            self.top.insert(copy prec, Relation::new());
+            self.top.insert(prec.clone(), Relation::new());
         }
         if !self.top.contains_key(&succ) {
-            self.top.insert(copy succ, Relation::new());
+            self.top.insert(succ.clone(), Relation::new());
         }
 
         let mut contained = true;
         match self.top.find_mut(&prec) {
             Some(s) => {
                 if !s.succ.contains(&succ) {
-                    s.succ.insert(copy succ);
+                    s.succ.insert(succ.clone());
                     contained = false;
                 }
             }
@@ -53,7 +53,7 @@ impl<T: Hash + IterBytes + Eq + Copy> Relations<T> {
     fn find_all_not_preceded(&self) -> ~[T] {
         return self.top.iter()
             .filter(|&(_k, v)| v.num_prec == 0)
-            .transform(|(k, _v)| copy *k)
+            .transform(|(k, _v)| k.clone())
             .collect::<~[T]>();
     }
 
@@ -65,7 +65,7 @@ impl<T: Hash + IterBytes + Eq + Copy> Relations<T> {
                     Some(y) => {
                         y.num_prec -= 1;
                         if y.num_prec == 0 {
-                            result.push(copy *s);
+                            result.push(s.clone());
                         }
                     }
                     None => {}
@@ -76,12 +76,12 @@ impl<T: Hash + IterBytes + Eq + Copy> Relations<T> {
     }
 }
 
-fn tsort<T: Hash + IterBytes + Eq + Copy>(rels: &mut Relations<T>) -> ~[T] {
+fn tsort<T: Hash + IterBytes + Eq + Clone>(rels: &mut Relations<T>) -> ~[T] {
     let mut sorted = ~[];
     let mut queue = rels.find_all_not_preceded();
     while !queue.is_empty() {
         let prec = queue.shift();
-        sorted.push(copy prec);
+        sorted.push(prec.clone());
         queue.push_all(rels.delete_and_find(prec));
     }
     return sorted;

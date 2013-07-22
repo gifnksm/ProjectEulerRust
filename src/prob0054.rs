@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use std::{result, io};
+use std::{result, io, vec};
 use std::iterator::Counter;
 use common::card::Card;
 
@@ -57,8 +57,8 @@ impl ToStr for Hand {
 }
 
 fn hand(cards: &[Card, ..5]) -> Hand {
-    let mut num_count = [~[], ..13];
-    let mut suit_count = [~[], ..4];
+    let mut num_count = vec::from_fn(13, |_i| ~[]);
+    let mut suit_count = vec::from_fn(4, |_i| ~[]);
 
     for cards.iter().advance |&c| {
         let val = if c.num == 1 { 12 } else { c.num - 2 };

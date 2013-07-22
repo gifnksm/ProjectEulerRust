@@ -8,7 +8,7 @@ pub trait Monoid {
     fn mappend(&self, other: &Self) -> Self;
 }
 
-impl<T: Copy> Monoid for ~[T] {
+impl<T: Clone> Monoid for ~[T] {
     #[inline(always)]
     fn mempty() -> ~[T] { ~[] }
     #[inline(always)]

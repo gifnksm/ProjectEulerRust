@@ -8,6 +8,7 @@ use std::hashmap::{HashMap};
 
 pub static EXPECTED_ANSWER: &'static str = "402";
 
+#[deriving(Clone)]
 enum Length {
     Loop(uint), Chain(uint), Unknown
 }

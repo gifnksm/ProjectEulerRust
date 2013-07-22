@@ -18,7 +18,7 @@ pub fn solve() -> ~str {
         let h = mat.len();
         ((w, h), mat)
     }).map(|&((ref w, ref h), ref mat)| {
-        let mut sum = vec::from_fn(*h, |_y| vec::from_elem(*w, 0));
+        let mut sum = vec::from_fn(*h, |_y| vec::from_elem(*w, 0u));
         sum[0][0] = mat[0][0];
         for uint::range(1, *h) |y| {
             sum[y][0] = mat[y][0] + sum[y - 1][0];

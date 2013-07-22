@@ -44,7 +44,7 @@ impl DigitMap {
     }
 }
 
-fn fill_vec<T: Copy>(v: ~[T], len: uint, init: T) -> ~[T] {
+fn fill_vec<T: Clone>(v: ~[T], len: uint, init: T) -> ~[T] {
     assert!(v.len() <= len);
     if v.len() == len { return v; }
     return vec::from_elem(len - v.len(), init) + v;
@@ -83,8 +83,8 @@ pub fn solve() -> ~str {
         };
     }
 
-    return result.iter()
-        .transform(|r| calc::digits_to_num(r.first(), 10))
+    return result.consume_iter()
+        .transform(|(r, _e)| calc::digits_to_num(r, 10))
         .sum()
         .to_str();
 }

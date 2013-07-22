@@ -8,7 +8,7 @@ use std::hashmap::HashSet;
 
 pub static EXPECTED_ANSWER: &'static str = "425185";
 
-#[deriving(Eq, IterBytes)]
+#[deriving(Eq, IterBytes, Clone)]
 struct Point { x: uint, y: uint }
 
 pub fn solve() -> ~str {
