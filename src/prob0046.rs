@@ -3,14 +3,13 @@
 
 extern mod common;
 
-use std::uint;
 use std::iterator::Counter;
 use common::{arith, prime};
 
 pub static EXPECTED_ANSWER: &'static str = "5777";
 
 fn is_goldbach(n: uint) -> bool {
-    for uint::range(1, arith::isqrt(n / 2) + 1) |s| {
+    foreach s in range(1, arith::isqrt(n / 2) + 1) {
         let sq = s * s * 2;
         if sq > n { return false; }
         if prime::contains(n - sq) { return true; }

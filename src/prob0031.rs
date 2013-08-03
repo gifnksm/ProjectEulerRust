@@ -1,17 +1,13 @@
 #[link(name = "prob0031", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
-use std::uint;
-
 pub static EXPECTED_ANSWER: &'static str = "73682";
 
 fn count_ways(sum: uint, coins: &[uint]) -> uint {
     if coins.len() == 1 { return 1 }
 
     let mut ans = 0;
-    for uint::range(0, sum / coins[0] + 1) |n| {
+    foreach n in range(0, sum / coins[0] + 1) {
         let d = sum - n * coins[0];
         ans += count_ways(d, coins.slice(1, coins.len()));
     }

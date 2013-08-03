@@ -4,10 +4,10 @@
 extern mod extra;
 extern mod common;
 
-use std::{uint, vec};
+use std::vec;
 use std::num::{Zero, One};
-use extra::bigint::{BigInt};
-use extra::rational::{Ratio};
+use extra::bigint::BigInt;
+use extra::rational::Ratio;
 use common::poly;
 
 pub static EXPECTED_ANSWER: &'static str = "37076114526";
@@ -15,9 +15,9 @@ pub static EXPECTED_ANSWER: &'static str = "37076114526";
 fn u(n: BigInt) -> BigInt {
     let mut sum = Zero::zero::<BigInt>();
     let mut prod = One::one();
-    for 11.times {
+    do 11.times {
         sum = sum + prod;
-        prod = prod  * (-n);
+        prod = prod * (-n);
     }
     return sum;
 }
@@ -25,10 +25,10 @@ fn u(n: BigInt) -> BigInt {
 // Lagrange Interpolating with Naville's algorithm
 fn op(ns: &[(BigInt, BigInt)]) -> ~[Ratio<BigInt>] {
     let mut poly = ~[];
-    for uint::range(0, ns.len()) |i| {
+    foreach i in range(0, ns.len()) {
         let (ref xi, ref yi) = ns[i];
         let mut term = ~[ Ratio::from_integer(yi.clone()) ];
-        for uint::range(0, ns.len()) |j| {
+        foreach j in range(0, ns.len()) {
             if i == j { loop; }
 
             let (ref xj, ref _yj) = ns[j];
@@ -45,7 +45,7 @@ fn op(ns: &[(BigInt, BigInt)]) -> ~[Ratio<BigInt>] {
 pub fn solve() -> ~str {
     let un = vec::from_fn(11, |n| (BigInt::from_uint(n + 1), u(BigInt::from_uint(n + 1))));
     let mut sum = Zero::zero::<BigInt>();
-    for uint::range(1, un.len()) |i| {
+    foreach i in range(1, un.len()) {
         let poly = op(un.slice(0, i)).consume_iter().transform(|x| x.numer).collect::<~[BigInt]>();
         sum = sum + poly::eval(poly, BigInt::from_uint(i + 1));
     }

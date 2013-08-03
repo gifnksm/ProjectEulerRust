@@ -1,9 +1,7 @@
 #[link(name = "prob0074", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
-use std::{uint, vec};
+use std::vec;
 use std::hashmap::{HashMap};
 
 pub static EXPECTED_ANSWER: &'static str = "402";
@@ -70,7 +68,7 @@ pub fn solve() -> ~str {
     let limit = 1000000;
     let factorial = {
         let mut val = [1, ..10];
-        for uint::range(1, 10) |i| {
+        foreach i in range(1u, 10) {
             val[i] = val[i - 1] * i;
         }
         val
@@ -78,7 +76,7 @@ pub fn solve() -> ~str {
 
     let mut map = vec::from_elem(factorial[9] * 6 + 1, Unknown);
     let mut cnt = 0u;
-    for uint::range(1, limit + 1) |n| {
+    foreach n in range(1u, limit + 1) {
         let len = get_chain_len(n, map, &factorial);
         if len == 60 { cnt += 1; }
     }

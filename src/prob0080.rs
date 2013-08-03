@@ -19,7 +19,7 @@ fn sqrt_newton_raphson(n: uint, precision: uint) -> ~str {
     let n = BigInt::from_uint(n);
     let _10 = BigInt::from_uint(10);
     let mut ds = BigInt::from_uint(1);
-    for (precision - 1).times { ds = ds * _10; }
+    do (precision - 1).times { ds = ds * _10; }
 
     let shift = 4 * precision; // log_2 10 = 3.3... < 4
     let _1_2 = BigInt::from_uint(1) << (2 * shift);

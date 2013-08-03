@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use std::{uint, vec};
+use std::vec;
 use std::iterator::AdditiveIterator;
 use common::calc;
 
@@ -55,7 +55,7 @@ pub fn solve() -> ~str {
     result = do result.flat_map |tp| {
         let mut arr = ~[];
         let dm = tp.second_ref();
-        for uint::range(0, 999 / 17) |n| {
+        foreach n in range(0u, 999 / 17) {
             let ds = fill_vec(calc::num_to_digits(n * 17, 10), 3, 0);
             match dm.get_used(ds) {
                 None => loop,
@@ -69,7 +69,7 @@ pub fn solve() -> ~str {
         result = do result.flat_map |tp| {
             let mut arr = ~[];
             let dm = tp.second_ref();
-            for uint::range(0, 999 / base) |n| {
+            foreach n in range(0u, 999 / base) {
                 let ds = fill_vec(calc::num_to_digits(n * base, 10), 3, 0);
                 if ds[1] != tp.first_ref()[0] || ds[2] != tp.first_ref()[1] {
                     loop

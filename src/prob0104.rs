@@ -1,10 +1,8 @@
 #[link(name = "prob0104", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
 use std::u64;
-use std::iterator::UnfoldrIterator;
+use std::iterator::Unfoldr;
 
 pub static EXPECTED_ANSWER: &'static str = "329468";
 
@@ -53,8 +51,8 @@ pub fn solve() -> ~str {
         Some(n0)
     };
 
-    let first = UnfoldrIterator::new((0, 0), next_fib_first10);
-    let last  = UnfoldrIterator::new((0, 1), next_fib_last10);
+    let first = Unfoldr::new((0, 0), next_fib_first10);
+    let last  = Unfoldr::new((0, 1), next_fib_last10);
     let mut it = first.zip(last).enumerate().filter(|&(_, (f, l))| is_pandigit(f) && is_pandigit(l));
     let (k, _) = it.next().unwrap();
     return k.to_str();

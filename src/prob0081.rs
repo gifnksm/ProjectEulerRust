@@ -20,12 +20,12 @@ pub fn solve() -> ~str {
     }).map(|&((ref w, ref h), ref mat)| {
         let mut sum = vec::from_fn(*h, |_y| vec::from_elem(*w, 0u));
         sum[0][0] = mat[0][0];
-        for uint::range(1, *h) |y| {
+        foreach y in range(1, *h) {
             sum[y][0] = mat[y][0] + sum[y - 1][0];
         }
-        for uint::range(1, *w) |x| {
+        foreach x in range(1, *w) {
             sum[0][x] = mat[0][x] + sum[0][x - 1];
-            for uint::range(1, *h) |y| {
+            foreach y in range(1, *h) {
                 sum[y][x] = mat[y][x] + uint::min(sum[y - 1][x], sum[y][x - 1]);
             }
         }

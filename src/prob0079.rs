@@ -1,9 +1,7 @@
 #[link(name = "prob0079", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
-use std::{io, uint, char};
+use std::{io, char};
 use std::hashmap::{HashMap, HashSet};
 
 pub static EXPECTED_ANSWER: &'static str = "73162890";
@@ -93,7 +91,7 @@ pub fn solve() -> ~str {
         let mut rels = Relations::new();
         for file.each_line |line| {
             let ds: ~[uint] = line.iter().filter_map(|c| char::to_digit(c, 10)).collect();
-            for uint::range(1, ds.len()) |i| {
+            foreach i in range(1, ds.len()) {
                 rels.set_dependant(ds[i - 1], ds[i]);
             }
         }

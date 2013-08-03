@@ -4,7 +4,7 @@
 extern mod extra;
 extern mod common;
 
-use std::{uint, int, util};
+use std::util;
 use std::num::Zero;
 use std::hashmap::HashSet;
 use std::iterator::Counter;
@@ -17,13 +17,13 @@ enum Op { Add, Sub, Mul, Div }
 
 #[inline(always)]
 fn each_numseq(f: &fn(&[Rational]) -> bool) -> bool {
-    for int::range(1, 10) |a| {
+    foreach a in range(1, 10) {
         let ra = Ratio::from_integer(a);
-        for int::range(a + 1, 10) |b| {
+        foreach b in range(a + 1, 10) {
             let rb = Ratio::from_integer(b);
-            for int::range(b + 1, 10) |c| {
+            foreach c in range(b + 1, 10) {
                 let rc = Ratio::from_integer(c);
-                for int::range(c + 1, 10) |d| {
+                foreach d in range(c + 1, 10) {
                     let rd = Ratio::from_integer(d);
                     if !f(&[ra, rb, rc, rd]) { return false; }
                 }
@@ -36,9 +36,9 @@ fn each_numseq(f: &fn(&[Rational]) -> bool) -> bool {
 #[inline(always)]
 fn each_opseq(f: &fn(&[Op]) -> bool) -> bool {
     let ops = ~[ Add, Sub, Mul, Div ];
-    for uint::range(0, ops.len()) |i1| {
-        for uint::range(0, ops.len()) |i2| {
-            for uint::range(0, ops.len()) |i3| {
+    foreach i1 in range(0, ops.len()) {
+        foreach i2 in range(0, ops.len()) {
+            foreach i3 in  range(0, ops.len()) {
                 if !f(&[ops[i1], ops[i2], ops[i3]]) { return false; }
             }
         }

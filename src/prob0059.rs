@@ -1,8 +1,7 @@
 #[link(name = "prob0059", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-use std::{uint, float, u8, io};
+use std::{float, u8, io};
 use std::iterator::AdditiveIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "107359";
@@ -61,7 +60,7 @@ fn find_key(count: &[uint], ref_freq: &[float]) -> u8 {
     let mut freq_buf = ~[0f, ..256];
     let mut min_key  = 0;
     let mut min_dist = float::infinity;
-    for uint::range(0, 256) |k| {
+    foreach k in range(0u, 256) {
         trans_map(k as u8, freq, freq_buf);
         let dist = get_dist(freq_buf, ref_freq);
         if dist < min_dist {

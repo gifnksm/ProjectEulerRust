@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use std::{util, uint};
+use std::util;
 use std::iterator::MultiplicativeIterator;
 use common::calc;
 
@@ -69,7 +69,7 @@ impl IdxValueMap {
     }
 
     priv fn each_area(&mut self, f: &fn(Area) -> bool) -> bool {
-        for uint::range(0, self.area.len()) |i| {
+        foreach i in range(0, self.area.len()) {
             if !f(self.area[i]) { return false; }
         }
         loop {

@@ -3,16 +3,13 @@
 
 extern mod extra;
 
-
-use std::uint;
-use extra::bigint::{BigUint};
+use extra::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "49";
 
 pub fn solve() -> ~str {
     let mut cnt = 1u; // a == 1
-    for uint::range(2, 10) |a_uint| {
-        let a = BigUint::from_uint(a_uint);
+    foreach a in range(BigUint::from_uint(2), BigUint::from_uint(10)) {
         let mut n = 0;
         let mut an = BigUint::from_uint(1);
         loop {

@@ -44,7 +44,7 @@ pub fn solve() -> ~str {
     div_map[0] = 0;
     div_map[1] = 0;
 
-    for uint::range(2, limit / 2) |f| {
+    foreach f in range(2, limit / 2) {
         for uint::range_step(2 * f, limit, f as int) |n| {
             div_map[n] += f;
         }

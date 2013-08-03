@@ -3,7 +3,7 @@
 
 extern mod extra;
 
-use std::{uint, vec};
+use std::vec;
 use extra::sort;
 
 pub static EXPECTED_ANSWER: &'static str = "101524";
@@ -47,7 +47,7 @@ fn create_mat<T>(h: uint, w: uint, f: &fn(uint, uint) -> T) -> ~[~[T]] {
 pub fn mul_mat(m1: &[~[float]], m2: &[~[float]]) -> ~[~[float]] {
     do create_mat(m1.len(), m2[0].len()) |i, j| {
         let mut sum = 0f;
-        for uint::range(0, m1[0].len()) |k| {
+        foreach k in range(0, m1[0].len()) {
             sum += m1[i][k] * m2[k][j];
         }
         sum
@@ -71,14 +71,14 @@ pub fn trans_mat(m: &[~[float]]) -> ~[~[float]] {
 
 fn print_mat(mat: &[~[float]]) {
     print("     ");
-    for uint::range(0, mat[0].len()) |j| {
+    foreach j in range(0, mat[0].len()) {
         print(fmt!(" %-4? ", Square::from_uint(j % NUM_SQUARE)));
     }
     println("");
-    for uint::range(0, mat.len()) |i| {
+    foreach i in range(0, mat.len()) {
         let mut sum = 0f;
         print(fmt!("%-4? ", Square::from_uint(i % NUM_SQUARE)));
-        for uint::range(0, mat[i].len()) |j| {
+        foreach j in range(0, mat[i].len()) {
             if mat[i][j] == 0f {
                 print("0     ");
             } else{
@@ -90,14 +90,14 @@ fn print_mat(mat: &[~[float]]) {
     }
 
     print("     ");
-    for mat[0].len().times {
+    do mat[0].len().times {
         print("----- ")
     }
     println("");
     print("     ");
-    for uint::range(0, mat[0].len()) |j| {
+    foreach j in range(0, mat[0].len()) {
         let mut sum = 0f;
-        for uint::range(0, mat.len()) |i| {
+        foreach i in range(0, mat.len()) {
             sum += mat[i][j];
         }
         print(fmt!("%.3f ", sum));
@@ -107,8 +107,8 @@ fn print_mat(mat: &[~[float]]) {
 
 fn create_roll_map(dice_side: uint) -> ~[(float, float)] {
     let mut map = vec::from_elem(dice_side * 2 + 1, (0, 0));
-    for uint::range(1, dice_side + 1) |i| {
-        for uint::range(i, dice_side + 1) |j| {
+    foreach i in range(1, dice_side + 1) {
+        foreach j in range(i, dice_side + 1) {
             let sum = i + j;
             let (p, q) = map[sum];
             map[sum] = if i == j { (p, q + 1) } else { (p + 2, q) };
@@ -251,11 +251,10 @@ pub fn solve() -> ~str {
 #[cfg(test)]
 mod test {
     use super::*;
-    use std::uint;
 
     #[test]
     fn test_int_convertible_square() {
-        for uint::range(0, 40) |n| {
+        foreach n in range(0u, 40) {
             let sq = Square::from_uint(n);
             assert_eq!(sq.to_uint(), n);
         }

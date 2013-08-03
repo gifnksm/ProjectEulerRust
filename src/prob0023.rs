@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use std::{uint, vec};
+use std::vec;
 use common::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "4179871";
@@ -17,15 +17,15 @@ pub fn solve() -> ~str {
     let max_num = 28123;
 
     let abundant = do vec::build_sized(max_num + 1) |push| {
-        for uint::range(2, max_num + 1) |n| {
+        foreach n in range(2, max_num + 1) {
             if is_abundant(n) { push(n); }
         }
     };
 
     let mut sum_of_sum_abundant = 0;
     let mut is_sum_abundant = vec::from_elem(max_num + 1, false);
-    for abundant.iter().enumerate().advance |(i, &a)| {
-        for abundant.tailn(i).iter().advance |&b| {
+    foreach (i, &a) in abundant.iter().enumerate() {
+        foreach &b in abundant.tailn(i).iter() {
             let s = a + b;
             if s > max_num { break; }
             if !is_sum_abundant[s] { sum_of_sum_abundant += s; }

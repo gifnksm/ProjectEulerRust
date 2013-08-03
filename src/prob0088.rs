@@ -14,7 +14,7 @@ fn each_sum_product(start: uint, end: uint, f: &fn(uint, uint, uint) -> bool) ->
 
     fn sub(start: uint, end: uint, sum: uint, prod: uint, len: uint,
            f: &fn(uint, uint, uint) -> bool) -> bool {
-        for uint::range(start, end / prod + 1) |n| {
+        foreach n in range(start, end / prod + 1) {
             if len > 0 {
                 if !f(sum + n, prod * n, len + 1) { return false; }
             }

@@ -1,4 +1,4 @@
-use std::iterator::{Counter, MultiplicativeIterator, MapIterator};
+use std::iterator::{Counter, MultiplicativeIterator, Map};
 use std::local_data;
 use std::local_data::Key;
 
@@ -146,7 +146,7 @@ impl Iterator<Factor> for FactorIterator {
 #[inline(always)]
 pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
     let mut result = 1;
-    for fs.advance |(base, exp)| {
+    foreach (base, exp) in fs {
         if exp > 0 {
             result *= calc::pow(base, exp as uint);
         } else {
@@ -158,14 +158,14 @@ pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
 
 #[inline(always)]
 pub fn comb(n: uint, r: uint) -> uint {
-    let ns: ~[MapIterator<(uint, int), (uint, Sum<int>), FactorIterator>]
+    let ns: ~[Map<(uint, int), (uint, Sum<int>), FactorIterator>]
         = Range::new(r + 1, n + 1)
         .transform(factorize)
         .transform(|fs| fs.transform(|(base, exp)| (base, Sum(exp))))
         .collect();
     let numer = MergeMultiMonoidIterator::new(ns);
 
-    let ds: ~[MapIterator<(uint, int), (uint, Sum<int>), FactorIterator>]
+    let ds: ~[Map<(uint, int), (uint, Sum<int>), FactorIterator>]
         = Range::new(1, n - r + 1)
         .transform(factorize)
         .transform(|fs| fs.transform(|(base, exp)| (base, Sum(-exp))))
@@ -258,9 +258,9 @@ mod tests {
     #[test]
     fn test_prime_index() {
         // Generated primes
-        for PRIMES_BELOW200.iter().enumerate().advance |(i, &p)| { assert_eq!(nth(i), p); }
+        foreach (i, &p) in PRIMES_BELOW200.iter().enumerate() { assert_eq!(nth(i), p); }
         // Memoized primes
-        for PRIMES_BELOW200.iter().enumerate().advance |(i, &p)| { assert_eq!(nth(i), p); }
+        foreach (i, &p) in PRIMES_BELOW200.iter().enumerate() { assert_eq!(nth(i), p); }
     }
 
     #[test]
@@ -269,7 +269,7 @@ mod tests {
 
         let mut i = 0;
         let ys = &[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41 ];
-        for it.advance |x| {
+        foreach x in it {
             if i >= ys.len() { break; }
             assert_eq!(x, ys[i]);
             i += 1;
@@ -281,7 +281,7 @@ mod tests {
         fn check(n: uint, fs: &[Factor]) {
             let mut v = ~[];
             let mut it = factorize(n);
-            for it.advance |f| { v.push(f); }
+            foreach f in it { v.push(f); }
 
             assert_eq!(v.initn(0), fs);
         }

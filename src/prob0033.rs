@@ -1,10 +1,6 @@
 #[link(name = "prob0033", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
-use std::uint;
-
 pub static EXPECTED_ANSWER: &'static str = "100";
 
 // AB / AC => NG (10A+B : 10A+C = B : C => 10AC+BC = 10AB+BC => 10A(C-B) = 0 -> trivial)
@@ -24,8 +20,8 @@ pub fn solve() -> ~str {
     let mut prod_numer = 1;
     let mut prod_denom = 1;
 
-    for uint::range(1, 10) |b| {
-        for uint::range(b + 1, 10) |c| {
+    foreach b in range(1u, 10) {
+        foreach c in range(b + 1, 10) {
             // Pattern 1
             let a_numer = 9 * b * c;
             let a_denom = 10 * c - b;

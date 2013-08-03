@@ -1,6 +1,7 @@
 use std::num::IntConvertible;
 use std::hashmap::{HashMap, HashSet};
 use std::{util, uint, vec};
+use std::iterator::MultiplicativeIterator;
 
 use arith::isqrt;
 use extiter::Range;
@@ -22,11 +23,7 @@ pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) -> bool 
     return true;
 }
 
-pub fn factorial(n: uint) -> uint {
-    let mut prod = 1;
-    for uint::range(1, n + 1) |n| { prod *= n; }
-    return prod;
-}
+pub fn factorial(n: uint) -> uint { range(1, n + 1).product() }
 
 pub fn digit_histogram(n: uint) -> [uint, ..10] {
     let mut hist = [0, ..10];
@@ -41,7 +38,7 @@ pub fn digit_histogram(n: uint) -> [uint, ..10] {
 
 pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::new::<T, uint>();
-    for v.iter().advance |k| {
+    foreach k in v.iter() {
         let val = do map.find(k).map_default(1) |v| { *v + 1 };
         map.insert(k.clone(), val);
     }
@@ -51,7 +48,7 @@ pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> 
 pub fn num_of_permutations<T: Eq + Hash>(hist: &HashMap<T, uint>) -> uint {
     let mut sum = 0;
     let mut div = 1;
-    for hist.iter().advance |(_, cnt)| {
+    foreach (_, cnt) in hist.iter() {
         sum += *cnt;
         div *= factorial(*cnt);
     }
@@ -92,7 +89,7 @@ pub fn is_palindromic(n: uint, radix: uint) -> bool {
 pub fn combinate<T: Clone>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> bool {
     if len == 0 { return f(~[], elems.to_owned()); }
 
-    for uint::range(0, elems.len() - len + 1) |i| {
+    foreach i in range(0, elems.len() - len + 1) {
         for combinate(elems.slice(i + 1, elems.len()), len - 1) |v, rest| {
             if !f(~[elems[i].clone()] + v, ~[] + elems.slice(0, i) + rest) { return false; }
         }
@@ -104,7 +101,7 @@ pub fn combinate<T: Clone>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> 
 pub fn combinate_overlap<T: Clone>(elems: &[T], len: uint, f: &fn(&[T])->bool) -> bool {
     if len == 0 { return f([]); }
 
-    for uint::range(0, elems.len()) |i| {
+    foreach i in range(0, elems.len()) {
         for combinate_overlap(elems.slice(i, elems.len()), len - 1) |v| {
             if !f(~[elems[i].clone()] + v) { return false; }
         }
@@ -134,13 +131,13 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
         let unit = {
             let mut tmp = 1;
-            for (len-1).times { tmp *= 10 }
+            do (len - 1).times { tmp *= 10 }
             tmp
         };
 
         let mut buf = vec::from_elem(digits.len() - 1, 0u);
 
-        for digits.iter().enumerate().advance |(i, &n)| {
+        foreach (i, &n) in digits.iter().enumerate() {
             let min_vec = match min {
                 Some(v) if n <  v[0] => loop,
                 Some(v) if n == v[0] => Some(v.slice(1, v.len())),
@@ -152,8 +149,8 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
                 _ => None
             };
 
-            for uint::range(0, i)         |j| { buf[j] = digits[j]; }
-            for uint::range(i, buf.len()) |j| { buf[j] = digits[j + 1]; }
+            foreach j in range(0, i)         { buf[j] = digits[j]; }
+            foreach j in range(i, buf.len()) { buf[j] = digits[j + 1]; }
             for perm_sub(buf, len - 1, min_vec, max_vec) |num, ds| {
                 if !f(num + n * unit, ds) { return false; }
             }
@@ -238,7 +235,7 @@ pub fn fold_cont_frac<
     let mut numer = IntConvertible::from_int::<T>(1);
     let mut denom = IntConvertible::from_int::<T>(0);
 
-    for an.rev_iter().advance |&a| {
+    foreach &a in an.rev_iter() {
         util::swap(&mut numer, &mut denom);
         numer = numer + IntConvertible::from_int::<T>(a as int) * denom;
     }

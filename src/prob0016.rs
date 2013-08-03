@@ -12,7 +12,7 @@ pub static EXPECTED_ANSWER: &'static str = "1366";
 
 pub fn solve() -> ~str {
     let mut i = One::one::<BigInt>();
-    for 1000.times { i = i * BigInt::from_uint(2); }
+    do 1000.times { i = i * BigInt::from_uint(2); }
     let s = i.to_str();
     return s.iter()
         .filter_map(|c| char::to_digit(c, 10))

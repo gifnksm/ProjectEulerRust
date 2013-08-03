@@ -3,8 +3,7 @@
 
 extern mod extra;
 
-
-use std::{uint, vec};
+use std::vec;
 use extra::priority_queue::PriorityQueue;
 
 pub static EXPECTED_ANSWER: &'static str = "20313839404245";
@@ -79,7 +78,7 @@ impl SSSElem {
         let len   = self.sss.len();
         let add_len = len / 2 + 1;
         let sub_len = len / 2 - 1;
- 
+
         let add = self.sss.slice(0, add_len).iter().fold(0, |a, &b| a + b);
         let sub = self.sss.slice(len - sub_len, len).iter().fold(0, |a, &b| a + b);
         return add - sub - 1;
@@ -93,7 +92,7 @@ impl SSSElem {
             if a == b - 1 && !f(SSSElem::new_pair(a + 1, b + 1)) { return false; }
         }
 
-        for uint::range(self.sss.last() + 1, self.max_addable() + 1) |n| {
+        foreach n in range(self.sss.last() + 1, self.max_addable() + 1) {
             match self.add_num(n) {
                 Some(x) => {
                     if !f(x) { return false; }
@@ -121,7 +120,7 @@ pub fn each_sss(f: &fn(&SSSElem) -> bool) -> bool {
 
 // (a, b) => SSS if a > b
 // (a, b, c) => SSS if a > b > c && a + b > c
-// (a, b, c, d) +> SSS if a > b > c > d && a + b > d && 
+// (a, b, c, d) +> SSS if a > b > c > d && a + b > d &&
 pub fn solve() -> ~str {
     for each_sss |sss| {
         if sss.sss.len() == 7 {

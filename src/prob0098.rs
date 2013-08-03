@@ -14,7 +14,7 @@ pub static EXPECTED_ANSWER: &'static str = "18769";
 
 #[inline(always)]
 fn check_digit(idx: &[uint], ds: &[uint]) -> bool {
-    for uint::range(0, idx.len()) |i| {
+    foreach i in range(0, idx.len()) {
         if ds[i] != ds[idx[i]] { return false; }
         if ds.position_elem(&ds[idx[i]]).get() != idx[i] { return false; }
     }
@@ -56,8 +56,8 @@ pub fn solve() -> ~str {
         }).map(|words| {
             do vec::build_sized(words.len()) |push| {
                 for words.iter().advance |elt| {
-                    for uint::range(0, elt.len()) |i| {
-                        for uint::range(i + 1, elt.len()) |j| {
+                    foreach i in range(0, elt.len()) {
+                        foreach j in range(i + 1, elt.len()) {
                             push((elt[i].clone(), elt[j].clone()))
                         }
                     }

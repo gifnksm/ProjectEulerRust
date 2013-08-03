@@ -1,9 +1,7 @@
 #[link(name = "prob0044", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
-use std::{vec, uint};
+use std::vec;
 
 pub static EXPECTED_ANSWER: &'static str = "5482660";
 
@@ -31,7 +29,7 @@ pub fn solve() -> ~str {
 
     let mut m = 0;
     loop {
-        for uint::range(0, m) |k| {
+        foreach k in range(0u, m) {
             let pm = get_pentagonal(m);
             let pk = get_pentagonal(k);
             if (pm - pk) % 2 != 0 { loop; }

@@ -69,9 +69,9 @@ impl SuDoku {
 
     fn to_str_debug(&self) -> ~str {
         let row_strs = do vec::build_sized(BOARD_HEIGHT) |push| {
-            for uint::range(0, BOARD_HEIGHT) |y| {
+            foreach y in range(0, BOARD_HEIGHT) {
                 let cell_strs = do vec::build_sized(BOARD_WIDTH) |push| {
-                    for uint::range(0, BOARD_WIDTH) |x| {
+                    foreach x in range(0, BOARD_WIDTH) {
                         let s = self.map[y][x].to_str_radix(2);
                         push(fmt!("%s:%s",
                                   self.get_num(x, y).to_str(),
@@ -91,9 +91,9 @@ fn read_sudoku<T: Reader>(r: T) -> SuDoku {
         map: [[MASK_ALL, .. BOARD_WIDTH], .. BOARD_HEIGHT]
     };
 
-    for uint::range(0, BOARD_HEIGHT) |y| {
+    foreach y in range(0, BOARD_HEIGHT) {
         let line = r.read_line();
-        for uint::range(0, BOARD_WIDTH) |x| {
+        foreach x in range(0, BOARD_WIDTH) {
             let n = char::to_digit(line[x] as char, 10).get();
             if n != 0 { sudoku.map[y][x] = 1 << (n - 1); }
         }
@@ -109,8 +109,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
     loop {
         let bkup = puzzle.clone();
 
-        for uint::range(0, BOARD_HEIGHT) |y| {
-            for uint::range(0, BOARD_WIDTH) |x| {
+        foreach y in range(0, BOARD_HEIGHT) {
+            foreach x in range(0, BOARD_WIDTH) {
                 if puzzle.map[y][x].population_count() != 1 { loop; }
 
                 let (x0, y0) = (x / GROUP_WIDTH * GROUP_WIDTH,
@@ -126,10 +126,10 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
             }
         }
 
-        for uint::range(0, MAX_NUMBER) |n| {
+        foreach n in range(0, MAX_NUMBER) {
             let bit = 1 << n;
 
-            for uint::range(0, BOARD_HEIGHT) |y| {
+            foreach y in range(0, BOARD_HEIGHT) {
                 let mut it = Range::new(0, BOARD_WIDTH)
                     .filter(|&x| puzzle.map[y][x] & bit != 0);
                 let next = it.next();
@@ -137,7 +137,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
                 puzzle.map[y][next.unwrap()] = bit;
             }
 
-            for uint::range(0, BOARD_WIDTH) |x| {
+            foreach x in range(0, BOARD_WIDTH) {
                 let mut it = Range::new(0, BOARD_HEIGHT)
                     .filter(|&y| puzzle.map[y][x] & bit != 0);
                 let next = it.next();
@@ -176,10 +176,10 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
         .unwrap();
 
     let mut answers = ~[];
-    for uint::range(0, MAX_NUMBER) |n| {
+    foreach n in range(0, MAX_NUMBER) {
         let bit = 1 << n;
         if puzzle.map[y][x] & bit == 0 { loop; }
-        
+
         let mut p2 = puzzle.clone();
         p2.map[y][x] = bit;
         answers.push_all(solve_sudoku(p2));

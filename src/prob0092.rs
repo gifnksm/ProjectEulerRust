@@ -1,9 +1,7 @@
 #[link(name = "prob0092", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
-use std::{vec, uint};
+use std::vec;
 
 pub static EXPECTED_ANSWER: &'static str = "8581146";
 
@@ -41,7 +39,7 @@ pub fn solve() -> ~str {
     map[0] = Some(false);
     map[1] = Some(false);
     map[89] = Some(true);
-    for uint::range(1, limit + 1) |n| {
+    foreach n in range(1u, limit + 1) {
         if is_reach_89(n, map) { cnt += 1; }
     }
     return cnt.to_str();

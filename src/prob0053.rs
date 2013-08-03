@@ -1,10 +1,6 @@
 #[link(name = "prob0053", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
-use std::uint;
-
 pub static EXPECTED_ANSWER: &'static str = "4075";
 
 // nCr-1 = r/(n-r+1) nCr!
@@ -16,7 +12,7 @@ pub fn solve() -> ~str {
     let mut r = 0;
     let mut c = 1;
     let mut cnt = 0;
-    for uint::range(1, 101) |n| {
+    foreach n in range(1, 101) {
         c = c * n / (n - r); // nCr
         if c < limit {
             while c < limit {

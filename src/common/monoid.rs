@@ -1,4 +1,4 @@
-use std::{vec, uint, util};
+use std::{vec, util};
 use std::cmp::{Ord, Eq};
 use std::ops::{Add, Mul};
 use std::num::{Zero, One, Bounded};
@@ -53,7 +53,7 @@ impl<T> Wrap<T> for Sum<T> {
     fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
-impl<T> WrapMonoid<T> for Sum<T> {}
+impl<T: Zero + Add<T, T>> WrapMonoid<T> for Sum<T> {}
 
 
 #[deriving(Eq, Clone)]
@@ -78,7 +78,7 @@ impl<T> Wrap<T> for Prod<T> {
     fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
-impl<T> WrapMonoid<T> for Prod<T> {}
+impl<T: One + Mul<T, T>> WrapMonoid<T> for Prod<T> {}
 
 
 #[deriving(Eq, Clone)]
@@ -105,7 +105,7 @@ impl<T> Wrap<T> for Max<T> {
     fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
-impl<T> WrapMonoid<T> for Max<T> {}
+impl<T: Clone + Bounded + Ord> WrapMonoid<T> for Max<T> {}
 
 
 #[deriving(Eq, Clone)]
@@ -132,7 +132,7 @@ impl<T> Wrap<T> for Min<T> {
     fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
-impl<T> WrapMonoid<T> for Min<T> {}
+impl<T: Clone + Bounded + Ord> WrapMonoid<T> for Min<T> {}
 
 
 #[inline(always)]
@@ -209,12 +209,12 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
         if len == 0 { return None; }
 
         // Fill value if empty (if iter ends, set None)
-        for uint::range(0, len) |i| {
+        foreach i in range(0, len) {
             if self.values[i].is_none() { self.values[i] = self.iters[i].next(); }
         }
 
         let mut min_idx = ~[];
-        for uint::range(0, len) |i| {
+        foreach i in range(0, len) {
             if self.values[i].is_none() { loop; }
             if min_idx.is_empty() { min_idx.push(i); loop; }
 
@@ -227,7 +227,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 
         if min_idx.is_empty() { return None; }
         let mut result = None;
-        for min_idx.iter().advance |&i| {
+        foreach &i in min_idx.iter() {
             if result.is_none() {
                 util::swap(&mut self.values[i], &mut result);
             } else {
@@ -251,7 +251,7 @@ mod tests {
 
     #[test]
     fn test_mconcat() {
-        fn check_wrap<T: Eq + Copy, M: Monoid + Wrap<T>>(v: &[T], f: &fn(T) -> M, result: T) {
+        fn check_wrap<T: Eq + Clone, M: Monoid + Wrap<T>>(v: &[T], f: &fn(T) -> M, result: T) {
             let ms = v.to_owned().consume_iter().transform(f).collect::<~[M]>();
             assert_eq!(mconcat(ms).unwrap(), result);
         }
@@ -327,9 +327,9 @@ mod tests {
 
     #[test]
     fn test_merge_multi_monoid_iterator() {
-        fn check<M: Monoid + Wrap<int> + Eq + Copy>(vs: &[~[(int, int)]],
-                                                    f: &fn(int) -> M,
-                                                    result: &[(int, int)]) {
+        fn check<M: Monoid + Wrap<int> + Eq + Clone>(vs: &[~[(int, int)]],
+                                                     f: &fn(int) -> M,
+                                                     result: &[(int, int)]) {
             for vec::each_permutation(vs) |vs| {
                 let vs = vs.map(|ks| ks.map(|&(x, y)| (x, f(y))).consume_iter());
                 let merged = MergeMultiMonoidIterator::new(vs).collect::<~[(int, M)]>();

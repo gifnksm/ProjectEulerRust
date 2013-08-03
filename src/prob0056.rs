@@ -24,9 +24,9 @@ pub fn solve() -> ~str {
     let ten = BigUint::from_uint(1000000000);
 
     let mut max = 0u;
-    for uint::range(1, 100) |a| {
+    foreach a in range(1u, 100) {
         let mut n = BigUint::from_uint(a);
-        for 100.times {
+        do 100.times {
             n = n * BigUint::from_uint(a);
             let mut sum = 0;
             let (d, m) = n.div_rem(&ten);

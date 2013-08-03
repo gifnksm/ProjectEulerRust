@@ -1,10 +1,7 @@
 #[link(name = "prob0076", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
-use std::uint;
-use std::hashmap::{HashMap};
+use std::hashmap::HashMap;
 
 pub static EXPECTED_ANSWER: &'static str = "190569291";
 
@@ -16,7 +13,7 @@ fn count_way(sum: uint) -> uint {
         sum: uint, min_n: uint, map: &mut HashMap<(uint, uint), uint>
     ) -> uint {
         let mut cnt = 1; // only sum
-        for uint::range(min_n, sum / 2 + 1) |k| {
+        foreach k in range(min_n, sum / 2 + 1) {
             match map.find(&(sum - k, k)).map(|v| **v) {
                 Some(n) => cnt += n,
                 None    => {
