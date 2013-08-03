@@ -13,7 +13,7 @@ pub static EXPECTED_ANSWER: &'static str = "73702";
 
 fn is_sss(nums: &[uint]) -> bool {
     let mut sums: ~[uint] = ~[0];
-    for nums.iter().advance |&n| {
+    foreach &n in nums.iter() {
         let mut i = 0;
         let mut j = 0;
         let len = sums.len();

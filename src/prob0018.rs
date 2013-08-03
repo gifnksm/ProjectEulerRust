@@ -29,7 +29,7 @@ pub fn solve() -> ~str {
     let init = TRIANGLE.init();
     let last = TRIANGLE.last();
     let answer = do init.rev_iter().fold(last.to_owned()) |mut total, elm| {
-        for elm.iter().enumerate().advance |(i, &e)| {
+        foreach (i, &e) in elm.iter().enumerate() {
             total[i] = e + uint::max(total[i], total[i + 1]);
         }
         total

@@ -59,14 +59,14 @@ impl<'self> ArgIterator<'self> {
 
         if !self.args[self.idx].contains_char('-') {
             let n = uint::from_str(self.args[self.idx]);
-            for n.iter().advance |&n| {
+            foreach &n in n.iter() {
                 self.cur_range = Range::new(n, n + 1);
             }
             return;
         }
 
         let mut ns = ~[];
-        for self.args[self.idx].split_iter('-').advance |ss| {
+        foreach ss in self.args[self.idx].split_iter('-') {
             match uint::from_str(ss) {
                 Some(n) => { ns.push(n); }
                 None    => { return; }
@@ -98,7 +98,7 @@ fn solve_all<T: Iterator<&'static Problem<'static>>>(mut it: T) {
     let mut solve_cnt   = 0;
     let mut all_correct = true;
 
-    for it.advance() |p| {
+    foreach p in it {
         let (time, answer) = do bench { (p.solve)() };
         let correct = p.answer == answer;
         print_result(correct, p.id.to_str(), time, answer);

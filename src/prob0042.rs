@@ -11,7 +11,7 @@ pub static EXPECTED_ANSWER: &'static str = "162";
 
 fn word_value(word: &str) -> uint {
     let mut value = 0;
-    for word.byte_iter().advance |b| {
+    foreach b in word.byte_iter() {
         value += (b - ('A' as u8) + 1) as uint;
     }
     return value;
@@ -23,7 +23,7 @@ pub fn solve() -> ~str {
     }).map(|values| {
         let mut is_tri = vec::from_elem(values.iter().max().unwrap() + 1, false);
         let mut it = Triangle::new().take_while(|&t| t < is_tri.len());
-        for it.advance() |t| { is_tri[t] = true; }
+        foreach t in it { is_tri[t] = true; }
 
         values.iter().count(|&v| is_tri[v])
     });

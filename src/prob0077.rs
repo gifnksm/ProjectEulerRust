@@ -22,7 +22,7 @@ fn count_way(sum: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
         sum: uint, min_idx: uint, map: &mut HashMap<(uint, uint), uint>
     ) -> uint {
         let mut cnt = 0;
-        for Counter::new(min_idx, 1).advance |i| {
+        foreach i in Counter::new(min_idx, 1) {
             let p = prime::nth(i);
             if p >= sum {
                 if p == sum  {

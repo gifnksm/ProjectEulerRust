@@ -31,7 +31,7 @@ fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[
 
     let mut result = ~[];
 
-    for nums.iter().advance |&n| {
+    foreach &n in nums.iter() {
         let union_nums = union_vec(nums, *map.find(&n).get());
         result.push_all(find_chain(union_nums, ~[n] + set, map));
     }
@@ -58,7 +58,7 @@ fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> b
         }
 
         let chain = find_chain(pairs, ~[n], map);
-        for chain.iter().advance |cs| {
+        foreach cs in chain.iter() {
             if !f(*cs) { return false; }
         }
 

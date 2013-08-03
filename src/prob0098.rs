@@ -37,7 +37,7 @@ pub fn solve() -> ~str {
         .chain(|input| {
              do reader::read_whole_word(input).map |words| {
                 let mut map = ~HashMap::new();
-                for words.iter().advance |&word| {
+                foreach &word in words.iter() {
                     let mut cs: ~[char] = word.iter().collect();
                     sort::quick_sort(cs, |a, b| a <= b);
                     match map.pop(&cs) {
@@ -46,7 +46,7 @@ pub fn solve() -> ~str {
                     }
                 }
                  do vec::build |push| {
-                     for map.mut_iter().advance |(_key, values)| {
+                     foreach (_key, values) in map.mut_iter() {
                          if values.len() > 1 {
                              push(util::replace(values, ~[]));
                          }
@@ -55,7 +55,7 @@ pub fn solve() -> ~str {
             }
         }).map(|words| {
             do vec::build_sized(words.len()) |push| {
-                for words.iter().advance |elt| {
+                foreach elt in words.iter() {
                     foreach i in range(0, elt.len()) {
                         foreach j in range(i + 1, elt.len()) {
                             push((elt[i].clone(), elt[j].clone()))
@@ -76,7 +76,7 @@ pub fn solve() -> ~str {
             do vec::build |push| {
                 let mut cur_len = uint::max_value;
                 let mut cur_group = ~[];
-                for idx_pairs.iter().advance |&(ref len, ref v1, ref v2)| {
+                foreach &(ref len, ref v1, ref v2) in idx_pairs.iter() {
                     if cur_group.is_empty() || cur_len == *len {
                         cur_len = *len;
                         cur_group.push((v1.clone(), v2.clone()));
@@ -90,14 +90,14 @@ pub fn solve() -> ~str {
         }).map(|groups| {
             let mut max = 0;
 
-            for groups.iter().advance |&(ref len, ref pairs)| {
+            foreach &(ref len, ref pairs) in groups.iter() {
                 let mut nums = ~[];
 
                 let start = calc::pow(10, *len) - 1;
                 let end   = calc::pow(10, *len - 1);
                 for uint::range_rev(arith::isqrt(start), arith::isqrt(end)) |n| {
                     let ds = calc::num_to_digits(n * n, 10);
-                    for pairs.iter().advance |&(ref v1, ref v2)| {
+                    foreach &(ref v1, ref v2) in pairs.iter() {
                         if ds[v2[0]] == 0 { loop; }
                         if !check_digit(*v1, ds) { loop; }
                         let num2 = idx_to_num(*v2, ds);

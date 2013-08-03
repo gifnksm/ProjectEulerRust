@@ -25,8 +25,8 @@ pub fn solve() -> ~str {
     };
 
     let mut cnt = 0u;
-    for all_combs.iter().enumerate().advance |(i, cs1)| {
-        for all_combs.tailn(i + 1).iter().advance |cs2| {
+    foreach (i, cs1) in all_combs.iter().enumerate() {
+        foreach cs2 in  all_combs.tailn(i + 1).iter() {
             let cond = |&(a, b): &(uint, uint)| {
                 (cs1.iter().any(|&x| x == a) && cs2.iter().any(|&x| x == b)) ||
                     (cs1.iter().any(|&x| x == b) && cs2.iter().any(|&x| x == a))

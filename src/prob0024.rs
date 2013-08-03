@@ -28,15 +28,15 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Clone>(hist: &HashMap<K, uint>, n: ui
     sort::quick_sort(kv, |a, b| a.first() <= b.first());
 
     let mut idx = 0;
-    for kv.iter().enumerate().advance |(i, &(ref all_k, ref all_v))| {
+    foreach (i, &(ref all_k, ref all_v)) in kv.iter().enumerate() {
         let mut new_hist = HashMap::new();
-        for kv.slice(0, i).iter().advance |&(ref k, ref v)| {
+        foreach &(ref k, ref v) in kv.slice(0, i).iter() {
             new_hist.insert(k.clone(), *v);
         }
         if *all_v > 1 {
             new_hist.insert(all_k.clone(), *all_v - 1);
         }
-        for kv.slice(i + 1, kv.len()).iter().advance |&(ref k, ref v)| {
+        foreach &(ref k, ref v) in kv.slice(i + 1, kv.len()).iter() {
             new_hist.insert(k.clone(), *v);
         }
 

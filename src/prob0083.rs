@@ -53,7 +53,7 @@ pub fn solve() -> ~str {
             if min_pt.x < w - 1 { ms.push(Point { x: min_pt.x + 1, .. min_pt }) }
             if min_pt.y < h - 1 { ms.push(Point { y: min_pt.y + 1, .. min_pt }) }
 
-            for ms.iter().advance |&pt| {
+            foreach &pt in ms.iter() {
                 let new_dist = dist[min_pt.y][min_pt.x] + mat[pt.y][pt.x];
                 if open.contains(&pt) {
                     if new_dist < dist[pt.y][pt.x] {

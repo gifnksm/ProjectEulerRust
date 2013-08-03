@@ -60,7 +60,7 @@ fn hand(cards: &[Card, ..5]) -> Hand {
     let mut num_count = vec::from_fn(13, |_i| ~[]);
     let mut suit_count = vec::from_fn(4, |_i| ~[]);
 
-    for cards.iter().advance |&c| {
+    foreach &c in cards.iter() {
         let val = if c.num == 1 { 12 } else { c.num - 2 };
         num_count[12 - val].push(c);
         suit_count[c.suit as uint - 1].push(c);
@@ -73,7 +73,7 @@ fn hand(cards: &[Card, ..5]) -> Hand {
     let mut pairs = ~[];
     let mut three = ~[];
     let mut four  = ~[];
-    for num_count.iter().advance |v| {
+    foreach v in num_count.iter() {
         match v.len() {
             0 => { /* Do nothing */ },
             1 => single.push(v[0]),
@@ -99,7 +99,7 @@ fn hand(cards: &[Card, ..5]) -> Hand {
     let is_flush = suit_count.iter().any(|v| v.len() == 5);
     let is_straight = {
         let mut min_idx = 0;
-        for num_count.iter().enumerate().advance |(i, v)| {
+        foreach (i, v) in num_count.iter().enumerate() {
             if v.len() > 0 {
                 min_idx = i;
                 break;
@@ -127,7 +127,7 @@ fn cmp_card(c1: &Card, c2: &Card) -> int {
 #[inline(always)]
 fn cmp_cards(cs1: &[Card], cs2: &[Card]) -> int {
     assert_eq!(cs1.len(), cs2.len());
-    for cs1.iter().zip(cs2.iter()).advance |(c1, c2)| {
+    foreach (c1, c2) in  cs1.iter().zip(cs2.iter()) {
         let cmp = cmp_card(c1, c2);
         if cmp != 0 { return cmp; }
     }
@@ -214,7 +214,7 @@ pub fn solve() -> ~str {
         for file.each_line |line| {
             let mut p1_cards = [ Card::dummy(), ..5 ];
             let mut p2_cards = [ Card::dummy(), ..5 ];
-            for line.word_iter().zip(Counter::new(0u, 1)).advance |(word, i)| {
+            foreach (word, i) in line.word_iter().zip(Counter::new(0u, 1)) {
                 let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
                 cards[i % 5] = FromStr::from_str::<Card>(word).get();
             }

@@ -14,8 +14,7 @@ pub fn solve() -> ~str {
     let num_factor = 4;
 
     let mut cnt = 0;
-    let mut it = Counter::new::<uint>(1, 1);
-    for it.advance |n| {
+    foreach n in Counter::new::<uint>(1, 1) {
         if prime::factorize(n).len_() != num_factor {
             cnt = 0;
             loop;

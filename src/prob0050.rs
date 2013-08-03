@@ -51,7 +51,7 @@ pub fn solve() -> ~str {
 
     let mut len = 0;
     let mut num = 0;
-    for it.advance |p| {
+    foreach p in it {
         match get_longer(p, len) {
             Some(l) => {
                 len = l;

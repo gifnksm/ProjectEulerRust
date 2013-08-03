@@ -12,10 +12,10 @@ pub fn solve() -> ~str {
     let mut sum = 0;
     foreach i in range(0, order_array.len() - 1) {
         let tf = [true, false];
-        for tf.iter().advance |b| {
+        foreach &b in tf.iter() {
             let (start, end) = (order_array[i], order_array[i + 1]);
             foreach n in range(start, end) {
-                let n = calc::to_palindromic(n, 10, *b);
+                let n = calc::to_palindromic(n, 10, b);
                 if n >= 1000000 { break; }
                 if calc::is_palindromic(n, 2) {
                     sum += n;

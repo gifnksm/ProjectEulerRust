@@ -82,7 +82,7 @@ fn count_seqlen(nums: &[Rational]) -> uint {
     }
 
     let mut counter = Counter::new(1u, 1u);
-    for counter.advance |i| {
+    foreach i in counter {
         if !set.contains(&i) { return i - 1; }
     }
 

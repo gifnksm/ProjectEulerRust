@@ -53,7 +53,7 @@ fn get_chain_len(
         }
     }
 
-    for chain_map.iter().advance |(&key, &idx)| {
+    foreach (&key, &idx) in chain_map.iter() {
         if idx >= chain_len {
             map[key] = Loop(loop_len);
         } else {

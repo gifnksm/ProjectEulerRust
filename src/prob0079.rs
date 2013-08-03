@@ -58,7 +58,7 @@ impl<T: Hash + IterBytes + Eq + Clone> Relations<T> {
     fn delete_and_find(&mut self, prec: T) -> ~[T] {
         let mut result = ~[];
         do self.top.pop(&prec).map |p| {
-            for p.succ.iter().advance |s| {
+            foreach s in p.succ.iter() {
                 match self.top.find_mut(s) {
                     Some(y) => {
                         y.num_prec -= 1;

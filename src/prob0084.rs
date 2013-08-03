@@ -239,7 +239,7 @@ pub fn solve() -> ~str {
     let mut pairs = do vec::from_fn(NUM_SQUARE) |i| {
         (0f, Square::from_uint(i))
     };
-    for vec.iter().enumerate().advance |(i, vs)| {
+    foreach (i, vs) in vec.iter().enumerate() {
         let dst = i % NUM_SQUARE;
         let (p, sq) = pairs[dst];
         pairs[dst] = (p + vs[0], sq);

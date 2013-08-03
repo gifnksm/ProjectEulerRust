@@ -122,7 +122,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
                 let mut it = row.chain_(col).chain_(grp)
                     .filter(|&pos: &(uint, uint)| pos != (x, y));
                 let mask = !puzzle.map[y][x] & MASK_ALL;
-                for it.advance |(x, y)| { puzzle.map[y][x] &= mask; }
+                foreach (x, y) in it { puzzle.map[y][x] &= mask; }
             }
         }
 
@@ -200,7 +200,7 @@ pub fn solve() -> ~str {
             .collect::<~[SuDoku]>()
     }).map(|answers| {
         let mut sum = 0;
-        for answers.iter().advance |ans| {
+        foreach ans in answers.iter() {
             sum += 100 * ans.get_num(0, 0) + 10 * ans.get_num(1, 0) + ans.get_num(2, 0);
         }
         sum

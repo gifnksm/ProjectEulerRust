@@ -37,7 +37,7 @@ priv fn grow(nums: &mut ~[uint], len: uint) {
 
     let mut it = Counter::new(nums.last() + 2, 2)
         .filter(|&n| is_coprime(*nums, n));
-    for it.advance |n| {
+    foreach n in it {
         nums.push(n);
         if nums.len() >= len { return; }
     }
@@ -49,8 +49,7 @@ pub fn iter() -> PrimeIterator { PrimeIterator::new() }
 #[inline(always)]
 pub fn each(f: &fn(uint) -> bool) -> bool {
     do with_task_prime |nums| {
-        let mut it = Counter::new::<uint>(0, 1);
-        for it.advance |i| {
+        foreach i in Counter::new::<uint>(0, 1) {
             grow(nums, i + 1);
             if !f(nums[i]) { break }
         }

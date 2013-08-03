@@ -45,7 +45,7 @@ pub fn solve() -> ~str {
     }
 
     let mut set = HashSet::new();
-    for nums.iter().advance |&n| {
+    foreach &n in nums.iter() {
         if n != uint::max_value { set.insert(n); }
     }
 

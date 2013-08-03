@@ -31,19 +31,19 @@ pub fn solve() -> ~str {
 
     let mut result = ~[];
     for vec::each_permutation([0u, 1u, 2u, 3u, 4u]) |idx| {
-        for map[5].iter().enumerate().advance |(i, v5)| {
+        foreach (i, v5) in map[5].iter().enumerate() {
             if i < 10 { loop; }
-            for v5.iter().advance |&n5| {
+            foreach &n5 in v5.iter() {
                 if n5 < 10 { loop; }
-                for map[idx[0]][n5].iter().advance |&n0| {
+                foreach &n0 in  map[idx[0]][n5].iter() {
                     if n0 < 10 { loop; }
-                    for map[idx[1]][n0].iter().advance |&n1| {
+                    foreach &n1 in map[idx[1]][n0].iter() {
                         if n1 < 10 { loop; }
-                        for map[idx[2]][n1].iter().advance |&n2| {
+                        foreach &n2 in map[idx[2]][n1].iter() {
                             if n2 < 10 { loop; }
-                            for map[idx[3]][n2].iter().advance |&n3| {
+                            foreach &n3 in map[idx[3]][n2].iter() {
                                 if n3 < 10 { loop; }
-                                for map[idx[4]][n3].iter().advance |&n4| {
+                                foreach &n4 in map[idx[4]][n3].iter() {
                                     if n4 < 10 { loop; }
                                     if n4 == i {
                                         result.push(~[
