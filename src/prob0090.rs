@@ -4,21 +4,22 @@
 extern mod common;
 
 use std::vec;
-use common::calc;
+use common::calc::CombinateIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "1217";
 
 pub fn solve() -> ~str {
-    let mut all_combs = ~[];
-    do calc::combinate(vec::from_fn(10, |i| i), 6) |mut cs, _| {
-        match (cs.iter().any(|&x| x == 6), cs.iter().any(|&x| x == 9)) {
-            (false, true)  => cs.push(6),
-            (true,  false) => cs.push(9),
-            _ => {}
-        }
-        all_combs.push(cs);
-        true
-    };
+    let nums = vec::from_fn(10, |i| i);
+    let all_combs = CombinateIterator::new(nums, 6)
+        .transform(|cs| cs.map(|&x| *x))
+        .transform(|mut cs| {
+            match (cs.iter().any(|&x| x == 6), cs.iter().any(|&x| x == 9)) {
+                (false, true)  => cs.push(6),
+                (true,  false) => cs.push(9),
+                _ => {}
+            }
+            cs
+        }).collect::<~[~[uint]]>();
 
     let nums = do vec::from_fn(9) |i| {
         let n = (i + 1) * (i + 1);

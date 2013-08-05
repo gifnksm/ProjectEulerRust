@@ -4,14 +4,14 @@
 extern mod common;
 
 use std::uint;
-use common::calc;
+use common::calc::PrimPythagoreanIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "1818";
 
 fn get_count(m: uint) -> uint {
     let mut cnt = 0u;
     for max_a in range(0, m) {
-        do calc::each_prim_pythagorean(max_a) |p, q, _| {
+        for (p, q, _) in PrimPythagoreanIterator::new(max_a) {
             for k in range(1, m / q + 1) {
                 cnt += k * p / 2;
             }
@@ -21,8 +21,7 @@ fn get_count(m: uint) -> uint {
                 let start = k * q - k * p;
                 if end > start { cnt += end - start; }
             }
-            true
-        };
+        }
     }
     return cnt;
 }

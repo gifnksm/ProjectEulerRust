@@ -47,17 +47,6 @@ priv fn grow(nums: &mut ~[uint], len: uint) {
 pub fn iter() -> PrimeIterator { PrimeIterator::new() }
 
 #[inline(always)]
-pub fn each(f: &fn(uint) -> bool) -> bool {
-    do with_task_prime |nums| {
-        for i in Counter::new::<uint>(0, 1) {
-            grow(nums, i + 1);
-            if !f(nums[i]) { break }
-        }
-    }
-    false
-}
-
-#[inline(always)]
 pub fn contains(n: uint) -> bool {
     do with_task_prime |nums| {
         let len = nums.len();
@@ -213,45 +202,6 @@ mod tests {
         101, 103, 107, 109, 113, 127, 131, 137, 139, 149,
         151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199
     ];
-
-    #[test]
-    fn test_prime_each() {
-        let table = PRIMES_BELOW200.slice(0, 13);
-        let table2 = PRIMES_BELOW200.slice(13, PRIMES_BELOW200.len());
-
-        let mut v1 = ~[];
-        do each |p| {
-            if p > *table.last() {
-                false
-            } else {
-                v1.push(p);
-                true
-            }
-        };
-        assert_eq!(table.initn(0), v1.initn(0));
-
-        let mut v2 = ~[];
-        do each |p| {
-            if p > *table.last() {
-                false
-            } else {
-                v2.push(p);
-                true
-            }
-        };
-        assert_eq!(table.initn(0), v2.initn(0));
-
-        let mut v3 = ~[];
-        do each |p| {
-            if p > *table2.last() {
-                false
-            } else {
-                v3.push(p);
-                true
-            }
-        };
-        assert_eq!(~[] + table + table2, v3);
-    }
 
     #[test]
     fn test_prime_contains() {

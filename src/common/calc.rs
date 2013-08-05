@@ -1,24 +1,41 @@
 use std::num::IntConvertible;
 use std::hashmap::{HashMap, HashSet};
-use std::{util, uint, vec};
+use std::{util, vec};
 use std::iterator::MultiplicativeIterator;
 
 use arith::isqrt;
 use extiter::Range;
 
-pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
-    let n0 = if m % 2 == 0 { 1 } else { 2 };
-    do uint::range_step(n0, m, 2) |n| {
-        m.gcd(&n) != 1 || {
-            let a = m * m - n * n;
-            let b = 2 * m * n;
-            let c = m * m + n * n;
+pub struct PrimPythagoreanIterator {
+    priv m: uint,
+    priv n: uint
+}
+
+impl PrimPythagoreanIterator {
+    pub fn new(m: uint) -> PrimPythagoreanIterator {
+        let n0 = if m.is_even() { 1 } else { 2 };
+        PrimPythagoreanIterator { m: m, n: n0 }
+    }
+}
+
+impl Iterator<(uint, uint, uint)> for PrimPythagoreanIterator {
+    fn next(&mut self) -> Option<(uint, uint, uint)> {
+        let m = self.m;
+        while self.n < m {
+            let n = self.n;
+            self.n += 2;
+
+            if m.gcd(&n) != 1 { loop; }
+
+            let (m2, n2)  = (m * m, n * n);
+            let (a, b, c) = (m2 - n2, 2 * m * n, m2 + n2);
             if a < b {
-                f(a, b, c)
+                return(Some((a, b, c)))
             } else {
-                f(b, a, c)
+                return(Some((b, a, c)))
             }
-        }
+        };
+        None
     }
 }
 
@@ -33,7 +50,6 @@ pub fn digit_histogram(n: uint) -> [uint, ..10] {
     }
     return hist;
 }
-
 
 pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::new::<T, uint>();
@@ -83,6 +99,47 @@ pub fn is_palindromic(n: uint, radix: uint) -> bool {
     return Range::new(0, digits.len() / 2).all(|i| {
         digits[i] == digits[digits.len() - 1 - i]
     });
+}
+
+pub struct CombinateIterator<'self, T> {
+    priv all_elems: &'self [T],
+    priv next_idx:  ~[uint]
+}
+
+impl<'self, T> CombinateIterator<'self, T> {
+    pub fn new<'a>(all_elems: &'a [T], len: uint) -> CombinateIterator<'a, T> {
+        let next_idx = vec::from_fn(len, |i| i);
+
+        CombinateIterator {
+            all_elems: all_elems,
+            next_idx:  next_idx,
+        }
+    }
+}
+
+impl<'self, T> Iterator<~[&'self T]> for CombinateIterator<'self, T> {
+    pub fn next(&mut self) -> Option<~[&'self T]> {
+        let comb_len = self.next_idx.len();
+        let num_elem = self.all_elems.len();
+
+        if comb_len == 0 || self.next_idx[0] + comb_len > num_elem {
+            return None;
+        }
+
+        let iter_elem = do self.next_idx.map |&i| { &self.all_elems[i] };
+        let mut i = comb_len - 1;
+        loop {
+            self.next_idx[i] += 1;
+            for j in range(i, comb_len) {
+                self.next_idx[j] = self.next_idx[i] + (j - i);
+            }
+            if i == 0 || self.next_idx[i] + (comb_len - i) <= num_elem {
+                break;
+            }
+            i -= 1;
+        }
+        Some(iter_elem)
+    }
 }
 
 pub fn combinate<T: Clone>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> bool {
@@ -329,6 +386,17 @@ mod tests {
     use extra::bigint::BigUint;
 
     #[test]
+    fn test_prim_pythagorean_iterator() {
+        fn check(m: uint, v: ~[(uint, uint, uint)]) {
+            assert_eq!(PrimPythagoreanIterator::new(m).collect::<~[(uint, uint, uint)]>(), v);
+        }
+
+        check(2, ~[(3, 4, 5)]);
+        check(3, ~[(5, 12, 13)]);
+        check(4, ~[(8, 15, 17), (7, 24, 25)]);
+    }
+
+    #[test]
     fn test_factorial() {
         assert_eq!(factorial(0), 1);
         assert_eq!(factorial(1), 1);
@@ -411,6 +479,38 @@ mod tests {
         assert!(!is_palindromic(123, 10));
         assert!(is_palindromic(1221, 10));
         assert!(is_palindromic(12321, 10));
+    }
+
+    #[test]
+    fn test_combinate_iterator() {
+        fn check(v: &[uint], len: uint, expect: ~[~[&uint]]) {
+            assert_eq!(CombinateIterator::new(v, len).collect::<~[~[&uint]]>(), expect);
+        }
+
+        check([], 0, ~[]);
+        check([], 1, ~[]);
+
+        check([1], 0, ~[]);
+        check([1], 1, ~[~[&1]]);
+        check([1], 2, ~[]);
+
+        check([1, 2], 0, ~[]);
+        check([1, 2], 1, ~[~[&1], ~[&2]]);
+        check([1, 2], 2, ~[~[&1, &2]]);
+        check([1, 2], 3, ~[]);
+
+        check([1, 2, 3], 0, ~[]);
+        check([1, 2, 3], 1, ~[~[&1], ~[&2], ~[&3]]);
+        check([1, 2, 3], 2, ~[~[&1, &2], ~[&1, &3], ~[&2, &3]]);
+        check([1, 2, 3], 3, ~[~[&1, &2, &3]]);
+        check([1, 2, 3], 4, ~[]);
+
+        check([1, 2, 3, 4], 0, ~[]);
+        check([1, 2, 3, 4], 1, ~[~[&1], ~[&2], ~[&3], ~[&4]]);
+        check([1, 2, 3, 4], 2, ~[~[&1, &2], ~[&1, &3], ~[&1, &4], ~[&2, &3], ~[&2, &4], ~[&3, &4]]);
+        check([1, 2, 3, 4], 3, ~[~[&1, &2, &3], ~[&1, &2, &4], ~[&1, &3, &4], ~[&2, &3, &4]]);
+        check([1, 2, 3, 4], 4, ~[~[&1, &2, &3, &4]]);
+        check([1, 2, 3, 4], 5, ~[]);
     }
 
     #[test]
