@@ -15,15 +15,15 @@ pub fn solve() -> ~str {
     // n / phi(n) = 1 / \Pi_{k=1}^d (1 - 1/p_k)
     // => p^k / phi(p^k) = p / phi(p)
     // p is greater then n / phi(p) is less
-    // 
+    //
     // phi(p) = p - 1 (if p is prime) => phi(p) is not permutation of p
     // phi(p1 * p2) = (p1 - 1) * (p2 - 1)
 
     let mut min_n   = 0;
     let mut min_n_phi = float::infinity;
-    for prime::each |p1| {
+    for p1 in prime::iter() {
         if p1 * p1 > limit { break; }
-        for prime::each |p2| {
+        for p2 in prime::iter() {
             if p2 < p1 { loop; }
 
             let n = p1 * p2;

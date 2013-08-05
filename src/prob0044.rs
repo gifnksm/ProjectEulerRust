@@ -29,7 +29,7 @@ pub fn solve() -> ~str {
 
     let mut m = 0;
     loop {
-        foreach k in range(0u, m) {
+        for k in range(0u, m) {
             let pm = get_pentagonal(m);
             let pk = get_pentagonal(k);
             if (pm - pk) % 2 != 0 { loop; }

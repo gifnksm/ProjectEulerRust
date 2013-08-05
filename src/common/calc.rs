@@ -8,19 +8,18 @@ use extiter::Range;
 
 pub fn each_prim_pythagorean(m: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
     let n0 = if m % 2 == 0 { 1 } else { 2 };
-    for uint::range_step(n0, m, 2) |n| {
-        if m.gcd(&n) == 1 {
+    do uint::range_step(n0, m, 2) |n| {
+        m.gcd(&n) != 1 || {
             let a = m * m - n * n;
             let b = 2 * m * n;
             let c = m * m + n * n;
             if a < b {
-                if !f(a, b, c) { return false; }
+                f(a, b, c)
             } else {
-                if !f(b, a, c) { return false; }
+                f(b, a, c)
             }
         }
     }
-    return true;
 }
 
 pub fn factorial(n: uint) -> uint { range(1, n + 1).product() }
@@ -38,7 +37,7 @@ pub fn digit_histogram(n: uint) -> [uint, ..10] {
 
 pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::new::<T, uint>();
-    foreach k in v.iter() {
+    for k in v.iter() {
         let val = do map.find(k).map_default(1) |v| { *v + 1 };
         map.insert(k.clone(), val);
     }
@@ -48,7 +47,7 @@ pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> 
 pub fn num_of_permutations<T: Eq + Hash>(hist: &HashMap<T, uint>) -> uint {
     let mut sum = 0;
     let mut div = 1;
-    foreach (_, cnt) in hist.iter() {
+    for (_, cnt) in hist.iter() {
         sum += *cnt;
         div *= factorial(*cnt);
     }
@@ -89,10 +88,11 @@ pub fn is_palindromic(n: uint, radix: uint) -> bool {
 pub fn combinate<T: Clone>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> bool {
     if len == 0 { return f(~[], elems.to_owned()); }
 
-    foreach i in range(0, elems.len() - len + 1) {
-        for combinate(elems.slice(i + 1, elems.len()), len - 1) |v, rest| {
-            if !f(~[elems[i].clone()] + v, ~[] + elems.slice(0, i) + rest) { return false; }
-        }
+    for i in range(0, elems.len() - len + 1) {
+        let ret = do combinate(elems.slice(i + 1, elems.len()), len - 1) |v, rest| {
+            f(~[elems[i].clone()] + v, ~[] + elems.slice(0, i) + rest)
+        };
+        if !ret { return false; }
     }
 
     return true;
@@ -101,10 +101,11 @@ pub fn combinate<T: Clone>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> 
 pub fn combinate_overlap<T: Clone>(elems: &[T], len: uint, f: &fn(&[T])->bool) -> bool {
     if len == 0 { return f([]); }
 
-    foreach i in range(0, elems.len()) {
-        for combinate_overlap(elems.slice(i, elems.len()), len - 1) |v| {
-            if !f(~[elems[i].clone()] + v) { return false; }
-        }
+    for i in range(0, elems.len()) {
+        let ret = do combinate_overlap(elems.slice(i, elems.len()), len - 1) |v| {
+            f(~[elems[i].clone()] + v)
+        };
+        if !ret { return false; }
     }
 
     return true;
@@ -137,7 +138,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
         let mut buf = vec::from_elem(digits.len() - 1, 0u);
 
-        foreach (i, &n) in digits.iter().enumerate() {
+        for (i, &n) in digits.iter().enumerate() {
             let min_vec = match min {
                 Some(v) if n <  v[0] => loop,
                 Some(v) if n == v[0] => Some(v.slice(1, v.len())),
@@ -149,11 +150,12 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
                 _ => None
             };
 
-            foreach j in range(0, i)         { buf[j] = digits[j]; }
-            foreach j in range(i, buf.len()) { buf[j] = digits[j + 1]; }
-            for perm_sub(buf, len - 1, min_vec, max_vec) |num, ds| {
-                if !f(num + n * unit, ds) { return false; }
-            }
+            for j in range(0, i)         { buf[j] = digits[j]; }
+            for j in range(i, buf.len()) { buf[j] = digits[j + 1]; }
+            let ret = do perm_sub(buf, len - 1, min_vec, max_vec) |num, ds| {
+                f(num + n * unit, ds)
+            };
+            if !ret { return false; }
         }
 
         return true;
@@ -165,18 +167,19 @@ pub fn cont_frac_sqrt(n: uint) -> (uint, ~[uint]) {
     let mut an = ~[];
     let mut set = HashSet::new();
 
-    for each_a(n) |a, pqr| {
+    do each_a(n) |a, pqr| {
         if a == 0 || set.contains(&(a, pqr)) {
-            break;
-        }
-
-        set.insert((a, pqr));
-        if set.len() == 1 {
-            a0 = a;
+            false
         } else {
-            an.push(a);
+            set.insert((a, pqr));
+            if set.len() == 1 {
+                a0 = a;
+            } else {
+                an.push(a);
+            }
+            true
         }
-    }
+    };
     return (a0, an);
 
     // f_n (p, q, r) := (p sqrt(n) + q)/ r
@@ -235,7 +238,7 @@ pub fn fold_cont_frac<
     let mut numer = IntConvertible::from_int::<T>(1);
     let mut denom = IntConvertible::from_int::<T>(0);
 
-    foreach &a in an.rev_iter() {
+    for &a in an.rev_iter() {
         util::swap(&mut numer, &mut denom);
         numer = numer + IntConvertible::from_int::<T>(a as int) * denom;
     }
@@ -417,9 +420,9 @@ mod tests {
             ~[2, 3, 4], ~[2, 3, 5], ~[2, 4, 5],
             ~[3, 4, 5]
         ];
-        for combinate(&[1, 2, 3, 4, 5], 3) |n, _rest| {
-            assert_eq!(n, nums.shift());
-        }
+        do combinate(&[1, 2, 3, 4, 5], 3) |n, _rest| {
+            assert_eq!(n, nums.shift()); true
+        };
     }
 
     #[test]
@@ -442,9 +445,9 @@ mod tests {
             &[5, 5, 5]
         ];
 
-        for combinate_overlap(&[1, 2, 3, 4, 5], 3) |n| {
-            assert_eq!(n, nums.shift());
-        }
+        do combinate_overlap(&[1, 2, 3, 4, 5], 3) |n| {
+            assert_eq!(n, nums.shift()); true
+        };
     }
 
     #[test]
@@ -457,9 +460,9 @@ mod tests {
             512, 513, 514, 521, 523, 524, 531, 532, 534, 541, 542, 543
         ];
 
-        for permutate_num(&[1, 2, 3, 4, 5], 3, 0, 555) |n, _rest| {
-            assert_eq!(n, nums.shift());
-        }
+        do permutate_num(&[1, 2, 3, 4, 5], 3, 0, 555) |n, _rest| {
+            assert_eq!(n, nums.shift()); true
+        };
 
         let mut nums = ~[
             123, 124, 125, 132, 134, 135, 142, 143, 145, 152, 153, 154,
@@ -469,13 +472,14 @@ mod tests {
             512, 513, 514, 521, 523, 524, 531, 532, 534, 541, 542, 543
         ];
 
-        for permutate_num(&[1, 2, 3, 4, 5], 3, 140, 300) |n, _rest| {
+        do permutate_num(&[1, 2, 3, 4, 5], 3, 140, 300) |n, _rest| {
             let mut num = nums.shift();
             while num < 140 || 300 < num {
                 num = nums.shift();
             }
             assert_eq!(n, num);
-        }
+            true
+        };
     }
 
     #[test]

@@ -30,20 +30,20 @@ pub fn solve() -> ~str {
     ];
 
     let mut result = ~[];
-    for vec::each_permutation([0u, 1u, 2u, 3u, 4u]) |idx| {
-        foreach (i, v5) in map[5].iter().enumerate() {
+    do vec::each_permutation([0u, 1u, 2u, 3u, 4u]) |idx| {
+        for (i, v5) in map[5].iter().enumerate() {
             if i < 10 { loop; }
-            foreach &n5 in v5.iter() {
+            for &n5 in v5.iter() {
                 if n5 < 10 { loop; }
-                foreach &n0 in  map[idx[0]][n5].iter() {
+                for &n0 in  map[idx[0]][n5].iter() {
                     if n0 < 10 { loop; }
-                    foreach &n1 in map[idx[1]][n0].iter() {
+                    for &n1 in map[idx[1]][n0].iter() {
                         if n1 < 10 { loop; }
-                        foreach &n2 in map[idx[2]][n1].iter() {
+                        for &n2 in map[idx[2]][n1].iter() {
                             if n2 < 10 { loop; }
-                            foreach &n3 in map[idx[3]][n2].iter() {
+                            for &n3 in map[idx[3]][n2].iter() {
                                 if n3 < 10 { loop; }
-                                foreach &n4 in map[idx[4]][n3].iter() {
+                                for &n4 in map[idx[4]][n3].iter() {
                                     if n4 < 10 { loop; }
                                     if n4 == i {
                                         result.push(~[
@@ -62,7 +62,8 @@ pub fn solve() -> ~str {
                 }
             }
         }
-    }
+        true
+    };
 
     let sum = result.iter().transform(|vs| vs.iter().transform(|&x| x).sum()).sum();
     return sum.to_str();

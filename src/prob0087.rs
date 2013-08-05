@@ -14,13 +14,13 @@ pub fn solve() -> ~str {
     let mut cnt = 0u;
     let mut set = HashSet::with_capacity(2000000);
 
-    for prime::each |p| {
+    for p in prime::iter() {
         let p4 = p * p * p * p;
         if p4 >= limit { break; }
-        for prime::each |q| {
+        for q in prime::iter() {
             let q3 = q * q * q;
             if p4 + q3 >= limit { break; }
-            for prime::each |r| {
+            for r in prime::iter() {
                 let r2 = r * r;
                 let s = p4 + q3 + r2;
                 if s >= limit { break; }
@@ -30,6 +30,6 @@ pub fn solve() -> ~str {
             }
         }
     }
-    
+
     return cnt.to_str();
 }

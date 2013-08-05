@@ -11,9 +11,9 @@ pub static EXPECTED_ANSWER: &'static str = "9183";
 pub fn solve() -> ~str {
     let mut set = HashSet::new();
 
-    foreach a in range(2u, 101) {
+    for a in range(2u, 101) {
         let a_factor: ~[(uint, int)] = prime::factorize(a).collect();
-        foreach b in range(2u, 101) {
+        for b in range(2u, 101) {
             let ab_factor = a_factor
                 .map(|&(base, exp)| (base, (exp) as uint * b));
             set.insert(ab_factor);

@@ -3,14 +3,14 @@
 
 extern mod common;
 
-use std::{uint, util};
+use std::uint;
 use common::arith;
 
 pub static EXPECTED_ANSWER: &'static str = "31875000";
 
 fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
-    foreach c in range(2, sum - 2) {
-        foreach a in range(1, uint::min((sum - c) / 2, arith::isqrt(c*c / 2))) {
+    for c in range(2, sum - 2) {
+        for a in range(1, uint::min((sum - c) / 2, arith::isqrt(c*c / 2))) {
             let b = sum - c - a;
             if a * a + b * b == c * c {
                 if !f(a, b, c) { return false; }
@@ -22,9 +22,10 @@ fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
 }
 
 pub fn solve() -> ~str {
-    for each_pyrhagorean(1000) |a, b, c| {
-        return (a * b * c).to_str();
-    }
-
-    util::unreachable();
+    let mut ans = 0;
+    do each_pyrhagorean(1000) |a, b, c| {
+        ans = a * b * c;
+        false
+    };
+    ans.to_str()
 }

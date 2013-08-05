@@ -14,8 +14,8 @@ fn count_right_o(x_max: uint, y_max: uint) -> uint {
 fn count_right_p(x_max: uint, y_max: uint) -> uint {
     let mut cnt = x_max * y_max; // (0, y0) - (xi, y0) => xi: [1, x_max], y0: [0, y_max]
 
-    foreach x in range(1, x_max + 1) {
-        foreach y in range(1, y_max + 1) {
+    for x in range(1, x_max + 1) {
+        for y in range(1, y_max + 1) {
             let d = x.gcd(&y);
             let (dx, neg_dy) = (y / d, x / d);
             cnt += uint::min(y / neg_dy, (x_max - x) / dx);

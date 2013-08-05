@@ -13,9 +13,9 @@ pub fn solve() -> ~str {
             let mut line_idx = 1u;
             let mut max = 0f;
             let mut max_idx = 1;
-            for input.each_line |line| {
+            do input.each_line |line| {
                 let opt = line.find(',');
-                foreach &idx in opt.iter() {
+                for &idx in opt.iter() {
                     let base = float::from_str(line.slice(0, idx)).get();
                     let exp  = float::from_str(line.slice(idx + 1, line.len())).get();
                     let ln = exp * base.ln();
@@ -25,7 +25,8 @@ pub fn solve() -> ~str {
                     }
                     line_idx += 1;
                 }
-            }
+                true
+            };
             max_idx
         });
 

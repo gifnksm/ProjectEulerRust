@@ -17,13 +17,13 @@ pub fn solve() -> ~str {
     let limit = 1000;
     let mut map = HashMap::new::<uint, uint>();
 
-    foreach m in range(1, (arith::isqrt(1 + limit) - 1) / 2) {
-        foreach n in range(1, uint::min(1 + limit / (2 * m) - m, m)) {
+    for m in range(1, (arith::isqrt(1 + limit) - 1) / 2) {
+        for n in range(1, uint::min(1 + limit / (2 * m) - m, m)) {
             if (m - n) % 2 == 0 { loop; }
             if m.gcd(&n) != 1 { loop; }
             let (a, b, c) = (m * m - n * n, 2 * m * n, m * m + n * n);
             let s = a + b + c;
-            foreach k in range(1, limit / s + 1) {
+            for k in range(1, limit / s + 1) {
                 let new_val = map.find(&(k * s)).map_default(1, |&v| v + 1);
                 map.insert(k * s, new_val);
             }

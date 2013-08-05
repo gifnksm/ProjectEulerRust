@@ -33,7 +33,7 @@ fn day_of_month(y: uint) -> [uint, ..12] {
 fn append_day(y: uint, offset: uint, result: &mut [uint, ..7]) -> uint {
     let mut day = offset;
     let dom = day_of_month(y);
-    foreach n in dom.iter() {
+    for n in dom.iter() {
         result[day] += 1;
         day = (day + *n) % 7;
     }
@@ -44,7 +44,7 @@ pub fn solve() -> ~str {
     let mut result = [0, ..7];
     let mut day = 1; // Monday
     day = (day + day_of_year(1900)) % 7;
-    foreach y in range(1901u, 2000 + 1) {
+    for y in range(1901u, 2000 + 1) {
         day = append_day(y, day, &mut result);
     }
     return result[0].to_str();

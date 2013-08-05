@@ -59,13 +59,15 @@ fn to_roman(mut n: uint) -> ~str {
 }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/roman.txt")).map(|file| {
-        let mut sum = 0;
-        for file.each_line |line| {
-            sum += line.len() - to_roman(from_roman(line).get()).len();
-        }
-        sum
-    });
+    let result = io::file_reader(&Path("files/roman.txt"))
+        .map(|file| {
+            let mut sum = 0;
+            do file.each_line |line| {
+                sum += line.len() - to_roman(from_roman(line).get()).len();
+                true
+            };
+            sum
+        });
 
     match result {
         Err(msg) => fail!(msg),

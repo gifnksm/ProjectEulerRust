@@ -36,14 +36,14 @@ static ENGLISH_FREQUENCY: &'static [(char, float)] = &[
 ];
 
 fn trans_map<T: Clone>(key: u8, src: &[T], dst: &mut [T]) {
-    foreach (i, f) in src.iter().enumerate() {
+    for (i, f) in src.iter().enumerate() {
         dst[(i as u8) ^ key] = f.clone();
     }
 }
 
 fn get_dist(a: &[float], b: &[float]) -> float {
     let mut sum = 0f;
-    foreach (&na, &nb) in a.iter().zip(b.iter()) {
+    for (&na, &nb) in a.iter().zip(b.iter()) {
         sum += (na - nb) * (na - nb);
     }
     return sum;
@@ -53,14 +53,14 @@ fn find_key(count: &[uint], ref_freq: &[float]) -> u8 {
     let total = count.iter().transform(|&x| x).sum();
 
     let mut freq = ~[0f, ..256];
-    foreach (f, &n) in freq.mut_iter().zip(count.iter()) {
+    for (f, &n) in freq.mut_iter().zip(count.iter()) {
         *f = (n as float) / (total as float);
     }
 
     let mut freq_buf = ~[0f, ..256];
     let mut min_key  = 0;
     let mut min_dist = float::infinity;
-    foreach k in range(0u, 256) {
+    for k in range(0u, 256) {
         trans_map(k as u8, freq, freq_buf);
         let dist = get_dist(freq_buf, ref_freq);
         if dist < min_dist {
@@ -73,7 +73,7 @@ fn find_key(count: &[uint], ref_freq: &[float]) -> u8 {
 
 pub fn solve() -> ~str {
     let mut freq_dict = ~[0f, ..256];
-    foreach &(c, f) in ENGLISH_FREQUENCY.iter() {
+    for &(c, f) in ENGLISH_FREQUENCY.iter() {
         freq_dict[c as u8] = f;
     }
 
@@ -83,7 +83,7 @@ pub fn solve() -> ~str {
                 .filter_map(u8::from_str).collect::<~[u8]>();
 
             let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
-            foreach (i, &n) in code_list.iter().enumerate() { freq[i % 3][n] += 1; }
+            for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n] += 1; }
 
             let keys = freq.map(|f| find_key(f.clone(), freq_dict));
             let l = keys.len();

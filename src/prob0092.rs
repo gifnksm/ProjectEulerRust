@@ -39,7 +39,7 @@ pub fn solve() -> ~str {
     map[0] = Some(false);
     map[1] = Some(false);
     map[89] = Some(true);
-    foreach n in range(1u, limit + 1) {
+    for n in range(1u, limit + 1) {
         if is_reach_89(n, map) { cnt += 1; }
     }
     return cnt.to_str();

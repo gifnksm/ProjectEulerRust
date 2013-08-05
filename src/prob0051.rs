@@ -12,10 +12,10 @@ pub static EXPECTED_ANSWER: &'static str = "121313";
 pub fn solve() -> ~str {
     let num_family = 8;
 
-    for prime::each |p| {
+    for p in prime::iter() {
         let ds = calc::num_to_digits(p, 10);
         let hs = calc::digit_histogram(p);
-        foreach (i, &cnt) in hs.iter().enumerate() {
+        for (i, &cnt) in hs.iter().enumerate() {
             // 同じ文字が2つ以上登場する数値だけを対象にする
             if cnt <= 1 { loop; }
 
@@ -24,7 +24,7 @@ pub fn solve() -> ~str {
             if 9 - i < num_family { loop; }
 
             let mut cnt = 1;
-            foreach j in range(i + 1, 10) {
+            for j in range(i + 1, 10) {
                 let buf = ds.map(|&d| if d == i { j } else { d });
                 if prime::contains(calc::digits_to_num(buf, 10)) {
                     cnt += 1;

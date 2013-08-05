@@ -23,7 +23,7 @@ impl DigitMap {
 
     priv fn get_used(&self, ds: &[uint]) -> Option<DigitMap> {
         let mut used: [bool, ..10] = [false, ..10];
-        foreach &d in ds.iter() {
+        for &d in ds.iter() {
             assert!(d < 10);
             if used[d] || self.is_used(d) { return None; }
             used[d] = true;
@@ -55,7 +55,7 @@ pub fn solve() -> ~str {
     result = do result.flat_map |tp| {
         let mut arr = ~[];
         let dm = tp.second_ref();
-        foreach n in range(0u, 999 / 17) {
+        for n in range(0u, 999 / 17) {
             let ds = fill_vec(calc::num_to_digits(n * 17, 10), 3, 0);
             match dm.get_used(ds) {
                 None => loop,
@@ -65,11 +65,11 @@ pub fn solve() -> ~str {
         arr
     };
     let base_list = [13u, 11, 7, 5, 3, 2, 1];
-    foreach &base in base_list.iter() {
+    for &base in base_list.iter() {
         result = do result.flat_map |tp| {
             let mut arr = ~[];
             let dm = tp.second_ref();
-            foreach n in range(0u, 999 / base) {
+            for n in range(0u, 999 / base) {
                 let ds = fill_vec(calc::num_to_digits(n * base, 10), 3, 0);
                 if ds[1] != tp.first_ref()[0] || ds[2] != tp.first_ref()[1] {
                     loop

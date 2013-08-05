@@ -11,9 +11,9 @@ pub static EXPECTED_ANSWER: &'static str = "55";
 fn is_circular_prime(n: uint) -> bool {
     let buf = calc::num_to_digits(n, 10);
 
-    foreach i in range(1, buf.len()) {
+    for i in range(1, buf.len()) {
         let mut num = 0;
-        foreach j in range(0, buf.len()) {
+        for j in range(0, buf.len()) {
             num = num * 10 + (buf[(i + j) % buf.len()] as uint);
         }
         if !prime::contains(num) { return false; }

@@ -10,18 +10,19 @@ pub static EXPECTED_ANSWER: &'static str = "1818";
 
 fn get_count(m: uint) -> uint {
     let mut cnt = 0u;
-    foreach max_a in range(0, m) {
-        for calc::each_prim_pythagorean(max_a) |p, q, _| {
-            foreach k in range(1, m / q + 1) {
+    for max_a in range(0, m) {
+        do calc::each_prim_pythagorean(max_a) |p, q, _| {
+            for k in range(1, m / q + 1) {
                 cnt += k * p / 2;
             }
 
-            foreach k in range(1, m / p + 1) {
+            for k in range(1, m / p + 1) {
                 let end = uint::min(k * p, k * q / 2) + 1;
                 let start = k * q - k * p;
                 if end > start { cnt += end - start; }
             }
-        }
+            true
+        };
     }
     return cnt;
 }

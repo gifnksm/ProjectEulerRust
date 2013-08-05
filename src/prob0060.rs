@@ -31,7 +31,7 @@ fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[
 
     let mut result = ~[];
 
-    foreach &n in nums.iter() {
+    for &n in nums.iter() {
         let union_nums = union_vec(nums, *map.find(&n).get());
         result.push_all(find_chain(union_nums, ~[n] + set, map));
     }
@@ -40,11 +40,11 @@ fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[
 }
 
 fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> bool {
-    for prime::each |n| {
+    for n in prime::iter() {
         let mut pairs = ~[];
 
         let n_str = n.to_str();
-        for prime::each |m| {
+        for m in prime::iter() {
             if m > n { break; }
             let m_str = m.to_str();
 
@@ -58,7 +58,7 @@ fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> b
         }
 
         let chain = find_chain(pairs, ~[n], map);
-        foreach cs in chain.iter() {
+        for cs in chain.iter() {
             if !f(*cs) { return false; }
         }
 
@@ -70,12 +70,15 @@ fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> b
 pub fn solve() -> ~str {
     let mut map = HashMap::new::<uint, ~[uint]>();
 
-    for each_pair_set(&mut map) |set| {
+    let mut sum = 0;
+    do each_pair_set(&mut map) |set| {
         if set.len() >= 5 {
-            return set.iter().transform(|&x| x).sum().to_str();
+            sum = set.iter().transform(|&x| x).sum();
+            false
+        } else {
+            true
         }
-    }
-
-    util::unreachable();
+    };
+    sum.to_str()
 }
 

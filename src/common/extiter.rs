@@ -110,7 +110,7 @@ impl Area2DIterator {
             return match dp.cmp(&0) {
                 Equal   => uint::max_value,
                 Greater => ((max + 1 - p0) / dp) as uint,
-                Less    => (p0 + 1 - min) / (-dp) as uint
+                Less    => ((p0 + 1 - min) / (-dp)) as uint
             };
         }
 

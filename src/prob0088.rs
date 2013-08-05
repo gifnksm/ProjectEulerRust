@@ -14,7 +14,7 @@ fn each_sum_product(start: uint, end: uint, f: &fn(uint, uint, uint) -> bool) ->
 
     fn sub(start: uint, end: uint, sum: uint, prod: uint, len: uint,
            f: &fn(uint, uint, uint) -> bool) -> bool {
-        foreach n in range(start, end / prod + 1) {
+        for n in range(start, end / prod + 1) {
             if len > 0 {
                 if !f(sum + n, prod * n, len + 1) { return false; }
             }
@@ -34,18 +34,19 @@ pub fn solve() -> ~str {
     let mut nums = vec::from_elem(limit + 1, uint::max_value);
 
     while cnt > 0 {
-        for each_sum_product(start, end) |sum, prod, len| {
+        do each_sum_product(start, end) |sum, prod, len| {
             let k = prod - sum + len;
             if k <= limit && prod < nums[k] {
                 if nums[k] == uint::max_value { cnt -= 1; }
                 nums[k] = prod;
             }
-        }
+            true
+        };
         end *= 2;
     }
 
     let mut set = HashSet::new();
-    foreach &n in nums.iter() {
+    for &n in nums.iter() {
         if n != uint::max_value { set.insert(n); }
     }
 

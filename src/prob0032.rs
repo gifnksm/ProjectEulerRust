@@ -30,13 +30,15 @@ pub fn solve() -> ~str {
     // 1000 < b < 10000
     // 1000 < c = ab < 10000 => 1000 / a < b < 10000 / a
     //  => 1000 < b < 10000 / a
-    for calc::permutate_num(digits, 1, 0, 9) |a, ds| {
-        for calc::permutate_num(ds, 4, 1000, 9999 / a) |b, ds| {
+    do calc::permutate_num(digits, 1, 0, 9) |a, ds| {
+        do calc::permutate_num(ds, 4, 1000, 9999 / a) |b, ds| {
             let c = a * b;
             let c_digits = sort::merge_sort(calc::num_to_digits(c, 10), |a, b| a <= b);
             if ds == c_digits { answer.insert(c); }
-        }
-    }
+            true
+        };
+        true
+    };
 
     // 2 x 3 = 4
     // a b = c
@@ -44,13 +46,15 @@ pub fn solve() -> ~str {
     // 100  < b < 1000
     // 1000 < c = ab < 10000 => 1000 / a < b < 10000 / a
     // => 100 < b < 10000 / a
-    for calc::permutate_num(digits, 2, 10, 99) |a, ds| {
-        for calc::permutate_num(ds, 3, 100, 9999 / a) |b, ds| {
+    do calc::permutate_num(digits, 2, 10, 99) |a, ds| {
+        do calc::permutate_num(ds, 3, 100, 9999 / a) |b, ds| {
             let c = a * b;
             let c_digits = sort::merge_sort(calc::num_to_digits(c, 10), |a, b| a <= b);
             if ds == c_digits { answer.insert(c); }
-        }
-    }
+            true
+        };
+        true
+    };
 
     return answer.iter().transform(|&x| x).sum().to_str();
 }

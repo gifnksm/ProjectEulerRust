@@ -15,7 +15,7 @@ fn pow_mod(base: uint, exponent: uint, modulo: uint) -> uint {
 pub fn solve() -> ~str {
     let modulo  = 100_0000_0000;
     let mut sum = 0;
-    foreach n in range(1u, 1000 + 1) {
+    for n in range(1u, 1000 + 1) {
         sum = (sum + pow_mod(n, n, modulo)) % modulo;
     }
     return sum.to_str();

@@ -25,10 +25,10 @@ fn u(n: BigInt) -> BigInt {
 // Lagrange Interpolating with Naville's algorithm
 fn op(ns: &[(BigInt, BigInt)]) -> ~[Ratio<BigInt>] {
     let mut poly = ~[];
-    foreach i in range(0, ns.len()) {
+    for i in range(0, ns.len()) {
         let (ref xi, ref yi) = ns[i];
         let mut term = ~[ Ratio::from_integer(yi.clone()) ];
-        foreach j in range(0, ns.len()) {
+        for j in range(0, ns.len()) {
             if i == j { loop; }
 
             let (ref xj, ref _yj) = ns[j];
@@ -45,7 +45,7 @@ fn op(ns: &[(BigInt, BigInt)]) -> ~[Ratio<BigInt>] {
 pub fn solve() -> ~str {
     let un = vec::from_fn(11, |n| (BigInt::from_uint(n + 1), u(BigInt::from_uint(n + 1))));
     let mut sum = Zero::zero::<BigInt>();
-    foreach i in range(1, un.len()) {
+    for i in range(1, un.len()) {
         let poly = op(un.slice(0, i)).consume_iter().transform(|x| x.numer).collect::<~[BigInt]>();
         sum = sum + poly::eval(poly, BigInt::from_uint(i + 1));
     }

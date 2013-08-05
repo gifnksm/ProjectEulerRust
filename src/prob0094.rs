@@ -13,7 +13,7 @@ pub static EXPECTED_ANSWER: &'static str = "518408346";
 // S(a, b) := b * sqrt(4a^2-b^2) / 4
 // S(a, a+1) = (a+1) * sqrt(4a^2 - (a+1)^2) / 4
 // S(a, a-1) = (a-1) * sqrt(4a^2 - (a-1)^2) / 4
-// 
+//
 // if a is even, (a-1)(3a+1) and (a+1)(3a-1) is odd => S is not an integer.
 // so, a is odd.
 // a := 2k + 1, b = 2k+2, 2k
@@ -36,36 +36,42 @@ pub static EXPECTED_ANSWER: &'static str = "518408346";
 // L <= 1000000000
 // k <= (100000000 - 4) / 6, (100000000 - 2) / 6
 fn each_ab(f: &fn(uint, uint) -> bool) -> bool {
-    for each_pel::<BigUint>(3) |x, _y| {
+    do each_pel::<BigUint>(3) |x, _y| {
         match x.to_uint() % 3 {
             1 => {
                 let k = (x.to_uint() - 1) / 3;
                 let a = 2 * k + 1;
                 let b = a + 1;
-                if !f(a, b) { return false; }
+                f(a, b)
             }
             2 => {
                 let k = (x.to_uint() - 2) / 3;
                 let a = 2 * k + 1;
                 let b = a - 1;
-                if !f(a, b) { return false; }
+                f(a, b)
             }
             _ => fail!()
         }
     }
-    return true;
 }
 
 pub fn solve() -> ~str {
     let limit = 1000000000;
     let mut total = 0;
 
-    for each_ab |a, b| {
-        if b == 0 { loop; }
-        let side = a + a + b;
-        if side > limit { break; }
-        total += side;
-    }
+    do each_ab |a, b| {
+        if b == 0 {
+            true
+        } else {
+            let side = a + a + b;
+            if side > limit {
+                false
+            } else {
+                total += side;
+                true
+            }
+        }
+    };
 
     return total.to_str();
 }

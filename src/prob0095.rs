@@ -20,14 +20,14 @@ fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) ->
         n = div_map[n];
 
         if n >= len_map.len() {
-            foreach &n in itr_map.iter() { len_map[n] = Some(0); }
+            for &n in itr_map.iter() { len_map[n] = Some(0); }
             return 0;
         }
 
         match itr_map.position_elem(&n) {
             Some(idx) => {
                 let len = itr_map.len() - idx;
-                foreach (i, &m) in itr_map.iter().enumerate() {
+                for (i, &m) in itr_map.iter().enumerate() {
                     len_map[m] = Some(if i < idx { 0 } else { len });
                 }
                 return if idx != 0 { 0 } else { len };
@@ -44,10 +44,11 @@ pub fn solve() -> ~str {
     div_map[0] = 0;
     div_map[1] = 0;
 
-    foreach f in range(2, limit / 2) {
-        for uint::range_step(2 * f, limit, f as int) |n| {
+    for f in range(2, limit / 2) {
+        do uint::range_step(2 * f, limit, f as int) |n| {
             div_map[n] += f;
-        }
+            true
+        };
     }
 
     let (n, _div) = Range::new(1, len_map.len())

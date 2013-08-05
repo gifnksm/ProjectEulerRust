@@ -14,7 +14,7 @@ pub static EXPECTED_ANSWER: &'static str = "18769";
 
 #[inline(always)]
 fn check_digit(idx: &[uint], ds: &[uint]) -> bool {
-    foreach i in range(0, idx.len()) {
+    for i in range(0, idx.len()) {
         if ds[i] != ds[idx[i]] { return false; }
         if ds.position_elem(&ds[idx[i]]).get() != idx[i] { return false; }
     }
@@ -37,7 +37,7 @@ pub fn solve() -> ~str {
         .chain(|input| {
              do reader::read_whole_word(input).map |words| {
                 let mut map = ~HashMap::new();
-                foreach &word in words.iter() {
+                for &word in words.iter() {
                     let mut cs: ~[char] = word.iter().collect();
                     sort::quick_sort(cs, |a, b| a <= b);
                     match map.pop(&cs) {
@@ -46,7 +46,7 @@ pub fn solve() -> ~str {
                     }
                 }
                  do vec::build |push| {
-                     foreach (_key, values) in map.mut_iter() {
+                     for (_key, values) in map.mut_iter() {
                          if values.len() > 1 {
                              push(util::replace(values, ~[]));
                          }
@@ -55,9 +55,9 @@ pub fn solve() -> ~str {
             }
         }).map(|words| {
             do vec::build_sized(words.len()) |push| {
-                foreach elt in words.iter() {
-                    foreach i in range(0, elt.len()) {
-                        foreach j in range(i + 1, elt.len()) {
+                for elt in words.iter() {
+                    for i in range(0, elt.len()) {
+                        for j in range(i + 1, elt.len()) {
                             push((elt[i].clone(), elt[j].clone()))
                         }
                     }
@@ -76,7 +76,7 @@ pub fn solve() -> ~str {
             do vec::build |push| {
                 let mut cur_len = uint::max_value;
                 let mut cur_group = ~[];
-                foreach &(ref len, ref v1, ref v2) in idx_pairs.iter() {
+                for &(ref len, ref v1, ref v2) in idx_pairs.iter() {
                     if cur_group.is_empty() || cur_len == *len {
                         cur_len = *len;
                         cur_group.push((v1.clone(), v2.clone()));
@@ -90,14 +90,14 @@ pub fn solve() -> ~str {
         }).map(|groups| {
             let mut max = 0;
 
-            foreach &(ref len, ref pairs) in groups.iter() {
+            for &(ref len, ref pairs) in groups.iter() {
                 let mut nums = ~[];
 
                 let start = calc::pow(10, *len) - 1;
                 let end   = calc::pow(10, *len - 1);
-                for uint::range_rev(arith::isqrt(start), arith::isqrt(end)) |n| {
+                do uint::range_rev(arith::isqrt(start), arith::isqrt(end)) |n| {
                     let ds = calc::num_to_digits(n * n, 10);
-                    foreach &(ref v1, ref v2) in pairs.iter() {
+                    for &(ref v1, ref v2) in pairs.iter() {
                         if ds[v2[0]] == 0 { loop; }
                         if !check_digit(*v1, ds) { loop; }
                         let num2 = idx_to_num(*v2, ds);
@@ -105,7 +105,8 @@ pub fn solve() -> ~str {
                         nums.push(n * n);
                         if n * n != num2 { nums.push(num2); }
                     }
-                }
+                    true
+                };
 
                 if !nums.is_empty() {
                     max = nums.iter().transform(|&x| x).max().get();

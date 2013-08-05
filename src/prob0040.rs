@@ -3,7 +3,6 @@
 
 extern mod common;
 
-use std::util;
 use std::iterator::MultiplicativeIterator;
 use common::calc;
 
@@ -69,7 +68,7 @@ impl IdxValueMap {
     }
 
     priv fn each_area(&mut self, f: &fn(Area) -> bool) -> bool {
-        foreach i in range(0, self.area.len()) {
+        for i in range(0, self.area.len()) {
             if !f(self.area[i]) { return false; }
         }
         loop {
@@ -79,12 +78,16 @@ impl IdxValueMap {
     }
 
     priv fn get_area_by_idx(&mut self, idx: uint) -> Area {
-        for self.each_area |area| {
+        let mut found = None;
+        do self.each_area |area| {
             if area.min_idx <= idx && idx <= area.max_idx {
-                return area;
+                found = Some(area);
+                false
+            } else {
+                true
             }
-        }
-        util::unreachable();
+        };
+        found.get()
     }
 
     pub fn get_value_by_idx(&mut self, idx: uint) -> uint {

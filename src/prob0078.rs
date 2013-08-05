@@ -2,7 +2,6 @@
 #[crate_type = "lib"];
 
 use std::hashmap::HashMap;
-use std::util::unreachable;
 
 pub static EXPECTED_ANSWER: &'static str = "55374";
 
@@ -30,14 +29,15 @@ fn each_way(f: &fn(int, int) -> bool) -> bool {
     loop {
         let mut way = 0;
         let mut i = 0;
-        for each_penta |p| {
-            if p > n { break; }
-
-            let sign = if i % 4 > 1 { -1 } else { 1 };
-            way += sign * *v.get(&(n - p));
-            way %= MILLION;
-            i += 1;
-        }
+        do each_penta |p| {
+            if p > n { false } else {
+                let sign = if i % 4 > 1 { -1 } else { 1 };
+                way += sign * *v.get(&(n - p));
+                way %= MILLION;
+                i += 1;
+                true
+            }
+        };
 
         if !f((n + MILLION) % MILLION, way) { return false; }
         v.insert(n, way);
@@ -46,11 +46,14 @@ fn each_way(f: &fn(int, int) -> bool) -> bool {
 }
 
 pub fn solve() -> ~str {
-    for each_way |n, way| {
+    let mut ans = 0;
+    do each_way |n, way| {
         if way % MILLION == 0 {
-            return n.to_str();
+            ans = n;
+            false
+        } else {
+            true
         }
-    }
-
-    unreachable();
+    };
+    ans.to_str()
 }

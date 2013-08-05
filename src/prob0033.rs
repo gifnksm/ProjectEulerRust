@@ -20,8 +20,8 @@ pub fn solve() -> ~str {
     let mut prod_numer = 1;
     let mut prod_denom = 1;
 
-    foreach b in range(1u, 10) {
-        foreach c in range(b + 1, 10) {
+    for b in range(1u, 10) {
+        for c in range(b + 1, 10) {
             // Pattern 1
             let a_numer = 9 * b * c;
             let a_denom = 10 * c - b;

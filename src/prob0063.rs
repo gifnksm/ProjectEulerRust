@@ -9,7 +9,7 @@ pub static EXPECTED_ANSWER: &'static str = "49";
 
 pub fn solve() -> ~str {
     let mut cnt = 1u; // a == 1
-    foreach a in range(BigUint::from_uint(2), BigUint::from_uint(10)) {
+    for a in range(BigUint::from_uint(2), BigUint::from_uint(10)) {
         let mut n = 0;
         let mut an = BigUint::from_uint(1);
         loop {

@@ -37,7 +37,7 @@ priv fn grow(nums: &mut ~[uint], len: uint) {
 
     let mut it = Counter::new(nums.last() + 2, 2)
         .filter(|&n| is_coprime(*nums, n));
-    foreach n in it {
+    for n in it {
         nums.push(n);
         if nums.len() >= len { return; }
     }
@@ -49,7 +49,7 @@ pub fn iter() -> PrimeIterator { PrimeIterator::new() }
 #[inline(always)]
 pub fn each(f: &fn(uint) -> bool) -> bool {
     do with_task_prime |nums| {
-        foreach i in Counter::new::<uint>(0, 1) {
+        for i in Counter::new::<uint>(0, 1) {
             grow(nums, i + 1);
             if !f(nums[i]) { break }
         }
@@ -145,7 +145,7 @@ impl Iterator<Factor> for FactorIterator {
 #[inline(always)]
 pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
     let mut result = 1;
-    foreach (base, exp) in fs {
+    for (base, exp) in fs {
         if exp > 0 {
             result *= calc::pow(base, exp as uint);
         } else {
@@ -220,24 +220,36 @@ mod tests {
         let table2 = PRIMES_BELOW200.slice(13, PRIMES_BELOW200.len());
 
         let mut v1 = ~[];
-        for each |p| {
-            if p > *table.last() { break; }
-            v1.push(p);
-        }
+        do each |p| {
+            if p > *table.last() {
+                false
+            } else {
+                v1.push(p);
+                true
+            }
+        };
         assert_eq!(table.initn(0), v1.initn(0));
 
         let mut v2 = ~[];
-        for each |p| {
-            if p > *table.last() { break; }
-            v2.push(p);
-        }
+        do each |p| {
+            if p > *table.last() {
+                false
+            } else {
+                v2.push(p);
+                true
+            }
+        };
         assert_eq!(table.initn(0), v2.initn(0));
 
         let mut v3 = ~[];
-        for each |p| {
-            if p > *table2.last() { break; }
-            v3.push(p);
-        }
+        do each |p| {
+            if p > *table2.last() {
+                false
+            } else {
+                v3.push(p);
+                true
+            }
+        };
         assert_eq!(~[] + table + table2, v3);
     }
 
@@ -257,9 +269,9 @@ mod tests {
     #[test]
     fn test_prime_index() {
         // Generated primes
-        foreach (i, &p) in PRIMES_BELOW200.iter().enumerate() { assert_eq!(nth(i), p); }
+        for (i, &p) in PRIMES_BELOW200.iter().enumerate() { assert_eq!(nth(i), p); }
         // Memoized primes
-        foreach (i, &p) in PRIMES_BELOW200.iter().enumerate() { assert_eq!(nth(i), p); }
+        for (i, &p) in PRIMES_BELOW200.iter().enumerate() { assert_eq!(nth(i), p); }
     }
 
     #[test]
@@ -268,7 +280,7 @@ mod tests {
 
         let mut i = 0;
         let ys = &[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41 ];
-        foreach x in it {
+        for x in it {
             if i >= ys.len() { break; }
             assert_eq!(x, ys[i]);
             i += 1;
@@ -280,7 +292,7 @@ mod tests {
         fn check(n: uint, fs: &[Factor]) {
             let mut v = ~[];
             let mut it = factorize(n);
-            foreach f in it { v.push(f); }
+            for f in it { v.push(f); }
 
             assert_eq!(v.initn(0), fs);
         }

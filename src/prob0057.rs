@@ -10,7 +10,7 @@ pub static EXPECTED_ANSWER: &'static str = "153";
 
 // a[0] = 1 + 1/2
 // a[1] = 1 + 1/(2 + 1/2)
-//      = 1 + 1/(1 + a[0]) = 
+//      = 1 + 1/(1 + a[0]) =
 // a[2] = 1 + 1/(2 + 1/(2 + 1/2))
 //      = 1 + 1/(1 + a[1])
 // a[i+1] = n[i+1] / d[i+1]
@@ -36,13 +36,12 @@ fn each_frac(f: &fn(&BigUint, &BigUint) -> bool) -> bool {
 pub fn solve() -> ~str {
     let mut i = 0;
     let mut cnt = 0u;
-    for each_frac |n, d| {
+    do each_frac |n, d| {
         i += 1;
         let n_len = n.to_str().len();
         let d_len = d.to_str().len();
         if n_len > d_len { cnt += 1; }
-        if i >= 1000 { break; }
-    }
+        i < 1000
+    };
     return cnt.to_str();
 }
-

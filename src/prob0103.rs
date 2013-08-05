@@ -92,7 +92,7 @@ impl SSSElem {
             if a == b - 1 && !f(SSSElem::new_pair(a + 1, b + 1)) { return false; }
         }
 
-        foreach n in range(self.sss.last() + 1, self.max_addable() + 1) {
+        for n in range(self.sss.last() + 1, self.max_addable() + 1) {
             match self.add_num(n) {
                 Some(x) => {
                     if !f(x) { return false; }
@@ -111,9 +111,10 @@ pub fn each_sss(f: &fn(&SSSElem) -> bool) -> bool {
     while !pq.is_empty() {
         let e = pq.pop();
         if !f(&e) { return false; }
-        for e.each_next |next| {
+        do e.each_next |next| {
             pq.push(next);
-        }
+            true
+        };
     }
     return true;
 }
@@ -122,10 +123,14 @@ pub fn each_sss(f: &fn(&SSSElem) -> bool) -> bool {
 // (a, b, c) => SSS if a > b > c && a + b > c
 // (a, b, c, d) +> SSS if a > b > c > d && a + b > d &&
 pub fn solve() -> ~str {
-    for each_sss |sss| {
+    let mut ans = ~"";
+    do each_sss |sss| {
         if sss.sss.len() == 7 {
-            return sss.sss.map(|&n| n.to_str()).concat();
+            ans = sss.sss.map(|&n| n.to_str()).concat();
+            false
+        } else {
+            true
         }
-    }
-    fail!();
+    };
+    ans
 }

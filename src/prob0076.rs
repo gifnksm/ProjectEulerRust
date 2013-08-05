@@ -13,7 +13,7 @@ fn count_way(sum: uint) -> uint {
         sum: uint, min_n: uint, map: &mut HashMap<(uint, uint), uint>
     ) -> uint {
         let mut cnt = 1; // only sum
-        foreach k in range(min_n, sum / 2 + 1) {
+        for k in range(min_n, sum / 2 + 1) {
             match map.find(&(sum - k, k)).map(|v| **v) {
                 Some(n) => cnt += n,
                 None    => {

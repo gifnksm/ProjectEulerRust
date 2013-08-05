@@ -17,8 +17,8 @@ pub fn add<T: Zero + Add<T,T> + Clone>(a: &[T], b: &[T]) -> ~[T] {
     };
 
     let mut sum = vec::from_fn(max_len, |_i| Zero::zero());
-    foreach i in range(0, min_len) { sum[i] = a[i] + b[i]; }
-    do rest.map |&v| { foreach i in range(min_len, max_len) { sum[i] = v[i].clone(); } };
+    for i in range(0, min_len) { sum[i] = a[i] + b[i]; }
+    do rest.map |&v| { for i in range(min_len, max_len) { sum[i] = v[i].clone(); } };
     return sum;
 }
 
@@ -28,8 +28,8 @@ pub fn mul<T: Zero + Add<T, T> + Mul<T, T>>(a: &[T], b: &[T]) -> ~[T] {
 
     if a.is_empty() || b.is_empty() { return ~[]; }
     let mut prod = vec::from_fn(a.len() + b.len() - 1, |_i| Zero::zero::<T>());
-    foreach (i, na) in a.iter().enumerate() {
-        foreach (j, nb) in b.iter().enumerate() {
+    for (i, na) in a.iter().enumerate() {
+        for (j, nb) in b.iter().enumerate() {
             prod[i + j] = prod[i + j] + (*na) * (*nb);
         }
     }
@@ -39,7 +39,7 @@ pub fn mul<T: Zero + Add<T, T> + Mul<T, T>>(a: &[T], b: &[T]) -> ~[T] {
 pub fn eval<T: Zero + One + Add<T, T> + Mul<T, T>>(a: &[T], x: T) -> T {
     let mut sum = Zero::zero::<T>();
     let mut x_n = One::one();
-    foreach i in range(0, a.len()) {
+    for i in range(0, a.len()) {
         sum = sum + a[i] * x_n;
         x_n = x_n * x;
     }
@@ -53,7 +53,7 @@ pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~s
     let one = One::one();
 
     let mut s = ~[];
-    foreach (i, n) in a.iter().enumerate() {
+    for (i, n) in a.iter().enumerate() {
         // output n*x^i / -n*x^i
         if n.is_zero() { loop; }
 
@@ -112,7 +112,7 @@ mod test {
     #[test]
     fn test_poly_eaval() {
         fn check(pol: &[int], f: &fn(int) -> int) {
-            foreach n in range(-10, 10) {
+            for n in range(-10, 10) {
                 assert_eq!(eval(pol, n), f(n));
             }
         }

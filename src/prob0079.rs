@@ -58,7 +58,7 @@ impl<T: Hash + IterBytes + Eq + Clone> Relations<T> {
     fn delete_and_find(&mut self, prec: T) -> ~[T] {
         let mut result = ~[];
         do self.top.pop(&prec).map |p| {
-            foreach s in p.succ.iter() {
+            for s in p.succ.iter() {
                 match self.top.find_mut(s) {
                     Some(y) => {
                         y.num_prec -= 1;
@@ -87,16 +87,18 @@ fn tsort<T: Hash + IterBytes + Eq + Clone>(rels: &mut Relations<T>) -> ~[T] {
 
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/keylog.txt")).map(|file| {
-        let mut rels = Relations::new();
-        for file.each_line |line| {
-            let ds: ~[uint] = line.iter().filter_map(|c| char::to_digit(c, 10)).collect();
-            foreach i in range(1, ds.len()) {
-                rels.set_dependant(ds[i - 1], ds[i]);
-            }
-        }
-        tsort(&mut rels)
-    });
+    let result = io::file_reader(&Path("files/keylog.txt"))
+        .map(|file| {
+            let mut rels = Relations::new();
+            do file.each_line |line| {
+                let ds: ~[uint] = line.iter().filter_map(|c| char::to_digit(c, 10)).collect();
+                for i in range(1, ds.len()) {
+                    rels.set_dependant(ds[i - 1], ds[i]);
+                }
+                true
+            };
+            tsort(&mut rels)
+        });
 
     match result {
         Err(msg) => fail!(msg),

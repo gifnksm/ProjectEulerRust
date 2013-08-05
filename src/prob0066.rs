@@ -27,11 +27,15 @@ fn each_d(f: &fn(uint) -> bool) -> bool {
 pub fn solve() -> ~str {
     let mut max_x   = BigUint::from_uint(0);
     let mut max_x_d = 0;
-    for each_d |d| {
-        if d > 1000 { break; }
-        let (x, _y) = solve_pel::<BigUint>(d);
-        if x > max_x { max_x = x; max_x_d = d; }
-    }
+    do each_d |d| {
+        if d > 1000 {
+            false
+        } else {
+            let (x, _y) = solve_pel::<BigUint>(d);
+            if x > max_x { max_x = x; max_x_d = d; }
+            true
+        }
+    };
     return max_x_d.to_str();
 }
 

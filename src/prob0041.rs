@@ -3,16 +3,20 @@
 
 extern mod common;
 
-use std::util;
 use common::calc;
 use common::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "7652413";
 
 pub fn solve() -> ~str {
-    for calc::permutate_num(&[7, 6, 5, 4, 3, 2, 1], 7, 0, 9999999) |num, _rest| {
-        if prime::contains(num) { return num.to_str(); }
-    }
-
-    util::unreachable();
+    let mut ans = 0;
+    do calc::permutate_num(&[7, 6, 5, 4, 3, 2, 1], 7, 0, 9999999) |num, _rest| {
+        if prime::contains(num) {
+            ans = num;
+            false
+        } else {
+            true
+        }
+    };
+    return ans.to_str();
 }

@@ -209,12 +209,12 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
         if len == 0 { return None; }
 
         // Fill value if empty (if iter ends, set None)
-        foreach i in range(0, len) {
+        for i in range(0, len) {
             if self.values[i].is_none() { self.values[i] = self.iters[i].next(); }
         }
 
         let mut min_idx = ~[];
-        foreach i in range(0, len) {
+        for i in range(0, len) {
             if self.values[i].is_none() { loop; }
             if min_idx.is_empty() { min_idx.push(i); loop; }
 
@@ -227,7 +227,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 
         if min_idx.is_empty() { return None; }
         let mut result = None;
-        foreach &i in min_idx.iter() {
+        for &i in min_idx.iter() {
             if result.is_none() {
                 util::swap(&mut self.values[i], &mut result);
             } else {
@@ -330,11 +330,12 @@ mod tests {
         fn check<M: Monoid + Wrap<int> + Eq + Clone>(vs: &[~[(int, int)]],
                                                      f: &fn(int) -> M,
                                                      result: &[(int, int)]) {
-            for vec::each_permutation(vs) |vs| {
+            do vec::each_permutation(vs) |vs| {
                 let vs = vs.map(|ks| ks.map(|&(x, y)| (x, f(y))).consume_iter());
                 let merged = MergeMultiMonoidIterator::new(vs).collect::<~[(int, M)]>();
                 assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
-            }
+                true
+            };
         }
 
         {

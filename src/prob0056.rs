@@ -24,7 +24,7 @@ pub fn solve() -> ~str {
     let ten = BigUint::from_uint(1000000000);
 
     let mut max = 0u;
-    foreach a in range(1u, 100) {
+    for a in range(1u, 100) {
         let mut n = BigUint::from_uint(a);
         do 100.times {
             n = n * BigUint::from_uint(a);

@@ -4,10 +4,9 @@
 extern mod extra;
 extern mod common;
 
-use std::from_str::{FromStr};
-use std::util;
-use std::num::{One};
-use extra::bigint::{BigUint};
+use std::from_str::FromStr;
+use std::num::{One, Zero};
+use extra::bigint::BigUint;
 use common::calc;
 
 pub static EXPECTED_ANSWER: &'static str = "756872327473";
@@ -24,11 +23,20 @@ pub static EXPECTED_ANSWER: &'static str = "756872327473";
 pub fn solve() -> ~str {
     let one = One::one();
     let limit = FromStr::from_str("1000000000000").get();
-    for calc::each_pel_neg::<BigUint>(2) |x, y| {
-        if x.is_even() || y.is_even() { loop; }
-        let b = (*y + one) >> 1;
-        let s = (*x + one) >> 1;
-        if s > limit { return b.to_str(); }
-    }
-    util::unreachable();
+    let mut ans = Zero::zero();
+    do calc::each_pel_neg::<BigUint>(2) |x, y| {
+        if x.is_odd() && y.is_odd() {
+            let b = (*y + one) >> 1;
+            let s = (*x + one) >> 1;
+            if s > limit {
+                ans = b;
+                false
+            } else {
+                true
+            }
+        } else {
+            true
+        }
+    };
+    ans.to_str()
 }

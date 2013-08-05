@@ -53,7 +53,7 @@ fn get_chain_len(
         }
     }
 
-    foreach (&key, &idx) in chain_map.iter() {
+    for (&key, &idx) in chain_map.iter() {
         if idx >= chain_len {
             map[key] = Loop(loop_len);
         } else {
@@ -68,7 +68,7 @@ pub fn solve() -> ~str {
     let limit = 1000000;
     let factorial = {
         let mut val = [1, ..10];
-        foreach i in range(1u, 10) {
+        for i in range(1u, 10) {
             val[i] = val[i - 1] * i;
         }
         val
@@ -76,7 +76,7 @@ pub fn solve() -> ~str {
 
     let mut map = vec::from_elem(factorial[9] * 6 + 1, Unknown);
     let mut cnt = 0u;
-    foreach n in range(1u, limit + 1) {
+    for n in range(1u, limit + 1) {
         let len = get_chain_len(n, map, &factorial);
         if len == 60 { cnt += 1; }
     }
