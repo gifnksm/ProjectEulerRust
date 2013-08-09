@@ -4,7 +4,7 @@
 extern mod extra;
 extern mod common;
 
-use std::{either, util};
+use std::util;
 use std::either::{Either, Left, Right};
 use std::cmp::{Eq, Ord};
 use std::to_bytes::{IterBytes};
@@ -51,6 +51,6 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Clone>(hist: &HashMap<K, uint>, n: ui
 
 pub fn solve() -> ~str {
     let nums = calc::histogram::<uint>(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    let ds = either::unwrap_right(get_at(&nums, 1000000));
+    let ds = get_at(&nums, 1000000).unwrap_right();
     return calc::digits_to_num(ds, 10).to_str();
 }

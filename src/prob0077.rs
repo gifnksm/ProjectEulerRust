@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use std::iterator::Counter;
+use std::iterator;
 use std::hashmap::HashMap;
 use common::prime;
 
@@ -22,7 +22,7 @@ fn count_way(sum: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
         sum: uint, min_idx: uint, map: &mut HashMap<(uint, uint), uint>
     ) -> uint {
         let mut cnt = 0;
-        for i in Counter::new(min_idx, 1) {
+        for i in iterator::count(min_idx, 1) {
             let p = prime::nth(i);
             if p >= sum {
                 if p == sum  {
@@ -45,9 +45,9 @@ fn count_way(sum: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
 
 pub fn solve() -> ~str {
     let mut map = HashMap::new();
-    return Counter::new::<uint>(1, 1)
+    iterator::count(1u, 1)
         .skip_while(|&n| count_way(n, &mut map) <= 5000)
         .next()
-        .get()
-        .to_str();
+        .unwrap()
+        .to_str()
 }

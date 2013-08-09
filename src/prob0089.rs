@@ -63,7 +63,7 @@ pub fn solve() -> ~str {
         .map(|file| {
             let mut sum = 0;
             do file.each_line |line| {
-                sum += line.len() - to_roman(from_roman(line).get()).len();
+                sum += line.len() - to_roman(from_roman(line).unwrap()).len();
                 true
             };
             sum

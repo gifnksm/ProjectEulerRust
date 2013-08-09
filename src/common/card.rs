@@ -59,7 +59,7 @@ impl FromStr for Card {
             'J' => 11,
             'Q' => 12,
             'K' => 13,
-            d if char::is_digit(d) => char::to_digit(d, 10).get(),
+            d if char::is_digit(d) => char::to_digit(d, 10).unwrap(),
             _   => return None
         };
         return suit.map(|s| Card { suit: *s, num: num} );

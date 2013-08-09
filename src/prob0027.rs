@@ -3,8 +3,7 @@
 
 extern mod common;
 
-use std::iterator::Counter;
-use common::extiter::Range;
+use std::iterator;
 use common::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "-59231";
@@ -14,11 +13,11 @@ pub static EXPECTED_ANSWER: &'static str = "-59231";
 // p(1) = 1 + a + b => a > -(1+b)
 // p(2) = 4 + 2a + b
 fn get_len(a: int, b: int) -> uint {
-    return Counter::new(0, 1)
+    return iterator::count(0, 1)
         .take_while(|&n| {
             let val = n * n + a * n + b;
             (val >= 0 && prime::contains(val as uint))
-        }).last_().get() as uint;
+        }).last_().unwrap() as uint;
 }
 
 pub fn solve() -> ~str {
@@ -26,7 +25,7 @@ pub fn solve() -> ~str {
         .take_while(|&p| p < 1000)
         .filter_map(|p| {
             let b = p as int;
-            Range::new(-(b as int), 1000)
+            range(-(b as int), 1000)
                 .transform(|a| (a, b, get_len(a, b)))
                 .max_by(|&(_a, _b, len)| len)
         }).max_by(|&(_a, _b, len)| len)

@@ -14,6 +14,6 @@ pub fn solve() -> ~str {
     return prime::factorize(num)
         .transform(|(base, _exp)| base)
         .max()
-        .get()
+        .unwrap()
         .to_str();
 }

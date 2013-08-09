@@ -16,7 +16,7 @@ pub static EXPECTED_ANSWER: &'static str = "18769";
 fn check_digit(idx: &[uint], ds: &[uint]) -> bool {
     for i in range(0, idx.len()) {
         if ds[i] != ds[idx[i]] { return false; }
-        if ds.position_elem(&ds[idx[i]]).get() != idx[i] { return false; }
+        if ds.position_elem(&ds[idx[i]]).unwrap() != idx[i] { return false; }
     }
     return true;
 }
@@ -67,7 +67,7 @@ pub fn solve() -> ~str {
             let mut words = do word_pairs.map |&(ref w1, ref w2)| {
                 let cs1 = w1.as_bytes();
                 let cs2 = w2.as_bytes();
-                let get_pos = |&c: &u8| cs1.position_elem(&c).get();
+                let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap();
                 (w1.len(), cs1.map(|c| get_pos(c)), cs2.map(|c| get_pos(c)))
             };
             sort::quick_sort(words, |&(l1, _, _), &(l2, _, _)| l1 >= l2);
@@ -95,7 +95,7 @@ pub fn solve() -> ~str {
 
                 let start = calc::pow(10, *len) - 1;
                 let end   = calc::pow(10, *len - 1);
-                do uint::range_rev(arith::isqrt(start), arith::isqrt(end)) |n| {
+                for n in range(arith::isqrt(end), arith::isqrt(start)).invert() {
                     let ds = calc::num_to_digits(n * n, 10);
                     for &(ref v1, ref v2) in pairs.iter() {
                         if ds[v2[0]] == 0 { loop; }
@@ -105,11 +105,10 @@ pub fn solve() -> ~str {
                         nums.push(n * n);
                         if n * n != num2 { nums.push(num2); }
                     }
-                    true
-                };
+                }
 
                 if !nums.is_empty() {
-                    max = nums.iter().transform(|&x| x).max().get();
+                    max = nums.iter().transform(|&x| x).max().unwrap();
                     break;
                 }
             }

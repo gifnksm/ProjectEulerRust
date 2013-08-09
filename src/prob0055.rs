@@ -12,7 +12,7 @@ pub static EXPECTED_ANSWER: &'static str = "249";
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_str();
     let rev = str::from_chars(s.rev_iter().collect::<~[char]>());
-    return FromStr::from_str(rev).get();
+    return FromStr::from_str(rev).unwrap();
 }
 
 fn is_lychrel(n: uint) -> bool {

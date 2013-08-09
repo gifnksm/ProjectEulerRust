@@ -11,5 +11,5 @@ pub static EXPECTED_ANSWER: &'static str = "76576500";
 pub fn solve() -> ~str {
     return Triangle::new()
         .skip_while(|&t| prime::num_of_divisors(t) <= 500)
-        .next().get().to_str();
+        .next().unwrap().to_str();
 }

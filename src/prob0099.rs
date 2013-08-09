@@ -16,8 +16,8 @@ pub fn solve() -> ~str {
             do input.each_line |line| {
                 let opt = line.find(',');
                 for &idx in opt.iter() {
-                    let base = float::from_str(line.slice(0, idx)).get();
-                    let exp  = float::from_str(line.slice(idx + 1, line.len())).get();
+                    let base = float::from_str(line.slice(0, idx)).unwrap();
+                    let exp  = float::from_str(line.slice(idx + 1, line.len())).unwrap();
                     let ln = exp * base.ln();
                     if ln > max {
                         max = ln;

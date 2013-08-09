@@ -32,7 +32,7 @@ fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[
     let mut result = ~[];
 
     for &n in nums.iter() {
-        let union_nums = union_vec(nums, *map.find(&n).get());
+        let union_nums = union_vec(nums, *map.find(&n).unwrap());
         result.push_all(find_chain(union_nums, ~[n] + set, map));
     }
 
@@ -48,10 +48,10 @@ fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> b
             if m > n { break; }
             let m_str = m.to_str();
 
-            let nm = uint::from_str(n_str + m_str).get();
+            let nm = uint::from_str(n_str + m_str).unwrap();
             if !prime::contains(nm) { loop; }
 
-            let mn = uint::from_str(m_str + n_str).get();
+            let mn = uint::from_str(m_str + n_str).unwrap();
             if !prime::contains(mn) { loop; }
 
             pairs.push(m);

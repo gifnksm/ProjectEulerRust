@@ -3,8 +3,7 @@
 
 extern mod common;
 
-use std::{result, io, vec};
-use std::iterator::Counter;
+use std::{iterator, result, io, vec};
 use common::card::Card;
 
 pub static EXPECTED_ANSWER: &'static str = "376";
@@ -214,9 +213,9 @@ pub fn solve() -> ~str {
         do file.each_line |line| {
             let mut p1_cards = [ Card::dummy(), ..5 ];
             let mut p2_cards = [ Card::dummy(), ..5 ];
-            for (word, i) in line.word_iter().zip(Counter::new(0u, 1)) {
+            for (word, i) in line.word_iter().zip(iterator::count(0u, 1)) {
                 let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
-                cards[i % 5] = FromStr::from_str::<Card>(word).get();
+                cards[i % 5] = FromStr::from_str::<Card>(word).unwrap();
             }
             let cmp = judge(&p1_cards, &p2_cards);
             if cmp > 0 { p1_win += 1;  }

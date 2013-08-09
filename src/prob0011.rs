@@ -61,6 +61,6 @@ pub fn solve() -> ~str {
     return it.transform(|row: Area2DIterator| {
         row.windowed(prod_len)
             .transform(|ns| ns.iter().transform(|&(x, y)| grid[y][x]).product())
-            .max().get_or_default(0)
-    }).max().get().to_str();
+            .max().unwrap_or_default(0)
+    }).max().unwrap().to_str();
 }

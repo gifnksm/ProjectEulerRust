@@ -94,7 +94,7 @@ fn read_sudoku<T: Reader>(r: T) -> SuDoku {
     for y in range(0, BOARD_HEIGHT) {
         let line = r.read_line();
         for x in range(0, BOARD_WIDTH) {
-            let n = char::to_digit(line[x] as char, 10).get();
+            let n = char::to_digit(line[x] as char, 10).unwrap();
             if n != 0 { sudoku.map[y][x] = 1 << (n - 1); }
         }
     }

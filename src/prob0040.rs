@@ -53,7 +53,7 @@ struct IdxValueMap {
 impl IdxValueMap {
     pub fn new() -> IdxValueMap { IdxValueMap { area: ~[ Area::new() ] } }
 
-    priv fn extend(&mut self) {
+    fn extend(&mut self) {
         let last = self.area.last().clone();
         let num_digit = last.num_digit + 1;
         let min_val = last.max_val + 1;
@@ -67,7 +67,7 @@ impl IdxValueMap {
         });
     }
 
-    priv fn each_area(&mut self, f: &fn(Area) -> bool) -> bool {
+    fn each_area(&mut self, f: &fn(Area) -> bool) -> bool {
         for i in range(0, self.area.len()) {
             if !f(self.area[i]) { return false; }
         }
@@ -77,7 +77,7 @@ impl IdxValueMap {
         }
     }
 
-    priv fn get_area_by_idx(&mut self, idx: uint) -> Area {
+    fn get_area_by_idx(&mut self, idx: uint) -> Area {
         let mut found = None;
         do self.each_area |area| {
             if area.min_idx <= idx && idx <= area.max_idx {
@@ -87,7 +87,7 @@ impl IdxValueMap {
                 true
             }
         };
-        found.get()
+        found.unwrap()
     }
 
     pub fn get_value_by_idx(&mut self, idx: uint) -> uint {

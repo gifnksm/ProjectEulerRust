@@ -21,7 +21,7 @@ impl DigitMap {
         self.used[n]
     }
 
-    priv fn get_used(&self, ds: &[uint]) -> Option<DigitMap> {
+    fn get_used(&self, ds: &[uint]) -> Option<DigitMap> {
         let mut used: [bool, ..10] = [false, ..10];
         for &d in ds.iter() {
             assert!(d < 10);

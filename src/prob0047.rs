@@ -3,8 +3,7 @@
 
 extern mod common;
 
-use std::util;
-use std::iterator::Counter;
+use std::{iterator, util};
 use common::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "134043";
@@ -14,7 +13,7 @@ pub fn solve() -> ~str {
     let num_factor = 4;
 
     let mut cnt = 0;
-    for n in Counter::new::<uint>(1, 1) {
+    for n in iterator::count(1u, 1) {
         if prime::factorize(n).len_() != num_factor {
             cnt = 0;
             loop;

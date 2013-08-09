@@ -1,5 +1,5 @@
-use std::iterator::{Counter, MultiplicativeIterator, Map};
-use std::local_data;
+use std::{iterator, local_data};
+use std::iterator::{MultiplicativeIterator, Map};
 use std::local_data::Key;
 
 use calc;
@@ -25,17 +25,17 @@ fn with_task_prime<T>(f: &fn(&mut ~[uint]) -> T) -> T {
 }
 
 #[inline(always)]
-priv fn is_coprime(nums: &[uint], n: uint) -> bool {
+fn is_coprime(nums: &[uint], n: uint) -> bool {
     return nums.iter()
         .take_while(|& &p| p * p <= n)
         .all(|&p| n % p != 0);
 }
 
 #[inline(always)]
-priv fn grow(nums: &mut ~[uint], len: uint) {
+fn grow(nums: &mut ~[uint], len: uint) {
     if nums.len() >= len { return; }
 
-    let mut it = Counter::new(nums.last() + 2, 2)
+    let mut it = iterator::count(nums.last() + 2, 2)
         .filter(|&n| is_coprime(*nums, n));
     for n in it {
         nums.push(n);
@@ -54,7 +54,7 @@ pub fn contains(n: uint) -> bool {
         if n < last {
             nums.bsearch_elem(&n).is_some()
         } else {
-            Counter::new::<uint>(0, 1)
+            iterator::count(0u, 1)
                 .peek_(|&i| grow(nums, i + 1))
                 .transform(|i| nums[i])
                 .take_while(|&p| p * p <= n)
@@ -71,7 +71,7 @@ pub fn nth(i: uint) -> uint {
     }
 }
 
-priv struct PrimeIterator {
+struct PrimeIterator {
     priv idx: uint
 }
 
@@ -94,7 +94,7 @@ pub fn factorize(n: uint) -> FactorIterator { FactorIterator::new(n) }
 
 pub type Factor = (uint, int);
 
-priv struct FactorIterator {
+struct FactorIterator {
     priv num: uint,
     priv prime_iter: PrimeIterator
 }
@@ -111,7 +111,7 @@ impl Iterator<Factor> for FactorIterator {
         if self.num == 0 || self.num == 1 { return None; }
 
         while self.num > 1 {
-            let p = self.prime_iter.next().get();
+            let p = self.prime_iter.next().unwrap();
 
             if p * p > self.num {
                 let n = self.num;

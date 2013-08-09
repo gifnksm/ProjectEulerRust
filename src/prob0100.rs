@@ -22,7 +22,7 @@ pub static EXPECTED_ANSWER: &'static str = "756872327473";
 // b = (y + 1) / 2
 pub fn solve() -> ~str {
     let one = One::one();
-    let limit = FromStr::from_str("1000000000000").get();
+    let limit = FromStr::from_str("1000000000000").unwrap();
     let mut ans = Zero::zero();
     do calc::each_pel_neg::<BigUint>(2) |x, y| {
         if x.is_odd() && y.is_odd() {

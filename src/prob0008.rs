@@ -39,6 +39,6 @@ pub fn solve() -> ~str {
         .windowed(prod_len)
         .transform(|win| win.iter().fold(1, |p, &n| p * n))
         .max()
-        .get()
+        .unwrap()
         .to_str();
 }

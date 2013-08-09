@@ -4,10 +4,9 @@
 extern mod extra;
 extern mod common;
 
-use std::util;
+use std::iterator;
 use std::num::Zero;
 use std::hashmap::HashSet;
-use std::iterator::Counter;
 use extra::rational::{Rational, Ratio};
 use common::calc;
 
@@ -80,12 +79,10 @@ fn count_seqlen(nums: &[Rational]) -> uint {
         true
     };
 
-    let mut counter = Counter::new(1u, 1u);
-    for i in counter {
-        if !set.contains(&i) { return i - 1; }
-    }
-
-    util::unreachable();
+    iterator::count(1u, 1)
+        .take_while(|&i| set.contains(&i))
+        .last_()
+        .unwrap_or_default(0)
 }
 
 pub fn solve() -> ~str {
