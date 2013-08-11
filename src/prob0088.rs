@@ -50,5 +50,5 @@ pub fn solve() -> ~str {
         if n != uint::max_value { set.insert(n); }
     }
 
-    return set.iter().transform(|&x| x).sum().to_str();
+    return set.move_iter().sum().to_str();
 }

@@ -37,7 +37,7 @@ pub fn solve() -> ~str {
     return INPUT.iter()
         .filter_map(|c| char::to_digit(c, 10))
         .windowed(prod_len)
-        .transform(|win| win.iter().fold(1, |p, &n| p * n))
+        .map(|win| win.iter().fold(1, |p, &n| p * n))
         .max()
         .unwrap()
         .to_str();

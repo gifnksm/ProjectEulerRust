@@ -33,11 +33,11 @@ impl Iterator<(uint, uint)> for DividablePairsIterator {
 }
 
 pub fn solve() -> ~str {
-    let it1 = Range::new_rev(999u, 99).transform(|seed| calc::to_palindromic(seed, 10, false));
-    let it2 = Range::new_rev(999u, 99).transform(|seed| calc::to_palindromic(seed, 10, true));
+    let it1 = Range::new_rev(999u, 99).map(|seed| calc::to_palindromic(seed, 10, false));
+    let it2 = Range::new_rev(999u, 99).map(|seed| calc::to_palindromic(seed, 10, true));
 
-    it1.chain_(it2)
-        .flat_map_(|n| DividablePairsIterator::new(n, 100, 999))
+    it1.chain(it2)
+        .flat_map(|n| DividablePairsIterator::new(n, 100, 999))
         .next()
         .map_move(|(d1, d2)| d1 * d2)
         .unwrap()

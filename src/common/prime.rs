@@ -55,8 +55,8 @@ pub fn contains(n: uint) -> bool {
             nums.bsearch_elem(&n).is_some()
         } else {
             iterator::count(0u, 1)
-                .peek_(|&i| grow(nums, i + 1))
-                .transform(|i| nums[i])
+                .peek(|&i| grow(nums, i + 1))
+                .map(|i| nums[i])
                 .take_while(|&p| p * p <= n)
                 .all(|p| n % p != 0)
         }
@@ -148,20 +148,20 @@ pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
 pub fn comb(n: uint, r: uint) -> uint {
     let ns: ~[Map<(uint, int), (uint, Sum<int>), FactorIterator>]
         = Range::new(r + 1, n + 1)
-        .transform(factorize)
-        .transform(|fs| fs.transform(|(base, exp)| (base, Sum(exp))))
+        .map(factorize)
+        .map(|fs| fs.map(|(base, exp)| (base, Sum(exp))))
         .collect();
     let numer = MergeMultiMonoidIterator::new(ns);
 
     let ds: ~[Map<(uint, int), (uint, Sum<int>), FactorIterator>]
         = Range::new(1, n - r + 1)
-        .transform(factorize)
-        .transform(|fs| fs.transform(|(base, exp)| (base, Sum(-exp))))
+        .map(factorize)
+        .map(|fs| fs.map(|(base, exp)| (base, Sum(-exp))))
         .collect();
     let denom = MergeMultiMonoidIterator::new(ds);
 
     return factors_to_uint(
-        MergeMonoidIterator::new(numer, denom).transform(|(a, m): (uint, Sum<int>)| (a, m.unwrap()))
+        MergeMonoidIterator::new(numer, denom).map(|(a, m): (uint, Sum<int>)| (a, m.unwrap()))
     );
 }
 
@@ -169,7 +169,7 @@ pub fn comb(n: uint, r: uint) -> uint {
 pub fn num_of_divisors(n: uint) -> uint {
     if n == 0 { return 0; }
     return factorize(n)
-        .transform(|(_base, exp)| (exp as uint) + 1)
+        .map(|(_base, exp)| (exp as uint) + 1)
         .product();
 }
 
@@ -182,7 +182,7 @@ pub fn num_of_proper_divisors(n: uint) -> uint {
 pub fn sum_of_divisors(n: uint) -> uint {
     if n == 0 { return 0; }
     return factorize(n)
-        .transform(|(base, exp)| {
+        .map(|(base, exp)| {
             (calc::pow(base, (exp as uint) + 1) - 1) / (base - 1)
         }).product();
 }
@@ -267,7 +267,7 @@ mod tests {
     #[test]
     fn test_factors_to_uint() {
         fn check(n: uint, fs: &[Factor]) {
-            assert_eq!(factors_to_uint(fs.iter().transform(|n| *n)), n);
+            assert_eq!(factors_to_uint(fs.iter().map(|n| *n)), n);
         }
 
         check(1, &[]);

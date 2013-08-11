@@ -56,5 +56,5 @@ pub fn solve() -> ~str {
         true
     };
 
-    return answer.iter().transform(|&x| x).sum().to_str();
+    return answer.move_iter().sum().to_str();
 }

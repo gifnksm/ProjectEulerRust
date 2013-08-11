@@ -12,7 +12,7 @@ pub static EXPECTED_ANSWER: &'static str = "232792560";
 pub fn solve() -> ~str {
     let fs = do vec::from_fn(20) |i| { prime::factorize(i + 1) };
     let it = MergeMultiMonoidIterator::new(
-        fs.map(|&x| x.transform(|(base, exp)| (base, Max(exp))))
-    ).transform(|(base, m)| (base, m.unwrap()));
+        fs.map(|&x| x.map(|(base, exp)| (base, Max(exp))))
+    ).map(|(base, m)| (base, m.unwrap()));
     return prime::factors_to_uint(it).to_str();
 }

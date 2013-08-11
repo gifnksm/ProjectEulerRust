@@ -91,7 +91,7 @@ pub fn to_palindromic(n: uint, radix: uint, dup_flag: bool) -> uint {
     let mut rv = digits.rev_iter();
     if dup_flag { rv.next(); }
 
-    return digits.iter().chain_(rv).fold(0, |sum, &i| sum * radix + i);
+    return digits.iter().chain(rv).fold(0, |sum, &i| sum * radix + i);
 }
 
 pub fn is_palindromic(n: uint, radix: uint) -> bool {
@@ -410,7 +410,7 @@ mod tests {
         fn check(inp: &[uint], result: &[(uint, uint)]) {
             let hist = histogram(inp);
             let mut vec = hist.iter()
-                .transform(|(&k, &v)| (k, v))
+                .map(|(&k, &v)| (k, v))
                 .collect::<~[(uint, uint)]>();
             vec.qsort();
             assert_eq!(vec.initn(0), result);

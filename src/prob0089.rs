@@ -26,7 +26,7 @@ fn from_roman(mut s: &str) -> Option<uint> {
 
     let mut n = 0;
     while !s.is_empty() {
-        match ROMAN_PAIRS.iter().find_(|& &(ds, _d)| s.starts_with(ds)) {
+        match ROMAN_PAIRS.iter().find(|& &(ds, _d)| s.starts_with(ds)) {
             Some(&(ds, d)) => {
                 if d > last_d { return None; }
                 n += d;

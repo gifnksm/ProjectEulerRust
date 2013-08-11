@@ -15,7 +15,7 @@ pub fn solve() -> ~str {
         .skip_while(|&p| p < 1000)
         .take_while(|&p| p <= 9999 - 2 * d)
         .filter(|&p| p != 1487)
-        .transform(|p| (p, p + d, p + d + d))
+        .map(|p| (p, p + d, p + d + d))
         .filter(|&(_p1, p2, p3)| prime::contains(p3) && prime::contains(p2))
         .filter(|&(p1, p2, p3)| {
             let hs1 = calc::digit_histogram(p1);

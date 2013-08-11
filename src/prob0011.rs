@@ -36,7 +36,7 @@ pub fn solve() -> ~str {
     let grid: ~[~[uint]] = INPUT
         .trim()
         .line_iter()
-        .transform(|line| line.word_iter().filter_map(uint::from_str).collect::<~[uint]>())
+        .map(|line| line.word_iter().filter_map(uint::from_str).collect::<~[uint]>())
         .collect();
 
     let prod_len = 4;
@@ -44,7 +44,7 @@ pub fn solve() -> ~str {
     macro_rules! iter (
         ($p0:expr, $dp1:expr, $dp2:expr) => (
             Area2DIterator::new_from_matrix($p0, $dp1, (w, h))
-            .transform(|p0| Area2DIterator::new_from_matrix(p0, $dp2, (w, h)))
+            .map(|p0| Area2DIterator::new_from_matrix(p0, $dp2, (w, h)))
         )
     );
 
@@ -56,11 +56,11 @@ pub fn solve() -> ~str {
     let diag_tl = iter!((  0, 0), ( 1, 0), (-1, 1));
     let diag_br = iter!((w-1, 1), ( 0, 1), (-1, 1));
 
-    let it = row.chain_(col).chain_(diag_tr).chain_(diag_bl).chain_(diag_tl).chain_(diag_br);
+    let it = row.chain(col).chain(diag_tr).chain(diag_bl).chain(diag_tl).chain(diag_br);
 
-    return it.transform(|row: Area2DIterator| {
+    return it.map(|row: Area2DIterator| {
         row.windowed(prod_len)
-            .transform(|ns| ns.iter().transform(|&(x, y)| grid[y][x]).product())
+            .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
             .max().unwrap_or_default(0)
     }).max().unwrap().to_str();
 }

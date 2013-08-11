@@ -11,8 +11,8 @@ pub static EXPECTED_ANSWER: &'static str = "1217";
 pub fn solve() -> ~str {
     let nums = vec::from_fn(10, |i| i);
     let all_combs = CombinateIterator::new(nums, 6)
-        .transform(|cs| cs.map(|&x| *x))
-        .transform(|mut cs| {
+        .map(|cs| cs.map(|&x| *x))
+        .map(|mut cs| {
             match (cs.iter().any(|&x| x == 6), cs.iter().any(|&x| x == 9)) {
                 (false, true)  => cs.push(6),
                 (true,  false) => cs.push(9),

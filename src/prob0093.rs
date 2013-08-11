@@ -81,7 +81,7 @@ fn count_seqlen(nums: &[Rational]) -> uint {
 
     iterator::count(1u, 1)
         .take_while(|&i| set.contains(&i))
-        .last_()
+        .last()
         .unwrap_or_default(0)
 }
 

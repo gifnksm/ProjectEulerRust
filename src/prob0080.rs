@@ -43,10 +43,11 @@ fn is_square(n: uint) -> bool {
 pub fn solve() -> ~str {
     return Range::new(2u, 101)
         .filter(|&n| !is_square(n))
-        .transform(|n| {
+        .map(|n| {
             let sqn = sqrt_newton_raphson(n, 100);
             sqn.iter()
                 .filter_map(|c| char::to_digit(c, 10))
                 .sum()
-        }).sum().to_str();
+        }).sum()
+        .to_str();
 }

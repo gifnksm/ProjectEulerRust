@@ -65,7 +65,7 @@ pub fn solve() -> ~str {
         true
     };
 
-    let sum = result.iter().transform(|vs| vs.iter().transform(|&x| x).sum()).sum();
+    let sum = result.move_iter().flat_map(|vs| vs.move_iter()).sum();
     return sum.to_str();
 }
 

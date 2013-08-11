@@ -40,9 +40,8 @@ pub fn solve() -> ~str {
             loop {
                 if open.is_empty() { fail!(); }
 
-                let min_pt = open.iter()
-                    .transform(|&pt| pt)
-                    .min_by(|pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1))
+                let &min_pt = open.iter()
+                    .min_by(|&pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1))
                     .unwrap();
 
                 if min_pt == goal { break; }

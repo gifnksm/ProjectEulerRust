@@ -23,5 +23,5 @@ pub fn solve() -> ~str {
         };
     }
 
-    return v.iter().transform(|&x| x).sum().to_str();
+    return v.move_iter().sum().to_str();
 }

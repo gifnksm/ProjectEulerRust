@@ -12,9 +12,9 @@ use common::extiter::Range;
 pub static EXPECTED_ANSWER: &'static str = "648";
 
 pub fn solve() -> ~str {
-    let s = Range::new::<uint>(1, 101)
-        .transform(|n| BigUint::from_uint(n))
-        .product().to_str();
+    let s = Range::new(BigUint::from_uint(1), BigUint::from_uint(101))
+        .product()
+        .to_str();
     return s.iter()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()

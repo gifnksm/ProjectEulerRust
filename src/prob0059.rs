@@ -50,7 +50,7 @@ fn get_dist(a: &[float], b: &[float]) -> float {
 }
 
 fn find_key(count: &[uint], ref_freq: &[float]) -> u8 {
-    let total = count.iter().transform(|&x| x).sum();
+    let total = count.iter().map(|&x| x).sum();
 
     let mut freq = ~[0f, ..256];
     for (f, &n) in freq.mut_iter().zip(count.iter()) {
@@ -88,7 +88,7 @@ pub fn solve() -> ~str {
             let keys = freq.map(|f| find_key(f.clone(), freq_dict));
             let l = keys.len();
             code_list.iter().enumerate()
-                .transform(|(i, &n)| (n ^ keys[i % l]) as uint)
+                .map(|(i, &n)| (n ^ keys[i % l]) as uint)
                 .sum()
         });
 

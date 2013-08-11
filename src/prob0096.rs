@@ -103,7 +103,7 @@ fn read_sudoku<T: Reader>(r: T) -> SuDoku {
 
 fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
     let group_it = Range::new(0, GROUP_WIDTH * GROUP_HEIGHT)
-        .transform(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
+        .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
         .collect::<~[(uint, uint)]>();
 
     loop {
@@ -115,11 +115,11 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
                 let (x0, y0) = (x / GROUP_WIDTH * GROUP_WIDTH,
                                 y / GROUP_HEIGHT * GROUP_HEIGHT);
-                let row = Range::new(0, BOARD_WIDTH).transform(|x| (x, y));
-                let col = Range::new(0, BOARD_HEIGHT).transform(|y| (x, y));
-                let grp = group_it.iter().transform(|&(dx, dy)| (x0 + dx, y0 + dy));
+                let row = Range::new(0, BOARD_WIDTH).map(|x| (x, y));
+                let col = Range::new(0, BOARD_HEIGHT).map(|y| (x, y));
+                let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
 
-                let mut it = row.chain_(col).chain_(grp)
+                let mut it = row.chain(col).chain(grp)
                     .filter(|&pos: &(uint, uint)| pos != (x, y));
                 let mask = !puzzle.map[y][x] & MASK_ALL;
                 for (x, y) in it { puzzle.map[y][x] &= mask; }
@@ -149,7 +149,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
                 do uint::range_step(0, BOARD_WIDTH, GROUP_HEIGHT as int) |x0| {
                     let mut it = group_it
                         .iter()
-                        .transform(|&(dx, dy)| (x0 + dx, y0 + dy))
+                        .map(|&(dx, dy)| (x0 + dx, y0 + dy))
                         .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
                     let next = it.next();
                     if next.is_some() && it.next().is_none() {
@@ -165,8 +165,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
     }
 
     let it = Range::new(0, BOARD_HEIGHT * BOARD_WIDTH)
-        .transform(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
-        .transform(|(x, y)| (x, y, puzzle.map[y][x].population_count()))
+        .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
+        .map(|(x, y)| (x, y, puzzle.map[y][x].population_count()))
         .collect::<~[(uint, uint, u16)]>();
 
     if it.iter().any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
@@ -195,10 +195,10 @@ pub fn solve() -> ~str {
         let mut puzzles = ~[];
         while !file.eof() { puzzles.push(read_sudoku(file)); }
         puzzles
-            .consume_iter()
-            .transform(solve_sudoku)
-            .peek_(|ans| assert_eq!(ans.len(), 1))
-            .transform(|ans| ans[0])
+            .move_iter()
+            .map(solve_sudoku)
+            .peek(|ans| assert_eq!(ans.len(), 1))
+            .map(|ans| ans[0])
             .collect::<~[SuDoku]>()
     }).map(|answers| {
         let mut sum = 0;

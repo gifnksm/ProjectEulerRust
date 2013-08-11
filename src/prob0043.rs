@@ -83,8 +83,8 @@ pub fn solve() -> ~str {
         };
     }
 
-    return result.consume_iter()
-        .transform(|(r, _e)| calc::digits_to_num(r, 10))
+    return result.move_iter()
+        .map(|(r, _e)| calc::digits_to_num(r, 10))
         .sum()
         .to_str();
 }

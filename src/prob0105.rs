@@ -49,20 +49,20 @@ pub fn solve() -> ~str {
         .map(|reader| {
             reader
                 .line_iter()
-                .transform(|line| {
+                .map(|line| {
                     line.split_iter(',')
                         .filter_map(uint::from_str)
                         .collect::<~[uint]>()
-                }).transform(|mut nums| { nums.qsort(); nums })
+                }).map(|mut nums| { nums.qsort(); nums })
                 .filter(|nums| {
                     let len = nums.len();
                     let len_hd = (len + 1) / 2;
                     let len_tl = len_hd - 1;
-                    let mut hd = nums.slice(0, len_hd).iter().transform(|&x| x);
-                    let mut tl = nums.slice(len - len_tl, len).iter().transform(|&x| x);
+                    let mut hd = nums.slice(0, len_hd).iter().map(|&x| x);
+                    let mut tl = nums.slice(len - len_tl, len).iter().map(|&x| x);
                     hd.sum() > tl.sum()
                 }).filter(|nums| is_sss(*nums))
-                .transform(|nums| nums.iter().transform(|&x| x).sum())
+                .map(|nums| nums.iter().map(|&x| x).sum())
                 .sum()
         });
 

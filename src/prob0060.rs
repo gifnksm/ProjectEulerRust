@@ -73,7 +73,7 @@ pub fn solve() -> ~str {
     let mut sum = 0;
     do each_pair_set(&mut map) |set| {
         if set.len() >= 5 {
-            sum = set.iter().transform(|&x| x).sum();
+            sum = set.iter().map(|&x| x).sum();
             false
         } else {
             true

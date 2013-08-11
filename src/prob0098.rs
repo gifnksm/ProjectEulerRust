@@ -108,7 +108,7 @@ pub fn solve() -> ~str {
                 }
 
                 if !nums.is_empty() {
-                    max = nums.iter().transform(|&x| x).max().unwrap();
+                    max = nums.move_iter().max().unwrap();
                     break;
                 }
             }

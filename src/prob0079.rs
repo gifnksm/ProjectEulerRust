@@ -49,10 +49,11 @@ impl<T: Hash + IterBytes + Eq + Clone> Relations<T> {
     }
 
     fn find_all_not_preceded(&self) -> ~[T] {
-        return self.top.iter()
+        self.top
+            .iter()
             .filter(|&(_k, v)| v.num_prec == 0)
-            .transform(|(k, _v)| k.clone())
-            .collect::<~[T]>();
+            .map(|(k, _v)| k.clone())
+            .collect()
     }
 
     fn delete_and_find(&mut self, prec: T) -> ~[T] {

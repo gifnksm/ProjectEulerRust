@@ -309,7 +309,7 @@ mod tests {
     fn test_fibonacci() {
         let it = Fibonacci::new::<uint>();
         let fib = ~[ 1u, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
-        let gen: ~[uint] = it.take_(fib.len()).collect();
+        let gen: ~[uint] = it.take(fib.len()).collect();
         assert_eq!(gen, fib);
     }
 
@@ -317,21 +317,21 @@ mod tests {
     fn test_triangle() {
         let it = Triangle::new();
         let tri = ~[1u, 3, 6, 10, 15, 21];
-        let gen: ~[uint] = it.take_(tri.len()).collect();
+        let gen: ~[uint] = it.take(tri.len()).collect();
         assert_eq!(gen, tri);
     }
 
     #[test]
     fn test_higher() {
-        let mut it = Range::new(0u, 2).transform(|i| Range::new(i, i + 3)).flatten();
+        let mut it = Range::new(0u, 2).map(|i| Range::new(i, i + 3)).flatten();
         let gen = it.collect::<~[uint]>();
         assert_eq!(gen, ~[0, 1, 2, 1, 2, 3]);
 
-        let mut it = Range::new(0u, 0).transform(|i| Range::new(i, i + 3)).flatten();
+        let mut it = Range::new(0u, 0).map(|i| Range::new(i, i + 3)).flatten();
         let gen = it.collect::<~[uint]>();
         assert_eq!(gen, ~[]);
 
-        let mut it = Range::new(0u, 2).transform(|i| Range::new(i, i)).flatten();
+        let mut it = Range::new(0u, 2).map(|i| Range::new(i, i)).flatten();
         let gen = it.collect::<~[uint]>();
         assert_eq!(gen, ~[]);
     }

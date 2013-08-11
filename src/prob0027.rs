@@ -17,7 +17,7 @@ fn get_len(a: int, b: int) -> uint {
         .take_while(|&n| {
             let val = n * n + a * n + b;
             (val >= 0 && prime::contains(val as uint))
-        }).last_().unwrap() as uint;
+        }).last().unwrap() as uint;
 }
 
 pub fn solve() -> ~str {
@@ -26,7 +26,7 @@ pub fn solve() -> ~str {
         .filter_map(|p| {
             let b = p as int;
             range(-(b as int), 1000)
-                .transform(|a| (a, b, get_len(a, b)))
+                .map(|a| (a, b, get_len(a, b)))
                 .max_by(|&(_a, _b, len)| len)
         }).max_by(|&(_a, _b, len)| len)
         .unwrap();

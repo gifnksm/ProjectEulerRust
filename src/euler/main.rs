@@ -119,10 +119,10 @@ fn main() {
 
     if args.is_empty() {
         solve_all(Range::new(0, problem::PROBLEMS.len())
-                  .transform(|i| problem::PROBLEMS[i]))
+                  .map(|i| problem::PROBLEMS[i]))
     } else {
         solve_all(ArgIterator::new(args)
                   .filter_map(|n| problem::PROBLEMS.bsearch(|&p| p.id.cmp(&n)))
-                  .transform(|i| problem::PROBLEMS[i]));
+                  .map(|i| problem::PROBLEMS[i]));
     };
 }

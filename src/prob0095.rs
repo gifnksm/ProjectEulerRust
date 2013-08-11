@@ -52,7 +52,7 @@ pub fn solve() -> ~str {
     }
 
     let (n, _div) = Range::new(1, len_map.len())
-        .transform(|n| (n, get_chain_len(n, len_map, div_map)))
+        .map(|n| (n, get_chain_len(n, len_map, div_map)))
         .max_by(|&(_n, div)| div)
         .unwrap();
 

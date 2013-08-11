@@ -252,7 +252,7 @@ mod tests {
     #[test]
     fn test_mconcat() {
         fn check_wrap<T: Eq + Clone, M: Monoid + Wrap<T>>(v: &[T], f: &fn(T) -> M, result: T) {
-            let ms = v.to_owned().consume_iter().transform(f).collect::<~[M]>();
+            let ms = v.to_owned().move_iter().map(f).collect::<~[M]>();
             assert_eq!(mconcat(ms).unwrap(), result);
         }
 
@@ -295,14 +295,14 @@ mod tests {
                                              f: &fn(int) -> M,
                                              result: &[(int, int)]) {
             let merged: ~[(int, M)] = MergeMonoidIterator::new(
-                v1.iter().transform(|&(x, y)| (x, f(y))),
-                v2.iter().transform(|&(x, y)| (x, f(y)))
+                v1.iter().map(|&(x, y)| (x, f(y))),
+                v2.iter().map(|&(x, y)| (x, f(y)))
             ).collect();
             assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
 
             let merged: ~[(int, M)] = MergeMonoidIterator::new(
-                v2.iter().transform(|&(x, y)| (x, f(y))),
-                v1.iter().transform(|&(x, y)| (x, f(y)))
+                v2.iter().map(|&(x, y)| (x, f(y))),
+                v1.iter().map(|&(x, y)| (x, f(y)))
             ).collect();
             assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
         }
@@ -331,7 +331,7 @@ mod tests {
                                                      f: &fn(int) -> M,
                                                      result: &[(int, int)]) {
             do vec::each_permutation(vs) |vs| {
-                let vs = vs.map(|ks| ks.map(|&(x, y)| (x, f(y))).consume_iter());
+                let vs = vs.map(|ks| ks.map(|&(x, y)| (x, f(y))).move_iter());
                 let merged = MergeMultiMonoidIterator::new(vs).collect::<~[(int, M)]>();
                 assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
                 true

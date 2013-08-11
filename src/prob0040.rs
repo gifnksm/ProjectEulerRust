@@ -105,5 +105,5 @@ impl IdxValueMap {
 pub fn solve() -> ~str {
     let mut map = IdxValueMap::new();
     let idx = &[ 1u, 10, 100, 1000, 10000, 100000, 1000000 ];
-    return idx.iter().transform(|&i| map.get_digit_by_idx(i)).product().to_str();
+    return idx.iter().map(|&i| map.get_digit_by_idx(i)).product().to_str();
 }

@@ -12,18 +12,18 @@ use common::reader::ReaderIterator;
 pub static EXPECTED_ANSWER: &'static str = "871198282";
 
 fn get_score(n: uint, s: &str) -> uint {
-    n * s.byte_iter().transform(|c| (c - ('A' as u8) + 1) as uint).sum()
+    n * s.byte_iter().map(|c| (c - ('A' as u8) + 1) as uint).sum()
 }
 
 pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/names.txt")).map(|input| {
         let mut ss = input.sep_iter(',' as u8, false)
-            .transform(|s| s.trim().trim_chars(&'\"').to_str())
+            .map(|s| s.trim().trim_chars(&'\"').to_str())
             .collect::<~[~str]>();
         ss.qsort();
         ss.iter()
             .enumerate()
-            .transform(|(i, s)| {  get_score(i + 1, *s)} )
+            .map(|(i, s)| {  get_score(i + 1, *s)} )
             .sum()
     });
 
