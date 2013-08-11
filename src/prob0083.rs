@@ -16,7 +16,7 @@ pub fn solve() -> ~str {
         .map(|file| {
             let mut mat = ~[];
             do file.each_line |line| {
-                mat.push(line.split_iter(',').filter_map(uint::from_str).collect::<~[uint]>());
+                mat.push(line.split_iter(',').filter_map(uint::from_str).to_owned_vec());
                 assert_eq!(mat[0].len(), mat.last().len());
                 true
             };

@@ -1,9 +1,8 @@
 use std::{iterator, local_data};
-use std::iterator::{MultiplicativeIterator, Map};
+use std::iterator::MultiplicativeIterator;
 use std::local_data::Key;
 
 use calc;
-use extiter::Range;
 use monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
 
 static PRIMES_BELOW100: &'static [uint] = &[
@@ -146,18 +145,16 @@ pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
 
 #[inline(always)]
 pub fn comb(n: uint, r: uint) -> uint {
-    let ns: ~[Map<(uint, int), (uint, Sum<int>), FactorIterator>]
-        = Range::new(r + 1, n + 1)
+    let ns = iterator::range(r + 1, n + 1)
         .map(factorize)
         .map(|fs| fs.map(|(base, exp)| (base, Sum(exp))))
-        .collect();
+        .to_owned_vec();
     let numer = MergeMultiMonoidIterator::new(ns);
 
-    let ds: ~[Map<(uint, int), (uint, Sum<int>), FactorIterator>]
-        = Range::new(1, n - r + 1)
+    let ds = iterator::range(1, n - r + 1)
         .map(factorize)
         .map(|fs| fs.map(|(base, exp)| (base, Sum(-exp))))
-        .collect();
+        .to_owned_vec();
     let denom = MergeMultiMonoidIterator::new(ds);
 
     return factors_to_uint(

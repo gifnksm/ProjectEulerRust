@@ -3,9 +3,8 @@
 
 extern mod common;
 
-use std::uint;
+use std::{iterator, uint};
 use common::calc;
-use common::extiter::Range;
 
 pub static EXPECTED_ANSWER: &'static str = "906609";
 
@@ -33,8 +32,8 @@ impl Iterator<(uint, uint)> for DividablePairsIterator {
 }
 
 pub fn solve() -> ~str {
-    let it1 = Range::new_rev(999u, 99).map(|seed| calc::to_palindromic(seed, 10, false));
-    let it2 = Range::new_rev(999u, 99).map(|seed| calc::to_palindromic(seed, 10, true));
+    let it1 = iterator::range(99u, 999).invert().map(|seed| calc::to_palindromic(seed, 10, false));
+    let it2 = iterator::range(99u, 999).invert().map(|seed| calc::to_palindromic(seed, 10, true));
 
     it1.chain(it2)
         .flat_map(|n| DividablePairsIterator::new(n, 100, 999))

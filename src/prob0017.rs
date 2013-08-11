@@ -1,10 +1,8 @@
 #[link(name = "prob0017", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
-
+use std::iterator;
 use std::iterator::AdditiveIterator;
-use common::extiter::Range;
 
 pub static EXPECTED_ANSWER: &'static str = "21124";
 
@@ -84,11 +82,11 @@ fn to_word(n: uint) -> ~str {
 }
 
 pub fn solve() -> ~str {
-    return Range::new::<uint>(1, 1001)
+    iterator::range(1u, 1001)
         .map(to_word)
         .map(|w| w.iter()
              .filter(|&c| c != '-' && c != ' ')
              .len())
         .sum()
-        .to_str();
+        .to_str()
 }

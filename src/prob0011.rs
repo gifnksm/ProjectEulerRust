@@ -33,11 +33,11 @@ static INPUT: &'static str = &"
 ";
 
 pub fn solve() -> ~str {
-    let grid: ~[~[uint]] = INPUT
+    let grid = INPUT
         .trim()
         .line_iter()
-        .map(|line| line.word_iter().filter_map(uint::from_str).collect::<~[uint]>())
-        .collect();
+        .map(|line| line.word_iter().filter_map(uint::from_str).to_owned_vec())
+        .to_owned_vec();
 
     let prod_len = 4;
     let (w, h) = (grid[0].len() as int, grid.len() as int);

@@ -4,12 +4,11 @@
 extern mod extra;
 extern mod common;
 
-use std::char;
+use std::{char, iterator};
 use std::iterator::AdditiveIterator;
 use std::num::Zero;
 use extra::bigint::BigInt;
 use common::arith;
-use common::extiter::Range;
 
 pub static EXPECTED_ANSWER: &'static str = "40886";
 
@@ -41,7 +40,7 @@ fn is_square(n: uint) -> bool {
 }
 
 pub fn solve() -> ~str {
-    return Range::new(2u, 101)
+    return iterator::range(2u, 101)
         .filter(|&n| !is_square(n))
         .map(|n| {
             let sqn = sqrt_newton_raphson(n, 100);

@@ -12,7 +12,7 @@ pub fn solve() -> ~str {
         .map(|file| {
             let mut triangle = ~[];
             do file.each_line |line| {
-                triangle.push(line.word_iter().filter_map(uint::from_str).collect::<~[uint]>());
+                triangle.push(line.word_iter().filter_map(uint::from_str).to_owned_vec());
                 true
             };
             triangle

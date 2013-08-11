@@ -19,7 +19,7 @@ pub fn solve() -> ~str {
     let result = io::file_reader(&Path("files/names.txt")).map(|input| {
         let mut ss = input.sep_iter(',' as u8, false)
             .map(|s| s.trim().trim_chars(&'\"').to_str())
-            .collect::<~[~str]>();
+            .to_owned_vec();
         ss.qsort();
         ss.iter()
             .enumerate()

@@ -80,7 +80,7 @@ pub fn solve() -> ~str {
     let result = io::read_whole_file_str(&Path("files/cipher1.txt"))
         .map(|input| {
             let code_list = input.trim().split_iter(',')
-                .filter_map(u8::from_str).collect::<~[u8]>();
+                .filter_map(u8::from_str).to_owned_vec();
 
             let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
             for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n] += 1; }

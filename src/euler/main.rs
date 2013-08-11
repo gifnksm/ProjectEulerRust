@@ -1,11 +1,11 @@
 extern mod extra;
 extern mod common;
 
-use std::{uint, io, os};
+use std::{io, iterator, os, uint};
+use std::iterator::Range;
 use extra::{time, term};
 use extra::term::Terminal;
 use problem::Problem;
-use common::extiter::Range;
 
 mod problem;
 
@@ -48,19 +48,19 @@ struct ArgIterator<'self> {
 
 impl<'self> ArgIterator<'self> {
     pub fn new<'a>(args: &'a [~str]) -> ArgIterator<'a> {
-        let mut it = ArgIterator { args: args, idx: 0, cur_range: Range::new(0u, 0) };
+        let mut it = ArgIterator { args: args, idx: 0, cur_range: iterator::range(0u, 0) };
         it.update_range();
         return it;
     }
 
     fn update_range(&mut self) {
-        self.cur_range = Range::new(0u, 0);
+        self.cur_range = iterator::range(0u, 0);
         if self.idx >= self.args.len() { return; }
 
         if !self.args[self.idx].contains_char('-') {
             let n = uint::from_str(self.args[self.idx]);
             for &n in n.iter() {
-                self.cur_range = Range::new(n, n + 1);
+                self.cur_range = iterator::range(n, n + 1);
             }
             return;
         }
@@ -73,7 +73,7 @@ impl<'self> ArgIterator<'self> {
             }
         }
         if ns.len() > 2 { return; }
-        self.cur_range = Range::new(ns[0], ns[1] + 1);
+        self.cur_range = iterator::range(ns[0], ns[1] + 1);
         println(fmt!("%?", ns));
     }
 }
@@ -118,7 +118,7 @@ fn main() {
     let args = args.tail();
 
     if args.is_empty() {
-        solve_all(Range::new(0, problem::PROBLEMS.len())
+        solve_all(iterator::range(0, problem::PROBLEMS.len())
                   .map(|i| problem::PROBLEMS[i]))
     } else {
         solve_all(ArgIterator::new(args)

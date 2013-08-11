@@ -1,11 +1,8 @@
 #[link(name = "prob0096", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
-
-use std::{uint, io, char, vec};
+use std::{char, io, iterator, uint, vec};
 use std::num::ToStrRadix;
-use common::extiter::Range;
 
 pub static EXPECTED_ANSWER: &'static str = "24702";
 
@@ -25,7 +22,7 @@ struct SuDoku {
 impl TotalEq for SuDoku {
     #[inline(always)]
     fn equals(&self, other: &SuDoku) -> bool {
-        self.name == other.name && Range::new(0, BOARD_HEIGHT).all(|y| self.map[y] == other.map[y])
+        self.name == other.name && iterator::range(0, BOARD_HEIGHT).all(|y| self.map[y] == other.map[y])
     }
 }
 
@@ -102,9 +99,9 @@ fn read_sudoku<T: Reader>(r: T) -> SuDoku {
 }
 
 fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
-    let group_it = Range::new(0, GROUP_WIDTH * GROUP_HEIGHT)
+    let group_it = iterator::range(0, GROUP_WIDTH * GROUP_HEIGHT)
         .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
-        .collect::<~[(uint, uint)]>();
+        .to_owned_vec();
 
     loop {
         let bkup = puzzle.clone();
@@ -115,8 +112,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
                 let (x0, y0) = (x / GROUP_WIDTH * GROUP_WIDTH,
                                 y / GROUP_HEIGHT * GROUP_HEIGHT);
-                let row = Range::new(0, BOARD_WIDTH).map(|x| (x, y));
-                let col = Range::new(0, BOARD_HEIGHT).map(|y| (x, y));
+                let row = iterator::range(0, BOARD_WIDTH).map(|x| (x, y));
+                let col = iterator::range(0, BOARD_HEIGHT).map(|y| (x, y));
                 let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
 
                 let mut it = row.chain(col).chain(grp)
@@ -130,7 +127,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
             let bit = 1 << n;
 
             for y in range(0, BOARD_HEIGHT) {
-                let mut it = Range::new(0, BOARD_WIDTH)
+                let mut it = iterator::range(0, BOARD_WIDTH)
                     .filter(|&x| puzzle.map[y][x] & bit != 0);
                 let next = it.next();
                 if next.is_none() || it.next().is_some() { loop; }
@@ -138,7 +135,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
             }
 
             for x in range(0, BOARD_WIDTH) {
-                let mut it = Range::new(0, BOARD_HEIGHT)
+                let mut it = iterator::range(0, BOARD_HEIGHT)
                     .filter(|&y| puzzle.map[y][x] & bit != 0);
                 let next = it.next();
                 if next.is_none() || it.next().is_some() { loop; }
@@ -164,10 +161,10 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
         if puzzle == bkup { break; }
     }
 
-    let it = Range::new(0, BOARD_HEIGHT * BOARD_WIDTH)
+    let it = iterator::range(0, BOARD_HEIGHT * BOARD_WIDTH)
         .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
         .map(|(x, y)| (x, y, puzzle.map[y][x].population_count()))
-        .collect::<~[(uint, uint, u16)]>();
+        .to_owned_vec();
 
     if it.iter().any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
     if it.iter().all(|&(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
@@ -199,7 +196,7 @@ pub fn solve() -> ~str {
             .map(solve_sudoku)
             .peek(|ans| assert_eq!(ans.len(), 1))
             .map(|ans| ans[0])
-            .collect::<~[SuDoku]>()
+            .to_owned_vec()
     }).map(|answers| {
         let mut sum = 0;
         for ans in answers.iter() {

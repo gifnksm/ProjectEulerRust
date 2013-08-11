@@ -38,7 +38,7 @@ pub fn solve() -> ~str {
              do reader::read_whole_word(input).map |words| {
                 let mut map = ~HashMap::new();
                 for &word in words.iter() {
-                    let mut cs: ~[char] = word.iter().collect();
+                    let mut cs = word.iter().to_owned_vec();
                     sort::quick_sort(cs, |a, b| a <= b);
                     match map.pop(&cs) {
                         None     => { map.insert(cs, ~[word.to_str()]); }

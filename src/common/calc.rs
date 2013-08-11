@@ -1,10 +1,9 @@
 use std::num::IntConvertible;
 use std::hashmap::{HashMap, HashSet};
-use std::{util, vec};
+use std::{iterator, util, vec};
 use std::iterator::MultiplicativeIterator;
 
 use arith::isqrt;
-use extiter::Range;
 
 pub struct PrimPythagoreanIterator {
     priv m: uint,
@@ -96,7 +95,7 @@ pub fn to_palindromic(n: uint, radix: uint, dup_flag: bool) -> uint {
 
 pub fn is_palindromic(n: uint, radix: uint) -> bool {
     let digits = num_to_digits(n, radix);
-    return Range::new(0, digits.len() / 2).all(|i| {
+    return iterator::range(0, digits.len() / 2).all(|i| {
         digits[i] == digits[digits.len() - 1 - i]
     });
 }
@@ -388,7 +387,7 @@ mod tests {
     #[test]
     fn test_prim_pythagorean_iterator() {
         fn check(m: uint, v: ~[(uint, uint, uint)]) {
-            assert_eq!(PrimPythagoreanIterator::new(m).collect::<~[(uint, uint, uint)]>(), v);
+            assert_eq!(PrimPythagoreanIterator::new(m).to_owned_vec(), v);
         }
 
         check(2, ~[(3, 4, 5)]);
@@ -411,7 +410,7 @@ mod tests {
             let hist = histogram(inp);
             let mut vec = hist.iter()
                 .map(|(&k, &v)| (k, v))
-                .collect::<~[(uint, uint)]>();
+                .to_owned_vec();
             vec.qsort();
             assert_eq!(vec.initn(0), result);
         }
@@ -484,7 +483,7 @@ mod tests {
     #[test]
     fn test_combinate_iterator() {
         fn check(v: &[uint], len: uint, expect: ~[~[&uint]]) {
-            assert_eq!(CombinateIterator::new(v, len).collect::<~[~[&uint]]>(), expect);
+            assert_eq!(CombinateIterator::new(v, len).to_owned_vec(), expect);
         }
 
         check([], 0, ~[]);

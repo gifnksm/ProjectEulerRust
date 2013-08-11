@@ -53,7 +53,7 @@ impl<T: Hash + IterBytes + Eq + Clone> Relations<T> {
             .iter()
             .filter(|&(_k, v)| v.num_prec == 0)
             .map(|(k, _v)| k.clone())
-            .collect()
+            .to_owned_vec()
     }
 
     fn delete_and_find(&mut self, prec: T) -> ~[T] {
@@ -92,7 +92,7 @@ pub fn solve() -> ~str {
         .map(|file| {
             let mut rels = Relations::new();
             do file.each_line |line| {
-                let ds: ~[uint] = line.iter().filter_map(|c| char::to_digit(c, 10)).collect();
+                let ds = line.iter().filter_map(|c| char::to_digit(c, 10)).to_owned_vec();
                 for i in range(1, ds.len()) {
                     rels.set_dependant(ds[i - 1], ds[i]);
                 }

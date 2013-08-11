@@ -19,7 +19,7 @@ pub fn solve() -> ~str {
                 _ => {}
             }
             cs
-        }).collect::<~[~[uint]]>();
+        }).to_owned_vec();
 
     let nums = do vec::from_fn(9) |i| {
         let n = (i + 1) * (i + 1);

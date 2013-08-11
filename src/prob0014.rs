@@ -1,10 +1,8 @@
 #[link(name = "prob0014", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
-
+use std::iterator;
 use std::hashmap::HashMap;
-use common::extiter::Range;
 
 pub static EXPECTED_ANSWER: &'static str = "837799";
 
@@ -27,7 +25,7 @@ pub fn solve() -> ~str {
     let mut map = HashMap::new();
     map.insert(1u, 1u);
 
-    return Range::new::<uint>(2, 1000000)
+    return iterator::range(2u, 1000000)
         .max_by(|&n| get_len(&mut map, n))
         .unwrap()
         .to_str();
