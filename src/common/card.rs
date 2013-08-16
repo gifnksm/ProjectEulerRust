@@ -17,7 +17,7 @@ impl ToStr for Suit {
 }
 
 impl FromStr for Suit {
-    pub fn from_str(s: &str) -> Option<Suit> {
+    fn from_str(s: &str) -> Option<Suit> {
         if s.len() != 1 { return None; }
         return match s {
             "S" => Some(Spade),

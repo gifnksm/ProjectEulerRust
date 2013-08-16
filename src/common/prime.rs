@@ -54,8 +54,7 @@ pub fn contains(n: uint) -> bool {
             nums.bsearch_elem(&n).is_some()
         } else {
             iterator::count(0u, 1)
-                .peek(|&i| grow(nums, i + 1))
-                .map(|i| nums[i])
+                .map(|i| { grow(nums, i + 1); nums[i] })
                 .take_while(|&p| p * p <= n)
                 .all(|p| n % p != 0)
         }

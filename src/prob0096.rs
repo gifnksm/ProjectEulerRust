@@ -194,8 +194,7 @@ pub fn solve() -> ~str {
         puzzles
             .move_iter()
             .map(solve_sudoku)
-            .peek(|ans| assert_eq!(ans.len(), 1))
-            .map(|ans| ans[0])
+            .map(|ans| { assert_eq!(ans.len(), 1); ans[0] })
             .to_owned_vec()
     }).map(|answers| {
         let mut sum = 0;

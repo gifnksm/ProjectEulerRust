@@ -117,7 +117,7 @@ impl<'self, T> CombinateIterator<'self, T> {
 }
 
 impl<'self, T> Iterator<~[&'self T]> for CombinateIterator<'self, T> {
-    pub fn next(&mut self) -> Option<~[&'self T]> {
+    fn next(&mut self) -> Option<~[&'self T]> {
         let comb_len = self.next_idx.len();
         let num_elem = self.all_elems.len();
 

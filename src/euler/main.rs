@@ -79,7 +79,7 @@ impl<'self> ArgIterator<'self> {
 }
 
 impl<'self> Iterator<uint> for ArgIterator<'self> {
-    pub fn next(&mut self) -> Option<uint> {
+    fn next(&mut self) -> Option<uint> {
         loop {
             if self.idx >= self.args.len() { return None; }
             match self.cur_range.next() {
