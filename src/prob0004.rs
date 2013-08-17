@@ -1,10 +1,10 @@
 #[link(name = "prob0004", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
-use std::{iterator, uint};
-use common::calc;
+use std::uint;
+use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "906609";
 
@@ -32,8 +32,8 @@ impl Iterator<(uint, uint)> for DividablePairsIterator {
 }
 
 pub fn solve() -> ~str {
-    let it1 = iterator::range(99u, 999).invert().map(|seed| calc::to_palindromic(seed, 10, false));
-    let it2 = iterator::range(99u, 999).invert().map(|seed| calc::to_palindromic(seed, 10, true));
+    let it1 = range(99u, 999).invert().map(|seed| numconv::to_palindromic(seed, 10, false));
+    let it2 = range(99u, 999).invert().map(|seed| numconv::to_palindromic(seed, 10, true));
 
     it1.chain(it2)
         .flat_map(|n| DividablePairsIterator::new(n, 100, 999))

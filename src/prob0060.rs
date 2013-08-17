@@ -1,12 +1,12 @@
 #[link(name = "prob0060", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
 use std::{util, uint};
 use std::hashmap::HashMap;
 use std::iterator::AdditiveIterator;
-use common::prime;
+use math::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "26033";
 

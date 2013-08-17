@@ -3,12 +3,14 @@
 
 extern mod extra;
 extern mod common;
+extern mod math;
 
 use std::iterator;
 use std::num::Zero;
 use std::hashmap::HashSet;
 use extra::rational::{Rational, Ratio};
 use common::calc;
+use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "1258";
 
@@ -92,7 +94,8 @@ pub fn solve() -> ~str {
         let cnt = count_seqlen(nums);
         if cnt > max_cnt {
             max_cnt = cnt;
-            max_seq = calc::digits_to_num(nums.map(|r| r.numer as uint), 10).to_str();
+            let ds = nums.rev_iter().map(|r| r.numer as uint).to_owned_vec();
+            max_seq = numconv::from_digits(ds, 10).to_str();
         }
         true
     };

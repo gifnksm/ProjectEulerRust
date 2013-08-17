@@ -3,7 +3,7 @@
 find . -name '*.rs' | while read FILE; do
     sed -n -e '/extra/!s| *extern  *mod  *\(.*\) *;$|'"${FILE}"': $(LIBDIR)/lib\1$(LIBEXT)|p' ${FILE};
     echo "${FILE}: ${FILE}"
- done | sed -e '
+done | sed -e '
 s|./src/\([^/\.]*\)[^:]*|\1|;
 /^euler: /!s|\(.*\): \(.*\)$|$(LIBDIR)/lib\1$(LIBEXT): \2\
 $(BINDIR)/\1.test$(EXEEXT): \2|;

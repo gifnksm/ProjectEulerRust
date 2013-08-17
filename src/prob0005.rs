@@ -2,10 +2,11 @@
 #[crate_type = "lib"];
 
 extern mod common;
+extern mod math;
 
 use std::vec;
-use common::prime;
 use common::monoid::{Max, MergeMultiMonoidIterator, Wrap};
+use math::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "232792560";
 

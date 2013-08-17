@@ -2,10 +2,10 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+extern mod math;
 
-use extra::bigint::{BigUint};
-use common::calc::{each_pel};
+use extra::bigint::BigUint;
+use math::cont_frac;
 
 pub static EXPECTED_ANSWER: &'static str = "518408346";
 
@@ -36,7 +36,7 @@ pub static EXPECTED_ANSWER: &'static str = "518408346";
 // L <= 1000000000
 // k <= (100000000 - 4) / 6, (100000000 - 2) / 6
 fn each_ab(f: &fn(uint, uint) -> bool) -> bool {
-    do each_pel::<BigUint>(3) |x, _y| {
+    do cont_frac::each_pel::<BigUint>(3) |x, _y| {
         match x.to_uint() % 3 {
             1 => {
                 let k = (x.to_uint() - 1) / 3;

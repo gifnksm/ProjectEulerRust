@@ -1,54 +1,6 @@
-use std::num::IntConvertible;
-use std::hashmap::{HashMap, HashSet};
-use std::{iterator, util, vec};
+use std::hashmap::HashMap;
+use std::vec;
 use std::iterator::MultiplicativeIterator;
-
-use arith::isqrt;
-
-pub struct PrimPythagoreanIterator {
-    priv m: uint,
-    priv n: uint
-}
-
-impl PrimPythagoreanIterator {
-    pub fn new(m: uint) -> PrimPythagoreanIterator {
-        let n0 = if m.is_even() { 1 } else { 2 };
-        PrimPythagoreanIterator { m: m, n: n0 }
-    }
-}
-
-impl Iterator<(uint, uint, uint)> for PrimPythagoreanIterator {
-    fn next(&mut self) -> Option<(uint, uint, uint)> {
-        let m = self.m;
-        while self.n < m {
-            let n = self.n;
-            self.n += 2;
-
-            if m.gcd(&n) != 1 { loop; }
-
-            let (m2, n2)  = (m * m, n * n);
-            let (a, b, c) = (m2 - n2, 2 * m * n, m2 + n2);
-            if a < b {
-                return(Some((a, b, c)))
-            } else {
-                return(Some((b, a, c)))
-            }
-        };
-        None
-    }
-}
-
-pub fn factorial(n: uint) -> uint { range(1, n + 1).product() }
-
-pub fn digit_histogram(n: uint) -> [uint, ..10] {
-    let mut hist = [0, ..10];
-    let mut itr = n;
-    while itr > 0 {
-        hist[itr % 10] += 1;
-        itr /= 10;
-    }
-    return hist;
-}
 
 pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::new::<T, uint>();
@@ -60,6 +12,8 @@ pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> 
 }
 
 pub fn num_of_permutations<T: Eq + Hash>(hist: &HashMap<T, uint>) -> uint {
+    fn factorial(n: uint) -> uint { range(1, n + 1).product() }
+
     let mut sum = 0;
     let mut div = 1;
     for (_, cnt) in hist.iter() {
@@ -67,37 +21,6 @@ pub fn num_of_permutations<T: Eq + Hash>(hist: &HashMap<T, uint>) -> uint {
         div *= factorial(*cnt);
     }
     return factorial(sum) / div;
-}
-
-pub fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
-    let mut buf: [uint, ..64] = [0, ..64];
-    let mut filled_idx = buf.len();
-    let mut itr = n;
-    while itr != 0 {
-        buf[filled_idx - 1] = itr % radix;
-        filled_idx -= 1;
-        itr /= radix;
-    }
-    return buf.slice(filled_idx, buf.len()).to_owned();
-}
-
-pub fn digits_to_num(v: &[uint], radix: uint) -> uint {
-    v.iter().fold(0, |accum, &n| accum * radix + n)
-}
-
-pub fn to_palindromic(n: uint, radix: uint, dup_flag: bool) -> uint {
-    let digits = num_to_digits(n, radix);
-    let mut rv = digits.rev_iter();
-    if dup_flag { rv.next(); }
-
-    return digits.iter().chain(rv).fold(0, |sum, &i| sum * radix + i);
-}
-
-pub fn is_palindromic(n: uint, radix: uint) -> bool {
-    let digits = num_to_digits(n, radix);
-    return iterator::range(0, digits.len() / 2).all(|i| {
-        digits[i] == digits[digits.len() - 1 - i]
-    });
 }
 
 pub struct CombinateIterator<'self, T> {
@@ -173,6 +96,18 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
     let max_vec = fill_zero(num_to_digits(max, 10), len);
     return perm_sub(digits, len, to_some(min_vec), to_some(max_vec), f);
 
+    fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
+        let mut buf: [uint, ..64] = [0, ..64];
+        let mut filled_idx = buf.len();
+        let mut itr = n;
+        while itr != 0 {
+            buf[filled_idx - 1] = itr % radix;
+            filled_idx -= 1;
+            itr /= radix;
+        }
+        return buf.slice(filled_idx, buf.len()).to_owned();
+    }
+
     fn fill_zero(v: &[uint], n: uint) -> ~[uint] {
         assert!(n >= v.len());
         vec::from_elem(n - v.len(), 0u) + v
@@ -181,9 +116,9 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
     fn to_some<'a>(v: &'a [uint]) -> Option<&'a [uint]> { Some(v) }
 
     fn perm_sub(digits: &[uint], len: uint,
-                     min: Option<&[uint]>,
-                     max: Option<&[uint]>,
-                     f: &fn(uint, &[uint])->bool) -> bool {
+                min: Option<&[uint]>,
+                max: Option<&[uint]>,
+                f: &fn(uint, &[uint])->bool) -> bool {
         if len == 0 { return f(0, digits); }
 
         let unit = {
@@ -218,191 +153,10 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
     }
 }
 
-pub fn cont_frac_sqrt(n: uint) -> (uint, ~[uint]) {
-    let mut a0 = 0;
-    let mut an = ~[];
-    let mut set = HashSet::new();
-
-    do each_a(n) |a, pqr| {
-        if a == 0 || set.contains(&(a, pqr)) {
-            false
-        } else {
-            set.insert((a, pqr));
-            if set.len() == 1 {
-                a0 = a;
-            } else {
-                an.push(a);
-            }
-            true
-        }
-    };
-    return (a0, an);
-
-    // f_n (p, q, r) := (p sqrt(n) + q)/ r
-    //                = a + (1 / (rp sqrt(n) + rb) / (np^2 - b^2))
-    // a := |f_n(p, q, r)|
-    // b := ar - q
-    // (p, q, r) := (rp / m, rb / m, (np^2 - b^2) / m)
-    #[inline(always)]
-    fn each_a(n: uint, f: &fn(uint, (uint, uint, uint)) -> bool) -> bool {
-        let sqn = isqrt(n);
-        let mut p = 1;
-        let mut q = 0;
-        let mut r = 1;
-        loop {
-            let a = calc_a(n, sqn, (p, q, r));
-            if a * a == n || p == 0 {
-                p = 0; q = 0; r = 1;
-            } else {
-                let b = a * r - q;
-                let (p2, q2, r2) = (r*p, r*b, n*p*p - b*b);
-                let m = p2.gcd(&q2).gcd(&r2);
-                p = p2 / m;
-                q = q2 / m;
-                r = r2 / m;
-            }
-            if !f(a, (p, q, r)) { return false; }
-        }
-    }
-
-
-    // a <= f_n(p, q, r) < a + 1
-    // r a - q <= p sqrt(n) < r (a + 1) - pq
-    // (ar - q)^2 <= np^2 < ((a+1)r - q)^2
-    #[inline(always)]
-    fn calc_a(n: uint, sqn: uint, (p, q, r): (uint, uint, uint)) -> uint {
-        // g(a, r, q) := (ar - q)^2
-        #[inline(always)]
-        fn g(a: uint, r: uint, q: uint) -> uint {
-            let s = a * r - q;
-            return s * s;
-        }
-
-        let np2 = n * p * p;
-        let estim_a = (p * sqn + q) / r;
-        let mut a = estim_a;
-        while g(a + 1, r, q) <= np2 {
-            a = a + 1;
-        }
-        return a;
-    }
-}
-
-pub fn fold_cont_frac<
-    T: IntConvertible + Add<T, T> + Mul<T, T>
-    >(an: &[uint]) -> (T, T) {
-    let mut numer = IntConvertible::from_int::<T>(1);
-    let mut denom = IntConvertible::from_int::<T>(0);
-
-    for &a in an.rev_iter() {
-        util::swap(&mut numer, &mut denom);
-        numer = numer + IntConvertible::from_int::<T>(a as int) * denom;
-    }
-
-    return (numer, denom);
-}
-
-/// solve pel equation x^2 - y^2 = 1
-pub fn solve_pel<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
-    let (a0, an) = cont_frac_sqrt(d);
-    if an.len() % 2 == 0 {
-        return fold_cont_frac::<T>(~[a0] + an.init());
-    } else {
-        return fold_cont_frac::<T>(~[a0] + an + an.init());
-    }
-}
-
-/// each (x, y) sufficient x^2 - y^2 = 1
-pub fn each_pel<
-    T: IntConvertible + Add<T, T> + Mul<T, T> + Clone
-    >(d: uint, f: &fn(&T, &T)->bool) -> bool {
-    let n = IntConvertible::from_int::<T>(d as int);
-    let (x1, y1) = solve_pel::<T>(d);
-    let mut xk = x1.clone();
-    let mut yk = y1.clone();
-    loop {
-        // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
-        // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
-        //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
-        if !f(&xk, &yk) { return false; }
-        let xk_1 = xk * x1 + n * yk * y1;
-        let yk_1 = x1 * yk + xk * y1;
-        xk = xk_1;
-        yk = yk_1;
-    }
-}
-
-/// solve pel equation x^2 - y^2 = -1
-pub fn solve_pel_neg<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
-    let (a0, an) = cont_frac_sqrt(d);
-    if an.len() % 2 == 0 {
-        return fold_cont_frac::<T>(~[a0] + an + an.init());
-    } else {
-        return fold_cont_frac::<T>(~[a0] + an.init());
-    }
-}
-
-/// each (x, y) sufficient x^2 - y^2 = -1
-pub fn each_pel_neg<
-    T: IntConvertible + Add<T, T> + Mul<T, T> + Clone
-    >(d: uint, f: &fn(&T, &T)->bool) -> bool {
-    let n = IntConvertible::from_int::<T>(d as int);
-    let (x1, y1) = solve_pel_neg::<T>(d);
-    let mut xk = x1.clone();
-    let mut yk = y1.clone();
-    let mut cnt = 0u;
-    loop {
-        // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
-        // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
-        //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
-        if cnt.is_even() && !f(&xk, &yk) { return false; }
-        let xk_1 = xk * x1 + n * yk * y1;
-        let yk_1 = x1 * yk + xk * y1;
-        xk = xk_1;
-        yk = yk_1;
-        cnt += 1;
-    }
-}
-
-pub fn pow(base: uint, exp: uint) -> uint {
-    let mut result = 1;
-    let mut itr = exp;
-    let mut pow = base;
-    while itr > 0 {
-        if itr & 0x1 == 0x1 {
-            result *= pow;
-        }
-        itr >>= 1;
-        pow *= pow;
-    }
-    return result;
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use extra::sort::Sort;
-    use extra::bigint::BigUint;
-
-    #[test]
-    fn test_prim_pythagorean_iterator() {
-        fn check(m: uint, v: ~[(uint, uint, uint)]) {
-            assert_eq!(PrimPythagoreanIterator::new(m).to_owned_vec(), v);
-        }
-
-        check(2, ~[(3, 4, 5)]);
-        check(3, ~[(5, 12, 13)]);
-        check(4, ~[(8, 15, 17), (7, 24, 25)]);
-    }
-
-    #[test]
-    fn test_factorial() {
-        assert_eq!(factorial(0), 1);
-        assert_eq!(factorial(1), 1);
-        assert_eq!(factorial(2), 2);
-        assert_eq!(factorial(3), 6);
-        assert_eq!(factorial(10), 3628800);
-    }
 
     #[test]
     fn test_histogram() {
@@ -426,58 +180,6 @@ mod tests {
         assert_eq!(num_of_permutations(&histogram([1, 2, 3])), 6);
         assert_eq!(num_of_permutations(&histogram([1, 1, 1, 2, 3])), 20);
         assert_eq!(num_of_permutations(&histogram([1, 1, 1, 2, 3, 1, 1])), 42);
-    }
-
-    #[test]
-    fn test_num_to_digits() {
-        assert_eq!(num_to_digits(0, 10), ~[]);
-        assert_eq!(num_to_digits(1, 10), ~[1]);
-        assert_eq!(num_to_digits(10, 10), ~[1, 0]);
-    }
-
-    #[cfg(target_arch = "x86_64")]
-    #[test]
-    fn test_num_to_digits_64() {
-        assert_eq!(
-            num_to_digits(-1, 10),
-            ~[1, 8, 4, 4, 6, 7, 4, 4, 0, 7, 3, 7, 0, 9, 5, 5, 1, 6, 1, 5]);
-    }
-
-    #[cfg(target_arch = "x86")]
-    #[cfg(target_arch = "arm")]
-    #[test]
-    fn test_num_to_digits_32() {
-        assert_eq!(num_to_digits(-1, 10), ~[4, 2, 9, 4, 9, 6, 7, 2, 9, 5]);
-    }
-
-    #[test]
-    fn test_digits_to_num() {
-        assert_eq!(digits_to_num([], 10), 0);
-        assert_eq!(digits_to_num([1], 10), 1);
-        assert_eq!(digits_to_num([1, 2, 3], 10), 123);
-        assert_eq!(digits_to_num([0, 0, 1, 2, 3], 10), 123);
-        assert_eq!(digits_to_num([1, 2, 3, 0, 0], 10), 12300);
-    }
-
-    #[test]
-    fn test_to_palindromic() {
-        assert_eq!(to_palindromic(10, 10, true), 101);
-        assert_eq!(to_palindromic(10, 10, false), 1001);
-
-        assert_eq!(to_palindromic(0xabc, 16, true), 0xabcba);
-        assert_eq!(to_palindromic(0xabc, 16, false), 0xabccba);
-    }
-
-    #[test]
-    fn test_is_palindromic() {
-        assert!(is_palindromic(0, 10));
-        assert!(is_palindromic(1, 10));
-        assert!(is_palindromic(9, 10));
-        assert!(is_palindromic(11, 10));
-        assert!(is_palindromic(121, 10));
-        assert!(!is_palindromic(123, 10));
-        assert!(is_palindromic(1221, 10));
-        assert!(is_palindromic(12321, 10));
     }
 
     #[test]
@@ -579,63 +281,5 @@ mod tests {
             assert_eq!(n, num);
             true
         };
-    }
-
-    #[test]
-    fn test_cont_frac_sqrt() {
-        assert_eq!(cont_frac_sqrt(1), (1, ~[]));
-        assert_eq!(cont_frac_sqrt(2), (1, ~[2]));
-        assert_eq!(cont_frac_sqrt(3), (1, ~[1,2]));
-        assert_eq!(cont_frac_sqrt(4), (2, ~[]));
-        assert_eq!(cont_frac_sqrt(5), (2, ~[4]));
-        assert_eq!(cont_frac_sqrt(6), (2, ~[2,4]));
-        assert_eq!(cont_frac_sqrt(7), (2, ~[1,1,1,4]));
-        assert_eq!(cont_frac_sqrt(8), (2, ~[1,4]));
-        assert_eq!(cont_frac_sqrt(9), (3, ~[]));
-        assert_eq!(cont_frac_sqrt(10), (3, ~[6]));
-        assert_eq!(cont_frac_sqrt(11), (3, ~[3,6]));
-        assert_eq!(cont_frac_sqrt(12), (3, ~[2,6]));
-        assert_eq!(cont_frac_sqrt(13), (3, ~[1,1,1,1,6]));
-    }
-
-    #[test]
-    fn test_fold_cont_frac() {
-        fn test(an: &[uint], (n, d): (uint, uint)) {
-            assert_eq!(
-                fold_cont_frac::<BigUint>(an),
-                (BigUint::from_uint(n), BigUint::from_uint(d))
-            );
-        }
-        test([1, 2], (3, 2));
-        test([1, 2, 2], (7, 5));
-        test([1, 2, 2, 2], (17, 12));
-        test([1, 2, 2, 2, 2], (41, 29));
-
-        test([2], (2, 1));
-        test([2, 1], (3, 1));
-        test([2, 1, 2], (8, 3));
-        test([2, 1, 2, 1], (11, 4));
-        test([2, 1, 2, 1, 1], (19, 7));
-        test([2, 1, 2, 1, 1, 4], (87, 32));
-        test([2, 1, 2, 1, 1, 4, 1], (106, 39));
-        test([2, 1, 2, 1, 1, 4, 1, 1], (193, 71));
-        test([2, 1, 2, 1, 1, 4, 1, 1, 6], (1264, 465));
-        test([2, 1, 2, 1, 1, 4, 1, 1, 6, 1], (1457, 536));
-    }
-
-    #[test]
-    fn test_pow() {
-        assert_eq!(pow(0, 0), 1);
-        assert_eq!(pow(0, 1), 0);
-        assert_eq!(pow(1, 1), 1);
-        assert_eq!(pow(1, 100), 1);
-
-        assert_eq!(pow(2, 0), 1);
-        assert_eq!(pow(2, 1), 2);
-        assert_eq!(pow(2, 2), 4);
-        assert_eq!(pow(2, 10), 1024);
-
-        assert_eq!(pow(3, 0), 1);
-        assert_eq!(pow(3, 1), 3);
     }
 }

@@ -1,10 +1,10 @@
 #[link(name = "prob0047", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
 use std::{iterator, util};
-use common::prime;
+use math::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "134043";
 

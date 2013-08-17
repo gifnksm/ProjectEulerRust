@@ -1,10 +1,10 @@
 #[link(name = "prob0040", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
 use std::iterator::MultiplicativeIterator;
-use common::calc;
+use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "210";
 
@@ -97,7 +97,8 @@ impl IdxValueMap {
     pub fn get_digit_by_idx(&mut self, idx: uint) -> uint {
         let area = self.get_area_by_idx(idx);
         let val  = area.min_val + ((idx - area.min_idx) / area.num_digit);
-        return calc::num_to_digits(val, 10)[(idx - area.min_idx) % area.num_digit];
+        let ds = numconv::to_digits(val, 10).to_owned_vec();
+        return ds[ds.len() - 1 - (idx - area.min_idx) % area.num_digit];
     }
 }
 

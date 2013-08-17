@@ -2,12 +2,12 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+extern mod math;
 
 use std::{char, vec};
 use std::iterator::AdditiveIterator;
 use extra::bigint::BigUint;
-use common::calc;
+use math::cont_frac;
 
 pub static EXPECTED_ANSWER: &'static str = "272";
 
@@ -24,7 +24,7 @@ pub fn solve() -> ~str {
 
     let napier = vec::from_fn(len, napier_seq);
 
-    let (n, _d) = calc::fold_cont_frac::<BigUint>(napier);
+    let (n, _d) = cont_frac::fold::<BigUint>(napier);
     let ns = n.to_str();
     return ns.iter()
         .filter_map(|c| char::to_digit(c, 10))

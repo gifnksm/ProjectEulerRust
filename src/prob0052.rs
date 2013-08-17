@@ -1,8 +1,9 @@
 #[link(name = "prob0052", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
-use common::calc::{digit_histogram};
+extern mod math;
+
+use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "142857";
 
@@ -21,7 +22,7 @@ pub fn solve() -> ~str {
             loop;
         }
 
-        let ds = digit_histogram(n);
+        let ds = numconv::to_digit_histogram(n);
 
         // n * 5 の時に、必ず 0 または 5 は含むため
         if ds[0] == 0 && ds[5] == 0 { loop; }
@@ -31,11 +32,11 @@ pub fn solve() -> ~str {
             loop;
         }
 
-        if ds != digit_histogram(n * 2) { loop; }
-        if ds != digit_histogram(n * 3) { loop; }
-        if ds != digit_histogram(n * 4) { loop; }
-        if ds != digit_histogram(n * 5) { loop; }
-        if ds != digit_histogram(n * 6) { loop; }
+        if ds != numconv::to_digit_histogram(n * 2) { loop; }
+        if ds != numconv::to_digit_histogram(n * 3) { loop; }
+        if ds != numconv::to_digit_histogram(n * 4) { loop; }
+        if ds != numconv::to_digit_histogram(n * 5) { loop; }
+        if ds != numconv::to_digit_histogram(n * 6) { loop; }
 
         return n.to_str();
     }

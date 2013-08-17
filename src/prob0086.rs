@@ -1,17 +1,17 @@
 #[link(name = "prob0086", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
 use std::uint;
-use common::calc::PrimPythagoreanIterator;
+use math::sequence;
 
 pub static EXPECTED_ANSWER: &'static str = "1818";
 
 fn get_count(m: uint) -> uint {
     let mut cnt = 0u;
     for max_a in range(0, m) {
-        for (p, q, _) in PrimPythagoreanIterator::new(max_a) {
+        for (p, q, _) in sequence::prim_pythagorean(max_a) {
             for k in range(1, m / q + 1) {
                 cnt += k * p / 2;
             }

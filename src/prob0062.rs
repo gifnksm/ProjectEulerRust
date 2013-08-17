@@ -2,12 +2,12 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+extern mod math;
 
 use std::vec;
 use std::hashmap::{HashMap, HashSet};
 use extra::sort;
-use common::calc;
+use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "127035954683";
 
@@ -26,7 +26,7 @@ pub fn solve() -> ~str {
         }
 
         let cube = n * n * n;
-        let mut ds = calc::num_to_digits(cube, 10);
+        let mut ds = numconv::to_digits(cube, 10).to_owned_vec();
         sort::quick_sort3(ds);
 
         let v = match map.pop(&ds) {

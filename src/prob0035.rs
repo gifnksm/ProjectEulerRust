@@ -1,25 +1,25 @@
 #[link(name = "prob0035", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
-use common::{prime, calc};
+use math::{numconv, prime};
 
 pub static EXPECTED_ANSWER: &'static str = "55";
 
 #[inline(always)]
 fn is_circular_prime(n: uint) -> bool {
-    let buf = calc::num_to_digits(n, 10);
+    let ds = numconv::to_digits(n, 10).to_owned_vec();
+    let mut buf = ds.clone();
 
-    for i in range(1, buf.len()) {
-        let mut num = 0;
+    for i in range(1, ds.len()) {
         for j in range(0, buf.len()) {
-            num = num * 10 + (buf[(i + j) % buf.len()] as uint);
+            buf[j] = ds[(i + j) % ds.len()];
         }
-        if !prime::contains(num) { return false; }
+        if !prime::contains(numconv::from_digits(buf, 10)) { return false; }
     }
 
-    return true;
+    true
 }
 
 pub fn solve() -> ~str {

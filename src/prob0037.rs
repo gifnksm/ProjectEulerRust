@@ -1,11 +1,10 @@
 #[link(name = "prob0037", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
 use std::vec;
-use common::calc::{num_to_digits};
-use common::prime;
+use math::{numconv, prime};
 
 pub static EXPECTED_ANSWER: &'static str = "748317";
 
@@ -25,8 +24,8 @@ pub fn solve() -> ~str {
     loop {
         let mut result = ~[];
         for &p in l2r_mat.last().iter() {
-            // 2 can obly be appeared as the mnost left digits
-            if num_to_digits(p, 10)[0] == 2 { loop; }
+            // 2 can only be appeared as the most left digits
+            if numconv::to_digits(p, 10).next_back() == Some(2) { loop; }
 
             let ds = [ 1u, 2, 3, 5, 7, 9 ];
             for &d in ds.iter() {

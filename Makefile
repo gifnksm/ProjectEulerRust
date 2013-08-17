@@ -20,9 +20,10 @@ VPATH=src
 
 EULER_SRC=src/euler/main.rs
 COMMON_SRC=src/common/lib.rs
+MATH_SRC=src/math/lib.rs
 PROB_SRC=$(sort $(wildcard src/prob*.rs))
 MOD_SRC=src/euler/problem.rs
-SRC=$(EULER_SRC) $(COMMON_SRC) $(PROB_SRC) $(MOD_SRC)
+ALL_SRC=$(EULER_SRC) $(COMMON_SRC) $(MATH_SRC) $(PROB_SRC) $(MOD_SRC)
 
 DEPEND=depend.mk
 
@@ -34,8 +35,8 @@ TEST_BINDIR=bin/test
 TEST_LIBDIR=lib/debug
 
 TARGET=$(BINDIR)/euler$(EXEEXT)
-LIBTEST=$(patsubst %,$(BINDIR)/%.test$(EXEEXT),common)
-TEST=$(patsubst %,$(BINDIR)/%.test$(EXEEXT),euler common $(patsubst %.rs,%,$(notdir $(PROB_SRC))))
+LIB_TEST=$(patsubst %,$(BINDIR)/%.test$(EXEEXT),common math)
+ALL_TEST=$(LIBTEST) $(patsubst %,$(BINDIR)/%.test$(EXEEXT),euler $(patsubst %.rs,%,$(notdir $(PROB_SRC))))
 
 RUSTC_FLAGS=-L $(LIBDIR)
 RUSTC_DEBUG_FLAGS=
@@ -53,39 +54,42 @@ libtest:
 	make BINDIR=$(TEST_BINDIR) LIBDIR=$(TEST_LIBDIR) libtest_bin
 depend: $(DEPEND)
 
-clean:
-	$(RM) $(MOD_SRC) $(DEPEND)
-	$(RM) $(DEBUG_BINDIR)/* $(DEBUG_LIBDIR)/*
-	$(RM) $(RELEASE_BINDIR)/* $(RELEASE_LIBDIR)/*
-	$(RM) $(TEST_BINDIR)/* $(TEST_LIBDIR)/*
 
-$(DEPEND): $(SRC)
+clean:
+	$(RM) -r $(MOD_SRC) $(DEPEND)
+	$(RM) -r $(DEBUG_BINDIR)/* $(DEBUG_LIBDIR)/*
+	$(RM) -r $(RELEASE_BINDIR)/* $(RELEASE_LIBDIR)/*
+	$(RM) -r $(TEST_BINDIR)/* $(TEST_LIBDIR)/*
+
+$(DEPEND): $(ALL_SRC)
 	./etc/gendep > $@
 $(MOD_SRC): $(PROB_SRC)
 	./etc/genmod ./src > $@
+
+
 
 debug_bin: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
 debug_bin: $(TARGET)
 release_bin: RUSTC_FLAGS+=$(RUSTC_RELEASE_FLAGS)
 release_bin: $(TARGET)
 test_bin: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
-test_bin: $(TEST)
-	@for exe in $(TEST); do echo "$$exe"; ./$$exe || exit 1; done
+test_bin: $(ALL_TEST)
+	@for exe in $(ALL_TEST); do echo "$$exe"; ./$$exe || exit 1; done
 libtest_bin: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
-libtest_bin: $(LIBTEST)
-	@for exe in $(LIBTEST); do echo "$$exe"; ./$$exe || exit 1; done
+libtest_bin: $(LIB_TEST)
+	@for exe in $(LIB_TEST); do echo "$$exe"; ./$$exe || exit 1; done
 
 -include $(DEPEND)
+
 
 define genexe
 	rustc -o $1 $(RUSTC_FLAGS) $2
 endef
-
 $(BINDIR)/euler$(EXEEXT):
 	$(call genexe, $@, $(EULER_SRC))
-
 $(BINDIR)/%$(EXEEXT): %.rs
 	$(call genext, $@, $(patsubst $(BINDIR)/%$(EXEEXT),src/%.rs,$@))
+
 
 define genlib
 	$(RM) $(patsubst %$(LIBEXT),%-*$(LIBEXT),$1)
@@ -95,20 +99,21 @@ endef
 
 $(LIBDIR)/libcommon$(LIBEXT):
 	$(call genlib, $@, $(COMMON_SRC))
-
+$(LIBDIR)/libmath$(LIBEXT):
+	$(call genlib, $@, $(MATH_SRC))
 $(LIBDIR)/lib%$(LIBEXT):
 	$(call genlib, $@, $(patsubst $(LIBDIR)/lib%$(LIBEXT),src/%.rs,$@))
+
 
 define gentest
 	rustc --test -o $1 $(RUSTC_FLAGS) $2
 endef
-
 $(BINDIR)/euler.test$(EXEEXT):
 	$(call gentest, $@, $(EULER_SRC))
-
 $(BINDIR)/common.test$(EXEEXT):
 	$(call gentest, $@, $(COMMON_SRC))
-
+$(BINDIR)/math.test$(EXEEXT):
+	$(call gentest, $@, $(MATH_SRC))
 $(BINDIR)/%.test$(EXEEXT):
 	$(call gentest, $@, $(patsubst $(BINDIR)/%.test$(EXEEXT),src/%.rs,$@))
 

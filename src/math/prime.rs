@@ -2,8 +2,8 @@ use std::{iterator, local_data};
 use std::iterator::MultiplicativeIterator;
 use std::local_data::Key;
 
-use calc;
-use monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
+use arith;
+use common::monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
 
 static PRIMES_BELOW100: &'static [uint] = &[
     2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
@@ -13,7 +13,6 @@ static PRIMES_BELOW100: &'static [uint] = &[
 static TASK_PRIME_KEY: Key<~[uint]> = &Key;
 
 fn with_task_prime<T>(f: &fn(&mut ~[uint]) -> T) -> T {
-
     let mut nums = match local_data::pop(TASK_PRIME_KEY) {
         Some(x) => x,
         None    => PRIMES_BELOW100.to_owned()
@@ -134,9 +133,9 @@ pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
     let mut result = 1;
     for (base, exp) in fs {
         if exp > 0 {
-            result *= calc::pow(base, exp as uint);
+            result *= arith::pow(base, exp as uint);
         } else {
-            result /= calc::pow(base, (-exp) as uint);
+            result /= arith::pow(base, (-exp) as uint);
         }
     }
     return result;
@@ -179,7 +178,7 @@ pub fn sum_of_divisors(n: uint) -> uint {
     if n == 0 { return 0; }
     return factorize(n)
         .map(|(base, exp)| {
-            (calc::pow(base, (exp as uint) + 1) - 1) / (base - 1)
+            (arith::pow(base, (exp as uint) + 1) - 1) / (base - 1)
         }).product();
 }
 

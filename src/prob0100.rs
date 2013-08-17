@@ -2,12 +2,12 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+extern mod math;
 
 use std::from_str::FromStr;
 use std::num::{One, Zero};
 use extra::bigint::BigUint;
-use common::calc;
+use math::cont_frac;
 
 pub static EXPECTED_ANSWER: &'static str = "756872327473";
 
@@ -24,7 +24,7 @@ pub fn solve() -> ~str {
     let one = One::one();
     let limit = FromStr::from_str("1000000000000").unwrap();
     let mut ans = Zero::zero();
-    do calc::each_pel_neg::<BigUint>(2) |x, y| {
+    do cont_frac::each_pel_neg::<BigUint>(2) |x, y| {
         if x.is_odd() && y.is_odd() {
             let b = (*y + one) >> 1;
             let s = (*x + one) >> 1;

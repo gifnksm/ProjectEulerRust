@@ -61,28 +61,6 @@ impl<T: Integer> Iterator<T> for Range<T> {
     }
 }
 
-struct DigitIterator {
-    n: uint,
-    radix: uint
-}
-
-impl DigitIterator {
-    pub fn new(n: uint, radix: uint) -> DigitIterator {
-        DigitIterator { n: n, radix: radix }
-    }
-}
-
-impl Iterator<uint> for DigitIterator {
-    #[inline(always)]
-    fn next(&mut self) -> Option<uint> {
-        if self.n == 0 { return None; }
-        let (d, r) = self.n.div_rem(&self.radix);
-        self.n = d;
-        return Some(r);
-    }
-}
-
-
 struct Area2DIterator {
     cur: (int, int),
     dv: (int, int),
@@ -128,47 +106,6 @@ impl Iterator<(int, int)> for Area2DIterator {
         return Some((x, y));
     }
 }
-
-
-pub struct Fibonacci<T> {
-    prev: T,
-    cur: T
-}
-
-impl<T: Zero + One> Fibonacci<T> {
-    pub fn new() -> Fibonacci<T> { Fibonacci { prev: Zero::zero(), cur: One::one() } }
-}
-
-impl<T: Add<T,T> + Clone> Iterator<T> for Fibonacci<T> {
-    #[inline(always)]
-    fn next(&mut self) -> Option<T> {
-        let next = self.prev + self.cur;
-        let cur  = self.cur.clone();
-        self.prev = cur.clone();
-        self.cur  = next;
-        return Some(cur);
-    }
-}
-
-pub struct Triangle {
-    idx: uint,
-    cur: uint
-}
-
-impl Triangle {
-    pub fn new() -> Triangle { Triangle { idx: 1, cur: 1 } }
-}
-
-impl Iterator<uint> for Triangle {
-    #[inline(always)]
-    fn next(&mut self) -> Option<uint> {
-        let cur = self.cur;
-        self.idx += 1;
-        self.cur += self.idx;
-        return Some(cur);
-    }
-}
-
 
 
 pub trait ExtIteratorUtil<A> {
@@ -230,12 +167,6 @@ mod tests {
     }
 
     #[test]
-    fn test_digit() {
-        let vs = DigitIterator::new(123456789, 10).to_owned_vec();
-        assert_eq!(vs, ~[9, 8, 7, 6, 5, 4, 3, 2, 1]);
-    }
-
-    #[test]
     fn test_area2d() {
         let vs = Area2DIterator::new((0, 0), (1, 1), (0, 0), (3, 3)).to_owned_vec();
         assert_eq!(vs, ~[(0, 0), (1, 1), (2, 2), (3, 3)]);
@@ -263,21 +194,5 @@ mod tests {
 
         let vs = Area2DIterator::new((3, 3), (-2, -2), (0, 0), (3, 3)).to_owned_vec();
         assert_eq!(vs, ~[(3, 3), (1, 1)]);
-    }
-
-    #[test]
-    fn test_fibonacci() {
-        let it = Fibonacci::new::<uint>();
-        let fib = ~[ 1u, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
-        let gen = it.take(fib.len()).to_owned_vec();
-        assert_eq!(gen, fib);
-    }
-
-    #[test]
-    fn test_triangle() {
-        let it = Triangle::new();
-        let tri = ~[1u, 3, 6, 10, 15, 21];
-        let gen = it.take(tri.len()).to_owned_vec();
-        assert_eq!(gen, tri);
     }
 }

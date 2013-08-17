@@ -1,9 +1,9 @@
 #[link(name = "prob0036", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
-use common::calc;
+use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "872187";
 
@@ -15,9 +15,9 @@ pub fn solve() -> ~str {
         for &b in tf.iter() {
             let (start, end) = (order_array[i], order_array[i + 1]);
             for n in range(start, end) {
-                let n = calc::to_palindromic(n, 10, b);
+                let n = numconv::to_palindromic(n, 10, b);
                 if n >= 1000000 { break; }
-                if calc::is_palindromic(n, 2) {
+                if numconv::is_palindromic(n, 2) {
                     sum += n;
                 }
             }

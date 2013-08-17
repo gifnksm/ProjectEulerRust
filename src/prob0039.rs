@@ -1,11 +1,11 @@
 #[link(name = "prob0039", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
 use std::uint;
 use std::hashmap::HashMap;
-use common::arith;
+use math::arith;
 
 pub static EXPECTED_ANSWER: &'static str = "840";
 

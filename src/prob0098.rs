@@ -3,12 +3,14 @@
 
 extern mod extra;
 extern mod common;
+extern mod math;
 
 use std::{util, uint, vec, io};
 use std::iterator::OrdIterator;
 use std::hashmap::HashMap;
 use extra::sort;
-use common::{arith, calc, reader};
+use common::reader;
+use math::{arith, numconv};
 
 pub static EXPECTED_ANSWER: &'static str = "18769";
 
@@ -93,10 +95,10 @@ pub fn solve() -> ~str {
             for &(ref len, ref pairs) in groups.iter() {
                 let mut nums = ~[];
 
-                let start = calc::pow(10, *len) - 1;
-                let end   = calc::pow(10, *len - 1);
+                let start = arith::pow(10, *len) - 1;
+                let end   = arith::pow(10, *len - 1);
                 for n in range(arith::isqrt(end), arith::isqrt(start)).invert() {
-                    let ds = calc::num_to_digits(n * n, 10);
+                    let ds = numconv::to_digits(n * n, 10).invert().to_owned_vec();
                     for &(ref v1, ref v2) in pairs.iter() {
                         if ds[v2[0]] == 0 { loop; }
                         if !check_digit(*v1, ds) { loop; }

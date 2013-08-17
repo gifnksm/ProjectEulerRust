@@ -1,11 +1,11 @@
 #[link(name = "prob0043", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
 use std::vec;
 use std::iterator::AdditiveIterator;
-use common::calc;
+use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "16695334890";
 
@@ -47,44 +47,40 @@ impl DigitMap {
 fn fill_vec<T: Clone>(v: ~[T], len: uint, init: T) -> ~[T] {
     assert!(v.len() <= len);
     if v.len() == len { return v; }
-    return vec::from_elem(len - v.len(), init) + v;
+    v + vec::from_elem(len - v.len(), init)
 }
 
 pub fn solve() -> ~str {
-    let mut result: ~[(~[uint], DigitMap)] = ~[(~[], DigitMap())];
-    result = do result.flat_map |tp| {
-        let mut arr = ~[];
-        let dm = tp.second_ref();
-        for n in range(0u, 999 / 17) {
-            let ds = fill_vec(calc::num_to_digits(n * 17, 10), 3, 0);
-            match dm.get_used(ds) {
-                None => loop,
-                Some(e) => arr.push((ds + *tp.first_ref(), e))
+    let mut result = do vec::build |push| {
+        let dm   = DigitMap();
+        let base = 17;
+        for n in range(0u, 1000 / base) {
+            let new_ds = fill_vec(numconv::to_digits(n * base, 10).to_owned_vec(), 3, 0);
+            match dm.get_used(new_ds) {
+                None         => loop,
+                Some(new_dm) => push((new_ds, new_dm))
             }
         }
-        arr
     };
+
     let base_list = [13u, 11, 7, 5, 3, 2, 1];
     for &base in base_list.iter() {
-        result = do result.flat_map |tp| {
-            let mut arr = ~[];
-            let dm = tp.second_ref();
-            for n in range(0u, 999 / base) {
-                let ds = fill_vec(calc::num_to_digits(n * base, 10), 3, 0);
-                if ds[1] != tp.first_ref()[0] || ds[2] != tp.first_ref()[1] {
-                    loop
-                }
-                match dm.get_used([ds[0]]) {
-                    None => loop,
-                    Some(e) => arr.push((~[ds[0]] + *tp.first_ref(), e))
+        result = do result.flat_map |&(ref ds, ref dm)| {
+            do vec::build |push| {
+                let lower = numconv::from_digits(ds.slice(ds.len() - 2, ds.len()), 10);
+                for d in range(0u, 10) {
+                    if (d * 100 + lower) % base != 0 { loop; }
+                    match dm.get_used([d]) {
+                        None         => loop,
+                        Some(new_dm) => push((*ds + &[d], new_dm))
+                    }
                 }
             }
-            arr
         };
     }
 
     return result.move_iter()
-        .map(|(r, _e)| calc::digits_to_num(r, 10))
+        .map(|(r, _e)| numconv::from_digits(r, 10))
         .sum()
         .to_str();
 }

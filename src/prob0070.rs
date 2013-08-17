@@ -1,11 +1,10 @@
 #[link(name = "prob0070", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
-use std::{float};
-use common::prime;
-use common::calc::{digit_histogram};
+use std::float;
+use math::{numconv, prime};
 
 pub static EXPECTED_ANSWER: &'static str = "8319823";
 
@@ -30,8 +29,8 @@ pub fn solve() -> ~str {
             if n > limit { break; }
 
             let phi = (p1 - 1) * (p2 - 1);
-            let ds1 = digit_histogram(n);
-            let ds2 = digit_histogram(phi);
+            let ds1 = numconv::to_digit_histogram(n);
+            let ds2 = numconv::to_digit_histogram(phi);
             if ds1 != ds2 { loop; }
 
             let n_phi = (n as float) / (phi as float);

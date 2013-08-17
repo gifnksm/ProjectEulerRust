@@ -1,11 +1,11 @@
 #[link(name = "prob0072", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod math;
 
 use std::{uint, vec};
 use std::iterator::AdditiveIterator;
-use common::prime;
+use math::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "303963552391";
 

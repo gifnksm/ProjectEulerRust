@@ -2,9 +2,10 @@
 #[crate_type = "lib"];
 
 extern mod common;
+extern mod math;
 
 use common::calc;
-use common::prime;
+use math::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "7652413";
 

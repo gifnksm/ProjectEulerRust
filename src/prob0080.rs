@@ -2,13 +2,13 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+extern mod math;
 
 use std::{char, iterator};
 use std::iterator::AdditiveIterator;
 use std::num::Zero;
 use extra::bigint::BigInt;
-use common::arith;
+use math::arith;
 
 pub static EXPECTED_ANSWER: &'static str = "40886";
 

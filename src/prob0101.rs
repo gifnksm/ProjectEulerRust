@@ -2,13 +2,13 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
+extern mod math;
 
 use std::vec;
 use std::num::{Zero, One};
 use extra::bigint::BigInt;
 use extra::rational::Ratio;
-use common::poly;
+use math::poly;
 
 pub static EXPECTED_ANSWER: &'static str = "37076114526";
 

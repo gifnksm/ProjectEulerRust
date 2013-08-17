@@ -2,9 +2,9 @@
 #[crate_type = "lib"];
 
 extern mod extra;
-extern mod common;
-use extra::bigint::{BigUint};
-use common::calc::{solve_pel};
+extern mod math;
+use extra::bigint::BigUint;
+use math::cont_frac;
 
 pub static EXPECTED_ANSWER: &'static str = "661";
 
@@ -31,7 +31,7 @@ pub fn solve() -> ~str {
         if d > 1000 {
             false
         } else {
-            let (x, _y) = solve_pel::<BigUint>(d);
+            let (x, _y) = cont_frac::solve_pel::<BigUint>(d);
             if x > max_x { max_x = x; max_x_d = d; }
             true
         }

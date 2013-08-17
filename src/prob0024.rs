@@ -3,6 +3,7 @@
 
 extern mod extra;
 extern mod common;
+extern mod math;
 
 use std::util;
 use std::either::{Either, Left, Right};
@@ -12,17 +13,21 @@ use std::hash::{Hash};
 use std::hashmap::{HashMap};
 use extra::sort;
 use common::calc;
+use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "2783915460";
 
 fn get_at<K: IterBytes + Hash + Eq + Ord + Clone>(hist: &HashMap<K, uint>, n: uint) -> Either<uint, ~[K]> {
     if hist.is_empty() {
-        return if n == 1 { Right(~[]) } else { Left(0) }
+        if n == 1 {
+            return Right(~[]);
+        } else {
+            return Left(0);
+        }
     }
 
     let perm = calc::num_of_permutations(hist);
     if perm < n { return Left(perm); }
-
 
     let mut kv = hist.iter().map(|(k, v)| (k.clone(), *v)).to_owned_vec();
     sort::quick_sort(kv, |a, b| a.first() <= b.first());
@@ -42,7 +47,7 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Clone>(hist: &HashMap<K, uint>, n: ui
 
         match get_at(&new_hist, n - idx) {
             Left(cnt) => idx += cnt,
-            Right(ans) => return Right(~[all_k.clone()] + ans)
+            Right(ans) => return Right(ans + &[all_k.clone()])
         }
     }
 
@@ -52,5 +57,5 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Clone>(hist: &HashMap<K, uint>, n: ui
 pub fn solve() -> ~str {
     let nums = calc::histogram::<uint>(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
     let ds = get_at(&nums, 1000000).unwrap_right();
-    return calc::digits_to_num(ds, 10).to_str();
+    return numconv::from_digits(ds, 10).to_str();
 }
