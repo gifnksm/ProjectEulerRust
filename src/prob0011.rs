@@ -1,11 +1,11 @@
 #[link(name = "prob0011", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod data;
 
 use std::uint;
 use std::iterator::{OrdIterator, MultiplicativeIterator};
-use common::extiter::{ExtIteratorUtil, Area2DIterator};
+use data::extiter::{ExtIteratorUtil, Area2DIterator};
 
 pub static EXPECTED_ANSWER: &'static str = "70600674";
 

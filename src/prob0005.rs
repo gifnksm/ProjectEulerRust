@@ -1,11 +1,11 @@
 #[link(name = "prob0005", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod data;
 extern mod math;
 
 use std::vec;
-use common::monoid::{Max, MergeMultiMonoidIterator, Wrap};
+use data::monoid::{Max, MergeMultiMonoidIterator, Wrap};
 use math::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "232792560";

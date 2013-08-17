@@ -20,10 +20,11 @@ VPATH=src
 
 EULER_SRC=src/euler/main.rs
 COMMON_SRC=src/common/lib.rs
+DATA_SRC=src/data/lib.rs
 MATH_SRC=src/math/lib.rs
 PROB_SRC=$(sort $(wildcard src/prob*.rs))
 MOD_SRC=src/euler/problem.rs
-ALL_SRC=$(EULER_SRC) $(COMMON_SRC) $(MATH_SRC) $(PROB_SRC) $(MOD_SRC)
+ALL_SRC=$(EULER_SRC) $(COMMON_SRC) $(DATA_SRC) $(MATH_SRC) $(PROB_SRC) $(MOD_SRC)
 
 DEPEND=depend.mk
 
@@ -35,7 +36,7 @@ TEST_BINDIR=bin/test
 TEST_LIBDIR=lib/debug
 
 TARGET=$(BINDIR)/euler$(EXEEXT)
-LIB_TEST=$(patsubst %,$(BINDIR)/%.test$(EXEEXT),common math)
+LIB_TEST=$(patsubst %,$(BINDIR)/%.test$(EXEEXT),common data math)
 ALL_TEST=$(LIBTEST) $(patsubst %,$(BINDIR)/%.test$(EXEEXT),euler $(patsubst %.rs,%,$(notdir $(PROB_SRC))))
 
 RUSTC_FLAGS=-L $(LIBDIR)
@@ -99,6 +100,8 @@ endef
 
 $(LIBDIR)/libcommon$(LIBEXT):
 	$(call genlib, $@, $(COMMON_SRC))
+$(LIBDIR)/libdata$(LIBEXT):
+	$(call genlib, $@, $(DATA_SRC))
 $(LIBDIR)/libmath$(LIBEXT):
 	$(call genlib, $@, $(MATH_SRC))
 $(LIBDIR)/lib%$(LIBEXT):
@@ -112,6 +115,8 @@ $(BINDIR)/euler.test$(EXEEXT):
 	$(call gentest, $@, $(EULER_SRC))
 $(BINDIR)/common.test$(EXEEXT):
 	$(call gentest, $@, $(COMMON_SRC))
+$(BINDIR)/data.test$(EXEEXT):
+	$(call gentest, $@, $(DATA_SRC))
 $(BINDIR)/math.test$(EXEEXT):
 	$(call gentest, $@, $(MATH_SRC))
 $(BINDIR)/%.test$(EXEEXT):

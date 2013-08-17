@@ -3,7 +3,7 @@ use std::iterator::MultiplicativeIterator;
 use std::local_data::Key;
 
 use arith;
-use common::monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
+use data::monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
 
 static PRIMES_BELOW100: &'static [uint] = &[
     2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,

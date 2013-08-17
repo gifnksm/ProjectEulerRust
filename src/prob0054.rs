@@ -1,10 +1,10 @@
 #[link(name = "prob0054", vers = "0.0")];
 #[crate_type = "lib"];
 
-extern mod common;
+extern mod data;
 
 use std::{iterator, result, io, vec};
-use common::card::Card;
+use data::card::Card;
 
 pub static EXPECTED_ANSWER: &'static str = "376";
 

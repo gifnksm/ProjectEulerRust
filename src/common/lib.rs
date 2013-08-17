@@ -3,8 +3,5 @@
 
 extern mod extra;
 
-pub mod extiter;
 pub mod calc;
-pub mod monoid;
 pub mod reader;
-pub mod card;
