@@ -32,7 +32,7 @@ pub fn solve() -> ~str {
         for k in range(0u, m) {
             let pm = get_pentagonal(m);
             let pk = get_pentagonal(k);
-            if (pm - pk) % 2 != 0 { loop; }
+            if (pm - pk) % 2 != 0 { continue }
             if is_pentagonal(pm - pk, pentagonal_table) {
                 if is_pentagonal(pm + pk, pentagonal_table) {
                     return (pm - pk).to_str();

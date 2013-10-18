@@ -3,10 +3,9 @@
 
 extern mod extra;
 
-
-use std::{uint};
-use std::num::{Zero};
-use extra::bigint::{BigUint};
+use std::uint;
+use std::num::Zero;
+use extra::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "972";
 
@@ -21,20 +20,21 @@ fn digit_sum(n: uint) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let ten = BigUint::from_uint(1000000000);
+    let ten = FromPrimitive::from_uint(1000000000).unwrap();
 
     let mut max = 0u;
     for a in range(1u, 100) {
-        let mut n = BigUint::from_uint(a);
+        let a: BigUint = FromPrimitive::from_uint(a).unwrap();
+        let mut n = a.clone();
         do 100.times {
-            n = n * BigUint::from_uint(a);
+            n = n * a;
             let mut sum = 0;
             let (d, m) = n.div_rem(&ten);
             let mut d = d;
-            sum += digit_sum(m.to_uint());
+            sum += digit_sum(m.to_uint().unwrap());
             while !d.is_zero() {
                 let (d0, m) = d.div_rem(&ten);
-                sum += digit_sum(m.to_uint());
+                sum += digit_sum(m.to_uint().unwrap());
                 d = d0;
             }
             // following code causes core dumps...

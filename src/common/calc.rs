@@ -1,9 +1,9 @@
 use std::hashmap::HashMap;
 use std::vec;
-use std::iterator::MultiplicativeIterator;
+use std::iter::MultiplicativeIterator;
 
 pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
-    let mut map = HashMap::new::<T, uint>();
+    let mut map = HashMap::<T, uint>::new();
     for k in v.iter() {
         let val = do map.find(k).map_default(1) |v| { *v + 1 };
         map.insert(k.clone(), val);
@@ -131,12 +131,12 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
         for (i, &n) in digits.iter().enumerate() {
             let min_vec = match min {
-                Some(v) if n <  v[0] => loop,
+                Some(v) if n <  v[0] => continue,
                 Some(v) if n == v[0] => Some(v.slice(1, v.len())),
                 _ => None
             };
             let max_vec = match max {
-                Some(v) if n >  v[0] => loop,
+                Some(v) if n >  v[0] => continue,
                 Some(v) if n == v[0] => Some(v.slice(1, v.len())),
                 _ => None
             };

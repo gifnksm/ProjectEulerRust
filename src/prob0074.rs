@@ -27,7 +27,7 @@ fn fact_sum(mut n: uint, fs: &[uint, ..10]) -> uint {
 fn get_chain_len(
     n: uint, map: &mut[Length], fs: &[uint, ..10]
 ) -> uint {
-    let mut chain_map = HashMap::new::<uint, uint>();
+    let mut chain_map = HashMap::<uint, uint>::new();
     let mut idx = n;
     let mut chain_len = 0;
     let mut loop_len  = 0;
@@ -37,8 +37,8 @@ fn get_chain_len(
             Loop(c)  => { loop_len += c;  break; }
             Chain(c) => { chain_len += c; break; }
             Unknown  => {
-                match chain_map.find(&idx).map(|k| **k) {
-                    Some(chain_idx) => {
+                match chain_map.find(&idx) {
+                    Some(&chain_idx) => {
                         loop_len  = chain_len - chain_idx;
                         chain_len = chain_idx;
                         break;

@@ -1,8 +1,8 @@
 extern mod extra;
 extern mod common;
 
-use std::{io, iterator, os, uint};
-use std::iterator::Range;
+use std::{io, os};
+use std::iter::Range;
 use extra::{time, term};
 use extra::term::Terminal;
 use problem::Problem;
@@ -48,32 +48,32 @@ struct ArgIterator<'self> {
 
 impl<'self> ArgIterator<'self> {
     pub fn new<'a>(args: &'a [~str]) -> ArgIterator<'a> {
-        let mut it = ArgIterator { args: args, idx: 0, cur_range: iterator::range(0u, 0) };
+        let mut it = ArgIterator { args: args, idx: 0, cur_range: range(0u, 0) };
         it.update_range();
         return it;
     }
 
     fn update_range(&mut self) {
-        self.cur_range = iterator::range(0u, 0);
+        self.cur_range = range(0u, 0);
         if self.idx >= self.args.len() { return; }
 
         if !self.args[self.idx].contains_char('-') {
-            let n = uint::from_str(self.args[self.idx]);
+            let n = from_str::<uint>(self.args[self.idx]);
             for &n in n.iter() {
-                self.cur_range = iterator::range(n, n + 1);
+                self.cur_range = range(n, n + 1);
             }
             return;
         }
 
         let mut ns = ~[];
         for ss in self.args[self.idx].split_iter('-') {
-            match uint::from_str(ss) {
+            match from_str::<uint>(ss) {
                 Some(n) => { ns.push(n); }
                 None    => { return; }
             }
         }
         if ns.len() > 2 { return; }
-        self.cur_range = iterator::range(ns[0], ns[1] + 1);
+        self.cur_range = range(ns[0], ns[1] + 1);
         println(fmt!("%?", ns));
     }
 }
@@ -118,7 +118,7 @@ fn main() {
     let args = args.tail();
 
     if args.is_empty() {
-        solve_all(iterator::range(0, problem::PROBLEMS.len())
+        solve_all(range(0, problem::PROBLEMS.len())
                   .map(|i| problem::PROBLEMS[i]))
     } else {
         solve_all(ArgIterator::new(args)

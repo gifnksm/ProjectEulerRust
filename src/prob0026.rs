@@ -1,7 +1,7 @@
 #[link(name = "prob0026", vers = "0.0")];
 #[crate_type = "lib"];
 
-use std::{iterator, vec};
+use std::vec;
 
 pub static EXPECTED_ANSWER: &'static str = "983";
 
@@ -22,7 +22,7 @@ fn get_cycle_len(n: uint) -> uint {
 }
 
 pub fn solve() -> ~str {
-    return iterator::range(2u, 1000)
+    return range(2u, 1000)
         .max_by(|&n| get_cycle_len(n))
         .unwrap()
         .to_str();

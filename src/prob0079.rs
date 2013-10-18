@@ -88,7 +88,7 @@ fn tsort<T: Hash + IterBytes + Eq + Clone>(rels: &mut Relations<T>) -> ~[T] {
 
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/keylog.txt"))
+    let result = io::file_reader(&Path::new("files/keylog.txt"))
         .map(|file| {
             let mut rels = Relations::new();
             do file.each_line |line| {

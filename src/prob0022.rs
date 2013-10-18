@@ -5,7 +5,7 @@ extern mod extra;
 extern mod common;
 
 use std::{io, result};
-use std::iterator::AdditiveIterator;
+use std::iter::AdditiveIterator;
 use extra::sort::Sort;
 use common::reader::ReaderIterator;
 
@@ -16,7 +16,7 @@ fn get_score(n: uint, s: &str) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/names.txt")).map(|input| {
+    let result = io::file_reader(&Path::new("files/names.txt")).map(|input| {
         let mut ss = input.sep_iter(',' as u8, false)
             .map(|s| s.trim().trim_chars(&'\"').to_str())
             .to_owned_vec();

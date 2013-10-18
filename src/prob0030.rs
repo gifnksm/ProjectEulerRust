@@ -6,7 +6,7 @@ extern mod common;
 extern mod math;
 
 use std::vec;
-use std::iterator::AdditiveIterator;
+use std::iter::AdditiveIterator;
 use extra::sort;
 use common::calc;
 use math::{arith, numconv};

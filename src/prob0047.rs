@@ -3,7 +3,7 @@
 
 extern mod math;
 
-use std::{iterator, util};
+use std::iter;
 use math::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "134043";
@@ -13,17 +13,17 @@ pub fn solve() -> ~str {
     let num_factor = 4;
 
     let mut cnt = 0;
-    for n in iterator::count(1u, 1) {
+    for n in iter::count(1u, 1) {
         if prime::factorize(n).len() != num_factor {
             cnt = 0;
-            loop;
+            continue
         }
 
         cnt += 1;
         if cnt == len {
-            return (n + 1 - len).to_str();
+            return (n + 1 - len).to_str()
         }
     }
 
-    util::unreachable();
+    unreachable!();
 }

@@ -9,7 +9,7 @@ use extra::priority_queue::PriorityQueue;
 pub static EXPECTED_ANSWER: &'static str = "20313839404245";
 
 struct SSSElem {
-    avg: float,
+    avg: f64,
     sss: ~[uint],
     sums: ~[uint]
 }
@@ -29,11 +29,11 @@ impl SSSElem {
     #[inline]
     pub fn new_pair(a: uint, b: uint) -> SSSElem {
         assert!(a < b);
-        return SSSElem {
-            avg: ((a + b) as float) / 2f,
+        SSSElem {
+            avg: ((a + b) as f64) / 2.0,
             sss: ~[a, b],
             sums: ~[0, a, b, a + b]
-        };
+        }
     }
 
     pub fn add_num(&self, n: uint) -> Option<SSSElem> {
@@ -63,9 +63,9 @@ impl SSSElem {
             j += 1;
         }
 
-        let avg = (self.avg * (len as float) + n as float) / ((len as float) + 1f);
+        let avg = (self.avg * (len as f64) + n as f64) / ((len as f64) + 1.0);
         let sss = vec::append_one(self.sss.to_owned(), n);
-        return Some(SSSElem { avg: avg, sss: sss, sums: sums });
+        Some(SSSElem { avg: avg, sss: sss, sums: sums })
     }
 
     // 6: [a, b, c, d, e, f] => (a + b + c + d) - (e + f) - 1
@@ -81,7 +81,7 @@ impl SSSElem {
 
         let add = self.sss.slice(0, add_len).iter().fold(0, |a, &b| a + b);
         let sub = self.sss.slice(len - sub_len, len).iter().fold(0, |a, &b| a + b);
-        return add - sub - 1;
+        add - sub - 1
     }
 
     #[inline(always)]
@@ -100,7 +100,7 @@ impl SSSElem {
                 None => {}
             }
         }
-        return true;
+        true
     }
 }
 
@@ -116,7 +116,7 @@ pub fn each_sss(f: &fn(&SSSElem) -> bool) -> bool {
             true
         };
     }
-    return true;
+    true
 }
 
 // (a, b) => SSS if a > b

@@ -1,22 +1,19 @@
 #[link(name = "prob0067", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
+extern mod common;
 use std::{uint, vec, io};
+use common::reader::ReaderIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "7273";
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/triangle.txt"))
+    let result = io::file_reader(&Path::new("files/triangle.txt"))
         .map(|file| {
-            let mut triangle = ~[];
-            do file.each_line |line| {
-                triangle.push(line.word_iter().filter_map(uint::from_str).to_owned_vec());
-                true
-            };
-            triangle
-        }).map(|triangle| {
+            let triangle = file.line_iter()
+                .filter(|line| !line.is_empty())
+                .map(|line| line.word_iter().filter_map(from_str::<uint>).to_owned_vec())
+                .to_owned_vec();
             let init = triangle.init();
             let last = triangle.last();
             (do init.rev_iter().fold(last.to_owned()) |prev, elem| {

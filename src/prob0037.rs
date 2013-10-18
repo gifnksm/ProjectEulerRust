@@ -3,7 +3,6 @@
 
 extern mod math;
 
-use std::vec;
 use math::{numconv, prime};
 
 pub static EXPECTED_ANSWER: &'static str = "748317";
@@ -11,10 +10,10 @@ pub static EXPECTED_ANSWER: &'static str = "748317";
 fn is_r2l(n: uint) -> bool {
     let mut itr = n / 10;
     while itr > 0 {
-        if !prime::contains(itr) { return false; }
+        if !prime::contains(itr) { return false }
         itr /= 10;
     }
-    return true;
+    true
 }
 
 pub fn solve() -> ~str {
@@ -25,7 +24,7 @@ pub fn solve() -> ~str {
         let mut result = ~[];
         for &p in l2r_mat.last().iter() {
             // 2 can only be appeared as the most left digits
-            if numconv::to_digits(p, 10).next_back() == Some(2) { loop; }
+            if numconv::to_digits(p, 10).next_back() == Some(2) { continue }
 
             let ds = [ 1u, 2, 3, 5, 7, 9 ];
             for &d in ds.iter() {
@@ -34,17 +33,17 @@ pub fn solve() -> ~str {
             }
         }
 
-        if result.is_empty() { break; }
+        if result.is_empty() { break }
         l2r_mat.push(result);
         order *= 10;
     }
 
-    let l2r = vec::concat(l2r_mat);
+    let l2r = l2r_mat.concat_vec();
     let mut sum = 0;
     for n in  l2r.iter() {
-        if *n < 10 { loop; }
+        if *n < 10 { continue }
         if is_r2l(*n) { sum += *n; }
     }
 
-    return sum.to_str();
+    sum.to_str()
 }

@@ -1,8 +1,6 @@
 #[link(name = "prob0083", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
 use std::{vec, uint, io};
 use std::hashmap::HashSet;
 
@@ -12,11 +10,11 @@ pub static EXPECTED_ANSWER: &'static str = "425185";
 struct Point { x: uint, y: uint }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/matrix.txt"))
+    let result = io::file_reader(&Path::new("files/matrix.txt"))
         .map(|file| {
             let mut mat = ~[];
             do file.each_line |line| {
-                mat.push(line.split_iter(',').filter_map(uint::from_str).to_owned_vec());
+                mat.push(line.split_iter(',').filter_map(from_str::<uint>).to_owned_vec());
                 assert_eq!(mat[0].len(), mat.last().len());
                 true
             };
@@ -44,7 +42,7 @@ pub fn solve() -> ~str {
                     .min_by(|&pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1))
                     .unwrap();
 
-                if min_pt == goal { break; }
+                if min_pt == goal { break }
                 open.remove(&min_pt);
                 closed.insert(min_pt);
 
@@ -61,7 +59,7 @@ pub fn solve() -> ~str {
                             dist[pt.y][pt.x]   = new_dist;
                             parent[pt.y][pt.x] = min_pt;
                         }
-                        loop;
+                        continue
                     }
                     if closed.contains(&pt) {
                         if new_dist < dist[pt.y][pt.x] {
@@ -70,7 +68,7 @@ pub fn solve() -> ~str {
                             parent[pt.y][pt.x] = min_pt;
                             open.insert(pt);
                         }
-                        loop;
+                        continue
                     }
                     dist[pt.y][pt.x] = uint::min(dist[pt.y][pt.x], new_dist);
                     parent[pt.y][pt.x] = min_pt;
@@ -83,6 +81,6 @@ pub fn solve() -> ~str {
 
     match result {
         Err(msg) => fail!(msg),
-        Ok(value) => return value.to_str()
+        Ok(value) => value.to_str()
     }
 }

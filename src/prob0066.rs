@@ -18,14 +18,14 @@ fn each_d(f: &fn(uint) -> bool) -> bool {
         if d == square {
             sqrt += 1;
             square = sqrt * sqrt;
-            loop;
+            continue
         }
         if !f(d) { return false; }
     }
 }
 
 pub fn solve() -> ~str {
-    let mut max_x   = BigUint::from_uint(0);
+    let mut max_x : BigUint  = FromPrimitive::from_uint(0).unwrap();
     let mut max_x_d = 0;
     do each_d |d| {
         if d > 1000 {

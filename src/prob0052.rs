@@ -19,26 +19,26 @@ pub fn solve() -> ~str {
             n = order;
             order *= 10;
             limit = (order - 1) / 6;
-            loop;
+            continue
         }
 
         let ds = numconv::to_digit_histogram(n);
 
         // n * 5 の時に、必ず 0 または 5 は含むため
-        if ds[0] == 0 && ds[5] == 0 { loop; }
+        if ds[0] == 0 && ds[5] == 0 { continue }
 
         // n * 2, n * 4 の時に、必ず偶数は含むため
         if ds[0] == 0 && ds[2] == 0 && ds[4] == 0 && ds[6] == 0 && ds[8] == 0 {
-            loop;
+            continue
         }
 
-        if ds != numconv::to_digit_histogram(n * 2) { loop; }
-        if ds != numconv::to_digit_histogram(n * 3) { loop; }
-        if ds != numconv::to_digit_histogram(n * 4) { loop; }
-        if ds != numconv::to_digit_histogram(n * 5) { loop; }
-        if ds != numconv::to_digit_histogram(n * 6) { loop; }
+        if ds != numconv::to_digit_histogram(n * 2) { continue }
+        if ds != numconv::to_digit_histogram(n * 3) { continue }
+        if ds != numconv::to_digit_histogram(n * 4) { continue }
+        if ds != numconv::to_digit_histogram(n * 5) { continue }
+        if ds != numconv::to_digit_histogram(n * 6) { continue }
 
-        return n.to_str();
+        return n.to_str()
     }
 }
 

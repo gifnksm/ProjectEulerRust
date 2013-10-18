@@ -12,8 +12,8 @@ use math::numconv;
 pub static EXPECTED_ANSWER: &'static str = "127035954683";
 
 pub fn solve() -> ~str {
-    let mut map = HashMap::new::<~[uint], ~[uint]>();
-    let mut set = HashSet::new::<uint>();
+    let mut map = HashMap::<~[uint], ~[uint]>::new();
+    let mut set = HashSet::<uint>::new();
     let mut n     = 0;
     let mut limit = 10;
     loop {

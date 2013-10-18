@@ -1,12 +1,12 @@
 #[link(name = "prob0059", vers = "0.0")];
 #[crate_type = "lib"];
 
-use std::{float, u8, io};
-use std::iterator::AdditiveIterator;
+use std::{f64, io};
+use std::iter::AdditiveIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "107359";
 
-static ENGLISH_FREQUENCY: &'static [(char, float)] = &[
+static ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
     ('a', 0.08167),
     ('b', 0.01492),
     ('c', 0.02782),
@@ -41,25 +41,25 @@ fn trans_map<T: Clone>(key: u8, src: &[T], dst: &mut [T]) {
     }
 }
 
-fn get_dist(a: &[float], b: &[float]) -> float {
-    let mut sum = 0f;
+fn get_dist(a: &[f64], b: &[f64]) -> f64 {
+    let mut sum = 0.0;
     for (&na, &nb) in a.iter().zip(b.iter()) {
         sum += (na - nb) * (na - nb);
     }
-    return sum;
+    sum
 }
 
-fn find_key(count: &[uint], ref_freq: &[float]) -> u8 {
+fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
     let total = count.iter().map(|&x| x).sum();
 
-    let mut freq = ~[0f, ..256];
+    let mut freq = ~[0.0, ..256];
     for (f, &n) in freq.mut_iter().zip(count.iter()) {
-        *f = (n as float) / (total as float);
+        *f = (n as f64) / (total as f64);
     }
 
-    let mut freq_buf = ~[0f, ..256];
+    let mut freq_buf = ~[0.0, ..256];
     let mut min_key  = 0;
-    let mut min_dist = float::infinity;
+    let mut min_dist = f64::infinity;
     for k in range(0u, 256) {
         trans_map(k as u8, freq, freq_buf);
         let dist = get_dist(freq_buf, ref_freq);
@@ -72,15 +72,15 @@ fn find_key(count: &[uint], ref_freq: &[float]) -> u8 {
 }
 
 pub fn solve() -> ~str {
-    let mut freq_dict = ~[0f, ..256];
+    let mut freq_dict = ~[0.0, ..256];
     for &(c, f) in ENGLISH_FREQUENCY.iter() {
         freq_dict[c as u8] = f;
     }
 
-    let result = io::read_whole_file_str(&Path("files/cipher1.txt"))
+    let result = io::read_whole_file_str(&Path::new("files/cipher1.txt"))
         .map(|input| {
             let code_list = input.trim().split_iter(',')
-                .filter_map(u8::from_str).to_owned_vec();
+                .filter_map(from_str::<u8>).to_owned_vec();
 
             let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
             for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n] += 1; }

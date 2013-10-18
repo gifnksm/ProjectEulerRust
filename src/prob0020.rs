@@ -4,14 +4,14 @@
 extern mod extra;
 
 use std::char;
-use std::iterator;
-use std::iterator::{AdditiveIterator, MultiplicativeIterator};
+use std::iter::{AdditiveIterator, MultiplicativeIterator};
 use extra::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "648";
 
 pub fn solve() -> ~str {
-    let s = iterator::range(BigUint::from_uint(1), BigUint::from_uint(101))
+    let s = range::<BigUint>(FromPrimitive::from_uint(1).unwrap(),
+                             FromPrimitive::from_uint(101).unwrap())
         .product()
         .to_str();
     return s.iter()

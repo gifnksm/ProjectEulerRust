@@ -1,23 +1,21 @@
 #[link(name = "prob0099", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
-use std::{float, io};
+use std::io;
 
 pub static EXPECTED_ANSWER: &'static str = "709";
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/base_exp.txt"))
+    let result = io::file_reader(&Path::new("files/base_exp.txt"))
         .map(|input| {
             let mut line_idx = 1u;
-            let mut max = 0f;
+            let mut max = 0.0;
             let mut max_idx = 1;
             do input.each_line |line| {
                 let opt = line.find(',');
                 for &idx in opt.iter() {
-                    let base = float::from_str(line.slice(0, idx)).unwrap();
-                    let exp  = float::from_str(line.slice(idx + 1, line.len())).unwrap();
+                    let base: f64 = from_str(line.slice(0, idx)).unwrap();
+                    let exp:  f64 = from_str(line.slice(idx + 1, line.len())).unwrap();
                     let ln = exp * base.ln();
                     if ln > max {
                         max = ln;
@@ -32,6 +30,6 @@ pub fn solve() -> ~str {
 
     match result {
         Err(msg) => fail!(msg),
-        Ok(value) => return value.to_str()
+        Ok(value) => value.to_str()
     }
 }

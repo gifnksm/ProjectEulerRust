@@ -1,9 +1,7 @@
 #[link(name = "prob0102", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
-use std::{int, io};
+use std::io;
 
 pub static EXPECTED_ANSWER: &'static str = "228";
 
@@ -45,13 +43,13 @@ fn is_inside((a, b, c): Triangle, p: Point) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/triangles.txt"))
+    let result = io::file_reader(&Path::new("files/triangles.txt"))
         .map(|input| {
             let mut cnt = 0u;
             do input.each_line |line| {
                 let ns = line
                     .split_iter(',')
-                    .filter_map(int::from_str)
+                    .filter_map(from_str::<int>)
                     .to_owned_vec();
                 let ps = ((ns[0], ns[1]), (ns[2], ns[3]), (ns[4], ns[5]));
                 if is_inside(ps, (0, 0)) { cnt += 1; }

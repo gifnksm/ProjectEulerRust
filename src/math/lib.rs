@@ -1,6 +1,8 @@
 #[link(name = "math", vers = "0.0")];
 #[crate_type = "lib"];
 
+#[feature(globs)];
+
 extern mod data;
 
 pub mod arith;

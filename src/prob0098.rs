@@ -6,7 +6,7 @@ extern mod common;
 extern mod math;
 
 use std::{util, uint, vec, io};
-use std::iterator::OrdIterator;
+use std::iter::OrdIterator;
 use std::hashmap::HashMap;
 use extra::sort;
 use common::reader;
@@ -20,7 +20,7 @@ fn check_digit(idx: &[uint], ds: &[uint]) -> bool {
         if ds[i] != ds[idx[i]] { return false; }
         if ds.position_elem(&ds[idx[i]]).unwrap() != idx[i] { return false; }
     }
-    return true;
+    true
 }
 
 #[inline(always)]
@@ -31,12 +31,12 @@ fn idx_to_num(idx: &[uint], ds: &[uint]) -> uint {
 #[inline(always)]
 fn is_square(n: uint) -> bool {
     let sq = arith::isqrt(n);
-    return (sq * sq == n);
+    (sq * sq == n)
 }
 
 pub fn solve() -> ~str {
-    let result = io::read_whole_file_str(&Path("files/words.txt"))
-        .chain(|input| {
+    let result = io::read_whole_file_str(&Path::new("files/words.txt"))
+        .and_then(|input| {
              do reader::read_whole_word(input).map |words| {
                 let mut map = ~HashMap::new();
                 for &word in words.iter() {
@@ -47,7 +47,7 @@ pub fn solve() -> ~str {
                         Some(ws) => { map.insert(cs, vec::append_one(ws, word.to_str())); }
                     }
                 }
-                 do vec::build |push| {
+                 do vec::build(None) |push| {
                      for (_key, values) in map.mut_iter() {
                          if values.len() > 1 {
                              push(util::replace(values, ~[]));
@@ -56,7 +56,7 @@ pub fn solve() -> ~str {
                  }
             }
         }).map(|words| {
-            do vec::build_sized(words.len()) |push| {
+            do vec::build(Some(words.len())) |push| {
                 for elt in words.iter() {
                     for i in range(0, elt.len()) {
                         for j in range(i + 1, elt.len()) {
@@ -75,7 +75,7 @@ pub fn solve() -> ~str {
             sort::quick_sort(words, |&(l1, _, _), &(l2, _, _)| l1 >= l2);
             words
         }).map(|idx_pairs| {
-            do vec::build |push| {
+            do vec::build(None) |push| {
                 let mut cur_len = uint::max_value;
                 let mut cur_group = ~[];
                 for &(ref len, ref v1, ref v2) in idx_pairs.iter() {
@@ -100,10 +100,10 @@ pub fn solve() -> ~str {
                 for n in range(arith::isqrt(end), arith::isqrt(start)).invert() {
                     let ds = numconv::to_digits(n * n, 10).invert().to_owned_vec();
                     for &(ref v1, ref v2) in pairs.iter() {
-                        if ds[v2[0]] == 0 { loop; }
-                        if !check_digit(*v1, ds) { loop; }
+                        if ds[v2[0]] == 0 { continue }
+                        if !check_digit(*v1, ds) { continue }
                         let num2 = idx_to_num(*v2, ds);
-                        if !is_square(num2) { loop; }
+                        if !is_square(num2) { continue }
                         nums.push(n * n);
                         if n * n != num2 { nums.push(num2); }
                     }
@@ -111,7 +111,7 @@ pub fn solve() -> ~str {
 
                 if !nums.is_empty() {
                     max = nums.move_iter().max().unwrap();
-                    break;
+                    break
                 }
             }
             max
@@ -119,6 +119,6 @@ pub fn solve() -> ~str {
 
     match result {
         Err(msg) => fail!(msg),
-        Ok(value) => return value.to_str()
+        Ok(value) => value.to_str()
     }
 }

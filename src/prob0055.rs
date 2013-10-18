@@ -4,8 +4,9 @@
 extern mod extra;
 
 use std::str;
-use std::from_str::{FromStr};
-use extra::bigint::{BigUint};
+use std::from_str::FromStr;
+use std::num::FromPrimitive;
+use extra::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "249";
 
@@ -16,7 +17,7 @@ fn reverse(n: &BigUint) -> BigUint {
 }
 
 fn is_lychrel(n: uint) -> bool {
-    let n = BigUint::from_uint(n);
+    let n: BigUint = FromPrimitive::from_uint(n).unwrap();
     let mut sum = n + reverse(&n);
     for _ in range(0, 50) {
         let rev_sum = reverse(&sum);

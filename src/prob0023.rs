@@ -16,7 +16,7 @@ fn is_abundant(n: uint) -> bool {
 pub fn solve() -> ~str {
     let max_num = 28123;
 
-    let abundant = do vec::build_sized(max_num + 1) |push| {
+    let abundant = do vec::build(Some(max_num + 1)) |push| {
         for n in range(2, max_num + 1) {
             if is_abundant(n) { push(n); }
         }

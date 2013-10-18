@@ -52,7 +52,7 @@ impl Iterator<(uint, uint, uint)> for PrimPythagoreanIterator {
             let n = self.n;
             self.n += 2;
 
-            if m.gcd(&n) != 1 { loop; }
+            if m.gcd(&n) != 1 { continue }
 
             let (m2, n2)  = (m * m, n * n);
             let (a, b, c) = (m2 - n2, 2 * m * n, m2 + n2);

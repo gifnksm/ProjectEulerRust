@@ -1,8 +1,7 @@
 #[link(name = "prob0104", vers = "0.0")];
 #[crate_type = "lib"];
 
-use std::u64;
-use std::iterator::Unfoldr;
+use std::iter::Unfold;
 
 pub static EXPECTED_ANSWER: &'static str = "329468";
 
@@ -21,7 +20,7 @@ fn is_pandigit(n: u64) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let base = u64::from_str("1" + "0".repeat(9)).unwrap();
+    let base = from_str::<u64>("1" + "0".repeat(9)).unwrap();
 
     let phi = (1.0 + (5.0f64).sqrt()) / 2.0;
     let next_fib_first10 = |st: &mut (u64, uint)| {
@@ -51,8 +50,8 @@ pub fn solve() -> ~str {
         Some(n0)
     };
 
-    let first = Unfoldr::new((0, 0), next_fib_first10);
-    let last  = Unfoldr::new((0, 1), next_fib_last10);
+    let first = Unfold::new((0, 0), next_fib_first10);
+    let last  = Unfold::new((0, 1), next_fib_last10);
     let mut it = first.zip(last).enumerate().filter(|&(_, (f, l))| is_pandigit(f) && is_pandigit(l));
     let (k, _) = it.next().unwrap();
     return k.to_str();

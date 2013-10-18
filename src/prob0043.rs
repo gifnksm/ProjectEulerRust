@@ -4,7 +4,7 @@
 extern mod math;
 
 use std::vec;
-use std::iterator::AdditiveIterator;
+use std::iter::AdditiveIterator;
 use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "16695334890";
@@ -51,13 +51,13 @@ fn fill_vec<T: Clone>(v: ~[T], len: uint, init: T) -> ~[T] {
 }
 
 pub fn solve() -> ~str {
-    let mut result = do vec::build |push| {
+    let mut result = do vec::build(None) |push| {
         let dm   = DigitMap();
         let base = 17;
         for n in range(0u, 1000 / base) {
             let new_ds = fill_vec(numconv::to_digits(n * base, 10).to_owned_vec(), 3, 0);
             match dm.get_used(new_ds) {
-                None         => loop,
+                None         => continue,
                 Some(new_dm) => push((new_ds, new_dm))
             }
         }
@@ -66,12 +66,12 @@ pub fn solve() -> ~str {
     let base_list = [13u, 11, 7, 5, 3, 2, 1];
     for &base in base_list.iter() {
         result = do result.flat_map |&(ref ds, ref dm)| {
-            do vec::build |push| {
+            do vec::build(None) |push| {
                 let lower = numconv::from_digits(ds.slice(ds.len() - 2, ds.len()), 10);
                 for d in range(0u, 10) {
-                    if (d * 100 + lower) % base != 0 { loop; }
+                    if (d * 100 + lower) % base != 0 { continue }
                     match dm.get_used([d]) {
-                        None         => loop,
+                        None         => continue,
                         Some(new_dm) => push((*ds + &[d], new_dm))
                     }
                 }
@@ -79,8 +79,8 @@ pub fn solve() -> ~str {
         };
     }
 
-    return result.move_iter()
+    result.move_iter()
         .map(|(r, _e)| numconv::from_digits(r, 10))
         .sum()
-        .to_str();
+        .to_str()
 }

@@ -3,7 +3,7 @@
 
 extern mod data;
 
-use std::{iterator, result, io, vec};
+use std::{iter, result, io, vec};
 use data::card::Card;
 
 pub static EXPECTED_ANSWER: &'static str = "376";
@@ -206,16 +206,16 @@ fn judge(p1_cards: &[Card, ..5], p2_cards: &[Card, ..5]) -> int {
 }
 
 pub fn solve() -> ~str {
-    let result = do io::file_reader(&Path("files/poker.txt")).map |file| {
+    let result = do io::file_reader(&Path::new("files/poker.txt")).map |file| {
         let mut p1_win = 0u;
         let mut p2_win = 0u;
         let mut draw = 0u;
         do file.each_line |line| {
             let mut p1_cards = [ Card::dummy(), ..5 ];
             let mut p2_cards = [ Card::dummy(), ..5 ];
-            for (word, i) in line.word_iter().zip(iterator::count(0u, 1)) {
+            for (word, i) in line.word_iter().zip(iter::count(0u, 1)) {
                 let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
-                cards[i % 5] = FromStr::from_str::<Card>(word).unwrap();
+                cards[i % 5] = FromStr::from_str(word).unwrap();
             }
             let cmp = judge(&p1_cards, &p2_cards);
             if cmp > 0 { p1_win += 1;  }

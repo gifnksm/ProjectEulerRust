@@ -1,4 +1,3 @@
-use std::num::IntConvertible;
 use std::hashmap::HashSet;
 use std::util;
 
@@ -74,20 +73,21 @@ pub fn sqrt(n: uint) -> (uint, ~[uint]) {
     }
 }
 
-pub fn fold<T: IntConvertible + Add<T, T> + Mul<T, T>>(an: &[uint]) -> (T, T) {
-    let mut numer = IntConvertible::from_int::<T>(1);
-    let mut denom = IntConvertible::from_int::<T>(0);
+pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T>>(an: &[uint]) -> (T, T) {
+    let mut numer: T = FromPrimitive::from_int(1).unwrap();
+    let mut denom: T = FromPrimitive::from_int(0).unwrap();
 
     for &a in an.rev_iter() {
         util::swap(&mut numer, &mut denom);
-        numer = numer + IntConvertible::from_int::<T>(a as int) * denom;
+        let num: T = FromPrimitive::from_int(a as int).unwrap();
+        numer = numer + num * denom;
     }
 
     return (numer, denom);
 }
 
 /// solve pel equation x^2 - y^2 = 1
-pub fn solve_pel<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
+pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     if an.len() % 2 == 0 {
         return fold::<T>(~[a0] + an.init());
@@ -98,9 +98,9 @@ pub fn solve_pel<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
 
 /// each (x, y) sufficient x^2 - y^2 = 1
 pub fn each_pel<
-    T: IntConvertible + Add<T, T> + Mul<T, T> + Clone
+    T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone
     >(d: uint, f: &fn(&T, &T)->bool) -> bool {
-    let n = IntConvertible::from_int::<T>(d as int);
+    let n: T = FromPrimitive::from_int(d as int).unwrap();
     let (x1, y1) = solve_pel::<T>(d);
     let mut xk = x1.clone();
     let mut yk = y1.clone();
@@ -117,7 +117,7 @@ pub fn each_pel<
 }
 
 /// solve pel equation x^2 - y^2 = -1
-pub fn solve_pel_neg<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
+pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     if an.len() % 2 == 0 {
         return fold::<T>(~[a0] + an + an.init());
@@ -128,9 +128,9 @@ pub fn solve_pel_neg<T: IntConvertible + Add<T, T> + Mul<T, T>>(d: uint) -> (T, 
 
 /// each (x, y) sufficient x^2 - y^2 = -1
 pub fn each_pel_neg<
-    T: IntConvertible + Add<T, T> + Mul<T, T> + Clone
+    T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone
     >(d: uint, f: &fn(&T, &T)->bool) -> bool {
-    let n = IntConvertible::from_int::<T>(d as int);
+    let n: T = FromPrimitive::from_int(d as int).unwrap();
     let (x1, y1) = solve_pel_neg::<T>(d);
     let mut xk = x1.clone();
     let mut yk = y1.clone();
@@ -151,7 +151,6 @@ pub fn each_pel_neg<
 #[cfg(test)]
 mod test {
     use super::*;
-    use std::num::IntConvertible;
 
     #[test]
     fn test_sqrt() {
@@ -173,9 +172,9 @@ mod test {
     #[deriving(Eq)]
     struct Uint(uint);
 
-    impl IntConvertible for Uint {
-        fn to_int(&self) -> int { **self as int }
-        fn from_int(n: int) -> Uint { Uint(n as uint) }
+    impl FromPrimitive for Uint {
+        fn from_i64(n: i64) -> Option<Uint> { FromPrimitive::from_i64(n).map(Uint) }
+        fn from_u64(n: u64) -> Option<Uint> { FromPrimitive::from_u64(n).map(Uint) }
     }
     impl Add<Uint, Uint> for Uint {
         fn add(&self, other: &Uint) -> Uint { Uint(**self + **other) }

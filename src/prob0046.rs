@@ -3,7 +3,7 @@
 
 extern mod math;
 
-use std::iterator;
+use std::iter;
 use math::{arith, prime};
 
 pub static EXPECTED_ANSWER: &'static str = "5777";
@@ -18,7 +18,7 @@ fn is_goldbach(n: uint) -> bool {
 }
 
 pub fn solve() -> ~str {
-    return iterator::count(3u, 2)
+    return iter::count(3u, 2)
         .filter(|&n| !prime::contains(n))
         .skip_while(|&n| is_goldbach(n))
         .next()

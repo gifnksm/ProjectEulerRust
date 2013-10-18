@@ -37,15 +37,15 @@ pub static EXPECTED_ANSWER: &'static str = "518408346";
 // k <= (100000000 - 4) / 6, (100000000 - 2) / 6
 fn each_ab(f: &fn(uint, uint) -> bool) -> bool {
     do cont_frac::each_pel::<BigUint>(3) |x, _y| {
-        match x.to_uint() % 3 {
+        match x.to_uint().unwrap() % 3 {
             1 => {
-                let k = (x.to_uint() - 1) / 3;
+                let k = (x.to_uint().unwrap() - 1) / 3;
                 let a = 2 * k + 1;
                 let b = a + 1;
                 f(a, b)
             }
             2 => {
-                let k = (x.to_uint() - 2) / 3;
+                let k = (x.to_uint().unwrap() - 2) / 3;
                 let a = 2 * k + 1;
                 let b = a - 1;
                 f(a, b)

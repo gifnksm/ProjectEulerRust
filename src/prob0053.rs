@@ -16,11 +16,11 @@ pub fn solve() -> ~str {
         c = c * n / (n - r); // nCr
         if c < limit {
             while c < limit {
-                if r == (n + 1) / 2 { break; }
+                if r == (n + 1) / 2 { break }
                 c = c * (n - r) / (r + 1);
                 r += 1;
             }
-            if c < limit { loop; }
+            if c < limit { continue }
         } else {
             while c * r / (n - r + 1) >= limit {
                 c = c * r / (n - r + 1);
@@ -30,5 +30,5 @@ pub fn solve() -> ~str {
         cnt += ((n - r) - r) + 1;
     }
 
-    return cnt.to_str();
+    cnt.to_str()
 }

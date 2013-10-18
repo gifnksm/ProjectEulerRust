@@ -2,7 +2,7 @@ use std::vec;
 use std::num::{Zero, One};
 
 fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
-    let len = v.rposition(|n| !n.is_zero()).map_default(Zero::zero(), |&p| p + 1);
+    let len = v.iter().rposition(|n| !n.is_zero()).map_default(0, |p| p + 1);
     return v.slice(0, len);
 }
 
@@ -18,7 +18,7 @@ pub fn add<T: Zero + Add<T,T> + Clone>(a: &[T], b: &[T]) -> ~[T] {
 
     let mut sum = vec::from_fn(max_len, |_i| Zero::zero());
     for i in range(0, min_len) { sum[i] = a[i] + b[i]; }
-    do rest.map |&v| { for i in range(min_len, max_len) { sum[i] = v[i].clone(); } };
+    do rest.map |v| { for i in range(min_len, max_len) { sum[i] = v[i].clone(); } };
     return sum;
 }
 
@@ -27,7 +27,7 @@ pub fn mul<T: Zero + Add<T, T> + Mul<T, T>>(a: &[T], b: &[T]) -> ~[T] {
     let b = omit_zeros(b);
 
     if a.is_empty() || b.is_empty() { return ~[]; }
-    let mut prod = vec::from_fn(a.len() + b.len() - 1, |_i| Zero::zero::<T>());
+    let mut prod: ~[T] = vec::from_fn(a.len() + b.len() - 1, |_i| Zero::zero());
     for (i, na) in a.iter().enumerate() {
         for (j, nb) in b.iter().enumerate() {
             prod[i + j] = prod[i + j] + (*na) * (*nb);
@@ -37,7 +37,7 @@ pub fn mul<T: Zero + Add<T, T> + Mul<T, T>>(a: &[T], b: &[T]) -> ~[T] {
 }
 
 pub fn eval<T: Zero + One + Add<T, T> + Mul<T, T>>(a: &[T], x: T) -> T {
-    let mut sum = Zero::zero::<T>();
+    let mut sum: T = Zero::zero();
     let mut x_n = One::one();
     for i in range(0, a.len()) {
         sum = sum + a[i] * x_n;
@@ -55,7 +55,7 @@ pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~s
     let mut s = ~[];
     for (i, n) in a.iter().enumerate() {
         // output n*x^i / -n*x^i
-        if n.is_zero() { loop; }
+        if n.is_zero() { continue }
 
         let term = if i.is_zero() {
             n.to_str()

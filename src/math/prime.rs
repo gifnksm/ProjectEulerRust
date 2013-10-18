@@ -1,5 +1,5 @@
-use std::{iterator, local_data};
-use std::iterator::MultiplicativeIterator;
+use std::{iter, local_data};
+use std::iter::MultiplicativeIterator;
 use std::local_data::Key;
 
 use arith;
@@ -33,7 +33,7 @@ fn is_coprime(nums: &[uint], n: uint) -> bool {
 fn grow(nums: &mut ~[uint], len: uint) {
     if nums.len() >= len { return; }
 
-    let mut it = iterator::count(nums.last() + 2, 2)
+    let mut it = iter::count(nums.last() + 2, 2)
         .filter(|&n| is_coprime(*nums, n));
     for n in it {
         nums.push(n);
@@ -52,7 +52,7 @@ pub fn contains(n: uint) -> bool {
         if n < last {
             nums.bsearch_elem(&n).is_some()
         } else {
-            iterator::count(0u, 1)
+            iter::count(0u, 1)
                 .map(|i| { grow(nums, i + 1); nums[i] })
                 .take_while(|&p| p * p <= n)
                 .all(|p| n % p != 0)
@@ -143,13 +143,13 @@ pub fn factors_to_uint<IA: Iterator<Factor>>(mut fs: IA) -> uint {
 
 #[inline(always)]
 pub fn comb(n: uint, r: uint) -> uint {
-    let ns = iterator::range(r + 1, n + 1)
+    let ns = range(r + 1, n + 1)
         .map(factorize)
         .map(|fs| fs.map(|(base, exp)| (base, Sum(exp))))
         .to_owned_vec();
     let numer = MergeMultiMonoidIterator::new(ns);
 
-    let ds = iterator::range(1, n - r + 1)
+    let ds = range(1, n - r + 1)
         .map(factorize)
         .map(|fs| fs.map(|(base, exp)| (base, Sum(-exp))))
         .to_owned_vec();

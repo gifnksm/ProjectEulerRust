@@ -1,11 +1,12 @@
 #[link(name = "prob0011", vers = "0.0")];
 #[crate_type = "lib"];
 
+#[feature(macro_rules)];
+
 extern mod data;
 
-use std::uint;
-use std::iterator::{OrdIterator, MultiplicativeIterator};
-use data::extiter::{ExtIteratorUtil, Area2DIterator};
+use std::iter::{OrdIterator, MultiplicativeIterator};
+use data::extiter::Area2DIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "70600674";
 
@@ -36,7 +37,7 @@ pub fn solve() -> ~str {
     let grid = INPUT
         .trim()
         .line_iter()
-        .map(|line| line.word_iter().filter_map(uint::from_str).to_owned_vec())
+        .map(|line| line.word_iter().filter_map(from_str::<uint>).to_owned_vec())
         .to_owned_vec();
 
     let prod_len = 4;
@@ -58,9 +59,10 @@ pub fn solve() -> ~str {
 
     let it = row.chain(col).chain(diag_tr).chain(diag_bl).chain(diag_tl).chain(diag_br);
 
-    return it.map(|row: Area2DIterator| {
-        row.windowed(prod_len)
-            .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
-            .max().unwrap_or_default(0)
-    }).max().unwrap().to_str();
+    return it.map(|mut row: Area2DIterator| {
+            let v = row.to_owned_vec();
+            v.window_iter(prod_len)
+                .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
+                .max().unwrap_or_zero()
+        }).max().unwrap().to_str();
 }

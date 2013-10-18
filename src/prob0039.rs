@@ -15,12 +15,12 @@ pub fn solve() -> ~str {
     // if n == 1, a + b + c = 2m^2 + 2m <= L
     // m <= (sqrt(1 + L) - 1)/2
     let limit = 1000;
-    let mut map = HashMap::new::<uint, uint>();
+    let mut map = HashMap::<uint, uint>::new();
 
     for m in range(1, (arith::isqrt(1 + limit) - 1) / 2) {
         for n in range(1, uint::min(1 + limit / (2 * m) - m, m)) {
-            if (m - n) % 2 == 0 { loop; }
-            if m.gcd(&n) != 1 { loop; }
+            if (m - n) % 2 == 0 { continue }
+            if m.gcd(&n) != 1 { continue }
             let (a, b, c) = (m * m - n * n, 2 * m * n, m * m + n * n);
             let s = a + b + c;
             for k in range(1, limit / s + 1) {
@@ -31,5 +31,5 @@ pub fn solve() -> ~str {
     }
 
     let (max_key, _max_val) = map.iter().max_by(|&(&_k, &v)| v).unwrap();
-    return max_key.to_str();
+    max_key.to_str()
 }

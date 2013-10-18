@@ -3,7 +3,7 @@
 
 extern mod math;
 
-use std::iterator::MultiplicativeIterator;
+use std::iter::MultiplicativeIterator;
 use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "210";

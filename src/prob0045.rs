@@ -40,16 +40,16 @@ pub fn solve() -> ~str {
             p_i += 1;
             p = pentagonal(p_i);
         }
-        if p > n { n = p; loop; }
+        if p > n { n = p; continue }
 
         let mut h = hexagonal(h_i);
         while h < n {
             h_i += 1;
             h = hexagonal(h_i);
         }
-        if h > n { n = h; loop; }
+        if h > n { n = h; continue }
 
-        break;
+        break
     }
 
     return triangle(t_i).to_str();

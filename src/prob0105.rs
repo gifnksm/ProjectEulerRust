@@ -4,8 +4,8 @@
 extern mod common;
 extern mod extra;
 
-use std::{io, uint, vec};
-use std::iterator::AdditiveIterator;
+use std::{io, vec};
+use std::iter::AdditiveIterator;
 use extra::sort::Sort;
 use common::reader::ReaderIterator;
 
@@ -45,13 +45,13 @@ fn is_sss(nums: &[uint]) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/sets.txt"))
+    let result = io::file_reader(&Path::new("files/sets.txt"))
         .map(|reader| {
             reader
                 .line_iter()
                 .map(|line| {
                     line.split_iter(',')
-                        .filter_map(uint::from_str)
+                        .filter_map(from_str::<uint>)
                         .to_owned_vec()
                 }).map(|mut nums| { nums.qsort(); nums })
                 .filter(|nums| {

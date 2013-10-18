@@ -3,7 +3,7 @@
 
 extern mod math;
 
-use std::{uint, vec};
+use std::{iter, vec};
 use math::{arith, sequence};
 
 
@@ -15,10 +15,9 @@ pub fn solve() -> ~str {
     for m in range(2, arith::isqrt(limit / 2)) {
         for (a, b, c) in sequence::prim_pythagorean(m) {
             let sum = a + b + c;
-            do uint::range_step(sum, limit + 1, sum as int) |s| {
+            for s in iter::range_step(sum, limit + 1, sum) {
                 v[s] += 1;
-                true
-            };
+            }
         }
     }
 

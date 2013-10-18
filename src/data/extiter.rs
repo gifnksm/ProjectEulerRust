@@ -61,7 +61,7 @@ impl<T: Integer> Iterator<T> for Range<T> {
     }
 }
 
-struct Area2DIterator {
+pub struct Area2DIterator {
     cur: (int, int),
     dv: (int, int),
     cnt: uint
@@ -104,40 +104,6 @@ impl Iterator<(int, int)> for Area2DIterator {
         let ((x, y), (dx, dy)) = (self.cur, self.dv);
         self.cur = (x + dx, y + dy);
         return Some((x, y));
-    }
-}
-
-
-pub trait ExtIteratorUtil<A> {
-    fn windowed(self, n: uint) -> WindowedIterator<A, Self>;
-}
-
-impl<A, T: Iterator<A>> ExtIteratorUtil<A> for T {
-    #[inline(always)]
-    fn windowed(self, n: uint) -> WindowedIterator<A, T> {
-        WindowedIterator { iter: self, n: n, vs: ~[] }
-    }
-}
-
-pub struct WindowedIterator<A, T> {
-    priv iter: T,
-    priv n: uint,
-    priv vs: ~[A]
-}
-
-impl<'self, A: Clone, T: Iterator<A>> Iterator<~[A]> for WindowedIterator<A, T> {
-    #[inline]
-    fn next(&mut self) -> Option<~[A]> {
-        if self.vs.len() == self.n {
-            self.vs.shift();
-        }
-        while self.vs.len() < self.n {
-            match self.iter.next() {
-                Some(x) => { self.vs.push(x); }
-                None    => { return None; }
-            }
-        }
-        return Some(self.vs.clone());
     }
 }
 

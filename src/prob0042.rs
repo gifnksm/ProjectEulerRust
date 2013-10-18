@@ -19,7 +19,7 @@ fn word_value(word: &str) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let result = io::read_whole_file_str(&Path("files/words.txt")).chain(|input| {
+    let result = io::read_whole_file_str(&Path::new("files/words.txt")).and_then(|input| {
         do reader::read_whole_word(input).map |words| { words.map(|w| word_value(*w)) }
     }).map(|values| {
         let mut is_tri = vec::from_elem(values.iter().max().unwrap() + 1, false);

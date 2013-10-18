@@ -38,7 +38,7 @@ pub fn solve() -> ~str {
     it1.chain(it2)
         .flat_map(|n| DividablePairsIterator::new(n, 100, 999))
         .next()
-        .map_move(|(d1, d2)| d1 * d2)
+        .map(|(d1, d2)| d1 * d2)
         .unwrap()
         .to_str()
 }

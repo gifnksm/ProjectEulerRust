@@ -5,7 +5,7 @@ extern mod extra;
 extern mod math;
 
 use std::{char, vec};
-use std::iterator::AdditiveIterator;
+use std::iter::AdditiveIterator;
 use extra::bigint::BigUint;
 use math::cont_frac;
 

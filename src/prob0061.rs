@@ -3,7 +3,7 @@
 
 
 use std::vec;
-use std::iterator::AdditiveIterator;
+use std::iter::AdditiveIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "28684";
 
@@ -12,7 +12,7 @@ fn create_map(f: &fn(uint) -> uint) -> ~[~[uint]] {
     let mut i = 1;
     loop {
         let n = f(i);
-        if n >= 10000 { break; }
+        if n >= 10000 { break }
         result[n / 100].push(n % 100);
         i += 1;
     }
@@ -30,21 +30,21 @@ pub fn solve() -> ~str {
     ];
 
     let mut result = ~[];
-    do vec::each_permutation([0u, 1u, 2u, 3u, 4u]) |idx| {
+    for idx in [0u, 1u, 2u, 3u, 4u].permutations_iter() {
         for (i, v5) in map[5].iter().enumerate() {
-            if i < 10 { loop; }
+            if i < 10 { continue }
             for &n5 in v5.iter() {
-                if n5 < 10 { loop; }
+                if n5 < 10 { continue }
                 for &n0 in  map[idx[0]][n5].iter() {
-                    if n0 < 10 { loop; }
+                    if n0 < 10 { continue }
                     for &n1 in map[idx[1]][n0].iter() {
-                        if n1 < 10 { loop; }
+                        if n1 < 10 { continue }
                         for &n2 in map[idx[2]][n1].iter() {
-                            if n2 < 10 { loop; }
+                            if n2 < 10 { continue }
                             for &n3 in map[idx[3]][n2].iter() {
-                                if n3 < 10 { loop; }
+                                if n3 < 10 { continue }
                                 for &n4 in map[idx[4]][n3].iter() {
-                                    if n4 < 10 { loop; }
+                                    if n4 < 10 { continue }
                                     if n4 == i {
                                         result.push(~[
                                             n5 * 100 + n0,
@@ -62,10 +62,9 @@ pub fn solve() -> ~str {
                 }
             }
         }
-        true
-    };
+    }
 
     let sum = result.move_iter().flat_map(|vs| vs.move_iter()).sum();
-    return sum.to_str();
+    sum.to_str()
 }
 

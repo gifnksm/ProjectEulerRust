@@ -4,7 +4,7 @@
 
 
 use std::{uint, vec};
-use std::iterator::AdditiveIterator;
+use std::iter::AdditiveIterator;
 use std::hashmap::HashSet;
 
 pub static EXPECTED_ANSWER: &'static str = "7587457";

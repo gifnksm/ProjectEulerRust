@@ -5,7 +5,7 @@ extern mod extra;
 extern mod common;
 extern mod math;
 
-use std::iterator::AdditiveIterator;
+use std::iter::AdditiveIterator;
 use std::hashmap::HashSet;
 use extra::sort;
 use common::calc;

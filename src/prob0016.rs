@@ -5,14 +5,15 @@ extern mod extra;
 
 use std::char;
 use std::num::One;
-use std::iterator::AdditiveIterator;
+use std::iter::AdditiveIterator;
 use extra::bigint::BigInt;
 
 pub static EXPECTED_ANSWER: &'static str = "1366";
 
 pub fn solve() -> ~str {
-    let mut i = One::one::<BigInt>();
-    do 1000.times { i = i * BigInt::from_uint(2); }
+    let mut i: BigInt = One::one();
+    let two = FromPrimitive::from_uint(2).unwrap();
+    do 1000.times { i = i * two; }
     let s = i.to_str();
     return s.iter()
         .filter_map(|c| char::to_digit(c, 10))

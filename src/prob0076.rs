@@ -14,9 +14,9 @@ fn count_way(sum: uint) -> uint {
     ) -> uint {
         let mut cnt = 1; // only sum
         for k in range(min_n, sum / 2 + 1) {
-            match map.find(&(sum - k, k)).map(|v| **v) {
-                Some(n) => cnt += n,
-                None    => {
+            match map.find(&(sum - k, k)) {
+                Some(&n) => cnt += n,
+                None     => {
                     let n = count_sub(sum - k, k, map);
                     map.insert((sum - k, k), n);
                     cnt += n;

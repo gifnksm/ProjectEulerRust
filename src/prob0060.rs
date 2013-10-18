@@ -3,9 +3,8 @@
 
 extern mod math;
 
-use std::{util, uint};
 use std::hashmap::HashMap;
-use std::iterator::AdditiveIterator;
+use std::iter::AdditiveIterator;
 use math::prime;
 
 pub static EXPECTED_ANSWER: &'static str = "26033";
@@ -17,13 +16,13 @@ fn union_vec(v1: &[uint], v2: &[uint]) -> ~[uint] {
     let l1 = v1.len();
     let l2 = v2.len();
     while i1 < l1 && i2 < l2 {
-        if v1[i1] < v2[i2] { i1 += 1; loop; }
-        if v1[i1] > v2[i2] { i2 += 1; loop; }
+        if v1[i1] < v2[i2] { i1 += 1; continue }
+        if v1[i1] > v2[i2] { i2 += 1; continue }
         result.push(v1[i1]);
         i1 += 1;
         i2 += 1;
     }
-    return result;
+    result
 }
 
 fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[uint]] {
@@ -36,7 +35,7 @@ fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[
         result.push_all(find_chain(union_nums, ~[n] + set, map));
     }
 
-    return result;
+    result
 }
 
 fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> bool {
@@ -48,11 +47,11 @@ fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> b
             if m > n { break; }
             let m_str = m.to_str();
 
-            let nm = uint::from_str(n_str + m_str).unwrap();
-            if !prime::contains(nm) { loop; }
+            let nm = from_str(n_str + m_str).unwrap();
+            if !prime::contains(nm) { continue }
 
-            let mn = uint::from_str(m_str + n_str).unwrap();
-            if !prime::contains(mn) { loop; }
+            let mn = from_str(m_str + n_str).unwrap();
+            if !prime::contains(mn) { continue }
 
             pairs.push(m);
         }
@@ -64,11 +63,11 @@ fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> b
 
         map.insert(n, pairs);
     }
-    util::unreachable();
+    unreachable!();
 }
 
 pub fn solve() -> ~str {
-    let mut map = HashMap::new::<uint, ~[uint]>();
+    let mut map = HashMap::<uint, ~[uint]>::new();
 
     let mut sum = 0;
     do each_pair_set(&mut map) |set| {

@@ -3,8 +3,7 @@
 
 extern mod extra;
 
-
-use extra::bigint::{BigUint};
+use extra::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "153";
 
@@ -22,11 +21,12 @@ pub static EXPECTED_ANSWER: &'static str = "153";
 //  d[i+1] = d[i] + n[i]
 
 fn each_frac(f: &fn(&BigUint, &BigUint) -> bool) -> bool {
-    let mut n = BigUint::from_uint(3);
-    let mut d = BigUint::from_uint(2);
+    let mut n = FromPrimitive::from_uint(3).unwrap();
+    let mut d = FromPrimitive::from_uint(2).unwrap();
+    let two: BigUint = FromPrimitive::from_uint(2).unwrap();
     loop {
         if !f(&n, &d) { return false; }
-        let new_n = BigUint::from_uint(2) * d + n;
+        let new_n = two * d + n;
         let new_d = n + d;
         n = new_n;
         d = new_d;

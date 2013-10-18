@@ -4,8 +4,8 @@
 extern mod extra;
 extern mod math;
 
-use std::{char, iterator};
-use std::iterator::AdditiveIterator;
+use std::char;
+use std::iter::AdditiveIterator;
 use std::num::Zero;
 use extra::bigint::BigInt;
 use math::arith;
@@ -15,14 +15,16 @@ pub static EXPECTED_ANSWER: &'static str = "40886";
 fn sqrt_newton_raphson(n: uint, precision: uint) -> ~str {
     assert!(precision >= 1);
 
-    let n = BigInt::from_uint(n);
-    let _10 = BigInt::from_uint(10);
-    let mut ds = BigInt::from_uint(1);
+    let _1:  BigInt = FromPrimitive::from_uint(1).unwrap();
+    let _10: BigInt = FromPrimitive::from_uint(10).unwrap();
+
+    let n:      BigInt = FromPrimitive::from_uint(n).unwrap();
+    let mut ds: BigInt = FromPrimitive::from_uint(1).unwrap();
     do (precision - 1).times { ds = ds * _10; }
 
-    let shift = 4 * precision; // log_2 10 = 3.3... < 4
-    let _1_2 = BigInt::from_uint(1) << (2 * shift);
-    let mut x_1 = (BigInt::from_uint(1) << shift) / _10;
+    let shift   = 4 * precision; // log_2 10 = 3.3... < 4
+    let _1_2    = _1 << (2 * shift);
+    let mut x_1 = (_1 << shift) / _10;
     let mut delta_2 = (_1_2 - (x_1 * x_1 * n));
 
     loop {
@@ -40,7 +42,7 @@ fn is_square(n: uint) -> bool {
 }
 
 pub fn solve() -> ~str {
-    return iterator::range(2u, 101)
+    return range(2u, 101)
         .filter(|&n| !is_square(n))
         .map(|n| {
             let sqn = sqrt_newton_raphson(n, 100);

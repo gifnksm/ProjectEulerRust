@@ -11,7 +11,7 @@ pub static EXPECTED_ANSWER: &'static str = "8739992577";
 
 #[inline(always)]
 fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
-    let two = BigUint::from_uint(2);
+    let two: BigUint = FromPrimitive::from_uint(2).unwrap();
     let mut result = One::one();
     let mut itr = exp.clone();
     let mut pow = base.clone();
@@ -36,10 +36,12 @@ fn add_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
 }
 
 pub fn solve() -> ~str {
-    let unit = BigUint::from_uint(100_0000_0000);
+    let unit: BigUint = FromPrimitive::from_uint(100_0000_0000).unwrap();
     return add_unit(
-        &mul_unit(&BigUint::from_uint(28433),
-                  &pow_unit(&BigUint::from_uint(2), &BigUint::from_uint(7830457), &unit),
+        &mul_unit(&FromPrimitive::from_uint(28433).unwrap(),
+                  &pow_unit(&FromPrimitive::from_uint(2).unwrap(),
+                            &FromPrimitive::from_uint(7830457).unwrap(),
+                            &unit),
                   &unit),
         &One::one(),
         &unit

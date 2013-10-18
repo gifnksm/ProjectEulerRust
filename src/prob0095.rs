@@ -1,7 +1,7 @@
 #[link(name = "prob0095", vers = "0.0")];
 #[crate_type = "lib"];
 
-use std::{iterator, uint, vec};
+use std::{iter, vec};
 
 pub static EXPECTED_ANSWER: &'static str = "14316";
 
@@ -42,13 +42,12 @@ pub fn solve() -> ~str {
     div_map[1] = 0;
 
     for f in range(2, limit / 2) {
-        do uint::range_step(2 * f, limit, f as int) |n| {
+        for n in iter::range_step(2 * f, limit, f) {
             div_map[n] += f;
-            true
-        };
+        }
     }
 
-    let (n, _div) = iterator::range(1, len_map.len())
+    let (n, _div) = range(1, len_map.len())
         .map(|n| (n, get_chain_len(n, len_map, div_map)))
         .max_by(|&(_n, div)| div)
         .unwrap();

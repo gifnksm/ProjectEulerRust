@@ -1,8 +1,7 @@
 #[link(name = "prob0013", vers = "0.0")];
 #[crate_type = "lib"];
 
-use std::uint;
-use std::iterator::AdditiveIterator;
+use std::iter::AdditiveIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "5537376230";
 
@@ -113,7 +112,8 @@ pub fn solve() -> ~str {
     let sum = INPUT
         .trim()
         .line_iter()
-        .filter_map(|line| uint::from_str(line.slice(0, 12)))
+        .map(|line| line.slice(0, 12))
+        .filter_map(from_str::<uint>)
         .sum();
 
     let sum_str = sum.to_str();

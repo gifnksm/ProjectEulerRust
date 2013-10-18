@@ -59,7 +59,7 @@ fn to_roman(mut n: uint) -> ~str {
 }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/roman.txt"))
+    let result = io::file_reader(&Path::new("files/roman.txt"))
         .map(|file| {
             let mut sum = 0;
             do file.each_line |line| {

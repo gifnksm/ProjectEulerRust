@@ -5,7 +5,6 @@ extern mod extra;
 extern mod common;
 extern mod math;
 
-use std::util;
 use std::either::{Either, Left, Right};
 use std::cmp::{Eq, Ord};
 use std::to_bytes::{IterBytes};
@@ -51,7 +50,7 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Clone>(hist: &HashMap<K, uint>, n: ui
         }
     }
 
-    util::unreachable();
+    unreachable!();
 }
 
 pub fn solve() -> ~str {

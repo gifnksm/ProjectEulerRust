@@ -137,10 +137,10 @@ impl<T: Clone + Bounded + Ord> WrapMonoid<T> for Min<T> {}
 
 #[inline(always)]
 pub fn mconcat<T: Monoid>(v: &[T]) -> T {
-    v.iter().fold(Monoid::mempty::<T>(), |accum, elem| { accum.mappend(elem) })
+    v.iter().fold(Monoid::mempty(), |accum: T, elem| { accum.mappend(elem) })
 }
 
-struct MergeMonoidIterator<V, T, U> {
+pub struct MergeMonoidIterator<V, T, U> {
     iter1: T,
     value1: Option<V>,
     iter2: U,
@@ -188,7 +188,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
     }
 }
 
-struct MergeMultiMonoidIterator<V, T> {
+pub struct MergeMultiMonoidIterator<V, T> {
     iters:  ~[T],
     values: ~[Option<V>]
 }
@@ -215,8 +215,8 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 
         let mut min_idx = ~[];
         for i in range(0, len) {
-            if self.values[i].is_none() { loop; }
-            if min_idx.is_empty() { min_idx.push(i); loop; }
+            if self.values[i].is_none() { continue }
+            if min_idx.is_empty() { min_idx.push(i); continue }
 
             match get_ref(&self.values[min_idx[0]]).cmp(get_ref(&self.values[i])) {
                 Less    => {},
@@ -247,7 +247,6 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::vec;
 
     #[test]
     fn test_mconcat() {
@@ -283,10 +282,10 @@ mod tests {
         assert_eq!(mconcat([~"", ~"abc", ~"d", ~"e"]), ~"abcde");
     }
 
-    fn to_sum <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Sum<U>)  { (tp.n0(), Sum(tp.n1())) }
-    fn to_prod<T: Clone, U: Clone>(tp: &(T, U)) -> (T, Prod<U>) { (tp.n0(), Prod(tp.n1())) }
-    fn to_max <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Max<U>)  { (tp.n0(), Max(tp.n1())) }
-    fn to_min <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Min<U>)  { (tp.n0(), Min(tp.n1())) }
+    fn to_sum <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Sum<U>)  { (tp.n0_ref().clone(), Sum(tp.n1_ref().clone())) }
+    fn to_prod<T: Clone, U: Clone>(tp: &(T, U)) -> (T, Prod<U>) { (tp.n0_ref().clone(), Prod(tp.n1_ref().clone())) }
+    fn to_max <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Max<U>)  { (tp.n0_ref().clone(), Max(tp.n1_ref().clone())) }
+    fn to_min <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Min<U>)  { (tp.n0_ref().clone(), Min(tp.n1_ref().clone())) }
 
     #[test]
     fn test_merge_monoid_iterator() {
@@ -330,12 +329,11 @@ mod tests {
         fn check<M: Monoid + Wrap<int> + Eq + Clone>(vs: &[~[(int, int)]],
                                                      f: &fn(int) -> M,
                                                      result: &[(int, int)]) {
-            do vec::each_permutation(vs) |vs| {
+            for vs in vs.permutations_iter() {
                 let vs = vs.map(|ks| ks.map(|&(x, y)| (x, f(y))).move_iter());
                 let merged = MergeMultiMonoidIterator::new(vs).to_owned_vec();
                 assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
-                true
-            };
+            }
         }
 
         {

@@ -62,7 +62,7 @@ impl FromStr for Card {
             d if char::is_digit(d) => char::to_digit(d, 10).unwrap(),
             _   => return None
         };
-        return suit.map(|s| Card { suit: *s, num: num} );
+        return suit.map(|s| Card { suit: s, num: num} );
     }
 }
 

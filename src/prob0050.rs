@@ -28,7 +28,7 @@ fn get_longer(p: uint, min_len: uint) -> Option<uint> {
         if sum < p {
             end_idx += 1;
             if end_idx >= 0 { sum += prime::nth(end_idx as uint); }
-            loop;
+            continue
         }
 
         if sum > p {
@@ -39,7 +39,7 @@ fn get_longer(p: uint, min_len: uint) -> Option<uint> {
             } else {
                 start = prime::nth(start_idx as uint)
             }
-            loop;
+            continue
         }
     }
 }

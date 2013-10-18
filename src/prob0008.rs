@@ -4,8 +4,7 @@
 extern mod data;
 
 use std::char;
-use std::iterator::OrdIterator;
-use data::extiter::ExtIteratorUtil;
+use std::iter::OrdIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "40824";
 
@@ -34,9 +33,11 @@ static INPUT: &'static str = &"
 
 pub fn solve() -> ~str {
     let prod_len = 5;
-    return INPUT.iter()
+    let nums = INPUT.iter()
         .filter_map(|c| char::to_digit(c, 10))
-        .windowed(prod_len)
+        .to_owned_vec();
+    return nums
+        .window_iter(prod_len)
         .map(|win| win.iter().fold(1, |p, &n| p * n))
         .max()
         .unwrap()

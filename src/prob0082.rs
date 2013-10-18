@@ -1,18 +1,16 @@
 #[link(name = "prob0082", vers = "0.0")];
 #[crate_type = "lib"];
 
-
-
 use std::{uint, vec, io};
 
 pub static EXPECTED_ANSWER: &'static str = "260324";
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path("files/matrix.txt"))
+    let result = io::file_reader(&Path::new("files/matrix.txt"))
         .map(|file| {
             let mut mat = ~[];
             do file.each_line |line| {
-                mat.push(line.split_iter(',').filter_map(uint::from_str).to_owned_vec());
+                mat.push(line.split_iter(',').filter_map(from_str::<uint>).to_owned_vec());
                 assert_eq!(mat[0].len(), mat.last().len());
                 true
             };
