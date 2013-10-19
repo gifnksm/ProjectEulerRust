@@ -61,12 +61,12 @@ pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~s
             n.to_str()
         } else if i == 1 {
             if (*n) == one { x.to_str() }
-            else if (*n) == -one { fmt!("-%s", x) }
-            else { fmt!("%s*%s", n.to_str(), x) }
+            else if (*n) == -one { format!("-{}", x) }
+            else { format!("{}*{}", n.to_str(), x) }
         } else {
-            if (*n) == one { fmt!("%s^%u", x, i) }
-            else if (*n) == -one { fmt!("-%s^%u", x, i) }
-            else { fmt!("%s*%s^%u", n.to_str(), x, i) }
+            if (*n) == one { format!("{}^{}", x, i) }
+            else if (*n) == -one { format!("-{}^{}", x, i) }
+            else { format!("{}*{}^{}", n.to_str(), x, i) }
         };
 
         if s.len() > 0 && (*n) > Zero::zero() { s.push(~"+"); }

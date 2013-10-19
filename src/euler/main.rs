@@ -11,7 +11,7 @@ mod problem;
 
 static NSEC_PER_SEC: u64 = 1000000000;
 fn nanosec_to_str(nsec: u64) -> ~str {
-    return fmt!("%u.%09u",
+    return format!("{}.{:09}",
          (nsec / NSEC_PER_SEC) as uint,
          (nsec % NSEC_PER_SEC) as uint);
 }
@@ -37,7 +37,7 @@ fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
     } else {
         color_print(io::stdout(), term::color::RED, "NG");
     }
-    println(fmt!("] %5s %13s %20s", name, nanosec_to_str(time), comp_answer));
+    println!("] {:5} {:13} {:20}", name, nanosec_to_str(time), comp_answer);
 }
 
 struct ArgIterator<'self> {
@@ -74,7 +74,7 @@ impl<'self> ArgIterator<'self> {
         }
         if ns.len() > 2 { return; }
         self.cur_range = range(ns[0], ns[1] + 1);
-        println(fmt!("%?", ns));
+        println!("{:?}", ns);
     }
 }
 

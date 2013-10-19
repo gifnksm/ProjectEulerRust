@@ -74,21 +74,21 @@ pub fn trans_mat(m: &[~[f64]]) -> ~[~[f64]] {
 fn print_mat(mat: &[~[f64]]) {
     print("     ");
     for j in range(0, mat[0].len()) {
-        print(fmt!(" %-4? ", Square::from_uint(j % NUM_SQUARE)));
+        print!(" {:-4?} ", Square::from_uint(j % NUM_SQUARE));
     }
     println("");
     for i in range(0, mat.len()) {
         let mut sum = 0.0;
-        print(fmt!("%-4? ", Square::from_uint(i % NUM_SQUARE)));
+        print!("{:-4?} ", Square::from_uint(i % NUM_SQUARE));
         for j in range(0, mat[i].len()) {
             if mat[i][j] == 0.0 {
                 print("0     ");
             } else{
-                print(fmt!("%.3f ", mat[i][j]));
+                print!("{:.3} ", mat[i][j]);
             }
             sum += mat[i][j];
         }
-        println(fmt!("| %.3f", sum));
+        println!("| {:.3}", sum);
     }
 
     print("     ");
@@ -102,7 +102,7 @@ fn print_mat(mat: &[~[f64]]) {
         for i in range(0, mat.len()) {
             sum += mat[i][j];
         }
-        print(fmt!("%.3f ", sum));
+        print!("{:.3} ", sum);
     }
     println("");
 }
@@ -247,7 +247,7 @@ pub fn solve() -> ~str {
         pairs[dst] = (p + vs[0], sq);
     }
     sort::quick_sort(pairs, |&(p1, _), &(p2, _)| p1 >= p2);
-    return pairs.slice(0, 3).map(|&(_, sq)| { fmt!("%02u", sq.to_uint()) }).concat();
+    return pairs.slice(0, 3).map(|&(_, sq)| { format!("{:02}", sq.to_uint()) }).concat();
 }
 
 #[cfg(test)]

@@ -21,5 +21,5 @@ pub fn solve() -> ~str {
             (hs1 == numconv::to_digit_histogram(p2)) &&
                 (hs1 == numconv::to_digit_histogram(p3))
         }).next().unwrap();
-    return fmt!("%u%u%u", p1, p2, p3)
+    return format!("{}{}{}", p1, p2, p3)
 }

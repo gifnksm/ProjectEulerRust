@@ -45,7 +45,7 @@ impl ToStr for Card {
             0  => ~"_",
             n  => n.to_str()
         };
-        return fmt!("%s%s", n, self.suit.to_str());
+        return format!("{}{}", n, self.suit.to_str());
     }
 }
 

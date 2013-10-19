@@ -28,7 +28,7 @@ pub fn solve() -> ~str {
     });
 
     match result {
-        result::Err(msg) => { fail!(fmt!("%s", msg)); }
+        result::Err(msg) => { fail!(msg); }
         result::Ok(score) => { return score.to_str(); }
     }
 }

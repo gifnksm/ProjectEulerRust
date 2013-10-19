@@ -25,5 +25,5 @@ pub fn solve() -> ~str {
         }
     };
 
-    return fmt!("%u%u", ans, ans* 2);
+    return format!("{}{}", ans, ans* 2);
 }

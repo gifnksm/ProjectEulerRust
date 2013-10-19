@@ -70,9 +70,9 @@ impl SuDoku {
                 let cell_strs = do vec::build(Some(BOARD_WIDTH)) |push| {
                     for x in range(0, BOARD_WIDTH) {
                         let s = self.map[y][x].to_str_radix(2);
-                        push(fmt!("%s:%s",
-                                  self.get_num(x, y).to_str(),
-                                  "0".repeat(MAX_NUMBER - s.len()) + s).replace("0", "_"));
+                        push(format!("{}:{}",
+                                     self.get_num(x, y).to_str(),
+                                     "0".repeat(MAX_NUMBER - s.len()) + s).replace("0", "_"));
                     }
                 };
                 push(cell_strs.connect(" "));

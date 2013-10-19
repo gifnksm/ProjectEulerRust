@@ -24,32 +24,32 @@ impl ToStr for Hand {
     fn to_str(&self) -> ~str {
         match self {
             &Hi(ref c) => {
-                fmt!("Hi(%s)", c.to_str())
+                format!("Hi({})", c.to_str())
             },
             &Pair(ref c, ref r) => {
-                fmt!("Pair(%s) + Hi(%s)", c.to_str(), r.to_str())
+                format!("Pair({}) + Hi({})", c.to_str(), r.to_str())
             },
             &TwoPair(ref c, ref r) => {
-                fmt!("TwoPair(%s, %s) + Hi(%s)",
+                format!("TwoPair({}, {}) + Hi({})",
                      c[0].to_str(), c[1].to_str(), r.to_str())
             },
             &Three(ref c, ref r) => {
-                fmt!("Three(%s) + Hi(%s)", c.to_str(), r.to_str())
+                format!("Three({}) + Hi({})", c.to_str(), r.to_str())
             },
             &Straight(ref c) => {
-                fmt!("Straight(%s)", c.to_str())
+                format!("Straight({})", c.to_str())
             },
             &Flush(ref c) => {
-                fmt!("Flush(%s)", c.to_str())
+                format!("Flush({})", c.to_str())
             },
             &FullHouse((ref c3, ref c2)) => {
-                fmt!("FullHouse(%s, %s)", c3.to_str(), c2.to_str())
+                format!("FullHouse({}, {})", c3.to_str(), c2.to_str())
             },
             &Four(ref c, ref r) => {
-                fmt!("Four(%s) + Hi(%s)", c.to_str(), r.to_str())
+                format!("Four({}) + Hi({})", c.to_str(), r.to_str())
             },
             &StraightFlush(ref c) => {
-                fmt!("StraightFlush(%s)", c.to_str())
+                format!("StraightFlush({})", c.to_str())
             },
         }
     }
