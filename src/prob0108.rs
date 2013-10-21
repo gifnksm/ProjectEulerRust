@@ -33,5 +33,6 @@ mod test {
     #[test]
     fn test_num_pairs() {
         assert_eq!(super::num_pairs(4), 3);
+        assert_eq!(super::num_pairs(1260), 113);
     }
 }
