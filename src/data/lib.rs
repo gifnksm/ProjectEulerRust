@@ -3,6 +3,8 @@
 
 #[feature(globs)];
 
+extern mod extra;
+
 pub mod card;
 pub mod extiter;
 pub mod monoid;

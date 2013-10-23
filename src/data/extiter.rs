@@ -1,5 +1,6 @@
 use std::num::{Zero, One};
 use std::{util, uint};
+use extra::bitv::BitvSet;
 
 pub enum Step<T> { Plus(T), Minus(T) }
 
@@ -107,6 +108,57 @@ impl Iterator<(int, int)> for Area2DIterator {
     }
 }
 
+pub struct CombIterator {
+    priv consumed: bool,
+    priv size: uint,
+    priv set: BitvSet
+}
+
+impl Iterator<BitvSet> for CombIterator {
+    fn next(&mut self) -> Option<BitvSet> {
+        if !self.consumed {
+            self.consumed = true;
+            return Some(self.set.clone());
+        }
+
+        let mut n = self.size;
+        loop {
+            match range(0, n).invert().find(|i| self.set.contains(i)) {
+                None => return None,
+                Some(x) => {
+                    if x < self.size - 1 && !self.set.contains(&(x + 1)) {
+                        n = x;
+                        break;
+                    }
+                    n = x;
+                }
+            }
+        }
+        self.set.remove(&n);
+        self.set.insert(n + 1);
+        let mut j = n + 2;
+        for i in range(n + 2, self.size) {
+            if self.set.contains(&i) {
+                self.set.remove(&i);
+                self.set.insert(j);
+                j += 1;
+            }
+        }
+        Some(self.set.clone())
+    }
+}
+
+impl CombIterator {
+    pub fn new(cnt: uint, size: uint) -> CombIterator {
+        assert!(cnt <= size);
+        let mut set = BitvSet::new();
+        for i in range(0, cnt) {
+            set.insert(i);
+        }
+        CombIterator { consumed: false, size: size, set: set }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -160,5 +212,26 @@ mod tests {
 
         let vs = Area2DIterator::new((3, 3), (-2, -2), (0, 0), (3, 3)).to_owned_vec();
         assert_eq!(vs, ~[(3, 3), (1, 1)]);
+    }
+
+    #[test]
+    fn test_comb_iterator() {
+        fn check(cnt: uint, size: uint, expected: ~[~[uint]]) {
+            let actual = CombIterator::new(cnt, size)
+                .map(|set| set.iter().to_owned_vec())
+                .to_owned_vec();
+            assert_eq!(actual, expected);
+        }
+        check(0, 4, ~[~[]]);
+        check(1, 4, ~[~[0], ~[1], ~[2], ~[3]]);
+        check(2, 4, ~[~[0, 1], ~[0, 2], ~[0, 3],
+                      ~[1, 2], ~[1, 3],
+                      ~[2, 3]]);
+        check(3, 4, ~[~[0, 1, 2], ~[0, 1, 3], ~[0, 2, 3], ~[1, 2, 3]]);
+        check(4, 4, ~[~[0, 1, 2, 3]]);
+
+        check(0, 0, ~[~[]]);
+        check(0, 1, ~[~[]]);
+        check(1, 1, ~[~[0]]);
     }
 }
