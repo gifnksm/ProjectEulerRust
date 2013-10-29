@@ -1,7 +1,13 @@
 #[link(name = "prob0102", vers = "0.0")];
 #[crate_type = "lib"];
 
-use std::io;
+extern mod common;
+
+use std::rt::io;
+use std::rt::io::buffered::BufferedReader;
+use std::rt::io::file::FileInfo;
+use common::reader::BufferedReaderUtil;
+
 
 pub static EXPECTED_ANSWER: &'static str = "228";
 
@@ -43,22 +49,18 @@ fn is_inside((a, b, c): Triangle, p: Point) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path::new("files/triangles.txt"))
-        .map(|input| {
-            let mut cnt = 0u;
-            do input.each_line |line| {
-                let ns = line
-                    .split_iter(',')
-                    .filter_map(from_str::<int>)
-                    .to_owned_vec();
-                let ps = ((ns[0], ns[1]), (ns[2], ns[3]), (ns[4], ns[5]));
-                if is_inside(ps, (0, 0)) { cnt += 1; }
-                true
-            };
-            cnt
-        });
-    match result {
-        Err(msg) => fail!(msg),
-        Ok(value) => return value.to_str()
+    let r = Path::new("files/triangles.txt").open_reader(io::Open).expect("file not found.");
+    let mut br = BufferedReader::new(r);
+
+    let mut cnt = 0u;
+    for line in br.line_iter() {
+        let ns = line
+            .trim()
+            .split_iter(',')
+            .filter_map(from_str::<int>)
+            .to_owned_vec();
+        let ps = ((ns[0], ns[1]), (ns[2], ns[3]), (ns[4], ns[5]));
+        if is_inside(ps, (0, 0)) { cnt += 1; }
     }
+    cnt.to_str()
 }

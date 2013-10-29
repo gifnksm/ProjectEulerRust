@@ -1,9 +1,14 @@
 #[link(name = "prob0054", vers = "0.0")];
 #[crate_type = "lib"];
 
+extern mod common;
 extern mod data;
 
-use std::{iter, result, io, vec};
+use std::{iter, vec};
+use std::rt::io;
+use std::rt::io::file::FileInfo;
+use std::rt::io::buffered::BufferedReader;
+use common::reader::BufferedReaderUtil;
 use data::card::Card;
 
 pub static EXPECTED_ANSWER: &'static str = "376";
@@ -206,27 +211,23 @@ fn judge(p1_cards: &[Card, ..5], p2_cards: &[Card, ..5]) -> int {
 }
 
 pub fn solve() -> ~str {
-    let result = do io::file_reader(&Path::new("files/poker.txt")).map |file| {
-        let mut p1_win = 0u;
-        let mut p2_win = 0u;
-        let mut draw = 0u;
-        do file.each_line |line| {
-            let mut p1_cards = [ Card::dummy(), ..5 ];
-            let mut p2_cards = [ Card::dummy(), ..5 ];
-            for (word, i) in line.word_iter().zip(iter::count(0u, 1)) {
-                let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
-                cards[i % 5] = FromStr::from_str(word).unwrap();
-            }
-            let cmp = judge(&p1_cards, &p2_cards);
-            if cmp > 0 { p1_win += 1;  }
-            if cmp < 0 { p2_win += 1;  }
-            if cmp == 0 { draw += 1;  }
-            true
-        };
-        p1_win
-    };
-    match result {
-        result::Err(msg) => fail!(msg),
-        result::Ok(value) => return value.to_str()
-    };
+    let r = Path::new("files/poker.txt").open_reader(io::Open).expect("file not found.");
+    let mut br = BufferedReader::new(r);
+
+    let mut p1_win = 0u;
+    let mut _p2_win = 0u;
+    let mut _draw = 0u;
+    for line in br.line_iter() {
+        let mut p1_cards = [ Card::dummy(), ..5 ];
+        let mut p2_cards = [ Card::dummy(), ..5 ];
+        for (word, i) in line.word_iter().zip(iter::count(0u, 1)) {
+            let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
+            cards[i % 5] = FromStr::from_str(word).unwrap();
+        }
+        let cmp = judge(&p1_cards, &p2_cards);
+        if cmp > 0 { p1_win += 1;  }
+        if cmp < 0 { _p2_win += 1;  }
+        if cmp == 0 { _draw += 1;  }
+    }
+    p1_win.to_str()
 }

@@ -1,46 +1,41 @@
 use std::result;
 
-pub trait ReaderIterator<T> {
-    fn line_iter<'a>(&'a self) -> ReaderLineIterator<'a, T>;
-    fn sep_iter<'a>(&'a self, c: u8, include: bool) -> ReaderSplitIterator<'a, T>;
-}
+use std::rt::io::Reader;
+use std::rt::io::buffered::BufferedReader;
+use std::str;
 
-impl<T: Reader> ReaderIterator<T> for T {
-    fn line_iter<'a>(&'a self) -> ReaderLineIterator<'a, T> {
+trait BufferedReaderUtil<R> {
+    fn line_iter<'a>(&'a mut self) -> ReaderLineIterator<'a, R>;
+    fn sep_iter<'a>(&'a mut self, c: u8) -> ReaderSplitIterator<'a, R>;
+}
+impl<R> BufferedReaderUtil<R> for BufferedReader<R> {
+    fn line_iter<'a>(&'a mut self) -> ReaderLineIterator<'a, R> {
         ReaderLineIterator { reader: self }
     }
-
-    fn sep_iter<'a>(&'a self, c: u8, include: bool) -> ReaderSplitIterator<'a, T> {
-        ReaderSplitIterator { reader: self, c: c, include: include }
+    fn sep_iter<'a>(&'a mut self, c: u8) -> ReaderSplitIterator<'a, R> {
+        ReaderSplitIterator { reader: self, c: c }
     }
 }
 
-struct ReaderLineIterator<'self, T> {
-    priv reader: &'self T
+struct ReaderLineIterator<'self, R> {
+    priv reader: &'self mut BufferedReader<R>
+}
+impl<'self, R: Reader> Iterator<~str> for ReaderLineIterator<'self, R> {
+    fn next(&mut self) -> Option<~str> {
+        self.reader.read_line()
+    }
 }
 
-impl<'self, T: Reader> Iterator<~str> for ReaderLineIterator<'self, T> {
+struct ReaderSplitIterator<'self, R> {
+    priv reader: &'self mut BufferedReader<R>,
+    priv c: u8
+}
+impl<'self, R: Reader> Iterator<~str> for ReaderSplitIterator<'self, R> {
     fn next(&mut self) -> Option<~str> {
         if self.reader.eof() {
             None
         } else {
-            Some(self.reader.read_line())
-        }
-    }
-}
-
-struct ReaderSplitIterator<'self, T> {
-    priv reader: &'self T,
-    priv c: u8,
-    priv include: bool
-}
-
-impl<'self, T: Reader> Iterator<~str> for ReaderSplitIterator<'self, T> {
-    fn next(&mut self) -> Option<~str> {
-        if self.reader.eof() {
-            None
-        } else {
-            Some(self.reader.read_until(self.c, self.include))
+            self.reader.read_until(self.c).map(str::from_utf8_owned)
         }
     }
 }

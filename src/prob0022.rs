@@ -4,10 +4,12 @@
 extern mod extra;
 extern mod common;
 
-use std::{io, result};
+use std::rt::io;
+use std::rt::io::buffered::BufferedReader;
+use std::rt::io::file::FileInfo;
 use std::iter::AdditiveIterator;
 use extra::sort::Sort;
-use common::reader::ReaderIterator;
+use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "871198282";
 
@@ -16,19 +18,16 @@ fn get_score(n: uint, s: &str) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path::new("files/names.txt")).map(|input| {
-        let mut ss = input.sep_iter(',' as u8, false)
-            .map(|s| s.trim().trim_chars(&'\"').to_str())
-            .to_owned_vec();
-        ss.qsort();
-        ss.iter()
-            .enumerate()
-            .map(|(i, s)| {  get_score(i + 1, *s)} )
-            .sum()
-    });
+    let reader = Path::new("files/names.txt").open_reader(io::Open).expect("file not found.");
+    let mut input = BufferedReader::new(reader);
 
-    match result {
-        result::Err(msg) => { fail!(msg); }
-        result::Ok(score) => { return score.to_str(); }
-    }
+    let mut ss = input.sep_iter(',' as u8)
+        .map(|s| s.trim_chars(&',').trim().trim_chars(&'\"').to_str())
+        .to_owned_vec();
+    ss.qsort();
+    ss.iter()
+        .enumerate()
+        .map(|(i, s)| {  get_score(i + 1, *s)} )
+        .sum()
+        .to_str()
 }

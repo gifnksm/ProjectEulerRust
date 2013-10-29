@@ -5,9 +5,12 @@ extern mod extra;
 extern mod common;
 extern mod math;
 
-use std::{util, uint, vec, io};
+use std::{str, util, uint, vec};
 use std::iter::OrdIterator;
 use std::hashmap::HashMap;
+use std::rt::io;
+use std::rt::io::file::FileInfo;
+use std::rt::io::Reader;
 use extra::sort;
 use common::reader;
 use math::{arith, numconv};
@@ -35,27 +38,27 @@ fn is_square(n: uint) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let result = io::read_whole_file_str(&Path::new("files/words.txt"))
-        .and_then(|input| {
-             do reader::read_whole_word(input).map |words| {
-                let mut map = ~HashMap::new();
-                for &word in words.iter() {
-                    let mut cs = word.iter().to_owned_vec();
-                    sort::quick_sort(cs, |a, b| a <= b);
-                    match map.pop(&cs) {
-                        None     => { map.insert(cs, ~[word.to_str()]); }
-                        Some(ws) => { map.insert(cs, vec::append_one(ws, word.to_str())); }
-                    }
-                }
-                 do vec::build(None) |push| {
-                     for (_key, values) in map.mut_iter() {
-                         if values.len() > 1 {
-                             push(util::replace(values, ~[]));
-                         }
-                     }
-                 }
+    let mut reader = Path::new("files/words.txt").open_reader(io::Open).expect("file not found.");
+    let input = str::from_utf8_owned(reader.read_to_end());
+
+    let result = (do reader::read_whole_word(input).map |words| {
+        let mut map = ~HashMap::new();
+        for &word in words.iter() {
+            let mut cs = word.iter().to_owned_vec();
+            sort::quick_sort(cs, |a, b| a <= b);
+            match map.pop(&cs) {
+                None     => { map.insert(cs, ~[word.to_str()]); }
+                Some(ws) => { map.insert(cs, vec::append_one(ws, word.to_str())); }
             }
-        }).map(|words| {
+        }
+        do vec::build(None) |push| {
+            for (_key, values) in map.mut_iter() {
+                if values.len() > 1 {
+                    push(util::replace(values, ~[]));
+                }
+            }
+        }
+    }).map(|words| {
             do vec::build(Some(words.len())) |push| {
                 for elt in words.iter() {
                     for i in range(0, elt.len()) {

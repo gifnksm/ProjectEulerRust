@@ -1,8 +1,14 @@
 #[link(name = "prob0079", vers = "0.0")];
 #[crate_type = "lib"];
 
-use std::{io, char};
+extern mod common;
+
+use std::char;
+use std::rt::io;
+use std::rt::io::buffered::BufferedReader;
+use std::rt::io::file::FileInfo;
 use std::hashmap::{HashMap, HashSet};
+use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "73162890";
 
@@ -88,21 +94,15 @@ fn tsort<T: Hash + IterBytes + Eq + Clone>(rels: &mut Relations<T>) -> ~[T] {
 
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path::new("files/keylog.txt"))
-        .map(|file| {
-            let mut rels = Relations::new();
-            do file.each_line |line| {
-                let ds = line.iter().filter_map(|c| char::to_digit(c, 10)).to_owned_vec();
-                for i in range(1, ds.len()) {
-                    rels.set_dependant(ds[i - 1], ds[i]);
-                }
-                true
-            };
-            tsort(&mut rels)
-        });
+    let r = Path::new("files/keylog.txt").open_reader(io::Open).expect("file not found.");
+    let mut br = BufferedReader::new(r);
 
-    match result {
-        Err(msg) => fail!(msg),
-        Ok(value) => return value.map(|d| d.to_str()).concat()
+    let mut rels = Relations::new();
+    for line in br.line_iter() {
+        let ds = line.iter().filter_map(|c| char::to_digit(c, 10)).to_owned_vec();
+        for i in range(1, ds.len()) {
+            rels.set_dependant(ds[i - 1], ds[i]);
+        }
     }
+    tsort(&mut rels).map(|d| d.to_str()).concat()
 }

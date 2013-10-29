@@ -1,7 +1,11 @@
 #[link(name = "prob0096", vers = "0.0")];
 #[crate_type = "lib"];
 
-use std::{char, io, iter, vec};
+use std::{char, iter, vec};
+use std::rt::io;
+use std::rt::io::Reader;
+use std::rt::io::buffered::BufferedReader;
+use std::rt::io::file::FileInfo;
 use std::num::ToStrRadix;
 
 pub static EXPECTED_ANSWER: &'static str = "24702";
@@ -82,14 +86,14 @@ impl SuDoku {
     }
 }
 
-fn read_sudoku<T: Reader>(r: T) -> SuDoku {
+fn read_sudoku<T: Reader>(r: &mut BufferedReader<T>) -> SuDoku {
     let mut sudoku = SuDoku {
-        name: r.read_line(),
+        name: r.read_line().unwrap(),
         map: [[MASK_ALL, .. BOARD_WIDTH], .. BOARD_HEIGHT]
     };
 
     for y in range(0, BOARD_HEIGHT) {
-        let line = r.read_line();
+        let line = r.read_line().unwrap();
         for x in range(0, BOARD_WIDTH) {
             let n = char::to_digit(line[x] as char, 10).unwrap();
             if n != 0 { sudoku.map[y][x] = 1 << (n - 1); }
@@ -187,24 +191,18 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path::new("files/sudoku.txt")).map(|&file| {
-        let mut puzzles = ~[];
-        while !file.eof() { puzzles.push(read_sudoku(file)); }
-        puzzles
-            .move_iter()
-            .map(solve_sudoku)
-            .map(|ans| { assert_eq!(ans.len(), 1); ans[0] })
-            .to_owned_vec()
-    }).map(|answers| {
-        let mut sum = 0;
-        for ans in answers.iter() {
-            sum += 100 * ans.get_num(0, 0) + 10 * ans.get_num(1, 0) + ans.get_num(2, 0);
-        }
-        sum
-    });
+    let r = Path::new("files/sudoku.txt").open_reader(io::Open).expect("file not found.");
+    let mut br = BufferedReader::new(r);
 
-    match result {
-        Err(msg) => fail!(msg),
-        Ok(value) => value.to_str()
+    let mut puzzles = ~[];
+    while !br.eof() { puzzles.push(read_sudoku(&mut br)); }
+    let mut answers = puzzles
+        .move_iter()
+        .map(solve_sudoku)
+        .map(|ans| { assert_eq!(ans.len(), 1); ans[0] });
+    let mut sum = 0;
+    for ans in answers {
+        sum += 100 * ans.get_num(0, 0) + 10 * ans.get_num(1, 0) + ans.get_num(2, 0);
     }
+    sum.to_str()
 }

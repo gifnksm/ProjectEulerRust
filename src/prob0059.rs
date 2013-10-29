@@ -1,7 +1,10 @@
 #[link(name = "prob0059", vers = "0.0")];
 #[crate_type = "lib"];
 
-use std::{f64, io};
+use std::{f64, str};
+use std::rt::io;
+use std::rt::io::file::FileInfo;
+use std::rt::io::Reader;
 use std::iter::AdditiveIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "107359";
@@ -77,24 +80,20 @@ pub fn solve() -> ~str {
         freq_dict[c as u8] = f;
     }
 
-    let result = io::read_whole_file_str(&Path::new("files/cipher1.txt"))
-        .map(|input| {
-            let code_list = input.trim().split_iter(',')
-                .filter_map(from_str::<u8>).to_owned_vec();
+    let mut reader = Path::new("files/cipher1.txt").open_reader(io::Open).expect("file not found.");
+    let input = str::from_utf8_owned(reader.read_to_end());
 
-            let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
-            for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n] += 1; }
+    let code_list = input.trim().split_iter(',')
+        .filter_map(from_str::<u8>).to_owned_vec();
 
-            let keys = freq.map(|f| find_key(f.clone(), freq_dict));
-            let l = keys.len();
-            code_list.iter().enumerate()
-                .map(|(i, &n)| (n ^ keys[i % l]) as uint)
-                .sum()
-        });
+    let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
+    for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n] += 1; }
 
-    return match result {
-        Ok(answer) => answer.to_str(),
-        Err(e)     => fail!(e)
-    };
+    let keys = freq.map(|f| find_key(f.clone(), freq_dict));
+    let l = keys.len();
+    code_list.iter().enumerate()
+        .map(|(i, &n)| (n ^ keys[i % l]) as uint)
+        .sum()
+        .to_str()
 }
 

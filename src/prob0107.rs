@@ -9,7 +9,7 @@ use std::rt::io;
 use std::rt::io::buffered::BufferedReader;
 use std::rt::io::file::FileInfo;
 use extra::sort;
-use common::rt_reader::BufferedReaderUtil;
+use common::reader::BufferedReaderUtil;
 use data::union_find::UnionFind;
 
 pub static EXPECTED_ANSWER: &'static str = "259679";

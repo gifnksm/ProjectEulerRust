@@ -1,7 +1,10 @@
+#[feature(managed_boxes)];
+
 extern mod extra;
 extern mod common;
 
-use std::{io, os};
+use std::os;
+use std::rt::io;
 use std::iter::Range;
 use extra::{time, term};
 use extra::term::Terminal;
@@ -23,7 +26,7 @@ fn bench<T>(f: &fn() -> T) -> (u64, T) {
     return (end_time - start_time, result);
 }
 
-fn color_print(writer: @io::Writer, color: term::color::Color, s: &str) {
+fn color_print(writer: @mut io::Writer, color: term::color::Color, s: &str) {
     let term = Terminal::new(writer);
     term.map(|t| { t.fg(color); });
     print(s);
@@ -33,9 +36,9 @@ fn color_print(writer: @io::Writer, color: term::color::Color, s: &str) {
 fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
     print("[");
     if correct {
-        color_print(io::stdout(), term::color::GREEN, "OK");
+        color_print(@mut io::stdout() as @mut io::Writer, term::color::GREEN, "OK");
     } else {
-        color_print(io::stdout(), term::color::RED, "NG");
+        color_print(@mut io::stdout() as @mut io::Writer, term::color::RED, "NG");
     }
     println!("] {:5} {:13} {:20}", name, nanosec_to_str(time), comp_answer);
 }

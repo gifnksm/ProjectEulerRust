@@ -4,10 +4,13 @@
 extern mod common;
 extern mod extra;
 
-use std::{io, vec};
+use std::vec;
+use std::rt::io;
+use std::rt::io::buffered::BufferedReader;
+use std::rt::io::file::FileInfo;
 use std::iter::AdditiveIterator;
 use extra::sort::Sort;
-use common::reader::ReaderIterator;
+use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "73702";
 
@@ -45,29 +48,25 @@ fn is_sss(nums: &[uint]) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path::new("files/sets.txt"))
-        .map(|reader| {
-            reader
-                .line_iter()
-                .map(|line| {
-                    line.split_iter(',')
-                        .filter_map(from_str::<uint>)
-                        .to_owned_vec()
-                }).map(|mut nums| { nums.qsort(); nums })
-                .filter(|nums| {
-                    let len = nums.len();
-                    let len_hd = (len + 1) / 2;
-                    let len_tl = len_hd - 1;
-                    let mut hd = nums.slice(0, len_hd).iter().map(|&x| x);
-                    let mut tl = nums.slice(len - len_tl, len).iter().map(|&x| x);
-                    hd.sum() > tl.sum()
-                }).filter(|nums| is_sss(*nums))
-                .map(|nums| nums.iter().map(|&x| x).sum())
-                .sum()
-        });
+    let r = Path::new("files/sets.txt").open_reader(io::Open).expect("file not found.");
+    let mut br = BufferedReader::new(r);
 
-    match result {
-        Err(msg) => fail!(msg),
-        Ok(value) => return value.to_str()
-    }
+    br.line_iter()
+        .map(|line| {
+            line.trim()
+                .split_iter(',')
+                .filter_map(from_str::<uint>)
+                .to_owned_vec()
+        }).map(|mut nums| { nums.qsort(); nums })
+        .filter(|nums| {
+            let len = nums.len();
+            let len_hd = (len + 1) / 2;
+            let len_tl = len_hd - 1;
+            let mut hd = nums.slice(0, len_hd).iter().map(|&x| x);
+            let mut tl = nums.slice(len - len_tl, len).iter().map(|&x| x);
+            hd.sum() > tl.sum()
+        }).filter(|nums| is_sss(*nums))
+        .map(|nums| nums.iter().map(|&x| x).sum())
+        .sum()
+        .to_str()
 }

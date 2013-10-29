@@ -4,7 +4,10 @@
 extern mod common;
 extern mod math;
 
-use std::{io, result, vec};
+use std::{result, str, vec};
+use std::rt::io;
+use std::rt::io::file::FileInfo;
+use std::rt::io::Reader;
 use common::reader;
 use math::sequence;
 
@@ -19,15 +22,17 @@ fn word_value(word: &str) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let result = io::read_whole_file_str(&Path::new("files/words.txt")).and_then(|input| {
-        do reader::read_whole_word(input).map |words| { words.map(|w| word_value(*w)) }
-    }).map(|values| {
-        let mut is_tri = vec::from_elem(values.iter().max().unwrap() + 1, false);
-        let mut it = sequence::triangle::<uint>().take_while(|&t| t < is_tri.len());
-        for t in it { is_tri[t] = true; }
+    let mut reader = Path::new("files/words.txt").open_reader(io::Open).expect("file not found.");
+    let input = str::from_utf8_owned(reader.read_to_end());
+    let result = reader::read_whole_word(input).map(|words| words.map(|w| word_value(*w)))
+        .map(|values| {
+            let mut is_tri = vec::from_elem(values.iter().max().unwrap() + 1, false);
+            let mut it = sequence::triangle::<uint>().take_while(|&t| t < is_tri.len());
+            for t in it { is_tri[t] = true; }
 
-        values.iter().count(|&v| is_tri[v])
-    });
+            values.iter().count(|&v| is_tri[v]).to_str()
+        });
+
     match result {
         result::Err(msg) => { fail!(msg) }
         result::Ok(cnt) => { return cnt.to_str(); }

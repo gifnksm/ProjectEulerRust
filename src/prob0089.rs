@@ -1,7 +1,14 @@
 #[link(name = "prob0089", vers = "0.0")];
 #[crate_type = "lib"];
 
-use std::{uint, io};
+extern mod common;
+
+use std::uint;
+use std::iter::AdditiveIterator;
+use std::rt::io;
+use std::rt::io::buffered::BufferedReader;
+use std::rt::io::file::FileInfo;
+use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "743";
 
@@ -59,18 +66,11 @@ fn to_roman(mut n: uint) -> ~str {
 }
 
 pub fn solve() -> ~str {
-    let result = io::file_reader(&Path::new("files/roman.txt"))
-        .map(|file| {
-            let mut sum = 0;
-            do file.each_line |line| {
-                sum += line.len() - to_roman(from_roman(line).unwrap()).len();
-                true
-            };
-            sum
-        });
-
-    match result {
-        Err(msg) => fail!(msg),
-        Ok(value) => return value.to_str()
-    }
+    let r = Path::new("files/roman.txt").open_reader(io::Open).expect("file not found.");
+    let mut br = BufferedReader::new(r);
+    br.line_iter()
+        .map(|line| line.trim().to_owned())
+        .map(|line| line.len() - to_roman(from_roman(line).unwrap()).len())
+        .sum()
+        .to_str()
 }
