@@ -5,9 +5,8 @@ extern mod common;
 extern mod data;
 
 use std::{iter, vec};
-use std::rt::io;
-use std::rt::io::file::FileInfo;
-use std::rt::io::buffered::BufferedReader;
+use std::io::File;
+use std::io::buffered::BufferedReader;
 use common::reader::BufferedReaderUtil;
 use data::card::Card;
 
@@ -211,7 +210,7 @@ fn judge(p1_cards: &[Card, ..5], p2_cards: &[Card, ..5]) -> int {
 }
 
 pub fn solve() -> ~str {
-    let r = Path::new("files/poker.txt").open_reader(io::Open).expect("file not found.");
+    let r = File::open(&Path::new("files/poker.txt")).expect("file not found.");
     let mut br = BufferedReader::new(r);
 
     let mut p1_win = 0u;

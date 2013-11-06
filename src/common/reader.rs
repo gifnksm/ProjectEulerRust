@@ -1,7 +1,6 @@
 use std::result;
 
-use std::rt::io::Reader;
-use std::rt::io::buffered::BufferedReader;
+use std::io::buffered::BufferedReader;
 use std::str;
 
 trait BufferedReaderUtil<R> {

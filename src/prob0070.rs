@@ -19,7 +19,7 @@ pub fn solve() -> ~str {
     // phi(p1 * p2) = (p1 - 1) * (p2 - 1)
 
     let mut min_n   = 0;
-    let mut min_n_phi = f64::infinity;
+    let mut min_n_phi = f64::INFINITY;
     for p1 in prime::iter() {
         if p1 * p1 > limit { break }
         for p2 in prime::iter() {

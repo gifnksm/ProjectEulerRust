@@ -5,9 +5,8 @@ extern mod extra;
 extern mod data;
 extern mod common;
 
-use std::rt::io;
-use std::rt::io::buffered::BufferedReader;
-use std::rt::io::file::FileInfo;
+use std::io::buffered::BufferedReader;
+use std::io::File;
 use extra::sort;
 use common::reader::BufferedReaderUtil;
 use data::union_find::UnionFind;
@@ -16,8 +15,8 @@ pub static EXPECTED_ANSWER: &'static str = "259679";
 
 pub fn solve() -> ~str {
     let size = 40;
-    let r = Path::new("files/network.txt").open_reader(io::Open).expect("file not found.");
-    let mut br = BufferedReader::new(r);
+    let mut br = BufferedReader::new(
+        File::open(&Path::new("files/network.txt")).expect("file not found."));
 
     let mut verts = ~[];
     for (i, line) in br.line_iter().enumerate() {

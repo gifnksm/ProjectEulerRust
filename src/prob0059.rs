@@ -2,9 +2,7 @@
 #[crate_type = "lib"];
 
 use std::{f64, str};
-use std::rt::io;
-use std::rt::io::file::FileInfo;
-use std::rt::io::Reader;
+use std::io::File;
 use std::iter::AdditiveIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "107359";
@@ -62,7 +60,7 @@ fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
 
     let mut freq_buf = ~[0.0, ..256];
     let mut min_key  = 0;
-    let mut min_dist = f64::infinity;
+    let mut min_dist = f64::INFINITY;
     for k in range(0u, 256) {
         trans_map(k as u8, freq, freq_buf);
         let dist = get_dist(freq_buf, ref_freq);
@@ -80,7 +78,7 @@ pub fn solve() -> ~str {
         freq_dict[c as u8] = f;
     }
 
-    let mut reader = Path::new("files/cipher1.txt").open_reader(io::Open).expect("file not found.");
+    let mut reader = File::open(&Path::new("files/cipher1.txt")).expect("file not found.");
     let input = str::from_utf8_owned(reader.read_to_end());
 
     let code_list = input.trim().split_iter(',')

@@ -5,9 +5,8 @@ extern mod common;
 extern mod extra;
 
 use std::vec;
-use std::rt::io;
-use std::rt::io::buffered::BufferedReader;
-use std::rt::io::file::FileInfo;
+use std::io::buffered::BufferedReader;
+use std::io::File;
 use std::iter::AdditiveIterator;
 use extra::sort::Sort;
 use common::reader::BufferedReaderUtil;
@@ -48,8 +47,8 @@ fn is_sss(nums: &[uint]) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let r = Path::new("files/sets.txt").open_reader(io::Open).expect("file not found.");
-    let mut br = BufferedReader::new(r);
+    let mut br = BufferedReader::new(
+        File::open(&Path::new("files/sets.txt")).expect("file not found."));
 
     br.line_iter()
         .map(|line| {

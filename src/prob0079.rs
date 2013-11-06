@@ -4,9 +4,8 @@
 extern mod common;
 
 use std::char;
-use std::rt::io;
-use std::rt::io::buffered::BufferedReader;
-use std::rt::io::file::FileInfo;
+use std::io::buffered::BufferedReader;
+use std::io::File;
 use std::hashmap::{HashMap, HashSet};
 use common::reader::BufferedReaderUtil;
 
@@ -94,8 +93,8 @@ fn tsort<T: Hash + IterBytes + Eq + Clone>(rels: &mut Relations<T>) -> ~[T] {
 
 
 pub fn solve() -> ~str {
-    let r = Path::new("files/keylog.txt").open_reader(io::Open).expect("file not found.");
-    let mut br = BufferedReader::new(r);
+    let mut br = BufferedReader::new(
+        File::open(&Path::new("files/keylog.txt")).expect("file not found."));
 
     let mut rels = Relations::new();
     for line in br.line_iter() {

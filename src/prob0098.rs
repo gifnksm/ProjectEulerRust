@@ -8,9 +8,7 @@ extern mod math;
 use std::{str, util, uint, vec};
 use std::iter::OrdIterator;
 use std::hashmap::HashMap;
-use std::rt::io;
-use std::rt::io::file::FileInfo;
-use std::rt::io::Reader;
+use std::io::File;
 use extra::sort;
 use common::reader;
 use math::{arith, numconv};
@@ -38,7 +36,7 @@ fn is_square(n: uint) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let mut reader = Path::new("files/words.txt").open_reader(io::Open).expect("file not found.");
+    let mut reader = File::open(&Path::new("files/words.txt")).expect("file not found.");
     let input = str::from_utf8_owned(reader.read_to_end());
 
     let result = (do reader::read_whole_word(input).map |words| {

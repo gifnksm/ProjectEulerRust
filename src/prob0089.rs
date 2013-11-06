@@ -5,9 +5,8 @@ extern mod common;
 
 use std::uint;
 use std::iter::AdditiveIterator;
-use std::rt::io;
-use std::rt::io::buffered::BufferedReader;
-use std::rt::io::file::FileInfo;
+use std::io::buffered::BufferedReader;
+use std::io::File;
 use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "743";
@@ -66,8 +65,8 @@ fn to_roman(mut n: uint) -> ~str {
 }
 
 pub fn solve() -> ~str {
-    let r = Path::new("files/roman.txt").open_reader(io::Open).expect("file not found.");
-    let mut br = BufferedReader::new(r);
+    let mut br = BufferedReader::new(
+        File::open(&Path::new("files/roman.txt")).expect("file not found."));
     br.line_iter()
         .map(|line| line.trim().to_owned())
         .map(|line| line.len() - to_roman(from_roman(line).unwrap()).len())

@@ -3,9 +3,8 @@
 
 extern mod common;
 
-use std::rt::io;
-use std::rt::io::buffered::BufferedReader;
-use std::rt::io::file::FileInfo;
+use std::io::buffered::BufferedReader;
+use std::io::File;
 use common::reader::BufferedReaderUtil;
 
 
@@ -49,8 +48,8 @@ fn is_inside((a, b, c): Triangle, p: Point) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let r = Path::new("files/triangles.txt").open_reader(io::Open).expect("file not found.");
-    let mut br = BufferedReader::new(r);
+    let mut br = BufferedReader::new(
+        File::open(&Path::new("files/triangles.txt")).expect("file not found."));
 
     let mut cnt = 0u;
     for line in br.line_iter() {

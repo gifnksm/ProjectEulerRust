@@ -5,9 +5,7 @@ extern mod common;
 extern mod math;
 
 use std::{result, str, vec};
-use std::rt::io;
-use std::rt::io::file::FileInfo;
-use std::rt::io::Reader;
+use std::io::File;
 use common::reader;
 use math::sequence;
 
@@ -22,7 +20,7 @@ fn word_value(word: &str) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let mut reader = Path::new("files/words.txt").open_reader(io::Open).expect("file not found.");
+    let mut reader = File::open(&Path::new("files/words.txt")).expect("file not found.");
     let input = str::from_utf8_owned(reader.read_to_end());
     let result = reader::read_whole_word(input).map(|words| words.map(|w| word_value(*w)))
         .map(|values| {

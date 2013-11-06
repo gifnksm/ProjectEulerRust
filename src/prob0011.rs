@@ -59,10 +59,10 @@ pub fn solve() -> ~str {
 
     let it = row.chain(col).chain(diag_tr).chain(diag_bl).chain(diag_tl).chain(diag_br);
 
-    return it.map(|mut row: Area2DIterator| {
+    it.map(|mut row: Area2DIterator| {
             let v = row.to_owned_vec();
             v.window_iter(prod_len)
                 .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
-                .max().unwrap_or_zero()
-        }).max().unwrap().to_str();
+                .max().unwrap_or(0)
+        }).max().unwrap().to_str()
 }

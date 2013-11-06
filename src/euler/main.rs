@@ -3,8 +3,7 @@
 extern mod extra;
 extern mod common;
 
-use std::os;
-use std::rt::io;
+use std::{io, os};
 use std::iter::Range;
 use extra::{time, term};
 use extra::term::Terminal;
@@ -28,9 +27,9 @@ fn bench<T>(f: &fn() -> T) -> (u64, T) {
 
 fn color_print(writer: @mut io::Writer, color: term::color::Color, s: &str) {
     let term = Terminal::new(writer);
-    term.map(|t| { t.fg(color); });
+    match term { Ok(ref t) => { t.fg(color); }, _ => {}}
     print(s);
-    term.map(|t| { t.reset(); });
+    match term { Ok(ref t) => { t.reset(); }, _ => {}}
 }
 
 fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {

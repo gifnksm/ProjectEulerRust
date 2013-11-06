@@ -4,16 +4,14 @@
 extern mod common;
 
 use std::{uint, vec};
-use std::rt::io;
-use std::rt::io::buffered::BufferedReader;
-use std::rt::io::file::FileInfo;
+use std::io::buffered::BufferedReader;
+use std::io::File;
 use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "427337";
 
 pub fn read_matrix(filename: &str) -> (uint, uint, ~[~[uint]]) {
-    let r = Path::new(filename).open_reader(io::Open).expect("file not found.");
-    let mut br = BufferedReader::new(r);
+    let mut br = BufferedReader::new(File::open(&Path::new(filename)).expect("file not found."));
 
     let mut mat = ~[];
     for line in br.line_iter() {
