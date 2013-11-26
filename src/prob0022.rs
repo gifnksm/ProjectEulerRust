@@ -13,7 +13,7 @@ use common::reader::BufferedReaderUtil;
 pub static EXPECTED_ANSWER: &'static str = "871198282";
 
 fn get_score(n: uint, s: &str) -> uint {
-    n * s.byte_iter().map(|c| (c - ('A' as u8) + 1) as uint).sum()
+    n * s.bytes().map(|c| (c - ('A' as u8) + 1) as uint).sum()
 }
 
 pub fn solve() -> ~str {

@@ -81,7 +81,7 @@ pub fn solve() -> ~str {
     let mut reader = File::open(&Path::new("files/cipher1.txt")).expect("file not found.");
     let input = str::from_utf8_owned(reader.read_to_end());
 
-    let code_list = input.trim().split_iter(',')
+    let code_list = input.trim().split(',')
         .filter_map(from_str::<u8>).to_owned_vec();
 
     let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];

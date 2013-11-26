@@ -111,7 +111,7 @@ static INPUT: &'static str = "
 pub fn solve() -> ~str {
     let sum = INPUT
         .trim()
-        .line_iter()
+        .lines()
         .map(|line| line.slice(0, 12))
         .filter_map(from_str::<uint>)
         .sum();

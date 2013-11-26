@@ -15,7 +15,7 @@ pub fn solve() -> ~str {
     let two = FromPrimitive::from_uint(2).unwrap();
     do 1000.times { i = i * two; }
     let s = i.to_str();
-    return s.iter()
+    return s.chars()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()
         .to_str();

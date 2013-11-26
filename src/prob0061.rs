@@ -30,7 +30,7 @@ pub fn solve() -> ~str {
     ];
 
     let mut result = ~[];
-    for idx in [0u, 1u, 2u, 3u, 4u].permutations_iter() {
+    for idx in [0u, 1u, 2u, 3u, 4u].permutations() {
         for (i, v5) in map[5].iter().enumerate() {
             if i < 10 { continue }
             for &n5 in v5.iter() {

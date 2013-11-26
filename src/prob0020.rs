@@ -14,7 +14,7 @@ pub fn solve() -> ~str {
                              FromPrimitive::from_uint(101).unwrap())
         .product()
         .to_str();
-    return s.iter()
+    return s.chars()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()
         .to_str();

@@ -219,7 +219,7 @@ pub fn solve() -> ~str {
     for line in br.line_iter() {
         let mut p1_cards = [ Card::dummy(), ..5 ];
         let mut p2_cards = [ Card::dummy(), ..5 ];
-        for (word, i) in line.word_iter().zip(iter::count(0u, 1)) {
+        for (word, i) in line.words().zip(iter::count(0u, 1)) {
             let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
             cards[i % 5] = FromStr::from_str(word).unwrap();
         }

@@ -26,7 +26,7 @@ pub fn solve() -> ~str {
 
     let (n, _d) = cont_frac::fold::<BigUint>(napier);
     let ns = n.to_str();
-    return ns.iter()
+    return ns.chars()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()
         .to_str();

@@ -13,7 +13,7 @@ pub static EXPECTED_ANSWER: &'static str = "162";
 
 fn word_value(word: &str) -> uint {
     let mut value = 0;
-    for b in word.byte_iter() {
+    for b in word.bytes() {
         value += (b - ('A' as u8) + 1) as uint;
     }
     return value;

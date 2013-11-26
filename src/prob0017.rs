@@ -83,7 +83,7 @@ fn to_word(n: uint) -> ~str {
 pub fn solve() -> ~str {
     range(1u, 1001)
         .map(to_word)
-        .map(|w| w.iter()
+        .map(|w| w.chars()
              .filter(|&c| c != '-' && c != ' ')
              .len())
         .sum()

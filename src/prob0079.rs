@@ -98,7 +98,7 @@ pub fn solve() -> ~str {
 
     let mut rels = Relations::new();
     for line in br.line_iter() {
-        let ds = line.iter().filter_map(|c| char::to_digit(c, 10)).to_owned_vec();
+        let ds = line.chars().filter_map(|c| char::to_digit(c, 10)).to_owned_vec();
         for i in range(1, ds.len()) {
             rels.set_dependant(ds[i - 1], ds[i]);
         }

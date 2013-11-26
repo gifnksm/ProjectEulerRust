@@ -46,7 +46,7 @@ pub fn solve() -> ~str {
         .filter(|&n| !is_square(n))
         .map(|n| {
             let sqn = sqrt_newton_raphson(n, 100);
-            sqn.iter()
+            sqn.chars()
                 .filter_map(|c| char::to_digit(c, 10))
                 .sum()
         }).sum()

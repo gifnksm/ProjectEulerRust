@@ -15,7 +15,7 @@ pub fn read_matrix(filename: &str) -> (uint, uint, ~[~[uint]]) {
 
     let mut mat = ~[];
     for line in br.line_iter() {
-        mat.push(line.trim().split_iter(',').filter_map(from_str::<uint>).to_owned_vec());
+        mat.push(line.trim().split(',').filter_map(from_str::<uint>).to_owned_vec());
         assert_eq!(mat[0].len(), mat.last().len());
     }
     (mat[0].len(), mat.len(), mat)

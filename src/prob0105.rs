@@ -53,7 +53,7 @@ pub fn solve() -> ~str {
     br.line_iter()
         .map(|line| {
             line.trim()
-                .split_iter(',')
+                .split(',')
                 .filter_map(from_str::<uint>)
                 .to_owned_vec()
         }).map(|mut nums| { nums.qsort(); nums })

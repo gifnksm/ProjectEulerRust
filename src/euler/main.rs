@@ -25,19 +25,19 @@ fn bench<T>(f: &fn() -> T) -> (u64, T) {
     return (end_time - start_time, result);
 }
 
-fn color_print(writer: @mut io::Writer, color: term::color::Color, s: &str) {
-    let term = Terminal::new(writer);
-    match term { Ok(ref t) => { t.fg(color); }, _ => {}}
+fn color_print<T: Writer>(writer: T, color: term::color::Color, s: &str) {
+    let mut term = Terminal::new(writer);
+    match term { Ok(ref mut t) => { t.fg(color); }, _ => {}}
     print(s);
-    match term { Ok(ref t) => { t.reset(); }, _ => {}}
+    match term { Ok(ref mut t) => { t.reset(); }, _ => {}}
 }
 
 fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
     print("[");
     if correct {
-        color_print(@mut io::stdout() as @mut io::Writer, term::color::GREEN, "OK");
+        color_print(io::stdout(), term::color::GREEN, "OK");
     } else {
-        color_print(@mut io::stdout() as @mut io::Writer, term::color::RED, "NG");
+        color_print(io::stdout(), term::color::RED, "NG");
     }
     println!("] {:5} {:13} {:20}", name, nanosec_to_str(time), comp_answer);
 }
@@ -68,7 +68,7 @@ impl<'self> ArgIterator<'self> {
         }
 
         let mut ns = ~[];
-        for ss in self.args[self.idx].split_iter('-') {
+        for ss in self.args[self.idx].split('-') {
             match from_str::<uint>(ss) {
                 Some(n) => { ns.push(n); }
                 None    => { return; }

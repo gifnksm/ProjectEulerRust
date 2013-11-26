@@ -55,7 +55,7 @@ pub fn solve() -> ~str {
     for line in br.line_iter() {
         let ns = line
             .trim()
-            .split_iter(',')
+            .split(',')
             .filter_map(from_str::<int>)
             .to_owned_vec();
         let ps = ((ns[0], ns[1]), (ns[2], ns[3]), (ns[4], ns[5]));

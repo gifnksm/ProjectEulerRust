@@ -15,7 +15,7 @@ pub fn solve() -> ~str {
 
     let triangle = br.line_iter()
         .filter(|line| !line.is_empty())
-        .map(|line| line.word_iter().filter_map(from_str::<uint>).to_owned_vec())
+        .map(|line| line.words().filter_map(from_str::<uint>).to_owned_vec())
         .to_owned_vec();
     let init = triangle.init();
     let last = triangle.last();

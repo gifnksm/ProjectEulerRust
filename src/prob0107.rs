@@ -20,7 +20,7 @@ pub fn solve() -> ~str {
 
     let mut verts = ~[];
     for (i, line) in br.line_iter().enumerate() {
-        for (j, s) in line.trim().split_iter(',').enumerate() {
+        for (j, s) in line.trim().split(',').enumerate() {
             let n = from_str::<uint>(s);
             if i < j && n.is_some() {
                 verts.push(((i, j), n.unwrap()));
