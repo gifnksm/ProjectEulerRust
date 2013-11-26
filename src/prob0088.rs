@@ -1,4 +1,4 @@
-#[link(name = "prob0088", vers = "0.0")];
+#[link(name = "prob0088", vers = "0.0", package_id = "prob0088")];
 #[crate_type = "lib"];
 
 

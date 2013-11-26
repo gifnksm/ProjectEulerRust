@@ -1,4 +1,4 @@
-#[link(name = "prob0078", vers = "0.0")];
+#[link(name = "prob0078", vers = "0.0", package_id = "prob0078")];
 #[crate_type = "lib"];
 
 use std::hashmap::HashMap;

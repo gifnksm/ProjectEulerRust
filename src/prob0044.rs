@@ -1,4 +1,4 @@
-#[link(name = "prob0044", vers = "0.0")];
+#[link(name = "prob0044", vers = "0.0", package_id = "prob0044")];
 #[crate_type = "lib"];
 
 use std::vec;

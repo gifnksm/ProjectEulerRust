@@ -1,4 +1,4 @@
-#[link(name = "prob0017", vers = "0.0")];
+#[link(name = "prob0017", vers = "0.0", package_id = "prob0017")];
 #[crate_type = "lib"];
 
 use std::iter::AdditiveIterator;

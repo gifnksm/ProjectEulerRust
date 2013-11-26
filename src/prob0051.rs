@@ -1,4 +1,4 @@
-#[link(name = "prob0051", vers = "0.0")];
+#[link(name = "prob0051", vers = "0.0", package_id = "prob0051")];
 #[crate_type = "lib"];
 
 extern mod math;

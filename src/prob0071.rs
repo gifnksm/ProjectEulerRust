@@ -1,4 +1,4 @@
-#[link(name = "prob0071", vers = "0.0")];
+#[link(name = "prob0071", vers = "0.0", package_id = "prob0071")];
 #[crate_type = "lib"];
 
 pub static EXPECTED_ANSWER: &'static str = "428570";

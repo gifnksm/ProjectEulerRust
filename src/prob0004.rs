@@ -1,4 +1,4 @@
-#[link(name = "prob0004", vers = "0.0")];
+#[link(name = "prob0004", vers = "0.0", package_id = "prob0004")];
 #[crate_type = "lib"];
 
 extern mod math;
@@ -42,4 +42,3 @@ pub fn solve() -> ~str {
         .unwrap()
         .to_str()
 }
-

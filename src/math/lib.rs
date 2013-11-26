@@ -1,4 +1,4 @@
-#[link(name = "math", vers = "0.0")];
+#[link(name = "math", vers = "0.0", package_id = "math")];
 #[crate_type = "lib"];
 
 #[feature(globs)];
