@@ -21,10 +21,10 @@ pub fn solve() -> ~str {
             cs
         }).to_owned_vec();
 
-    let nums = do vec::from_fn(9) |i| {
+    let nums = vec::from_fn(9, |i| {
         let n = (i + 1) * (i + 1);
         (n / 10, n % 10)
-    };
+    });
 
     let mut cnt = 0u;
     for (i, cs1) in all_combs.iter().enumerate() {

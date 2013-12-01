@@ -16,11 +16,11 @@ fn is_abundant(n: uint) -> bool {
 pub fn solve() -> ~str {
     let max_num = 28123;
 
-    let abundant = do vec::build(Some(max_num + 1)) |push| {
+    let abundant = vec::build(Some(max_num + 1), |push| {
         for n in range(2, max_num + 1) {
             if is_abundant(n) { push(n); }
         }
-    };
+    });
 
     let mut sum_of_sum_abundant = 0;
     let mut is_sum_abundant = vec::from_elem(max_num + 1, false);

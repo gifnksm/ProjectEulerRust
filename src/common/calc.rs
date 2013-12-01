@@ -5,7 +5,7 @@ use std::iter::MultiplicativeIterator;
 pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::<T, uint>::new();
     for k in v.iter() {
-        let val = do map.find(k).map_default(1) |v| { *v + 1 };
+        let val = map.find(k).map_default(1, |v| { *v + 1 });
         map.insert(k.clone(), val);
     }
     return map;
@@ -48,7 +48,7 @@ impl<'self, T> Iterator<~[&'self T]> for CombinateIterator<'self, T> {
             return None;
         }
 
-        let iter_elem = do self.next_idx.map |&i| { &self.all_elems[i] };
+        let iter_elem = self.next_idx.map(|&i| &self.all_elems[i] );
         let mut i = comb_len - 1;
         loop {
             self.next_idx[i] += 1;
@@ -64,26 +64,26 @@ impl<'self, T> Iterator<~[&'self T]> for CombinateIterator<'self, T> {
     }
 }
 
-pub fn combinate<T: Clone>(elems: &[T], len: uint, f: &fn(~[T], ~[T])->bool) -> bool {
+pub fn combinate<T: Clone>(elems: &[T], len: uint, f: |~[T], ~[T]| -> bool) -> bool {
     if len == 0 { return f(~[], elems.to_owned()); }
 
     for i in range(0, elems.len() - len + 1) {
-        let ret = do combinate(elems.slice(i + 1, elems.len()), len - 1) |v, rest| {
+        let ret = combinate(elems.slice(i + 1, elems.len()), len - 1, |v, rest| {
             f(~[elems[i].clone()] + v, ~[] + elems.slice(0, i) + rest)
-        };
+        });
         if !ret { return false; }
     }
 
     return true;
 }
 
-pub fn combinate_overlap<T: Clone>(elems: &[T], len: uint, f: &fn(&[T])->bool) -> bool {
+pub fn combinate_overlap<T: Clone>(elems: &[T], len: uint, f: |&[T]| -> bool) -> bool {
     if len == 0 { return f([]); }
 
     for i in range(0, elems.len()) {
-        let ret = do combinate_overlap(elems.slice(i, elems.len()), len - 1) |v| {
+        let ret = combinate_overlap(elems.slice(i, elems.len()), len - 1, |v| {
             f(~[elems[i].clone()] + v)
-        };
+        });
         if !ret { return false; }
     }
 
@@ -91,7 +91,7 @@ pub fn combinate_overlap<T: Clone>(elems: &[T], len: uint, f: &fn(&[T])->bool) -
 }
 
 pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
-                      f: &fn(uint, &[uint])->bool) -> bool {
+                      f: |uint, &[uint]| -> bool) -> bool {
     let min_vec = fill_zero(num_to_digits(min, 10), len);
     let max_vec = fill_zero(num_to_digits(max, 10), len);
     return perm_sub(digits, len, to_some(min_vec), to_some(max_vec), f);
@@ -118,12 +118,12 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
     fn perm_sub(digits: &[uint], len: uint,
                 min: Option<&[uint]>,
                 max: Option<&[uint]>,
-                f: &fn(uint, &[uint])->bool) -> bool {
+                f: |uint, &[uint]| -> bool) -> bool {
         if len == 0 { return f(0, digits); }
 
         let unit = {
             let mut tmp = 1;
-            do (len - 1).times { tmp *= 10 }
+            (len - 1).times(|| tmp *= 10 );
             tmp
         };
 
@@ -143,9 +143,9 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
             for j in range(0, i)         { buf[j] = digits[j]; }
             for j in range(i, buf.len()) { buf[j] = digits[j + 1]; }
-            let ret = do perm_sub(buf, len - 1, min_vec, max_vec) |num, ds| {
+            let ret = perm_sub(buf, len - 1, min_vec, max_vec, |num, ds| {
                 f(num + n * unit, ds)
-            };
+            });
             if !ret { return false; }
         }
 
@@ -221,9 +221,9 @@ mod tests {
             ~[2, 3, 4], ~[2, 3, 5], ~[2, 4, 5],
             ~[3, 4, 5]
         ];
-        do combinate(&[1, 2, 3, 4, 5], 3) |n, _rest| {
+        combinate(&[1, 2, 3, 4, 5], 3, |n, _rest| {
             assert_eq!(n, nums.shift()); true
-        };
+        });
     }
 
     #[test]
@@ -246,9 +246,9 @@ mod tests {
             &[5, 5, 5]
         ];
 
-        do combinate_overlap(&[1, 2, 3, 4, 5], 3) |n| {
+        combinate_overlap(&[1, 2, 3, 4, 5], 3, |n| {
             assert_eq!(n, nums.shift()); true
-        };
+        });
     }
 
     #[test]
@@ -261,9 +261,9 @@ mod tests {
             512, 513, 514, 521, 523, 524, 531, 532, 534, 541, 542, 543
         ];
 
-        do permutate_num(&[1, 2, 3, 4, 5], 3, 0, 555) |n, _rest| {
+        permutate_num(&[1, 2, 3, 4, 5], 3, 0, 555, |n, _rest| {
             assert_eq!(n, nums.shift()); true
-        };
+        });
 
         let mut nums = ~[
             123, 124, 125, 132, 134, 135, 142, 143, 145, 152, 153, 154,
@@ -273,13 +273,13 @@ mod tests {
             512, 513, 514, 521, 523, 524, 531, 532, 534, 541, 542, 543
         ];
 
-        do permutate_num(&[1, 2, 3, 4, 5], 3, 140, 300) |n, _rest| {
+        permutate_num(&[1, 2, 3, 4, 5], 3, 140, 300, |n, _rest| {
             let mut num = nums.shift();
             while num < 140 || 300 < num {
                 num = nums.shift();
             }
             assert_eq!(n, num);
             true
-        };
+        });
     }
 }

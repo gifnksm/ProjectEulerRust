@@ -17,7 +17,7 @@ pub static EXPECTED_ANSWER: &'static str = "1258";
 enum Op { Add, Sub, Mul, Div }
 
 #[inline(always)]
-fn each_numseq(f: &fn(&[Rational]) -> bool) -> bool {
+fn each_numseq(f: |&[Rational]| -> bool) -> bool {
     for a in range(1, 10) {
         let ra = Ratio::from_integer(a);
         for b in range(a + 1, 10) {
@@ -35,7 +35,7 @@ fn each_numseq(f: &fn(&[Rational]) -> bool) -> bool {
 }
 
 #[inline(always)]
-fn each_opseq(f: &fn(&[Op]) -> bool) -> bool {
+fn each_opseq(f: |&[Op]| -> bool) -> bool {
     let ops = ~[ Add, Sub, Mul, Div ];
     for i1 in range(0, ops.len()) {
         for i2 in range(0, ops.len()) {
@@ -47,13 +47,13 @@ fn each_opseq(f: &fn(&[Op]) -> bool) -> bool {
     return true;
 }
 
-fn each_value(num: &[Rational], op: &[Op], f: &fn(n: Rational) -> bool) -> bool {
+fn each_value(num: &[Rational], op: &[Op], f: |Rational| -> bool) -> bool {
     assert_eq!(num.len() - 1, op.len());
     if num.len() == 1 { return f(num[0]); }
 
-    do calc::combinate(num, 1) |v1, rest| {
+    calc::combinate(num, 1, |v1, rest| {
         let a = v1[0];
-        do each_value(rest, op.tailn(1)) |b| {
+        each_value(rest, op.tailn(1), |b| {
             match op[0] {
                 Add => { f(a + b) }
                 Mul => { f(a * b) }
@@ -64,22 +64,22 @@ fn each_value(num: &[Rational], op: &[Op], f: &fn(n: Rational) -> bool) -> bool 
                     (b.is_zero() || f(a / b)) && (a.is_zero() || f(b / a))
                 }
             }
-        }
-    }
+        })
+    })
 }
 
 fn count_seqlen(nums: &[Rational]) -> uint {
     let mut set = HashSet::new();
 
-    do each_opseq |ops| {
-        do each_value(nums, ops) |n| {
+    each_opseq(|ops| {
+        each_value(nums, ops, |n| {
             if n.is_integer() && n.numer().is_positive() {
                 set.insert(n.to_integer() as uint);
             }
             true
-        };
+        });
         true
-    };
+    });
 
     iter::count(1u, 1)
         .take_while(|&i| set.contains(&i))
@@ -90,7 +90,7 @@ fn count_seqlen(nums: &[Rational]) -> uint {
 pub fn solve() -> ~str {
     let mut max_seq = ~"";
     let mut max_cnt = 0;
-    do each_numseq |nums| {
+    each_numseq(|nums| {
         let cnt = count_seqlen(nums);
         if cnt > max_cnt {
             max_cnt = cnt;
@@ -98,7 +98,7 @@ pub fn solve() -> ~str {
             max_seq = numconv::from_digits(ds, 10).to_str();
         }
         true
-    };
+    });
 
     return max_seq;
 }

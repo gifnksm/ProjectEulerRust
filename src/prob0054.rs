@@ -162,48 +162,48 @@ fn ord_tuple<'a>(c1: &'a [Card], c2: &'a [Card]) -> (&'a [Card], &'a [Card]) {
 fn judge(p1_cards: &[Card, ..5], p2_cards: &[Card, ..5]) -> int {
     match (hand(p1_cards), hand(p2_cards)) {
         (StraightFlush(c1), StraightFlush(c2)) => { return cmp_cards(c1, c2); },
-        (StraightFlush(*), _) => { return  1; },
-        (_, StraightFlush(*)) => { return -1; },
+        (StraightFlush(..), _) => { return  1; },
+        (_, StraightFlush(..)) => { return -1; },
 
         (Four(c1, r1), Four(c2, r2)) => {
             return cmp_cards2(c1, r1, c2, r2);
         },
-        (Four(*), _) => { return  1; },
-        (_, Four(*)) => { return -1; },
+        (Four(..), _) => { return  1; },
+        (_, Four(..)) => { return -1; },
 
         (FullHouse((c1a, c1b)), FullHouse((c2a, c2b))) => {
             let (c1_hi, c1_lo) = ord_tuple(c1a, c1b);
             let (c2_hi, c2_lo) = ord_tuple(c2a, c2b);
             return cmp_cards2(c1_hi, c1_lo, c2_hi, c2_lo);
         }
-        (FullHouse(*), _) => { return  1; },
-        (_, FullHouse(*)) => { return -1; },
+        (FullHouse(..), _) => { return  1; },
+        (_, FullHouse(..)) => { return -1; },
 
         (Flush(c1), Flush(c2)) => { return cmp_cards(c1, c2); },
-        (Flush(*), _) => { return  1; },
-        (_, Flush(*)) => { return -1; },
+        (Flush(..), _) => { return  1; },
+        (_, Flush(..)) => { return -1; },
 
         (Straight(c1), Straight(c2)) => { return cmp_cards(c1, c2); },
-        (Straight(*), _) => { return  1; },
-        (_, Straight(*)) => { return -1; },
+        (Straight(..), _) => { return  1; },
+        (_, Straight(..)) => { return -1; },
 
         (Three(c1, r1), Three(c2, r2)) => {
             return cmp_cards2(c1, r1, c2, r2);
         },
-        (Three(*), _) => { return  1; },
-        (_, Three(*)) => { return -1; },
+        (Three(..), _) => { return  1; },
+        (_, Three(..)) => { return -1; },
 
         (TwoPair([c1_hi, c1_lo], r1), TwoPair([c2_hi, c2_lo], r2)) => {
             return cmp_cards3(c1_hi, c1_lo, r1, c2_hi, c2_lo, r2);
         },
-        (TwoPair(*), _) => { return  1; },
-        (_, TwoPair(*)) => { return -1; },
+        (TwoPair(..), _) => { return  1; },
+        (_, TwoPair(..)) => { return -1; },
 
         (Pair(c1, r1), Pair(c2, r2)) => {
             return cmp_cards2(c1, r1, c2, r2);
         },
-        (Pair(*), _) => { return  1; },
-        (_, Pair(*)) => { return -1; },
+        (Pair(..), _) => { return  1; },
+        (_, Pair(..)) => { return -1; },
 
         (Hi(c1), Hi(c2)) => { return cmp_cards(c1, c2); }
     };

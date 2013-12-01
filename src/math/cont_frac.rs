@@ -8,7 +8,7 @@ pub fn sqrt(n: uint) -> (uint, ~[uint]) {
     let mut an = ~[];
     let mut set = HashSet::new();
 
-    do each_a(n) |a, pqr| {
+    each_a(n, |a, pqr| {
         if a == 0 || set.contains(&(a, pqr)) {
             false
         } else {
@@ -20,7 +20,7 @@ pub fn sqrt(n: uint) -> (uint, ~[uint]) {
             }
             true
         }
-    };
+    });
     return (a0, an);
 
     // f_n (p, q, r) := (p sqrt(n) + q)/ r
@@ -29,7 +29,7 @@ pub fn sqrt(n: uint) -> (uint, ~[uint]) {
     // b := ar - q
     // (p, q, r) := (rp / m, rb / m, (np^2 - b^2) / m)
     #[inline(always)]
-    fn each_a(n: uint, f: &fn(uint, (uint, uint, uint)) -> bool) -> bool {
+    fn each_a(n: uint, f: |uint, (uint, uint, uint)| -> bool) -> bool {
         let sqn = isqrt(n);
         let mut p = 1;
         let mut q = 0;
@@ -99,7 +99,7 @@ pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
 /// each (x, y) sufficient x^2 - y^2 = 1
 pub fn each_pel<
     T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone
-    >(d: uint, f: &fn(&T, &T)->bool) -> bool {
+    >(d: uint, f: |&T, &T| -> bool) -> bool {
     let n: T = FromPrimitive::from_int(d as int).unwrap();
     let (x1, y1) = solve_pel::<T>(d);
     let mut xk = x1.clone();
@@ -129,7 +129,7 @@ pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T
 /// each (x, y) sufficient x^2 - y^2 = -1
 pub fn each_pel_neg<
     T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone
-    >(d: uint, f: &fn(&T, &T)->bool) -> bool {
+    >(d: uint, f: |&T, &T| -> bool) -> bool {
     let n: T = FromPrimitive::from_int(d as int).unwrap();
     let (x1, y1) = solve_pel_neg::<T>(d);
     let mut xk = x1.clone();

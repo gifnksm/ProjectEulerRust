@@ -8,7 +8,7 @@ use math::cont_frac;
 
 pub static EXPECTED_ANSWER: &'static str = "661";
 
-fn each_d(f: &fn(uint) -> bool) -> bool {
+fn each_d(f: |uint| -> bool) -> bool {
     let mut d      = 0;
     let mut sqrt   = 1;
     let mut square = 1;
@@ -27,7 +27,7 @@ fn each_d(f: &fn(uint) -> bool) -> bool {
 pub fn solve() -> ~str {
     let mut max_x : BigUint  = FromPrimitive::from_uint(0).unwrap();
     let mut max_x_d = 0;
-    do each_d |d| {
+    each_d(|d| {
         if d > 1000 {
             false
         } else {
@@ -35,7 +35,7 @@ pub fn solve() -> ~str {
             if x > max_x { max_x = x; max_x_d = d; }
             true
         }
-    };
+    });
     return max_x_d.to_str();
 }
 

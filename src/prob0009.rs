@@ -8,7 +8,7 @@ use math::arith;
 
 pub static EXPECTED_ANSWER: &'static str = "31875000";
 
-fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
+fn each_pyrhagorean(sum: uint, f: |uint, uint, uint| -> bool) -> bool {
     for c in range(2, sum - 2) {
         for a in range(1, uint::min((sum - c) / 2, arith::isqrt(c*c / 2))) {
             let b = sum - c - a;
@@ -23,9 +23,9 @@ fn each_pyrhagorean(sum: uint, f: &fn(uint, uint, uint) -> bool) -> bool {
 
 pub fn solve() -> ~str {
     let mut ans = 0;
-    do each_pyrhagorean(1000) |a, b, c| {
+    each_pyrhagorean(1000, |a, b, c| {
         ans = a * b * c;
         false
-    };
+    });
     ans.to_str()
 }

@@ -18,7 +18,7 @@ fn nanosec_to_str(nsec: u64) -> ~str {
          (nsec % NSEC_PER_SEC) as uint);
 }
 
-fn bench<T>(f: &fn() -> T) -> (u64, T) {
+fn bench<T>(f: proc() -> T) -> (u64, T) {
     let start_time = time::precise_time_ns();
     let result     = f();
     let end_time   = time::precise_time_ns();

@@ -18,7 +18,7 @@ pub fn add<T: Zero + Add<T,T> + Clone>(a: &[T], b: &[T]) -> ~[T] {
 
     let mut sum = vec::from_fn(max_len, |_i| Zero::zero());
     for i in range(0, min_len) { sum[i] = a[i] + b[i]; }
-    do rest.map |v| { for i in range(min_len, max_len) { sum[i] = v[i].clone(); } };
+    rest.map(|v| { for i in range(min_len, max_len) { sum[i] = v[i].clone(); } });
     return sum;
 }
 
@@ -111,7 +111,7 @@ mod test {
 
     #[test]
     fn test_poly_eaval() {
-        fn check(pol: &[int], f: &fn(int) -> int) {
+        fn check(pol: &[int], f: |int| -> int) {
             for n in range(-10, 10) {
                 assert_eq!(eval(pol, n), f(n));
             }

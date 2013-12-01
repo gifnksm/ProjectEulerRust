@@ -67,7 +67,7 @@ impl IdxValueMap {
         });
     }
 
-    fn each_area(&mut self, f: &fn(Area) -> bool) -> bool {
+    fn each_area(&mut self, f: |Area| -> bool) -> bool {
         for i in range(0, self.area.len()) {
             if !f(self.area[i]) { return false; }
         }
@@ -79,14 +79,14 @@ impl IdxValueMap {
 
     fn get_area_by_idx(&mut self, idx: uint) -> Area {
         let mut found = None;
-        do self.each_area |area| {
+        self.each_area(|area| {
             if area.min_idx <= idx && idx <= area.max_idx {
                 found = Some(area);
                 false
             } else {
                 true
             }
-        };
+        });
         found.unwrap()
     }
 

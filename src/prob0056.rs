@@ -26,7 +26,7 @@ pub fn solve() -> ~str {
     for a in range(1u, 100) {
         let a: BigUint = FromPrimitive::from_uint(a).unwrap();
         let mut n = a.clone();
-        do 100.times {
+        100.times(|| {
             n = n * a;
             let mut sum = 0;
             let (d, m) = n.div_rem(&ten);
@@ -44,7 +44,7 @@ pub fn solve() -> ~str {
             //     sum += d.get();
             // }
             max = uint::max(max, sum);
-        }
+        });
     }
 
     return max.to_str();

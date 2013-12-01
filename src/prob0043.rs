@@ -51,7 +51,7 @@ fn fill_vec<T: Clone>(v: ~[T], len: uint, init: T) -> ~[T] {
 }
 
 pub fn solve() -> ~str {
-    let mut result = do vec::build(None) |push| {
+    let mut result = vec::build(None, |push| {
         let dm   = DigitMap();
         let base = 17;
         for n in range(0u, 1000 / base) {
@@ -61,12 +61,12 @@ pub fn solve() -> ~str {
                 Some(new_dm) => push((new_ds, new_dm))
             }
         }
-    };
+    });
 
     let base_list = [13u, 11, 7, 5, 3, 2, 1];
     for &base in base_list.iter() {
-        result = do result.flat_map |&(ref ds, ref dm)| {
-            do vec::build(None) |push| {
+        result = result.flat_map(|&(ref ds, ref dm)| {
+            vec::build(None, |push| {
                 let lower = numconv::from_digits(ds.slice(ds.len() - 2, ds.len()), 10);
                 for d in range(0u, 10) {
                     if (d * 100 + lower) % base != 0 { continue }
@@ -75,8 +75,8 @@ pub fn solve() -> ~str {
                         Some(new_dm) => push((*ds + &[d], new_dm))
                     }
                 }
-            }
-        };
+            })
+        });
     }
 
     result.move_iter()

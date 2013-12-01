@@ -25,7 +25,7 @@ pub fn solve() -> ~str {
     let pows = vec::from_fn(10, |i| arith::pow(i, 5));
 
     let mut sum = 0;
-    do calc::combinate_overlap([0u, 1, 2, 3, 4, 5, 6, 7, 8, 9], len) |comb| {
+    calc::combinate_overlap([0u, 1, 2, 3, 4, 5, 6, 7, 8, 9], len, |comb| {
         let num = comb.iter().map(|&e| pows[e]).sum();
 
         let mut ds = numconv::to_digits(num, 10).to_owned_vec();
@@ -37,7 +37,7 @@ pub fn solve() -> ~str {
             sum += num;
         }
         true
-    };
+    });
 
     return (sum - 1).to_str();  // remove 1
 }

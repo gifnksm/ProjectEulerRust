@@ -12,7 +12,7 @@ static PRIMES_BELOW100: &'static [uint] = &[
 
 static TASK_PRIME_KEY: Key<~[uint]> = &Key;
 
-fn with_task_prime<T>(f: &fn(&mut ~[uint]) -> T) -> T {
+fn with_task_prime<T>(f: proc(&mut ~[uint]) -> T) -> T {
     let mut nums = match local_data::pop(TASK_PRIME_KEY) {
         Some(x) => x,
         None    => PRIMES_BELOW100.to_owned()

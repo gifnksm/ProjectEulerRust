@@ -37,16 +37,16 @@ impl Eq for SuDoku {
 
 impl ToStr for SuDoku {
     fn to_str(&self) -> ~str {
-        let rows = do self.map.map |row| {
-            let cells = do row.map |&cell| {
+        let rows = self.map.map(|row| {
+            let cells = row.map(|&cell| {
                 if cell.population_count() == 1 {
                     ~"_"
                 } else {
                     (1u << cell.trailing_zeros()).to_str()
                 }
-            };
+            });
             cells.concat()
-        };
+        });
         self.name + "\n" + rows.connect("\n")
     }
 }
@@ -67,19 +67,19 @@ impl SuDoku {
     }
 
     fn to_str_debug(&self) -> ~str {
-        let row_strs = do vec::build(Some(BOARD_HEIGHT)) |push| {
+        let row_strs = vec::build(Some(BOARD_HEIGHT), |push| {
             for y in range(0, BOARD_HEIGHT) {
-                let cell_strs = do vec::build(Some(BOARD_WIDTH)) |push| {
+                let cell_strs = vec::build(Some(BOARD_WIDTH), |push| {
                     for x in range(0, BOARD_WIDTH) {
                         let s = self.map[y][x].to_str_radix(2);
                         push(format!("{}:{}",
                                      self.get_num(x, y).to_str(),
                                      "0".repeat(MAX_NUMBER - s.len()) + s).replace("0", "_"));
                     }
-                };
+                });
                 push(cell_strs.connect(" "));
             }
-        };
+        });
         self.name + "\n" + row_strs.connect("\n")
     }
 }

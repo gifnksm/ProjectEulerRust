@@ -85,7 +85,7 @@ impl SSSElem {
     }
 
     #[inline(always)]
-    pub fn each_next(&self, f: &fn(SSSElem) -> bool) -> bool {
+    pub fn each_next(&self, f: |SSSElem| -> bool) -> bool {
         if self.sss.len() == 2 {
             let (a, b) = (self.sss[0], self.sss[1]);
             if !f(SSSElem::new_pair(a, b + 1)) { return false; }
@@ -105,16 +105,16 @@ impl SSSElem {
 }
 
 #[inline(always)]
-pub fn each_sss(f: &fn(&SSSElem) -> bool) -> bool {
+pub fn each_sss(f: |&SSSElem| -> bool) -> bool {
     let mut pq = PriorityQueue::new();
     pq.push(SSSElem::new_pair(1, 2));
     while !pq.is_empty() {
         let e = pq.pop();
         if !f(&e) { return false; }
-        do e.each_next |next| {
-            pq.push(next);
-            true
-        };
+        e.each_next(|next| {
+                pq.push(next);
+                true
+            });
     }
     true
 }
@@ -124,13 +124,13 @@ pub fn each_sss(f: &fn(&SSSElem) -> bool) -> bool {
 // (a, b, c, d) +> SSS if a > b > c > d && a + b > d &&
 pub fn solve() -> ~str {
     let mut ans = ~"";
-    do each_sss |sss| {
-        if sss.sss.len() == 7 {
-            ans = sss.sss.map(|&n| n.to_str()).concat();
-            false
-        } else {
-            true
-        }
-    };
+    each_sss(|sss| {
+            if sss.sss.len() == 7 {
+                ans = sss.sss.map(|&n| n.to_str()).concat();
+                false
+            } else {
+                true
+            }
+        });
     ans
 }

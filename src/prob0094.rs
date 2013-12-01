@@ -35,8 +35,8 @@ pub static EXPECTED_ANSWER: &'static str = "518408346";
 // side length L := a + a + b = 6k+4, 6k+2
 // L <= 1000000000
 // k <= (100000000 - 4) / 6, (100000000 - 2) / 6
-fn each_ab(f: &fn(uint, uint) -> bool) -> bool {
-    do cont_frac::each_pel::<BigUint>(3) |x, _y| {
+fn each_ab(f: |uint, uint| -> bool) -> bool {
+    cont_frac::each_pel::<BigUint>(3, |x, _y| {
         match x.to_uint().unwrap() % 3 {
             1 => {
                 let k = (x.to_uint().unwrap() - 1) / 3;
@@ -52,14 +52,14 @@ fn each_ab(f: &fn(uint, uint) -> bool) -> bool {
             }
             _ => fail!()
         }
-    }
+    })
 }
 
 pub fn solve() -> ~str {
     let limit = 1000000000;
     let mut total = 0;
 
-    do each_ab |a, b| {
+    each_ab(|a, b| {
         if b == 0 {
             true
         } else {
@@ -71,7 +71,7 @@ pub fn solve() -> ~str {
                 true
             }
         }
-    };
+    });
 
     return total.to_str();
 }

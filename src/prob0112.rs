@@ -104,7 +104,7 @@ mod bench {
 
     #[bench]
     fn bouncy_50percent(bh: &mut BenchHarness) {
-        do bh.iter {
+        bh.iter(|| {
             let mut num_bouncy = 0;
             for n in iter::count(1u, 1) {
                 if is_bouncy(numconv::to_digits(n, 10)) { num_bouncy += 1; }
@@ -113,12 +113,12 @@ mod bench {
                     break;
                 }
             }
-        }
+        })
     }
 
     #[bench]
     fn bouncy_90percent(bh: &mut BenchHarness) {
-        do bh.iter {
+        bh.iter(|| {
             let mut num_bouncy = 0;
             for n in iter::count(1u, 1) {
                 if is_bouncy(numconv::to_digits(n, 10)) { num_bouncy += 1; }
@@ -127,6 +127,6 @@ mod bench {
                     break;
                 }
             }
-        }
+        })
     }
 }

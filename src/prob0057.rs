@@ -20,7 +20,7 @@ pub static EXPECTED_ANSWER: &'static str = "153";
 //  n[i+1] = 2d[i] + n[i]
 //  d[i+1] = d[i] + n[i]
 
-fn each_frac(f: &fn(&BigUint, &BigUint) -> bool) -> bool {
+fn each_frac(f: |&BigUint, &BigUint| -> bool) -> bool {
     let mut n = FromPrimitive::from_uint(3).unwrap();
     let mut d = FromPrimitive::from_uint(2).unwrap();
     let two: BigUint = FromPrimitive::from_uint(2).unwrap();
@@ -36,12 +36,12 @@ fn each_frac(f: &fn(&BigUint, &BigUint) -> bool) -> bool {
 pub fn solve() -> ~str {
     let mut i = 0;
     let mut cnt = 0u;
-    do each_frac |n, d| {
+    each_frac(|n, d| {
         i += 1;
         let n_len = n.to_str().len();
         let d_len = d.to_str().len();
         if n_len > d_len { cnt += 1; }
         i < 1000
-    };
+    });
     return cnt.to_str();
 }

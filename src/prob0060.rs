@@ -38,7 +38,7 @@ fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[
     result
 }
 
-fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: &fn(&[uint]) -> bool) -> bool {
+fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: |&[uint]| -> bool) -> bool {
     for n in prime::iter() {
         let mut pairs = ~[];
 
@@ -70,14 +70,14 @@ pub fn solve() -> ~str {
     let mut map = HashMap::<uint, ~[uint]>::new();
 
     let mut sum = 0;
-    do each_pair_set(&mut map) |set| {
+    each_pair_set(&mut map, |set| {
         if set.len() >= 5 {
             sum = set.iter().map(|&x| x).sum();
             false
         } else {
             true
         }
-    };
+    });
     sum.to_str()
 }
 

@@ -63,7 +63,7 @@ impl<T: Hash + IterBytes + Eq + Clone> Relations<T> {
 
     fn delete_and_find(&mut self, prec: T) -> ~[T] {
         let mut result = ~[];
-        do self.top.pop(&prec).map |p| {
+        self.top.pop(&prec).map(|p| {
             for s in p.succ.iter() {
                 match self.top.find_mut(s) {
                     Some(y) => {
@@ -75,7 +75,7 @@ impl<T: Hash + IterBytes + Eq + Clone> Relations<T> {
                     None => {}
                 }
             }
-        };
+        });
         return result;
     }
 }

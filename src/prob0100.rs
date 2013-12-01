@@ -24,19 +24,19 @@ pub fn solve() -> ~str {
     let one = One::one();
     let limit = FromStr::from_str("1000000000000").unwrap();
     let mut ans = Zero::zero();
-    do cont_frac::each_pel_neg::<BigUint>(2) |x, y| {
-        if x.is_odd() && y.is_odd() {
-            let b = (*y + one) >> 1;
-            let s = (*x + one) >> 1;
-            if s > limit {
-                ans = b;
-                false
+    cont_frac::each_pel_neg::<BigUint>(2, |x, y| {
+            if x.is_odd() && y.is_odd() {
+                let b = (*y + one) >> 1;
+                let s = (*x + one) >> 1;
+                if s > limit {
+                    ans = b;
+                    false
+                } else {
+                    true
+                }
             } else {
                 true
             }
-        } else {
-            true
-        }
-    };
+        });
     ans.to_str()
 }

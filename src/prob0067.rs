@@ -19,10 +19,10 @@ pub fn solve() -> ~str {
         .to_owned_vec();
     let init = triangle.init();
     let last = triangle.last();
-    (do init.rev_iter().fold(last.to_owned()) |prev, elem| {
-            do vec::from_fn(elem.len()) |i| {
-                elem[i] + uint::max(prev[i], prev[i + 1])
-            }
+    init.rev_iter().fold(last.to_owned(), |prev, elem| {
+            vec::from_fn(elem.len(), |i| {
+                    elem[i] + uint::max(prev[i], prev[i + 1])
+                })
         })[0].to_str()
 }
 

@@ -6,9 +6,9 @@ pub static EXPECTED_ANSWER: &'static str = "9110846700";
 fn pow_mod(base: uint, exponent: uint, modulo: uint) -> uint {
     if base == 0 { return 0; }
     let mut acc = 1;
-    do exponent.times {
+    exponent.times(|| {
         acc = (acc * base) % modulo;
-    }
+    });
     return acc;
 }
 

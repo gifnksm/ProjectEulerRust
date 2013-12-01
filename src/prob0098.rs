@@ -39,57 +39,57 @@ pub fn solve() -> ~str {
     let mut reader = File::open(&Path::new("files/words.txt")).expect("file not found.");
     let input = str::from_utf8_owned(reader.read_to_end());
 
-    let result = (do reader::read_whole_word(input).map |words| {
-        let mut map = ~HashMap::new();
-        for &word in words.iter() {
-            let mut cs = word.chars().to_owned_vec();
-            sort::quick_sort(cs, |a, b| a <= b);
-            match map.pop(&cs) {
-                None     => { map.insert(cs, ~[word.to_str()]); }
-                Some(ws) => { map.insert(cs, vec::append_one(ws, word.to_str())); }
-            }
-        }
-        do vec::build(None) |push| {
-            for (_key, values) in map.mut_iter() {
-                if values.len() > 1 {
-                    push(util::replace(values, ~[]));
+    let result = reader::read_whole_word(input).map(|words| {
+            let mut map = ~HashMap::new();
+            for &word in words.iter() {
+                let mut cs = word.chars().to_owned_vec();
+                sort::quick_sort(cs, |a, b| a <= b);
+                match map.pop(&cs) {
+                    None     => { map.insert(cs, ~[word.to_str()]); }
+                    Some(ws) => { map.insert(cs, vec::append_one(ws, word.to_str())); }
                 }
             }
-        }
-    }).map(|words| {
-            do vec::build(Some(words.len())) |push| {
-                for elt in words.iter() {
-                    for i in range(0, elt.len()) {
-                        for j in range(i + 1, elt.len()) {
-                            push((elt[i].clone(), elt[j].clone()))
+            vec::build(None, |push| {
+                    for (_key, values) in map.mut_iter() {
+                        if values.len() > 1 {
+                            push(util::replace(values, ~[]));
                         }
                     }
-                }
-            }
+                })
+        }).map(|words| {
+            vec::build(Some(words.len()), |push| {
+                    for elt in words.iter() {
+                        for i in range(0, elt.len()) {
+                            for j in range(i + 1, elt.len()) {
+                                push((elt[i].clone(), elt[j].clone()))
+                            }
+                        }
+                    }
+                })
         }).map(|word_pairs| {
-            let mut words = do word_pairs.map |&(ref w1, ref w2)| {
-                let cs1 = w1.as_bytes();
-                let cs2 = w2.as_bytes();
-                let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap();
-                (w1.len(), cs1.map(|c| get_pos(c)), cs2.map(|c| get_pos(c)))
-            };
+            let mut words = word_pairs.map(|&(ref w1, ref w2)| {
+                    let cs1 = w1.as_bytes();
+                    let cs2 = w2.as_bytes();
+                    let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap();
+                    (w1.len(), cs1.map(|c| get_pos(c)), cs2.map(|c| get_pos(c)))
+                });
             sort::quick_sort(words, |&(l1, _, _), &(l2, _, _)| l1 >= l2);
             words
         }).map(|idx_pairs| {
-            do vec::build(None) |push| {
-                let mut cur_len = uint::max_value;
-                let mut cur_group = ~[];
-                for &(ref len, ref v1, ref v2) in idx_pairs.iter() {
-                    if cur_group.is_empty() || cur_len == *len {
-                        cur_len = *len;
-                        cur_group.push((v1.clone(), v2.clone()));
-                    } else {
-                        push((cur_len, util::replace(&mut cur_group, ~[(v1.clone(), v2.clone())])));
-                        cur_len = *len;
+            vec::build(None, |push| {
+                    let mut cur_len = uint::max_value;
+                    let mut cur_group = ~[];
+                    for &(ref len, ref v1, ref v2) in idx_pairs.iter() {
+                        if cur_group.is_empty() || cur_len == *len {
+                            cur_len = *len;
+                            cur_group.push((v1.clone(), v2.clone()));
+                        } else {
+                            push((cur_len, util::replace(&mut cur_group, ~[(v1.clone(), v2.clone())])));
+                            cur_len = *len;
+                        }
                     }
-                }
-                if !cur_group.is_empty() { push((cur_len, cur_group)); }
-            }
+                    if !cur_group.is_empty() { push((cur_len, cur_group)); }
+                })
         }).map(|groups| {
             let mut max = 0;
 

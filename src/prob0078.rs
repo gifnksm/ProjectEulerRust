@@ -11,7 +11,7 @@ static MILLION: int = 1000000;
 fn penta(n: int) -> int { n * (3 * n - 1) / 2 }
 
 #[inline(always)]
-fn each_penta(f: &fn(int) -> bool) -> bool {
+fn each_penta(f: |int| -> bool) -> bool {
     let mut i = 1;
     loop {
         if !f(penta(i)) { return false; }
@@ -21,7 +21,7 @@ fn each_penta(f: &fn(int) -> bool) -> bool {
 }
 
 #[inline(always)]
-fn each_way(f: &fn(int, int) -> bool) -> bool {
+fn each_way(f: |int, int| -> bool) -> bool {
     let mut v = HashMap::new();
     v.insert(0, 1);
 
@@ -29,7 +29,7 @@ fn each_way(f: &fn(int, int) -> bool) -> bool {
     loop {
         let mut way = 0;
         let mut i = 0;
-        do each_penta |p| {
+        each_penta(|p| {
             if p > n { false } else {
                 let sign = if i % 4 > 1 { -1 } else { 1 };
                 way += sign * *v.get(&(n - p));
@@ -37,7 +37,7 @@ fn each_way(f: &fn(int, int) -> bool) -> bool {
                 i += 1;
                 true
             }
-        };
+        });
 
         if !f((n + MILLION) % MILLION, way) { return false; }
         v.insert(n, way);
@@ -47,13 +47,13 @@ fn each_way(f: &fn(int, int) -> bool) -> bool {
 
 pub fn solve() -> ~str {
     let mut ans = 0;
-    do each_way |n, way| {
+    each_way(|n, way| {
         if way % MILLION == 0 {
             ans = n;
             false
         } else {
             true
         }
-    };
+    });
     ans.to_str()
 }
