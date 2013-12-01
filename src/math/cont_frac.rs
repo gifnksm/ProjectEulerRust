@@ -8,68 +8,74 @@ pub fn sqrt(n: uint) -> (uint, ~[uint]) {
     let mut an = ~[];
     let mut set = HashSet::new();
 
-    each_a(n, |a, pqr| {
+    for (a, pqr) in A::new(n) {
         if a == 0 || set.contains(&(a, pqr)) {
-            false
-        } else {
-            set.insert((a, pqr));
-            if set.len() == 1 {
-                a0 = a;
-            } else {
-                an.push(a);
-            }
-            true
+            break;
         }
-    });
+
+        set.insert((a, pqr));
+        if set.len() == 1 {
+            a0 = a;
+        } else {
+            an.push(a);
+        }
+    }
     return (a0, an);
 
-    // f_n (p, q, r) := (p sqrt(n) + q)/ r
-    //                = a + (1 / (rp sqrt(n) + rb) / (np^2 - b^2))
-    // a := |f_n(p, q, r)|
-    // b := ar - q
-    // (p, q, r) := (rp / m, rb / m, (np^2 - b^2) / m)
-    #[inline(always)]
-    fn each_a(n: uint, f: |uint, (uint, uint, uint)| -> bool) -> bool {
-        let sqn = isqrt(n);
-        let mut p = 1;
-        let mut q = 0;
-        let mut r = 1;
-        loop {
-            let a = calc_a(n, sqn, (p, q, r));
-            if a * a == n || p == 0 {
-                p = 0; q = 0; r = 1;
+    struct A {
+        n: uint,
+        sqn: uint,
+        pqr: (uint, uint, uint)
+    }
+    impl A {
+        fn new(n: uint) -> A {
+            A { n: n, sqn: isqrt(n), pqr: (1, 0, 1) }
+        }
+
+        // a <= f_n(p, q, r) < a + 1
+        // r a - q <= p sqrt(n) < r (a + 1) - pq
+        // (ar - q)^2 <= np^2 < ((a+1)r - q)^2
+        fn calc_a(&self) -> uint {
+            // g(a, r, q) := (ar - q)^2
+            #[inline]
+            fn g(a: uint, r: uint, q: uint) -> uint {
+                let s = a * r - q;
+                return s * s;
+            }
+
+            let &A { n, sqn, pqr: (p, q, r) } = self;
+            let np2 = n * p * p;
+            let estim_a = (p * sqn + q) / r;
+            let mut a = estim_a;
+            while g(a + 1, r, q) <= np2 {
+                a = a + 1;
+            }
+            return a;
+        }
+    }
+
+    impl Iterator<(uint, (uint, uint, uint))> for A {
+        // f_n (p, q, r) := (p sqrt(n) + q)/ r
+        //                = a + (1 / (rp sqrt(n) + rb) / (np^2 - b^2))
+        // a := |f_n(p, q, r)|
+        // b := ar - q
+        // (p, q, r) := (rp / m, rb / m, (np^2 - b^2) / m)
+        #[inline]
+        fn next(&mut self) -> Option<(uint, (uint, uint, uint))> {
+            let a = self.calc_a();
+            let &A { n, pqr: (p, q, r), ..} = self;
+
+            self.pqr = if a * a == n || p == 0 {
+                (0, 0, 1)
             } else {
                 let b = a * r - q;
                 let (p2, q2, r2) = (r*p, r*b, n*p*p - b*b);
                 let m = p2.gcd(&q2).gcd(&r2);
-                p = p2 / m;
-                q = q2 / m;
-                r = r2 / m;
-            }
-            if !f(a, (p, q, r)) { return false; }
-        }
-    }
+                (p2 / m, q2 / m, r2 / m)
+            };
 
-
-    // a <= f_n(p, q, r) < a + 1
-    // r a - q <= p sqrt(n) < r (a + 1) - pq
-    // (ar - q)^2 <= np^2 < ((a+1)r - q)^2
-    #[inline(always)]
-    fn calc_a(n: uint, sqn: uint, (p, q, r): (uint, uint, uint)) -> uint {
-        // g(a, r, q) := (ar - q)^2
-        #[inline(always)]
-        fn g(a: uint, r: uint, q: uint) -> uint {
-            let s = a * r - q;
-            return s * s;
+            Some((a, self.pqr))
         }
-
-        let np2 = n * p * p;
-        let estim_a = (p * sqn + q) / r;
-        let mut a = estim_a;
-        while g(a + 1, r, q) <= np2 {
-            a = a + 1;
-        }
-        return a;
     }
 }
 
@@ -86,37 +92,19 @@ pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T>>(an: &[uint]) -> (T, T) {
     return (numer, denom);
 }
 
-/// solve pel equation x^2 - y^2 = 1
+/// solve pel equation x^2 - d y^2 = 1
 pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
-    if an.len() % 2 == 0 {
-        return fold::<T>(~[a0] + an.init());
+    if an.is_empty() {
+        fail!("{} is square", d)
+    } else if an.len() % 2 == 0 {
+        fold::<T>(~[a0] + an.init())
     } else {
-        return fold::<T>(~[a0] + an + an.init());
+        fold::<T>(~[a0] + an + an.init())
     }
 }
 
-/// each (x, y) sufficient x^2 - y^2 = 1
-pub fn each_pel<
-    T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone
-    >(d: uint, f: |&T, &T| -> bool) -> bool {
-    let n: T = FromPrimitive::from_int(d as int).unwrap();
-    let (x1, y1) = solve_pel::<T>(d);
-    let mut xk = x1.clone();
-    let mut yk = y1.clone();
-    loop {
-        // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
-        // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
-        //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
-        if !f(&xk, &yk) { return false; }
-        let xk_1 = xk * x1 + n * yk * y1;
-        let yk_1 = x1 * yk + xk * y1;
-        xk = xk_1;
-        yk = yk_1;
-    }
-}
-
-/// solve pel equation x^2 - y^2 = -1
+/// solve pel equation x^2 - d y^2 = -1
 pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     if an.len() % 2 == 0 {
@@ -126,25 +114,78 @@ pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T
     }
 }
 
-/// each (x, y) sufficient x^2 - y^2 = -1
-pub fn each_pel_neg<
-    T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone
-    >(d: uint, f: |&T, &T| -> bool) -> bool {
-    let n: T = FromPrimitive::from_int(d as int).unwrap();
-    let (x1, y1) = solve_pel_neg::<T>(d);
-    let mut xk = x1.clone();
-    let mut yk = y1.clone();
-    let mut cnt = 0u;
-    loop {
-        // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
-        // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
-        //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
-        if cnt.is_even() && !f(&xk, &yk) { return false; }
-        let xk_1 = xk * x1 + n * yk * y1;
-        let yk_1 = x1 * yk + xk * y1;
-        xk = xk_1;
-        yk = yk_1;
-        cnt += 1;
+
+/// iterates all (x, y) sufficient x^2 - d y^2 = 1
+pub struct PelIterator<T> {
+    d: T,
+    x1y1: (T, T),
+    xy: (T, T)
+}
+
+impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelIterator<T> {
+    #[inline]
+    pub fn new(d: uint) -> PelIterator<T> {
+        let x1y1 = solve_pel(d);
+        let xy   = x1y1.clone();
+        PelIterator {
+            d: FromPrimitive::from_uint(d).unwrap(),
+            x1y1: x1y1, xy: xy
+        }
+    }
+}
+
+impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelIterator<T> {
+    // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
+    // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
+    //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
+    #[inline]
+    fn next(&mut self) -> Option<(T, T)> {
+        let next = {
+            let ref d = self.d;
+            let (ref x1, ref y1) = self.x1y1;
+            let (ref xk, ref yk) = self.xy;
+            ((*xk) * (*x1) + d * (*yk) * (*y1),
+             (*yk) * (*x1) +     (*xk) * (*y1))
+        };
+
+        Some(util::replace(&mut self.xy, next))
+    }
+}
+
+
+/// iterates all (x, y) sufficient x^2 - d y^2 = -1
+pub struct PelNegIterator<T> {
+    d: T,
+    x1y1: (T, T),
+    xy: (T, T)
+}
+
+impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelNegIterator<T> {
+    #[inline]
+    pub fn new(d: uint) -> PelNegIterator<T> {
+        let x1y1 = solve_pel_neg(d);
+        let xy   = x1y1.clone();
+        PelNegIterator {
+            d: FromPrimitive::from_uint(d).unwrap(),
+            x1y1: x1y1, xy: xy
+        }
+    }
+}
+
+impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelNegIterator<T> {
+    #[inline]
+    fn next(&mut self) -> Option<(T, T)> {
+        let next = {
+            let ref d = self.d;
+            let (ref x1, ref y1) = self.x1y1;
+            let (ref xk, ref yk) = self.xy;
+            let (xk, yk) = ((*xk) * (*x1) + d * (*yk) * (*y1),
+                            (*yk) * (*x1) +     (*xk) * (*y1));
+            (xk * (*x1) + d * yk * (*y1),
+             yk * (*x1) +     xk * (*y1))
+        };
+
+        Some(util::replace(&mut self.xy, next))
     }
 }
 
@@ -205,4 +246,17 @@ mod test {
         test([2, 1, 2, 1, 1, 4, 1, 1, 6], (1264, 465));
         test([2, 1, 2, 1, 1, 4, 1, 1, 6, 1], (1457, 536));
     }
+
+    #[test]
+    fn test_solve_pel() {
+        assert_eq!(solve_pel(2), (3, 2));
+        assert_eq!(solve_pel(3), (2, 1));
+        assert_eq!(solve_pel(5), (9, 4));
+        assert_eq!(solve_pel(6), (5, 2));
+        assert_eq!(solve_pel(7), (8, 3));
+    }
+    #[test] #[should_fail]
+    fn test_solve_pel_1() { solve_pel::<uint>(1); }
+    #[test] #[should_fail]
+    fn test_solve_pel_4() { solve_pel::<uint>(4); }
 }

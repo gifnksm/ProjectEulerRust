@@ -5,9 +5,9 @@ extern mod extra;
 extern mod math;
 
 use std::from_str::FromStr;
-use std::num::{One, Zero};
+use std::num::One;
 use extra::bigint::BigUint;
-use math::cont_frac;
+use math::cont_frac::PelNegIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "756872327473";
 
@@ -21,22 +21,14 @@ pub static EXPECTED_ANSWER: &'static str = "756872327473";
 // s = (x + 1) / 2
 // b = (y + 1) / 2
 pub fn solve() -> ~str {
-    let one = One::one();
+    let one   = One::one();
     let limit = FromStr::from_str("1000000000000").unwrap();
-    let mut ans = Zero::zero();
-    cont_frac::each_pel_neg::<BigUint>(2, |x, y| {
-            if x.is_odd() && y.is_odd() {
-                let b = (*y + one) >> 1;
-                let s = (*x + one) >> 1;
-                if s > limit {
-                    ans = b;
-                    false
-                } else {
-                    true
-                }
-            } else {
-                true
-            }
-        });
-    ans.to_str()
+
+    PelNegIterator::<BigUint>::new(2)
+        .filter(|&(ref x, ref y)| x.is_odd() && y.is_odd())
+        .map(|(x, y)| ((x + one) >> 1, (y + one) >> 1))
+        .find(|&(ref x, ref _y)| ((*x) > limit))
+        .map(|(_x, y)| y)
+        .unwrap()
+        .to_str()
 }
