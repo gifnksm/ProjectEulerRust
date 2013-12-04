@@ -3,6 +3,7 @@
 
 extern mod extra;
 
+use std::util;
 use extra::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "153";
@@ -19,29 +20,28 @@ pub static EXPECTED_ANSWER: &'static str = "153";
 //  n[0] = 3, d[0] = 2
 //  n[i+1] = 2d[i] + n[i]
 //  d[i+1] = d[i] + n[i]
+struct Frac { nd: (BigUint, BigUint) }
 
-fn each_frac(f: |&BigUint, &BigUint| -> bool) -> bool {
-    let mut n = FromPrimitive::from_uint(3).unwrap();
-    let mut d = FromPrimitive::from_uint(2).unwrap();
-    let two: BigUint = FromPrimitive::from_uint(2).unwrap();
-    loop {
-        if !f(&n, &d) { return false; }
-        let new_n = two * d + n;
-        let new_d = n + d;
-        n = new_n;
-        d = new_d;
+impl Frac {
+    fn new() -> Frac {
+        Frac { nd: (FromPrimitive::from_uint(3).unwrap(), FromPrimitive::from_uint(2).unwrap()) }
+    }
+}
+
+impl Iterator<(BigUint, BigUint)> for Frac {
+    #[inline]
+    fn next(&mut self) -> Option<(BigUint, BigUint)> {
+        let next = {
+            let (ref n, ref d) = self.nd;
+            (((*d) << 1) + (*n), (*n) + (*d))
+        };
+        Some(util::replace(&mut self.nd, next))
     }
 }
 
 pub fn solve() -> ~str {
-    let mut i = 0;
-    let mut cnt = 0u;
-    each_frac(|n, d| {
-        i += 1;
-        let n_len = n.to_str().len();
-        let d_len = d.to_str().len();
-        if n_len > d_len { cnt += 1; }
-        i < 1000
-    });
-    return cnt.to_str();
+    Frac::new().take(1000)
+        .map(|(n, d)| (n.to_str().len(), d.to_str().len()))
+        .count(|(n_len, d_len)| n_len > d_len)
+        .to_str()
 }

@@ -6,8 +6,38 @@ extern mod math;
 use std::hashmap::HashMap;
 use std::iter::AdditiveIterator;
 use math::prime;
+use math::prime::PrimeIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "26033";
+
+fn concat_num(n: uint, m: uint) -> uint {
+    let mut d = 1;
+    while d <= m { d *= 10; }
+    n * d + m
+}
+
+struct ConcatPrimeIterator {
+    iter: PrimeIterator
+}
+
+impl ConcatPrimeIterator {
+    #[inline]
+    fn new() -> ConcatPrimeIterator { ConcatPrimeIterator { iter: prime::iter() } }
+}
+
+impl Iterator<(uint, ~[uint])> for ConcatPrimeIterator {
+    #[inline]
+    fn next(&mut self) -> Option<(uint, ~[uint])> {
+        let n = self.iter.next().unwrap();
+        let pairs = prime::iter()
+            .take_while(|&m| m <= n)
+            .filter(|&m| (n + m) % 3 != 0 && {
+                prime::contains(concat_num(n, m)) &&
+                    prime::contains(concat_num(m, n))
+            }).to_owned_vec();
+        Some((n, pairs))
+    }
+}
 
 fn union_vec(v1: &[uint], v2: &[uint]) -> ~[uint] {
     let mut result = ~[];
@@ -25,59 +55,47 @@ fn union_vec(v1: &[uint], v2: &[uint]) -> ~[uint] {
     result
 }
 
-fn find_chain(nums: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[uint]] {
-    if nums.is_empty() { return ~[ set ]; }
-
+fn find_chain(pairs: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[uint]] {
     let mut result = ~[];
 
-    for &n in nums.iter() {
-        let union_nums = union_vec(nums, *map.find(&n).unwrap());
-        result.push_all(find_chain(union_nums, ~[n] + set, map));
+    for (i, &p) in pairs.iter().enumerate() {
+        let union_pairs = union_vec(pairs.slice(0, i), *map.find(&p).unwrap());
+        if union_pairs.is_empty() {
+            result.push(~[p] + set);
+        } else {
+            result.push_all(find_chain(union_pairs, ~[p] + set, map));
+        }
     }
 
     result
 }
 
-fn each_pair_set(map: &mut HashMap<uint, ~[uint]>, f: |&[uint]| -> bool) -> bool {
-    for n in prime::iter() {
-        let mut pairs = ~[];
+pub fn solve() -> ~str {
+    let len = 5;
+    let mut map = HashMap::new();
 
-        let n_str = n.to_str();
-        for m in prime::iter() {
-            if m > n { break; }
-            let m_str = m.to_str();
-
-            let nm = from_str(n_str + m_str).unwrap();
-            if !prime::contains(nm) { continue }
-
-            let mn = from_str(m_str + n_str).unwrap();
-            if !prime::contains(mn) { continue }
-
-            pairs.push(m);
+    for (n, pairs) in ConcatPrimeIterator::new() {
+        if pairs.len() >= len {
+            let sets = find_chain(pairs, ~[n], &map);
+            for set in sets.iter() {
+                if set.len() >= len {
+                    return set.iter().map(|&x| x).sum().to_str();
+                }
+            }
         }
-
-        let chain = find_chain(pairs, ~[n], map);
-        for cs in chain.iter() {
-            if !f(*cs) { return false; }
-        }
-
         map.insert(n, pairs);
     }
+
     unreachable!();
 }
 
-pub fn solve() -> ~str {
-    let mut map = HashMap::<uint, ~[uint]>::new();
-
-    let mut sum = 0;
-    each_pair_set(&mut map, |set| {
-        if set.len() >= 5 {
-            sum = set.iter().map(|&x| x).sum();
-            false
-        } else {
-            true
-        }
-    });
-    sum.to_str()
+#[cfg(test)]
+mod test {
+    use super::concat_num;
+    #[test]
+    fn test_concat_num() {
+        assert_eq!(12345, concat_num(123, 45));
+        assert_eq!(123, concat_num(123, 0));
+        assert_eq!(123, concat_num(0, 123));
+    }
 }
-

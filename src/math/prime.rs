@@ -12,6 +12,7 @@ static PRIMES_BELOW100: &'static [uint] = &[
 
 static TASK_PRIME_KEY: Key<~[uint]> = &Key;
 
+#[inline]
 fn with_task_prime<T>(f: proc(&mut ~[uint]) -> T) -> T {
     let mut nums = match local_data::pop(TASK_PRIME_KEY) {
         Some(x) => x,
@@ -68,7 +69,7 @@ pub fn nth(i: uint) -> uint {
     }
 }
 
-struct PrimeIterator {
+pub struct PrimeIterator {
     priv idx: uint
 }
 
