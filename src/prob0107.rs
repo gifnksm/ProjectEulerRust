@@ -16,7 +16,7 @@ pub static EXPECTED_ANSWER: &'static str = "259679";
 pub fn solve() -> ~str {
     let size = 40;
     let mut br = BufferedReader::new(
-        File::open(&Path::new("files/network.txt")).expect("file not found."));
+        File::open(&Path::init("files/network.txt")).expect("file not found."));
 
     let mut verts = ~[];
     for (i, line) in br.line_iter().enumerate() {
