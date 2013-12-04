@@ -3,7 +3,7 @@
 
 extern mod extra;
 
-use std::uint;
+use std::cmp;
 use std::num::Zero;
 use extra::bigint::BigUint;
 
@@ -43,7 +43,7 @@ pub fn solve() -> ~str {
             //     let d = char::to_digit(c, 10);
             //     sum += d.get();
             // }
-            max = uint::max(max, sum);
+            max = cmp::max(max, sum);
         });
     }
 

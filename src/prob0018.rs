@@ -1,9 +1,7 @@
 #[link(name = "prob0018", vers = "0.0", package_id = "prob0018")];
 #[crate_type = "lib"];
 
-
-
-use std::uint;
+use std::cmp;
 
 pub static EXPECTED_ANSWER: &'static str = "1074";
 
@@ -30,7 +28,7 @@ pub fn solve() -> ~str {
     let last = TRIANGLE.last();
     let answer = init.rev_iter().fold(last.to_owned(), |mut total, elm| {
         for (i, &e) in elm.iter().enumerate() {
-            total[i] = e + uint::max(total[i], total[i + 1]);
+            total[i] = e + cmp::max(total[i], total[i + 1]);
         }
         total
     });

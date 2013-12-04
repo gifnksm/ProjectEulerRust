@@ -3,7 +3,7 @@
 
 extern mod prob0081;
 
-use std::{uint, vec};
+use std::{cmp, uint, vec};
 
 pub static EXPECTED_ANSWER: &'static str = "260324";
 
@@ -19,13 +19,13 @@ pub fn solve() -> ~str {
             let mut s = 0;
             for dy in range(1, y) {
                 s += mat[y - dy][x];
-                min = uint::min(sum[y - dy][x - 1] + s, min);
+                min = cmp::min(sum[y - dy][x - 1] + s, min);
             }
 
             let mut s = 0;
             for dy in range(1, h - y) {
                 s += mat[y + dy][x];
-                min = uint::min(sum[y + dy][x - 1] + s, min);
+                min = cmp::min(sum[y + dy][x - 1] + s, min);
             }
 
             sum[y][x] = mat[y][x] + min;
@@ -33,7 +33,7 @@ pub fn solve() -> ~str {
     }
     let mut min = uint::max_value;
     for y in range(0, h) {
-        min = uint::min(sum[y][w - 1], min);
+        min = cmp::min(sum[y][w - 1], min);
     }
     min.to_str()
 }

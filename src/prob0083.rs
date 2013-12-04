@@ -3,7 +3,7 @@
 
 extern mod prob0081;
 
-use std::{vec, uint};
+use std::{cmp, vec, uint};
 use std::hashmap::HashSet;
 
 pub static EXPECTED_ANSWER: &'static str = "425185";
@@ -53,13 +53,13 @@ pub fn solve() -> ~str {
             if closed.contains(&pt) {
                 if new_dist < dist[pt.y][pt.x] {
                     closed.remove(&pt);
-                    dist[pt.y][pt.x] = uint::min(dist[pt.y][pt.x], new_dist);
+                    dist[pt.y][pt.x] = cmp::min(dist[pt.y][pt.x], new_dist);
                     parent[pt.y][pt.x] = min_pt;
                     open.insert(pt);
                 }
                 continue
             }
-            dist[pt.y][pt.x] = uint::min(dist[pt.y][pt.x], new_dist);
+            dist[pt.y][pt.x] = cmp::min(dist[pt.y][pt.x], new_dist);
             parent[pt.y][pt.x] = min_pt;
             open.insert(pt);
         }

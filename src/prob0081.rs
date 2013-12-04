@@ -3,7 +3,7 @@
 
 extern mod common;
 
-use std::{uint, vec};
+use std::{cmp, vec};
 use std::io::buffered::BufferedReader;
 use std::io::File;
 use common::reader::BufferedReaderUtil;
@@ -32,7 +32,7 @@ pub fn solve() -> ~str {
     for x in range(1, w) {
         sum[0][x] = mat[0][x] + sum[0][x - 1];
         for y in range(1, h) {
-            sum[y][x] = mat[y][x] + uint::min(sum[y - 1][x], sum[y][x - 1]);
+            sum[y][x] = mat[y][x] + cmp::min(sum[y - 1][x], sum[y][x - 1]);
         }
     }
     sum[h - 1][w - 1].to_str()

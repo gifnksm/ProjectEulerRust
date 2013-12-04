@@ -3,7 +3,7 @@
 
 extern mod math;
 
-use std::uint;
+use std::cmp;
 use math::sequence;
 
 pub static EXPECTED_ANSWER: &'static str = "1818";
@@ -17,7 +17,7 @@ fn get_count(m: uint) -> uint {
             }
 
             for k in range(1, m / p + 1) {
-                let end = uint::min(k * p, k * q / 2) + 1;
+                let end = cmp::min(k * p, k * q / 2) + 1;
                 let start = k * q - k * p;
                 if end > start { cnt += end - start; }
             }

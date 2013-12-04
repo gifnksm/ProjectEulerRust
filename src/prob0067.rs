@@ -2,7 +2,7 @@
 #[crate_type = "lib"];
 
 extern mod common;
-use std::{uint, vec};
+use std::{cmp, vec};
 use std::io::buffered::BufferedReader;
 use std::io::File;
 use common::reader::BufferedReaderUtil;
@@ -21,7 +21,7 @@ pub fn solve() -> ~str {
     let last = triangle.last();
     init.rev_iter().fold(last.to_owned(), |prev, elem| {
             vec::from_fn(elem.len(), |i| {
-                    elem[i] + uint::max(prev[i], prev[i + 1])
+                    elem[i] + cmp::max(prev[i], prev[i + 1])
                 })
         })[0].to_str()
 }

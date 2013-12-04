@@ -3,7 +3,7 @@
 
 extern mod math;
 
-use std::uint;
+use std::cmp;
 use std::hashmap::HashMap;
 use math::arith;
 
@@ -18,7 +18,7 @@ pub fn solve() -> ~str {
     let mut map = HashMap::<uint, uint>::new();
 
     for m in range(1, (arith::isqrt(1 + limit) - 1) / 2) {
-        for n in range(1, uint::min(1 + limit / (2 * m) - m, m)) {
+        for n in range(1, cmp::min(1 + limit / (2 * m) - m, m)) {
             if (m - n) % 2 == 0 { continue }
             if m.gcd(&n) != 1 { continue }
             let (a, b, c) = (m * m - n * n, 2 * m * n, m * m + n * n);

@@ -1,5 +1,5 @@
 use std::num::{Zero, One};
-use std::{util, uint};
+use std::{cmp, util, uint};
 use extra::bitv::BitvSet;
 
 pub enum Step<T> { Plus(T), Minus(T) }
@@ -86,7 +86,7 @@ impl Area2DIterator {
         Area2DIterator {
             cur: (x0, y0),
             dv: (dx, dy),
-            cnt: uint::min(get_cnt(x0, dx, x_min, x_max), get_cnt(y0, dy, y_min, y_max))
+            cnt: cmp::min(get_cnt(x0, dx, x_min, x_max), get_cnt(y0, dy, y_min, y_max))
         }
     }
 
