@@ -190,7 +190,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
 pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
-        File::open(&Path::init("files/sudoku.txt")).expect("file not found."));
+        File::open(&Path::new("files/sudoku.txt")).expect("file not found."));
 
     let mut puzzles = ~[];
     while !br.eof() { puzzles.push(read_sudoku(&mut br)); }

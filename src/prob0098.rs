@@ -36,7 +36,7 @@ fn is_square(n: uint) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let mut reader = File::open(&Path::init("files/words.txt")).expect("file not found.");
+    let mut reader = File::open(&Path::new("files/words.txt")).expect("file not found.");
     let input = str::from_utf8_owned(reader.read_to_end());
 
     let result = reader::read_whole_word(input).map(|words| {
