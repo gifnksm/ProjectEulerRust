@@ -1,4 +1,3 @@
-#[link(name = "prob0053", vers = "0.0", package_id = "prob0053")];
 #[crate_type = "lib"];
 
 pub static EXPECTED_ANSWER: &'static str = "4075";

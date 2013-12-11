@@ -1,4 +1,3 @@
-#[link(name = "prob0101", vers = "0.0", package_id = "prob0101")];
 #[crate_type = "lib"];
 
 extern mod extra;

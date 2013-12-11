@@ -1,4 +1,3 @@
-#[link(name = "prob0091", vers = "0.0", package_id = "prob0091")];
 #[crate_type = "lib"];
 
 use std::cmp;

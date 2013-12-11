@@ -1,4 +1,4 @@
-#[link(name = "data", vers = "0.0", package_id = "data")];
+#[pkgid="data"];
 #[crate_type = "lib"];
 
 #[feature(globs)];

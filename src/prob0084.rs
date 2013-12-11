@@ -1,4 +1,3 @@
-#[link(name = "prob0084", vers = "0.0", package_id = "prob0084")];
 #[crate_type = "lib"];
 
 #[feature(globs)];

@@ -1,4 +1,3 @@
-#[link(name = "prob0104", vers = "0.0", package_id = "prob0104")];
 #[crate_type = "lib"];
 
 use std::iter::Unfold;

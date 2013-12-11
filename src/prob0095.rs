@@ -1,4 +1,3 @@
-#[link(name = "prob0095", vers = "0.0", package_id = "prob0095")];
 #[crate_type = "lib"];
 
 use std::{iter, vec};
