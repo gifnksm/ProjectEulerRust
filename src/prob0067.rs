@@ -4,7 +4,6 @@ extern mod common;
 use std::{cmp, vec};
 use std::io::buffered::BufferedReader;
 use std::io::File;
-use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "7273";
 
@@ -12,7 +11,7 @@ pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/triangle.txt")).expect("file not found."));
 
-    let triangle = br.line_iter()
+    let triangle = br.lines()
         .filter(|line| !line.is_empty())
         .map(|line| line.words().filter_map(from_str::<uint>).to_owned_vec())
         .to_owned_vec();

@@ -4,24 +4,11 @@ use std::io::buffered::BufferedReader;
 use std::str;
 
 trait BufferedReaderUtil<R> {
-    fn line_iter<'a>(&'a mut self) -> ReaderLineIterator<'a, R>;
     fn sep_iter<'a>(&'a mut self, c: u8) -> ReaderSplitIterator<'a, R>;
 }
 impl<R> BufferedReaderUtil<R> for BufferedReader<R> {
-    fn line_iter<'a>(&'a mut self) -> ReaderLineIterator<'a, R> {
-        ReaderLineIterator { reader: self }
-    }
     fn sep_iter<'a>(&'a mut self, c: u8) -> ReaderSplitIterator<'a, R> {
         ReaderSplitIterator { reader: self, c: c }
-    }
-}
-
-struct ReaderLineIterator<'a, R> {
-    priv reader: &'a mut BufferedReader<R>
-}
-impl<'a, R: Reader> Iterator<~str> for ReaderLineIterator<'a, R> {
-    fn next(&mut self) -> Option<~str> {
-        self.reader.read_line()
     }
 }
 

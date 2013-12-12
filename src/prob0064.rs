@@ -15,4 +15,3 @@ pub fn solve() -> ~str {
     }
     return cnt.to_str();
 }
-

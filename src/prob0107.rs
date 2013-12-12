@@ -7,7 +7,6 @@ extern mod common;
 use std::io::buffered::BufferedReader;
 use std::io::File;
 use extra::sort;
-use common::reader::BufferedReaderUtil;
 use data::union_find::UnionFind;
 
 pub static EXPECTED_ANSWER: &'static str = "259679";
@@ -18,7 +17,7 @@ pub fn solve() -> ~str {
         File::open(&Path::new("files/network.txt")).expect("file not found."));
 
     let mut verts = ~[];
-    for (i, line) in br.line_iter().enumerate() {
+    for (i, line) in br.lines().enumerate() {
         for (j, s) in line.trim().split(',').enumerate() {
             let n = from_str::<uint>(s);
             if i < j && n.is_some() {

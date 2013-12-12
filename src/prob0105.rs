@@ -8,7 +8,6 @@ use std::io::buffered::BufferedReader;
 use std::io::File;
 use std::iter::AdditiveIterator;
 use extra::sort::Sort;
-use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "73702";
 
@@ -49,7 +48,7 @@ pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/sets.txt")).expect("file not found."));
 
-    br.line_iter()
+    br.lines()
         .map(|line| {
             line.trim()
                 .split(',')

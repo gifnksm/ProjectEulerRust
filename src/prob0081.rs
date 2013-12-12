@@ -5,7 +5,6 @@ extern mod common;
 use std::{cmp, vec};
 use std::io::buffered::BufferedReader;
 use std::io::File;
-use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "427337";
 
@@ -13,7 +12,7 @@ pub fn read_matrix(filename: &str) -> (uint, uint, ~[~[uint]]) {
     let mut br = BufferedReader::new(File::open(&Path::new(filename)).expect("file not found."));
 
     let mut mat = ~[];
-    for line in br.line_iter() {
+    for line in br.lines() {
         mat.push(line.trim().split(',').filter_map(from_str::<uint>).to_owned_vec());
         assert_eq!(mat[0].len(), mat.last().len());
     }

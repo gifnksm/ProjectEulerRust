@@ -3,10 +3,9 @@
 extern mod common;
 extern mod data;
 
-use std::{iter, vec};
+use std::vec;
 use std::io::File;
 use std::io::buffered::BufferedReader;
-use common::reader::BufferedReaderUtil;
 use data::card::Card;
 
 pub static EXPECTED_ANSWER: &'static str = "376";
@@ -215,10 +214,10 @@ pub fn solve() -> ~str {
     let mut p1_win = 0u;
     let mut _p2_win = 0u;
     let mut _draw = 0u;
-    for line in br.line_iter() {
+    for line in br.lines() {
         let mut p1_cards = [ Card::dummy(), ..5 ];
         let mut p2_cards = [ Card::dummy(), ..5 ];
-        for (word, i) in line.words().zip(iter::count(0u, 1)) {
+        for (i, word) in line.words().enumerate() {
             let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
             cards[i % 5] = FromStr::from_str(word).unwrap();
         }

@@ -6,7 +6,6 @@ use std::uint;
 use std::iter::AdditiveIterator;
 use std::io::buffered::BufferedReader;
 use std::io::File;
-use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "743";
 
@@ -66,9 +65,10 @@ fn to_roman(mut n: uint) -> ~str {
 pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/roman.txt")).expect("file not found."));
-    br.line_iter()
-        .map(|line| line.trim().to_owned())
-        .map(|line| line.len() - to_roman(from_roman(line).unwrap()).len())
-        .sum()
+    br.lines()
+        .map(|line| {
+            let line = line.trim();
+            line.len() - to_roman(from_roman(line).unwrap()).len()
+        }).sum()
         .to_str()
 }

@@ -4,8 +4,6 @@ extern mod common;
 
 use std::io::buffered::BufferedReader;
 use std::io::File;
-use common::reader::BufferedReaderUtil;
-
 
 pub static EXPECTED_ANSWER: &'static str = "228";
 
@@ -51,7 +49,7 @@ pub fn solve() -> ~str {
         File::open(&Path::new("files/triangles.txt")).expect("file not found."));
 
     let mut cnt = 0u;
-    for line in br.line_iter() {
+    for line in br.lines() {
         let ns = line
             .trim()
             .split(',')
