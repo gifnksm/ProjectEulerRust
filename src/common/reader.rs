@@ -16,20 +16,20 @@ impl<R> BufferedReaderUtil<R> for BufferedReader<R> {
     }
 }
 
-struct ReaderLineIterator<'self, R> {
-    priv reader: &'self mut BufferedReader<R>
+struct ReaderLineIterator<'a, R> {
+    priv reader: &'a mut BufferedReader<R>
 }
-impl<'self, R: Reader> Iterator<~str> for ReaderLineIterator<'self, R> {
+impl<'a, R: Reader> Iterator<~str> for ReaderLineIterator<'a, R> {
     fn next(&mut self) -> Option<~str> {
         self.reader.read_line()
     }
 }
 
-struct ReaderSplitIterator<'self, R> {
-    priv reader: &'self mut BufferedReader<R>,
+struct ReaderSplitIterator<'a, R> {
+    priv reader: &'a mut BufferedReader<R>,
     priv c: u8
 }
-impl<'self, R: Reader> Iterator<~str> for ReaderSplitIterator<'self, R> {
+impl<'a, R: Reader> Iterator<~str> for ReaderSplitIterator<'a, R> {
     fn next(&mut self) -> Option<~str> {
         if self.reader.eof() {
             None

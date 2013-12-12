@@ -23,12 +23,12 @@ pub fn num_of_permutations<T: Eq + Hash>(hist: &HashMap<T, uint>) -> uint {
     return factorial(sum) / div;
 }
 
-pub struct CombinateIterator<'self, T> {
-    priv all_elems: &'self [T],
+pub struct CombinateIterator<'a, T> {
+    priv all_elems: &'a [T],
     priv next_idx:  ~[uint]
 }
 
-impl<'self, T> CombinateIterator<'self, T> {
+impl<'a, T> CombinateIterator<'a, T> {
     pub fn new<'a>(all_elems: &'a [T], len: uint) -> CombinateIterator<'a, T> {
         let next_idx = vec::from_fn(len, |i| i);
 
@@ -39,8 +39,8 @@ impl<'self, T> CombinateIterator<'self, T> {
     }
 }
 
-impl<'self, T> Iterator<~[&'self T]> for CombinateIterator<'self, T> {
-    fn next(&mut self) -> Option<~[&'self T]> {
+impl<'a, T> Iterator<~[&'a T]> for CombinateIterator<'a, T> {
+    fn next(&mut self) -> Option<~[&'a T]> {
         let comb_len = self.next_idx.len();
         let num_elem = self.all_elems.len();
 

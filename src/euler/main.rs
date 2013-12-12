@@ -42,13 +42,13 @@ fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
     println!("] {:5} {:13} {:20}", name, nanosec_to_str(time), comp_answer);
 }
 
-struct ArgIterator<'self> {
-    args: &'self [~str],
+struct ArgIterator<'a> {
+    args: &'a [~str],
     idx: uint,
     cur_range: Range<uint>,
 }
 
-impl<'self> ArgIterator<'self> {
+impl<'a> ArgIterator<'a> {
     pub fn new<'a>(args: &'a [~str]) -> ArgIterator<'a> {
         let mut it = ArgIterator { args: args, idx: 0, cur_range: range(0u, 0) };
         it.update_range();
@@ -80,7 +80,7 @@ impl<'self> ArgIterator<'self> {
     }
 }
 
-impl<'self> Iterator<uint> for ArgIterator<'self> {
+impl<'a> Iterator<uint> for ArgIterator<'a> {
     fn next(&mut self) -> Option<uint> {
         loop {
             if self.idx >= self.args.len() { return None; }

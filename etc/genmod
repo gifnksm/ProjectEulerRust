@@ -16,9 +16,9 @@ def main():
         print("extern mod %s;" % mod)
 
     print("""
-pub struct Problem<'self> {
+pub struct Problem<'a> {
     id: uint,
-    answer: &'self str,
+    answer: &'a str,
     solve: extern fn() -> ~str
 }
 
