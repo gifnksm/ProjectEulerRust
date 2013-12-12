@@ -70,40 +70,6 @@ pub fn trans_mat(m: &[~[f64]]) -> ~[~[f64]] {
     create_mat(m[0].len(), m.len(), |i, j| { m[j][i] })
 }
 
-fn print_mat(mat: &[~[f64]]) {
-    print("     ");
-    for j in range(0, mat[0].len()) {
-        print!(" {:-4?} ", Square::from_uint(j % NUM_SQUARE));
-    }
-    println("");
-    for i in range(0, mat.len()) {
-        let mut sum = 0.0;
-        print!("{:-4?} ", Square::from_uint(i % NUM_SQUARE));
-        for j in range(0, mat[i].len()) {
-            if mat[i][j] == 0.0 {
-                print("0     ");
-            } else{
-                print!("{:.3} ", mat[i][j]);
-            }
-            sum += mat[i][j];
-        }
-        println!("| {:.3}", sum);
-    }
-
-    print("     ");
-    mat[0].len().times(|| print("----- "));
-    println("");
-    print("     ");
-    for j in range(0, mat[0].len()) {
-        let mut sum = 0.0;
-        for i in range(0, mat.len()) {
-            sum += mat[i][j];
-        }
-        print!("{:.3} ", sum);
-    }
-    println("");
-}
-
 fn create_roll_map(dice_side: uint) -> ~[(f64, f64)] {
     let mut map = vec::from_elem(dice_side * 2 + 1, (0, 0));
     for i in range(1, dice_side + 1) {

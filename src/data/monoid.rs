@@ -282,11 +282,6 @@ mod tests {
         assert_eq!(mconcat([~"", ~"abc", ~"d", ~"e"]), ~"abcde");
     }
 
-    fn to_sum <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Sum<U>)  { (tp.n0_ref().clone(), Sum(tp.n1_ref().clone())) }
-    fn to_prod<T: Clone, U: Clone>(tp: &(T, U)) -> (T, Prod<U>) { (tp.n0_ref().clone(), Prod(tp.n1_ref().clone())) }
-    fn to_max <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Max<U>)  { (tp.n0_ref().clone(), Max(tp.n1_ref().clone())) }
-    fn to_min <T: Clone, U: Clone>(tp: &(T, U)) -> (T, Min<U>)  { (tp.n0_ref().clone(), Min(tp.n1_ref().clone())) }
-
     #[test]
     fn test_merge_monoid_iterator() {
         fn check<M: Monoid + Wrap<int> + Eq>(v1: &[(int, int)],

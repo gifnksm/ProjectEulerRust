@@ -60,10 +60,10 @@ impl IdxValueMap {
         let min_idx = last.max_idx + 1;
         let max_idx = last.max_idx + (max_val - min_val + 1) * num_digit;
         self.area.push(Area {
-            num_digit: num_digit,
-            min_val: min_val, max_val: max_val,
-            min_idx: min_idx, max_idx: max_idx
-        });
+                num_digit: num_digit,
+                min_val: min_val, max_val: max_val,
+                min_idx: min_idx, max_idx: max_idx
+            });
     }
 
     fn each_area(&mut self, f: |Area| -> bool) -> bool {
@@ -79,20 +79,16 @@ impl IdxValueMap {
     fn get_area_by_idx(&mut self, idx: uint) -> Area {
         let mut found = None;
         self.each_area(|area| {
-            if area.min_idx <= idx && idx <= area.max_idx {
-                found = Some(area);
-                false
-            } else {
-                true
-            }
-        });
+                if area.min_idx <= idx && idx <= area.max_idx {
+                    found = Some(area);
+                    false
+                } else {
+                    true
+                }
+            });
         found.unwrap()
     }
 
-    pub fn get_value_by_idx(&mut self, idx: uint) -> uint {
-        let area = self.get_area_by_idx(idx);
-        return area.min_val + ((idx - area.min_idx) / area.num_digit);
-   }
     pub fn get_digit_by_idx(&mut self, idx: uint) -> uint {
         let area = self.get_area_by_idx(idx);
         let val  = area.min_val + ((idx - area.min_idx) / area.num_digit);

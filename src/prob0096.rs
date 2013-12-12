@@ -1,9 +1,8 @@
 #[crate_type = "lib"];
 
-use std::{char, iter, vec};
+use std::{char, iter};
 use std::io::buffered::BufferedReader;
 use std::io::File;
-use std::num::ToStrRadix;
 
 pub static EXPECTED_ANSWER: &'static str = "24702";
 
@@ -63,23 +62,6 @@ impl SuDoku {
             1 => self.map[y][x].trailing_zeros() + 1,
             _ => 0
         }
-    }
-
-    fn to_str_debug(&self) -> ~str {
-        let row_strs = vec::build(Some(BOARD_HEIGHT), |push| {
-            for y in range(0, BOARD_HEIGHT) {
-                let cell_strs = vec::build(Some(BOARD_WIDTH), |push| {
-                    for x in range(0, BOARD_WIDTH) {
-                        let s = self.map[y][x].to_str_radix(2);
-                        push(format!("{}:{}",
-                                     self.get_num(x, y).to_str(),
-                                     "0".repeat(MAX_NUMBER - s.len()) + s).replace("0", "_"));
-                    }
-                });
-                push(cell_strs.connect(" "));
-            }
-        });
-        self.name + "\n" + row_strs.connect("\n")
     }
 }
 

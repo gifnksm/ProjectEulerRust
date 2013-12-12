@@ -24,7 +24,9 @@ fn is_decreasing_with<T: Iterator<uint>>(mut ds: T, mut prev: uint) -> bool {
     }
     true
 }
+#[cfg(test)]
 fn is_increasing<T: Iterator<uint>>(ds: T) -> bool { is_increasing_with(ds, 0) }
+#[cfg(test)]
 fn is_decreasing<T: Iterator<uint>>(ds: T) -> bool { is_decreasing_with(ds, std::uint::max_value) }
 
 fn is_bouncy<T: Iterator<uint>>(mut ds: T) -> bool {
