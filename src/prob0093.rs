@@ -6,7 +6,6 @@ extern mod math;
 
 use std::iter;
 use std::num::Zero;
-use std::hashmap::HashSet;
 use extra::rational::{Rational, Ratio};
 use common::calc;
 use math::numconv;
@@ -16,7 +15,7 @@ pub static EXPECTED_ANSWER: &'static str = "1258";
 enum Op { Add, Sub, Mul, Div }
 
 #[inline(always)]
-fn each_numseq(f: |&[Rational]| -> bool) -> bool {
+fn each_numseq(f: |&[Rational]|) {
     for a in range(1, 10) {
         let ra = Ratio::from_integer(a);
         for b in range(a + 1, 10) {
@@ -25,63 +24,59 @@ fn each_numseq(f: |&[Rational]| -> bool) -> bool {
                 let rc = Ratio::from_integer(c);
                 for d in range(c + 1, 10) {
                     let rd = Ratio::from_integer(d);
-                    if !f(&[ra, rb, rc, rd]) { return false; }
+                    f(&[ra, rb, rc, rd]);
                 }
             }
         }
     }
-    return true;
 }
 
 #[inline(always)]
-fn each_opseq(f: |&[Op]| -> bool) -> bool {
+fn each_opseq(f: |&[Op]|) {
     let ops = ~[ Add, Sub, Mul, Div ];
     for i1 in range(0, ops.len()) {
         for i2 in range(0, ops.len()) {
             for i3 in  range(0, ops.len()) {
-                if !f(&[ops[i1], ops[i2], ops[i3]]) { return false; }
+                f(&[ops[i1], ops[i2], ops[i3]]);
             }
         }
     }
-    return true;
 }
 
-fn each_value(num: &[Rational], op: &[Op], f: |Rational| -> bool) -> bool {
+fn each_value(num: &[Rational], op: &[Op], f: |Rational|) {
     assert_eq!(num.len() - 1, op.len());
-    if num.len() == 1 { return f(num[0]); }
+    if num.len() == 1 { f(num[0]); return }
 
     calc::combinate(num, 1, |v1, rest| {
-        let a = v1[0];
-        each_value(rest, op.tailn(1), |b| {
-            match op[0] {
-                Add => { f(a + b) }
-                Mul => { f(a * b) }
-                Sub => {
-                    f(a - b) && f(b - a)
-                }
-                Div => {
-                    (b.is_zero() || f(a / b)) && (a.is_zero() || f(b / a))
-                }
-            }
-        })
-    })
+            let a = v1[0];
+            each_value(rest, op.tailn(1), |b| {
+                    match op[0] {
+                        Add => { f(a + b) }
+                        Mul => { f(a * b) }
+                        Sub => { f(a - b); f(b - a) }
+                        Div => {
+                            if !b.is_zero() { f(a / b) }
+                            if !a.is_zero() { f(b / a) }
+                        }
+                    }
+                });
+            true
+    });
 }
 
 fn count_seqlen(nums: &[Rational]) -> uint {
-    let mut set = HashSet::new();
+    let mut set = [false, .. 10000];
 
     each_opseq(|ops| {
         each_value(nums, ops, |n| {
             if n.is_integer() && n.numer().is_positive() {
-                set.insert(n.to_integer() as uint);
+                        set[n.to_integer()] = true;
             }
-            true
         });
-        true
     });
 
     iter::count(1u, 1)
-        .take_while(|&i| set.contains(&i))
+        .take_while(|&i| set[i])
         .last()
         .unwrap_or(Zero::zero())
 }
@@ -96,7 +91,6 @@ pub fn solve() -> ~str {
             let ds = nums.rev_iter().map(|r| r.to_integer() as uint).to_owned_vec();
             max_seq = numconv::from_digits(ds, 10).to_str();
         }
-        true
     });
 
     return max_seq;

@@ -1,58 +1,36 @@
 #[crate_type = "lib"];
 
-use std::hashmap::HashMap;
+use std::iter;
 
 pub static EXPECTED_ANSWER: &'static str = "55374";
 
 static MILLION: int = 1000000;
 
-#[inline(always)]
+#[inline]
 fn penta(n: int) -> int { n * (3 * n - 1) / 2 }
 
-#[inline(always)]
-fn each_penta(f: |int| -> bool) -> bool {
-    let mut i = 1;
-    loop {
-        if !f(penta(i)) { return false; }
-        if !f(penta(-i)) { return false; }
-        i += 1;
-    }
-}
-
-#[inline(always)]
-fn each_way(f: |int, int| -> bool) -> bool {
-    let mut v = HashMap::new();
-    v.insert(0, 1);
-
-    let mut n = 1;
-    loop {
-        let mut way = 0;
-        let mut i = 0;
-        each_penta(|p| {
-            if p > n { false } else {
-                let sign = if i % 4 > 1 { -1 } else { 1 };
-                way += sign * *v.get(&(n - p));
-                way %= MILLION;
-                i += 1;
-                true
-            }
-        });
-
-        if !f((n + MILLION) % MILLION, way) { return false; }
-        v.insert(n, way);
-        n += 1;
-    }
-}
-
 pub fn solve() -> ~str {
-    let mut ans = 0;
-    each_way(|n, way| {
-        if way % MILLION == 0 {
-            ans = n;
-            false
-        } else {
-            true
+    let mut v = [0, ..65536];
+    v[0] = 1;
+
+    for n in iter::count(1, 1) {
+        let mut way = 0;
+        for i in iter::count(0, 1) {
+            let k = i % 4;
+            let p = if k == 0 || k == 2 { penta(i / 2 + 1) } else { penta(-i / 2 - 1) };
+            if p > n { break; }
+
+            way = match k {
+                0 => way + v[n - p],
+                1 => way + v[n - p],
+                2 => way - v[n - p],
+                _ => way - v[n - p]
+            } % MILLION
         }
-    });
-    ans.to_str()
+        v[n] = way;
+
+        if way == 0 { return n.to_str() }
+    }
+
+    unreachable!()
 }
