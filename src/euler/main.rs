@@ -26,20 +26,24 @@ fn bench<T>(f: proc() -> T) -> (u64, T) {
 }
 
 fn color_print<T: Writer>(writer: T, color: term::color::Color, s: &str) {
-    let mut term = Terminal::new(writer);
-    match term { Ok(ref mut t) => { t.fg(color); }, _ => {}}
-    print(s);
-    match term { Ok(ref mut t) => { t.reset(); }, _ => {}}
+    match Terminal::new(writer) {
+        Ok(ref mut term) => {
+            term.fg(color);
+            term.write(s.as_bytes());
+            term.reset();
+        }
+        Err(_) => { io::stdout().write(s.as_bytes()) }
+    }
 }
 
 fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
-    print("[");
+    write!(&mut io::stdout() as &mut Writer, "[");
     if correct {
         color_print(io::stdout(), term::color::GREEN, "OK");
     } else {
         color_print(io::stdout(), term::color::RED, "NG");
     }
-    println!("] {:5} {:13} {:20}", name, nanosec_to_str(time), comp_answer);
+    writeln!(&mut io::stdout() as &mut Writer, "] {:5} {:13} {:20}", name, nanosec_to_str(time), comp_answer);
 }
 
 struct ArgIterator<'a> {
@@ -76,7 +80,6 @@ impl<'a> ArgIterator<'a> {
         }
         if ns.len() > 2 { return; }
         self.cur_range = range(ns[0], ns[1] + 1);
-        println!("{:?}", ns);
     }
 }
 
