@@ -25,8 +25,7 @@ pub static EXPECTED_ANSWER: &'static str = "210";
 // 10 <= n <= 99     => i = 2 * (n - 10) + 10 = 2n - 10
 // 100 <= n <= 999   => i = 3 * (n - 100) + 2 * 100 - 10 = 3n - 110
 // 1000 <= n <= 9999 => i = 4 * (n - 1000) + 3 * 1000 - 110 = 4n - 1110
-//
-#[deriving(Clone)]
+
 struct Area {
     num_digit: uint,
     min_val: uint,
@@ -36,6 +35,7 @@ struct Area {
 }
 
 impl Area {
+    #[inline]
     pub fn new() -> Area {
         Area {
             num_digit: 0,
@@ -43,63 +43,68 @@ impl Area {
             min_idx: 0, max_idx: 0
         }
     }
-}
 
-struct IdxValueMap {
-    priv area: ~[Area]
-}
-
-impl IdxValueMap {
-    pub fn new() -> IdxValueMap { IdxValueMap { area: ~[ Area::new() ] } }
-
-    fn extend(&mut self) {
-        let last = self.area.last().clone();
-        let num_digit = last.num_digit + 1;
-        let min_val = last.max_val + 1;
-        let max_val = min_val * 10 - 1;
-        let min_idx = last.max_idx + 1;
-        let max_idx = last.max_idx + (max_val - min_val + 1) * num_digit;
-        self.area.push(Area {
-                num_digit: num_digit,
-                min_val: min_val, max_val: max_val,
-                min_idx: min_idx, max_idx: max_idx
-            });
+    #[inline]
+    pub fn contain_index(&self, idx: uint) -> bool {
+        self.min_idx <= idx && idx <= self.max_idx
     }
 
-    fn each_area(&mut self, f: |Area| -> bool) -> bool {
-        for i in range(0, self.area.len()) {
-            if !f(self.area[i]) { return false; }
-        }
-        loop {
-            self.extend();
-            if !f(*self.area.last()) { return false; }
+    #[inline]
+    pub fn next(&self) -> Area {
+        let num_digit = self.num_digit + 1;
+        let min_val   = self.max_val + 1;
+        let min_idx   = self.max_idx + 1;
+        Area {
+            num_digit: num_digit,
+            min_val: min_val,
+            max_val: min_val * 10 - 1,
+            min_idx: min_idx,
+            max_idx: min_idx + min_val * 9 * num_digit - 1
         }
     }
 
-    fn get_area_by_idx(&mut self, idx: uint) -> Area {
-        let mut found = None;
-        self.each_area(|area| {
-                if area.min_idx <= idx && idx <= area.max_idx {
-                    found = Some(area);
-                    false
-                } else {
-                    true
-                }
-            });
-        found.unwrap()
-    }
-
-    pub fn get_digit_by_idx(&mut self, idx: uint) -> uint {
-        let area = self.get_area_by_idx(idx);
-        let val  = area.min_val + ((idx - area.min_idx) / area.num_digit);
-        let ds = numconv::to_digits(val, 10).to_owned_vec();
-        return ds[ds.len() - 1 - (idx - area.min_idx) % area.num_digit];
+    #[inline]
+    pub fn get_nth_digit(&self, n: uint) -> uint {
+        let (d, r) = (n - self.min_idx).div_rem(&self.num_digit);
+        numconv::to_digits(self.min_val + d, 10).invert().nth(r).unwrap()
     }
 }
 
+struct AreaSeq<'a> {
+    seq: &'a mut ~[Area],
+    idx: uint
+}
+
+impl<'a> AreaSeq<'a> {
+    #[inline]
+    fn new(seq: &'a mut ~[Area]) -> AreaSeq<'a> {
+        AreaSeq { seq: seq, idx: 0 }
+    }
+}
+
+impl<'a> Iterator<Area> for AreaSeq<'a> {
+    #[inline]
+    fn next(&mut self) -> Option<Area> {
+        self.idx += 1;
+        self.seq.reserve(self.idx + 1);
+        while self.idx >= self.seq.len() {
+            let next = self.seq.last().next();
+            self.seq.push(next)
+        }
+        Some(self.seq[self.idx])
+    }
+}
 
 pub fn solve() -> ~str {
-    let mut map = IdxValueMap::new();
     let idx = &[ 1u, 10, 100, 1000, 10000, 100000, 1000000 ];
-    return idx.iter().map(|&i| map.get_digit_by_idx(i)).product().to_str();
+
+    let mut area_seq = ~[ Area::new() ];
+    idx.iter()
+        .map(|&n| {
+            AreaSeq::new(&mut area_seq)
+                .find(|area| area.contain_index(n))
+                .unwrap()
+                .get_nth_digit(n)
+        }).product()
+        .to_str()
 }
