@@ -25,8 +25,8 @@ fn bench<T>(f: proc() -> T) -> (u64, T) {
     return (end_time - start_time, result);
 }
 
-fn color_print<T: Writer>(writer: T, color: term::color::Color, s: &str) {
-    match Terminal::new(writer) {
+fn color_print(color: term::color::Color, s: &str) {
+    match Terminal::new(io::stdout()) {
         Ok(ref mut term) => {
             term.fg(color);
             term.write(s.as_bytes());
@@ -36,14 +36,23 @@ fn color_print<T: Writer>(writer: T, color: term::color::Color, s: &str) {
     }
 }
 
-fn print_result(correct: bool, name: &str, time: u64, comp_answer: &str) {
-    write!(&mut io::stdout() as &mut Writer, "[");
+fn print_result(name: &str, time: u64, comp_answer: &str, time_color: bool, correct: bool) {
+    let out = &mut io::stdout() as &mut Writer;
+    write!(out, "[");
     if correct {
-        color_print(io::stdout(), term::color::GREEN, "OK");
+        color_print(term::color::GREEN, "OK");
     } else {
-        color_print(io::stdout(), term::color::RED, "NG");
+        color_print(term::color::RED, "NG");
     }
-    writeln!(&mut io::stdout() as &mut Writer, "] {:5} {:13} {:20}", name, nanosec_to_str(time), comp_answer);
+    write!(out, "] {:5}", name);
+    if (time_color && time > 10 * NSEC_PER_SEC) {
+        color_print(term::color::RED, format!(" {:13}", nanosec_to_str(time)));
+    } else if time_color && time > NSEC_PER_SEC {
+        color_print(term::color::YELLOW, format!(" {:13}", nanosec_to_str(time)));
+    } else {
+        write!(out, " {:13}", nanosec_to_str(time));
+    }
+    writeln!(out, " {:20}", comp_answer);
 }
 
 struct ArgIterator<'a> {
@@ -106,7 +115,7 @@ fn solve_all<T: Iterator<&'static Problem<'static>>>(mut it: T) {
     for p in it {
         let (time, answer) = do bench { (p.solve)() };
         let correct = p.answer == answer;
-        print_result(correct, p.id.to_str(), time, answer);
+        print_result(p.id.to_str(), time, answer, true, correct);
 
         total_time += time;
         solve_cnt  += 1;
@@ -114,7 +123,8 @@ fn solve_all<T: Iterator<&'static Problem<'static>>>(mut it: T) {
     }
 
     if solve_cnt > 1 {
-        print_result(all_correct, "TOTAL", total_time, "");
+        print_result("AVG", total_time / solve_cnt, "", true, all_correct);
+        print_result("TOTAL", total_time, "", false, all_correct);
     }
 }
 
