@@ -1,5 +1,5 @@
 #[pkgid="common"];
-#[crate_type = "lib"];
+#[crate_type = "rlib"];
 
 #[feature(globs)];
 

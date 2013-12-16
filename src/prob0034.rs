@@ -1,4 +1,4 @@
-#[crate_type = "lib"];
+#[crate_type = "rlib"];
 
 pub static EXPECTED_ANSWER: &'static str = "40730";
 

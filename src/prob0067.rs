@@ -1,4 +1,4 @@
-#[crate_type = "lib"];
+#[crate_type = "rlib"];
 
 extern mod common;
 use std::{cmp, vec};

@@ -1,13 +1,11 @@
 UNAME=$(shell uname)
+LIBEXT=.rlib
 
 ifeq ($(OS), Windows_NT)
-LIBEXT=.dll
 EXEEXT=.exe
 else ifeq ($(UNAME), Linux)
-LIBEXT=.so
 EXEEXT=
 else ifeq ($(UNAME), Darwin)
-LIBEXT=.dylib
 EXEEXT=
 else
 $(error Unknown OS $(OS) or UNAME $(UNAME))
@@ -79,12 +77,12 @@ define gen_releaseexe
 endef
 define gen_debuglib
 	$(RM) $(patsubst %$(LIBEXT),%-*$(LIBEXT),$1)
-	rustc --lib --out-dir lib/debug $(RUSTC_DEBUG_FLAGS) $2
+	rustc --out-dir lib/debug $(RUSTC_DEBUG_FLAGS) $2
 	touch $1
 endef
 define gen_releaselib
 	$(RM) $(patsubst %$(LIBEXT),%-*$(LIBEXT),$1)
-	rustc --lib --out-dir lib/release $(RUSTC_RELEASE_FLAGS) $2
+	rustc --out-dir lib/release $(RUSTC_RELEASE_FLAGS) $2
 	touch $1
 endef
 define gen_testexe

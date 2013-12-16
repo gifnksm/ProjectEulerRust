@@ -1,4 +1,4 @@
-#[crate_type = "lib"];
+#[crate_type = "rlib"];
 
 use std::{iter, uint, vec};
 use std::iter::AdditiveIterator;
