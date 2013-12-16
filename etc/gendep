@@ -1,11 +1,25 @@
 #!/bin/sh
 
 find . -name '*.rs' | while read FILE; do
-    sed -n -e '/extra/!s| *extern  *mod  *\(.*\) *;$|'"${FILE}"': $(LIBDIR)/lib\1$(LIBEXT)|p' ${FILE};
-    echo "${FILE}: ${FILE}"
-done | sed -e '
-s|./src/\([^/\.]*\)[^:]*|\1|;
-/^euler: /!s|\(.*\): \(.*\)$|$(LIBDIR)/lib\1$(LIBEXT): \2\
-$(BINDIR)/\1.test$(EXEEXT): \2|;
-s|^euler: \(.*\)$|$(BINDIR)/euler$(EXEEXT): \1\
-$(BINDIR)/euler.test$(EXEEXT): \1|' | sort
+    TARGET=$(echo "${FILE}" | sed 's|./src/\([^/\.]*\)[^:]*|\1|')
+    if [ "${TARGET}" == "euler" ]; then
+        echo '$(call debugexe,euler): '"${FILE}"
+        echo '$(call releaseexe,euler): '"${FILE}"
+        echo '$(call testexe,euler): '"${FILE}"
+    else
+        echo '$(call debuglib,'"${TARGET}"'): '"${FILE}"
+        echo '$(call releaselib,'"${TARGET}"'): '"${FILE}"
+        echo '$(call testexe,'"${TARGET}"'): '"${FILE}"
+    fi
+    sed -n -e '/extra/!s| *extern  *mod  *\(.*\) *;$|\1|p' ${FILE} | while read CRATE; do
+        if [ "${TARGET}" == "euler" ]; then
+            echo '$(call debugexe,euler): $(call debuglib,'"${CRATE}"')'
+            echo '$(call releaseexe,euler): $(call releaselib,'"${CRATE}"')'
+            echo '$(call testexe,euler): $(call debuglib,'"${CRATE}"')'
+        else
+            echo '$(call debuglib,'"${TARGET}"'): $(call debuglib,'"${CRATE}"')'
+            echo '$(call releaselib,'"${TARGET}"'): $(call releaselib,'"${CRATE}"')'
+            echo '$(call testexe,'"${TARGET}"'): $(call debuglib,'"${CRATE}"')'
+        fi
+    done
+done | sort -u

@@ -13,112 +13,114 @@ else
 $(error Unknown OS $(OS) or UNAME $(UNAME))
 endif
 
-BINDIR=
-LIBDIR=
-
-VPATH=src
-
 EULER_SRC=src/euler/main.rs
 COMMON_SRC=src/common/lib.rs
 DATA_SRC=src/data/lib.rs
 MATH_SRC=src/math/lib.rs
 PROB_SRC=$(sort $(wildcard src/prob*.rs))
 MOD_SRC=src/euler/problem.rs
-ALL_SRC=$(EULER_SRC) $(COMMON_SRC) $(DATA_SRC) $(MATH_SRC) $(PROB_SRC) $(MOD_SRC)
+ALL_SRC=$(wildcard src/*.rs) $(wildcard src/*/*.rs)
 
 DEPEND=depend.mk
 
-DEBUG_BINDIR=bin/debug
-DEBUG_LIBDIR=lib/debug
-RELEASE_BINDIR=bin/release
-RELEASE_LIBDIR=lib/release
-TEST_BINDIR=bin/test
-TEST_LIBDIR=lib/debug
+define debugexe
+bin/debug/$1$(EXEEXT)
+endef
+define releaseexe
+bin/release/$1$(EXEEXT)
+endef
+define testexe
+bin/test/$1.test$(EXEEXT)
+endef
 
-TARGET=$(BINDIR)/euler$(EXEEXT)
-LIB_TEST=$(patsubst %,$(BINDIR)/%.test$(EXEEXT),common data math)
-ALL_TEST=$(LIBTEST) $(patsubst %,$(BINDIR)/%.test$(EXEEXT),euler $(patsubst %.rs,%,$(notdir $(PROB_SRC))))
+define debuglib
+lib/debug/lib$1$(LIBEXT)
+endef
+define releaselib
+lib/release/lib$1$(LIBEXT)
+endef
 
-RUSTC_FLAGS=-L $(LIBDIR)
-RUSTC_DEBUG_FLAGS=
-RUSTC_RELEASE_FLAGS=--opt-level 3
+DEBUG_TARGET=$(call debugexe,euler)
+RELEASE_TARGET=$(call releaseexe,euler)
+LIBTEST_TARGET=$(patsubst %,$(call testexe,%),common data math)
+ALLTEST_TARGET=$(LIBTEST) $(patsubst %,$(call testexe,%),euler $(patsubst %.rs,%,$(notdir $(PROB_SRC))))
 
-.PHONY: debug release test depend clean debug_bin release_bin test_binary
+RUSTC_DEBUG_FLAGS=-L lib/debug
+RUSTC_RELEASE_FLAGS=--opt-level 3 -L lib/release
+RUSTC_TEST_FLAGS=-L lib/debug
 
-debug:
-	make BINDIR=$(DEBUG_BINDIR) LIBDIR=$(DEBUG_LIBDIR) debug_bin
-release:
-	make BINDIR=$(RELEASE_BINDIR) LIBDIR=$(RELEASE_LIBDIR) release_bin
-test:
-	make BINDIR=$(TEST_BINDIR) LIBDIR=$(TEST_LIBDIR) test_bin
-libtest:
-	make BINDIR=$(TEST_BINDIR) LIBDIR=$(TEST_LIBDIR) libtest_bin
+.PHONY: debug release test libtest depend clean
+
+debug: $(DEBUG_TARGET)
+release: $(RELEASE_TARGET)
+test: $(ALLTEST_TARGET)
+	@for exe in $^; do ./$$exe || exit 1; done
+libtest: $(LIBTEST_TARGET)
+	@for exe in $^; do ./$$exe || exit 1; done
 depend: $(DEPEND)
-
 
 clean:
 	$(RM) -r $(MOD_SRC) $(DEPEND)
-	$(RM) -r $(DEBUG_BINDIR)/* $(DEBUG_LIBDIR)/*
-	$(RM) -r $(RELEASE_BINDIR)/* $(RELEASE_LIBDIR)/*
-	$(RM) -r $(TEST_BINDIR)/* $(TEST_LIBDIR)/*
+	$(RM) -r $(call debugexe,*) $(call releaseexe,*) $(call testexe,*)
+	$(RM) -r $(call debuglib,*) $(call releaselib,*)
 
-$(DEPEND): $(ALL_SRC)
+$(DEPEND): $(ALL_SRC) $(MOD_SRC)
 	./etc/gendep > $@
 $(MOD_SRC): $(PROB_SRC)
 	./etc/genmod ./src > $@
 
-
-
-debug_bin: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
-debug_bin: $(TARGET)
-release_bin: RUSTC_FLAGS+=$(RUSTC_RELEASE_FLAGS)
-release_bin: $(TARGET)
-test_bin: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
-test_bin: $(ALL_TEST)
-	@for exe in $(ALL_TEST); do echo "$$exe"; ./$$exe || exit 1; done
-libtest_bin: RUSTC_FLAGS+=$(RUSTC_DEBUG_FLAGS)
-libtest_bin: $(LIB_TEST)
-	@for exe in $(LIB_TEST); do echo "$$exe"; ./$$exe || exit 1; done
-
 -include $(DEPEND)
 
-
-define genexe
-	rustc -o $1 $(RUSTC_FLAGS) $2
+define gen_debugexe
+	rustc -o $1 $(RUSTC_DEBUG_FLAGS) $2
 endef
-$(BINDIR)/euler$(EXEEXT):
-	$(call genexe, $@, $(EULER_SRC))
-$(BINDIR)/%$(EXEEXT): %.rs
-	$(call genext, $@, $(patsubst $(BINDIR)/%$(EXEEXT),src/%.rs,$@))
-
-
-define genlib
+define gen_releaseexe
+	rustc -o $1 $(RUSTC_RELEASE_FLAGS) $2
+endef
+define gen_debuglib
 	$(RM) $(patsubst %$(LIBEXT),%-*$(LIBEXT),$1)
-	rustc --lib --out-dir $(LIBDIR) $(RUSTC_FLAGS) $2
+	rustc --lib --out-dir lib/debug $(RUSTC_DEBUG_FLAGS) $2
 	touch $1
 endef
-
-$(LIBDIR)/libcommon$(LIBEXT):
-	$(call genlib, $@, $(COMMON_SRC))
-$(LIBDIR)/libdata$(LIBEXT):
-	$(call genlib, $@, $(DATA_SRC))
-$(LIBDIR)/libmath$(LIBEXT):
-	$(call genlib, $@, $(MATH_SRC))
-$(LIBDIR)/lib%$(LIBEXT):
-	$(call genlib, $@, $(patsubst $(LIBDIR)/lib%$(LIBEXT),src/%.rs,$@))
-
-
-define gentest
-	rustc --test -o $1 $(RUSTC_FLAGS) $2
+define gen_releaselib
+	$(RM) $(patsubst %$(LIBEXT),%-*$(LIBEXT),$1)
+	rustc --lib --out-dir lib/release $(RUSTC_RELEASE_FLAGS) $2
+	touch $1
 endef
-$(BINDIR)/euler.test$(EXEEXT):
-	$(call gentest, $@, $(EULER_SRC))
-$(BINDIR)/common.test$(EXEEXT):
-	$(call gentest, $@, $(COMMON_SRC))
-$(BINDIR)/data.test$(EXEEXT):
-	$(call gentest, $@, $(DATA_SRC))
-$(BINDIR)/math.test$(EXEEXT):
-	$(call gentest, $@, $(MATH_SRC))
-$(BINDIR)/%.test$(EXEEXT):
-	$(call gentest, $@, $(patsubst $(BINDIR)/%.test$(EXEEXT),src/%.rs,$@))
+define gen_testexe
+	rustc --test -o $1 $(RUSTC_TEST_FLAGS) $2
+endef
+
+$(call debugexe,euler):
+	$(call gen_debugexe,$@,$(EULER_SRC))
+$(call releaseexe,euler):
+	$(call gen_releaseexe,$@,$(EULER_SRC))
+
+$(call debuglib,common):
+	$(call gen_debuglib,$@,$(COMMON_SRC))
+$(call debuglib,data):
+	$(call gen_debuglib,$@,$(DATA_SRC))
+$(call debuglib,math):
+	$(call gen_debuglib,$@,$(MATH_SRC))
+$(call debuglib,%):
+	$(call gen_debuglib,$@,$(patsubst $(call debuglib,%),src/%.rs,$@))
+$(call releaselib,common):
+	$(call gen_releaselib,$@,$(COMMON_SRC))
+$(call releaselib,data):
+	$(call gen_releaselib,$@,$(DATA_SRC))
+$(call releaselib,math):
+	$(call gen_releaselib,$@,$(MATH_SRC))
+$(call releaselib,%):
+	$(call gen_releaselib,$@,$(patsubst $(call releaselib,%),src/%.rs,$@))
+
+$(call testexe,euler):
+	$(call gen_testexe,$@,$(EULER_SRC))
+$(call testexe,common):
+	$(call gen_testexe,$@,$(COMMON_SRC))
+$(call testexe,data):
+	$(call gen_testexe,$@,$(DATA_SRC))
+$(call testexe,math):
+	$(call gen_testexe,$@,$(MATH_SRC))
+$(call testexe,%):
+	$(call gen_testexe,$@,$(patsubst $(call testexe,%),src/%.rs,$@))
 
