@@ -1,25 +1,94 @@
 #!/bin/sh
 
-find . -name '*.rs' | while read FILE; do
-    TARGET=$(echo "${FILE}" | sed 's|./src/\([^/\.]*\)[^:]*|\1|')
-    if [ "${TARGET}" == "euler" ]; then
-        echo '$(call debugexe,euler): '"${FILE}"
-        echo '$(call releaseexe,euler): '"${FILE}"
-        echo '$(call testexe,euler): '"${FILE}"
-    else
-        echo '$(call debuglib,'"${TARGET}"'): '"${FILE}"
-        echo '$(call releaselib,'"${TARGET}"'): '"${FILE}"
-        echo '$(call testexe,'"${TARGET}"'): '"${FILE}"
-    fi
-    sed -n -e '/extra/!s| *extern  *mod  *\(.*\) *;$|\1|p' ${FILE} | while read CRATE; do
-        if [ "${TARGET}" == "euler" ]; then
-            echo '$(call debugexe,euler): $(call debuglib,'"${CRATE}"')'
-            echo '$(call releaseexe,euler): $(call releaselib,'"${CRATE}"')'
-            echo '$(call testexe,euler): $(call debuglib,'"${CRATE}"')'
-        else
-            echo '$(call debuglib,'"${TARGET}"'): $(call debuglib,'"${CRATE}"')'
-            echo '$(call releaselib,'"${TARGET}"'): $(call releaselib,'"${CRATE}"')'
-            echo '$(call testexe,'"${TARGET}"'): $(call debuglib,'"${CRATE}"')'
-        fi
+PRINT_RLIBCRATE() {
+    find ./src -maxdepth 1 -mindepth 1 -type f | sort | while read MAIN_SRC; do
+        CRATE_NAME=$(echo "${MAIN_SRC}" | sed 's|^./src/||; s|\.rs$||')
+        echo ${CRATE_NAME} ${MAIN_SRC}
     done
-done | sort -u
+    find ./src -mindepth 2 -name "lib.rs" -type f | sort | while read MAIN_SRC; do
+        CRATE_NAME=$(dirname ${MAIN_SRC} | sed 's|^./src/||')
+        OTHER_SRC=$(echo $(find ./src/${CRATE_NAME}/ -name "*.rs" -not -name "lib.rs" -type f))
+        echo ${CRATE_NAME} ${MAIN_SRC} ${OTHER_SRC}
+    done
+}
+
+PRINT_BINCRATE() {
+    find ./src -mindepth 2 -name "main.rs" -type f | sort | while read MAIN_SRC; do
+        CRATE_NAME=$(dirname ${MAIN_SRC} | sed 's|^./src/||')
+        OTHER_SRC=$(echo $(find ./src/${CRATE_NAME}/ -name "*.rs" -not -name "main.rs" -type f))
+        echo ${CRATE_NAME} ${MAIN_SRC} ${OTHER_SRC}
+    done
+}
+
+PRINT_ALLCRATE() {
+    PRINT_RLIBCRATE
+    PRINT_BINCRATE
+}
+
+PRINT_RLIB_DEFINE() {
+    local CRATE_NAME=$1
+    local MAIN_SRC=$2
+    local RLIB_NAME=$(basename $(rustc --crate-file-name --rlib "${MAIN_SRC}"))
+    local BIN_NAME=$(basename $(rustc --crate-file-name --bin "${MAIN_SRC}"))
+    echo "DEBUG_${CRATE_NAME}=\$(DEBUG_RLIB_DIR)/${RLIB_NAME}"
+    echo "RELEASE_${CRATE_NAME}=\$(RELEASE_RLIB_DIR)/${RLIB_NAME}"
+    echo "TEST_${CRATE_NAME}=\$(TEST_BIN_DIR)/${BIN_NAME}"
+}
+
+PRINT_BIN_DEFINE() {
+    local CRATE_NAME=$1
+    local MAIN_SRC=$2
+    local BIN_NAME=$(basename $(rustc --crate-file-name --bin "${MAIN_SRC}"))
+    echo "DEBUG_${CRATE_NAME}=\$(DEBUG_BIN_DIR)/${BIN_NAME}"
+    echo "RELEASE_${CRATE_NAME}=\$(RELEASE_BIN_DIR)/${BIN_NAME}"
+    echo "TEST_${CRATE_NAME}=\$(TEST_BIN_DIR)/${BIN_NAME}"
+}
+
+PRINT_PHONY_TARGET() {
+    local CRATE_NAME=$1
+    echo "debug-${CRATE_NAME}: \$(DEBUG_${CRATE_NAME})"
+    echo "release-${CRATE_NAME}: \$(RELEASE_${CRATE_NAME})"
+    echo "test-${CRATE_NAME}: \$(TEST_${CRATE_NAME})"
+    echo "run-test-${CRATE_NAME}: \$(TEST_${CRATE_NAME})"
+    echo "	\$(call RUN_TEST,$<)"
+}
+
+PRINT_DEP() {
+    local CRATE_NAME=$1
+    shift
+    local ALL_SRC=$@
+
+    sed -n -e '/extra/!s| *extern  *mod  *\(.*\) *;$|\1|p' ${ALL_SRC} | while read DEP_NAME; do
+        echo "\$(DEBUG_${CRATE_NAME}): \$(DEBUG_${DEP_NAME})"
+        echo "\$(RELEASE_${CRATE_NAME}): \$(RELEASE_${DEP_NAME})"
+        echo "\$(TEST_${CRATE_NAME}): \$(DEBUG_${DEP_NAME})"
+    done
+}
+
+PRINT_RULE() {
+    local CRATE_TYPE=$1
+    shift
+    local CRATE_NAME=$1
+    shift
+    local ALL_SRC=$@
+
+    echo "\$(DEBUG_${CRATE_NAME}): ${ALL_SRC}"
+    echo "	\$(call DEBUG_${CRATE_TYPE},$<)"
+    echo "\$(RELEASE_${CRATE_NAME}): ${ALL_SRC}"
+    echo "	\$(call RELEASE_${CRATE_TYPE},$<)"
+    echo "\$(TEST_${CRATE_NAME}): ${ALL_SRC}"
+    echo "	\$(call TEST_BIN,$<)"
+}
+
+PRINT_RLIBCRATE | while read LINE; do PRINT_RLIB_DEFINE ${LINE}; done
+PRINT_BINCRATE  | while read LINE; do PRINT_BIN_DEFINE  ${LINE};  done
+
+echo debug: $(PRINT_BINCRATE | awk '{print "$(DEBUG_" $1 ")"}')
+echo release: $(PRINT_BINCRATE | awk '{print "$(RELEASE_" $1 ")"}')
+echo test: $(PRINT_ALLCRATE | awk '{print "run-test-" $1}')
+echo .PHONY: $(PRINT_ALLCRATE | awk '{print "debug-" $1 " release-" $1 " test-" $1 " run-test-" $1}')
+
+PRINT_ALLCRATE  | while read LINE; do PRINT_PHONY_TARGET ${LINE}; done
+PRINT_ALLCRATE  | while read LINE; do PRINT_DEP ${LINE}; done
+PRINT_RLIBCRATE | while read LINE; do PRINT_RULE RLIB ${LINE}; done
+PRINT_BINCRATE  | while read LINE; do PRINT_RULE BIN  ${LINE}; done

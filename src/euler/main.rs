@@ -1,3 +1,6 @@
+#[crate_id = "euler"];
+#[crate_type = "bin"];
+
 #[feature(managed_boxes)];
 
 extern mod extra;
