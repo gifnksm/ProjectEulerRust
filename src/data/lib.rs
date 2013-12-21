@@ -1,4 +1,4 @@
-#[pkgid="data"];
+#[crate_id = "data"];
 #[crate_type = "rlib"];
 
 #[feature(globs)];

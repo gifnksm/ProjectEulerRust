@@ -1,4 +1,4 @@
-#[pkgid="math"];
+#[crate_id = "math"];
 #[crate_type = "rlib"];
 
 #[feature(globs)];
