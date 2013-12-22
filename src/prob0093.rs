@@ -12,23 +12,12 @@ use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "1258";
 
+#[deriving(Clone)]
 enum Op { Add, Sub, Mul, Div }
 
 #[inline(always)]
 fn each_numseq(f: |&[Rational]|) {
-    for a in range(1, 10) {
-        let ra = Ratio::from_integer(a);
-        for b in range(a + 1, 10) {
-            let rb = Ratio::from_integer(b);
-            for c in range(b + 1, 10) {
-                let rc = Ratio::from_integer(c);
-                for d in range(c + 1, 10) {
-                    let rd = Ratio::from_integer(d);
-                    f(&[ra, rb, rc, rd]);
-                }
-            }
-        }
-    }
+    calc::combinate(range(1, 10).map(Ratio::from_integer).to_owned_vec(), 4, |x, _| {f(x); true});
 }
 
 #[inline(always)]
