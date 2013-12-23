@@ -34,7 +34,9 @@ $(DEPEND): $(ALL_SRC) $(MOD_SRC) ./etc/mkdepend
 $(MOD_SRC): $(PROB_SRC)
 	./etc/genmod ./src > $@
 
+ifneq "$(MAKECMDGOALS)" "clean"
 -include $(DEPEND)
+endif
 
 DEBUG_BIN=rustc --out-dir $(DEBUG_BIN_DIR) $(DEBUG_RUSTC_FLAGS) $(1)
 DEBUG_RLIB=rustc --out-dir $(DEBUG_RLIB_DIR) $(DEBUG_RUSTC_FLAGS) $(1)
