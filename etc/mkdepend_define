@@ -1,0 +1,24 @@
+#!/bin/sh
+
+CRATE_TYPE=$1
+CRATE_NAME=$2
+MAIN_SRC=$3
+
+case ${CRATE_TYPE} in
+    RLIB)
+        RLIB_NAME=$(basename $(rustc --crate-file-name "${MAIN_SRC}"))
+        BIN_NAME=$(basename $(rustc --crate-file-name --test "${MAIN_SRC}"))
+        echo "DEBUG_${CRATE_NAME}=\$(DEBUG_RLIB_DIR)/${RLIB_NAME}"
+        echo "RELEASE_${CRATE_NAME}=\$(RELEASE_RLIB_DIR)/${RLIB_NAME}"
+        echo "TEST_${CRATE_NAME}=\$(TEST_BIN_DIR)/${BIN_NAME}"
+        ;;
+    BIN)
+        BIN_NAME=$(basename $(rustc --crate-file-name --bin "${MAIN_SRC}"))
+        echo "DEBUG_${CRATE_NAME}=\$(DEBUG_BIN_DIR)/${BIN_NAME}"
+        echo "RELEASE_${CRATE_NAME}=\$(RELEASE_BIN_DIR)/${BIN_NAME}"
+        echo "TEST_${CRATE_NAME}=\$(TEST_BIN_DIR)/${BIN_NAME}"
+        ;;
+    *)
+        exit 1
+        ;;
+esac

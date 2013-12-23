@@ -1,0 +1,43 @@
+#!/bin/sh
+
+PRINT_CRATE() {
+    find ./src -maxdepth 1 -mindepth 1 -type f | sort | while read MAIN_SRC; do
+        CRATE_NAME=$(echo "${MAIN_SRC}" | sed 's|^./src/||; s|\.rs$||')
+        echo RLIB ${CRATE_NAME} ${MAIN_SRC}
+    done
+    find ./src -mindepth 2 -name "lib.rs" -type f | sort | while read MAIN_SRC; do
+        CRATE_NAME=$(dirname ${MAIN_SRC} | sed 's|^./src/||')
+        OTHER_SRC=$(echo $(find ./src/${CRATE_NAME}/ -name "*.rs" -not -name "lib.rs" -type f))
+        echo RLIB ${CRATE_NAME} ${MAIN_SRC} ${OTHER_SRC}
+    done
+    find ./src -mindepth 2 -name "main.rs" -type f | sort | while read MAIN_SRC; do
+        CRATE_NAME=$(dirname ${MAIN_SRC} | sed 's|^./src/||')
+        OTHER_SRC=$(echo $(find ./src/${CRATE_NAME}/ -name "*.rs" -not -name "main.rs" -type f))
+        echo BIN ${CRATE_NAME} ${MAIN_SRC} ${OTHER_SRC}
+    done
+}
+
+PRINT_DEFINE_INCLUDE() {
+    local CRATE_TYPE=$1
+    shift
+    local CRATE_NAME=$1
+    shift
+    local ALL_SRC=$@
+    echo "-include \$(DEPEND_DIR)/${CRATE_NAME}.define.mk"
+    echo "\$(DEPEND_DIR)/${CRATE_NAME}.define.mk: ${ALL_SRC} ./etc/mkdepend_define"
+    echo "	./etc/mkdepend_define ${CRATE_TYPE} ${CRATE_NAME} \$< > \$@"
+}
+
+PRINT_RULE() {
+    local CRATE_TYPE=$1
+    shift
+    local CRATE_NAME=$1
+    shift
+    local ALL_SRC=$@
+    echo "-include \$(DEPEND_DIR)/${CRATE_NAME}.rule.mk"
+    echo "\$(DEPEND_DIR)/${CRATE_NAME}.rule.mk: ${ALL_SRC} ./etc/mkdepend_rule"
+    echo "	./etc/mkdepend_rule ${CRATE_TYPE} ${CRATE_NAME} ${ALL_SRC} > \$@"
+}
+
+PRINT_CRATE | while read LINE; do PRINT_DEFINE_INCLUDE ${LINE}; done
+PRINT_CRATE | while read LINE; do PRINT_RULE ${LINE}; done

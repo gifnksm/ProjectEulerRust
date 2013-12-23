@@ -2,8 +2,7 @@ PROB_SRC   = $(sort $(wildcard src/prob*.rs))
 MOD_SRC    = src/euler/problem.rs
 ALL_SRC    = $(wildcard src/*.rs) $(wildcard src/*/*.rs)
 
-DEPEND=depend.mk
-
+DEPEND_DIR=depend
 DEBUG_RLIB_DIR=lib/debug
 DEBUG_BIN_DIR=bin/debug
 
@@ -11,6 +10,8 @@ RELEASE_RLIB_DIR=lib/release
 RELEASE_BIN_DIR=bin/release
 
 TEST_BIN_DIR=bin/test
+
+DEPEND=$(DEPEND_DIR)/all.mk
 
 DEBUG_RUSTC_FLAGS   = -L $(DEBUG_RLIB_DIR)
 RELEASE_RUSTC_FLAGS = --opt-level 3 -L $(RELEASE_RLIB_DIR)
@@ -24,12 +25,12 @@ test:
 depend: $(DEPEND)
 
 clean:
-	$(RM) -r $(MOD_SRC) $(DEPEND)
+	$(RM) -r $(MOD_SRC) $(DEPEND_DIR)/*
 	$(RM) $(DEBUG_BIN_DIR)/* $(RELEASE_BIN_DIR)/* $(TEST_BIN_DIR)/*
 	$(RM) $(DEBUG_RLIB_DIR)/*.rlib $(RELEASE_RLIB_DIR)/*.rlib
 
-$(DEPEND): $(ALL_SRC) $(MOD_SRC)
-	./etc/gendep > $@
+$(DEPEND): $(ALL_SRC) $(MOD_SRC) ./etc/mkdepend
+	./etc/mkdepend > $@
 $(MOD_SRC): $(PROB_SRC)
 	./etc/genmod ./src > $@
 
