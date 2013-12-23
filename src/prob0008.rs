@@ -1,7 +1,5 @@
 #[crate_type = "rlib"];
 
-extern mod data;
-
 use std::char;
 use std::iter::OrdIterator;
 

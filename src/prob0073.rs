@@ -1,8 +1,5 @@
 #[crate_type = "rlib"];
 
-
-
-
 pub static EXPECTED_ANSWER: &'static str = "7295372";
 
 fn count_between(

@@ -1,6 +1,5 @@
 #[crate_type = "rlib"];
 
-extern mod extra;
 extern mod data;
 extern mod math;
 use data::extiter::CombIterator;

@@ -156,7 +156,6 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 #[cfg(test)]
 mod tests {
     use super::*;
-    use extra::sort::Sort;
 
     #[test]
     fn test_histogram() {
@@ -165,7 +164,7 @@ mod tests {
             let mut vec = hist.iter()
                 .map(|(&k, &v)| (k, v))
                 .to_owned_vec();
-            vec.qsort();
+            vec.sort();
             assert_eq!(vec.initn(0), result);
         }
         check([1, 2, 3], [(1, 1), (2, 1), (3, 1)]);

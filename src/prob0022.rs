@@ -1,6 +1,5 @@
 #[crate_type = "rlib"];
 
-extern mod extra;
 extern mod common;
 
 use std::io::buffered::BufferedReader;

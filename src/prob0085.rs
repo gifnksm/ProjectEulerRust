@@ -1,8 +1,5 @@
 #[crate_type = "rlib"];
 
-
-
-
 pub static EXPECTED_ANSWER: &'static str = "2772";
 
 // x by y => C = (1 + 2 + .. + x) * (1 + 2 + .. + y) recutangulars

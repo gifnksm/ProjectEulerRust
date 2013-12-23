@@ -5,7 +5,6 @@ extern mod math;
 use std::{iter, vec};
 use math::{arith, sequence};
 
-
 pub static EXPECTED_ANSWER: &'static str = "161667";
 
 pub fn solve() -> ~str {

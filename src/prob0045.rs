@@ -1,8 +1,5 @@
 #[crate_type = "rlib"];
 
-
-
-
 pub static EXPECTED_ANSWER: &'static str = "1533776805";
 
 fn triangle(i: uint) -> uint {

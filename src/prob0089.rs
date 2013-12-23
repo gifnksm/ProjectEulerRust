@@ -1,7 +1,5 @@
 #[crate_type = "rlib"];
 
-extern mod common;
-
 use std::uint;
 use std::iter::AdditiveIterator;
 use std::io::buffered::BufferedReader;

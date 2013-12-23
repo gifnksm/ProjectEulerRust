@@ -1,7 +1,6 @@
 #[crate_type = "rlib"];
 
 extern mod data;
-extern mod common;
 
 use std::io::buffered::BufferedReader;
 use std::io::File;

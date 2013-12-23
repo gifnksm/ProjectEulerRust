@@ -1,6 +1,5 @@
 #[crate_type = "rlib"];
 
-
 use std::vec;
 use std::iter::AdditiveIterator;
 

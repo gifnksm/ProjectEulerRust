@@ -2,7 +2,6 @@
 
 extern mod extra;
 
-
 use std::num::{One, Zero};
 use extra::bigint::{BigUint};
 

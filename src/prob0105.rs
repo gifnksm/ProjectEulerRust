@@ -1,7 +1,5 @@
 #[crate_type = "rlib"];
 
-extern mod common;
-
 use std::vec;
 use std::io::buffered::BufferedReader;
 use std::io::File;

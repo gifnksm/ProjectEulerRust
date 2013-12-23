@@ -1,8 +1,5 @@
 #[crate_type = "rlib"];
 
-
-
-
 pub static EXPECTED_ANSWER: &'static str = "6531031914842725";
 
 pub fn solve() -> ~str {

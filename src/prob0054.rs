@@ -1,6 +1,5 @@
 #[crate_type = "rlib"];
 
-extern mod common;
 extern mod data;
 
 use std::vec;
