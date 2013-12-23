@@ -35,7 +35,7 @@ $(MOD_SRC): $(PROB_SRC)
 	./etc/genmod ./src > $@
 
 ifneq "$(MAKECMDGOALS)" "clean"
--include $(DEPEND)
+include $(DEPEND)
 endif
 
 DEBUG_BIN=rustc --out-dir $(DEBUG_BIN_DIR) $(DEBUG_RUSTC_FLAGS) $(1)
