@@ -1,12 +1,10 @@
 #[crate_type = "rlib"];
 
-extern mod extra;
 extern mod common;
 extern mod math;
 
 use std::vec;
 use std::iter::AdditiveIterator;
-use extra::sort;
 use common::calc;
 use math::{arith, numconv};
 
@@ -25,18 +23,18 @@ pub fn solve() -> ~str {
 
     let mut sum = 0;
     calc::combinate_overlap([0u, 1, 2, 3, 4, 5, 6, 7, 8, 9], len, |comb| {
-        let num = comb.iter().map(|&e| pows[e]).sum();
+            let num = comb.iter().map(|&e| pows[e]).sum();
 
-        let mut ds = numconv::to_digits(num, 10).to_owned_vec();
-        sort::quick_sort(ds, |a, b| a < b);
+            let mut ds = numconv::to_digits(num, 10).to_owned_vec();
+            ds.sort_by(|a, b| a.cmp(b));
 
-        let zero_len = len - ds.len();
-        if comb.tailn(zero_len) == ds &&
-            comb.iter().take(zero_len).all(|&x| x == 0) {
-            sum += num;
-        }
-        true
-    });
+            let zero_len = len - ds.len();
+            if comb.tailn(zero_len) == ds &&
+                comb.iter().take(zero_len).all(|&x| x == 0) {
+                sum += num;
+            }
+            true
+        });
 
     return (sum - 1).to_str();  // remove 1
 }

@@ -6,7 +6,6 @@ extern mod common;
 use std::io::buffered::BufferedReader;
 use std::io::File;
 use std::iter::AdditiveIterator;
-use extra::sort::Sort;
 use common::reader::BufferedReaderUtil;
 
 pub static EXPECTED_ANSWER: &'static str = "871198282";
@@ -21,7 +20,7 @@ pub fn solve() -> ~str {
     let mut ss = input.sep_iter(',' as u8)
         .map(|s| s.trim_chars(&',').trim().trim_chars(&'\"').to_str())
         .to_owned_vec();
-    ss.qsort();
+    ss.sort();
     ss.iter()
         .enumerate()
         .map(|(i, s)| {  get_score(i + 1, *s)} )

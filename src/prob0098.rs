@@ -1,6 +1,5 @@
 #[crate_type = "rlib"];
 
-extern mod extra;
 extern mod common;
 extern mod math;
 
@@ -8,7 +7,6 @@ use std::{str, util, uint, vec};
 use std::iter::OrdIterator;
 use std::hashmap::HashMap;
 use std::io::File;
-use extra::sort;
 use common::reader;
 use math::{arith, numconv};
 
@@ -42,7 +40,7 @@ pub fn solve() -> ~str {
             let mut map = ~HashMap::new();
             for &word in words.iter() {
                 let mut cs = word.chars().to_owned_vec();
-                sort::quick_sort(cs, |a, b| a <= b);
+                cs.sort();
                 match map.pop(&cs) {
                     None     => { map.insert(cs, ~[word.to_str()]); }
                     Some(ws) => { map.insert(cs, vec::append_one(ws, word.to_str())); }
@@ -72,7 +70,7 @@ pub fn solve() -> ~str {
                     let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap();
                     (w1.len(), cs1.map(|c| get_pos(c)), cs2.map(|c| get_pos(c)))
                 });
-            sort::quick_sort(words, |&(l1, _, _), &(l2, _, _)| l1 >= l2);
+            words.sort_by(|&(l1, _, _), &(l2, _, _)| l2.cmp(&l1));
             words
         }).map(|idx_pairs| {
             vec::build(None, |push| {

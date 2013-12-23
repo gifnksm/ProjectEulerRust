@@ -1,11 +1,9 @@
 #[crate_type = "rlib"];
 
-extern mod extra;
 extern mod math;
 
 use std::vec;
 use std::hashmap::{HashMap, HashSet};
-use extra::sort;
 use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "127035954683";
@@ -26,7 +24,7 @@ pub fn solve() -> ~str {
 
         let cube = n * n * n;
         let mut ds = numconv::to_digits(cube, 10).to_owned_vec();
-        sort::quick_sort3(ds);
+        ds.sort();
 
         let v = match map.pop(&ds) {
             Some(nums) => vec::append_one(nums, cube),

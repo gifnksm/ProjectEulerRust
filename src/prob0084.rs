@@ -2,10 +2,7 @@
 
 #[feature(globs)];
 
-extern mod extra;
-
 use std::vec;
-use extra::sort;
 
 pub static EXPECTED_ANSWER: &'static str = "101524";
 
@@ -203,7 +200,14 @@ pub fn solve() -> ~str {
         let (p, sq) = pairs[dst];
         pairs[dst] = (p + vs[0], sq);
     }
-    sort::quick_sort(pairs, |&(p1, _), &(p2, _)| p1 >= p2);
+    pairs.sort_by(|&(p1, _), &(p2, _)| {
+            match () {
+                _ if p2 <  p1 => Less,
+                _ if p2 == p1 => Equal,
+                _ if p2 >  p1 => Greater,
+                _ => fail!()
+            }
+        });
     return pairs.slice(0, 3).map(|&(_, sq)| { format!("{:02}", sq.to_uint()) }).concat();
 }
 

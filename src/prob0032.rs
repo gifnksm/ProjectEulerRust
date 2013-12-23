@@ -1,12 +1,10 @@
 #[crate_type = "rlib"];
 
-extern mod extra;
 extern mod common;
 extern mod math;
 
 use std::iter::AdditiveIterator;
 use std::hashmap::HashSet;
-use extra::sort;
 use common::calc;
 use math::numconv;
 
@@ -32,14 +30,15 @@ pub fn solve() -> ~str {
     // 1000 < c = ab < 10000 => 1000 / a < b < 10000 / a
     //  => 1000 < b < 10000 / a
     calc::permutate_num(digits, 1, 0, 9, |a, ds| {
-        calc::permutate_num(ds, 4, 1000, 9999 / a, |b, ds| {
-            let c = a * b;
-            let c_digits = sort::merge_sort(numconv::to_digits(c, 10).to_owned_vec(), |a, b| a <= b);
-            if ds == c_digits { answer.insert(c); }
+            calc::permutate_num(ds, 4, 1000, 9999 / a, |b, ds| {
+                    let c = a * b;
+                    let mut c_digits = numconv::to_digits(c, 10).to_owned_vec();
+                    c_digits.sort_by(|a, b| a.cmp(b));
+                    if ds == c_digits { answer.insert(c); }
+                    true
+                });
             true
         });
-        true
-    });
 
     // 2 x 3 = 4
     // a b = c
@@ -48,14 +47,15 @@ pub fn solve() -> ~str {
     // 1000 < c = ab < 10000 => 1000 / a < b < 10000 / a
     // => 100 < b < 10000 / a
     calc::permutate_num(digits, 2, 10, 99, |a, ds| {
-        calc::permutate_num(ds, 3, 100, 9999 / a, |b, ds| {
-            let c = a * b;
-            let c_digits = sort::merge_sort(numconv::to_digits(c, 10).to_owned_vec(), |a, b| a <= b);
-            if ds == c_digits { answer.insert(c); }
+            calc::permutate_num(ds, 3, 100, 9999 / a, |b, ds| {
+                    let c = a * b;
+                    let mut c_digits = numconv::to_digits(c, 10).to_owned_vec();
+                    c_digits.sort_by(|a, b| a.cmp(b));
+                    if ds == c_digits { answer.insert(c); }
+                    true
+                });
             true
         });
-        true
-    });
 
     return answer.move_iter().sum().to_str();
 }

@@ -1,21 +1,16 @@
 #[crate_type = "rlib"];
 
-extern mod extra;
 extern mod common;
 extern mod math;
 
-use std::either::{Either, Left, Right};
-use std::cmp::{Eq, Ord};
-use std::to_bytes::{IterBytes};
-use std::hash::{Hash};
-use std::hashmap::{HashMap};
-use extra::sort;
+use std::to_bytes::IterBytes;
+use std::hashmap::HashMap;
 use common::calc;
 use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "2783915460";
 
-fn get_at<K: IterBytes + Hash + Eq + Ord + Clone>(hist: &HashMap<K, uint>, n: uint) -> Either<uint, ~[K]> {
+fn get_at<K: IterBytes + Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> Either<uint, ~[K]> {
     if hist.is_empty() {
         if n == 1 {
             return Right(~[]);
@@ -28,7 +23,7 @@ fn get_at<K: IterBytes + Hash + Eq + Ord + Clone>(hist: &HashMap<K, uint>, n: ui
     if perm < n { return Left(perm); }
 
     let mut kv = hist.iter().map(|(k, v)| (k.clone(), *v)).to_owned_vec();
-    sort::quick_sort(kv, |a, b| a.first() <= b.first());
+    kv.sort_by(|&(ref a, _), &(ref b, _)| a.cmp(b));
 
     let mut idx = 0;
     for (i, &(ref all_k, ref all_v)) in kv.iter().enumerate() {

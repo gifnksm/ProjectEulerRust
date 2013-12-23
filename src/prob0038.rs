@@ -1,10 +1,8 @@
 #[crate_type = "rlib"];
 
-extern mod extra;
 extern mod common;
 extern mod math;
 
-use extra::sort;
 use common::calc;
 use math::numconv;
 
@@ -13,16 +11,16 @@ pub static EXPECTED_ANSWER: &'static str = "932718654";
 pub fn solve() -> ~str {
     let mut ans = 0;
     calc::permutate_num([9, 8, 7, 6, 5, 4, 3, 2, 1], 4, 0, 9999, |num, rest| {
-        let mut ds = numconv::to_digits(num * 2, 10).to_owned_vec();
-        sort::quick_sort(ds, |a, b| a >= b);
+            let mut ds = numconv::to_digits(num * 2, 10).to_owned_vec();
+            ds.sort_by(|a, b| b.cmp(a));
 
-        if ds.as_slice() == rest {
-            ans = num;
-            false
-        } else {
-            true
-        }
-    });
+            if ds.as_slice() == rest {
+                ans = num;
+                false
+            } else {
+                true
+            }
+        });
 
     return format!("{}{}", ans, ans* 2);
 }

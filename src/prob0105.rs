@@ -1,13 +1,11 @@
 #[crate_type = "rlib"];
 
 extern mod common;
-extern mod extra;
 
 use std::vec;
 use std::io::buffered::BufferedReader;
 use std::io::File;
 use std::iter::AdditiveIterator;
-use extra::sort::Sort;
 
 pub static EXPECTED_ANSWER: &'static str = "73702";
 
@@ -54,7 +52,7 @@ pub fn solve() -> ~str {
                 .split(',')
                 .filter_map(from_str::<uint>)
                 .to_owned_vec()
-        }).map(|mut nums| { nums.qsort(); nums })
+        }).map(|mut nums| { nums.sort(); nums })
         .filter(|nums| {
             let len = nums.len();
             let len_hd = (len + 1) / 2;

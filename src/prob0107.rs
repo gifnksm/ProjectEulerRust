@@ -1,12 +1,10 @@
 #[crate_type = "rlib"];
 
-extern mod extra;
 extern mod data;
 extern mod common;
 
 use std::io::buffered::BufferedReader;
 use std::io::File;
-use extra::sort;
 use data::union_find::UnionFind;
 
 pub static EXPECTED_ANSWER: &'static str = "259679";
@@ -25,8 +23,8 @@ pub fn solve() -> ~str {
             }
         }
     }
+    verts.sort_by(|&(_, a), &(_, b)| a.cmp(&b));
 
-    sort::quick_sort(verts, |&(_, a), &(_, b)| a.le(&b));
     let mut uf = UnionFind::new(size);
 
     let mut saving = 0;
