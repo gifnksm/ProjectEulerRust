@@ -40,7 +40,7 @@ fn color_print(color: term::color::Color, s: &str) {
 }
 
 fn print_result(name: &str, time: u64, comp_answer: &str, time_color: bool, correct: bool) {
-    let out = &mut io::stdout() as &mut Writer;
+    let out = &mut io::stdout();
     write!(out, "[");
     if correct {
         color_print(term::color::GREEN, "OK");
