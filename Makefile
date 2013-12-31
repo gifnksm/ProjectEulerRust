@@ -17,11 +17,12 @@ DEBUG_RUSTC_FLAGS   = -L $(DEBUG_RLIB_DIR)
 RELEASE_RUSTC_FLAGS = --opt-level 3 -L $(RELEASE_RLIB_DIR)
 TEST_RUSTC_FLAGS    = --test -L $(DEBUG_RLIB_DIR)
 
-.PHONY: debug release test depend clean
+.PHONY: debug release test bench depend clean
 
 debug:
 release:
 test:
+bench:
 depend: $(DEPEND)
 
 clean:
@@ -48,3 +49,4 @@ TEST_BIN=rustc --out-dir $(TEST_BIN_DIR) $(TEST_RUSTC_FLAGS) $(1)
 TEST_BIN=rustc --out-dir $(TEST_BIN_DIR) $(TEST_RUSTC_FLAGS) $(1)
 
 RUN_TEST=$(1)
+RUN_BENCH=$(1) --bench

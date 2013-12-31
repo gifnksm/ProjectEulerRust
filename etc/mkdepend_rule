@@ -12,6 +12,7 @@ if [ "${CRATE_TYPE}" == "BIN" ]; then
     echo "release: \$(RELEASE_${CRATE_NAME})"
 fi
 echo "test: run-test-${CRATE_NAME}"
+echo "bench: run-bench-${CRATE_NAME}"
 
 echo ".PHONY: debug-${CRATE_NAME} release-${CRATE_NAME} test-${CRATE_NAME} run-test-${CRATE_NAME}"
 echo "debug-${CRATE_NAME}: \$(DEBUG_${CRATE_NAME})"
@@ -19,6 +20,8 @@ echo "release-${CRATE_NAME}: \$(RELEASE_${CRATE_NAME})"
 echo "test-${CRATE_NAME}: \$(TEST_${CRATE_NAME})"
 echo "run-test-${CRATE_NAME}: \$(TEST_${CRATE_NAME})"
 echo "	\$(call RUN_TEST,$<)"
+echo "run-bench-${CRATE_NAME}: \$(TEST_${CRATE_NAME})"
+echo "	\$(call RUN_BENCH,$<)"
 
 sed -n -e '/extra/!s| *extern  *mod  *\(.*\) *;$|\1|p' ${ALL_SRC} | while read DEP_NAME; do
     echo "\$(DEBUG_${CRATE_NAME}): \$(DEBUG_${DEP_NAME})"
