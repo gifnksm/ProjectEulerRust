@@ -11,8 +11,12 @@ if [ "${CRATE_TYPE}" == "BIN" ]; then
     echo "debug: \$(DEBUG_${CRATE_NAME})"
     echo "release: \$(RELEASE_${CRATE_NAME})"
 fi
-echo "test: run-test-${CRATE_NAME}"
-echo "bench: run-bench-${CRATE_NAME}"
+if grep '#\[test\]' ${ALL_SRC} ; then
+    echo "test: run-test-${CRATE_NAME}"
+fi
+if grep '#\[bench\]' ${ALL_SRC} ; then
+    echo "bench: run-bench-${CRATE_NAME}"
+fi
 
 echo ".PHONY: debug-${CRATE_NAME} release-${CRATE_NAME} test-${CRATE_NAME} run-test-${CRATE_NAME}"
 echo "debug-${CRATE_NAME}: \$(DEBUG_${CRATE_NAME})"
