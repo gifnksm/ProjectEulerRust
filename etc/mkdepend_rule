@@ -23,7 +23,7 @@ echo "	\$(call RUN_TEST,$<)"
 sed -n -e '/extra/!s| *extern  *mod  *\(.*\) *;$|\1|p' ${ALL_SRC} | while read DEP_NAME; do
     echo "\$(DEBUG_${CRATE_NAME}): \$(DEBUG_${DEP_NAME})"
     echo "\$(RELEASE_${CRATE_NAME}): \$(RELEASE_${DEP_NAME})"
-    echo "\$(TEST_${CRATE_NAME}): \$(TEST_${DEP_NAME})"
+    echo "\$(TEST_${CRATE_NAME}): \$(DEBUG_${DEP_NAME})"
 done
 
 echo "\$(DEBUG_${CRATE_NAME}): ${ALL_SRC}"
