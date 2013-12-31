@@ -245,7 +245,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 }
 
 #[cfg(test)]
-mod tests {
+mod test {
     use super::*;
 
     #[test]

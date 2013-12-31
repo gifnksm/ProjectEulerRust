@@ -67,7 +67,7 @@ impl Iterator<(uint, uint, uint)> for PrimPythagoreanIterator {
 }
 
 #[cfg(test)]
-mod tests {
+mod test {
     use super::*;
 
     #[test]

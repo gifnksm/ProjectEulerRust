@@ -154,7 +154,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 }
 
 #[cfg(test)]
-mod tests {
+mod test {
     use super::*;
 
     #[test]

@@ -160,7 +160,7 @@ impl CombIterator {
 }
 
 #[cfg(test)]
-mod tests {
+mod test {
     use super::*;
     use std::uint;
 

@@ -189,7 +189,7 @@ pub fn sum_of_proper_divisors(n: uint) -> uint {
 }
 
 #[cfg(test)]
-mod tests {
+mod test {
     use super::*;
 
     static PRIMES_BELOW200: &'static [uint] = &[
