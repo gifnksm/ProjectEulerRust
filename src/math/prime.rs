@@ -340,3 +340,34 @@ mod test {
         assert_eq!(sum_of_divisors(50), 93);
     }
 }
+
+#[cfg(test)]
+mod bench {
+    use super::{TASK_PRIME_KEY, PRIMES_BELOW100};
+    use std::local_data;
+    use extra::test::BenchHarness;
+
+    fn reset_task_prime() {
+        local_data::set(TASK_PRIME_KEY, PRIMES_BELOW100.to_owned());
+    }
+
+    #[bench]
+    fn get_5000th(bh: &mut BenchHarness) {
+        bh.iter(|| { super::nth(5000); });
+    }
+
+    #[bench]
+    fn get_5000th_nocache(bh: &mut BenchHarness) {
+        bh.iter(|| { reset_task_prime(); super::nth(5000); });
+    }
+
+    #[bench]
+    fn factorial_600851475143(bh: &mut BenchHarness) {
+        bh.iter(|| { super::factorize(600851475143).fold(0, |a, (b, _)| a + b); } )
+    }
+
+    #[bench]
+    fn factorial_600851475143_nocache(bh: &mut BenchHarness) {
+        bh.iter(|| { reset_task_prime(); super::factorize(600851475143).fold(0, |a, (b, _)| a + b); } )
+    }
+}

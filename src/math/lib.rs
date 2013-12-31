@@ -4,6 +4,8 @@
 #[feature(globs)];
 
 extern mod data;
+#[cfg(test)]
+extern mod extra;
 
 pub mod arith;
 pub mod cont_frac;
