@@ -48,5 +48,5 @@ RELEASE_RLIB=rustc --out-dir $(RELEASE_RLIB_DIR) $(RELEASE_RUSTC_FLAGS) $(1)
 TEST_BIN=rustc --out-dir $(TEST_BIN_DIR) $(TEST_RUSTC_FLAGS) $(1)
 TEST_BIN=rustc --out-dir $(TEST_BIN_DIR) $(TEST_RUSTC_FLAGS) $(1)
 
-RUN_TEST=$(1)
+RUN_TEST=$(1) --test
 RUN_BENCH=$(1) --bench
