@@ -7,12 +7,12 @@ PRINT_CRATE() {
     done
     find ./src -mindepth 2 -name "lib.rs" -type f | sort | while read MAIN_SRC; do
         CRATE_NAME=$(dirname ${MAIN_SRC} | sed 's|^./src/||')
-        OTHER_SRC=$(echo $(find ./src/${CRATE_NAME}/ -name "*.rs" -not -name "lib.rs" -type f))
+        OTHER_SRC=$(echo $(find ./src/${CRATE_NAME} -name "*.rs" -not -name "lib.rs" -type f))
         echo RLIB ${CRATE_NAME} ${MAIN_SRC} ${OTHER_SRC}
     done
     find ./src -mindepth 2 -name "main.rs" -type f | sort | while read MAIN_SRC; do
         CRATE_NAME=$(dirname ${MAIN_SRC} | sed 's|^./src/||')
-        OTHER_SRC=$(echo $(find ./src/${CRATE_NAME}/ -name "*.rs" -not -name "main.rs" -type f))
+        OTHER_SRC=$(echo $(find ./src/${CRATE_NAME} -name "*.rs" -not -name "main.rs" -type f))
         echo BIN ${CRATE_NAME} ${MAIN_SRC} ${OTHER_SRC}
     done
 }

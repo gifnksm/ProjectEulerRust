@@ -11,10 +11,10 @@ if [ "${CRATE_TYPE}" == "BIN" ]; then
     echo "debug: \$(DEBUG_${CRATE_NAME})"
     echo "release: \$(RELEASE_${CRATE_NAME})"
 fi
-if grep '#\[test\]' ${ALL_SRC} ; then
+if grep -q '#\[test\]' ${ALL_SRC} ; then
     echo "test: run-test-${CRATE_NAME}"
 fi
-if grep '#\[bench\]' ${ALL_SRC} ; then
+if grep -q '#\[bench\]' ${ALL_SRC} ; then
     echo "bench: run-bench-${CRATE_NAME}"
 fi
 
