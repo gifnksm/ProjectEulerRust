@@ -3,7 +3,7 @@
 extern mod extra;
 extern mod math;
 use extra::priority_queue::PriorityQueue;
-use math::prime;
+use prime = math::oldprime;
 
 pub static EXPECTED_ANSWER: &'static str = "9350130049860600";
 

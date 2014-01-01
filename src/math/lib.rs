@@ -11,5 +11,5 @@ pub mod arith;
 pub mod cont_frac;
 pub mod numconv;
 pub mod poly;
-pub mod prime;
+pub mod oldprime;
 pub mod sequence;

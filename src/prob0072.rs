@@ -4,7 +4,7 @@ extern mod math;
 
 use std::{iter, vec};
 use std::iter::AdditiveIterator;
-use math::prime;
+use prime = math::oldprime;
 
 pub static EXPECTED_ANSWER: &'static str = "303963552391";
 

@@ -3,7 +3,7 @@
 extern mod math;
 
 use std::f64;
-use math::{numconv, prime};
+use math::{numconv, oldprime};
 
 pub static EXPECTED_ANSWER: &'static str = "8319823";
 
@@ -19,9 +19,9 @@ pub fn solve() -> ~str {
 
     let mut min_n   = 0;
     let mut min_n_phi = f64::INFINITY;
-    for p1 in prime::iter() {
+    for p1 in oldprime::iter() {
         if p1 * p1 > limit { break }
-        for p2 in prime::iter() {
+        for p2 in oldprime::iter() {
             if p2 < p1 { continue }
 
             let n = p1 * p2;

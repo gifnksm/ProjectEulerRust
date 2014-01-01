@@ -3,7 +3,7 @@
 extern mod math;
 use std::iter;
 use std::iter::MultiplicativeIterator;
-use math::prime;
+use prime = math::oldprime;
 
 pub static EXPECTED_ANSWER: &'static str = "180180";
 

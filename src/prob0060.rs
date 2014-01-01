@@ -4,8 +4,8 @@ extern mod math;
 
 use std::hashmap::HashMap;
 use std::iter::AdditiveIterator;
-use math::prime;
-use math::prime::PrimeIterator;
+use prime = math::oldprime;
+use math::oldprime::PrimeIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "26033";
 

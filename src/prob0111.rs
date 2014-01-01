@@ -3,7 +3,7 @@
 extern mod data;
 extern mod math;
 use data::extiter::CombIterator;
-use math::{arith, numconv, prime};
+use math::{arith, numconv, oldprime};
 
 pub static EXPECTED_ANSWER: &'static str = "612407567715";
 
@@ -35,7 +35,7 @@ pub fn solve() -> ~str {
                             d
                         };
                     }
-                    if prime::contains(num) { sum += num; }
+                    if oldprime::contains(num) { sum += num; }
                 }
             }
             if sum > 0 {

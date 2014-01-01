@@ -4,7 +4,7 @@ extern mod common;
 extern mod math;
 
 use common::calc;
-use math::prime;
+use prime = math::oldprime;
 
 pub static EXPECTED_ANSWER: &'static str = "7652413";
 

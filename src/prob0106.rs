@@ -3,7 +3,7 @@
 extern mod math;
 use std::iter::AdditiveIterator;
 use std::hashmap::HashMap;
-use math::prime;
+use prime = math::oldprime;
 
 pub static EXPECTED_ANSWER: &'static str = "21384";
 

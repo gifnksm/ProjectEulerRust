@@ -5,7 +5,7 @@ extern mod math;
 
 use std::vec;
 use data::monoid::{Max, MergeMultiMonoidIterator, Wrap};
-use math::prime;
+use prime = math::oldprime;
 
 pub static EXPECTED_ANSWER: &'static str = "232792560";
 
