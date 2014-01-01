@@ -3,12 +3,14 @@
 extern mod data;
 extern mod math;
 use data::extiter::CombIterator;
-use math::{arith, numconv, oldprime};
+use math::{arith, numconv};
+use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "612407567715";
 
 pub fn solve() -> ~str {
     let n = 10u;
+    let prime = Prime::new();
     let mut total = 0;
     for d in range(0u, 10) {
         for m in range(0, n + 1).invert() {
@@ -35,7 +37,7 @@ pub fn solve() -> ~str {
                             d
                         };
                     }
-                    if oldprime::contains(num) { sum += num; }
+                    if prime.contains(num) { sum += num; }
                 }
             }
             if sum > 0 {

@@ -2,12 +2,13 @@
 
 extern mod math;
 
-use math::{numconv, oldprime};
+use math::numconv;
+use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "55";
 
 #[inline(always)]
-fn is_circular_prime(n: uint) -> bool {
+fn is_circular_prime(prime: &Prime, n: uint) -> bool {
     let ds = numconv::to_digits(n, 10).to_owned_vec();
     let mut buf = ds.clone();
 
@@ -15,15 +16,16 @@ fn is_circular_prime(n: uint) -> bool {
         for j in range(0, buf.len()) {
             buf[j] = ds[(i + j) % ds.len()];
         }
-        if !oldprime::contains(numconv::from_digits(buf, 10)) { return false; }
+        if !prime.contains(numconv::from_digits(buf, 10)) { return false; }
     }
 
     true
 }
 
 pub fn solve() -> ~str {
-    return oldprime::iter()
+    let prime = Prime::new();
+    return prime.iter()
         .take_while(|&p| p < 1000000)
-        .count(is_circular_prime)
+        .count(|n| is_circular_prime(&prime, n))
         .to_str();
 }

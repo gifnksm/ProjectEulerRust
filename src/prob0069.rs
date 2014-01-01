@@ -2,15 +2,16 @@
 
 extern mod math;
 
-use prime = math::oldprime;
+use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "510510";
 
 pub fn solve() -> ~str {
     let limit = 1000000;
+    let prime = Prime::new();
 
     let mut n = 1;
-    for p in prime::iter() {
+    for p in prime.iter() {
         if n * p > limit { break; }
         n *= p;
     }

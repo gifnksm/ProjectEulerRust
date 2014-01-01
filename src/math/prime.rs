@@ -55,7 +55,7 @@ static TASK_PRIME_KEY: Key<Prime> = &Key;
 
 #[deriving(Clone)]
 pub struct Prime {
-    data: Rc<RefCell<PrimeInner>>
+    priv data: Rc<RefCell<PrimeInner>>
 }
 
 impl Prime {
@@ -85,9 +85,9 @@ impl Prime {
     pub fn contains(&self, n: uint) -> bool { self.data.borrow().with_mut(|p| p.contains(n)) }
 }
 
-struct PrimeIterator {
-    idx: uint,
-    data: Rc<RefCell<PrimeInner>>
+pub struct PrimeIterator {
+    priv idx: uint,
+    priv data: Rc<RefCell<PrimeInner>>
 }
 
 impl Iterator<uint> for PrimeIterator {

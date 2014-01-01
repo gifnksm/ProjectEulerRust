@@ -3,7 +3,7 @@
 extern mod extra;
 extern mod math;
 use extra::priority_queue::PriorityQueue;
-use prime = math::oldprime;
+use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "9350130049860600";
 
@@ -20,6 +20,7 @@ impl Ord for Elem {
 pub fn solve() -> ~str {
     let limit = 4000000;
 
+    let prime = Prime::new();
     let mut queue = PriorityQueue::new();
     queue.push(Elem(2u, ~[1u]));
 
@@ -32,10 +33,10 @@ pub fn solve() -> ~str {
         if pairs.len() == 1 || pairs[pairs.len() - 1]  < pairs[pairs.len() - 2] {
             let mut new_pairs = pairs.clone();
             new_pairs[pairs.len() - 1] += 1;
-            queue.push(Elem(n * prime::nth(pairs.len() - 1), new_pairs));
+            queue.push(Elem(n * prime.nth(pairs.len() - 1), new_pairs));
         }
         let mut pairs = pairs;
         pairs.push(1);
-        queue.push(Elem(n * prime::nth(pairs.len() - 1), pairs));
+        queue.push(Elem(n * prime.nth(pairs.len() - 1), pairs));
     }
 }

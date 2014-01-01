@@ -2,20 +2,22 @@
 
 extern mod math;
 
-use math::{numconv, oldprime};
+use math::numconv;
+use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "748317";
 
-fn is_r2l(n: uint) -> bool {
+fn is_r2l(prime: &Prime, n: uint) -> bool {
     let mut itr = n / 10;
     while itr > 0 {
-        if !oldprime::contains(itr) { return false }
+        if !prime.contains(itr) { return false }
         itr /= 10;
     }
     true
 }
 
 pub fn solve() -> ~str {
+    let prime = Prime::new();
     let mut l2r_mat = ~[ ~[ 2u, 3, 5, 7 ] ];
     let mut order = 10;
 
@@ -28,7 +30,7 @@ pub fn solve() -> ~str {
             let ds = [ 1u, 2, 3, 5, 7, 9 ];
             for &d in ds.iter() {
                 let n = order * d + p;
-                if oldprime::contains(n) { result.push(n); }
+                if prime.contains(n) { result.push(n); }
             }
         }
 
@@ -41,7 +43,7 @@ pub fn solve() -> ~str {
     let mut sum = 0;
     for n in  l2r.iter() {
         if *n < 10 { continue }
-        if is_r2l(*n) { sum += *n; }
+        if is_r2l(&prime, *n) { sum += *n; }
     }
 
     sum.to_str()

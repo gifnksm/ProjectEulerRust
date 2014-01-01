@@ -4,8 +4,7 @@ extern mod math;
 
 use std::hashmap::HashMap;
 use std::iter::AdditiveIterator;
-use prime = math::oldprime;
-use math::oldprime::PrimeIterator;
+use math::prime::{Prime, PrimeIterator};
 
 pub static EXPECTED_ANSWER: &'static str = "26033";
 
@@ -16,23 +15,29 @@ fn concat_num(n: uint, m: uint) -> uint {
 }
 
 struct ConcatPrimeIterator {
+    prime: Prime,
     iter: PrimeIterator
 }
 
 impl ConcatPrimeIterator {
     #[inline]
-    fn new() -> ConcatPrimeIterator { ConcatPrimeIterator { iter: prime::iter() } }
+    fn new(prime: &Prime) -> ConcatPrimeIterator {
+        ConcatPrimeIterator {
+            prime: prime.clone(),
+            iter: prime.iter()
+        }
+    }
 }
 
 impl Iterator<(uint, ~[uint])> for ConcatPrimeIterator {
     #[inline]
     fn next(&mut self) -> Option<(uint, ~[uint])> {
         let n = self.iter.next().unwrap();
-        let pairs = prime::iter()
+        let pairs = self.prime.iter()
             .take_while(|&m| m <= n)
             .filter(|&m| (n + m) % 3 != 0 && {
-                prime::contains(concat_num(n, m)) &&
-                    prime::contains(concat_num(m, n))
+                self.prime.contains(concat_num(n, m)) &&
+                    self.prime.contains(concat_num(m, n))
             }).to_owned_vec();
         Some((n, pairs))
     }
@@ -70,10 +75,11 @@ fn find_chain(pairs: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~
 }
 
 pub fn solve() -> ~str {
+    let prime = Prime::new();
     let len = 5;
     let mut map = HashMap::new();
 
-    for (n, pairs) in ConcatPrimeIterator::new() {
+    for (n, pairs) in ConcatPrimeIterator::new(&prime) {
         if pairs.len() >= len {
             let sets = find_chain(pairs, ~[n], &map);
             for set in sets.iter() {

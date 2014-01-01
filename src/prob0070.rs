@@ -3,7 +3,8 @@
 extern mod math;
 
 use std::f64;
-use math::{numconv, oldprime};
+use math::numconv;
+use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "8319823";
 
@@ -17,11 +18,12 @@ pub fn solve() -> ~str {
     // phi(p) = p - 1 (if p is prime) => phi(p) is not permutation of p
     // phi(p1 * p2) = (p1 - 1) * (p2 - 1)
 
+    let prime = Prime::new();
     let mut min_n   = 0;
     let mut min_n_phi = f64::INFINITY;
-    for p1 in oldprime::iter() {
+    for p1 in prime.iter() {
         if p1 * p1 > limit { break }
-        for p2 in oldprime::iter() {
+        for p2 in prime.iter() {
             if p2 < p1 { continue }
 
             let n = p1 * p2;

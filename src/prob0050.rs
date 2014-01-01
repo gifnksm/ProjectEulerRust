@@ -2,17 +2,17 @@
 
 extern mod math;
 
-use prime = math::oldprime;
+use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "997651";
 
-fn get_longer(p: uint, min_len: uint) -> Option<uint> {
+fn get_longer(prime: &Prime, p: uint, min_len: uint) -> Option<uint> {
     let max_avg = if min_len == 0 { p } else { p / min_len };
 
     let mut start_idx = 0;
     let mut end_idx   = 0;
-    let mut start     = prime::nth(0);
-    let mut sum       = prime::nth(0);
+    let mut start     = prime.nth(0);
+    let mut sum       = prime.nth(0);
     loop {
         let len = (end_idx - start_idx + 1) as uint;
         if sum / len > max_avg { return None; }
@@ -26,7 +26,7 @@ fn get_longer(p: uint, min_len: uint) -> Option<uint> {
 
         if sum < p {
             end_idx += 1;
-            if end_idx >= 0 { sum += prime::nth(end_idx as uint); }
+            if end_idx >= 0 { sum += prime.nth(end_idx as uint); }
             continue
         }
 
@@ -36,7 +36,7 @@ fn get_longer(p: uint, min_len: uint) -> Option<uint> {
             if start_idx < 0 {
                 start = 0;
             } else {
-                start = prime::nth(start_idx as uint)
+                start = prime.nth(start_idx as uint)
             }
             continue
         }
@@ -46,12 +46,13 @@ fn get_longer(p: uint, min_len: uint) -> Option<uint> {
 pub fn solve() -> ~str {
     let limit = 1000000;
 
-    let mut it = prime::iter().take_while(|&p| p <= limit);
+    let prime = Prime::new();
+    let mut it = prime.iter().take_while(|&p| p <= limit);
 
     let mut len = 0;
     let mut num = 0;
     for p in it {
-        match get_longer(p, len) {
+        match get_longer(&prime, p, len) {
             Some(l) => {
                 len = l;
                 num = p;

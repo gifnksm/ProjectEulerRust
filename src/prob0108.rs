@@ -3,7 +3,8 @@
 extern mod math;
 use std::iter;
 use std::iter::MultiplicativeIterator;
-use prime = math::oldprime;
+use math::prime;
+use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "180180";
 
@@ -16,22 +17,26 @@ pub static EXPECTED_ANSWER: &'static str = "180180";
 // 2n^2 + n(a+b) = n^2 + n(a+b) + ab
 // n^2 = ab
 
-fn num_pairs(n: uint) -> uint {
-    (prime::factorize(n)
+fn num_pairs(ps: &Prime, n: uint) -> uint {
+    (prime::factorize(ps, n)
      .map(|(_base, exp)| 2 * (exp as uint) + 1)
      .product() - 1) / 2 + 1
 }
 
 pub fn solve() -> ~str {
     let n = 1000;
-    iter::count(1u, 1).find(|&i| num_pairs(i) > n).unwrap().to_str()
+    let prime = Prime::new();
+    iter::count(1u, 1).find(|&i| num_pairs(&prime, i) > n).unwrap().to_str()
 }
 
 #[cfg(test)]
 mod test {
+    use math::prime::Prime;
+
     #[test]
     fn test_num_pairs() {
-        assert_eq!(super::num_pairs(4), 3);
-        assert_eq!(super::num_pairs(1260), 113);
+        let prime = Prime::new();
+        assert_eq!(super::num_pairs(&prime, 4), 3);
+        assert_eq!(super::num_pairs(&prime, 1260), 113);
     }
 }
