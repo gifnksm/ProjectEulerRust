@@ -362,6 +362,16 @@ mod bench {
     }
 
     #[bench]
+    fn get_below_5000th(bh: &mut BenchHarness) {
+        bh.iter(|| { for _p in super::iter().take(5000) {} });
+    }
+
+    #[bench]
+    fn get_below_5000th_nocache(bh: &mut BenchHarness) {
+        bh.iter(|| { reset_task_prime(); for _p in super::iter().take(5000) {} });
+    }
+
+    #[bench]
     fn factorial_600851475143(bh: &mut BenchHarness) {
         bh.iter(|| { super::factorize(600851475143).fold(0, |a, (b, _)| a + b); } )
     }
