@@ -3,21 +3,22 @@
 extern mod math;
 
 use std::vec;
-use prime = math::oldprime;
+use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "4179871";
 
 #[inline(always)]
-fn is_abundant(n: uint) -> bool {
-    prime::sum_of_proper_divisors(n) > n
+fn is_abundant(prime: &Prime, n: uint) -> bool {
+    prime.sum_of_proper_divisor(n) > n
 }
 
 pub fn solve() -> ~str {
     let max_num = 28123;
+    let prime = Prime::new();
 
     let abundant = vec::build(Some(max_num + 1), |push| {
         for n in range(2, max_num + 1) {
-            if is_abundant(n) { push(n); }
+            if is_abundant(&prime, n) { push(n); }
         }
     });
 

@@ -1,9 +1,11 @@
 use std::{iter, local_data};
+use std::iter::MultiplicativeIterator;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::local_data::Key;
 
 use arith;
+use data::monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
 
 static PRIMES_BELOW100: &'static [uint] = &[
     2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
@@ -78,14 +80,51 @@ impl Prime {
     #[inline]
     fn new_empty() -> Prime { Prime { data: Rc::from_send(RefCell::new(PrimeInner::new())) } }
     #[inline]
-    pub fn iter<'a>(&'a self) -> PrimeIterator { PrimeIterator { idx: 0, data: self.data.clone() } }
-    #[inline]
     pub fn nth(&self, n: uint) -> uint { self.data.borrow().with_mut(|p| p.nth(n)) }
     #[inline]
     pub fn contains(&self, n: uint) -> bool { self.data.borrow().with_mut(|p| p.contains(n)) }
+
+    #[inline]
+    pub fn iter<'a>(&'a self) -> PrimeIterator { PrimeIterator { idx: 0, data: self.data.clone() } }
     #[inline]
     pub fn factorize(&self, n: uint) -> FactorizeIterator {
         FactorizeIterator { num: n, iter: self.iter() }
+    }
+    #[inline]
+    pub fn num_of_divisor(&self, n: uint) -> uint {
+        if n == 0 { return 0 }
+        self.factorize(n)
+            .map(|(_base, exp)| (exp as uint) + 1)
+            .product()
+    }
+    #[inline]
+    pub fn sum_of_divisor(&self, n: uint) -> uint {
+        if n == 0 { return 0 }
+        self.factorize(n)
+            .map(|(base, exp)| (arith::pow(base, (exp as uint) + 1) - 1) / (base - 1) )
+            .product()
+    }
+    #[inline]
+    pub fn num_of_proper_divisor(&self, n: uint) -> uint { self.num_of_divisor(n) - 1 }
+    #[inline]
+    pub fn sum_of_proper_divisor(&self, n: uint) -> uint { self.sum_of_divisor(n) - n }
+    #[inline]
+    pub fn comb(&self, n: uint, r: uint) -> uint {
+        let ns = range(r + 1, n + 1)
+            .map(|n| {
+                self.factorize(n)
+                    .map(|(base, exp)| (base, Sum(exp)))
+            }).to_owned_vec();
+        let numer = MergeMultiMonoidIterator::new(ns);
+
+        let ds = range(1, n - r + 1)
+            .map(|n| {
+                self.factorize(n)
+                    .map(|(base, exp)| (base, Sum(-exp)))
+            }).to_owned_vec();
+        let denom = MergeMultiMonoidIterator::new(ds);
+
+        MergeMonoidIterator::new(numer, denom).map(|(a, m)| (a, m.unwrap())).to_uint()
     }
 }
 
@@ -155,95 +194,135 @@ impl<IA: Iterator<Factor>> FactorIterator for IA {
 
 #[cfg(test)]
 mod test {
-    mod prime {
-        use super::super::Prime;
+    use super::{Prime, Factor};
 
-        static PRIMES_BELOW200: &'static [uint] = &[
-            2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
-            43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
-            101, 103, 107, 109, 113, 127, 131, 137, 139, 149,
-            151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199
-        ];
+    static PRIMES_BELOW200: &'static [uint] = &[
+        2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
+        43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
+        101, 103, 107, 109, 113, 127, 131, 137, 139, 149,
+        151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199
+            ];
 
-        #[test]
-        fn iter() {
-            let prime = Prime::new();
-            assert_eq!(PRIMES_BELOW200.to_owned(), prime.iter().take(PRIMES_BELOW200.len()).to_owned_vec());
+    #[test]
+    fn iter() {
+        let prime = Prime::new();
+        assert_eq!(PRIMES_BELOW200.to_owned(), prime.iter().take(PRIMES_BELOW200.len()).to_owned_vec());
+    }
+
+    #[test]
+    fn nth() {
+        let prime = Prime::new_empty();
+        // Generated primes
+        for (i, &p) in PRIMES_BELOW200.iter().enumerate() {
+            assert_eq!(p, prime.nth(i));
         }
-
-        #[test]
-        fn nth() {
-            let prime = Prime::new();
-            for (i, &p) in PRIMES_BELOW200.iter().enumerate() {
-                assert_eq!(p, prime.nth(i));
-            }
-        }
-
-        #[test]
-        fn contains() {
-            let prime = Prime::new();
-            assert!(!prime.contains(0));
-            assert!(!prime.contains(1));
-            assert!(prime.contains(2));
-            assert!(prime.contains(3));
-            assert!(!prime.contains(4));
-            assert!(prime.contains(5));
-            assert!(!prime.contains(6));
-            assert!(prime.contains(7));
-            assert!(!prime.contains(100));
-        }
-
-        #[test]
-        fn multi_iter() {
-            let prime = Prime::new();
-            for _p1 in prime.iter() {
-                for _p2 in prime.iter() {
-                    break;
-                }
-                break;
-            }
-        }
-
-        #[test]
-        fn clone_clones_data() {
-            let p1 = Prime::new();
-            let p2 = p1.clone();
-            p1.nth(500);
-            let l1 = p1.data.borrow().with(|p| p.data.len());
-            let l2 = p2.data.borrow().with(|p| p.data.len());
-            assert_eq!(l1, l2);
+        // Memoized primes
+        for (i, &p) in PRIMES_BELOW200.iter().enumerate() {
+            assert_eq!(p, prime.nth(i));
         }
     }
 
-    mod factorize {
-        use super::super::{Prime, Factor};
+    #[test]
+    fn contains() {
+        let prime = Prime::new();
+        assert!(!prime.contains(0));
+        assert!(!prime.contains(1));
+        assert!(prime.contains(2));
+        assert!(prime.contains(3));
+        assert!(!prime.contains(4));
+        assert!(prime.contains(5));
+        assert!(!prime.contains(6));
+        assert!(prime.contains(7));
+        assert!(!prime.contains(100));
+    }
 
-        #[test]
-        fn factorize() {
-            fn check(n: uint, fs: ~[Factor]) {
-                let ps = Prime::new();
-                assert_eq!(fs, ps.factorize(n).to_owned_vec());
-                if n != 0 {
-                    assert_eq!(n, ps.factorize(n).to_uint());
-                }
+    #[test]
+    fn multi_iter() {
+        let prime = Prime::new();
+        for _p1 in prime.iter() {
+            for _p2 in prime.iter() {
+                break;
             }
-
-            check(0, ~[]);
-            check(1, ~[]);
-            check(2, ~[(2, 1)]);
-            check(3, ~[(3, 1)]);
-            check(4, ~[(2, 2)]);
-            check(5, ~[(5, 1)]);
-            check(6, ~[(2, 1), (3, 1)]);
-            check(7, ~[(7, 1)]);
-            check(8, ~[(2, 3)]);
-            check(9, ~[(3, 2)]);
-            check(10, ~[(2, 1), (5, 1)]);
-
-            check(8 * 27, ~[(2, 3), (3, 3)]);
-            check(97, ~[(97, 1)]);
-            check(97 * 41, ~[(41, 1), (97, 1)]);
+            break;
         }
+    }
+
+    #[test]
+    fn clone_clones_data() {
+        let p1 = Prime::new();
+        let p2 = p1.clone();
+        p1.nth(500);
+        let l1 = p1.data.borrow().with(|p| p.data.len());
+        let l2 = p2.data.borrow().with(|p| p.data.len());
+        assert_eq!(l1, l2);
+    }
+
+    #[test]
+    fn factorize() {
+        fn check(n: uint, fs: ~[Factor]) {
+            let ps = Prime::new();
+            assert_eq!(fs, ps.factorize(n).to_owned_vec());
+            if n != 0 {
+                assert_eq!(n, ps.factorize(n).to_uint());
+            }
+        }
+
+        check(0, ~[]);
+        check(1, ~[]);
+        check(2, ~[(2, 1)]);
+        check(3, ~[(3, 1)]);
+        check(4, ~[(2, 2)]);
+        check(5, ~[(5, 1)]);
+        check(6, ~[(2, 1), (3, 1)]);
+        check(7, ~[(7, 1)]);
+        check(8, ~[(2, 3)]);
+        check(9, ~[(3, 2)]);
+        check(10, ~[(2, 1), (5, 1)]);
+
+        check(8 * 27, ~[(2, 3), (3, 3)]);
+        check(97, ~[(97, 1)]);
+        check(97 * 41, ~[(41, 1), (97, 1)]);
+    }
+
+    #[test]
+    fn num_of_divisor() {
+        let pairs = [
+            (0, 0),
+            (1, 1), (2, 2), (3, 2), (4, 3), (5, 2), (6, 4),
+            (7, 2), (8, 4), (9, 3), (10, 4), (11, 2), (12, 6),
+            (24, 8), (36, 9), (48, 10), (60, 12),
+            (50, 6)
+            ];
+        let p = Prime::new();
+        for &(n, num_div) in pairs.iter() {
+            assert_eq!(num_div, p.num_of_divisor(n));
+        }
+    }
+
+    #[test]
+    fn sum_of_divisor() {
+        let pairs = [
+            (0, 0),
+            (1, 1), (2, 3), (3, 4), (4, 7), (5, 6), (6, 12),
+            (7, 8), (8, 15), (9, 13), (10, 18), (11, 12), (12, 28),
+            (24, 60), (36, 91), (48, 124), (60, 168),
+            (50, 93)
+            ];
+        let p = Prime::new();
+        for &(n, sum_div) in pairs.iter() {
+            assert_eq!(sum_div, p.sum_of_divisor(n));
+        }
+    }
+
+    #[test]
+    fn comb() {
+        let prime = Prime::new();
+        assert_eq!(1, prime.comb(2, 2));
+        assert_eq!(3, prime.comb(3, 2));
+        assert_eq!(6, prime.comb(4, 2));
+        assert_eq!(10, prime.comb(5, 2));
+
+        assert_eq!(137846528820, prime.comb(40, 20));
     }
 }
 

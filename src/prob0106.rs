@@ -3,7 +3,7 @@
 extern mod math;
 use std::iter::AdditiveIterator;
 use std::hashmap::HashMap;
-use prime = math::oldprime;
+use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "21384";
 
@@ -94,29 +94,30 @@ fn f(i: uint, j: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     val
 }
 
-fn get_num_pairs(n: uint) -> uint {
+fn get_num_pairs(prime: &Prime, n: uint) -> uint {
     let mut map = HashMap::new();
     range(1, n / 2 + 1).map(|k| {
-            prime::comb(n, 2*k) * (prime::comb(2 * k, k) / 2 - f(k, k, &mut map))
+            prime.comb(n, 2*k) * (prime.comb(2 * k, k) / 2 - f(k, k, &mut map))
         }).sum()
 }
 
 pub fn solve() -> ~str {
-    get_num_pairs(12).to_str()
+    get_num_pairs(&Prime::new(), 12).to_str()
 }
 
 #[cfg(test)]
 mod test {
     use std::hashmap::HashMap;
+    use math::prime::Prime;
 
     #[test]
     fn test_f() {
         let mut map = HashMap::new();
-        assert_eq!(super::f(1, 1, &mut map), 1);
-        assert_eq!(super::f(2, 2, &mut map), 2);
-        assert_eq!(super::f(3, 3, &mut map), 5);
-        assert_eq!(super::f(4, 4, &mut map), 14);
-        assert_eq!(super::f(5, 5, &mut map), 42);
+        assert_eq!(1, super::f(1, 1, &mut map));
+        assert_eq!(2, super::f(2, 2, &mut map));
+        assert_eq!(5, super::f(3, 3, &mut map));
+        assert_eq!(14, super::f(4, 4, &mut map));
+        assert_eq!(42, super::f(5, 5, &mut map));
     }
     // f(4,4) = f(3,4)
     //        = f(3,3) + f(2,4)
@@ -134,7 +135,8 @@ mod test {
 
     #[test]
     fn test_get_num_pairs() {
-        assert_eq!(super::get_num_pairs(4), 1);
-        assert_eq!(super::get_num_pairs(7), 70);
+        let prime = Prime::new();
+        assert_eq!(1, super::get_num_pairs(&prime, 4));
+        assert_eq!(70, super::get_num_pairs(&prime, 7));
     }
 }
