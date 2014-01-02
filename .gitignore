@@ -1,7 +1,6 @@
 # ignore executable files
 bin/debug/*
 bin/release/*
-bin/test/*
 
 # ignore library files
 lib/debug/*

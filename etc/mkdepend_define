@@ -10,13 +10,15 @@ case ${CRATE_TYPE} in
         BIN_NAME=$(basename $(rustc --crate-file-name --test "${MAIN_SRC}"))
         echo "DEBUG_${CRATE_NAME}=\$(DEBUG_RLIB_DIR)/${RLIB_NAME}"
         echo "RELEASE_${CRATE_NAME}=\$(RELEASE_RLIB_DIR)/${RLIB_NAME}"
-        echo "TEST_${CRATE_NAME}=\$(TEST_BIN_DIR)/${BIN_NAME}"
+        echo "DEBUG_${CRATE_NAME}test=\${DEBUG_BIN_DIR}/${BIN_NAME}test"
+        echo "RELEASE_${CRATE_NAME}test=\${RELEASE_BIN_DIR}/${BIN_NAME}test"
         ;;
     BIN)
         BIN_NAME=$(basename $(rustc --crate-file-name --bin "${MAIN_SRC}"))
         echo "DEBUG_${CRATE_NAME}=\$(DEBUG_BIN_DIR)/${BIN_NAME}"
         echo "RELEASE_${CRATE_NAME}=\$(RELEASE_BIN_DIR)/${BIN_NAME}"
-        echo "TEST_${CRATE_NAME}=\$(TEST_BIN_DIR)/${BIN_NAME}"
+        echo "DEBUG_${CRATE_NAME}test=\${DEBUG_BIN_DIR}/${BIN_NAME}test"
+        echo "RELEASE_${CRATE_NAME}test=\${RELEASE_BIN_DIR}/${BIN_NAME}test"
         ;;
     *)
         exit 1

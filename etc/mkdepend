@@ -23,7 +23,7 @@ PRINT_DEFINE_INCLUDE() {
     local CRATE_NAME=$1
     shift
     local ALL_SRC=$@
-    echo "include \$(DEPEND_DIR)/${CRATE_NAME}.define.mk"
+    echo "-include \$(DEPEND_DIR)/${CRATE_NAME}.define.mk"
     echo "\$(DEPEND_DIR)/${CRATE_NAME}.define.mk: ${ALL_SRC} ./etc/mkdepend_define"
     echo "	./etc/mkdepend_define ${CRATE_TYPE} ${CRATE_NAME} \$< > \$@"
 }
@@ -34,7 +34,7 @@ PRINT_RULE() {
     local CRATE_NAME=$1
     shift
     local ALL_SRC=$@
-    echo "include \$(DEPEND_DIR)/${CRATE_NAME}.rule.mk"
+    echo "-include \$(DEPEND_DIR)/${CRATE_NAME}.rule.mk"
     echo "\$(DEPEND_DIR)/${CRATE_NAME}.rule.mk: ${ALL_SRC} ./etc/mkdepend_rule"
     echo "	./etc/mkdepend_rule ${CRATE_TYPE} ${CRATE_NAME} ${ALL_SRC} > \$@"
 }
