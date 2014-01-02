@@ -3,7 +3,6 @@
 extern mod math;
 
 use std::iter;
-use math::prime;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "134043";
@@ -15,7 +14,7 @@ pub fn solve() -> ~str {
 
     let mut cnt = 0;
     for n in iter::count(1u, 1) {
-        if prime::factorize(&prime, n).len() != num_factor {
+        if prime.factorize(n).len() != num_factor {
             cnt = 0;
             continue
         }

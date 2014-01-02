@@ -3,7 +3,6 @@
 extern mod math;
 use std::iter;
 use std::iter::MultiplicativeIterator;
-use math::prime;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "180180";
@@ -18,9 +17,10 @@ pub static EXPECTED_ANSWER: &'static str = "180180";
 // n^2 = ab
 
 fn num_pairs(ps: &Prime, n: uint) -> uint {
-    (prime::factorize(ps, n)
-     .map(|(_base, exp)| 2 * (exp as uint) + 1)
-     .product() - 1) / 2 + 1
+    let prod = ps.factorize(n)
+        .map(|(_base, exp)| 2 * (exp as uint) + 1)
+        .product();
+    (prod - 1) / 2 + 1
 }
 
 pub fn solve() -> ~str {

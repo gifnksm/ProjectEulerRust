@@ -83,6 +83,10 @@ impl Prime {
     pub fn nth(&self, n: uint) -> uint { self.data.borrow().with_mut(|p| p.nth(n)) }
     #[inline]
     pub fn contains(&self, n: uint) -> bool { self.data.borrow().with_mut(|p| p.contains(n)) }
+    #[inline]
+    pub fn factorize(&self, n: uint) -> FactorizeIterator {
+        FactorizeIterator { num: n, iter: self.iter() }
+    }
 }
 
 pub struct PrimeIterator {
@@ -97,11 +101,6 @@ impl Iterator<uint> for PrimeIterator {
         self.idx += 1;
         Some(p)
     }
-}
-
-#[inline(always)]
-pub fn factorize(ps: &Prime, n: uint) -> FactorizeIterator {
-    FactorizeIterator { num: n, iter: ps.iter() }
 }
 
 pub type Factor = (uint, int);
@@ -223,9 +222,9 @@ mod test {
         fn factorize() {
             fn check(n: uint, fs: ~[Factor]) {
                 let ps = Prime::new();
-                assert_eq!(fs, super::super::factorize(&ps, n).to_owned_vec());
+                assert_eq!(fs, ps.factorize(n).to_owned_vec());
                 if n != 0 {
-                    assert_eq!(n, super::super::factorize(&ps, n).to_uint());
+                    assert_eq!(n, ps.factorize(n).to_uint());
                 }
             }
 
@@ -281,7 +280,7 @@ mod bench {
     fn factorial_600851475143(bh: &mut BenchHarness) {
         bh.iter(|| {
                 let ps = Prime::new();
-                super::factorize(&ps, 600851475143).fold(0, |a, (b, _)| a + b);
+                ps.factorize(600851475143).fold(0, |a, (b, _)| a + b);
             });
     }
 
@@ -289,7 +288,7 @@ mod bench {
     fn factorial_600851475143_nocache(bh: &mut BenchHarness) {
         bh.iter(|| {
                 let ps = Prime::new_empty();
-                super::factorize(&ps, 600851475143).fold(0, |a, (b, _)| a + b);
+                ps.factorize(600851475143).fold(0, |a, (b, _)| a + b);
             });
     }
 }
