@@ -10,17 +10,22 @@ use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "2783915460";
 
-fn get_at<K: IterBytes + Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> Either<uint, ~[K]> {
+enum CountResult<K> {
+    Contains(~[K]),
+    Skip(uint)
+}
+
+fn get_at<K: IterBytes + Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> CountResult<K> {
     if hist.is_empty() {
         if n == 1 {
-            return Right(~[]);
+            return Contains(~[]);
         } else {
-            return Left(0);
+            return Skip(0);
         }
     }
 
     let perm = calc::num_of_permutations(hist);
-    if perm < n { return Left(perm); }
+    if perm < n { return Skip(perm) }
 
     let mut kv = hist.iter().map(|(k, v)| (k.clone(), *v)).to_owned_vec();
     kv.sort_by(|&(ref a, _), &(ref b, _)| a.cmp(b));
@@ -39,8 +44,8 @@ fn get_at<K: IterBytes + Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, 
         }
 
         match get_at(&new_hist, n - idx) {
-            Left(cnt) => idx += cnt,
-            Right(ans) => return Right(ans + &[all_k.clone()])
+            Skip(cnt) => idx += cnt,
+            Contains(ans) => return Contains(ans + &[all_k.clone()])
         }
     }
 
@@ -49,6 +54,9 @@ fn get_at<K: IterBytes + Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, 
 
 pub fn solve() -> ~str {
     let nums = calc::histogram::<uint>(&[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    let ds = get_at(&nums, 1000000).unwrap_right();
-    return numconv::from_digits(ds, 10).to_str();
+    let ds = match get_at(&nums, 1000000) {
+        Contains(n) => n,
+        _ => fail!()
+    };
+    numconv::from_digits(ds, 10).to_str()
 }
