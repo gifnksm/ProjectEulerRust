@@ -213,15 +213,22 @@ mod test {
     #[deriving(Eq)]
     struct Uint(uint);
 
+    impl Uint {
+        fn unwrap(&self) -> uint {
+            let Uint(n) = *self;
+            n
+        }
+    }
+
     impl FromPrimitive for Uint {
         fn from_i64(n: i64) -> Option<Uint> { FromPrimitive::from_i64(n).map(Uint) }
         fn from_u64(n: u64) -> Option<Uint> { FromPrimitive::from_u64(n).map(Uint) }
     }
     impl Add<Uint, Uint> for Uint {
-        fn add(&self, other: &Uint) -> Uint { Uint(**self + **other) }
+        fn add(&self, other: &Uint) -> Uint { Uint(self.unwrap() + other.unwrap()) }
     }
     impl Mul<Uint, Uint> for Uint {
-        fn mul(&self, other: &Uint) -> Uint { Uint(**self * **other) }
+        fn mul(&self, other: &Uint) -> Uint { Uint(self.unwrap() * other.unwrap()) }
     }
 
     #[test]
