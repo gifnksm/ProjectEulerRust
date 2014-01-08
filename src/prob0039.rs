@@ -23,7 +23,7 @@ pub fn solve() -> ~str {
             let (a, b, c) = (m * m - n * n, 2 * m * n, m * m + n * n);
             let s = a + b + c;
             for k in range(1, limit / s + 1) {
-                let new_val = map.find(&(k * s)).map_default(1, |&v| v + 1);
+                let new_val = map.find(&(k * s)).map_or(1, |&v| v + 1);
                 map.insert(k * s, new_val);
             }
         }

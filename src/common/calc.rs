@@ -5,7 +5,7 @@ use std::iter::MultiplicativeIterator;
 pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::<T, uint>::new();
     for k in v.iter() {
-        let val = map.find(k).map_default(1, |v| { *v + 1 });
+        let val = map.find(k).map_or(1, |v| *v + 1);
         map.insert(k.clone(), val);
     }
     return map;
