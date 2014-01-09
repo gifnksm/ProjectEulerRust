@@ -194,7 +194,7 @@ impl<IA: Iterator<Factor>> FactorIterator for IA {
 
 #[cfg(test)]
 mod test {
-    use super::{Prime, Factor};
+    use super::{Prime, Factor, FactorIterator};
 
     static PRIMES_BELOW200: &'static [uint] = &[
         2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,

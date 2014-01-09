@@ -127,7 +127,7 @@ pub fn solve() -> ~str {
 
 #[cfg(test)]
 mod test {
-    use super::ElementIndex;
+    use super::{ImmutableCloneableVector, ElementIndex};
 
     #[test]
     fn element_index() {
