@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PRINT_CRATE() {
-    find ./src -maxdepth 1 -mindepth 1 -type f | sort | while read MAIN_SRC; do
+    find ./src -maxdepth 1 -mindepth 1 -name "*.rs" -type f | sort | while read MAIN_SRC; do
         CRATE_NAME=$(echo "${MAIN_SRC}" | sed 's|^./src/||; s|\.rs$||')
         echo RLIB ${CRATE_NAME} ${MAIN_SRC}
     done
