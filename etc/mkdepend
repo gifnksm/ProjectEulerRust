@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 PRINT_CRATE() {
     find ./src -maxdepth 1 -mindepth 1 -name "*.rs" -type f | sort | while read MAIN_SRC; do

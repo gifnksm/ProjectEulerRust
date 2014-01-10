@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 CRATE_TYPE=$1
 CRATE_NAME=$2
