@@ -18,11 +18,7 @@ struct ReaderSplitIterator<'a, R> {
 }
 impl<'a, R: Reader> Iterator<~str> for ReaderSplitIterator<'a, R> {
     fn next(&mut self) -> Option<~str> {
-        if self.reader.eof() {
-            None
-        } else {
-            self.reader.read_until(self.c).map(str::from_utf8_owned)
-        }
+        self.reader.read_until(self.c).map(str::from_utf8_owned)
     }
 }
 

@@ -65,20 +65,26 @@ impl SuDoku {
     }
 }
 
-fn read_sudoku<T: Reader>(r: &mut BufferedReader<T>) -> SuDoku {
-    let mut sudoku = SuDoku {
-        name: r.read_line().unwrap(),
-        map: [[MASK_ALL, .. BOARD_WIDTH], .. BOARD_HEIGHT]
-    };
-
-    for y in range(0, BOARD_HEIGHT) {
-        let line = r.read_line().unwrap();
-        for x in range(0, BOARD_WIDTH) {
-            let n = char::to_digit(line[x] as char, 10).unwrap();
-            if n != 0 { sudoku.map[y][x] = 1 << (n - 1); }
-        }
-    }
-    sudoku
+fn read_sudoku<T: Reader>(r: &mut BufferedReader<T>) -> Option<SuDoku> {
+    r.read_line()
+        .and_then(|name| {
+            let mut sudoku = SuDoku {
+                name: name,
+                map: [[MASK_ALL, .. BOARD_WIDTH], .. BOARD_HEIGHT]
+            };
+            for y in range(0, BOARD_HEIGHT) {
+                match r.read_line() {
+                    None => return None,
+                    Some(line) => {
+                        for x in range(0, BOARD_WIDTH) {
+                            let n = char::to_digit(line[x] as char, 10).unwrap();
+                            if n != 0 { sudoku.map[y][x] = 1 << (n - 1); }
+                        }
+                    }
+                }
+            }
+            Some(sudoku)
+        })
 }
 
 fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
@@ -174,7 +180,12 @@ pub fn solve() -> ~str {
         File::open(&Path::new("files/sudoku.txt")).expect("file not found."));
 
     let mut puzzles = ~[];
-    while !br.eof() { puzzles.push(read_sudoku(&mut br)); }
+    loop {
+        match read_sudoku(&mut br) {
+            Some(sudoku) => puzzles.push(sudoku),
+            None => break
+        }
+    }
     let mut answers = puzzles
         .move_iter()
         .map(solve_sudoku)
