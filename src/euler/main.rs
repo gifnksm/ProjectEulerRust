@@ -129,6 +129,10 @@ fn solve_all<T: Iterator<&'static Problem<'static>>>(mut it: T) {
         print_result("AVG", total_time / solve_cnt, "", true, all_correct);
         print_result("TOTAL", total_time, "", false, all_correct);
     }
+
+    if !all_correct {
+        os::set_exit_status(1);
+    }
 }
 
 fn main() {
