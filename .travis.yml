@@ -1,8 +1,10 @@
+python:
+  - "3.3"
 before_install:
   - yes | sudo add-apt-repository ppa:hansjorg/rust
   - sudo apt-get update
 install:
-  - sudo apt-get install rust-nightly python3
+  - sudo apt-get install rust-nightly
 script:
   - make debug
   - make release
