@@ -5,6 +5,8 @@ install:
   - sudo apt-get install rust-nightly python3
 script:
   - make debug
+  - ./bin/debug/euler
   - make release
+  - ./bin/release/euler
   - make test
   - make bench
