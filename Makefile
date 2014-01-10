@@ -1,5 +1,5 @@
 PROB_SRC   = $(sort $(wildcard src/prob*.rs))
-MOD_SRC    = src/euler/problem.rs
+MOD_SRC    = src/euler/problem_list.rs
 ALL_SRC    = $(wildcard src/*.rs) $(wildcard src/*/*.rs)
 
 DEPEND_DIR=depend
@@ -30,8 +30,8 @@ clean:
 
 $(DEPEND): $(ALL_SRC) $(MOD_SRC) ./etc/mkdepend
 	./etc/mkdepend > $@
-$(MOD_SRC): $(PROB_SRC)
-	./etc/genmod ./src > $@
+$(MOD_SRC): $(PROB_SRC) ./etc/mkproblist
+	./etc/mkproblist ./src > $@
 
 ifneq "$(MAKECMDGOALS)" "clean"
 -include $(DEPEND)

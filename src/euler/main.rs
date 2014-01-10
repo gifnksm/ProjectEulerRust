@@ -13,6 +13,7 @@ use extra::term::Terminal;
 use problem::Problem;
 
 mod problem;
+mod problem_list;
 
 static NSEC_PER_SEC: u64 = 1000000000;
 fn nanosec_to_str(nsec: u64) -> ~str {
@@ -140,11 +141,11 @@ fn main() {
     let args = args.tail();
 
     if args.is_empty() {
-        solve_all(range(0, problem::PROBLEMS.len())
-                  .map(|i| problem::PROBLEMS[i]))
+        solve_all(range(0, problem_list::PROBLEMS.len())
+                  .map(|i| problem_list::PROBLEMS[i]))
     } else {
         solve_all(ArgIterator::new(args)
-                  .filter_map(|n| problem::PROBLEMS.bsearch(|&p| p.id.cmp(&n)))
-                  .map(|i| problem::PROBLEMS[i]));
+                  .filter_map(|n| problem_list::PROBLEMS.bsearch(|&p| p.id.cmp(&n)))
+                  .map(|i| problem_list::PROBLEMS[i]));
     };
 }
