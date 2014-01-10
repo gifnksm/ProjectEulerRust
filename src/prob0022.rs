@@ -17,12 +17,13 @@ pub fn solve() -> ~str {
     let mut input = BufferedReader::new(File::open(&Path::new("files/names.txt"))
                                         .expect("file not found."));
     let mut ss = input.sep_iter(',' as u8)
-        .map(|s| s.trim_chars(&',').trim().trim_chars(&'\"').to_str())
+        .map(|s| s.trim().trim_chars(&'\"').to_str())
+        .filter(|s| !s.is_empty())
         .to_owned_vec();
     ss.sort();
     ss.iter()
         .enumerate()
-        .map(|(i, s)| {  get_score(i + 1, *s)} )
+        .map(|(i, s)| { get_score(i + 1, *s)} )
         .sum()
         .to_str()
 }

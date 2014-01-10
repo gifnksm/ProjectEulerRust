@@ -7,18 +7,34 @@ trait BufferedReaderUtil<R> {
     fn sep_iter<'a>(&'a mut self, c: u8) -> ReaderSplitIterator<'a, R>;
 }
 impl<R> BufferedReaderUtil<R> for BufferedReader<R> {
+    #[inline]
     fn sep_iter<'a>(&'a mut self, c: u8) -> ReaderSplitIterator<'a, R> {
-        ReaderSplitIterator { reader: self, c: c }
+        ReaderSplitIterator { reader: self, sep_char: c, sep_flag: false }
     }
 }
 
 struct ReaderSplitIterator<'a, R> {
     priv reader: &'a mut BufferedReader<R>,
-    priv c: u8
+    priv sep_char: u8,
+    priv sep_flag: bool
 }
 impl<'a, R: Reader> Iterator<~str> for ReaderSplitIterator<'a, R> {
+    #[inline]
     fn next(&mut self) -> Option<~str> {
-        self.reader.read_until(self.c).map(str::from_utf8_owned)
+        self.reader
+            .read_until(self.sep_char)
+            .map(|mut bytes| {
+                self.sep_flag = bytes.last_opt() == Some(&self.sep_char);
+                if self.sep_flag { bytes.pop(); }
+                str::from_utf8_owned(bytes)
+            }).or_else(|| {
+                if self.sep_flag {
+                    self.sep_flag = false;
+                    Some(~"")
+                } else {
+                    None
+                }
+            })
     }
 }
 
@@ -65,4 +81,39 @@ pub fn read_whole_word<'a>(input: &'a str) -> Result<~[&'a str], ~str> {
         }
     }
     return result::Ok(result);
+}
+
+#[cfg(test)]
+mod test {
+    mod sep_iter {
+        use super::super::BufferedReaderUtil;
+        use std::io::buffered::BufferedReader;
+        use std::io::mem::MemReader;
+
+        fn buffered(bytes: ~[u8]) -> BufferedReader<MemReader> {
+            BufferedReader::new(MemReader::new(bytes))
+        }
+
+        #[test]
+        fn exclusive_non_trailing_sep() {
+            let mut br = buffered(bytes!("a,bb,ccc").to_owned());
+            let mut it = br.sep_iter(',' as u8);
+            assert_eq!(Some(~"a"), it.next());
+            assert_eq!(Some(~"bb"), it.next());
+            assert_eq!(Some(~"ccc"), it.next());
+            assert_eq!(None, it.next());
+        }
+
+        #[test]
+        fn exclusive_trailing_sep() {
+            let mut br = buffered(bytes!("a,bb,ccc,").to_owned());
+            let mut it = br.sep_iter(',' as u8);
+            assert_eq!(Some(~"a"), it.next());
+            assert_eq!(Some(~"bb"), it.next());
+            assert_eq!(Some(~"ccc"), it.next());
+            assert_eq!(Some(~""), it.next());
+            assert_eq!(None, it.next());
+            assert_eq!(None, it.next());
+        }
+    }
 }
