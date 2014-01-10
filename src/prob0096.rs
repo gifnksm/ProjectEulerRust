@@ -19,17 +19,18 @@ struct SuDoku {
     map: [[BITS, .. BOARD_WIDTH], .. BOARD_HEIGHT]
 }
 
+// #7622 (rust): #[deriving(TotalEq, Eq, Clone)] cannnot be used
 impl TotalEq for SuDoku {
-    #[inline(always)]
+    #[inline]
     fn equals(&self, other: &SuDoku) -> bool {
         self.name == other.name && range(0, BOARD_HEIGHT).all(|y| self.map[y] == other.map[y])
     }
 }
 
 impl Eq for SuDoku {
-    #[inline(always)]
+    #[inline]
     fn eq(&self, other: &SuDoku) -> bool { self.equals(other) }
-    #[inline(always)]
+    #[inline]
     fn ne(&self, other: &SuDoku) -> bool { !self.equals(other) }
 }
 
@@ -50,12 +51,14 @@ impl ToStr for SuDoku {
 }
 
 impl Clone for SuDoku {
+    #[inline]
     fn clone(&self) -> SuDoku {
         SuDoku { name: self.name.clone(), map: self.map }
     }
 }
 
 impl SuDoku {
+    #[inline]
     fn get_num(&self, x: uint, y: uint) -> BITS {
         match self.map[y][x].population_count() {
             0 => -1,
