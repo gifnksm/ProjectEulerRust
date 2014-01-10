@@ -13,7 +13,6 @@ DEPEND=$(DEPEND_DIR)/all.mk
 
 DEBUG_RUSTC_FLAGS   = -L $(DEBUG_RLIB_DIR)
 RELEASE_RUSTC_FLAGS = --opt-level 3 -L $(RELEASE_RLIB_DIR)
-TEST_RUSTC_FLAGS    = --test --opt-level 3 -L $(DEBUG_RLIB_DIR)
 
 .PHONY: debug release test bench depend clean
 
