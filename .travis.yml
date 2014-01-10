@@ -4,6 +4,7 @@ before_install:
 install:
   - sudo apt-get install rust-nightly python3
 script:
+  - wget -i ./etc/files.txt -P ./files
   - make debug
   - ./bin/debug/euler
   - make release

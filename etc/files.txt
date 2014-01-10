@@ -1,0 +1,13 @@
+https://projecteuler.net/project/base_exp.txt
+https://projecteuler.net/project/cipher1.txt
+https://projecteuler.net/project/keylog.txt
+https://projecteuler.net/project/matrix.txt
+https://projecteuler.net/project/names.txt
+https://projecteuler.net/project/network.txt
+https://projecteuler.net/project/poker.txt
+https://projecteuler.net/project/roman.txt
+https://projecteuler.net/project/sets.txt
+https://projecteuler.net/project/sudoku.txt
+https://projecteuler.net/project/triangle.txt
+https://projecteuler.net/project/triangles.txt
+https://projecteuler.net/project/words.txt
