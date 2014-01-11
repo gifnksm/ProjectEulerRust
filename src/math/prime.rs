@@ -78,7 +78,7 @@ impl Prime {
         }
     }
     #[inline]
-    fn new_empty() -> Prime { Prime { data: Rc::from_send(RefCell::new(PrimeInner::new())) } }
+    fn new_empty() -> Prime { Prime { data: Rc::new(RefCell::new(PrimeInner::new())) } }
     #[inline]
     pub fn nth(&self, n: uint) -> uint { self.data.borrow().with_mut(|p| p.nth(n)) }
     #[inline]
