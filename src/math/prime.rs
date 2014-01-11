@@ -1,4 +1,4 @@
-use std::{iter, local_data};
+use std::{iter, local_data, uint};
 use std::iter::MultiplicativeIterator;
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -138,6 +138,17 @@ impl Iterator<uint> for PrimeIterator {
     fn next(&mut self) -> Option<uint> {
         let p = self.data.borrow().with_mut(|p| p.nth(self.idx));
         self.idx += 1;
+        Some(p)
+    }
+}
+
+impl RandomAccessIterator<uint> for PrimeIterator {
+    #[inline]
+    fn indexable(&self) -> uint { uint::max_value }
+
+    #[inline]
+    fn idx(&self, index: uint) -> Option<uint> {
+        let p = self.data.borrow().with_mut(|p| p.nth(index));
         Some(p)
     }
 }
