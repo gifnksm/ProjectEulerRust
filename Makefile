@@ -12,7 +12,7 @@ RELEASE_BIN_DIR=bin/release
 DEPEND=$(DEPEND_DIR)/all.mk
 
 RUSTC_FLAGS = -D warnings
-DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR)
+DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) -Z debug-info -Z extra-debug-info
 RELEASE_RUSTC_FLAGS = $(RUSTC_FLAGS) -L $(RELEASE_RLIB_DIR) --opt-level 3
 
 .PHONY: debug release test bench depend clean
