@@ -3,13 +3,17 @@
 CRATE_TYPE=$1
 CRATE_NAME=$2
 MAIN_SRC=$3
-shift
-shift
+shift; shift
 ALL_SRC=$@
 
+DEBUG_TARGET="\$(DEBUG_${CRATE_NAME})"
+RELEASE_TARGET="\$(RELEASE_${CRATE_NAME})"
+DEBUG_TEST="\$(DEBUG_${CRATE_NAME}test)"
+RELEASE_TEST="\$(RELEASE_${CRATE_NAME}test)"
+
 if [ "${CRATE_TYPE}" == "BIN" ]; then
-    echo "debug: \$(DEBUG_${CRATE_NAME})"
-    echo "release: \$(RELEASE_${CRATE_NAME})"
+    echo "debug: ${DEBUG_TARGET}"
+    echo "release: ${RELEASE_TARGET}"
 fi
 if grep -q '#\[test\]' ${ALL_SRC} ; then
     echo "test: run-test-${CRATE_NAME}"
@@ -18,28 +22,34 @@ if grep -q '#\[bench\]' ${ALL_SRC} ; then
     echo "bench: run-bench-${CRATE_NAME}"
 fi
 
-echo ".PHONY: debug-${CRATE_NAME} release-${CRATE_NAME} test-${CRATE_NAME} run-test-${CRATE_NAME}"
-echo "debug-${CRATE_NAME}: \$(DEBUG_${CRATE_NAME})"
-echo "release-${CRATE_NAME}: \$(RELEASE_${CRATE_NAME})"
-echo "debug-${CRATE_NAME}test: \$(DEBUG_${CRATE_NAME}test)"
-echo "release-${CRATE_NAME}test: \$(RELEASE_${CRATE_NAME}test)"
-echo "run-test-${CRATE_NAME}: \$(DEBUG_${CRATE_NAME}test)"
-echo "	\$(call RUN_TEST,$<)"
-echo "run-bench-${CRATE_NAME}: \$(RELEASE_${CRATE_NAME}test)"
-echo "	\$(call RUN_BENCH,$<)"
+cat <<EOF
+.PHONY: debug-${CRATE_NAME} release-${CRATE_NAME} test-${CRATE_NAME} run-test-${CRATE_NAME} run-bench-${CRATE_NAME}
+debug-${CRATE_NAME}: ${DEBUG_TARGET}
+release-${CRATE_NAME}: ${RELEASE_TARGET}
+debug-${CRATE_NAME}test: ${DEBUG_TEST}
+release-${CRATE_NAME}test: ${RELEASE_TEST}
+run-test-${CRATE_NAME}: ${DEBUG_TEST}
+	\$(call RUN_TEST,$<)
+run-bench-${CRATE_NAME}: ${RELEASE_TEST}
+	\$(call RUN_BENCH,$<)
+EOF
 
 sed -n -e '/extra/!s| *extern  *mod  *\(.*\) *;$|\1|p' ${ALL_SRC} | while read DEP_NAME; do
-    echo "\$(DEBUG_${CRATE_NAME}): \$(DEBUG_${DEP_NAME})"
-    echo "\$(RELEASE_${CRATE_NAME}): \$(RELEASE_${DEP_NAME})"
-    echo "\$(DEBUG_${CRATE_NAME}test): \$(DEBUG_${DEP_NAME})"
-    echo "\$(RELEASE_${CRATE_NAME}test): \$(RELEASE_${DEP_NAME})"
+    cat <<EOF
+${DEBUG_TARGET}: \$(DEBUG_${DEP_NAME})
+${RELEASE_TARGET}: \$(RELEASE_${DEP_NAME})
+${DEBUG_TEST}: \$(DEBUG_${DEP_NAME})
+${RELEASE_TEST}: \$(RELEASE_${DEP_NAME})
+EOF
 done
 
-echo "\$(DEBUG_${CRATE_NAME}): ${ALL_SRC}"
-echo "	\$(call DEBUG_${CRATE_TYPE},$<)"
-echo "\$(RELEASE_${CRATE_NAME}): ${ALL_SRC}"
-echo "	\$(call RELEASE_${CRATE_TYPE},$<)"
-echo "\$(DEBUG_${CRATE_NAME}test): ${ALL_SRC}"
-echo "	\$(call DEBUG_TEST,$<)"
-echo "\$(RELEASE_${CRATE_NAME}test): ${ALL_SRC}"
-echo "	\$(call RELEASE_TEST,$<)"
+cat <<EOF
+${DEBUG_TARGET}: \$(ALL_SRC_${CRATE_NAME})
+	\$(call DEBUG_${CRATE_TYPE},$<)
+${RELEASE_TARGET}: \$(ALL_SRC_${CRATE_NAME})
+	\$(call RELEASE_${CRATE_TYPE},$<)
+${DEBUG_TEST}: \$(ALL_SRC_${CRATE_NAME})
+	\$(call DEBUG_TEST,$<)
+${RELEASE_TEST}: \$(ALL_SRC_${CRATE_NAME})
+	\$(call RELEASE_TEST,$<)
+EOF

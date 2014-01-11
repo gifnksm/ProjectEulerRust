@@ -19,24 +19,29 @@ PRINT_CRATE() {
 
 PRINT_DEFINE_INCLUDE() {
     local CRATE_TYPE=$1
-    shift
-    local CRATE_NAME=$1
-    shift
+    local CRATE_NAME=$2
+    local MAIN_SRC=$3
+    shift; shift
     local ALL_SRC=$@
-    echo "-include \$(DEPEND_DIR)/${CRATE_NAME}.define.mk"
-    echo "\$(DEPEND_DIR)/${CRATE_NAME}.define.mk: ${ALL_SRC} ./etc/mkdepend_define"
-    echo "	./etc/mkdepend_define ${CRATE_TYPE} ${CRATE_NAME} \$< > \$@"
+    local INCFILE="\$(DEPEND_DIR)/${CRATE_NAME}.define.mk"
+    cat <<EOF
+ALL_SRC_${CRATE_NAME}=${ALL_SRC}
+MAIN_SRC_${CRATE_NAME}=${MAIN_SRC}
+${INCFILE}: \$(ALL_SRC_${CRATE_NAME})
+	./etc/mkdepend_define ${CRATE_TYPE} ${CRATE_NAME} \$< > \$@
+-include ${INCFILE}
+EOF
 }
 
 PRINT_RULE() {
     local CRATE_TYPE=$1
-    shift
-    local CRATE_NAME=$1
-    shift
-    local ALL_SRC=$@
-    echo "-include \$(DEPEND_DIR)/${CRATE_NAME}.rule.mk"
-    echo "\$(DEPEND_DIR)/${CRATE_NAME}.rule.mk: ${ALL_SRC} ./etc/mkdepend_rule"
-    echo "	./etc/mkdepend_rule ${CRATE_TYPE} ${CRATE_NAME} ${ALL_SRC} > \$@"
+    local CRATE_NAME=$2
+    local INCFILE="\$(DEPEND_DIR)/${CRATE_NAME}.rule.mk"
+    cat <<EOF
+${INCFILE}: \$(ALL_SRC_${CRATE_NAME})
+	./etc/mkdepend_rule ${CRATE_TYPE} ${CRATE_NAME} \$^ > \$@
+-include ${INCFILE}
+EOF
 }
 
 PRINT_CRATE | while read LINE; do PRINT_DEFINE_INCLUDE ${LINE}; done

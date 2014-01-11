@@ -28,9 +28,9 @@ clean:
 	$(RM) $(DEBUG_BIN_DIR)/* $(RELEASE_BIN_DIR)/*
 	$(RM) $(DEBUG_RLIB_DIR)/*.rlib $(RELEASE_RLIB_DIR)/*.rlib
 
-$(DEPEND): $(ALL_SRC) $(MOD_SRC) ./etc/mkdepend
+$(DEPEND): $(ALL_SRC) $(MOD_SRC)
 	./etc/mkdepend > $@
-$(MOD_SRC): $(PROB_SRC) ./etc/mkproblist
+$(MOD_SRC): $(PROB_SRC)
 	./etc/mkproblist ./src > $@
 
 ifneq "$(MAKECMDGOALS)" "clean"
