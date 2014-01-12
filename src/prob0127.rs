@@ -21,25 +21,25 @@ pub static EXPECTED_ANSWER: &'static str = "18407904";
 // ここで、a = c - b = km - kn = k(m - n) より、 GCD(a, b) >= k となり矛盾。
 // よって、GCD(b, c) = 1 である。
 
-#[deriving(Eq)]
-struct Rad(uint, ~[uint]);
+#[deriving(Eq, Clone, TotalEq, TotalOrd)]
+struct Rad(uint, uint, ~[uint]); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: uint) -> ~[Rad] {
-    let mut rad_vec = vec::from_fn(n_limit, |_| Rad(1, ~[]));
+    let mut rad_vec = vec::from_fn(n_limit, |i| Rad(1, i, ~[]));
     for p in range(2, rad_vec.len()) {
-        let Rad(n, _) = rad_vec[p];
-        if n != 1 { continue }
+        let Rad(rad_p, _, _) = rad_vec[p];
+        if rad_p != 1 { continue }
 
-        for np in iter::count(p, p).take_while(|&np| np < n_limit) {
-            let Rad(ref mut n, ref mut facts) = rad_vec[np];
-            (*n) *= p;
+        for kp in iter::count(p, p).take_while(|&kp| kp < n_limit) {
+            let Rad(ref mut rad_kp, _, ref mut facts) = rad_vec[kp];
+            (*rad_kp) *= p;
             facts.push(p);
         }
     }
     rad_vec
 }
 
-fn rad_has_union(&Rad(_, ref a): &Rad, &Rad(_, ref b): &Rad) -> bool {
+fn rad_has_union(a: &[uint], b: &[uint]) -> bool {
     let mut i_a = 0;
     let mut i_b = 0;
 
@@ -55,37 +55,23 @@ fn rad_has_union(&Rad(_, ref a): &Rad, &Rad(_, ref b): &Rad) -> bool {
 
 fn abc_hits_c_sum(c_limit: uint) -> uint {
     let rad_vec = create_rad_vec(c_limit);
+    let mut sorted_rad_vec = rad_vec.tail().to_owned(); // drop a == 0 element
+    sorted_rad_vec.sort();
+
     let mut c_sum = 0;
 
     for c in range(3, c_limit) {
-        let Rad(rad_c, _) = rad_vec[c];
+        let Rad(rad_c, _, ref c_facts) = rad_vec[c];
         if rad_c == c { continue } // if rad(c) == c, rad(ab) must be 1. this doesn't satisfy condition 2.
 
-        // if a == 1, GCD(a, b) == GCD(b, c) == GCD(c, a) == 1 is always satisfied.
-        {
-            let Rad(rad_b, _) = rad_vec[c - 1];
-            if rad_b * rad_c < c { c_sum += c; }
-        }
+        for &Rad(rad_a, a, ref a_facts) in sorted_rad_vec.iter() {
+            if rad_a >= c / rad_c { break }
+            if a >= (c + 1) / 2 { continue }
 
-        // if c is even, a and b must be odd
-        if c.is_even() {
-            for a in iter::range_step(3, (c + 1) / 2, 2) {
-                let b = c - a;
-                let Rad(rad_a, _) = rad_vec[a];
-                let Rad(rad_b, _) = rad_vec[b];
-                let rad_abc = rad_a * rad_b * rad_c;
-                if rad_abc >= c || rad_has_union(&rad_vec[a], &rad_vec[c]) { continue; }
-                c_sum += c;
-            }
-        } else {
-            for a in range(2, (c + 1) / 2) {
-                let b = c - a;
-                let Rad(rad_a, _) = rad_vec[a];
-                let Rad(rad_b, _) = rad_vec[b];
-                let rad_abc = rad_a * rad_b * rad_c;
-                if rad_abc >= c || rad_has_union(&rad_vec[a], &rad_vec[c]) { continue; }
-                c_sum += c;
-            }
+            let Rad(rad_b, _, _) = rad_vec[c - a];
+            let rad_abc = rad_a * rad_b * rad_c;
+            if rad_abc >= c || (a != 1 && rad_has_union(*c_facts, *a_facts)) { continue; }
+            c_sum += c;
         }
     }
 
@@ -101,20 +87,20 @@ mod test {
     #[test]
     fn create_rad_vec() {
         let rad_vec = ~[
-            Rad(1, ~[]), Rad(1, ~[]), Rad(2, ~[2]), Rad(3, ~[3]), Rad(2, ~[2]), Rad(5, ~[5]),
-            Rad(6, ~[2, 3]), Rad(7, ~[7]), Rad(2, ~[2]), Rad(3, ~[3])];
+            Rad(1, 0, ~[]), Rad(1, 1, ~[]), Rad(2, 2, ~[2]), Rad(3, 3, ~[3]), Rad(2, 4, ~[2]), Rad(5, 5, ~[5]),
+            Rad(6, 6, ~[2, 3]), Rad(7, 7, ~[7]), Rad(2, 8, ~[2]), Rad(3, 9, ~[3])];
         assert_eq!(rad_vec, super::create_rad_vec(10))
     }
 
     #[test]
     fn rad_has_union() {
-        assert!(super::rad_has_union(&Rad(2, ~[2]), &Rad(2, ~[2])));
-        assert!(!super::rad_has_union(&Rad(2, ~[2]), &Rad(3, ~[4])));
+        assert!(super::rad_has_union(&[2], &[2]));
+        assert!(!super::rad_has_union(&[2], &[4]));
 
-        assert!(super::rad_has_union(&Rad(3, ~[3]), &Rad(6, ~[2, 3])));
-        assert!(super::rad_has_union(&Rad(15, ~[3, 5]), &Rad(10, ~[2, 5])));
+        assert!(super::rad_has_union(&[3], &[2, 3]));
+        assert!(super::rad_has_union(&[3, 5], &[2, 5]));
 
-        assert!(!super::rad_has_union(&Rad(30, ~[2, 3, 5]), &Rad(1001, ~[7, 11, 13])));
+        assert!(!super::rad_has_union(&[2, 3, 5], &[7, 11, 13]));
     }
 
     #[test]
