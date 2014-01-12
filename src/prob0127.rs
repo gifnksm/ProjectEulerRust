@@ -59,13 +59,33 @@ fn abc_hits_c_sum(c_limit: uint) -> uint {
 
     for c in range(3, c_limit) {
         let Rad(rad_c, _) = rad_vec[c];
-        for a in range(1, (c + 1) / 2) {
-            let b = c - a;
-            let Rad(rad_a, _) = rad_vec[a];
-            let Rad(rad_b, _) = rad_vec[b];
-            let rad_abc = rad_a * rad_b * rad_c;
-            if rad_abc >= c || (a > 1 && rad_has_union(&rad_vec[a], &rad_vec[c])) { continue; }
-            c_sum += c;
+        if rad_c == c { continue } // if rad(c) == c, rad(ab) must be 1. this doesn't satisfy condition 2.
+
+        // if a == 1, GCD(a, b) == GCD(b, c) == GCD(c, a) == 1 is always satisfied.
+        {
+            let Rad(rad_b, _) = rad_vec[c - 1];
+            if rad_b * rad_c < c { c_sum += c; }
+        }
+
+        // if c is even, a and b must be odd
+        if c.is_even() {
+            for a in iter::range_step(3, (c + 1) / 2, 2) {
+                let b = c - a;
+                let Rad(rad_a, _) = rad_vec[a];
+                let Rad(rad_b, _) = rad_vec[b];
+                let rad_abc = rad_a * rad_b * rad_c;
+                if rad_abc >= c || rad_has_union(&rad_vec[a], &rad_vec[c]) { continue; }
+                c_sum += c;
+            }
+        } else {
+            for a in range(2, (c + 1) / 2) {
+                let b = c - a;
+                let Rad(rad_a, _) = rad_vec[a];
+                let Rad(rad_b, _) = rad_vec[b];
+                let rad_abc = rad_a * rad_b * rad_c;
+                if rad_abc >= c || rad_has_union(&rad_vec[a], &rad_vec[c]) { continue; }
+                c_sum += c;
+            }
         }
     }
 
