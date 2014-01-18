@@ -3,7 +3,7 @@
 extern mod common;
 extern mod math;
 
-use std::{result, str, vec};
+use std::{str, vec};
 use std::io::File;
 use common::reader;
 use math::sequence;
@@ -31,7 +31,7 @@ pub fn solve() -> ~str {
         });
 
     match result {
-        result::Err(msg) => { fail!(msg) }
-        result::Ok(cnt) => { return cnt.to_str(); }
+        Err(msg) => { fail!(msg) }
+        Ok(cnt) => { return cnt.to_str(); }
     }
 }

@@ -11,7 +11,12 @@ RELEASE_BIN_DIR=bin/release
 
 DEPEND=$(DEPEND_DIR)/all.mk
 
-RUSTC_FLAGS = -D warnings
+RUSTC_FLAGS = \
+	-D warnings \
+	-W unnecessary-qualification \
+	-W non-camel-case-types \
+	-W non-uppercase-statics \
+	-W unnecessary-typecast
 DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) -Z debug-info -Z extra-debug-info
 RELEASE_RUSTC_FLAGS = $(RUSTC_FLAGS) -L $(RELEASE_RLIB_DIR) --opt-level 3
 

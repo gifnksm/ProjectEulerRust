@@ -25,7 +25,7 @@ pub fn solve() -> ~str {
         .take_while(|&p| p < 1000)
         .filter_map(|p| {
             let b = p as int;
-            range(-(b as int), 1000)
+            range(-b, 1000)
                 .map(|a| (a, b, get_len(&prime, a, b)))
                 .max_by(|&(_a, _b, len)| len)
         }).max_by(|&(_a, _b, len)| len)
