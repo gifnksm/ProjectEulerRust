@@ -20,7 +20,7 @@ RUSTC_FLAGS = \
 DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) -Z debug-info -Z extra-debug-info
 RELEASE_RUSTC_FLAGS = $(RUSTC_FLAGS) -L $(RELEASE_RLIB_DIR) --opt-level 3
 
-.PHONY: debug release test bench depend clean
+.PHONY: debug release test bench depend mostlyclean clean
 
 debug:
 release:
@@ -28,10 +28,12 @@ test:
 bench:
 depend: $(DEPEND)
 
-clean:
-	$(RM) -r $(MOD_SRC) $(DEPEND_DIR)/*
+mostlyclean:
 	$(RM) $(DEBUG_BIN_DIR)/* $(RELEASE_BIN_DIR)/*
 	$(RM) $(DEBUG_RLIB_DIR)/*.rlib $(RELEASE_RLIB_DIR)/*.rlib
+
+clean: mostlyclean
+	$(RM) -r $(MOD_SRC) $(DEPEND_DIR)/*
 
 $(DEPEND): $(ALL_SRC) $(MOD_SRC)
 	./etc/mkdepend > $@
@@ -39,7 +41,9 @@ $(MOD_SRC): $(PROB_SRC)
 	./etc/mkproblist ./src > $@
 
 ifneq "$(MAKECMDGOALS)" "clean"
+ifneq "$(MAKECMDGOALS)" "mostlyclean"
 -include $(DEPEND)
+endif
 endif
 
 DEBUG_BIN=rustc $(DEBUG_RUSTC_FLAGS) $(1) -o $@
