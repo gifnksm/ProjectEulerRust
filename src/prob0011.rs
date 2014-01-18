@@ -5,7 +5,7 @@
 extern mod data;
 
 use std::iter::{OrdIterator, MultiplicativeIterator};
-use data::extiter::Area2DIterator;
+use data::extiter::Range2D;
 
 pub static EXPECTED_ANSWER: &'static str = "70600674";
 
@@ -43,8 +43,8 @@ pub fn solve() -> ~str {
     let (w, h) = (grid[0].len() as int, grid.len() as int);
     macro_rules! iter (
         ($p0:expr, $dp1:expr, $dp2:expr) => (
-            Area2DIterator::new_from_matrix($p0, $dp1, (w, h))
-            .map(|p0| Area2DIterator::new_from_matrix(p0, $dp2, (w, h)))
+            Range2D::new_from_matrix($p0, $dp1, (w, h))
+            .map(|p0| Range2D::new_from_matrix(p0, $dp2, (w, h)))
         )
     );
 
@@ -58,7 +58,7 @@ pub fn solve() -> ~str {
 
     let it = row.chain(col).chain(diag_tr).chain(diag_bl).chain(diag_tl).chain(diag_br);
 
-    it.map(|mut row: Area2DIterator| {
+    it.map(|mut row| {
             let v = row.to_owned_vec();
             v.windows(prod_len)
                 .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())

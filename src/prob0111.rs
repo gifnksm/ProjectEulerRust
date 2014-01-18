@@ -4,7 +4,7 @@ extern mod data;
 extern mod math;
 
 use std::num;
-use data::extiter::CombIterator;
+use data::extiter::Comb;
 use math::numconv;
 use math::prime::Prime;
 
@@ -25,7 +25,7 @@ pub fn solve() -> ~str {
                     ds
                 };
 
-                for set in CombIterator::new(n - m, n) {
+                for set in Comb::new(n - m, n) {
                     let first = if set.contains(&0) { other_ds[0] } else { d };
                     if first == 0 { continue; }
 

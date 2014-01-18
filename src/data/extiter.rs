@@ -1,59 +1,59 @@
 use std::{cmp, uint};
 use extra::bitv::BitvSet;
 
-pub struct Area2DIterator {
+pub struct Range2D {
     cur: (int, int),
     dv: (int, int),
     cnt: uint
 }
 
-impl Area2DIterator {
-    #[inline(always)]
-    pub fn new((x0, y0): (int, int), (dx, dy): (int, int), (x_min, y_min): (int, int), (x_max, y_max): (int, int)) -> Area2DIterator {
-        if dx == 0 && dy == 0 { fail!("Area2DIterator::new called with (dx, dy) == (0, 0)") }
+impl Range2D {
+    #[inline]
+    pub fn new((x0, y0): (int, int), (dx, dy): (int, int), (x_min, y_min): (int, int), (x_max, y_max): (int, int)) -> Range2D {
+        if dx == 0 && dy == 0 { fail!("Range2D::new called with (dx, dy) == (0, 0)") }
 
-        #[inline(always)]
+        #[inline]
         fn get_cnt(p0: int, dp: int, min: int, max: int) -> uint {
             if p0 < min || max < p0 { return 0; }
-            return match dp.cmp(&0) {
+            match dp.cmp(&0) {
                 Equal   => uint::max_value,
                 Greater => ((max + 1 - p0) / dp) as uint,
                 Less    => ((p0 + 1 - min) / (-dp)) as uint
-            };
+            }
         }
 
-        Area2DIterator {
+        Range2D {
             cur: (x0, y0),
             dv: (dx, dy),
             cnt: cmp::min(get_cnt(x0, dx, x_min, x_max), get_cnt(y0, dy, y_min, y_max))
         }
     }
 
-    #[inline(always)]
-    pub fn new_from_matrix(start: (int, int), dv: (int, int), (w, h): (int, int)) -> Area2DIterator {
+    #[inline]
+    pub fn new_from_matrix(start: (int, int), dv: (int, int), (w, h): (int, int)) -> Range2D {
         assert!(w > 0 && h > 0);
-        Area2DIterator::new(start, dv, (0, 0), (w - 1, h - 1))
+        Range2D::new(start, dv, (0, 0), (w - 1, h - 1))
     }
 }
 
-impl Iterator<(int, int)> for Area2DIterator {
+impl Iterator<(int, int)> for Range2D {
     #[inline(always)]
     fn next(&mut self) -> Option<(int, int)> {
-        if self.cnt <= 0 { return None; }
+        if self.cnt <= 0 { return None }
         self.cnt -= 1;
         let ((x, y), (dx, dy)) = (self.cur, self.dv);
         self.cur = (x + dx, y + dy);
-        return Some((x, y));
+        Some((x, y))
     }
 }
 
-pub struct CombIterator {
+pub struct Comb {
     priv consumed: bool,
     priv size: uint,
     priv set: BitvSet
 }
 
-impl Iterator<BitvSet> for CombIterator {
+impl Iterator<BitvSet> for Comb {
     fn next(&mut self) -> Option<BitvSet> {
         if !self.consumed {
             self.consumed = true;
@@ -87,55 +87,56 @@ impl Iterator<BitvSet> for CombIterator {
     }
 }
 
-impl CombIterator {
-    pub fn new(cnt: uint, size: uint) -> CombIterator {
+impl Comb {
+    #[inline]
+    pub fn new(cnt: uint, size: uint) -> Comb {
         assert!(cnt <= size);
         let mut set = BitvSet::new();
         for i in range(0, cnt) {
             set.insert(i);
         }
-        CombIterator { consumed: false, size: size, set: set }
+        Comb { consumed: false, size: size, set: set }
     }
 }
 
 #[cfg(test)]
 mod test {
-    use super::{Area2DIterator, CombIterator};
+    use super::{Range2D, Comb};
 
     #[test]
     fn test_area2d() {
-        let vs = Area2DIterator::new((0, 0), (1, 1), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((0, 0), (1, 1), (0, 0), (3, 3)).to_owned_vec();
         assert_eq!(vs, ~[(0, 0), (1, 1), (2, 2), (3, 3)]);
 
-        let vs = Area2DIterator::new((1, 1), (1, 1), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((1, 1), (1, 1), (0, 0), (3, 3)).to_owned_vec();
         assert_eq!(vs, ~[(1, 1), (2, 2), (3, 3)]);
 
-        let vs = Area2DIterator::new((3, 3), (1, 1), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((3, 3), (1, 1), (0, 0), (3, 3)).to_owned_vec();
         assert_eq!(vs, ~[(3, 3)]);
 
-        let vs = Area2DIterator::new((0, 0), (2, 2), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((0, 0), (2, 2), (0, 0), (3, 3)).to_owned_vec();
         assert_eq!(vs, ~[(0, 0), (2, 2)]);
 
-        let vs = Area2DIterator::new((0, 0), (0, 1), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((0, 0), (0, 1), (0, 0), (3, 3)).to_owned_vec();
         assert_eq!(vs, ~[(0, 0), (0, 1), (0, 2), (0, 3)]);
 
-        let vs = Area2DIterator::new((0, 0), (0, 1), (0, 0), (3, 5)).to_owned_vec();
+        let vs = Range2D::new((0, 0), (0, 1), (0, 0), (3, 5)).to_owned_vec();
         assert_eq!(vs, ~[(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)]);
 
-        let vs = Area2DIterator::new((0, 0), (1, 2), (0, 0), (3, 5)).to_owned_vec();
+        let vs = Range2D::new((0, 0), (1, 2), (0, 0), (3, 5)).to_owned_vec();
         assert_eq!(vs, ~[(0, 0), (1, 2), (2, 4)]);
 
-        let vs = Area2DIterator::new((3, 3), (-1, -1), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((3, 3), (-1, -1), (0, 0), (3, 3)).to_owned_vec();
         assert_eq!(vs, ~[(3, 3), (2, 2), (1, 1), (0, 0)]);
 
-        let vs = Area2DIterator::new((3, 3), (-2, -2), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((3, 3), (-2, -2), (0, 0), (3, 3)).to_owned_vec();
         assert_eq!(vs, ~[(3, 3), (1, 1)]);
     }
 
     #[test]
     fn test_comb_iterator() {
         fn check(cnt: uint, size: uint, expected: ~[~[uint]]) {
-            let actual = CombIterator::new(cnt, size)
+            let actual = Comb::new(cnt, size)
                 .map(|set| set.iter().to_owned_vec())
                 .to_owned_vec();
             assert_eq!(actual, expected);
