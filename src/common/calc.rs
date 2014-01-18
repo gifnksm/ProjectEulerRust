@@ -23,44 +23,19 @@ pub fn num_of_permutations<T: Eq + Hash>(hist: &HashMap<T, uint>) -> uint {
     return factorial(sum) / div;
 }
 
-pub struct CombinateIterator<'a, T> {
+pub struct Combinate<'a, T> {
     priv all_elems: &'a [T],
     priv next_idx:  ~[uint]
 }
 
-impl<'a, T> CombinateIterator<'a, T> {
-    pub fn new<'a>(all_elems: &'a [T], len: uint) -> CombinateIterator<'a, T> {
+impl<'a, T> Combinate<'a, T> {
+    pub fn new<'a>(all_elems: &'a [T], len: uint) -> Combinate<'a, T> {
         let next_idx = vec::from_fn(len, |i| i);
 
-        CombinateIterator {
+        Combinate {
             all_elems: all_elems,
             next_idx:  next_idx,
         }
-    }
-}
-
-impl<'a, T> Iterator<~[&'a T]> for CombinateIterator<'a, T> {
-    fn next(&mut self) -> Option<~[&'a T]> {
-        let comb_len = self.next_idx.len();
-        let num_elem = self.all_elems.len();
-
-        if comb_len == 0 || self.next_idx[0] + comb_len > num_elem {
-            return None;
-        }
-
-        let iter_elem = self.next_idx.map(|&i| &self.all_elems[i] );
-        let mut i = comb_len - 1;
-        loop {
-            self.next_idx[i] += 1;
-            for j in range(i, comb_len) {
-                self.next_idx[j] = self.next_idx[i] + (j - i);
-            }
-            if i == 0 || self.next_idx[i] + (comb_len - i) <= num_elem {
-                break;
-            }
-            i -= 1;
-        }
-        Some(iter_elem)
     }
 }
 
@@ -155,8 +130,6 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
 #[cfg(test)]
 mod test {
-    use super::CombinateIterator;
-
     #[test]
     fn test_histogram() {
         fn check(inp: &[uint], result: &[(uint, uint)]) {
@@ -179,38 +152,6 @@ mod test {
         assert_eq!(super::num_of_permutations(&super::histogram([1, 2, 3])), 6);
         assert_eq!(super::num_of_permutations(&super::histogram([1, 1, 1, 2, 3])), 20);
         assert_eq!(super::num_of_permutations(&super::histogram([1, 1, 1, 2, 3, 1, 1])), 42);
-    }
-
-    #[test]
-    fn test_combinate_iterator() {
-        fn check(v: &[uint], len: uint, expect: ~[~[&uint]]) {
-            assert_eq!(CombinateIterator::new(v, len).to_owned_vec(), expect);
-        }
-
-        check([], 0, ~[]);
-        check([], 1, ~[]);
-
-        check([1], 0, ~[]);
-        check([1], 1, ~[~[&1]]);
-        check([1], 2, ~[]);
-
-        check([1, 2], 0, ~[]);
-        check([1, 2], 1, ~[~[&1], ~[&2]]);
-        check([1, 2], 2, ~[~[&1, &2]]);
-        check([1, 2], 3, ~[]);
-
-        check([1, 2, 3], 0, ~[]);
-        check([1, 2, 3], 1, ~[~[&1], ~[&2], ~[&3]]);
-        check([1, 2, 3], 2, ~[~[&1, &2], ~[&1, &3], ~[&2, &3]]);
-        check([1, 2, 3], 3, ~[~[&1, &2, &3]]);
-        check([1, 2, 3], 4, ~[]);
-
-        check([1, 2, 3, 4], 0, ~[]);
-        check([1, 2, 3, 4], 1, ~[~[&1], ~[&2], ~[&3], ~[&4]]);
-        check([1, 2, 3, 4], 2, ~[~[&1, &2], ~[&1, &3], ~[&1, &4], ~[&2, &3], ~[&2, &4], ~[&3, &4]]);
-        check([1, 2, 3, 4], 3, ~[~[&1, &2, &3], ~[&1, &2, &4], ~[&1, &3, &4], ~[&2, &3, &4]]);
-        check([1, 2, 3, 4], 4, ~[~[&1, &2, &3, &4]]);
-        check([1, 2, 3, 4], 5, ~[]);
     }
 
     #[test]

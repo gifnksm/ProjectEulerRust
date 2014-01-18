@@ -134,7 +134,7 @@ mod test {
     }
 
     #[test]
-    fn test_comb_iterator() {
+    fn test_comb() {
         fn check(cnt: uint, size: uint, expected: ~[~[uint]]) {
             let actual = Comb::new(cnt, size)
                 .map(|set| set.iter().to_owned_vec())
