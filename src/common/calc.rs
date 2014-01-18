@@ -155,12 +155,12 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
 #[cfg(test)]
 mod test {
-    use super::*;
+    use super::CombinateIterator;
 
     #[test]
     fn test_histogram() {
         fn check(inp: &[uint], result: &[(uint, uint)]) {
-            let hist = histogram(inp);
+            let hist = super::histogram(inp);
             let mut vec = hist.iter()
                 .map(|(&k, &v)| (k, v))
                 .to_owned_vec();
@@ -175,10 +175,10 @@ mod test {
 
     #[test]
     fn test_num_of_permutasions() {
-        assert_eq!(num_of_permutations(&histogram::<uint>(&[])), 1);
-        assert_eq!(num_of_permutations(&histogram([1, 2, 3])), 6);
-        assert_eq!(num_of_permutations(&histogram([1, 1, 1, 2, 3])), 20);
-        assert_eq!(num_of_permutations(&histogram([1, 1, 1, 2, 3, 1, 1])), 42);
+        assert_eq!(super::num_of_permutations(&super::histogram::<uint>(&[])), 1);
+        assert_eq!(super::num_of_permutations(&super::histogram([1, 2, 3])), 6);
+        assert_eq!(super::num_of_permutations(&super::histogram([1, 1, 1, 2, 3])), 20);
+        assert_eq!(super::num_of_permutations(&super::histogram([1, 1, 1, 2, 3, 1, 1])), 42);
     }
 
     #[test]
@@ -220,7 +220,7 @@ mod test {
             ~[2, 3, 4], ~[2, 3, 5], ~[2, 4, 5],
             ~[3, 4, 5]
         ];
-        combinate(&[1, 2, 3, 4, 5], 3, |n, _rest| {
+        super::combinate(&[1, 2, 3, 4, 5], 3, |n, _rest| {
             assert_eq!(n, nums.shift()); true
         });
     }
@@ -245,7 +245,7 @@ mod test {
             &[5, 5, 5]
         ];
 
-        combinate_overlap(&[1, 2, 3, 4, 5], 3, |n| {
+        super::combinate_overlap(&[1, 2, 3, 4, 5], 3, |n| {
             assert_eq!(n, nums.shift()); true
         });
     }
@@ -260,7 +260,7 @@ mod test {
             512, 513, 514, 521, 523, 524, 531, 532, 534, 541, 542, 543
         ];
 
-        permutate_num(&[1, 2, 3, 4, 5], 3, 0, 555, |n, _rest| {
+        super::permutate_num(&[1, 2, 3, 4, 5], 3, 0, 555, |n, _rest| {
             assert_eq!(n, nums.shift()); true
         });
 
@@ -272,7 +272,7 @@ mod test {
             512, 513, 514, 521, 523, 524, 531, 532, 534, 541, 542, 543
         ];
 
-        permutate_num(&[1, 2, 3, 4, 5], 3, 140, 300, |n, _rest| {
+        super::permutate_num(&[1, 2, 3, 4, 5], 3, 140, 300, |n, _rest| {
             let mut num = nums.shift();
             while num < 140 || 300 < num {
                 num = nums.shift();

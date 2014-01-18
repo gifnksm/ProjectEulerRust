@@ -191,23 +191,21 @@ impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelNegIterator<T> {
 
 #[cfg(test)]
 mod test {
-    use super::*;
-
     #[test]
     fn test_sqrt() {
-        assert_eq!(sqrt(1), (1, ~[]));
-        assert_eq!(sqrt(2), (1, ~[2]));
-        assert_eq!(sqrt(3), (1, ~[1,2]));
-        assert_eq!(sqrt(4), (2, ~[]));
-        assert_eq!(sqrt(5), (2, ~[4]));
-        assert_eq!(sqrt(6), (2, ~[2,4]));
-        assert_eq!(sqrt(7), (2, ~[1,1,1,4]));
-        assert_eq!(sqrt(8), (2, ~[1,4]));
-        assert_eq!(sqrt(9), (3, ~[]));
-        assert_eq!(sqrt(10), (3, ~[6]));
-        assert_eq!(sqrt(11), (3, ~[3,6]));
-        assert_eq!(sqrt(12), (3, ~[2,6]));
-        assert_eq!(sqrt(13), (3, ~[1,1,1,1,6]));
+        assert_eq!(super::sqrt(1), (1, ~[]));
+        assert_eq!(super::sqrt(2), (1, ~[2]));
+        assert_eq!(super::sqrt(3), (1, ~[1,2]));
+        assert_eq!(super::sqrt(4), (2, ~[]));
+        assert_eq!(super::sqrt(5), (2, ~[4]));
+        assert_eq!(super::sqrt(6), (2, ~[2,4]));
+        assert_eq!(super::sqrt(7), (2, ~[1,1,1,4]));
+        assert_eq!(super::sqrt(8), (2, ~[1,4]));
+        assert_eq!(super::sqrt(9), (3, ~[]));
+        assert_eq!(super::sqrt(10), (3, ~[6]));
+        assert_eq!(super::sqrt(11), (3, ~[3,6]));
+        assert_eq!(super::sqrt(12), (3, ~[2,6]));
+        assert_eq!(super::sqrt(13), (3, ~[1,1,1,1,6]));
     }
 
     #[deriving(Eq)]
@@ -235,7 +233,7 @@ mod test {
     fn test_fold() {
 
         fn test(an: &[uint], (n, d): (uint, uint)) {
-            assert_eq!(fold::<Uint>(an), (Uint(n), Uint(d)));
+            assert_eq!(super::fold::<Uint>(an), (Uint(n), Uint(d)));
         }
         test([1, 2], (3, 2));
         test([1, 2, 2], (7, 5));
@@ -256,14 +254,14 @@ mod test {
 
     #[test]
     fn test_solve_pel() {
-        assert_eq!(solve_pel(2), (3, 2));
-        assert_eq!(solve_pel(3), (2, 1));
-        assert_eq!(solve_pel(5), (9, 4));
-        assert_eq!(solve_pel(6), (5, 2));
-        assert_eq!(solve_pel(7), (8, 3));
+        assert_eq!(super::solve_pel(2), (3, 2));
+        assert_eq!(super::solve_pel(3), (2, 1));
+        assert_eq!(super::solve_pel(5), (9, 4));
+        assert_eq!(super::solve_pel(6), (5, 2));
+        assert_eq!(super::solve_pel(7), (8, 3));
     }
     #[test] #[should_fail]
-    fn test_solve_pel_1() { solve_pel::<uint>(1); }
+    fn test_solve_pel_1() { super::solve_pel::<uint>(1); }
     #[test] #[should_fail]
-    fn test_solve_pel_4() { solve_pel::<uint>(4); }
+    fn test_solve_pel_4() { super::solve_pel::<uint>(4); }
 }

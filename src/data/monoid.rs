@@ -246,13 +246,14 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 
 #[cfg(test)]
 mod test {
-    use super::*;
+    use super::{Monoid, Wrap, Sum, Prod, Max, Min,
+                MergeMonoidIterator, MergeMultiMonoidIterator};
 
     #[test]
     fn test_mconcat() {
         fn check_wrap<T: Eq + Clone, M: Monoid + Wrap<T>>(v: &[T], f: |T| -> M, result: T) {
             let ms = v.to_owned().move_iter().map(f).to_owned_vec();
-            assert_eq!(mconcat(ms).unwrap(), result);
+            assert_eq!(super::mconcat(ms).unwrap(), result);
         }
 
         let v1 = [1, 2, 3, 4];
@@ -278,8 +279,8 @@ mod test {
         check_wrap(v2, Min, 0);
         check_wrap(v3, Min, 0);
 
-        assert_eq!(mconcat([~[], ~[1, 2, 3], ~[4], ~[5]]), ~[1, 2, 3, 4, 5]);
-        assert_eq!(mconcat([~"", ~"abc", ~"d", ~"e"]), ~"abcde");
+        assert_eq!(super::mconcat([~[], ~[1, 2, 3], ~[4], ~[5]]), ~[1, 2, 3, 4, 5]);
+        assert_eq!(super::mconcat([~"", ~"abc", ~"d", ~"e"]), ~"abcde");
     }
 
     #[test]

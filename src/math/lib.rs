@@ -1,8 +1,6 @@
 #[crate_id = "math"];
 #[crate_type = "rlib"];
 
-#[feature(globs)];
-
 extern mod data;
 #[cfg(test)]
 extern mod extra;

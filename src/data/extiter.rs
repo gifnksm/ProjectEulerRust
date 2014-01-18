@@ -161,8 +161,8 @@ impl CombIterator {
 
 #[cfg(test)]
 mod test {
-    use super::*;
     use std::uint;
+    use super::{Area2DIterator, CombIterator, Plus, Minus, Range};
 
     #[test]
     fn test_range() {

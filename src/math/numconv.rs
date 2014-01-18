@@ -73,14 +73,12 @@ pub fn is_palindromic(n: uint, radix: uint) -> bool {
 
 #[cfg(test)]
 mod test {
-    use super::*;
-
     #[test]
     fn test_conv_digits() {
         fn check(n: uint, v: ~[uint], radix: uint) {
-            assert_eq!(from_digits(v, radix), n);
-            assert_eq!(to_digits(n, radix).to_owned_vec(), v.clone());
-            assert_eq!(to_digits(n, radix).invert().to_owned_vec(),
+            assert_eq!(super::from_digits(v, radix), n);
+            assert_eq!(super::to_digits(n, radix).to_owned_vec(), v.clone());
+            assert_eq!(super::to_digits(n, radix).invert().to_owned_vec(),
                        v.move_rev_iter().to_owned_vec())
         }
 
@@ -95,23 +93,23 @@ mod test {
 
     #[test]
     fn test_from_digits() {
-        assert_eq!(from_digits(&[0, 0, 1, 2, 3], 10), 32100);
-        assert_eq!(from_digits(&[1, 2, 3, 0, 0], 10), 321);
+        assert_eq!(super::from_digits(&[0, 0, 1, 2, 3], 10), 32100);
+        assert_eq!(super::from_digits(&[1, 2, 3, 0, 0], 10), 321);
     }
 
     #[test]
     fn test_to_digit_histogram() {
-        assert_eq!(to_digit_histogram(123), [0, 1, 1, 1, 0, 0, 0, 0, 0, 0]);
-        assert_eq!(to_digit_histogram(111), [0, 3, 0, 0, 0, 0, 0, 0, 0, 0]);
-        assert_eq!(to_digit_histogram(0), [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        assert_eq!(super::to_digit_histogram(123), [0, 1, 1, 1, 0, 0, 0, 0, 0, 0]);
+        assert_eq!(super::to_digit_histogram(111), [0, 3, 0, 0, 0, 0, 0, 0, 0, 0]);
+        assert_eq!(super::to_digit_histogram(0), [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
 
     #[test]
     fn test_to_palindromic() {
         fn check(n: uint, radix: uint, is_dup: bool, result: uint) {
-            let ret = to_palindromic(n, radix, is_dup);
+            let ret = super::to_palindromic(n, radix, is_dup);
             assert_eq!(ret, result);
-            assert!(is_palindromic(ret, radix));
+            assert!(super::is_palindromic(ret, radix));
         }
 
         check(10, 10, true,  101);
@@ -132,13 +130,13 @@ mod test {
 
     #[test]
     fn test_is_palindromic() {
-        assert!(is_palindromic(0, 10));
-        assert!(is_palindromic(1, 10));
-        assert!(is_palindromic(9, 10));
-        assert!(is_palindromic(11, 10));
-        assert!(is_palindromic(121, 10));
-        assert!(!is_palindromic(123, 10));
-        assert!(is_palindromic(1221, 10));
-        assert!(is_palindromic(12321, 10));
+        assert!(super::is_palindromic(0, 10));
+        assert!(super::is_palindromic(1, 10));
+        assert!(super::is_palindromic(9, 10));
+        assert!(super::is_palindromic(11, 10));
+        assert!(super::is_palindromic(121, 10));
+        assert!(!super::is_palindromic(123, 10));
+        assert!(super::is_palindromic(1221, 10));
+        assert!(super::is_palindromic(12321, 10));
     }
 }

@@ -1,8 +1,6 @@
 #[crate_id = "data"];
 #[crate_type = "rlib"];
 
-#[feature(globs)];
-
 extern mod extra;
 
 pub mod card;

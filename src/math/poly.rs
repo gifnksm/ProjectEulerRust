@@ -78,13 +78,11 @@ pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~s
 
 #[cfg(test)]
 mod test {
-    use super::*;
-
     #[test]
     fn test_poly_add() {
         fn check(a: &[int], b: &[int], c: &[int]) {
-            assert_eq!(add(a, b), c.to_owned());
-            assert_eq!(add(b, a), c.to_owned());
+            assert_eq!(super::add(a, b), c.to_owned());
+            assert_eq!(super::add(b, a), c.to_owned());
         }
         check([], [], []);
         check([0, 0], [], []);
@@ -96,8 +94,8 @@ mod test {
     #[test]
     fn test_poly_mul() {
         fn check(a: &[int], b: &[int], c: &[int]) {
-            assert_eq!(mul(a, b), c.to_owned());
-            assert_eq!(mul(b, a), c.to_owned());
+            assert_eq!(super::mul(a, b), c.to_owned());
+            assert_eq!(super::mul(b, a), c.to_owned());
         }
         check([], [], []);
         check([0, 0], [], []);
@@ -113,7 +111,7 @@ mod test {
     fn test_poly_eaval() {
         fn check(pol: &[int], f: |int| -> int) {
             for n in range(-10, 10) {
-                assert_eq!(eval(pol, n), f(n));
+                assert_eq!(super::eval(pol, n), f(n));
             }
         }
         check([], |_x| 0);
@@ -125,15 +123,15 @@ mod test {
 
     #[test]
     fn test_poly_to_str() {
-        assert_eq!(to_str::<int>([], "x"), ~"0");
-        assert_eq!(to_str([1], "x"), ~"1");
-        assert_eq!(to_str([1, 1], "x"), ~"1+x");
-        assert_eq!(to_str([1, 1, 1], "x"), ~"1+x+x^2");
-        assert_eq!(to_str([2, 2, 2], "x"), ~"2+2*x+2*x^2");
-        assert_eq!(to_str([0, 0, 0, 1], "x"), ~"x^3");
-        assert_eq!(to_str([0, 0, 0, -1], "x"), ~"-x^3");
-        assert_eq!(to_str([-1, 0, 0, -1], "x"), ~"-1-x^3");
-        assert_eq!(to_str([-1, 1, 0, -1], "x"), ~"-1+x-x^3");
-        assert_eq!(to_str([-1, 1, -1, -1], "x"), ~"-1+x-x^2-x^3");
+        assert_eq!(super::to_str::<int>([], "x"), ~"0");
+        assert_eq!(super::to_str([1], "x"), ~"1");
+        assert_eq!(super::to_str([1, 1], "x"), ~"1+x");
+        assert_eq!(super::to_str([1, 1, 1], "x"), ~"1+x+x^2");
+        assert_eq!(super::to_str([2, 2, 2], "x"), ~"2+2*x+2*x^2");
+        assert_eq!(super::to_str([0, 0, 0, 1], "x"), ~"x^3");
+        assert_eq!(super::to_str([0, 0, 0, -1], "x"), ~"-x^3");
+        assert_eq!(super::to_str([-1, 0, 0, -1], "x"), ~"-1-x^3");
+        assert_eq!(super::to_str([-1, 1, 0, -1], "x"), ~"-1+x-x^3");
+        assert_eq!(super::to_str([-1, 1, -1, -1], "x"), ~"-1+x-x^2-x^3");
     }
 }
