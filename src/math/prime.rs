@@ -1,10 +1,9 @@
-use std::{iter, local_data, uint};
+use std::{iter, local_data, num, uint};
 use std::iter::MultiplicativeIterator;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::local_data::Key;
 
-use arith;
 use data::monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
 
 static PRIMES_BELOW100: &'static [uint] = &[
@@ -101,7 +100,7 @@ impl Prime {
     pub fn sum_of_divisor(&self, n: uint) -> uint {
         if n == 0 { return 0 }
         self.factorize(n)
-            .map(|(base, exp)| (arith::pow(base, (exp as uint) + 1) - 1) / (base - 1) )
+            .map(|(base, exp)| (num::pow(base, (exp as uint) + 1) - 1) / (base - 1) )
             .product()
     }
     #[inline]
@@ -195,9 +194,9 @@ impl<IA: Iterator<Factor>> FactorIterator for IA {
     fn to_uint(&mut self) -> uint {
         self.fold(1, |s, (base, exp)| {
                 if exp > 0 {
-                    s * arith::pow(base, exp as uint)
+                    s * num::pow(base, exp as uint)
                 } else {
-                    s / arith::pow(base, (-exp) as uint)
+                    s / num::pow(base, (-exp) as uint)
                 }
             })
     }

@@ -3,7 +3,7 @@
 extern mod common;
 extern mod math;
 
-use std::{str, util, uint, vec};
+use std::{num, str, util, uint, vec};
 use std::iter::OrdIterator;
 use std::hashmap::HashMap;
 use std::io::File;
@@ -93,8 +93,8 @@ pub fn solve() -> ~str {
             for &(ref len, ref pairs) in groups.iter() {
                 let mut nums = ~[];
 
-                let start = arith::pow(10, *len) - 1;
-                let end   = arith::pow(10, *len - 1);
+                let start = num::pow(10u, *len) - 1;
+                let end   = num::pow(10u, *len - 1);
                 for n in range(arith::isqrt(end), arith::isqrt(start)).invert() {
                     let ds = numconv::to_digits(n * n, 10).invert().to_owned_vec();
                     for &(ref v1, ref v2) in pairs.iter() {

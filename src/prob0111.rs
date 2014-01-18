@@ -2,8 +2,10 @@
 
 extern mod data;
 extern mod math;
+
+use std::num;
 use data::extiter::CombIterator;
-use math::{arith, numconv};
+use math::numconv;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "612407567715";
@@ -15,7 +17,7 @@ pub fn solve() -> ~str {
     for d in range(0u, 10) {
         for m in range(0, n + 1).invert() {
             let mut sum = 0;
-            for other_ds in range(0, arith::pow(9, n - m)) {
+            for other_ds in range(0, num::pow(9u, n - m)) {
                 let other_ds = {
                     let mut ds = numconv::to_digits(other_ds, 9).invert().collect::<~[uint]>();
                     while ds.len() < n - m { ds.unshift(0); }

@@ -2,9 +2,9 @@
 
 extern mod math;
 
-use std::iter;
+use std::{iter, num};
 use std::hashmap::HashSet;
-use math::{arith, numconv};
+use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "2906969179";
 
@@ -31,7 +31,7 @@ fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
 }
 
 pub fn solve() -> ~str {
-    let limit = arith::pow(10, 8);
+    let limit = num::pow(10u, 8);
     let set = palindromic_sum_set(limit);
     set.iter().fold(0, |x, &y| x + y).to_str()
 }

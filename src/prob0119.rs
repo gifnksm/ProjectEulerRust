@@ -3,9 +3,10 @@
 extern mod extra;
 extern mod math;
 
+use std::num;
 use std::iter::{AdditiveIterator, Filter, SkipWhile};
 use extra::priority_queue::PriorityQueue;
-use math::{arith, numconv};
+use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "248155780267521";
 
@@ -38,7 +39,7 @@ impl Iterator<(uint, uint, uint)> for Powers {
     fn next(&mut self) -> Option<(uint, uint, uint)> {
         let Power(n, b, e) = self.queue.pop();
         if b == 2 { self.queue.push(Power(n * b, b, e + 1)); }
-        self.queue.push(Power(arith::pow(b + 1, e), b + 1, e));
+        self.queue.push(Power(num::pow(b + 1, e), b + 1, e));
         Some((n, b, e))
     }
 }

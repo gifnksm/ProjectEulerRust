@@ -2,8 +2,7 @@
 
 extern mod math;
 
-use std::iter;
-use math::arith;
+use std::{iter, num};
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "21035";
@@ -25,7 +24,7 @@ fn get_mod(n: uint, pn: uint) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let limit = arith::pow(10, 10);
+    let limit = num::pow(10u, 10);
 
     let ps = Prime::new();
     iter::count(1, 1u)
