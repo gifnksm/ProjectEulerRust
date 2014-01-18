@@ -1,8 +1,7 @@
 #[crate_type = "rlib"];
 
 use std::{char, iter};
-use std::io::buffered::BufferedReader;
-use std::io::File;
+use std::io::{BufferedReader, File};
 use std::num::Bitwise;
 
 pub static EXPECTED_ANSWER: &'static str = "24702";

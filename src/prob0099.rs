@@ -1,7 +1,6 @@
 #[crate_type = "rlib"];
 
-use std::io::buffered::BufferedReader;
-use std::io::File;
+use std::io::{BufferedReader, File};
 use std::iter;
 
 pub static EXPECTED_ANSWER: &'static str = "709";

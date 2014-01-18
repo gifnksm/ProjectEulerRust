@@ -2,8 +2,7 @@
 
 extern mod data;
 
-use std::io::buffered::BufferedReader;
-use std::io::File;
+use std::io::{BufferedReader, File};
 use data::union_find::UnionFind;
 
 pub static EXPECTED_ANSWER: &'static str = "259679";

@@ -2,8 +2,7 @@
 
 use std::uint;
 use std::iter::AdditiveIterator;
-use std::io::buffered::BufferedReader;
-use std::io::File;
+use std::io::{BufferedReader, File};
 
 pub static EXPECTED_ANSWER: &'static str = "743";
 

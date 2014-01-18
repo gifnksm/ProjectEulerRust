@@ -3,8 +3,7 @@
 extern mod data;
 
 use std::vec;
-use std::io::File;
-use std::io::buffered::BufferedReader;
+use std::io::{BufferedReader, File};
 use data::card::Card;
 
 pub static EXPECTED_ANSWER: &'static str = "376";

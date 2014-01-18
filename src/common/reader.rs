@@ -1,6 +1,6 @@
 use std::result;
 
-use std::io::buffered::BufferedReader;
+use std::io::BufferedReader;
 use std::str;
 
 trait BufferedReaderUtil<R> {
@@ -87,8 +87,7 @@ pub fn read_whole_word<'a>(input: &'a str) -> Result<~[&'a str], ~str> {
 mod test {
     mod sep_iter {
         use super::super::BufferedReaderUtil;
-        use std::io::buffered::BufferedReader;
-        use std::io::mem::MemReader;
+        use std::io::{BufferedReader, MemReader};
 
         fn buffered(bytes: ~[u8]) -> BufferedReader<MemReader> {
             BufferedReader::new(MemReader::new(bytes))

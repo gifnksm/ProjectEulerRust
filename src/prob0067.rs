@@ -1,8 +1,7 @@
 #[crate_type = "rlib"];
 
 use std::{cmp, vec};
-use std::io::buffered::BufferedReader;
-use std::io::File;
+use std::io::{BufferedReader, File};
 
 pub static EXPECTED_ANSWER: &'static str = "7273";
 

@@ -2,8 +2,7 @@
 
 extern mod common;
 
-use std::io::buffered::BufferedReader;
-use std::io::File;
+use std::io::{BufferedReader, File};
 use std::iter::AdditiveIterator;
 use common::reader::BufferedReaderUtil;
 
