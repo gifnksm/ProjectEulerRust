@@ -1,66 +1,5 @@
-use std::num::{Zero, One};
-use std::{cmp, util, uint};
+use std::{cmp, uint};
 use extra::bitv::BitvSet;
-
-pub enum Step<T> { Plus(T), Minus(T) }
-
-impl<T> Step<T> {
-    fn ref_abs<'a>(&'a self) -> &'a T {
-        match *self {
-            Plus(ref s) => s,
-            Minus(ref s) => s
-        }
-    }
-}
-
-impl<T: Add<T, T> + Sub<T, T>> Step<T> {
-    fn add_to(&self, val: &T) -> T {
-        match *self {
-            Plus(ref s)  => val + *s,
-            Minus(ref s) => val - *s
-        }
-    }
-}
-
-pub struct Range<T> {
-    cur: T,
-    step: Step<T>,
-    cnt: T,
-}
-
-impl<T: Integer> Range<T> {
-    pub fn new_with_step(start: T, stop: T, step: Step<T>) -> Range<T> {
-        if step.ref_abs().is_zero() { fail!("Range::new() called with step == 0"); }
-
-        let mut cnt = Zero::zero();
-        match step {
-            Plus(ref abs_step) if start < stop => {
-                let diff = (stop - start);
-                cnt = diff / *abs_step;
-                if !diff.is_multiple_of(abs_step) { cnt = cnt + One::one(); }
-            }
-            Minus(ref abs_step) if start > stop => {
-                let diff = (start - stop);
-                cnt = diff / *abs_step;
-                if !diff.is_multiple_of(abs_step) { cnt = cnt + One::one(); }
-            }
-            _ => { }
-        }
-        return Range { cur: start, cnt: cnt, step: step };
-    }
-}
-
-impl<T: Integer> Iterator<T> for Range<T> {
-    #[inline(always)]
-    fn next(&mut self) -> Option<T> {
-        if self.cnt <= Zero::zero() { return None; }
-        self.cnt = self.cnt - One::one();
-
-        let mut val = self.step.add_to(&self.cur);
-        util::swap(&mut val, &mut self.cur);
-        return Some(val);
-    }
-}
 
 pub struct Area2DIterator {
     cur: (int, int),
@@ -161,28 +100,7 @@ impl CombIterator {
 
 #[cfg(test)]
 mod test {
-    use std::uint;
-    use super::{Area2DIterator, CombIterator, Plus, Minus, Range};
-
-    #[test]
-    fn test_range() {
-        fn gen(start: uint, end: uint, step: int) -> ~[uint] {
-            let s = if step >= 0 { Plus(step as uint) } else { Minus((-step) as uint) };
-            Range::new_with_step(start, end, s).to_owned_vec()
-        }
-        assert_eq!(gen(0, 3, 1), ~[0, 1, 2]);
-        assert_eq!(gen(13, 10, -1), ~[13, 12, 11]);
-        assert_eq!(gen(20, 26, 2), ~[20, 22, 24]);
-        assert_eq!(gen(36, 30, -2), ~[36, 34, 32]);
-        assert_eq!(gen(uint::max_value - 2, uint::max_value, 2),
-                   ~[uint::max_value - 2]);
-        assert_eq!(gen(uint::max_value - 3, uint::max_value, 2),
-                   ~[uint::max_value - 3, uint::max_value - 1]);
-        assert_eq!(gen(uint::min_value + 2, uint::min_value, -2),
-                   ~[uint::min_value + 2]);
-        assert_eq!(gen(uint::min_value + 3, uint::min_value, -2),
-                   ~[uint::min_value + 3, uint::min_value + 1]);
-    }
+    use super::{Area2DIterator, CombIterator};
 
     #[test]
     fn test_area2d() {
