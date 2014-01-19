@@ -1,6 +1,5 @@
-#[crate_id = "prob0128"];
-#[crate_type = "rlib"];
-
+//! Problem 128 (https://projecteuler.net/problem=128)
+//!
 //! # 定義
 //!
 //! 最内のリングを 0 周目のリングとする。
@@ -129,6 +128,9 @@
 //! ```
 //!
 //! `r=0` から順番にこれらを満たす数をカウントする。
+
+#[crate_id = "prob0128"];
+#[crate_type = "rlib"];
 
 extern mod math;
 
