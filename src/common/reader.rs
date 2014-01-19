@@ -1,7 +1,7 @@
 use std::io::BufferedReader;
 use std::str;
 
-trait BufferedReaderUtil<R> {
+pub trait BufferedReaderUtil<R> {
     fn sep_iter<'a>(&'a mut self, c: u8) -> ReaderSplitIterator<'a, R>;
 }
 impl<R> BufferedReaderUtil<R> for BufferedReader<R> {
