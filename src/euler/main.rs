@@ -11,27 +11,33 @@ use problem::{Problem, Solution};
 mod problem;
 mod problem_list;
 
-fn solve_all<T: Iterator<&'static Problem<'static>>>(mut it: T) -> bool {
-    let mut total_time  = 0;
-    let mut solve_cnt   = 0;
-    let mut all_correct = true;
+trait ProblemIterator {
+    fn solve_all(&mut self) -> bool;
+}
 
-    for p in it {
-        let sol = p.solve();
-        sol.print(true);
+impl<T: Iterator<&'static Problem<'static>>> ProblemIterator for T {
+    fn solve_all(&mut self) -> bool {
+        let mut total_time  = 0;
+        let mut solve_cnt   = 0;
+        let mut all_correct = true;
 
-        total_time += sol.time();
-        solve_cnt  += 1;
-        all_correct &= sol.is_correct();
+        for p in &mut *self {
+            let sol = p.solve();
+            sol.print(true);
+
+            total_time += sol.time();
+            solve_cnt  += 1;
+            all_correct &= sol.is_correct();
+        }
+
+        if solve_cnt > 1 {
+            let avg_time = total_time / solve_cnt;
+            Solution::new(~"AVG",   all_correct, ~"", avg_time).print(true);
+            Solution::new(~"TOTAL", all_correct, ~"", total_time).print(false);
+        }
+
+        all_correct
     }
-
-    if solve_cnt > 1 {
-        let avg_time = total_time / solve_cnt;
-        Solution::new(~"AVG",   all_correct, ~"", avg_time).print(true);
-        Solution::new(~"TOTAL", all_correct, ~"", total_time).print(false);
-    }
-
-    all_correct
 }
 
 fn parse_range(s: &str) -> Option<(uint, uint)> {
@@ -50,15 +56,16 @@ fn main() {
     args.shift();
 
     let all_correct = if args.is_empty() {
-        let it = problem_list::PROBLEMS.iter().map(|x| *x);
-        solve_all(it)
+        problem_list::PROBLEMS.iter()
+            .map(|x| *x)
+            .solve_all()
     } else {
-        let it = args.iter()
+        args.iter()
             .filter_map(|s| parse_range(*s))
             .flat_map(|(a, b)| iter::range_inclusive(a, b))
             .filter_map(|id| problem_list::PROBLEMS.bsearch(|p| p.id.cmp(&id)))
-            .map(|i| problem_list::PROBLEMS[i]);
-        solve_all(it)
+            .map(|i| problem_list::PROBLEMS[i])
+            .solve_all()
     };
 
     if !all_correct { os::set_exit_status(1) }
