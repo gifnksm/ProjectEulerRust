@@ -6,7 +6,11 @@ install:
 before_script:
   - rustc --version
   - wget -i ./etc/files.txt -P ./files
+  - make depend
 script:
-  - make debug release test bench
+  - make debug
+  - make release
+  - make test
+  - make bench
   - ./bin/debug/euler
   - ./bin/release/euler
