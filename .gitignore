@@ -15,3 +15,5 @@ files/*.txt
 # ignore dependency files
 depend/*.mk
 
+# ignore document files
+doc/*

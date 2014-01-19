@@ -10,11 +10,13 @@ DEBUG_TARGET="\$(DEBUG_${CRATE_NAME})"
 RELEASE_TARGET="\$(RELEASE_${CRATE_NAME})"
 DEBUG_TEST="\$(DEBUG_${CRATE_NAME}test)"
 RELEASE_TEST="\$(RELEASE_${CRATE_NAME}test)"
+DOC_TARGET="\$(DOC_DIR)/${CRATE_NAME}/index.html"
 
 if [ "${CRATE_TYPE}" == "BIN" ]; then
     echo "debug: ${DEBUG_TARGET}"
     echo "release: ${RELEASE_TARGET}"
 fi
+echo "doc: ${DOC_TARGET}"
 if grep -q '#\[test\]' ${ALL_SRC} ; then
     echo "test: run-test-${CRATE_NAME}"
 fi
@@ -23,9 +25,10 @@ if grep -q '#\[bench\]' ${ALL_SRC} ; then
 fi
 
 cat <<EOF
-.PHONY: debug-${CRATE_NAME} release-${CRATE_NAME} test-${CRATE_NAME} run-test-${CRATE_NAME} run-bench-${CRATE_NAME}
+.PHONY: debug-${CRATE_NAME} release-${CRATE_NAME} doc-${CRATE_NAME} test-${CRATE_NAME} run-test-${CRATE_NAME} run-bench-${CRATE_NAME}
 debug-${CRATE_NAME}: ${DEBUG_TARGET}
 release-${CRATE_NAME}: ${RELEASE_TARGET}
+doc-${CRATE_NAME}: ${DOC_TARGET}
 debug-${CRATE_NAME}test: ${DEBUG_TEST}
 release-${CRATE_NAME}test: ${RELEASE_TEST}
 run-test-${CRATE_NAME}: ${DEBUG_TEST}
@@ -38,6 +41,7 @@ sed -n -e '/extra/!s| *extern  *mod  *\(.*\) *;$|\1|p' ${ALL_SRC} | while read D
     cat <<EOF
 ${DEBUG_TARGET}: \$(DEBUG_${DEP_NAME})
 ${RELEASE_TARGET}: \$(RELEASE_${DEP_NAME})
+${DOC_TARGET}: \$(DEBUG_${DEP_NAME})
 ${DEBUG_TEST}: \$(DEBUG_${DEP_NAME})
 ${RELEASE_TEST}: \$(RELEASE_${DEP_NAME})
 EOF
@@ -48,6 +52,8 @@ ${DEBUG_TARGET}: \$(ALL_SRC_${CRATE_NAME})
 	\$(call DEBUG_${CRATE_TYPE},$<)
 ${RELEASE_TARGET}: \$(ALL_SRC_${CRATE_NAME})
 	\$(call RELEASE_${CRATE_TYPE},$<)
+${DOC_TARGET}: \$(ALL_SRC_${CRATE_NAME})
+	\$(call DOC,$<)
 ${DEBUG_TEST}: \$(ALL_SRC_${CRATE_NAME})
 	\$(call DEBUG_TEST,$<)
 ${RELEASE_TEST}: \$(ALL_SRC_${CRATE_NAME})

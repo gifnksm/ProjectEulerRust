@@ -1,3 +1,4 @@
+#[crate_id = "prob0026"];
 #[crate_type = "rlib"];
 
 use std::vec;

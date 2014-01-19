@@ -1,3 +1,4 @@
+#[crate_id = "prob0076"];
 #[crate_type = "rlib"];
 
 use std::hashmap::HashMap;

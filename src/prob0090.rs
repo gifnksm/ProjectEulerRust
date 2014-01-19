@@ -1,3 +1,4 @@
+#[crate_id = "prob0090"];
 #[crate_type = "rlib"];
 
 extern mod data;

@@ -1,3 +1,4 @@
+#[crate_id = "prob0122"];
 #[crate_type = "rlib"];
 
 use std::{iter, uint, vec};

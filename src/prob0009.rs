@@ -1,3 +1,4 @@
+#[crate_id = "prob0009"];
 #[crate_type = "rlib"];
 
 extern mod math;

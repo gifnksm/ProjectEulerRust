@@ -1,3 +1,4 @@
+#[crate_id = "prob0112"];
 #[crate_type = "rlib"];
 
 #[cfg(test)]
