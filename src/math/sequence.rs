@@ -57,9 +57,9 @@ impl Iterator<(uint, uint, uint)> for PrimPythagoreanIterator {
             let (m2, n2)  = (m * m, n * n);
             let (a, b, c) = (m2 - n2, 2 * m * n, m2 + n2);
             if a < b {
-                return(Some((a, b, c)))
+                return Some((a, b, c))
             } else {
-                return(Some((b, a, c)))
+                return Some((b, a, c))
             }
         };
         None
