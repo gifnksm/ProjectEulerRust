@@ -16,38 +16,43 @@ struct PrimeInner {
 }
 
 impl PrimeInner {
+    #[inline]
     fn new() -> PrimeInner { PrimeInner { data: PRIMES_BELOW100.to_owned() } }
-    fn nth(&mut self, n: uint) -> uint {
-        self.grow(n + 1);
-        return self.data[n];
-    }
+
+    #[inline]
+    fn max_prime(&self) -> uint { *self.data.last().unwrap() }
+
+    #[inline]
+    fn nth(&mut self, n: uint) -> uint { self.grow(n + 1); self.data[n] }
+
+    #[inline]
     fn contains(&mut self, n: uint) -> bool {
-        if n < *self.data.last().unwrap() {
-            self.data.bsearch_elem(&n).is_some()
-        } else {
-            iter::count(0u, 1)
-                .map(|i| self.nth(i))
-                .take_while(|&p| p * p <= n)
-                .all(|p| n % p != 0)
-        }
+        if n < self.max_prime() { return self.data.bsearch_elem(&n).is_some() }
+
+        if !self.is_coprime(n) { return false }
+
+        iter::count(self.data.len(), 1)
+            .map(|i| self.nth(i))
+            .take_while(|&p| p * p <= n)
+            .all(|p| !n.is_multiple_of(&p))
     }
 
     #[inline]
     fn is_coprime(&self, n: uint) -> bool {
         self.data.iter()
             .take_while(|& &p| p * p <= n)
-            .all(|&p| n % p != 0)
-
+            .all(|&p| !n.is_multiple_of(&p))
     }
 
     #[inline]
     fn grow(&mut self, len: uint) {
-        if self.data.len() >= len { return; }
-        let mut it = iter::count(self.data.last().unwrap() + 2, 2)
+        if self.data.len() >= len { return }
+
+        let mut it = iter::count(self.max_prime() + 2, 2)
             .filter(|&n| self.is_coprime(n));
         for n in it {
             self.data.push(n);
-            if self.data.len() > len { return; }
+            if self.data.len() >= len { return }
         }
     }
 }
@@ -162,26 +167,28 @@ pub struct FactorizeIterator {
 impl Iterator<Factor> for FactorizeIterator {
     #[inline]
     fn next(&mut self) -> Option<Factor> {
-        if self.num == 0 || self.num == 1 { return None; }
+        if self.num <= 1 { return None }
 
-        while self.num > 1 {
-            let p = self.iter.next().unwrap();
-
+        for p in self.iter {
             if p * p > self.num {
                 let n = self.num;
                 self.num = 1;
-                return Some((n, 1));
+                return Some((n, 1))
             }
 
-            let mut exp = 0;
-            while self.num % p == 0 {
-                exp += 1;
+            if self.num.is_multiple_of(&p) {
+                let mut exp = 1;
                 self.num /= p;
+
+                while self.num.is_multiple_of(&p) {
+                    exp += 1;
+                    self.num /= p;
+                }
+                return Some((p, exp))
             }
-            if exp > 0 { return Some((p, exp)); }
         }
 
-        return None;
+        unreachable!()
     }
 }
 
