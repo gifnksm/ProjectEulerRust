@@ -22,9 +22,9 @@ impl<'a, R: Reader> Iterator<~str> for ReaderSplitIterator<'a, R> {
         self.reader
             .read_until(self.sep_char)
             .map(|mut bytes| {
-                self.sep_flag = bytes.last_opt() == Some(&self.sep_char);
+                self.sep_flag = bytes.last() == Some(&self.sep_char);
                 if self.sep_flag { bytes.pop(); }
-                str::from_utf8_owned(bytes)
+                str::from_utf8_owned(bytes).unwrap()
             }).or_else(|| {
                 if self.sep_flag {
                     self.sep_flag = false;

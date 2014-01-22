@@ -91,7 +91,7 @@ impl Iterator<(uint, ~[uint])> for RadValues {
 
         if !facts.is_empty() {
             // n = ... * p[i-1] => ... * p[i] (replace p[i-1] with p[i])
-            let last = *facts.last();
+            let last = *facts.last().unwrap();
             let mut next_facts = facts.clone();
             next_facts[next_facts.len() - 1] = p;
             self.queue.push(RadValue(p * n / last, next_facts, i + 1));

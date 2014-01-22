@@ -20,7 +20,7 @@ fn get_pentagonal(i: uint) -> uint {
 }
 
 fn is_pentagonal(n: uint, table: &[uint]) -> bool {
-    if *table.last() < n { fail!() }
+    if *table.last().unwrap() < n { fail!() }
     return table.bsearch_elem(&n).is_some();
 }
 

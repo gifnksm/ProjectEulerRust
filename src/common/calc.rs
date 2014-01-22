@@ -162,7 +162,7 @@ mod test {
             ~[3, 4, 5]
         ];
         super::combinate(&[1, 2, 3, 4, 5], 3, |n, _rest| {
-            assert_eq!(n, nums.shift()); true
+            assert_eq!(n, nums.shift().unwrap()); true
         });
     }
 
@@ -187,7 +187,7 @@ mod test {
         ];
 
         super::combinate_overlap(&[1, 2, 3, 4, 5], 3, |n| {
-            assert_eq!(n, nums.shift()); true
+            assert_eq!(n, nums.shift().unwrap()); true
         });
     }
 
@@ -202,7 +202,7 @@ mod test {
         ];
 
         super::permutate_num(&[1, 2, 3, 4, 5], 3, 0, 555, |n, _rest| {
-            assert_eq!(n, nums.shift()); true
+            assert_eq!(n, nums.shift().unwrap()); true
         });
 
         let mut nums = ~[
@@ -214,9 +214,9 @@ mod test {
         ];
 
         super::permutate_num(&[1, 2, 3, 4, 5], 3, 140, 300, |n, _rest| {
-            let mut num = nums.shift();
+            let mut num = nums.shift().unwrap();
             while num < 140 || 300 < num {
-                num = nums.shift();
+                num = nums.shift().unwrap();
             }
             assert_eq!(n, num);
             true

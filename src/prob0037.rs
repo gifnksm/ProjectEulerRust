@@ -24,7 +24,7 @@ pub fn solve() -> ~str {
 
     loop {
         let mut result = ~[];
-        for &p in l2r_mat.last().iter() {
+        for &p in l2r_mat.last().unwrap().iter() {
             // 2 can only be appeared as the most left digits
             if numconv::to_digits(p, 10).next_back() == Some(2) { continue }
 

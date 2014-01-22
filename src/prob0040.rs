@@ -89,7 +89,7 @@ impl<'a> Iterator<Area> for AreaSeq<'a> {
         self.idx += 1;
         self.seq.reserve(self.idx + 1);
         while self.idx >= self.seq.len() {
-            let next = self.seq.last().next();
+            let next = self.seq.last().unwrap().next();
             self.seq.push(next)
         }
         Some(self.seq[self.idx])

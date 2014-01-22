@@ -80,7 +80,7 @@ fn tsort<T: Hash + IterBytes + Eq + Clone>(rels: &mut Relations<T>) -> ~[T] {
     let mut sorted = ~[];
     let mut queue = rels.find_all_not_preceded();
     while !queue.is_empty() {
-        let prec = queue.shift();
+        let prec = queue.shift().unwrap();
         sorted.push(prec.clone());
         queue.push_all(rels.delete_and_find(prec));
     }

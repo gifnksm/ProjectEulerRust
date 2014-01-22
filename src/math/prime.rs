@@ -22,7 +22,7 @@ impl PrimeInner {
         return self.data[n];
     }
     fn contains(&mut self, n: uint) -> bool {
-        if n < *self.data.last() {
+        if n < *self.data.last().unwrap() {
             self.data.bsearch_elem(&n).is_some()
         } else {
             iter::count(0u, 1)
@@ -43,7 +43,7 @@ impl PrimeInner {
     #[inline]
     fn grow(&mut self, len: uint) {
         if self.data.len() >= len { return; }
-        let mut it = iter::count(self.data.last() + 2, 2)
+        let mut it = iter::count(self.data.last().unwrap() + 2, 2)
             .filter(|&n| self.is_coprime(n));
         for n in it {
             self.data.push(n);

@@ -79,7 +79,7 @@ pub fn solve() -> ~str {
     }
 
     let mut reader = File::open(&Path::new("files/cipher1.txt")).expect("file not found.");
-    let input = str::from_utf8_owned(reader.read_to_end());
+    let input = str::from_utf8_owned(reader.read_to_end()).unwrap();
 
     let code_list = input.trim().split(',')
         .filter_map(from_str::<u8>).to_owned_vec();
