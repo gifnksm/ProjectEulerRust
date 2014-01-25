@@ -94,7 +94,7 @@ impl Comb {
     fn find_change_bit(&self) -> Option<uint> {
         if self.size == 0 { return None }
 
-        for n in range(0, self.size - 1).invert() {
+        for n in range(0, self.size - 1).rev() {
             if self.set.contains(&n) && !self.set.contains(&(n + 1)) {
                 return Some(n)
             }

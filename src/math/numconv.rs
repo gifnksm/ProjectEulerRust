@@ -52,7 +52,7 @@ pub fn to_digit_histogram(n: uint) -> [uint, ..10] {
 
 pub fn to_palindromic(n: uint, radix: uint, dup_flag: bool) -> uint {
     let digits = to_digits(n, radix);
-    let mut rv = digits.invert();
+    let mut rv = digits.rev();
     if dup_flag { rv.next_back(); }
     return rv.chain(digits).fold(0, |sum, i| sum * radix + i);
 }
@@ -78,7 +78,7 @@ mod test {
         fn check(n: uint, v: ~[uint], radix: uint) {
             assert_eq!(super::from_digits(v, radix), n);
             assert_eq!(super::to_digits(n, radix).to_owned_vec(), v.clone());
-            assert_eq!(super::to_digits(n, radix).invert().to_owned_vec(),
+            assert_eq!(super::to_digits(n, radix).rev().to_owned_vec(),
                        v.move_rev_iter().to_owned_vec())
         }
 

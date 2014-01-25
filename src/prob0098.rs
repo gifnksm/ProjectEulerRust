@@ -96,8 +96,8 @@ pub fn solve() -> ~str {
 
                 let start = num::pow(10u, *len) - 1;
                 let end   = num::pow(10u, *len - 1);
-                for n in range(arith::isqrt(end), arith::isqrt(start)).invert() {
-                    let ds = numconv::to_digits(n * n, 10).invert().to_owned_vec();
+                for n in range(arith::isqrt(end), arith::isqrt(start)).rev() {
+                    let ds = numconv::to_digits(n * n, 10).rev().to_owned_vec();
                     for &(ref v1, ref v2) in pairs.iter() {
                         if ds[v2[0]] == 0 { continue }
                         if !check_digit(*v1, ds) { continue }

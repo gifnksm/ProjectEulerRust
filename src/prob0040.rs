@@ -67,7 +67,7 @@ impl Area {
     #[inline]
     pub fn get_nth_digit(&self, n: uint) -> uint {
         let (d, r) = (n - self.min_idx).div_rem(&self.num_digit);
-        numconv::to_digits(self.min_val + d, 10).invert().nth(r).unwrap()
+        numconv::to_digits(self.min_val + d, 10).rev().nth(r).unwrap()
     }
 }
 

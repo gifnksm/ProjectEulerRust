@@ -18,7 +18,7 @@ fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
         .take_while(|&pow| pow < limit);
 
     for pow in it {
-        for j in range(0, sq_sums.len()).invert() {
+        for j in range(0, sq_sums.len()).rev() {
             let s = sq_sums[j] + pow;
             if s >= limit { break; }
 

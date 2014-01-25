@@ -16,11 +16,11 @@ pub fn solve() -> ~str {
     let prime = Prime::new();
     let mut total = 0;
     for d in range(0u, 10) {
-        for m in range(0, n + 1).invert() {
+        for m in range(0, n + 1).rev() {
             let mut sum = 0;
             for other_ds in range(0, num::pow(9u, n - m)) {
                 let other_ds = {
-                    let mut ds = numconv::to_digits(other_ds, 9).invert().collect::<~[uint]>();
+                    let mut ds = numconv::to_digits(other_ds, 9).rev().collect::<~[uint]>();
                     while ds.len() < n - m { ds.unshift(0); }
                     for i in ds.mut_iter() { if *i >= d { *i += 1; } }
                     ds

@@ -11,7 +11,7 @@ fn backtrack(power: uint, depth: uint, limit: uint, cost: &mut [uint], path: &mu
     cost[power] = depth;
     path[depth] = power;
 
-    for i in iter::range_inclusive(0, depth).invert() {
+    for i in iter::range_inclusive(0, depth).rev() {
         backtrack(power + path[i], depth + 1, limit, cost, path);
     }
 }

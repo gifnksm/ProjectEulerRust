@@ -32,8 +32,8 @@ impl Iterator<(uint, uint)> for DividablePairsIterator {
 }
 
 pub fn solve() -> ~str {
-    let it1 = range(99u, 999).invert().map(|seed| numconv::to_palindromic(seed, 10, false));
-    let it2 = range(99u, 999).invert().map(|seed| numconv::to_palindromic(seed, 10, true));
+    let it1 = range(99u, 999).rev().map(|seed| numconv::to_palindromic(seed, 10, false));
+    let it2 = range(99u, 999).rev().map(|seed| numconv::to_palindromic(seed, 10, true));
 
     it1.chain(it2)
         .flat_map(|n| DividablePairsIterator::new(n, 100, 999))

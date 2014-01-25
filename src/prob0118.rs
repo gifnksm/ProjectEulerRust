@@ -46,7 +46,7 @@ impl Iterator<~[uint]> for ElementIndex {
                 let max_num = self.num_elem - 1;
                 let max_idx = idx.len() - 1;
                 range(0, idx.len())
-                    .invert()
+                    .rev()
                     .find(|&i| idx[i] < max_num - (max_idx - i))
                     .map(|incr_idx| (idx, incr_idx))
             }).map(|(idx, incr_idx)| {

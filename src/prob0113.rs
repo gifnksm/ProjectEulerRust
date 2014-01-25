@@ -14,7 +14,7 @@ fn num_increasing(len: uint) -> uint {
     }
     for i in range(1, len) {
         let mut s = 0;
-        for d in range(0, buf[i].len()).invert() {
+        for d in range(0, buf[i].len()).rev() {
             s += buf[i - 1][d];
             buf[i][d] = s;
         }
