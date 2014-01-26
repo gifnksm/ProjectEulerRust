@@ -7,6 +7,7 @@ use std::iter;
 
 pub static EXPECTED_ANSWER: &'static str = "1000023";
 
+#[inline]
 pub fn a(n: uint) -> uint {
     if n == 1 { return 1 }
 
