@@ -24,13 +24,13 @@ pub fn solve() -> ~str {
     let start = 2;
     let mut end = 4;
     let mut cnt = limit - 1;
-    let mut nums = vec::from_elem(limit + 1, uint::max_value);
+    let mut nums = vec::from_elem(limit + 1, uint::MAX);
 
     while cnt > 0 {
         each_sum_product(start, end, &|sum, prod, len| {
             let k = prod - sum + len;
             if k <= limit && prod < nums[k] {
-                if nums[k] == uint::max_value { cnt -= 1; }
+                if nums[k] == uint::MAX { cnt -= 1; }
                 nums[k] = prod;
             }
         });
@@ -39,7 +39,7 @@ pub fn solve() -> ~str {
 
     let mut set = HashSet::new();
     for &n in nums.iter() {
-        if n != uint::max_value { set.insert(n); }
+        if n != uint::MAX { set.insert(n); }
     }
 
     return set.move_iter().sum().to_str();

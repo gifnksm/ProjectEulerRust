@@ -24,7 +24,7 @@ static ROMAN_PAIRS: &'static [(&'static str, uint)] = &[
 ];
 
 fn from_roman(mut s: &str) -> Option<uint> {
-    let mut last_d = uint::max_value;
+    let mut last_d = uint::MAX;
 
     let mut n = 0;
     while !s.is_empty() {

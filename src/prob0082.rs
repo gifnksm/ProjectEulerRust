@@ -31,7 +31,7 @@ pub fn solve() -> ~str {
             sum[y][x] = mat[y][x] + min;
         }
     }
-    let mut min = uint::max_value;
+    let mut min = uint::MAX;
     for y in range(0, h) {
         min = cmp::min(sum[y][w - 1], min);
     }

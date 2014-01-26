@@ -18,7 +18,7 @@ pub fn solve() -> ~str {
 
     let mut closed = HashSet::new();
     let mut open   = HashSet::new();
-    let mut dist = vec::from_fn(h, |_y| vec::from_elem(w, uint::max_value));
+    let mut dist = vec::from_fn(h, |_y| vec::from_elem(w, uint::MAX));
     let mut parent = vec::from_fn(h, |_y| vec::from_elem(w, Point { x: w, y: h }));
 
     dist[start.y][start.x] = mat[start.y][start.x];

@@ -16,7 +16,7 @@ impl Range2D {
         fn get_cnt(p0: int, dp: int, min: int, max: int) -> uint {
             if p0 < min || max < p0 { return 0; }
             match dp.cmp(&0) {
-                Equal   => uint::max_value,
+                Equal   => uint::MAX,
                 Greater => ((max + 1 - p0) / dp) as uint,
                 Less    => ((p0 + 1 - min) / (-dp)) as uint
             }

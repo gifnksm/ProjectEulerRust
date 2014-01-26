@@ -75,7 +75,7 @@ pub fn solve() -> ~str {
             words
         }).map(|idx_pairs| {
             vec::build(None, |push| {
-                    let mut cur_len = uint::max_value;
+                    let mut cur_len = uint::MAX;
                     let mut cur_group = ~[];
                     for &(ref len, ref v1, ref v2) in idx_pairs.iter() {
                         if cur_group.is_empty() || cur_len == *len {

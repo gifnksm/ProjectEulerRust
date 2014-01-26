@@ -148,7 +148,7 @@ impl Iterator<uint> for PrimeIterator {
 
 impl RandomAccessIterator<uint> for PrimeIterator {
     #[inline]
-    fn indexable(&self) -> uint { uint::max_value }
+    fn indexable(&self) -> uint { uint::MAX }
 
     #[inline]
     fn idx(&self, index: uint) -> Option<uint> {
