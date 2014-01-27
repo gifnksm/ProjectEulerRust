@@ -12,7 +12,7 @@ static PRIMES_BELOW100: &'static [uint] = &[
 ];
 
 struct PrimeInner {
-    priv data: ~[uint]
+    data: ~[uint]
 }
 
 impl PrimeInner {

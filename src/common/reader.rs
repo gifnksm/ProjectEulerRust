@@ -12,9 +12,9 @@ impl<R> BufferedReaderUtil<R> for BufferedReader<R> {
 }
 
 struct ReaderSplitIterator<'a, R> {
-    priv reader: &'a mut BufferedReader<R>,
-    priv sep_char: u8,
-    priv sep_flag: bool
+    reader: &'a mut BufferedReader<R>,
+    sep_char: u8,
+    sep_flag: bool
 }
 impl<'a, R: Reader> Iterator<~str> for ReaderSplitIterator<'a, R> {
     #[inline]

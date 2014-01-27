@@ -43,7 +43,7 @@ pub fn prim_pythagorean(m: uint) -> PrimPythagoreanIterator {
     PrimPythagoreanIterator { m: m, n: n0 }
 }
 
-struct PrimPythagoreanIterator { priv m: uint, priv n: uint }
+struct PrimPythagoreanIterator { m: uint, n: uint }
 
 impl Iterator<(uint, uint, uint)> for PrimPythagoreanIterator {
     fn next(&mut self) -> Option<(uint, uint, uint)> {
