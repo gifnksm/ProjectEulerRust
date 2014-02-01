@@ -115,17 +115,17 @@ pub fn solve() -> ~str {
     for (p1, p2) in pairs {
         if p1 == 3 { continue }
         let xmap = &mod_map[p2 % 10];
-        let mut a = 0;
+        let mut a;
         let mut b = 0;
         let mut p1_digit = p1;
         let mut coef = 1;
-        p1.to_str().len().times(|| {
-                let (d, m) = p1_digit.div_rem(&10);
-                p1_digit = d;
-                a = xmap[(10 + m - (b / coef) % 10) % 10];
-                b += a * p2 * coef;
-                coef *= 10;
-            });
+        for _ in range(0, p1.to_str().len()) {
+            let (d, m) = p1_digit.div_rem(&10);
+            p1_digit = d;
+            a = xmap[(10 + m - (b / coef) % 10) % 10];
+            b += a * p2 * coef;
+            coef *= 10;
+        }
         sum += b;
     }
     sum.to_str()

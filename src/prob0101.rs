@@ -15,10 +15,10 @@ pub static EXPECTED_ANSWER: &'static str = "37076114526";
 fn u(n: BigInt) -> BigInt {
     let mut sum: BigInt = Zero::zero();
     let mut prod = One::one();
-    11.times(|| {
-            sum = sum + prod;
-            prod = prod * (-n);
-        });
+    for _ in range(0, 11) {
+        sum = sum + prod;
+        prod = prod * (-n);
+    }
     sum
 }
 

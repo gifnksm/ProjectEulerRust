@@ -1,22 +1,16 @@
 #[crate_id = "prob0048"];
 #[crate_type = "rlib"];
 
-pub static EXPECTED_ANSWER: &'static str = "9110846700";
+extern mod math;
+use math::arith;
 
-fn pow_mod(base: uint, exponent: uint, modulo: uint) -> uint {
-    if base == 0 { return 0; }
-    let mut acc = 1;
-    exponent.times(|| {
-        acc = (acc * base) % modulo;
-    });
-    return acc;
-}
+pub static EXPECTED_ANSWER: &'static str = "9110846700";
 
 pub fn solve() -> ~str {
     let modulo  = 100_0000_0000;
     let mut sum = 0;
     for n in range(1u, 1000 + 1) {
-        sum = (sum + pow_mod(n, n, modulo)) % modulo;
+        sum = (sum + arith::mod_pow(n, n, modulo)) % modulo;
     }
     return sum.to_str();
 }

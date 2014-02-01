@@ -4,7 +4,7 @@
 extern mod extra;
 extern mod math;
 
-use std::char;
+use std::{char, num};
 use std::iter::AdditiveIterator;
 use std::num::Zero;
 use extra::bigint::BigInt;
@@ -17,10 +17,9 @@ fn sqrt_newton_raphson(n: uint, precision: uint) -> ~str {
 
     let _1:  BigInt = FromPrimitive::from_uint(1).unwrap();
     let _10: BigInt = FromPrimitive::from_uint(10).unwrap();
+    let n:   BigInt = FromPrimitive::from_uint(n).unwrap();
 
-    let n:      BigInt = FromPrimitive::from_uint(n).unwrap();
-    let mut ds: BigInt = FromPrimitive::from_uint(1).unwrap();
-    (precision - 1).times(||  ds = ds * _10);
+    let ds = num::pow(_10.clone(), precision - 1);
 
     let shift   = 4 * precision; // log_2 10 = 3.3... < 4
     let _1_2    = _1 << (2 * shift);

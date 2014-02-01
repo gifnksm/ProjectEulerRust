@@ -2,7 +2,6 @@
 #[crate_type = "rlib"];
 
 extern mod data;
-#[cfg(test)]
 extern mod extra;
 
 pub mod arith;

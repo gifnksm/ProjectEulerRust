@@ -1,5 +1,5 @@
 use std::hashmap::HashMap;
-use std::vec;
+use std::{num, vec};
 use std::iter::MultiplicativeIterator;
 
 pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
@@ -96,12 +96,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
                 f: |uint, &[uint]| -> bool) -> bool {
         if len == 0 { return f(0, digits); }
 
-        let unit = {
-            let mut tmp = 1;
-            (len - 1).times(|| tmp *= 10 );
-            tmp
-        };
-
+        let unit = num::pow(10u, len - 1);
         let mut buf = vec::from_elem(digits.len() - 1, 0u);
 
         for (i, &n) in digits.iter().enumerate() {

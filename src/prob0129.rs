@@ -43,7 +43,9 @@ mod test {
             let mut r: BigUint = Zero::zero();
             let ten = FromPrimitive::from_uint(10).unwrap();
             let one = One::one();
-            k.times(|| r = r * ten + one);
+            for _ in range(0, k) {
+                r = r * ten + one;
+            }
             r
         }
 
