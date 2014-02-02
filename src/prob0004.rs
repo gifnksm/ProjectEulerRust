@@ -3,8 +3,8 @@
 
 extern mod math;
 
-use std::{cmp, uint};
-use math::numconv;
+use std::cmp;
+use math::{arith, numconv};
 
 pub static EXPECTED_ANSWER: &'static str = "906609";
 
@@ -12,7 +12,7 @@ struct DividablePairsIterator { num: uint, max: uint, div: uint }
 
 impl DividablePairsIterator {
     fn new(num: uint, min: uint, max: uint) -> DividablePairsIterator {
-        let div = cmp::max(uint::div_ceil(num, max), min);
+        let div = cmp::max(arith::div_ceil(num, max), min);
         DividablePairsIterator { num: num, div: div, max: max }
     }
 }
