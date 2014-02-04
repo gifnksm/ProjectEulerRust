@@ -3,6 +3,7 @@
 
 extern mod extra;
 extern mod common;
+extern mod term;
 
 use std::os;
 use std::iter;

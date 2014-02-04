@@ -1,15 +1,16 @@
 use std::io;
-use extra::{term, time};
-use extra::term::Terminal;
-use extra::term::color::Color;
+use extra::time;
+use term::Terminal;
+use term::color::Color;
+use term::color;
 
 static WARN_COLOR_NSEC:  u64 = 1  * NSEC_PER_SEC;
 static ERROR_COLOR_NSEC: u64 = 10 * NSEC_PER_SEC;
 static NSEC_PER_SEC:     u64 = 1000000000;
 
-static COLOR_OK:   Color = term::color::GREEN;
-static COLOR_NG:   Color = term::color::RED;
-static COLOR_WARN: Color = term::color::YELLOW;
+static COLOR_OK:   Color = color::GREEN;
+static COLOR_NG:   Color = color::RED;
+static COLOR_WARN: Color = color::YELLOW;
 
 pub struct Problem<'a> {
     id: uint,
