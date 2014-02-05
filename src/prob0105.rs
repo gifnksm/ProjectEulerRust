@@ -42,7 +42,7 @@ fn is_sss(nums: &[uint]) -> bool {
 
 pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
-        File::open(&Path::new("files/sets.txt")).expect("file not found."));
+        File::open(&Path::new("files/sets.txt")).ok().expect("file not found."));
 
     br.lines()
         .map(|line| {

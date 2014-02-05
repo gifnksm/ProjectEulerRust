@@ -93,13 +93,13 @@ fn print_items(items: &[(Option<Color>, ~str)]) {
     match Terminal::new(io::stdout()) {
         Err(_) => {
             let mut out = io::stdout();
-            for &(_, ref s) in items.iter() { out.write_str(*s); }
+            for &(_, ref s) in items.iter() { let _ = out.write_str(*s); }
         },
         Ok(mut t) => {
             for &(c, ref s) in items.iter() {
                 match c {
-                    Some(c) => { t.fg(c); t.write_str(*s); t.reset() }
-                    None    => { t.write_str(*s); }
+                    Some(c) => { let _ = t.fg(c); let _ = t.write_str(*s); let _ = t.reset(); }
+                    None    => { let _ = t.write_str(*s); }
                 }
             }
         }

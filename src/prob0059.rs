@@ -78,8 +78,8 @@ pub fn solve() -> ~str {
         freq_dict[c as u8] = f;
     }
 
-    let mut reader = File::open(&Path::new("files/cipher1.txt")).expect("file not found.");
-    let input = str::from_utf8_owned(reader.read_to_end()).unwrap();
+    let mut reader = File::open(&Path::new("files/cipher1.txt")).ok().expect("file not found.");
+    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
 
     let code_list = input.trim().split(',')
         .filter_map(from_str::<u8>).to_owned_vec();

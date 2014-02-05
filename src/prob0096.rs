@@ -70,14 +70,14 @@ impl SuDoku {
 }
 
 fn read_sudoku<T: Reader>(r: &mut BufferedReader<T>) -> Option<SuDoku> {
-    r.read_line()
+    r.read_line().ok()
         .and_then(|name| {
             let mut sudoku = SuDoku {
                 name: name,
                 map: [[MASK_ALL, .. BOARD_WIDTH], .. BOARD_HEIGHT]
             };
             for y in range(0, BOARD_HEIGHT) {
-                match r.read_line() {
+                match r.read_line().ok() {
                     None => return None,
                     Some(line) => {
                         for x in range(0, BOARD_WIDTH) {
@@ -181,7 +181,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
 pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
-        File::open(&Path::new("files/sudoku.txt")).expect("file not found."));
+        File::open(&Path::new("files/sudoku.txt")).ok().expect("file not found."));
 
     let mut puzzles = ~[];
     loop {

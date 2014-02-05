@@ -7,7 +7,7 @@ use std::io::{BufferedReader, File};
 pub static EXPECTED_ANSWER: &'static str = "427337";
 
 pub fn read_matrix(filename: &str) -> (uint, uint, ~[~[uint]]) {
-    let mut br = BufferedReader::new(File::open(&Path::new(filename)).expect("file not found."));
+    let mut br = BufferedReader::new(File::open(&Path::new(filename)).ok().expect("file not found."));
 
     let mut mat = ~[];
     for line in br.lines() {

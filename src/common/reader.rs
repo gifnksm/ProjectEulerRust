@@ -21,6 +21,7 @@ impl<'a, R: Reader> Iterator<~str> for ReaderSplitIterator<'a, R> {
     fn next(&mut self) -> Option<~str> {
         self.reader
             .read_until(self.sep_char)
+            .ok()
             .map(|mut bytes| {
                 self.sep_flag = bytes.last() == Some(&self.sep_char);
                 if self.sep_flag { bytes.pop(); }

@@ -90,7 +90,7 @@ fn tsort<T: Hash + IterBytes + Eq + Clone>(rels: &mut Relations<T>) -> ~[T] {
 
 pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
-        File::open(&Path::new("files/keylog.txt")).expect("file not found."));
+        File::open(&Path::new("files/keylog.txt")).ok().expect("file not found."));
 
     let mut rels = Relations::new();
     for line in br.lines() {

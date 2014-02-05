@@ -8,7 +8,7 @@ pub static EXPECTED_ANSWER: &'static str = "709";
 
 pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
-        File::open(&Path::new("files/base_exp.txt")).expect("file not found."));
+        File::open(&Path::new("files/base_exp.txt")).ok().expect("file not found."));
 
     br.lines()
         .map(|line| {

@@ -207,7 +207,7 @@ fn judge(p1_cards: &[Card, ..5], p2_cards: &[Card, ..5]) -> int {
 }
 
 pub fn solve() -> ~str {
-    let r = File::open(&Path::new("files/poker.txt")).expect("file not found.");
+    let r = File::open(&Path::new("files/poker.txt")).ok().expect("file not found.");
     let mut br = BufferedReader::new(r);
 
     let mut p1_win = 0u;

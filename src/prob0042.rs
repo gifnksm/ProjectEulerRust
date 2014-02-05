@@ -20,8 +20,9 @@ fn word_value(word: &str) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let mut reader = File::open(&Path::new("files/words.txt")).expect("file not found.");
-    let input = str::from_utf8_owned(reader.read_to_end()).unwrap();
+    let mut reader = File::open(&Path::new("files/words.txt"))
+        .ok().expect("file not found.");
+    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
     let result = reader::read_whole_word(input).map(|words| words.map(|w| word_value(*w)))
         .map(|values| {
             let mut is_tri = vec::from_elem(values.iter().max().unwrap() + 1, false);
