@@ -2,17 +2,17 @@
 
 PRINT_CRATE() {
     find ./src -maxdepth 1 -mindepth 1 -name "*.rs" -type f | sort | while read MAIN_SRC; do
-        CRATE_NAME=$(echo "${MAIN_SRC}" | sed 's|^./src/||; s|\.rs$||')
+        CRATE_NAME=$(rustc --crate-name "${MAIN_SRC}")
         echo RLIB ${CRATE_NAME} ${MAIN_SRC}
     done
     find ./src -mindepth 2 -name "lib.rs" -type f | sort | while read MAIN_SRC; do
-        CRATE_NAME=$(dirname ${MAIN_SRC} | sed 's|^./src/||')
-        OTHER_SRC=$(echo $(find ./src/${CRATE_NAME} -name "*.rs" -not -name "lib.rs" -type f))
+        CRATE_NAME=$(rustc --crate-name "${MAIN_SRC}")
+        OTHER_SRC=$(echo $(find "$(dirname ${MAIN_SRC})" -name "*.rs" -not -name "lib.rs" -type f))
         echo RLIB ${CRATE_NAME} ${MAIN_SRC} ${OTHER_SRC}
     done
     find ./src -mindepth 2 -name "main.rs" -type f | sort | while read MAIN_SRC; do
-        CRATE_NAME=$(dirname ${MAIN_SRC} | sed 's|^./src/||')
-        OTHER_SRC=$(echo $(find ./src/${CRATE_NAME} -name "*.rs" -not -name "main.rs" -type f))
+        CRATE_NAME=$(rustc --crate-name "${MAIN_SRC}")
+        OTHER_SRC=$(echo $(find "$(dirname ${MAIN_SRC})" -name "*.rs" -not -name "main.rs" -type f))
         echo BIN ${CRATE_NAME} ${MAIN_SRC} ${OTHER_SRC}
     done
 }
