@@ -1,10 +1,12 @@
 #[crate_id = "prob0124"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod collections;
 extern mod math;
+#[cfg(test)]
+extern mod extra;
 
-use extra::priority_queue::PriorityQueue;
+use collections::priority_queue::PriorityQueue;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "21417";

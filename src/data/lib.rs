@@ -1,6 +1,8 @@
 #[crate_id = "data"];
 #[crate_type = "rlib"];
 
+extern mod collections;
+#[cfg(test)]
 extern mod extra;
 
 pub mod card;

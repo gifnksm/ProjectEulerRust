@@ -1,5 +1,5 @@
 use std::{cmp, uint};
-use extra::bitv::BitvSet;
+use collections::bitv::BitvSet;
 
 pub struct Range2D {
     cur: (int, int),

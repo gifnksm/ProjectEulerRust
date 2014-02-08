@@ -1,12 +1,12 @@
 #[crate_id = "prob0119"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod collections;
 extern mod math;
 
 use std::num;
 use std::iter::{AdditiveIterator, Filter, SkipWhile};
-use extra::priority_queue::PriorityQueue;
+use collections::priority_queue::PriorityQueue;
 use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "248155780267521";
