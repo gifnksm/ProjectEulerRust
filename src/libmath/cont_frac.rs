@@ -1,5 +1,5 @@
 use std::hashmap::HashSet;
-use std::util;
+use std::mem;
 
 use arith::isqrt;
 
@@ -84,7 +84,7 @@ pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T>>(an: &[uint]) -> (T, T) {
     let mut denom: T = FromPrimitive::from_int(0).unwrap();
 
     for &a in an.rev_iter() {
-        util::swap(&mut numer, &mut denom);
+        mem::swap(&mut numer, &mut denom);
         let num: T = FromPrimitive::from_int(a as int).unwrap();
         numer = numer + num * denom;
     }
@@ -148,7 +148,7 @@ impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelIterator<T> {
              (*yk) * (*x1) +     (*xk) * (*y1))
         };
 
-        Some(util::replace(&mut self.xy, next))
+        Some(mem::replace(&mut self.xy, next))
     }
 }
 
@@ -185,7 +185,7 @@ impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelNegIterator<T> {
              yk * (*x1) +     xk * (*y1))
         };
 
-        Some(util::replace(&mut self.xy, next))
+        Some(mem::replace(&mut self.xy, next))
     }
 }
 

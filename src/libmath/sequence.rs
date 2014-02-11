@@ -1,4 +1,4 @@
-use std::util;
+use std::mem;
 use std::num::One;
 
 pub fn fibonacci<T: One>() -> Fibonacci<T> {
@@ -15,8 +15,8 @@ impl<T: Add<T,T>> Iterator<T> for Fibonacci<T> {
     #[inline]
     fn next(&mut self) -> Option<T> {
         let new_next    = self.current + self.next;
-        let new_current = util::replace(&mut self.next, new_next);
-        let retval = util::replace(&mut self.current,   new_current);
+        let new_current = mem::replace(&mut self.next, new_next);
+        let retval = mem::replace(&mut self.current,   new_current);
         Some(retval)
     }
 }
@@ -34,7 +34,7 @@ impl<T: Add<T, T> + One> Iterator<T> for Triangle<T> {
     fn next(&mut self) -> Option<T> {
         let new_next = self.next + self.diff;
         self.diff = self.diff + One::one();
-        Some(util::replace(&mut self.next, new_next))
+        Some(mem::replace(&mut self.next, new_next))
     }
 }
 

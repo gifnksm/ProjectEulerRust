@@ -1,4 +1,4 @@
-use std::{vec, util};
+use std::{vec, mem};
 use std::cmp::{Ord, Eq};
 use std::ops::{Add, Mul};
 use std::num::{Zero, One, Bounded};
@@ -159,7 +159,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
     fn next(&mut self) -> Option<(K, V)> {
         fn return_val<V>(opt: &mut Option<V>) -> Option<V> {
             let mut result = None;
-            util::swap(opt, &mut result);
+            mem::swap(opt, &mut result);
             return result;
         }
 
@@ -179,8 +179,8 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
             Equal   => {
                 let mut r1 = None;
                 let mut r2 = None;
-                util::swap(&mut self.value1, &mut r1);
-                util::swap(&mut self.value2, &mut r2);
+                mem::swap(&mut self.value1, &mut r1);
+                mem::swap(&mut self.value2, &mut r2);
                 let ((k, v1), (_, v2)) = (r1.unwrap(), r2.unwrap());
                 return Some((k, v1.mappend(&v2)));
             }
@@ -229,12 +229,12 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
         let mut result = None;
         for &i in min_idx.iter() {
             if result.is_none() {
-                util::swap(&mut self.values[i], &mut result);
+                mem::swap(&mut self.values[i], &mut result);
             } else {
                 let mut r1 = None;
                 let mut r2 = None;
-                util::swap(&mut r1, &mut self.values[i]);
-                util::swap(&mut r2, &mut result);
+                mem::swap(&mut r1, &mut self.values[i]);
+                mem::swap(&mut r2, &mut result);
                 let ((k, v1), (_, v2)) = (r1.unwrap(), r2.unwrap());
                 result = Some((k, v1.mappend(&v2)));
             }

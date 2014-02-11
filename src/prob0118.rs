@@ -3,7 +3,7 @@
 
 extern mod math;
 
-use std::{iter, util, vec};
+use std::{iter, mem, vec};
 use math::numconv;
 use math::prime::Prime;
 
@@ -57,7 +57,7 @@ impl Iterator<~[uint]> for ElementIndex {
                 }
                 next
             });
-        util::replace(&mut self.idx, next)
+        mem::replace(&mut self.idx, next)
     }
 }
 

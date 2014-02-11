@@ -1,4 +1,4 @@
-use std::{util, vec};
+use std::{mem, vec};
 
 #[deriving(Clone)]
 priv enum UFNode {
@@ -24,8 +24,8 @@ impl UnionFind {
         let mut key2 = key2; let mut size2 = size2;
 
         if size1 < size2 {
-            util::swap(&mut key1, &mut key2);
-            util::swap(&mut size1, &mut size2);
+            mem::swap(&mut key1, &mut key2);
+            mem::swap(&mut size1, &mut size2);
         }
 
         self.data[key1] = UFSize(size1 + size2);

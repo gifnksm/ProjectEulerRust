@@ -4,7 +4,7 @@
 extern mod common;
 extern mod math;
 
-use std::{num, str, util, uint, vec};
+use std::{num, str, mem, uint, vec};
 use std::iter::OrdIterator;
 use std::hashmap::HashMap;
 use std::io::File;
@@ -50,7 +50,7 @@ pub fn solve() -> ~str {
             vec::build(None, |push| {
                     for (_key, values) in map.mut_iter() {
                         if values.len() > 1 {
-                            push(util::replace(values, ~[]));
+                            push(mem::replace(values, ~[]));
                         }
                     }
                 })
@@ -82,7 +82,7 @@ pub fn solve() -> ~str {
                             cur_len = *len;
                             cur_group.push((v1.clone(), v2.clone()));
                         } else {
-                            push((cur_len, util::replace(&mut cur_group, ~[(v1.clone(), v2.clone())])));
+                            push((cur_len, mem::replace(&mut cur_group, ~[(v1.clone(), v2.clone())])));
                             cur_len = *len;
                         }
                     }

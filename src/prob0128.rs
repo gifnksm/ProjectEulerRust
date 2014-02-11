@@ -134,7 +134,7 @@
 
 extern mod math;
 
-use std::util;
+use std::mem;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "14516824220";
@@ -160,7 +160,7 @@ impl Iterator<PdTriple> for PdTriples {
     #[inline]
     fn next(&mut self) -> Option<PdTriple> {
         if self.next.is_some() {
-            return util::replace(&mut self.next, None)
+            return mem::replace(&mut self.next, None)
         }
 
         let r = self.r;

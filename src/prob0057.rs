@@ -3,7 +3,7 @@
 
 extern mod extra;
 
-use std::util;
+use std::mem;
 use extra::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "153";
@@ -35,7 +35,7 @@ impl Iterator<(BigUint, BigUint)> for Frac {
             let (ref n, ref d) = self.nd;
             (((*d) << 1) + (*n), (*n) + (*d))
         };
-        Some(util::replace(&mut self.nd, next))
+        Some(mem::replace(&mut self.nd, next))
     }
 }
 
