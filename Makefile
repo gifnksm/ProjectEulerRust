@@ -18,7 +18,7 @@ RUSTC_FLAGS = \
 	-W non-camel-case-types \
 	-W non-uppercase-statics \
 	-W unnecessary-typecast
-DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) -Z debug-info -Z extra-debug-info
+DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) -g
 RELEASE_RUSTC_FLAGS = $(RUSTC_FLAGS) -L $(RELEASE_RLIB_DIR) --opt-level 3
 
 .PHONY: debug release test bench doc depend mostlyclean clean
