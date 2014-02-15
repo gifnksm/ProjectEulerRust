@@ -120,32 +120,40 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
             let bit = 1 << n;
 
             for y in range(0, BOARD_HEIGHT) {
-                let mut it = range(0, BOARD_WIDTH)
-                    .filter(|&x| puzzle.map[y][x] & bit != 0);
-                let next = it.next();
-                if next.is_none() || it.next().is_some() { continue }
+                let next = {
+                    let mut it = range(0, BOARD_WIDTH)
+                        .filter(|&x| puzzle.map[y][x] & bit != 0);
+                    let next = it.next();
+                    if next.is_none() || it.next().is_some() { continue }
+                    next
+                };
                 puzzle.map[y][next.unwrap()] = bit;
             }
 
             for x in range(0, BOARD_WIDTH) {
-                let mut it = range(0, BOARD_HEIGHT)
-                    .filter(|&y| puzzle.map[y][x] & bit != 0);
-                let next = it.next();
-                if next.is_none() || it.next().is_some() { continue }
+                let next = {
+                    let mut it = range(0, BOARD_HEIGHT)
+                        .filter(|&y| puzzle.map[y][x] & bit != 0);
+                    let next = it.next();
+                    if next.is_none() || it.next().is_some() { continue }
+                    next
+                };
                 puzzle.map[next.unwrap()][x] = bit;
             }
 
             for y0 in iter::range_step(0, BOARD_HEIGHT, GROUP_WIDTH) {
                 for x0 in iter::range_step(0, BOARD_WIDTH, GROUP_HEIGHT) {
-                    let mut it = group_it
-                        .iter()
-                        .map(|&(dx, dy)| (x0 + dx, y0 + dy))
-                        .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
-                    let next = it.next();
-                    if next.is_some() && it.next().is_none() {
-                        let (x, y) = next.unwrap();
-                        puzzle.map[y][x] = bit;
-                    }
+                    let next = {
+                        let mut it = group_it
+                            .iter()
+                            .map(|&(dx, dy)| (x0 + dx, y0 + dy))
+                            .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
+                        let next = it.next();
+                        if next.is_none() || it.next().is_some() { continue }
+                        next
+                    };
+                    let (x, y) = next.unwrap();
+                    puzzle.map[y][x] = bit;
                 }
             }
         }

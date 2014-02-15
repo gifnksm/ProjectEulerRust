@@ -1,9 +1,9 @@
 #[crate_id = "prob0063"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod num;
 
-use extra::bigint::BigUint;
+use num::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "49";
 

@@ -1,11 +1,11 @@
 #[crate_id = "prob0066"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod num;
 extern mod math;
 use std::iter;
 use std::iter::Peekable;
-use extra::bigint::BigUint;
+use num::bigint::BigUint;
 use math::cont_frac;
 
 pub static EXPECTED_ANSWER: &'static str = "661";

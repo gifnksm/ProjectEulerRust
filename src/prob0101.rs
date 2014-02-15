@@ -1,13 +1,13 @@
 #[crate_id = "prob0101"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod num;
 extern mod math;
 
 use std::vec;
 use std::num::{Zero, One};
-use extra::bigint::BigInt;
-use extra::rational::Ratio;
+use num::bigint::BigInt;
+use num::rational::Ratio;
 use math::poly;
 
 pub static EXPECTED_ANSWER: &'static str = "37076114526";

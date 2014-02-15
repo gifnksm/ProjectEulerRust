@@ -1,14 +1,14 @@
 #[crate_id = "prob0121"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod num;
 extern mod math;
 
 use std::iter;
 use std::iter::AdditiveIterator;
 use std::num::One;
-use extra::bigint::BigUint;
-use extra::rational::Ratio;
+use num::bigint::BigUint;
+use num::rational::Ratio;
 use math::poly;
 
 pub static EXPECTED_ANSWER: &'static str = "2269";
@@ -56,7 +56,7 @@ pub fn solve() -> ~str {
 
 #[cfg(test)]
 mod test {
-    use extra::rational::Ratio;
+    use num::rational::Ratio;
 
     #[test]
     fn probability_of_player_win() {

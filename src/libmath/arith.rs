@@ -1,5 +1,5 @@
 use std::num::One;
-use extra::bigint::BigUint;
+use num::bigint::BigUint;
 
 pub fn isqrt(n: uint) -> uint {
     let mut min = 0;

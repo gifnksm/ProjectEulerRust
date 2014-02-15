@@ -25,8 +25,9 @@ pub fn solve() -> ~str {
     let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
     let result = reader::read_whole_word(input).map(|words| words.map(|w| word_value(*w)))
         .map(|values| {
-            let mut is_tri = vec::from_elem(values.iter().max().unwrap() + 1, false);
-            let mut it = sequence::triangle::<uint>().take_while(|&t| t < is_tri.len());
+            let len = values.iter().max().unwrap() + 1;
+            let mut is_tri = vec::from_elem(len, false);
+            let mut it = sequence::triangle::<uint>().take_while(|&t| t < len);
             for t in it { is_tri[t] = true; }
 
             values.iter().count(|&v| is_tri[v]).to_str()

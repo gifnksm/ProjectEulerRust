@@ -1,13 +1,13 @@
 #[crate_id = "prob0093"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod num;
 extern mod common;
 extern mod math;
 
 use std::iter;
 use std::num::Zero;
-use extra::rational::{Rational, Ratio};
+use num::rational::{Rational, Ratio};
 use common::calc;
 use math::numconv;
 

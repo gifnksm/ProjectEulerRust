@@ -1,12 +1,12 @@
 #[crate_id = "prob0055"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod num;
 
 use std::str;
 use std::from_str::FromStr;
 use std::num::FromPrimitive;
-use extra::bigint::BigUint;
+use num::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "249";
 

@@ -1,13 +1,13 @@
 #[crate_id = "prob0080"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod num;
 extern mod math;
 
-use std::{char, num};
+use std::char;
 use std::iter::AdditiveIterator;
 use std::num::Zero;
-use extra::bigint::BigInt;
+use num::bigint::BigInt;
 use math::arith;
 
 pub static EXPECTED_ANSWER: &'static str = "40886";
@@ -19,7 +19,7 @@ fn sqrt_newton_raphson(n: uint, precision: uint) -> ~str {
     let _10: BigInt = FromPrimitive::from_uint(10).unwrap();
     let n:   BigInt = FromPrimitive::from_uint(n).unwrap();
 
-    let ds = num::pow(_10.clone(), precision - 1);
+    let ds = std::num::pow(_10.clone(), precision - 1);
 
     let shift   = 4 * precision; // log_2 10 = 3.3... < 4
     let _1_2    = _1 << (2 * shift);

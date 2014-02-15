@@ -1,10 +1,10 @@
 #[crate_id = "prob0097"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod num;
 
 use std::num::{One, Zero};
-use extra::bigint::{BigUint};
+use num::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "8739992577";
 

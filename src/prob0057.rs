@@ -1,10 +1,10 @@
 #[crate_id = "prob0057"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod num;
 
 use std::mem;
-use extra::bigint::BigUint;
+use num::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "153";
 
@@ -48,7 +48,7 @@ pub fn solve() -> ~str {
 
 #[cfg(test)]
 mod test {
-    use extra::bigint::BigUint;
+    use num::bigint::BigUint;
     use super::Frac;
 
     #[test]

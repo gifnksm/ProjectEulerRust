@@ -1,8 +1,10 @@
 #[crate_id = "math"];
 #[crate_type = "rlib"];
 
-extern mod data;
+#[cfg(test)]
 extern mod extra;
+extern mod num;
+extern mod data;
 
 pub mod arith;
 pub mod cont_frac;

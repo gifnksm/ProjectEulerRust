@@ -1,7 +1,8 @@
 #[crate_id = "prob0129"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+#[cfg(test)]
+extern mod num;
 
 use std::iter;
 
@@ -37,7 +38,7 @@ mod test {
     mod naive {
         use std::iter;
         use std::num::{Zero, One};
-        use extra::bigint::BigUint;
+        use num::bigint::BigUint;
 
         pub fn r(k: uint) -> BigUint {
             let mut r: BigUint = Zero::zero();

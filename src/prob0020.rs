@@ -1,11 +1,11 @@
 #[crate_id = "prob0020"];
 #[crate_type = "rlib"];
 
-extern mod extra;
+extern mod num;
 
 use std::char;
 use std::iter::{AdditiveIterator, MultiplicativeIterator};
-use extra::bigint::BigUint;
+use num::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "648";
 

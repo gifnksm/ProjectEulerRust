@@ -48,10 +48,8 @@ impl PrimeInner {
     fn grow(&mut self, len: uint) {
         if self.data.len() >= len { return }
 
-        let mut it = iter::count(self.max_prime() + 2, 2)
-            .filter(|&n| self.is_coprime(n));
-        for n in it {
-            self.data.push(n);
+        for n in iter::count(self.max_prime() + 2, 2) {
+            if self.is_coprime(n) { self.data.push(n); }
             if self.data.len() >= len { return }
         }
     }
