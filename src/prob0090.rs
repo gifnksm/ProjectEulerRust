@@ -1,7 +1,7 @@
 #[crate_id = "prob0090"];
 #[crate_type = "rlib"];
 
-extern mod data;
+extern crate data;
 
 use std::vec;
 use data::extiter::Comb;

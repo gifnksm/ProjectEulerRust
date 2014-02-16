@@ -1,7 +1,7 @@
 #[crate_id = "prob0083"];
 #[crate_type = "rlib"];
 
-extern mod prob0081;
+extern crate prob0081;
 
 use std::{cmp, vec, uint};
 use std::hashmap::HashSet;

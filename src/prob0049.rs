@@ -1,8 +1,8 @@
 #[crate_id = "prob0049"];
 #[crate_type = "rlib"];
 
-extern mod extra;
-extern mod math;
+extern crate extra;
+extern crate math;
 
 use math::numconv;
 use math::prime::Prime;

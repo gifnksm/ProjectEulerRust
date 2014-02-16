@@ -2,9 +2,9 @@
 #[crate_type = "rlib"];
 
 #[cfg(test)]
-extern mod extra;
-extern mod num;
-extern mod data;
+extern crate extra;
+extern crate num;
+extern crate data;
 
 pub mod arith;
 pub mod cont_frac;

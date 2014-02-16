@@ -2,8 +2,8 @@
 #[crate_type = "rlib"];
 
 #[cfg(test)]
-extern mod extra;
-extern mod math;
+extern crate extra;
+extern crate math;
 
 use std::iter;
 use math::numconv;

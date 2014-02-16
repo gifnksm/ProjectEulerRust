@@ -2,7 +2,7 @@
 #[crate_type = "rlib"];
 
 #[cfg(test)]
-extern mod num;
+extern crate num;
 
 use std::iter;
 

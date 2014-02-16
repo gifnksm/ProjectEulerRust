@@ -1,8 +1,8 @@
 #[crate_id = "prob0098"];
 #[crate_type = "rlib"];
 
-extern mod common;
-extern mod math;
+extern crate common;
+extern crate math;
 
 use std::{num, str, mem, uint, vec};
 use std::iter::OrdIterator;

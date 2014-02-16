@@ -1,7 +1,7 @@
 #[crate_id = "prob0060"];
 #[crate_type = "rlib"];
 
-extern mod math;
+extern crate math;
 
 use std::hashmap::HashMap;
 use std::iter::AdditiveIterator;

@@ -1,7 +1,7 @@
 #[crate_id = "prob0103"];
 #[crate_type = "rlib"];
 
-extern mod collections;
+extern crate collections;
 
 use std::vec;
 use collections::priority_queue::PriorityQueue;

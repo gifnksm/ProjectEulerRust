@@ -1,8 +1,8 @@
 #[crate_id = "prob0066"];
 #[crate_type = "rlib"];
 
-extern mod num;
-extern mod math;
+extern crate num;
+extern crate math;
 use std::iter;
 use std::iter::Peekable;
 use num::bigint::BigUint;

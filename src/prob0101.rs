@@ -1,8 +1,8 @@
 #[crate_id = "prob0101"];
 #[crate_type = "rlib"];
 
-extern mod num;
-extern mod math;
+extern crate num;
+extern crate math;
 
 use std::vec;
 use std::num::{Zero, One};

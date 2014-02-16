@@ -1,8 +1,8 @@
 #[crate_id = "prob0110"];
 #[crate_type = "rlib"];
 
-extern mod collections;
-extern mod math;
+extern crate collections;
+extern crate math;
 use collections::priority_queue::PriorityQueue;
 use math::prime::Prime;
 

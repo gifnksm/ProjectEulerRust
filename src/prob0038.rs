@@ -1,8 +1,8 @@
 #[crate_id = "prob0038"];
 #[crate_type = "rlib"];
 
-extern mod common;
-extern mod math;
+extern crate common;
+extern crate math;
 
 use common::calc;
 use math::numconv;

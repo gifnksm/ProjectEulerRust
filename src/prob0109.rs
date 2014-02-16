@@ -1,7 +1,7 @@
 #[crate_id = "prob0109"];
 #[crate_type = "rlib"];
 
-extern mod math;
+extern crate math;
 use std::vec;
 use std::num::Zero;
 use math::poly;

@@ -1,7 +1,7 @@
 #[crate_id = "prob0048"];
 #[crate_type = "rlib"];
 
-extern mod math;
+extern crate math;
 use math::arith;
 
 pub static EXPECTED_ANSWER: &'static str = "9110846700";

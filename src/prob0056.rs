@@ -1,7 +1,7 @@
 #[crate_id = "prob0056"];
 #[crate_type = "rlib"];
 
-extern mod num;
+extern crate num;
 
 use std::char;
 use std::iter::{AdditiveIterator, Unfold};

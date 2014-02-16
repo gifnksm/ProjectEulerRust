@@ -1,7 +1,7 @@
 #[crate_id = "prob0022"];
 #[crate_type = "rlib"];
 
-extern mod common;
+extern crate common;
 
 use std::io::{BufferedReader, File};
 use std::iter::AdditiveIterator;

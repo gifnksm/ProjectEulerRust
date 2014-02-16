@@ -3,7 +3,7 @@
 
 #[feature(macro_rules)];
 
-extern mod data;
+extern crate data;
 
 use std::iter::{OrdIterator, MultiplicativeIterator};
 use data::extiter::Range2D;

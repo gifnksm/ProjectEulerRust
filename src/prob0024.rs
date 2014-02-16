@@ -1,8 +1,8 @@
 #[crate_id = "prob0024"];
 #[crate_type = "rlib"];
 
-extern mod common;
-extern mod math;
+extern crate common;
+extern crate math;
 
 use std::to_bytes::IterBytes;
 use std::hashmap::HashMap;

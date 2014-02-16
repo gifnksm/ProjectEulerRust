@@ -1,7 +1,7 @@
 #[crate_id = "prob0115"];
 #[crate_type = "rlib"];
 
-extern mod prob0114;
+extern crate prob0114;
 
 use std::iter;
 use std::hashmap::HashMap;

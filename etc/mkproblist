@@ -13,7 +13,7 @@ def main():
     mods.sort()
 
     for mod in mods:
-        print("extern mod %s;" % mod)
+        print("extern crate %s;" % mod)
 
     print("""
 use super::problem::Problem;

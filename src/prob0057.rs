@@ -1,7 +1,7 @@
 #[crate_id = "prob0057"];
 #[crate_type = "rlib"];
 
-extern mod num;
+extern crate num;
 
 use std::mem;
 use num::bigint::BigUint;

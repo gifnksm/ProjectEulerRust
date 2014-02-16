@@ -1,9 +1,9 @@
 #[crate_id = "prob0093"];
 #[crate_type = "rlib"];
 
-extern mod num;
-extern mod common;
-extern mod math;
+extern crate num;
+extern crate common;
+extern crate math;
 
 use std::iter;
 use std::num::Zero;

@@ -1,7 +1,7 @@
 #[crate_id = "prob0027"];
 #[crate_type = "rlib"];
 
-extern mod math;
+extern crate math;
 
 use std::iter;
 use math::prime::Prime;

@@ -37,7 +37,7 @@ run-bench-${CRATE_NAME}: ${RELEASE_TEST}
 	\$(call RUN_BENCH,$<)
 EOF
 
-sed -n -e 's| *extern  *mod  *\(.*\) *;$|\1|p' ${ALL_SRC} | while read DEP_NAME; do
+sed -n -e 's| *extern  *crate  *\(.*\) *;$|\1|p' ${ALL_SRC} | while read DEP_NAME; do
     cat <<EOF
 ${DEBUG_TARGET}: \$(DEBUG_${DEP_NAME})
 ${RELEASE_TARGET}: \$(RELEASE_${DEP_NAME})

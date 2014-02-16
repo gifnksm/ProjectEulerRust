@@ -1,8 +1,8 @@
 #[crate_id = "prob0042"];
 #[crate_type = "rlib"];
 
-extern mod common;
-extern mod math;
+extern crate common;
+extern crate math;
 
 use std::{str, vec};
 use std::io::File;

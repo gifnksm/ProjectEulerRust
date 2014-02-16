@@ -1,7 +1,7 @@
 #[crate_id = "prob0072"];
 #[crate_type = "rlib"];
 
-extern mod math;
+extern crate math;
 
 use std::{iter, vec};
 use std::iter::AdditiveIterator;

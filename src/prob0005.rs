@@ -1,8 +1,8 @@
 #[crate_id = "prob0005"];
 #[crate_type = "rlib"];
 
-extern mod data;
-extern mod math;
+extern crate data;
+extern crate math;
 
 use std::vec;
 use data::monoid::{Max, MergeMultiMonoidIterator, Wrap};

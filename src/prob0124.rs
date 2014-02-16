@@ -1,10 +1,10 @@
 #[crate_id = "prob0124"];
 #[crate_type = "rlib"];
 
-extern mod collections;
-extern mod math;
+extern crate collections;
+extern crate math;
 #[cfg(test)]
-extern mod extra;
+extern crate extra;
 
 use collections::priority_queue::PriorityQueue;
 use math::prime::Prime;

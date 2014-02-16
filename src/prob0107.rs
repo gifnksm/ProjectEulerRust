@@ -1,7 +1,7 @@
 #[crate_id = "prob0107"];
 #[crate_type = "rlib"];
 
-extern mod data;
+extern crate data;
 
 use std::io::{BufferedReader, File};
 use data::union_find::UnionFind;

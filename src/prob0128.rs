@@ -132,7 +132,7 @@
 #[crate_id = "prob0128"];
 #[crate_type = "rlib"];
 
-extern mod math;
+extern crate math;
 
 use std::mem;
 use math::prime::Prime;

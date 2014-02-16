@@ -1,8 +1,8 @@
 #[crate_id = "prob0119"];
 #[crate_type = "rlib"];
 
-extern mod collections;
-extern mod math;
+extern crate collections;
+extern crate math;
 
 use std::num;
 use std::iter::{AdditiveIterator, Filter, SkipWhile};

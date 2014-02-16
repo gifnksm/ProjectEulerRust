@@ -1,7 +1,7 @@
 #[crate_id = "prob0023"];
 #[crate_type = "rlib"];
 
-extern mod math;
+extern crate math;
 
 use std::vec;
 use math::prime::Prime;

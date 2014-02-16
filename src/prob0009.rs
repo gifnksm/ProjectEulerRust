@@ -1,7 +1,7 @@
 #[crate_id = "prob0009"];
 #[crate_type = "rlib"];
 
-extern mod math;
+extern crate math;
 
 use std::iter::Repeat;
 use std::cmp;

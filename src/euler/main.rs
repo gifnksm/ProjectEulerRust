@@ -1,9 +1,9 @@
 #[crate_id = "euler"];
 #[crate_type = "bin"];
 
-extern mod extra;
-extern mod common;
-extern mod term;
+extern crate extra;
+extern crate common;
+extern crate term;
 
 use std::os;
 use std::iter;

@@ -1,7 +1,7 @@
 #[crate_id = "prob0054"];
 #[crate_type = "rlib"];
 
-extern mod data;
+extern crate data;
 
 use std::vec;
 use std::io::{BufferedReader, File};
