@@ -24,7 +24,7 @@ pub fn solve() -> ~str {
 
     let phi = (1.0 + (5.0f64).sqrt()) / 2.0;
     let next_fib_first10 = |st: &mut (u64, uint)| {
-        let (n, cnt) = (st.n0(), st.n1());
+        let (n, cnt) = (st.val0(), st.val1());
         let next = match cnt {
             0 => 1,
             1 => 1,

@@ -83,11 +83,11 @@ fn create_roll_map(dice_side: uint) -> ~[(f64, f64)] {
 fn get_trans(roll_map: &[(f64, f64)]) -> ~[~[f64]] {
     let trans_singles = create_mat(NUM_SQUARE, NUM_SQUARE, |dst, src| {
         let diff = (dst + NUM_SQUARE - src) % NUM_SQUARE;
-        if diff < roll_map.len() { roll_map[diff].first() } else { 0.0 }
+        if diff < roll_map.len() { roll_map[diff].val0() } else { 0.0 }
     });
     let trans_doubles = create_mat(NUM_SQUARE, NUM_SQUARE, |dst, src| {
         let diff = (dst + NUM_SQUARE - src) % NUM_SQUARE;
-        if diff < roll_map.len() { roll_map[diff].second() } else { 0.0 }
+        if diff < roll_map.len() { roll_map[diff].val1() } else { 0.0 }
     });
 
     let trans_cc = create_mat(NUM_SQUARE, NUM_SQUARE, |dst, src| {

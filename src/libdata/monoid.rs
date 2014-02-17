@@ -172,7 +172,7 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
         if self.value2.is_none() { return return_val(&mut self.value1); }
 
         // Returns smaller value
-        let cmp = self.value1.get_ref().first_ref().cmp(self.value2.get_ref().first_ref());
+        let cmp = self.value1.get_ref().ref0().cmp(self.value2.get_ref().ref0());
         match cmp {
             Less    => { return return_val(&mut self.value1); }
             Greater => { return return_val(&mut self.value2); },
@@ -203,7 +203,7 @@ impl<V, T: Iterator<V>> MergeMultiMonoidIterator<V, T> {
 impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
     Iterator<(K, V)> for MergeMultiMonoidIterator<(K, V), T> {
     fn next(&mut self) -> Option<(K, V)> {
-        fn get_ref<'a, K, V>(opt: &'a Option<(K, V)>) -> &'a K { opt.get_ref().first_ref() }
+        fn get_ref<'a, K, V>(opt: &'a Option<(K, V)>) -> &'a K { opt.get_ref().ref0() }
 
         let len = self.iters.len();
         if len == 0 { return None; }

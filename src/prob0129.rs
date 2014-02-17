@@ -18,7 +18,7 @@ pub fn a(n: uint) -> uint {
             Some((x, k))
         }).find(|&(x, _)| x == 0)
         .unwrap()
-        .n1()
+        .val1()
 }
 
 pub fn solve() -> ~str {

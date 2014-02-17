@@ -32,6 +32,6 @@ pub fn solve() -> ~str {
         .zip(ps.iter())
         .find(|&(n, pn)| get_mod(n, pn) > limit)
         .unwrap()
-        .n0()
+        .val0()
         .to_str()
 }

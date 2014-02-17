@@ -48,7 +48,7 @@ pub fn solve() -> ~str {
 
     Difference::new(ns, sq)
         .take_while(|&d| d <= 1000)
-        .max_by(|&d| cont_frac::solve_pel::<BigUint>(d).n0())
+        .max_by(|&d| cont_frac::solve_pel::<BigUint>(d).val0())
         .unwrap()
         .to_str()
 }

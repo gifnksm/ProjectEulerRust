@@ -20,6 +20,6 @@ pub fn solve() -> ~str {
         }).zip(iter::count(1, 1))
         .max_by(|&(ln, _)| ln)
         .unwrap()
-        .n1()
+        .val1()
         .to_str()
 }
