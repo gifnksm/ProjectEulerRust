@@ -39,7 +39,7 @@ impl ToStr for SuDoku {
     fn to_str(&self) -> ~str {
         let rows = self.map.map(|row| {
             let cells = row.map(|&cell| {
-                if cell.population_count() == 1 {
+                if cell.count_ones() == 1 {
                     ~"_"
                 } else {
                     (1u << cell.trailing_zeros()).to_str()
@@ -61,7 +61,7 @@ impl Clone for SuDoku {
 impl SuDoku {
     #[inline]
     fn get_num(&self, x: uint, y: uint) -> BITS {
-        match self.map[y][x].population_count() {
+        match self.map[y][x].count_ones() {
             0 => -1,
             1 => self.map[y][x].trailing_zeros() + 1,
             _ => 0
@@ -101,7 +101,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
         for y in range(0, BOARD_HEIGHT) {
             for x in range(0, BOARD_WIDTH) {
-                if puzzle.map[y][x].population_count() != 1 { continue }
+                if puzzle.map[y][x].count_ones() != 1 { continue }
 
                 let (x0, y0) = (x / GROUP_WIDTH * GROUP_WIDTH,
                                 y / GROUP_HEIGHT * GROUP_HEIGHT);
@@ -163,7 +163,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
     let it = range(0, BOARD_HEIGHT * BOARD_WIDTH)
         .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
-        .map(|(x, y)| (x, y, puzzle.map[y][x].population_count()))
+        .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones()))
         .to_owned_vec();
 
     if it.iter().any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
