@@ -124,7 +124,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     #[test]
     fn test_histogram() {
         fn check(inp: &[uint], result: &[(uint, uint)]) {

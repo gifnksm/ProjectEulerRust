@@ -203,7 +203,7 @@ pub fn solve() -> ~str {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::{PdTriple, PdTriples, Pd3Nums};
     use std::iter::AdditiveIterator;
 

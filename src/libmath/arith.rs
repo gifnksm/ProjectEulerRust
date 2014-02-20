@@ -92,7 +92,7 @@ pub fn div_round(x: uint, y: uint) -> uint {
 pub fn div_floor(x: uint, y: uint) -> uint { return x / y; }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use std::num;
 
     #[test]

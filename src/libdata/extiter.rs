@@ -104,7 +104,7 @@ impl Comb {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::{Range2D, Comb};
 
     #[test]
@@ -162,7 +162,7 @@ mod test {
 #[cfg(test)]
 mod bench {
     use super::Comb;
-    use extra::test::BenchHarness;
+    use test::BenchHarness;
 
     #[bench]
     fn comb(bh: &mut BenchHarness) {

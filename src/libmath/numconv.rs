@@ -72,7 +72,7 @@ pub fn is_palindromic(n: uint, radix: uint) -> bool {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     #[test]
     fn test_conv_digits() {
         fn check(n: uint, v: ~[uint], radix: uint) {

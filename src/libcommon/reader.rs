@@ -83,7 +83,7 @@ pub fn read_whole_word<'a>(input: &'a str) -> Result<~[&'a str], ~str> {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     mod sep_iter {
         use super::super::BufferedReaderUtil;
         use std::io::{BufferedReader, MemReader};

@@ -54,7 +54,7 @@ pub fn solve() -> ~str {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     mod difference_iter {
         use std::iter;
         use super::super::Difference;

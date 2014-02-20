@@ -4,7 +4,7 @@
 extern crate collections;
 extern crate math;
 #[cfg(test)]
-extern crate extra;
+extern crate test;
 
 use collections::priority_queue::PriorityQueue;
 use math::prime::Prime;
@@ -116,7 +116,7 @@ pub fn solve() -> ~str {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::{Multiples, RadValues};
 
     #[test]
@@ -210,7 +210,7 @@ mod test {
 
 #[cfg(test)]
 mod bench {
-    use extra::test::BenchHarness;
+    use test::BenchHarness;
     use super::RadValues;
 
     #[bench]

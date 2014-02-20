@@ -38,7 +38,7 @@ pub fn solve() -> ~str {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     #[test]
     fn palindromic_sum_below_1000() {
         let set = super::palindromic_sum_set(1000);

@@ -3,7 +3,7 @@
 
 extern crate collections;
 #[cfg(test)]
-extern crate extra;
+extern crate test;
 
 pub mod card;
 pub mod extiter;

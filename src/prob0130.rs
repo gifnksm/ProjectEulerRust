@@ -22,7 +22,7 @@ pub fn solve() -> ~str {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use std::iter;
     use math::prime::Prime;
     use prob0129;

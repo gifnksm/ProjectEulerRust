@@ -36,7 +36,7 @@ pub fn solve() -> ~str {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::{count_red, count_green, count_blue, count_all};
     use std::hashmap::HashMap;
 

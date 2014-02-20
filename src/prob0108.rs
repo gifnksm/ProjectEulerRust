@@ -31,7 +31,7 @@ pub fn solve() -> ~str {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use math::prime::Prime;
 
     #[test]

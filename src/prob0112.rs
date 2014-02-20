@@ -2,7 +2,7 @@
 #[crate_type = "rlib"];
 
 #[cfg(test)]
-extern crate extra;
+extern crate test;
 extern crate math;
 
 use std::iter;
@@ -51,7 +51,7 @@ pub fn solve() -> ~str {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
 
     mod is_increasing {
         use super::super::is_increasing;
@@ -99,7 +99,7 @@ mod test {
 
 #[cfg(test)]
 mod bench {
-    use extra::test::BenchHarness;
+    use test::BenchHarness;
     use std::iter;
     use math::numconv;
     use super::is_bouncy;

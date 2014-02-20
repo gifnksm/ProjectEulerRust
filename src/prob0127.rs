@@ -82,7 +82,7 @@ fn abc_hits_c_sum(c_limit: uint) -> uint {
 pub fn solve() -> ~str { abc_hits_c_sum(120000).to_str() }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::Rad;
 
     #[test]

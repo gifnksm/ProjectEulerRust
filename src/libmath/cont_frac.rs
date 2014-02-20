@@ -190,7 +190,7 @@ impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelNegIterator<T> {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     #[test]
     fn test_sqrt() {
         assert_eq!(super::sqrt(1), (1, ~[]));

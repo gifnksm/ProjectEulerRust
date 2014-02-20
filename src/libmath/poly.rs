@@ -77,7 +77,7 @@ pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~s
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     #[test]
     fn test_poly_add() {
         fn check(a: &[int], b: &[int], c: &[int]) {

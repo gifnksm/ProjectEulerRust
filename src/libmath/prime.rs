@@ -208,7 +208,7 @@ impl<IA: Iterator<Factor>> FactorIterator for IA {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::{Prime, Factor, FactorIterator};
 
     static PRIMES_BELOW200: &'static [uint] = &[
@@ -344,7 +344,7 @@ mod test {
 #[cfg(test)]
 mod bench {
     use super::Prime;
-    use extra::test::BenchHarness;
+    use test::BenchHarness;
 
     #[bench]
     fn get_5000th(bh: &mut BenchHarness) {

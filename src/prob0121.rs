@@ -55,7 +55,7 @@ pub fn solve() -> ~str {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use num::rational::Ratio;
 
     #[test]

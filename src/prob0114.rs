@@ -36,7 +36,7 @@ pub fn solve() -> ~str {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use std::hashmap::HashMap;
     use super::get_cnt;
 
