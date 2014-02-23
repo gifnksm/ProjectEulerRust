@@ -15,7 +15,6 @@ DEPEND=$(DEPEND_DIR)/all.mk
 RUSTC_FLAGS = \
 	-D warnings \
 	-W unnecessary-qualification \
-	-W non-camel-case-types \
 	-W non-uppercase-statics \
 	-W unnecessary-typecast
 DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) -g
