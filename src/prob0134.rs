@@ -87,9 +87,11 @@
 #[crate_id = "prob0134"];
 #[crate_type = "rlib"];
 
+extern crate num;
 extern crate math;
 
 use std::vec;
+use num::Integer;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "18613426663617118";

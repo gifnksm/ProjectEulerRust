@@ -1,4 +1,5 @@
 use std::num::One;
+use num::Integer;
 use num::bigint::BigUint;
 
 pub fn isqrt(n: uint) -> uint {

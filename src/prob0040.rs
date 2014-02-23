@@ -1,9 +1,11 @@
 #[crate_id = "prob0040"];
 #[crate_type = "rlib"];
 
+extern crate num;
 extern crate math;
 
 use std::iter::MultiplicativeIterator;
+use num::Integer;
 use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "210";

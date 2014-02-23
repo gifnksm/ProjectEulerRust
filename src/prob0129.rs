@@ -1,10 +1,10 @@
 #[crate_id = "prob0129"];
 #[crate_type = "rlib"];
 
-#[cfg(test)]
 extern crate num;
 
 use std::iter;
+use num::Integer;
 
 pub static EXPECTED_ANSWER: &'static str = "1000023";
 
@@ -25,7 +25,7 @@ pub fn solve() -> ~str {
     let limit = 1000001u;
 
     iter::count(limit, 2)
-        .filter(|&n| !n.is_multiple_of(&5))
+        .filter(|&n| !n.divides(&5))
         .find(|&n| a(n) >= limit)
         .unwrap()
         .to_str()
@@ -34,10 +34,12 @@ pub fn solve() -> ~str {
 #[cfg(test)]
 mod tests {
     use std::iter;
+    use num::Integer;
 
     mod naive {
         use std::iter;
         use std::num::{Zero, One};
+        use num::Integer;
         use num::bigint::BigUint;
 
         pub fn r(k: uint) -> BigUint {
@@ -53,7 +55,7 @@ mod tests {
         pub fn a(n: uint) -> uint {
             let n = FromPrimitive::from_uint(n).unwrap();
             iter::count(1u, 1)
-                .find(|&k| r(k).is_multiple_of(&n))
+                .find(|&k| r(k).divides(&n))
                 .unwrap()
         }
     }
@@ -74,7 +76,7 @@ mod tests {
     #[test]
     fn cmp_with_naive() {
         for n in iter::range_step(1u, 100u, 2u) {
-            if n.is_multiple_of(&5) { continue; }
+            if n.divides(&5) { continue; }
             assert_eq!(naive::a(n), super::a(n));
         }
     }

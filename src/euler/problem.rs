@@ -1,5 +1,5 @@
 use std::io;
-use extra::time;
+use time;
 use term::Terminal;
 use term::color::Color;
 use term::color;

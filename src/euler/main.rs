@@ -1,7 +1,7 @@
 #[crate_id = "euler"];
 #[crate_type = "bin"];
 
-extern crate extra;
+extern crate time;
 extern crate common;
 extern crate term;
 

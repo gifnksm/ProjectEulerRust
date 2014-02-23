@@ -1,3 +1,4 @@
+use std::hash_old::Hash;
 use std::hashmap::HashMap;
 use std::{num, vec};
 use std::iter::MultiplicativeIterator;

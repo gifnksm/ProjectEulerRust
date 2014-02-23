@@ -1,6 +1,6 @@
 use std::hashmap::HashSet;
 use std::mem;
-
+use num::Integer;
 use arith::isqrt;
 
 pub fn sqrt(n: uint) -> (uint, ~[uint]) {

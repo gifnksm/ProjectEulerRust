@@ -1,7 +1,10 @@
 #[crate_id = "prob0092"];
 #[crate_type = "rlib"];
 
+extern crate num;
+
 use std::vec;
+use num::Integer;
 
 pub static EXPECTED_ANSWER: &'static str = "8581146";
 

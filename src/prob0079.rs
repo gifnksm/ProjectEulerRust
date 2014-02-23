@@ -3,6 +3,7 @@
 
 use std::char;
 use std::io::{BufferedReader, File};
+use std::hash_old::Hash;
 use std::hashmap::{HashMap, HashSet};
 
 pub static EXPECTED_ANSWER: &'static str = "73162890";

@@ -1,8 +1,11 @@
 #[crate_id = "prob0120"];
 #[crate_type = "rlib"];
 
+extern crate num;
+
 use std::iter;
 use std::iter::AdditiveIterator;
+use num::Integer;
 
 pub static EXPECTED_ANSWER: &'static str = "333082500";
 

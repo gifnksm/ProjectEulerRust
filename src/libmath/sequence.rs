@@ -1,5 +1,6 @@
 use std::mem;
 use std::num::One;
+use num::Integer;
 
 pub fn fibonacci<T: One>() -> Fibonacci<T> {
     fibonacci_with_init(One::one(), One::one())

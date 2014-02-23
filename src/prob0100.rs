@@ -6,6 +6,7 @@ extern crate math;
 
 use std::from_str::FromStr;
 use std::num::One;
+use num::Integer;
 use num::bigint::BigUint;
 use math::cont_frac::PelNegIterator;
 

@@ -1,7 +1,10 @@
 #[crate_id = "prob0014"];
 #[crate_type = "rlib"];
 
+extern crate num;
+
 use std::hashmap::HashMap;
+use num::Integer;
 
 pub static EXPECTED_ANSWER: &'static str = "837799";
 

@@ -1,9 +1,11 @@
 #[crate_id = "prob0123"];
 #[crate_type = "rlib"];
 
+extern crate num;
 extern crate math;
 
-use std::{iter, num};
+use std::iter;
+use num::Integer;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "21035";
@@ -25,7 +27,7 @@ fn get_mod(n: uint, pn: uint) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let limit = num::pow(10u, 10);
+    let limit = std::num::pow(10u, 10);
 
     let ps = Prime::new();
     iter::count(1, 1u)

@@ -1,10 +1,12 @@
 #[crate_id = "prob0039"];
 #[crate_type = "rlib"];
 
+extern crate num;
 extern crate math;
 
 use std::cmp;
 use std::hashmap::HashMap;
+use num::Integer;
 use math::arith;
 
 pub static EXPECTED_ANSWER: &'static str = "840";

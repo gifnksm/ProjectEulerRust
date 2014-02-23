@@ -1,7 +1,10 @@
 #[crate_id = "prob0091"];
 #[crate_type = "rlib"];
 
+extern crate num;
+
 use std::cmp;
+use num::Integer;
 
 pub static EXPECTED_ANSWER: &'static str = "14234";
 

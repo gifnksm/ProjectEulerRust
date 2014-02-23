@@ -4,6 +4,8 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use std::local_data::Key;
 
+use num::Integer;
+
 use data::monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
 
 static PRIMES_BELOW100: &'static [uint] = &[
@@ -34,14 +36,14 @@ impl PrimeInner {
         iter::count(self.data.len(), 1)
             .map(|i| self.nth(i))
             .take_while(|&p| p * p <= n)
-            .all(|p| !n.is_multiple_of(&p))
+            .all(|p| !n.divides(&p))
     }
 
     #[inline]
     fn is_coprime(&self, n: uint) -> bool {
         self.data.iter()
             .take_while(|& &p| p * p <= n)
-            .all(|&p| !n.is_multiple_of(&p))
+            .all(|&p| !n.divides(&p))
     }
 
     #[inline]
@@ -174,11 +176,11 @@ impl Iterator<Factor> for FactorizeIterator {
                 return Some((n, 1))
             }
 
-            if self.num.is_multiple_of(&p) {
+            if self.num.divides(&p) {
                 let mut exp = 1;
                 self.num /= p;
 
-                while self.num.is_multiple_of(&p) {
+                while self.num.divides(&p) {
                     exp += 1;
                     self.num /= p;
                 }

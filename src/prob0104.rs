@@ -1,7 +1,10 @@
 #[crate_id = "prob0104"];
 #[crate_type = "rlib"];
 
+extern crate num;
+
 use std::iter::Unfold;
+use num::Integer;
 
 pub static EXPECTED_ANSWER: &'static str = "329468";
 

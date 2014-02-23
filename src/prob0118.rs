@@ -1,9 +1,11 @@
 #[crate_id = "prob0118"];
 #[crate_type = "rlib"];
 
+extern crate num;
 extern crate math;
 
 use std::{iter, mem, vec};
+use num::Integer;
 use math::numconv;
 use math::prime::Prime;
 
