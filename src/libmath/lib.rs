@@ -1,10 +1,12 @@
 #[crate_id = "math"];
 #[crate_type = "rlib"];
 
-#[cfg(test)]
-extern crate test;
+extern crate collections;
 extern crate num;
 extern crate data;
+
+#[cfg(test)]
+extern crate test;
 
 pub mod arith;
 pub mod cont_frac;

@@ -1,8 +1,9 @@
 #[crate_id = "prob0116"];
 #[crate_type = "rlib"];
 
+extern crate collections;
 use std::iter;
-use std::hashmap::HashMap;
+use collections::HashMap;
 
 pub static EXPECTED_ANSWER: &'static str = "20492570929";
 
@@ -38,7 +39,7 @@ pub fn solve() -> ~str {
 #[cfg(test)]
 mod tests {
     use super::{count_red, count_green, count_blue, count_all};
-    use std::hashmap::HashMap;
+    use collections::HashMap;
 
     #[test]
     fn count() {

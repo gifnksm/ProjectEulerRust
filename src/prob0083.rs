@@ -1,10 +1,11 @@
 #[crate_id = "prob0083"];
 #[crate_type = "rlib"];
 
+extern crate collections;
 extern crate prob0081;
 
 use std::{cmp, vec, uint};
-use std::hashmap::HashSet;
+use collections::HashSet;
 
 pub static EXPECTED_ANSWER: &'static str = "425185";
 

@@ -1,9 +1,11 @@
 #[crate_id = "prob0088"];
 #[crate_type = "rlib"];
 
+extern crate collections;
+
 use std::{iter, uint, vec};
 use std::iter::AdditiveIterator;
-use std::hashmap::HashSet;
+use collections::HashSet;
 
 pub static EXPECTED_ANSWER: &'static str = "7587457";
 

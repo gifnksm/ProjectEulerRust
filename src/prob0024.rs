@@ -1,12 +1,13 @@
 #[crate_id = "prob0024"];
 #[crate_type = "rlib"];
 
+extern crate collections;
 extern crate common;
 extern crate math;
 
 use std::to_bytes::IterBytes;
 use std::hash_old::Hash;
-use std::hashmap::HashMap;
+use collections::HashMap;
 use common::calc;
 use math::numconv;
 

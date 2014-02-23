@@ -1,8 +1,10 @@
 #[crate_id = "prob0074"];
 #[crate_type = "rlib"];
 
+extern crate collections;
+
 use std::vec;
-use std::hashmap::{HashMap};
+use collections::HashMap;
 
 pub static EXPECTED_ANSWER: &'static str = "402";
 

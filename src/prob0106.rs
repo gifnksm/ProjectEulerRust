@@ -1,9 +1,11 @@
 #[crate_id = "prob0106"];
 #[crate_type = "rlib"];
 
+extern crate collections;
 extern crate math;
+
 use std::iter::AdditiveIterator;
-use std::hashmap::HashMap;
+use collections::HashMap;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "21384";
@@ -108,7 +110,7 @@ pub fn solve() -> ~str {
 
 #[cfg(test)]
 mod tests {
-    use std::hashmap::HashMap;
+    use collections::HashMap;
     use math::prime::Prime;
 
     #[test]

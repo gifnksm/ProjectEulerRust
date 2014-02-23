@@ -1,13 +1,14 @@
 #[crate_id = "prob0098"];
 #[crate_type = "rlib"];
 
+extern crate collections;
 extern crate common;
 extern crate math;
 
 use std::{num, str, mem, uint, vec};
 use std::iter::OrdIterator;
-use std::hashmap::HashMap;
 use std::io::File;
+use collections::HashMap;
 use common::reader;
 use math::{arith, numconv};
 

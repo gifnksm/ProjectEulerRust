@@ -1,10 +1,11 @@
 #[crate_id = "prob0125"];
 #[crate_type = "rlib"];
 
+extern crate collections;
 extern crate math;
 
 use std::{iter, num};
-use std::hashmap::HashSet;
+use collections::HashSet;
 use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "2906969179";

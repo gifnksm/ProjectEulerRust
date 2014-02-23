@@ -1,10 +1,11 @@
 #[crate_id = "prob0060"];
 #[crate_type = "rlib"];
 
+extern crate collections;
 extern crate math;
 
-use std::hashmap::HashMap;
 use std::iter::AdditiveIterator;
+use collections::HashMap;
 use math::prime::{Prime, PrimeIterator};
 
 pub static EXPECTED_ANSWER: &'static str = "26033";
