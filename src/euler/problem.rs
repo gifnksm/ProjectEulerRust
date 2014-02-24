@@ -15,7 +15,7 @@ static COLOR_WARN: Color = color::YELLOW;
 pub struct Problem<'a> {
     id: uint,
     answer: &'a str,
-    solve: extern fn() -> ~str
+    solve: fn() -> ~str
 }
 
 impl<'a> Problem<'a> {

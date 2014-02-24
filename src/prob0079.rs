@@ -5,7 +5,7 @@ extern crate collections;
 
 use std::char;
 use std::io::{BufferedReader, File};
-use std::hash_old::Hash;
+use std::hash::Hash;
 use collections::{HashMap, HashSet};
 
 pub static EXPECTED_ANSWER: &'static str = "73162890";
@@ -15,7 +15,7 @@ struct Relation<T> {
     succ: HashSet<T>
 }
 
-impl<T: Hash + IterBytes + Eq> Relation<T> {
+impl<T: Hash + Eq> Relation<T> {
     fn new() -> Relation<T> { Relation { num_prec: 0, succ: HashSet::new() } }
 }
 
@@ -23,7 +23,7 @@ struct Relations<T> {
     top: HashMap<T, Relation<T>>
 }
 
-impl<T: Hash + IterBytes + Eq + Clone> Relations<T> {
+impl<T: Hash + Eq + Clone> Relations<T> {
     fn new() -> Relations<T> { Relations { top: HashMap::new() } }
 
     fn set_dependant(&mut self, prec: T, succ: T) {
@@ -79,7 +79,7 @@ impl<T: Hash + IterBytes + Eq + Clone> Relations<T> {
     }
 }
 
-fn tsort<T: Hash + IterBytes + Eq + Clone>(rels: &mut Relations<T>) -> ~[T] {
+fn tsort<T: Hash + Eq + Clone>(rels: &mut Relations<T>) -> ~[T] {
     let mut sorted = ~[];
     let mut queue = rels.find_all_not_preceded();
     while !queue.is_empty() {

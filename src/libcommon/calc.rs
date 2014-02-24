@@ -1,9 +1,9 @@
-use std::hash_old::Hash;
+use std::hash::Hash;
 use std::{num, vec};
 use std::iter::MultiplicativeIterator;
 use collections::HashMap;
 
-pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
+pub fn histogram<T: Hash + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::<T, uint>::new();
     for k in v.iter() {
         let val = map.find(k).map_or(1, |v| *v + 1);
@@ -12,7 +12,7 @@ pub fn histogram<T: Hash + IterBytes + Eq + Clone>(v: &[T]) -> HashMap<T, uint> 
     return map;
 }
 
-pub fn num_of_permutations<T: Eq + Hash>(hist: &HashMap<T, uint>) -> uint {
+pub fn num_of_permutations<T: Hash + Eq>(hist: &HashMap<T, uint>) -> uint {
     fn factorial(n: uint) -> uint { range(1, n + 1).product() }
 
     let mut sum = 0;

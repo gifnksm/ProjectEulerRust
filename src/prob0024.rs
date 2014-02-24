@@ -5,8 +5,7 @@ extern crate collections;
 extern crate common;
 extern crate math;
 
-use std::to_bytes::IterBytes;
-use std::hash_old::Hash;
+use std::hash::Hash;
 use collections::HashMap;
 use common::calc;
 use math::numconv;
@@ -18,7 +17,7 @@ enum CountResult<K> {
     Skip(uint)
 }
 
-fn get_at<K: IterBytes + Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> CountResult<K> {
+fn get_at<K: Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> CountResult<K> {
     if hist.is_empty() {
         if n == 1 {
             return Contains(~[]);
