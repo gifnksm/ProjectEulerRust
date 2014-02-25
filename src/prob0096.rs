@@ -1,7 +1,7 @@
 #[crate_id = "prob0096"];
 #[crate_type = "rlib"];
 
-use std::{char, iter};
+use std::{char, fmt, iter};
 use std::io::{BufferedReader, File};
 use std::num::Bitwise;
 
@@ -35,19 +35,22 @@ impl Eq for SuDoku {
     fn ne(&self, other: &SuDoku) -> bool { !self.equals(other) }
 }
 
-impl ToStr for SuDoku {
-    fn to_str(&self) -> ~str {
-        let rows = self.map.map(|row| {
-            let cells = row.map(|&cell| {
+impl fmt::Show for SuDoku {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        try!(f.buf.write_line(self.name));
+
+        for row in self.map.iter() {
+            for cell in row.iter() {
                 if cell.count_ones() == 1 {
-                    ~"_"
+                    try!(write!(f.buf, "_"));
                 } else {
-                    (1u << cell.trailing_zeros()).to_str()
+                    try!(write!(f.buf, "{}", 1u << cell.trailing_zeros()));
                 }
-            });
-            cells.concat()
-        });
-        self.name + "\n" + rows.connect("\n")
+            }
+            try!(f.buf.write_line(""));
+        }
+
+        Ok(())
     }
 }
 

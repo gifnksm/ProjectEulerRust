@@ -3,7 +3,7 @@
 
 extern crate data;
 
-use std::vec;
+use std::{fmt, vec};
 use std::io::{BufferedReader, File};
 use data::card::Card;
 
@@ -21,37 +21,28 @@ enum Hand {
     StraightFlush ( [Card, ..5] ),
 }
 
-impl ToStr for Hand {
-    fn to_str(&self) -> ~str {
+impl fmt::Show for Hand {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            &Hi(ref c) => {
-                format!("Hi({})", c.to_str())
-            },
-            &Pair(ref c, ref r) => {
-                format!("Pair({}) + Hi({})", c.to_str(), r.to_str())
-            },
-            &TwoPair(ref c, ref r) => {
-                format!("TwoPair({}, {}) + Hi({})",
-                     c[0].to_str(), c[1].to_str(), r.to_str())
-            },
-            &Three(ref c, ref r) => {
-                format!("Three({}) + Hi({})", c.to_str(), r.to_str())
-            },
-            &Straight(ref c) => {
-                format!("Straight({})", c.to_str())
-            },
-            &Flush(ref c) => {
-                format!("Flush({})", c.to_str())
-            },
-            &FullHouse((ref c3, ref c2)) => {
-                format!("FullHouse({}, {})", c3.to_str(), c2.to_str())
-            },
-            &Four(ref c, ref r) => {
-                format!("Four({}) + Hi({})", c.to_str(), r.to_str())
-            },
-            &StraightFlush(ref c) => {
-                format!("StraightFlush({})", c.to_str())
-            },
+            &Hi(ref c) =>
+                write!(f.buf, "Hi({})", c.as_slice()),
+            &Pair(ref c, ref r) =>
+                write!(f.buf, "Pair({}) + Hi({})", c.as_slice(), r.as_slice()),
+            &TwoPair(ref c, ref r) =>
+                write!(f.buf, "TwoPair({}, {}) + Hi({})",
+                       c[0].as_slice(), c[1].as_slice(), r.as_slice()),
+            &Three(ref c, ref r) =>
+                write!(f.buf, "Three({}) + Hi({})", c.as_slice(), r.as_slice()),
+            &Straight(ref c) =>
+                write!(f.buf, "Straight({})", c.as_slice()),
+            &Flush(ref c) =>
+                write!(f.buf, "Flush({})", c.as_slice()),
+            &FullHouse((ref c3, ref c2)) =>
+                write!(f.buf, "FullHouse({}, {})", c3.as_slice(), c2.as_slice()),
+            &Four(ref c, ref r) =>
+                write!(f.buf, "Four({}) + Hi({})", c.as_slice(), r.as_slice()),
+            &StraightFlush(ref c) =>
+                write!(f.buf, "StraightFlush({})", c.as_slice()),
         }
     }
 }
@@ -218,7 +209,7 @@ pub fn solve() -> ~str {
         let mut p2_cards = [ Card::dummy(), ..5 ];
         for (i, word) in line.words().enumerate() {
             let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
-            cards[i % 5] = FromStr::from_str(word).unwrap();
+            cards[i % 5] = from_str(word).unwrap();
         }
         let cmp = judge(&p1_cards, &p2_cards);
         if cmp > 0 { p1_win += 1;  }

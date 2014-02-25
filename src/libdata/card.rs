@@ -1,18 +1,22 @@
-use std::char;
+use std::{char, fmt};
+use std::from_str::FromStr;
 
+#[deriving(Eq)]
 pub enum Suit {
     Dummy, Spade, Heart, Dia, Club
 }
 
-impl ToStr for Suit {
-    fn to_str(&self) -> ~str {
-        match self {
-            &Dummy => ~"_",
-            &Spade => ~"S",
-            &Heart => ~"H",
-            &Dia   => ~"D",
-            &Club  => ~"C"
-        }
+impl fmt::Show for Suit {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s = match self {
+            &Dummy => "_",
+            &Spade => "S",
+            &Heart => "H",
+            &Dia   => "D",
+            &Club  => "C"
+        };
+
+        write!(f.buf, "{}", s)
     }
 }
 
@@ -29,13 +33,14 @@ impl FromStr for Suit {
     }
 }
 
+#[deriving(Eq)]
 pub struct Card {
-    suit: Suit,
-    num: uint
+    num: uint,
+    suit: Suit
 }
 
-impl ToStr for Card {
-    fn to_str(&self) -> ~str {
+impl fmt::Show for Card {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let n = match self.num {
             10 => ~"T",
             11 => ~"J",
@@ -45,7 +50,8 @@ impl ToStr for Card {
             0  => ~"_",
             n  => n.to_str()
         };
-        return format!("{}{}", n, self.suit.to_str());
+
+        write!(f.buf, "{}{}", n, self.suit)
     }
 }
 
@@ -67,5 +73,42 @@ impl FromStr for Card {
 }
 
 impl Card {
-    pub fn dummy() -> Card { Card { num: 0, suit: Dummy } }
+    pub fn new(num: uint, suit: Suit) -> Card { Card { num: num, suit: suit } }
+    pub fn dummy() -> Card { Card::new(0, Dummy) }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{Suit, Dummy, Spade, Heart, Dia, Club, Card};
+
+    #[test]
+    fn show_suit() {
+        assert_eq!(~"_", format!("{}", Dummy));
+
+        fn check_pair(s: ~str, suite: Suit) {
+            assert_eq!(s, format!("{}", suite));
+            assert_eq!(Some(suite), from_str(s));
+        }
+        check_pair(~"S", Spade);
+        check_pair(~"H", Heart);
+        check_pair(~"D", Dia);
+        check_pair(~"C", Club);
+    }
+
+    #[test]
+    fn show_card() {
+        assert_eq!(~"__", format!("{}", Card::dummy()));
+
+        fn check_pair(s: ~str, card: Card) {
+            assert_eq!(s, format!("{}", card));
+            assert_eq!(Some(card), from_str(s));
+        }
+        check_pair(~"AH", Card::new(1, Heart));
+        check_pair(~"2C", Card::new(2, Club));
+        check_pair(~"9D", Card::new(9, Dia));
+        check_pair(~"TS", Card::new(10, Spade));
+        check_pair(~"JH", Card::new(11, Heart));
+        check_pair(~"QC", Card::new(12, Club));
+        check_pair(~"KD", Card::new(13, Dia));
+    }
 }
