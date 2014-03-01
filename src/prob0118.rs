@@ -11,7 +11,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "44680";
 
-pub trait ImmutableCloneableVector<T> {
+trait ImmutableCloneableVector<T> {
     fn groups(&self, n: uint) -> Groups<T>;
 }
 
@@ -63,7 +63,7 @@ impl Iterator<~[uint]> for ElementIndex {
     }
 }
 
-pub struct Groups<T> {
+struct Groups<T> {
     idx: ElementIndex,
     vec: ~[T]
 }

@@ -105,7 +105,7 @@ impl SSSElem {
 }
 
 #[inline(always)]
-pub fn each_sss(f: |&SSSElem| -> bool) -> bool {
+fn each_sss(f: |&SSSElem| -> bool) -> bool {
     let mut pq = PriorityQueue::new();
     pq.push(SSSElem::new_pair(1, 2));
     while !pq.is_empty() {

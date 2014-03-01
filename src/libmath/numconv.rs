@@ -2,7 +2,7 @@ use std::num::Zero;
 use num::Integer;
 
 #[deriving(Clone)]
-struct DigitIterator { num: uint, radix: uint, order: uint }
+pub struct DigitIterator { num: uint, radix: uint, order: uint }
 
 pub fn to_digits(num: uint, radix: uint) -> DigitIterator {
     let mut order;
