@@ -31,7 +31,7 @@ pub trait Wrap<T> {
 
 pub trait WrapMonoid<T>: Wrap<T> + Monoid {}
 
-#[deriving(Eq, Clone)]
+#[deriving(Eq, Clone, Show)]
 pub struct Sum<T> { repr: T }
 
 #[inline(always)]
@@ -56,7 +56,7 @@ impl<T> Wrap<T> for Sum<T> {
 impl<T: Zero + Add<T, T>> WrapMonoid<T> for Sum<T> {}
 
 
-#[deriving(Eq, Clone)]
+#[deriving(Eq, Clone, Show)]
 pub struct Prod<T> { repr: T }
 
 #[inline(always)]
@@ -81,7 +81,7 @@ impl<T> Wrap<T> for Prod<T> {
 impl<T: One + Mul<T, T>> WrapMonoid<T> for Prod<T> {}
 
 
-#[deriving(Eq, Clone)]
+#[deriving(Eq, Clone, Show)]
 pub struct Max<T> { repr: T }
 
 #[inline(always)]
@@ -108,7 +108,7 @@ impl<T> Wrap<T> for Max<T> {
 impl<T: Clone + Bounded + Ord> WrapMonoid<T> for Max<T> {}
 
 
-#[deriving(Eq, Clone)]
+#[deriving(Eq, Clone, Show)]
 pub struct Min<T> { repr: T }
 
 #[inline(always)]
@@ -248,10 +248,11 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
 mod tests {
     use super::{Monoid, Wrap, Sum, Prod, Max, Min,
                 MergeMonoidIterator, MergeMultiMonoidIterator};
+    use std::fmt::Show;
 
     #[test]
     fn test_mconcat() {
-        fn check_wrap<T: Eq + Clone, M: Monoid + Wrap<T>>(v: &[T], f: |T| -> M, result: T) {
+        fn check_wrap<T: Eq + Clone + Show, M: Monoid + Wrap<T>>(v: &[T], f: |T| -> M, result: T) {
             let ms = v.to_owned().move_iter().map(f).to_owned_vec();
             assert_eq!(super::mconcat(ms).unwrap(), result);
         }
@@ -285,10 +286,10 @@ mod tests {
 
     #[test]
     fn test_merge_monoid_iterator() {
-        fn check<M: Monoid + Wrap<int> + Eq>(v1: &[(int, int)],
-                                             v2: &[(int, int)],
-                                             f: |int| -> M,
-                                             result: &[(int, int)]) {
+        fn check<M: Monoid + Wrap<int> + Eq + Show>(v1: &[(int, int)],
+                                                    v2: &[(int, int)],
+                                                    f: |int| -> M,
+                                                    result: &[(int, int)]) {
             let merged = MergeMonoidIterator::new(
                 v1.iter().map(|&(x, y)| (x, f(y))),
                 v2.iter().map(|&(x, y)| (x, f(y)))
@@ -322,9 +323,9 @@ mod tests {
 
     #[test]
     fn test_merge_multi_monoid_iterator() {
-        fn check<M: Monoid + Wrap<int> + Eq + Clone>(vs: &[~[(int, int)]],
-                                                     f: |int| -> M,
-                                                     result: &[(int, int)]) {
+        fn check<M: Monoid + Wrap<int> + Eq + Clone + Show>(vs: &[~[(int, int)]],
+                                                            f: |int| -> M,
+                                                            result: &[(int, int)]) {
             for vs in vs.permutations() {
                 let vs = vs.map(|ks| ks.map(|&(x, y)| (x, f(y))).move_iter());
                 let merged = MergeMultiMonoidIterator::new(vs).to_owned_vec();

@@ -100,9 +100,12 @@ mod tests {
 
     #[test]
     fn test_to_digit_histogram() {
-        assert_eq!(super::to_digit_histogram(123), [0, 1, 1, 1, 0, 0, 0, 0, 0, 0]);
-        assert_eq!(super::to_digit_histogram(111), [0, 3, 0, 0, 0, 0, 0, 0, 0, 0]);
-        assert_eq!(super::to_digit_histogram(0), [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        assert_eq!(super::to_digit_histogram(123).to_owned(),
+                   ~[0, 1, 1, 1, 0, 0, 0, 0, 0, 0]);
+        assert_eq!(super::to_digit_histogram(111).to_owned(),
+                   ~[0, 3, 0, 0, 0, 0, 0, 0, 0, 0]);
+        assert_eq!(super::to_digit_histogram(0).to_owned(),
+                   ~[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     }
 
     #[test]
