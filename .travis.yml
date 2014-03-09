@@ -12,5 +12,6 @@ script:
   - make release
   - make test
   - make bench
+  - make doc
   - ./bin/debug/euler
   - ./bin/release/euler
