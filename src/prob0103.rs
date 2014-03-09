@@ -14,6 +14,10 @@ struct SSSElem {
     sums: ~[uint]
 }
 
+impl Eq for SSSElem {
+    fn eq(&self, other: &SSSElem) -> bool { self.avg == other.avg }
+}
+
 impl Ord for SSSElem {
     #[inline(always)]
     fn lt(&self, other: &SSSElem) -> bool { self.avg >  other.avg }

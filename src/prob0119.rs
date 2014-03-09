@@ -13,6 +13,15 @@ pub static EXPECTED_ANSWER: &'static str = "248155780267521";
 
 struct Power(uint, uint, uint);
 
+impl Eq for Power {
+    #[inline]
+    fn eq(&self, other: &Power) -> bool {
+        let Power(sn, sb, _) = *self;
+        let Power(on, ob, _) = *other;
+        sn == on && sb == ob
+    }
+}
+
 impl Ord for Power {
     #[inline]
     fn lt(&self, other: &Power) -> bool {

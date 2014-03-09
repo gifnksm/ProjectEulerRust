@@ -13,6 +13,14 @@ pub static EXPECTED_ANSWER: &'static str = "21417";
 
 struct Multiple(uint, uint);
 
+impl Eq for Multiple {
+    fn eq(&self, other: &Multiple) -> bool {
+        let Multiple(ref sn, _) = *self;
+        let Multiple(ref on, _) = *other;
+        on.eq(sn)
+    }
+}
+
 impl Ord for Multiple {
     #[inline]
     fn lt(&self, other: &Multiple) -> bool {
@@ -58,6 +66,15 @@ impl Iterator<uint> for Multiples {
 }
 
 struct RadValue(uint, ~[uint], uint);
+
+impl Eq for RadValue {
+    #[inline]
+    fn eq(&self, other: &RadValue) -> bool {
+        let RadValue(ref sn, _, _) = *self;
+        let RadValue(ref on, _, _) = *other;
+        on.eq(sn)
+    }
+}
 
 impl Ord for RadValue {
     #[inline]

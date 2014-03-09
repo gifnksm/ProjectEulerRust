@@ -22,7 +22,7 @@ pub static EXPECTED_ANSWER: &'static str = "18407904";
 // ここで、a = c - b = km - kn = k(m - n) より、 GCD(a, b) >= k となり矛盾。
 // よって、GCD(b, c) = 1 である。
 
-#[deriving(Eq, Clone, TotalEq, TotalOrd, Show)]
+#[deriving(Eq, TotalEq, Ord, TotalOrd, Clone, Show)]
 struct Rad(uint, uint, ~[uint]); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: uint) -> ~[Rad] {

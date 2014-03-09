@@ -9,6 +9,14 @@ use math::prime::Prime;
 pub static EXPECTED_ANSWER: &'static str = "9350130049860600";
 
 struct Elem (uint, ~[uint]);
+
+impl Eq for Elem {
+    fn eq(&self, other: &Elem) -> bool {
+        let &Elem(s, _) = self;
+        let &Elem(o, _) = other;
+        s == o
+    }
+}
 impl Ord for Elem {
     fn lt(&self, other: &Elem) -> bool {
         let &Elem(s, _) = self;
