@@ -14,10 +14,11 @@ DEPEND=$(DEPEND_DIR)/all.mk
 
 RUSTC_FLAGS = \
 	-D warnings \
+	-A deprecated-owned-vector \
 	-W unnecessary-qualification \
 	-W non-uppercase-statics \
 	-W unnecessary-typecast
-DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) -g 2
+DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) -g
 RELEASE_RUSTC_FLAGS = $(RUSTC_FLAGS) -L $(RELEASE_RLIB_DIR) --opt-level 3
 
 .PHONY: debug release test bench doc depend mostlyclean clean

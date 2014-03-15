@@ -96,8 +96,9 @@ pub fn solve() -> ~str {
         File::open(&Path::new("files/keylog.txt")).ok().expect("file not found."));
 
     let mut rels = Relations::new();
-    for line in br.lines() {
-        let ds = line.chars().filter_map(|c| char::to_digit(c, 10)).to_owned_vec();
+    for line in br.lines().filter_map(|line| line.ok()) {
+        let ds = line.chars()
+            .filter_map(|c| char::to_digit(c, 10)).to_owned_vec();
         for i in range(1, ds.len()) {
             rels.set_dependant(ds[i - 1], ds[i]);
         }

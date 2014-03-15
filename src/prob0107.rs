@@ -14,7 +14,7 @@ pub fn solve() -> ~str {
         File::open(&Path::new("files/network.txt")).ok().expect("file not found."));
 
     let mut verts = ~[];
-    for (i, line) in br.lines().enumerate() {
+    for (i, line) in br.lines().filter_map(|line| line.ok()).enumerate() {
         for (j, s) in line.trim().split(',').enumerate() {
             let n = from_str::<uint>(s);
             if i < j && n.is_some() {

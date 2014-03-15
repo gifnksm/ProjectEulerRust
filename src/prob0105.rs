@@ -45,6 +45,7 @@ pub fn solve() -> ~str {
         File::open(&Path::new("files/sets.txt")).ok().expect("file not found."));
 
     br.lines()
+        .filter_map(|line| line.ok())
         .map(|line| {
             line.trim()
                 .split(',')

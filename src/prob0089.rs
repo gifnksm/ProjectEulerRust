@@ -64,6 +64,7 @@ pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/roman.txt")).ok().expect("file not found."));
     br.lines()
+        .filter_map(|line| line.ok())
         .map(|line| {
             let line = line.trim();
             line.len() - to_roman(from_roman(line).unwrap()).len()

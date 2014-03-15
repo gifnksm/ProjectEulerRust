@@ -84,9 +84,9 @@ impl Prime {
     #[inline]
     fn new_empty() -> Prime { Prime { data: Rc::new(RefCell::new(PrimeInner::new())) } }
     #[inline]
-    pub fn nth(&self, n: uint) -> uint { self.data.borrow().with_mut(|p| p.nth(n)) }
+    pub fn nth(&self, n: uint) -> uint { self.data.deref().with_mut(|p| p.nth(n)) }
     #[inline]
-    pub fn contains(&self, n: uint) -> bool { self.data.borrow().with_mut(|p| p.contains(n)) }
+    pub fn contains(&self, n: uint) -> bool { self.data.deref().with_mut(|p| p.contains(n)) }
 
     #[inline]
     pub fn iter<'a>(&'a self) -> PrimeIterator { PrimeIterator { idx: 0, data: self.data.clone() } }
@@ -140,7 +140,7 @@ pub struct PrimeIterator {
 impl Iterator<uint> for PrimeIterator {
     #[inline]
     fn next(&mut self) -> Option<uint> {
-        let p = self.data.borrow().with_mut(|p| p.nth(self.idx));
+        let p = self.data.deref().with_mut(|p| p.nth(self.idx));
         self.idx += 1;
         Some(p)
     }
@@ -152,7 +152,7 @@ impl RandomAccessIterator<uint> for PrimeIterator {
 
     #[inline]
     fn idx(&self, index: uint) -> Option<uint> {
-        let p = self.data.borrow().with_mut(|p| p.nth(index));
+        let p = self.data.deref().with_mut(|p| p.nth(index));
         Some(p)
     }
 }
@@ -269,8 +269,8 @@ mod tests {
         let p1 = Prime::new();
         let p2 = p1.clone();
         p1.nth(500);
-        let l1 = p1.data.borrow().with(|p| p.data.len());
-        let l2 = p2.data.borrow().with(|p| p.data.len());
+        let l1 = p1.data.with(|p| p.data.len());
+        let l2 = p2.data.with(|p| p.data.len());
         assert_eq!(l1, l2);
     }
 

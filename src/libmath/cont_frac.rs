@@ -144,8 +144,8 @@ impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelIterator<T> {
             let ref d = self.d;
             let (ref x1, ref y1) = self.x1y1;
             let (ref xk, ref yk) = self.xy;
-            ((*xk) * (*x1) + d * (*yk) * (*y1),
-             (*yk) * (*x1) +     (*xk) * (*y1))
+            ((*xk) * (*x1) + (*d) * (*yk) * (*y1),
+             (*yk) * (*x1) +        (*xk) * (*y1))
         };
 
         Some(mem::replace(&mut self.xy, next))
@@ -179,10 +179,10 @@ impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelNegIterator<T> {
             let ref d = self.d;
             let (ref x1, ref y1) = self.x1y1;
             let (ref xk, ref yk) = self.xy;
-            let (xk, yk) = ((*xk) * (*x1) + d * (*yk) * (*y1),
-                            (*yk) * (*x1) +     (*xk) * (*y1));
-            (xk * (*x1) + d * yk * (*y1),
-             yk * (*x1) +     xk * (*y1))
+            let (xk, yk) = ((*xk) * (*x1) + (*d) * (*yk) * (*y1),
+                            (*yk) * (*x1) +        (*xk) * (*y1));
+            (xk * (*x1) + (*d) * yk * (*y1),
+             yk * (*x1) +        xk * (*y1))
         };
 
         Some(mem::replace(&mut self.xy, next))

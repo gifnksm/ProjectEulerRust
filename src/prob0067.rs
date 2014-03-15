@@ -11,6 +11,7 @@ pub fn solve() -> ~str {
         File::open(&Path::new("files/triangle.txt")).ok().expect("file not found."));
 
     let triangle = br.lines()
+        .filter_map(|line| line.ok())
         .filter(|line| !line.is_empty())
         .map(|line| line.words().filter_map(from_str::<uint>).to_owned_vec())
         .to_owned_vec();

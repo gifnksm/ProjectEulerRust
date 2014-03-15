@@ -204,7 +204,7 @@ pub fn solve() -> ~str {
     let mut p1_win = 0u;
     let mut _p2_win = 0u;
     let mut _draw = 0u;
-    for line in br.lines() {
+    for line in br.lines().filter_map(|line| line.ok()) {
         let mut p1_cards = [ Card::dummy(), ..5 ];
         let mut p2_cards = [ Card::dummy(), ..5 ];
         for (i, word) in line.words().enumerate() {
