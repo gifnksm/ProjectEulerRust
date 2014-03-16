@@ -1,7 +1,6 @@
 #[crate_id = "prob0049"];
 #[crate_type = "rlib"];
 
-extern crate extra;
 extern crate math;
 
 use math::numconv;
