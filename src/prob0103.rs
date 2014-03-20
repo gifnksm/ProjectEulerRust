@@ -3,7 +3,7 @@
 
 extern crate collections;
 
-use std::vec;
+use std::slice;
 use collections::priority_queue::PriorityQueue;
 
 pub static EXPECTED_ANSWER: &'static str = "20313839404245";
@@ -44,7 +44,7 @@ impl SSSElem {
         let mut i = 0;
         let mut j = 0;
         let len = self.sums.len();
-        let mut sums = vec::with_capacity(len * 2);
+        let mut sums = slice::with_capacity(len * 2);
 
         while i < len {
             assert!(j <= i);
@@ -68,7 +68,7 @@ impl SSSElem {
         }
 
         let avg = (self.avg * (len as f64) + n as f64) / ((len as f64) + 1.0);
-        let sss = vec::append_one(self.sss.to_owned(), n);
+        let sss = slice::append_one(self.sss.to_owned(), n);
         Some(SSSElem { avg: avg, sss: sss, sums: sums })
     }
 

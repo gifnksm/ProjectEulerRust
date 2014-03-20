@@ -1,5 +1,5 @@
 use std::hash::Hash;
-use std::{num, vec};
+use std::{num, slice};
 use std::iter::MultiplicativeIterator;
 use collections::HashMap;
 
@@ -31,7 +31,7 @@ pub struct Combinate<'a, T> {
 
 impl<'a, T> Combinate<'a, T> {
     pub fn new<'a>(all_elems: &'a [T], len: uint) -> Combinate<'a, T> {
-        let next_idx = vec::from_fn(len, |i| i);
+        let next_idx = slice::from_fn(len, |i| i);
 
         Combinate {
             all_elems: all_elems,
@@ -86,7 +86,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
     fn fill_zero(v: &[uint], n: uint) -> ~[uint] {
         assert!(n >= v.len());
-        vec::from_elem(n - v.len(), 0u) + v
+        slice::from_elem(n - v.len(), 0u) + v
     }
 
     fn to_some<'a>(v: &'a [uint]) -> Option<&'a [uint]> { Some(v) }
@@ -98,7 +98,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
         if len == 0 { return f(0, digits); }
 
         let unit = num::pow(10u, len - 1);
-        let mut buf = vec::from_elem(digits.len() - 1, 0u);
+        let mut buf = slice::from_elem(digits.len() - 1, 0u);
 
         for (i, &n) in digits.iter().enumerate() {
             let min_vec = match min {

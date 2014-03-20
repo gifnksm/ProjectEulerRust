@@ -4,7 +4,7 @@
 extern crate collections;
 extern crate math;
 
-use std::vec;
+use std::slice;
 use collections::{HashMap, HashSet};
 use math::numconv;
 
@@ -29,7 +29,7 @@ pub fn solve() -> ~str {
         ds.sort();
 
         let v = match map.pop(&ds) {
-            Some(nums) => vec::append_one(nums, cube),
+            Some(nums) => slice::append_one(nums, cube),
             None       => ~[cube]
         };
         if v.len() == 5 {

@@ -3,14 +3,14 @@
 
 extern crate prob0081;
 
-use std::{cmp, uint, vec};
+use std::{cmp, uint, slice};
 
 pub static EXPECTED_ANSWER: &'static str = "260324";
 
 pub fn solve() -> ~str {
     let (w, h, mat) = prob0081::read_matrix("files/matrix.txt");
 
-    let mut sum = vec::from_fn(h, |_y| vec::from_elem(w, 0u));
+    let mut sum = slice::from_fn(h, |_y| slice::from_elem(w, 0u));
     for y in range(0, h) { sum[y][0] = mat[y][0]; }
     for x in range(1, w) {
         for y in range(0, h) {

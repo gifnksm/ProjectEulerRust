@@ -1,4 +1,4 @@
-use std::vec;
+use std::slice;
 use std::num::{Zero, One};
 
 fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
@@ -16,7 +16,7 @@ pub fn add<T: Zero + Add<T,T> + Clone>(a: &[T], b: &[T]) -> ~[T] {
         Equal   => (a.len(), a.len(), None)
     };
 
-    let mut sum = vec::from_fn(max_len, |_i| Zero::zero());
+    let mut sum = slice::from_fn(max_len, |_i| Zero::zero());
     for i in range(0, min_len) { sum[i] = a[i] + b[i]; }
     rest.map(|v| { for i in range(min_len, max_len) { sum[i] = v[i].clone(); } });
     return sum;
@@ -27,7 +27,7 @@ pub fn mul<T: Zero + Add<T, T> + Mul<T, T>>(a: &[T], b: &[T]) -> ~[T] {
     let b = omit_zeros(b);
 
     if a.is_empty() || b.is_empty() { return ~[]; }
-    let mut prod: ~[T] = vec::from_fn(a.len() + b.len() - 1, |_i| Zero::zero());
+    let mut prod: ~[T] = slice::from_fn(a.len() + b.len() - 1, |_i| Zero::zero());
     for (i, na) in a.iter().enumerate() {
         for (j, nb) in b.iter().enumerate() {
             prod[i + j] = prod[i + j] + (*na) * (*nb);

@@ -1,4 +1,4 @@
-use std::{vec, mem};
+use std::{slice, mem};
 use std::cmp::{Ord, Eq};
 use std::ops::{Add, Mul};
 use std::num::{Zero, One, Bounded};
@@ -196,7 +196,7 @@ pub struct MergeMultiMonoidIterator<V, T> {
 impl<V, T: Iterator<V>> MergeMultiMonoidIterator<V, T> {
     #[inline(always)]
     pub fn new(iters: ~[T]) -> MergeMultiMonoidIterator<V, T> {
-        MergeMultiMonoidIterator { values: vec::from_fn(iters.len(), |_| None), iters: iters }
+        MergeMultiMonoidIterator { values: slice::from_fn(iters.len(), |_| None), iters: iters }
     }
 }
 

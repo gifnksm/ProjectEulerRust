@@ -4,7 +4,7 @@
 extern crate collections;
 extern crate prob0081;
 
-use std::{cmp, vec, uint};
+use std::{cmp, slice, uint};
 use collections::HashSet;
 
 pub static EXPECTED_ANSWER: &'static str = "425185";
@@ -19,8 +19,8 @@ pub fn solve() -> ~str {
 
     let mut closed = HashSet::new();
     let mut open   = HashSet::new();
-    let mut dist = vec::from_fn(h, |_y| vec::from_elem(w, uint::MAX));
-    let mut parent = vec::from_fn(h, |_y| vec::from_elem(w, Point { x: w, y: h }));
+    let mut dist = slice::from_fn(h, |_y| slice::from_elem(w, uint::MAX));
+    let mut parent = slice::from_fn(h, |_y| slice::from_elem(w, Point { x: w, y: h }));
 
     dist[start.y][start.x] = mat[start.y][start.x];
     open.insert(start);

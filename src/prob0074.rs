@@ -3,7 +3,7 @@
 
 extern crate collections;
 
-use std::vec;
+use std::slice;
 use collections::HashMap;
 
 pub static EXPECTED_ANSWER: &'static str = "402";
@@ -76,7 +76,7 @@ pub fn solve() -> ~str {
         val
     };
 
-    let mut map = vec::from_elem(factorial[9] * 6 + 1, Unknown);
+    let mut map = slice::from_elem(factorial[9] * 6 + 1, Unknown);
     let mut cnt = 0u;
     for n in range(1u, limit + 1) {
         let len = get_chain_len(n, map, &factorial);

@@ -3,7 +3,7 @@
 
 extern crate num;
 
-use std::vec;
+use std::slice;
 use num::Integer;
 
 pub static EXPECTED_ANSWER: &'static str = "8581146";
@@ -38,7 +38,7 @@ pub fn solve() -> ~str {
     let mut cnt = 0u;
 
     let vec_size = 81 * 7 + 1;
-    let mut map = vec::from_elem(vec_size, None);
+    let mut map = slice::from_elem(vec_size, None);
     map[0] = Some(false);
     map[1] = Some(false);
     map[89] = Some(true);

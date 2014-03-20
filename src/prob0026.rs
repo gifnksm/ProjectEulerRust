@@ -1,13 +1,13 @@
 #[crate_id = "prob0026"];
 #[crate_type = "rlib"];
 
-use std::vec;
+use std::slice;
 
 pub static EXPECTED_ANSWER: &'static str = "983";
 
 fn get_cycle_len(n: uint) -> uint {
     if n == 1 { return 1; }
-    let mut buf = vec::from_elem(n, None);
+    let mut buf = slice::from_elem(n, None);
     let mut rem = 1;
     let mut idx = 1;
     loop {

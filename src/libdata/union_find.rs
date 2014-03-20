@@ -1,4 +1,4 @@
-use std::{mem, vec};
+use std::{mem, slice};
 
 #[deriving(Clone)]
 priv enum UFNode {
@@ -12,7 +12,7 @@ pub struct UnionFind {
 
 impl UnionFind {
     pub fn new(len: uint) -> UnionFind {
-        return UnionFind { data: vec::from_elem(len, UFSize(1)) };
+        return UnionFind { data: slice::from_elem(len, UFSize(1)) };
     }
 
     pub fn union(&mut self, key1: uint, key2: uint) -> bool {

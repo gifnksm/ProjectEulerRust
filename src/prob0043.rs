@@ -3,7 +3,7 @@
 
 extern crate math;
 
-use std::vec;
+use std::slice;
 use std::iter::AdditiveIterator;
 use math::numconv;
 
@@ -47,11 +47,11 @@ impl DigitMap {
 fn fill_vec<T: Clone>(v: ~[T], len: uint, init: T) -> ~[T] {
     assert!(v.len() <= len);
     if v.len() == len { return v; }
-    v + vec::from_elem(len - v.len(), init)
+    v + slice::from_elem(len - v.len(), init)
 }
 
 pub fn solve() -> ~str {
-    let mut result = vec::build(None, |push| {
+    let mut result = slice::build(None, |push| {
         let dm   = DigitMap();
         let base = 17;
         for n in range(0u, 1000 / base) {
@@ -66,7 +66,7 @@ pub fn solve() -> ~str {
     let base_list = [13u, 11, 7, 5, 3, 2, 1];
     for &base in base_list.iter() {
         result = result.flat_map(|&(ref ds, ref dm)| {
-            vec::build(None, |push| {
+            slice::build(None, |push| {
                 let lower = numconv::from_digits(ds.slice(ds.len() - 2, ds.len()), 10);
                 for d in range(0u, 10) {
                     if (d * 100 + lower) % base != 0 { continue }

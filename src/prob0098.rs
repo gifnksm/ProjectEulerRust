@@ -5,7 +5,7 @@ extern crate collections;
 extern crate common;
 extern crate math;
 
-use std::{num, str, mem, uint, vec};
+use std::{num, str, mem, uint, slice};
 use std::iter::OrdIterator;
 use std::io::File;
 use collections::HashMap;
@@ -45,10 +45,10 @@ pub fn solve() -> ~str {
                 cs.sort();
                 match map.pop(&cs) {
                     None     => { map.insert(cs, ~[word.to_str()]); }
-                    Some(ws) => { map.insert(cs, vec::append_one(ws, word.to_str())); }
+                    Some(ws) => { map.insert(cs, slice::append_one(ws, word.to_str())); }
                 }
             }
-            vec::build(None, |push| {
+            slice::build(None, |push| {
                     for (_key, values) in map.mut_iter() {
                         if values.len() > 1 {
                             push(mem::replace(values, ~[]));
@@ -56,7 +56,7 @@ pub fn solve() -> ~str {
                     }
                 })
         }).map(|words| {
-            vec::build(Some(words.len()), |push| {
+            slice::build(Some(words.len()), |push| {
                     for elt in words.iter() {
                         for i in range(0, elt.len()) {
                             for j in range(i + 1, elt.len()) {
@@ -75,7 +75,7 @@ pub fn solve() -> ~str {
             words.sort_by(|&(l1, _, _), &(l2, _, _)| l2.cmp(&l1));
             words
         }).map(|idx_pairs| {
-            vec::build(None, |push| {
+            slice::build(None, |push| {
                     let mut cur_len = uint::MAX;
                     let mut cur_group = ~[];
                     for &(ref len, ref v1, ref v2) in idx_pairs.iter() {

@@ -1,7 +1,7 @@
 #[crate_id = "prob0127"];
 #[crate_type = "rlib"];
 
-use std::{iter, vec};
+use std::{iter, slice};
 
 pub static EXPECTED_ANSWER: &'static str = "18407904";
 
@@ -26,7 +26,7 @@ pub static EXPECTED_ANSWER: &'static str = "18407904";
 struct Rad(uint, uint, ~[uint]); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: uint) -> ~[Rad] {
-    let mut rad_vec = vec::from_fn(n_limit, |i| Rad(1, i, ~[]));
+    let mut rad_vec = slice::from_fn(n_limit, |i| Rad(1, i, ~[]));
     for p in range(2, rad_vec.len()) {
         let Rad(rad_p, _, _) = rad_vec[p];
         if rad_p != 1 { continue }

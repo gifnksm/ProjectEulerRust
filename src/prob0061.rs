@@ -1,13 +1,13 @@
 #[crate_id = "prob0061"];
 #[crate_type = "rlib"];
 
-use std::vec;
+use std::slice;
 use std::iter::AdditiveIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "28684";
 
 fn create_map(f: |uint| -> uint) -> ~[~[uint]] {
-    let mut result = vec::from_elem(100, ~[]);
+    let mut result = slice::from_elem(100, ~[]);
     let mut i = 1;
     loop {
         let n = f(i);

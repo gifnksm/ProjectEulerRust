@@ -1,7 +1,7 @@
 #[crate_id = "prob0122"];
 #[crate_type = "rlib"];
 
-use std::{iter, uint, vec};
+use std::{iter, uint, slice};
 
 pub static EXPECTED_ANSWER: &'static str = "1582";
 
@@ -18,8 +18,8 @@ fn backtrack(power: uint, depth: uint, limit: uint, cost: &mut [uint], path: &mu
 
 pub fn solve() -> ~str {
     let limit = 200;
-    let mut cost = vec::from_elem(limit + 1, uint::MAX);
-    let mut path = vec::from_elem(limit + 1, 0u);
+    let mut cost = slice::from_elem(limit + 1, uint::MAX);
+    let mut path = slice::from_elem(limit + 1, 0u);
 
     backtrack(1, 0, limit, cost, path);
 

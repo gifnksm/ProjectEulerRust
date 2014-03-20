@@ -1,7 +1,7 @@
 #[crate_id = "prob0105"];
 #[crate_type = "rlib"];
 
-use std::vec;
+use std::slice;
 use std::io::{BufferedReader, File};
 use std::iter::AdditiveIterator;
 
@@ -13,7 +13,7 @@ fn is_sss(nums: &[uint]) -> bool {
         let mut i = 0;
         let mut j = 0;
         let len = sums.len();
-        let mut new_sums = vec::with_capacity(len * 2);
+        let mut new_sums = slice::with_capacity(len * 2);
         while i < len {
             assert!(j <= i);
             match sums[i].cmp(&(sums[j] + n)) {

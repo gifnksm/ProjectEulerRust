@@ -1,13 +1,13 @@
 #[crate_id = "prob0113"];
 #[crate_type = "rlib"];
 
-use std::vec;
+use std::slice;
 use std::iter::AdditiveIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "51161058134250";
 
 fn num_increasing(len: uint) -> uint {
-    let mut buf = vec::from_fn(len, |_| [0u, ..10]);
+    let mut buf = slice::from_fn(len, |_| [0u, ..10]);
 
     for d in range(0, buf[0].len()) {
         buf[0][d] = 1;
@@ -27,7 +27,7 @@ fn num_increasing(len: uint) -> uint {
 }
 
 fn num_decreasing(len: uint) -> uint {
-    let mut buf = vec::from_fn(len, |_| [0u, ..11]); // 0, 1, 2, .., 9, A
+    let mut buf = slice::from_fn(len, |_| [0u, ..11]); // 0, 1, 2, .., 9, A
 
     for d in range(0, buf[0].len()) {
         buf[0][d] = 1;

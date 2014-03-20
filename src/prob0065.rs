@@ -4,7 +4,7 @@
 extern crate num;
 extern crate math;
 
-use std::{char, vec};
+use std::{char, slice};
 use std::iter::AdditiveIterator;
 use num::bigint::BigUint;
 use math::cont_frac;
@@ -22,7 +22,7 @@ fn napier_seq(i: uint) -> uint {
 pub fn solve() -> ~str {
     let len = 100;
 
-    let napier = vec::from_fn(len, napier_seq);
+    let napier = slice::from_fn(len, napier_seq);
 
     let (n, _d) = cont_frac::fold::<BigUint>(napier);
     let ns = n.to_str();

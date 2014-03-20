@@ -1,7 +1,7 @@
 #[crate_id = "prob0044"];
 #[crate_type = "rlib"];
 
-use std::vec;
+use std::slice;
 
 pub static EXPECTED_ANSWER: &'static str = "5482660";
 
@@ -25,7 +25,7 @@ fn is_pentagonal(n: uint, table: &[uint]) -> bool {
 }
 
 pub fn solve() -> ~str {
-    let pentagonal_table = vec::from_fn(10000, get_pentagonal);
+    let pentagonal_table = slice::from_fn(10000, get_pentagonal);
 
     let mut m = 0;
     loop {

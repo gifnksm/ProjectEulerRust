@@ -90,7 +90,7 @@
 extern crate num;
 extern crate math;
 
-use std::vec;
+use std::slice;
 use num::Integer;
 use math::prime::Prime;
 
@@ -100,7 +100,7 @@ pub fn solve() -> ~str {
     let min_limit = 5;
     let max_limit = 1000000;
 
-    let mut mod_map = vec::from_fn(10, |_| vec::from_elem(10, 0u));
+    let mut mod_map = slice::from_fn(10, |_| slice::from_elem(10, 0u));
     for &b in [1u, 3, 7, 9].iter() {
         for n in range(1u, 10) {
             mod_map[b][(b * n) % 10] = n;

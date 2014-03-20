@@ -3,7 +3,7 @@
 
 extern crate data;
 
-use std::vec;
+use std::slice;
 use data::extiter::Comb;
 
 pub static EXPECTED_ANSWER: &'static str = "1217";
@@ -19,7 +19,7 @@ pub fn solve() -> ~str {
             set
         }).to_owned_vec();
 
-    let nums = vec::from_fn(9, |i| {
+    let nums = slice::from_fn(9, |i| {
         let n = (i + 1) * (i + 1);
         (n / 10, n % 10)
     });

@@ -1,7 +1,7 @@
 #[crate_id = "prob0084"];
 #[crate_type = "rlib"];
 
-use std::vec;
+use std::slice;
 
 pub static EXPECTED_ANSWER: &'static str = "101524";
 
@@ -37,7 +37,7 @@ static NUM_SQUARE: uint = NumSquare as uint;
 
 #[inline(always)]
 fn create_mat<T>(h: uint, w: uint, f: |uint, uint| -> T) -> ~[~[T]] {
-    vec::from_fn(h, |i| vec::from_fn(w, |j| f(i, j)))
+    slice::from_fn(h, |i| slice::from_fn(w, |j| f(i, j)))
 }
 
 #[inline(always)]
@@ -67,7 +67,7 @@ pub fn trans_mat(m: &[~[f64]]) -> ~[~[f64]] {
 }
 
 fn create_roll_map(dice_side: uint) -> ~[(f64, f64)] {
-    let mut map = vec::from_elem(dice_side * 2 + 1, (0, 0));
+    let mut map = slice::from_elem(dice_side * 2 + 1, (0, 0));
     for i in range(1, dice_side + 1) {
         for j in range(i, dice_side + 1) {
             let sum = i + j;
@@ -193,7 +193,7 @@ pub fn solve() -> ~str {
         vec = vec2;
     }
 
-    let mut pairs = vec::from_fn(NUM_SQUARE, |i| (0.0, Square::from_uint(i)));
+    let mut pairs = slice::from_fn(NUM_SQUARE, |i| (0.0, Square::from_uint(i)));
     for (i, vs) in vec.iter().enumerate() {
         let dst = i % NUM_SQUARE;
         let (p, sq) = pairs[dst];

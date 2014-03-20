@@ -4,7 +4,7 @@
 extern crate num;
 extern crate math;
 
-use std::{iter, mem, vec};
+use std::{iter, mem, slice};
 use num::Integer;
 use math::numconv;
 use math::prime::Prime;
@@ -33,7 +33,7 @@ impl ElementIndex {
             idx: if num_select_elem > num_all_elem {
                 None
             } else {
-                Some(vec::from_fn(num_select_elem, |i| i))
+                Some(slice::from_fn(num_select_elem, |i| i))
             }
         }
     }
@@ -80,9 +80,9 @@ impl<T: Clone> Iterator<(~[T], ~[T])> for Groups<T> {
         self.idx
             .next()
             .map(|idx| {
-                let left = vec::from_fn(idx.len(), |i| self.vec[idx[i]].clone());
+                let left = slice::from_fn(idx.len(), |i| self.vec[idx[i]].clone());
                 let mut offset = 0;
-                let right = vec::from_fn(self.vec.len() - idx.len(), |i| {
+                let right = slice::from_fn(self.vec.len() - idx.len(), |i| {
                         while offset < idx.len() && offset + i == idx[offset] { offset += 1; }
                         self.vec[offset + i].clone()
                     });

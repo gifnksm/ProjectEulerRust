@@ -4,7 +4,7 @@
 extern crate common;
 extern crate math;
 
-use std::{str, vec};
+use std::{str, slice};
 use std::io::File;
 use common::reader;
 use math::sequence;
@@ -26,7 +26,7 @@ pub fn solve() -> ~str {
     let result = reader::read_whole_word(input).map(|words| words.map(|w| word_value(*w)))
         .map(|values| {
             let len = values.iter().max().unwrap() + 1;
-            let mut is_tri = vec::from_elem(len, false);
+            let mut is_tri = slice::from_elem(len, false);
             let mut it = sequence::triangle::<uint>().take_while(|&t| t < len);
             for t in it { is_tri[t] = true; }
 

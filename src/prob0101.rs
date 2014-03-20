@@ -4,7 +4,7 @@
 extern crate num;
 extern crate math;
 
-use std::vec;
+use std::slice;
 use std::num::{Zero, One};
 use num::bigint::BigInt;
 use num::rational::Ratio;
@@ -43,7 +43,7 @@ fn op(ns: &[(BigInt, BigInt)]) -> ~[Ratio<BigInt>] {
 //   + y2 (x - x1)(x - x3) / (x2 - x1)(x2 - x3)
 //   + y3 (x - x1)(x - x2) / (x3 - x1)(x3 - x2)
 pub fn solve() -> ~str {
-    let un = vec::from_fn(11, |n| (FromPrimitive::from_uint(n + 1).unwrap(),
+    let un = slice::from_fn(11, |n| (FromPrimitive::from_uint(n + 1).unwrap(),
                                    u(FromPrimitive::from_uint(n + 1).unwrap())));
     let mut sum: BigInt = Zero::zero();
     for i in range(1, un.len()) {

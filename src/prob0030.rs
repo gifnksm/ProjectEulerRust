@@ -4,7 +4,7 @@
 extern crate common;
 extern crate math;
 
-use std::{num, vec};
+use std::{num, slice};
 use std::iter::AdditiveIterator;
 use common::calc;
 use math::numconv;
@@ -20,7 +20,7 @@ pub static EXPECTED_ANSWER: &'static str = "443839";
 // 1-6 digits numbers meet conditions
 pub fn solve() -> ~str {
     let len = 7;
-    let pows = vec::from_fn(10, |i| num::pow(i, 5));
+    let pows = slice::from_fn(10, |i| num::pow(i, 5));
 
     let mut sum = 0;
     calc::combinate_overlap([0u, 1, 2, 3, 4, 5, 6, 7, 8, 9], len, |comb| {

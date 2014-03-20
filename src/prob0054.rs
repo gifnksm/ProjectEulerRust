@@ -3,7 +3,7 @@
 
 extern crate data;
 
-use std::{fmt, vec};
+use std::{fmt, slice};
 use std::io::{BufferedReader, File};
 use data::card::Card;
 
@@ -48,8 +48,8 @@ impl fmt::Show for Hand {
 }
 
 fn hand(cards: &[Card, ..5]) -> Hand {
-    let mut num_count = vec::from_fn(13, |_i| ~[]);
-    let mut suit_count = vec::from_fn(4, |_i| ~[]);
+    let mut num_count = slice::from_fn(13, |_i| ~[]);
+    let mut suit_count = slice::from_fn(4, |_i| ~[]);
 
     for &c in cards.iter() {
         let val = if c.num == 1 { 12 } else { c.num - 2 };

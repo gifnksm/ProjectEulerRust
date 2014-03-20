@@ -3,7 +3,7 @@
 
 extern crate collections;
 
-use std::{iter, uint, vec};
+use std::{iter, uint, slice};
 use std::iter::AdditiveIterator;
 use collections::HashSet;
 
@@ -26,7 +26,7 @@ pub fn solve() -> ~str {
     let start = 2;
     let mut end = 4;
     let mut cnt = limit - 1;
-    let mut nums = vec::from_elem(limit + 1, uint::MAX);
+    let mut nums = slice::from_elem(limit + 1, uint::MAX);
 
     while cnt > 0 {
         each_sum_product(start, end, &|sum, prod, len| {

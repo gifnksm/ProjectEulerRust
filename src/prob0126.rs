@@ -1,7 +1,7 @@
 #[crate_id = "prob0126"];
 #[crate_type = "rlib"];
 
-use std::{iter, vec};
+use std::{iter, slice};
 
 pub static EXPECTED_ANSWER: &'static str = "18522";
 
@@ -12,7 +12,7 @@ fn f0(a: uint, b: uint, c: uint) -> uint { 2 * (a*b + b*c + c*a) }
 pub fn solve() -> ~str {
     let sum   = 1000;
     let limit = 20000;
-    let mut cnt = vec::from_elem(limit, 0u);
+    let mut cnt = slice::from_elem(limit, 0u);
 
     for a in iter::count(1u, 1) {
         if f0(a, 1, 1) > limit { break; }

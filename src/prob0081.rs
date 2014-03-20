@@ -1,7 +1,7 @@
 #[crate_id = "prob0081"];
 #[crate_type = "rlib"];
 
-use std::{cmp, vec};
+use std::{cmp, slice};
 use std::io::{BufferedReader, File};
 
 pub static EXPECTED_ANSWER: &'static str = "427337";
@@ -20,7 +20,7 @@ pub fn read_matrix(filename: &str) -> (uint, uint, ~[~[uint]]) {
 pub fn solve() -> ~str {
     let (w, h, mat) = read_matrix("files/matrix.txt");
 
-    let mut sum = vec::from_fn(h, |_y| vec::from_elem(w, 0u));
+    let mut sum = slice::from_fn(h, |_y| slice::from_elem(w, 0u));
     sum[0][0] = mat[0][0];
     for y in range(1, h) {
         sum[y][0] = mat[y][0] + sum[y - 1][0];
