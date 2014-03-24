@@ -25,9 +25,9 @@ impl TotalEq for SuDoku {}
 
 impl Eq for SuDoku {
     #[inline]
-    fn eq(&self, other: &SuDoku) -> bool { self.eq(other) }
-    #[inline]
-    fn ne(&self, other: &SuDoku) -> bool { self.ne(other) }
+    fn eq(&self, other: &SuDoku) -> bool {
+        self.name == other.name && range(0, BOARD_HEIGHT).all(|y| self.map[y] == other.map[y])
+    }
 }
 
 impl fmt::Show for SuDoku {
