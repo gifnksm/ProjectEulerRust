@@ -41,7 +41,7 @@ pub fn solve() -> ~str {
     let result = reader::read_whole_word(input).map(|words| {
             let mut map = ~HashMap::new();
             for &word in words.iter() {
-                let mut cs = word.chars().to_owned_vec();
+                let mut cs = word.chars().collect::<~[char]>();
                 cs.sort();
                 match map.pop(&cs) {
                     None     => { map.insert(cs, ~[word.to_str()]); }
@@ -98,7 +98,7 @@ pub fn solve() -> ~str {
                 let start = num::pow(10u, *len) - 1;
                 let end   = num::pow(10u, *len - 1);
                 for n in range(arith::isqrt(end), arith::isqrt(start)).rev() {
-                    let ds = numconv::to_digits(n * n, 10).rev().to_owned_vec();
+                    let ds = numconv::to_digits(n * n, 10).rev().collect::<~[uint]>();
                     for &(ref v1, ref v2) in pairs.iter() {
                         if ds[v2[0]] == 0 { continue }
                         if !check_digit(*v1, ds) { continue }

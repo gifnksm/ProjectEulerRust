@@ -78,9 +78,9 @@ mod tests {
     fn test_conv_digits() {
         fn check(n: uint, v: ~[uint], radix: uint) {
             assert_eq!(super::from_digits(v, radix), n);
-            assert_eq!(super::to_digits(n, radix).to_owned_vec(), v.clone());
-            assert_eq!(super::to_digits(n, radix).rev().to_owned_vec(),
-                       v.move_rev_iter().to_owned_vec())
+            assert_eq!(super::to_digits(n, radix).collect::<~[uint]>(), v.clone());
+            assert_eq!(super::to_digits(n, radix).rev().collect::<~[uint]>(),
+                       v.move_rev_iter().collect::<~[uint]>())
         }
 
         check(0, ~[], 10);

@@ -3,10 +3,9 @@ use std::iter::MultiplicativeIterator;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::local_data::Key;
+use collections::HashMap;
 
 use num::Integer;
-
-use data::monoid::{Sum, MergeMonoidIterator, MergeMultiMonoidIterator, Wrap};
 
 static PRIMES_BELOW100: &'static [uint] = &[
     2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
@@ -112,23 +111,21 @@ impl Prime {
     pub fn num_of_proper_divisor(&self, n: uint) -> uint { self.num_of_divisor(n) - 1 }
     #[inline]
     pub fn sum_of_proper_divisor(&self, n: uint) -> uint { self.sum_of_divisor(n) - n }
+
     #[inline]
     pub fn comb(&self, n: uint, r: uint) -> uint {
-        let ns = range(r + 1, n + 1)
-            .map(|n| {
-                self.factorize(n)
-                    .map(|(base, exp)| (base, Sum(exp)))
-            }).to_owned_vec();
-        let numer = MergeMultiMonoidIterator::new(ns);
-
-        let ds = range(1, n - r + 1)
-            .map(|n| {
-                self.factorize(n)
-                    .map(|(base, exp)| (base, Sum(-exp)))
-            }).to_owned_vec();
-        let denom = MergeMultiMonoidIterator::new(ds);
-
-        MergeMonoidIterator::new(numer, denom).map(|(a, m)| (a, m.unwrap())).to_uint()
+        let mut map = HashMap::new();
+        for n in range(r + 1, n + 1) {
+            for (b, e) in self.factorize(n) {
+                *map.find_or_insert(b, 0) += e;
+            }
+        }
+        for n in range(1, n - r + 1) {
+            for (b, e) in self.factorize(n) {
+                *map.get_mut(&b) -= e;
+            }
+        }
+        map.move_iter().to_uint()
     }
 }
 
@@ -222,7 +219,7 @@ mod tests {
     #[test]
     fn iter() {
         let prime = Prime::new();
-        assert_eq!(PRIMES_BELOW200.to_owned(), prime.iter().take(PRIMES_BELOW200.len()).to_owned_vec());
+        assert_eq!(PRIMES_BELOW200.to_owned(), prime.iter().take(PRIMES_BELOW200.len()).collect());
     }
 
     #[test]
@@ -277,7 +274,7 @@ mod tests {
     fn factorize() {
         fn check(n: uint, fs: ~[Factor]) {
             let ps = Prime::new();
-            assert_eq!(fs, ps.factorize(n).to_owned_vec());
+            assert_eq!(fs, ps.factorize(n).collect());
             if n != 0 {
                 assert_eq!(n, ps.factorize(n).to_uint());
             }

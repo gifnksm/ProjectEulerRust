@@ -33,10 +33,10 @@ pub fn solve() -> ~str {
     let prod_len = 5;
     let nums = INPUT.chars()
         .filter_map(|c| char::to_digit(c, 10))
-        .to_owned_vec();
+        .collect::<~[_]>();
     return nums
         .windows(prod_len)
-        .map(|win| win.iter().fold(1, |p, &n| p * n))
+        .map(|win| win.iter().fold(1u, |p, &n| p * n))
         .max()
         .unwrap()
         .to_str();

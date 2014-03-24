@@ -40,7 +40,7 @@ impl Iterator<(uint, ~[uint])> for ConcatPrimeIterator {
             .filter(|&m| (n + m) % 3 != 0 && {
                 self.prime.contains(concat_num(n, m)) &&
                     self.prime.contains(concat_num(m, n))
-            }).to_owned_vec();
+            }).collect::<~[uint]>();
         Some((n, pairs))
     }
 }

@@ -26,7 +26,7 @@ pub fn solve() -> ~str {
     calc::combinate_overlap([0u, 1, 2, 3, 4, 5, 6, 7, 8, 9], len, |comb| {
             let num = comb.iter().map(|&e| pows[e]).sum();
 
-            let mut ds = numconv::to_digits(num, 10).to_owned_vec();
+            let mut ds = numconv::to_digits(num, 10).collect::<~[uint]>();
             ds.sort_by(|a, b| a.cmp(b));
 
             let zero_len = len - ds.len();

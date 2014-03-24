@@ -72,26 +72,26 @@ mod tests {
     #[test]
     fn test_fibonacci() {
         let fib = ~[ 1u, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
-        assert_eq!(super::fibonacci::<uint>().take(fib.len()).to_owned_vec(), fib);
+        assert_eq!(super::fibonacci::<uint>().take(fib.len()).collect::<~[uint]>(), fib);
 
         let fib = ~[ 0u, 0, 0, 0, 0, 0, 0];
-        assert_eq!(super::fibonacci_with_init(0u, 0).take(fib.len()).to_owned_vec(), fib);
+        assert_eq!(super::fibonacci_with_init(0u, 0).take(fib.len()).collect::<~[uint]>(), fib);
 
         let fib = ~[ 1u, 5, 6, 11, 17, 28, 45, 73, 118, 191, 309, 500];
-        assert_eq!(super::fibonacci_with_init(1u, 5).take(fib.len()).to_owned_vec(), fib);
+        assert_eq!(super::fibonacci_with_init(1u, 5).take(fib.len()).collect::<~[uint]>(), fib);
     }
 
     #[test]
     fn test_triangle() {
         let tri = ~[1u, 3, 6, 10, 15, 21];
-        let gen = super::triangle::<uint>().take(tri.len()).to_owned_vec();
+        let gen = super::triangle::<uint>().take(tri.len()).collect::<~[uint]>();
         assert_eq!(gen, tri);
     }
 
     #[test]
     fn test_prim_pythagorean_iterator() {
         fn check(m: uint, v: ~[(uint, uint, uint)]) {
-            assert_eq!(super::prim_pythagorean(m).to_owned_vec(), v);
+            assert_eq!(super::prim_pythagorean(m).collect::<~[(uint, uint, uint)]>(), v);
         }
 
         check(2, ~[(3, 4, 5)]);

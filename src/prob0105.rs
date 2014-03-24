@@ -50,7 +50,7 @@ pub fn solve() -> ~str {
             line.trim()
                 .split(',')
                 .filter_map(from_str::<uint>)
-                .to_owned_vec()
+                .collect::<~[uint]>()
         }).map(|mut nums| { nums.sort(); nums })
         .filter(|nums| {
             let len = nums.len();

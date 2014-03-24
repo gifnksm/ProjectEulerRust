@@ -25,7 +25,7 @@ pub fn solve() -> ~str {
         }
 
         let cube = n * n * n;
-        let mut ds = numconv::to_digits(cube, 10).to_owned_vec();
+        let mut ds = numconv::to_digits(cube, 10).collect::<~[uint]>();
         ds.sort();
 
         let v = match map.pop(&ds) {

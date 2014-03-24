@@ -55,7 +55,7 @@ pub fn solve() -> ~str {
         let dm   = DigitMap();
         let base = 17;
         for n in range(0u, 1000 / base) {
-            let new_ds = fill_vec(numconv::to_digits(n * base, 10).to_owned_vec(), 3, 0);
+            let new_ds = fill_vec(numconv::to_digits(n * base, 10).collect::<~[uint]>(), 3, 0);
             match dm.get_used(new_ds) {
                 None         => continue,
                 Some(new_dm) => push((new_ds, new_dm))

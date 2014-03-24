@@ -52,7 +52,7 @@ pub fn solve() -> ~str {
             .trim()
             .split(',')
             .filter_map(from_str::<int>)
-            .to_owned_vec();
+            .collect::<~[int]>();
         let ps = ((ns[0], ns[1]), (ns[2], ns[3]), (ns[4], ns[5]));
         if is_inside(ps, (0, 0)) { cnt += 1; }
     }

@@ -13,8 +13,8 @@ pub fn solve() -> ~str {
     let triangle = br.lines()
         .filter_map(|line| line.ok())
         .filter(|line| !line.is_empty())
-        .map(|line| line.words().filter_map(from_str::<uint>).to_owned_vec())
-        .to_owned_vec();
+        .map(|line| line.words().filter_map(from_str::<uint>).collect::<~[uint]>())
+        .collect::<~[~[uint]]>();
     let init = triangle.init();
     let last = triangle.last().unwrap();
     init.rev_iter().fold(last.to_owned(), |prev, elem| {

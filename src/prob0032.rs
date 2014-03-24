@@ -34,7 +34,7 @@ pub fn solve() -> ~str {
     calc::permutate_num(digits, 1, 0, 9, |a, ds| {
             calc::permutate_num(ds, 4, 1000, 9999 / a, |b, ds| {
                     let c = a * b;
-                    let mut c_digits = numconv::to_digits(c, 10).to_owned_vec();
+                    let mut c_digits = numconv::to_digits(c, 10).collect::<~[uint]>();
                     c_digits.sort_by(|a, b| a.cmp(b));
                     if ds == c_digits { answer.insert(c); }
                     true
@@ -51,7 +51,7 @@ pub fn solve() -> ~str {
     calc::permutate_num(digits, 2, 10, 99, |a, ds| {
             calc::permutate_num(ds, 3, 100, 9999 / a, |b, ds| {
                     let c = a * b;
-                    let mut c_digits = numconv::to_digits(c, 10).to_owned_vec();
+                    let mut c_digits = numconv::to_digits(c, 10).collect::<~[uint]>();
                     c_digits.sort_by(|a, b| a.cmp(b));
                     if ds == c_digits { answer.insert(c); }
                     true

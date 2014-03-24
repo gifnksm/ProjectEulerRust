@@ -29,7 +29,7 @@ fn get_at<K: Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> 
     let perm = calc::num_of_permutations(hist);
     if perm < n { return Skip(perm) }
 
-    let mut kv = hist.iter().map(|(k, v)| (k.clone(), *v)).to_owned_vec();
+    let mut kv = hist.iter().map(|(k, v)| (k.clone(), *v)).collect::<~[(K, uint)]>();
     kv.sort_by(|&(ref a, _), &(ref b, _)| a.cmp(b));
 
     let mut idx = 0;

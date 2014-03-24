@@ -21,18 +21,13 @@ struct SuDoku {
 }
 
 // #7622 (rust): #[deriving(TotalEq, Eq, Clone)] cannnot be used
-impl TotalEq for SuDoku {
-    #[inline]
-    fn equals(&self, other: &SuDoku) -> bool {
-        self.name == other.name && range(0, BOARD_HEIGHT).all(|y| self.map[y] == other.map[y])
-    }
-}
+impl TotalEq for SuDoku {}
 
 impl Eq for SuDoku {
     #[inline]
-    fn eq(&self, other: &SuDoku) -> bool { self.equals(other) }
+    fn eq(&self, other: &SuDoku) -> bool { self.eq(other) }
     #[inline]
-    fn ne(&self, other: &SuDoku) -> bool { !self.equals(other) }
+    fn ne(&self, other: &SuDoku) -> bool { self.ne(other) }
 }
 
 impl fmt::Show for SuDoku {
@@ -97,7 +92,7 @@ fn read_sudoku<T: Reader>(r: &mut BufferedReader<T>) -> Option<SuDoku> {
 fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
     let group_it = range(0, GROUP_WIDTH * GROUP_HEIGHT)
         .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
-        .to_owned_vec();
+        .collect::<~[(uint, uint)]>();
 
     loop {
         let bkup = puzzle.clone();
@@ -167,7 +162,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
     let it = range(0, BOARD_HEIGHT * BOARD_WIDTH)
         .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
         .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones()))
-        .to_owned_vec();
+        .collect::<~[(uint, uint, u16)]>();
 
     if it.iter().any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
     if it.iter().all(|&(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }

@@ -82,7 +82,7 @@ pub fn solve() -> ~str {
     let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
 
     let code_list = input.trim().split(',')
-        .filter_map(from_str::<u8>).to_owned_vec();
+        .filter_map(from_str::<u8>).collect::<~[u8]>();
 
     let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
     for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n] += 1; }

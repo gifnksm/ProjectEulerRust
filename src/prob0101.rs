@@ -47,7 +47,7 @@ pub fn solve() -> ~str {
                                    u(FromPrimitive::from_uint(n + 1).unwrap())));
     let mut sum: BigInt = Zero::zero();
     for i in range(1, un.len()) {
-        let poly = op(un.slice(0, i)).move_iter().map(|x| x.numer().clone()).to_owned_vec();
+        let poly = op(un.slice(0, i)).move_iter().map(|x| x.numer().clone()).collect::<~[BigInt]>();
         sum = sum + poly::eval(poly, FromPrimitive::from_uint(i + 1).unwrap());
     }
     sum.to_str()

@@ -109,31 +109,31 @@ mod tests {
 
     #[test]
     fn area2d() {
-        let vs = Range2D::new((0, 0), (1, 1), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((0, 0), (1, 1), (0, 0), (3, 3)).collect::<~[(int, int)]>();
         assert_eq!(vs, ~[(0, 0), (1, 1), (2, 2), (3, 3)]);
 
-        let vs = Range2D::new((1, 1), (1, 1), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((1, 1), (1, 1), (0, 0), (3, 3)).collect::<~[(int, int)]>();
         assert_eq!(vs, ~[(1, 1), (2, 2), (3, 3)]);
 
-        let vs = Range2D::new((3, 3), (1, 1), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((3, 3), (1, 1), (0, 0), (3, 3)).collect::<~[(int, int)]>();
         assert_eq!(vs, ~[(3, 3)]);
 
-        let vs = Range2D::new((0, 0), (2, 2), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((0, 0), (2, 2), (0, 0), (3, 3)).collect::<~[(int, int)]>();
         assert_eq!(vs, ~[(0, 0), (2, 2)]);
 
-        let vs = Range2D::new((0, 0), (0, 1), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((0, 0), (0, 1), (0, 0), (3, 3)).collect::<~[(int, int)]>();
         assert_eq!(vs, ~[(0, 0), (0, 1), (0, 2), (0, 3)]);
 
-        let vs = Range2D::new((0, 0), (0, 1), (0, 0), (3, 5)).to_owned_vec();
+        let vs = Range2D::new((0, 0), (0, 1), (0, 0), (3, 5)).collect::<~[(int, int)]>();
         assert_eq!(vs, ~[(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)]);
 
-        let vs = Range2D::new((0, 0), (1, 2), (0, 0), (3, 5)).to_owned_vec();
+        let vs = Range2D::new((0, 0), (1, 2), (0, 0), (3, 5)).collect::<~[(int, int)]>();
         assert_eq!(vs, ~[(0, 0), (1, 2), (2, 4)]);
 
-        let vs = Range2D::new((3, 3), (-1, -1), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((3, 3), (-1, -1), (0, 0), (3, 3)).collect::<~[(int, int)]>();
         assert_eq!(vs, ~[(3, 3), (2, 2), (1, 1), (0, 0)]);
 
-        let vs = Range2D::new((3, 3), (-2, -2), (0, 0), (3, 3)).to_owned_vec();
+        let vs = Range2D::new((3, 3), (-2, -2), (0, 0), (3, 3)).collect::<~[(int, int)]>();
         assert_eq!(vs, ~[(3, 3), (1, 1)]);
     }
 
@@ -141,8 +141,8 @@ mod tests {
     fn comb() {
         fn check(cnt: uint, size: uint, expected: ~[~[uint]]) {
             let actual = Comb::new(cnt, size)
-                .map(|set| set.iter().to_owned_vec())
-                .to_owned_vec();
+                .map(|set| set.iter().collect())
+                .collect::<~[~[uint]]>();
             assert_eq!(actual, expected);
         }
         check(0, 4, ~[~[]]);

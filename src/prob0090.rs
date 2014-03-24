@@ -2,8 +2,10 @@
 #[crate_type = "rlib"];
 
 extern crate data;
+extern crate collections;
 
 use std::slice;
+use collections::bitv::BitvSet;
 use data::extiter::Comb;
 
 pub static EXPECTED_ANSWER: &'static str = "1217";
@@ -17,7 +19,7 @@ pub fn solve() -> ~str {
                 _ => {}
             }
             set
-        }).to_owned_vec();
+        }).collect::<~[BitvSet]>();
 
     let nums = slice::from_fn(9, |i| {
         let n = (i + 1) * (i + 1);

@@ -18,7 +18,7 @@ enum Op { Add, Sub, Mul, Div }
 
 #[inline(always)]
 fn each_numseq(f: |&[Rational]|) {
-    calc::combinate(range(1, 10).map(Ratio::from_integer).to_owned_vec(), 4, |x, _| {f(x); true});
+    calc::combinate(range(1, 10).map(Ratio::from_integer).collect::<~[Ratio<int>]>(), 4, |x, _| {f(x); true});
 }
 
 #[inline(always)]
@@ -78,7 +78,7 @@ pub fn solve() -> ~str {
         let cnt = count_seqlen(nums);
         if cnt > max_cnt {
             max_cnt = cnt;
-            let ds = nums.rev_iter().map(|r| r.to_integer() as uint).to_owned_vec();
+            let ds = nums.rev_iter().map(|r| r.to_integer() as uint).collect::<~[uint]>();
             max_seq = numconv::from_digits(ds, 10).to_str();
         }
     });

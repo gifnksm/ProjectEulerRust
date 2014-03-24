@@ -26,7 +26,7 @@ pub fn solve() -> ~str {
 
             let mut cnt = 1;
             for d_dst in range(d_src + 1, 10) {
-                let buf = ds.map(|d| if d == d_src { d_dst } else { d }).to_owned_vec();
+                let buf = ds.map(|d| if d == d_src { d_dst } else { d }).collect::<~[uint]>();
                 if prime.contains(numconv::from_digits(buf, 10)) {
                     cnt += 1;
                 }

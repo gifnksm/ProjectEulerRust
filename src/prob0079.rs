@@ -15,7 +15,7 @@ struct Relation<T> {
     succ: HashSet<T>
 }
 
-impl<T: Hash + Eq> Relation<T> {
+impl<T: Hash + TotalEq> Relation<T> {
     fn new() -> Relation<T> { Relation { num_prec: 0, succ: HashSet::new() } }
 }
 
@@ -23,7 +23,7 @@ struct Relations<T> {
     top: HashMap<T, Relation<T>>
 }
 
-impl<T: Hash + Eq + Clone> Relations<T> {
+impl<T: Hash + TotalEq + Clone> Relations<T> {
     fn new() -> Relations<T> { Relations { top: HashMap::new() } }
 
     fn set_dependant(&mut self, prec: T, succ: T) {
@@ -57,7 +57,7 @@ impl<T: Hash + Eq + Clone> Relations<T> {
             .iter()
             .filter(|&(_k, v)| v.num_prec == 0)
             .map(|(k, _v)| k.clone())
-            .to_owned_vec()
+            .collect()
     }
 
     fn delete_and_find(&mut self, prec: T) -> ~[T] {
@@ -79,7 +79,7 @@ impl<T: Hash + Eq + Clone> Relations<T> {
     }
 }
 
-fn tsort<T: Hash + Eq + Clone>(rels: &mut Relations<T>) -> ~[T] {
+fn tsort<T: Hash + TotalEq + Clone>(rels: &mut Relations<T>) -> ~[T] {
     let mut sorted = ~[];
     let mut queue = rels.find_all_not_preceded();
     while !queue.is_empty() {
@@ -98,7 +98,7 @@ pub fn solve() -> ~str {
     let mut rels = Relations::new();
     for line in br.lines().filter_map(|line| line.ok()) {
         let ds = line.chars()
-            .filter_map(|c| char::to_digit(c, 10)).to_owned_vec();
+            .filter_map(|c| char::to_digit(c, 10)).collect::<~[uint]>();
         for i in range(1, ds.len()) {
             rels.set_dependant(ds[i - 1], ds[i]);
         }
