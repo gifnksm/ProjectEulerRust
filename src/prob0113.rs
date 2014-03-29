@@ -1,5 +1,7 @@
-#[crate_id = "prob0113"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0113"]
+#![crate_id = "prob0113"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 use std::slice;
 use std::iter::AdditiveIterator;

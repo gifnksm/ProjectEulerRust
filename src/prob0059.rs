@@ -1,5 +1,7 @@
-#[crate_id = "prob0059"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0059"]
+#![crate_id = "prob0059"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 use std::{f64, str};
 use std::io::File;

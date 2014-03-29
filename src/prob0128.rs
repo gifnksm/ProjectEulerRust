@@ -129,8 +129,10 @@
 //!
 //! `r=0` から順番にこれらを満たす数をカウントする。
 
-#[crate_id = "prob0128"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0128"]
+#![crate_id = "prob0128"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 extern crate math;
 

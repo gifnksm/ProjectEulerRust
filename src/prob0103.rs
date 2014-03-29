@@ -1,5 +1,7 @@
-#[crate_id = "prob0103"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0103"]
+#![crate_id = "prob0103"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 extern crate collections;
 

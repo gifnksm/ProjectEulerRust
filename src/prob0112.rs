@@ -1,5 +1,7 @@
-#[crate_id = "prob0112"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0112"]
+#![crate_id = "prob0112"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 #[cfg(test)]
 extern crate test;

@@ -1,7 +1,10 @@
-#[crate_id = "prob0011"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0011"]
+#![crate_id = "prob0011"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
-#[feature(macro_rules)];
+#![feature(macro_rules)]
+#![feature(macro_rules)]
 
 extern crate data;
 

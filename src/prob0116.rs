@@ -1,5 +1,7 @@
-#[crate_id = "prob0116"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0116"]
+#![crate_id = "prob0116"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 extern crate collections;
 use std::iter;

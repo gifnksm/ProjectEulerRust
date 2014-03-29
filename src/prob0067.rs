@@ -1,5 +1,7 @@
-#[crate_id = "prob0067"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0067"]
+#![crate_id = "prob0067"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 use std::{cmp, slice};
 use std::io::{BufferedReader, File};

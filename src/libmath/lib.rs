@@ -1,5 +1,7 @@
-#[crate_id = "math"];
-#[crate_type = "rlib"];
+#![crate_id = "math"]
+#![crate_id = "math"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 extern crate collections;
 extern crate num;

@@ -1,5 +1,7 @@
-#[crate_id = "prob0099"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0099"]
+#![crate_id = "prob0099"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 use std::io::{BufferedReader, File};
 use std::iter;

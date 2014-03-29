@@ -1,5 +1,7 @@
-#[crate_id = "prob0109"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0109"]
+#![crate_id = "prob0109"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 extern crate math;
 use std::slice;

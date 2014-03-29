@@ -1,5 +1,7 @@
-#[crate_id = "prob0044"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0044"]
+#![crate_id = "prob0044"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 use std::slice;
 

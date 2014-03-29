@@ -1,5 +1,7 @@
-#[crate_id = "prob0005"];
-#[crate_type = "rlib"];
+#![crate_id = "prob0005"]
+#![crate_id = "prob0005"]
+#![crate_type = "rlib"]
+#![crate_type = "rlib"]
 
 extern crate data;
 extern crate math;
