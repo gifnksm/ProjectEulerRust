@@ -79,7 +79,9 @@ fn create_roll_map(dice_side: uint) -> ~[(f64, f64)] {
     }
 
     let cases = dice_side * dice_side;
-    map.map(|&(p, q)| ((p as f64) / (cases as f64), (q as f64) / (cases as f64)))
+    map.iter()
+        .map(|&(p, q)| ((p as f64) / (cases as f64), (q as f64) / (cases as f64)))
+        .collect()
 }
 
 fn get_trans(roll_map: &[(f64, f64)]) -> ~[~[f64]] {
@@ -209,7 +211,11 @@ pub fn solve() -> ~str {
                 _ => fail!()
             }
         });
-    return pairs.slice(0, 3).map(|&(_, sq)| { format!("{:02}", sq.to_uint()) }).concat();
+    pairs.slice(0, 3)
+        .iter()
+        .map(|&(_, sq)| { format!("{:02}", sq.to_uint()) })
+        .collect::<~[~str]>()
+        .concat()
 }
 
 #[cfg(test)]

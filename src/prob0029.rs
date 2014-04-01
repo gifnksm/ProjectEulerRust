@@ -19,10 +19,12 @@ pub fn solve() -> ~str {
         let a_factor = prime.factorize(a).collect::<~[(uint, int)]>();
         for b in range(2u, 101) {
             let ab_factor = a_factor
-                .map(|&(base, exp)| (base, (exp) as uint * b));
+                .iter()
+                .map(|&(base, exp)| (base, (exp) as uint * b))
+                .collect::<~[(uint, uint)]>();
             set.insert(ab_factor);
         }
     }
 
-    return set.len().to_str();
+    set.len().to_str()
 }

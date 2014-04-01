@@ -105,5 +105,5 @@ pub fn solve() -> ~str {
             rels.set_dependant(ds[i - 1], ds[i]);
         }
     }
-    tsort(&mut rels).map(|d| d.to_str()).concat()
+    tsort(&mut rels).iter().map(|d| d.to_str()).collect::<~[~str]>().concat()
 }

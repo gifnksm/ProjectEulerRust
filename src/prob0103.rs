@@ -132,7 +132,7 @@ pub fn solve() -> ~str {
     let mut ans = ~"";
     each_sss(|sss| {
             if sss.sss.len() == 7 {
-                ans = sss.sss.map(|&n| n.to_str()).concat();
+                ans = sss.sss.iter().map(|&n| n.to_str()).collect::<~[~str]>().concat();
                 false
             } else {
                 true

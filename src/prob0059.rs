@@ -89,7 +89,7 @@ pub fn solve() -> ~str {
     let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
     for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n] += 1; }
 
-    let keys = freq.map(|f| find_key(f.clone(), freq_dict));
+    let keys = freq.iter().map(|f| find_key(f.clone(), freq_dict)).collect::<~[u8]>();
     let l = keys.len();
     code_list.iter().enumerate()
         .map(|(i, &n)| (n ^ keys[i % l]) as uint)

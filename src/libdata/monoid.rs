@@ -294,13 +294,13 @@ mod tests {
                 v1.iter().map(|&(x, y)| (x, f(y))),
                 v2.iter().map(|&(x, y)| (x, f(y)))
             ).collect::<~[(int, M)]>();
-            assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
+            assert_eq!(merged, result.iter().map(|&(x, y)| (x, f(y))).collect());
 
             let merged = MergeMonoidIterator::new(
                 v2.iter().map(|&(x, y)| (x, f(y))),
                 v1.iter().map(|&(x, y)| (x, f(y)))
             ).collect::<~[(int, M)]>();
-            assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
+            assert_eq!(merged, result.iter().map(|&(x, y)| (x, f(y))).collect());
         }
 
         let v1 = [(1, 1), (3, 1), (4, 3), (6, 1)];
@@ -326,10 +326,13 @@ mod tests {
         fn check<M: Monoid + Wrap<int> + Eq + Clone + Show>(vs: &[~[(int, int)]],
                                                             f: |int| -> M,
                                                             result: &[(int, int)]) {
+            use std;
             for vs in vs.permutations() {
-                let vs = vs.map(|ks| ks.map(|&(x, y)| (x, f(y))).move_iter());
+                let vs = vs.iter().map(|ks| {
+                    ks.iter().map(|&(x, y)| (x, f(y))).collect::<~[(int, M)]>().move_iter()
+                }).collect::<~[std::slice::MoveItems<(int, M)>]>();
                 let merged = MergeMultiMonoidIterator::new(vs).collect::<~[(int, M)]>();
-                assert_eq!(merged, result.map(|&(x, y)| (x, f(y))));
+                assert_eq!(merged, result.iter().map(|&(x, y)| (x, f(y))).collect());
             }
         }
 

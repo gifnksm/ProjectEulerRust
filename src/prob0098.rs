@@ -68,12 +68,14 @@ pub fn solve() -> ~str {
                     }
                 })
         }).map(|word_pairs| {
-            let mut words = word_pairs.map(|&(ref w1, ref w2)| {
+            let mut words = word_pairs.iter().map(|&(ref w1, ref w2)| {
                     let cs1 = w1.as_bytes();
                     let cs2 = w2.as_bytes();
                     let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap();
-                    (w1.len(), cs1.map(|c| get_pos(c)), cs2.map(|c| get_pos(c)))
-                });
+                    (w1.len(),
+                     cs1.iter().map(|c| get_pos(c)).collect::<~[uint]>(),
+                     cs2.iter().map(|c| get_pos(c)).collect::<~[uint]>())
+                }).collect::<~[(uint, ~[uint], ~[uint])]>();
             words.sort_by(|&(l1, _, _), &(l2, _, _)| l2.cmp(&l1));
             words
         }).map(|idx_pairs| {

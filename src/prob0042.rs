@@ -25,7 +25,8 @@ pub fn solve() -> ~str {
     let mut reader = File::open(&Path::new("files/words.txt"))
         .ok().expect("file not found.");
     let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
-    let result = reader::read_whole_word(input).map(|words| words.map(|w| word_value(*w)))
+    let result = reader::read_whole_word(input)
+        .map(|words| words.iter().map(|w| word_value(*w)).collect::<~[uint]>())
         .map(|values| {
             let len = values.iter().max().unwrap() + 1;
             let mut is_tri = slice::from_elem(len, false);

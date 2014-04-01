@@ -33,7 +33,7 @@ pub fn solve() -> ~str {
     let p_all = poly::add(poly::add(single, double), triple);
     let p1    = double.clone();
     let p2    = poly::mul(p_all, double);
-    let p3    = poly::mul(poly::add(square(p_all), dup).map(|n| n / 2), double);
+    let p3    = poly::mul(poly::add(square(p_all), dup).iter().map(|n| n / 2).collect::<~[int]>(), double);
     let total = poly::add(poly::add(p1, p2), p3);
     return total.iter().take(100).fold(0, |i, &a| i + a).to_str();
 }
