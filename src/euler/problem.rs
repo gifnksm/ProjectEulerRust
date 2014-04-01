@@ -13,9 +13,9 @@ static COLOR_NG:   Color = color::RED;
 static COLOR_WARN: Color = color::YELLOW;
 
 pub struct Problem<'a> {
-    id: uint,
-    answer: &'a str,
-    solve: fn() -> ~str
+    pub id: uint,
+    pub answer: &'a str,
+    pub solve: fn() -> ~str
 }
 
 impl<'a> Problem<'a> {
@@ -31,10 +31,10 @@ impl<'a> Problem<'a> {
 }
 
 pub struct Solution {
-    priv name: ~str,
-    priv is_correct: bool,
-    priv answer: ~str,
-    priv time: u64
+    name: ~str,
+    is_correct: bool,
+    answer: ~str,
+    time: u64
 }
 
 impl Solution {

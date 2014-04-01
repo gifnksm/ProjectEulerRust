@@ -48,9 +48,9 @@ impl Iterator<(int, int)> for Range2D {
 }
 
 pub struct Comb {
-    priv consumed: bool,
-    priv size: uint,
-    priv set: BitvSet
+    consumed: bool,
+    size: uint,
+    set: BitvSet
 }
 
 impl Iterator<BitvSet> for Comb {

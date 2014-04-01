@@ -35,8 +35,8 @@ impl FromStr for Suit {
 
 #[deriving(Eq)]
 pub struct Card {
-    num: uint,
-    suit: Suit
+    pub num: uint,
+    pub suit: Suit
 }
 
 impl fmt::Show for Card {

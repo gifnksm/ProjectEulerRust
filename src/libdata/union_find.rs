@@ -7,7 +7,7 @@ priv enum UFNode {
 }
 
 pub struct UnionFind {
-    priv data: ~[UFNode]
+    data: ~[UFNode]
 }
 
 impl UnionFind {

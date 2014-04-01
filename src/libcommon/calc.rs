@@ -25,8 +25,8 @@ pub fn num_of_permutations<T: Hash + TotalEq>(hist: &HashMap<T, uint>) -> uint {
 }
 
 pub struct Combinate<'a, T> {
-    priv all_elems: &'a [T],
-    priv next_idx:  ~[uint]
+    all_elems: &'a [T],
+    next_idx:  ~[uint]
 }
 
 impl<'a, T> Combinate<'a, T> {

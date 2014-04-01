@@ -60,7 +60,7 @@ static TASK_PRIME_KEY: Key<Prime> = &Key;
 
 #[deriving(Clone)]
 pub struct Prime {
-    priv data: Rc<RefCell<PrimeInner>>
+    data: Rc<RefCell<PrimeInner>>
 }
 
 impl Prime {
@@ -130,8 +130,8 @@ impl Prime {
 }
 
 pub struct PrimeIterator {
-    priv idx: uint,
-    priv data: Rc<RefCell<PrimeInner>>
+    idx: uint,
+    data: Rc<RefCell<PrimeInner>>
 }
 
 impl Iterator<uint> for PrimeIterator {
@@ -156,8 +156,8 @@ impl RandomAccessIterator<uint> for PrimeIterator {
 pub type Factor = (uint, int);
 
 pub struct FactorizeIterator {
-    priv num: uint,
-    priv iter: PrimeIterator
+    num: uint,
+    iter: PrimeIterator
 }
 
 impl Iterator<Factor> for FactorizeIterator {

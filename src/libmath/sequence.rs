@@ -10,7 +10,7 @@ pub fn fibonacci_with_init<T>(a0: T, a1: T) -> Fibonacci<T> {
     Fibonacci { current: a0, next: a1 }
 }
 
-pub struct Fibonacci<T> { priv current: T, priv next: T }
+pub struct Fibonacci<T> { current: T, next: T }
 
 impl<T: Add<T,T>> Iterator<T> for Fibonacci<T> {
     #[inline]
@@ -28,7 +28,7 @@ pub fn triangle<T: One + Add<T, T>>() -> Triangle<T> {
     Triangle { diff: one + one, next: one }
 }
 
-pub struct Triangle<T> { priv diff: T, priv next: T }
+pub struct Triangle<T> { diff: T, next: T }
 
 impl<T: Add<T, T> + One> Iterator<T> for Triangle<T> {
     #[inline]
@@ -44,7 +44,7 @@ pub fn prim_pythagorean(m: uint) -> PrimPythagoreanIterator {
     PrimPythagoreanIterator { m: m, n: n0 }
 }
 
-pub struct PrimPythagoreanIterator { priv m: uint, priv n: uint }
+pub struct PrimPythagoreanIterator { m: uint, n: uint }
 
 impl Iterator<(uint, uint, uint)> for PrimPythagoreanIterator {
     fn next(&mut self) -> Option<(uint, uint, uint)> {
