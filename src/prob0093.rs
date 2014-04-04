@@ -1,6 +1,4 @@
 #![crate_id = "prob0093"]
-#![crate_id = "prob0093"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate num;
@@ -40,19 +38,19 @@ fn each_value(num: &[Rational], op: &[Op], f: |Rational|) {
     if num.len() == 1 { f(num[0]); return }
 
     calc::combinate(num, 1, |v1, rest| {
-            let a = v1[0];
-            each_value(rest, op.tailn(1), |b| {
-                    match op[0] {
-                        Add => { f(a + b) }
-                        Mul => { f(a * b) }
-                        Sub => { f(a - b); f(b - a) }
-                        Div => {
-                            if !b.is_zero() { f(a / b) }
-                            if !a.is_zero() { f(b / a) }
-                        }
-                    }
-                });
-            true
+        let a = v1[0];
+        each_value(rest, op.tailn(1), |b| {
+            match op[0] {
+                Add => { f(a + b) }
+                Mul => { f(a * b) }
+                Sub => { f(a - b); f(b - a) }
+                Div => {
+                    if !b.is_zero() { f(a / b) }
+                    if !a.is_zero() { f(b / a) }
+                }
+            }
+        });
+        true
     });
 }
 
@@ -62,7 +60,7 @@ fn count_seqlen(nums: &[Rational]) -> uint {
     each_opseq(|ops| {
         each_value(nums, ops, |n| {
             if n.is_integer() && n.numer().is_positive() {
-                        set[n.to_integer()] = true;
+                set[n.to_integer() as uint] = true;
             }
         });
     });

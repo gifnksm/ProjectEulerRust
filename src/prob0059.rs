@@ -1,6 +1,4 @@
 #![crate_id = "prob0059"]
-#![crate_id = "prob0059"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 use std::{f64, str};
@@ -40,7 +38,7 @@ static ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
 
 fn trans_map<T: Clone>(key: u8, src: &[T], dst: &mut [T]) {
     for (i, f) in src.iter().enumerate() {
-        dst[(i as u8) ^ key] = f.clone();
+        dst[((i as u8) ^ key) as uint] = f.clone();
     }
 }
 
@@ -77,7 +75,7 @@ fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
 pub fn solve() -> ~str {
     let mut freq_dict = ~[0.0, ..256];
     for &(c, f) in ENGLISH_FREQUENCY.iter() {
-        freq_dict[c as u8] = f;
+        freq_dict[(c as u8) as uint] = f;
     }
 
     let mut reader = File::open(&Path::new("files/cipher1.txt")).ok().expect("file not found.");
@@ -87,7 +85,7 @@ pub fn solve() -> ~str {
         .filter_map(from_str::<u8>).collect::<~[u8]>();
 
     let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
-    for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n] += 1; }
+    for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n as uint] += 1; }
 
     let keys = freq.iter().map(|f| find_key(f.clone(), freq_dict)).collect::<~[u8]>();
     let l = keys.len();

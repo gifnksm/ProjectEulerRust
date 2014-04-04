@@ -1,6 +1,4 @@
 #![crate_id = "prob0109"]
-#![crate_id = "prob0109"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate math;
@@ -17,7 +15,7 @@ pub fn solve() -> ~str {
     let mut double = slice::from_elem(51, 0);
     let mut triple = slice::from_elem(61, 0);
     let mut dup    = slice::from_elem(121, 0);
-    for i in range(1, 21) {
+    for i in range(1u, 21) {
         single[1 * i] = 1;
         double[2 * i] = 1;
         triple[3 * i] = 1;

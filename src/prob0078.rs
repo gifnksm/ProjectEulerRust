@@ -1,6 +1,4 @@
 #![crate_id = "prob0078"]
-#![crate_id = "prob0078"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 use std::iter;
@@ -24,13 +22,13 @@ pub fn solve() -> ~str {
             if p > n { break; }
 
             way = match k {
-                0 => way + v[n - p],
-                1 => way + v[n - p],
-                2 => way - v[n - p],
-                _ => way - v[n - p]
+                0 => way + v[(n - p) as uint],
+                1 => way + v[(n - p) as uint],
+                2 => way - v[(n - p) as uint],
+                _ => way - v[(n - p) as uint]
             } % MILLION
         }
-        v[n] = way;
+        v[n as uint] = way;
 
         if way == 0 { return n.to_str() }
     }

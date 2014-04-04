@@ -1,6 +1,4 @@
 #![crate_id = "prob0104"]
-#![crate_id = "prob0104"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate num;
@@ -16,8 +14,8 @@ fn is_pandigit(n: u64) -> bool {
     let mut itr = n;
     while itr > 0 {
         let (d, r) = itr.div_rem(&10);
-        if r == 0 || hist[r] { return false; }
-        hist[r] = true;
+        if r == 0 || hist[r as uint] { return false; }
+        hist[r as uint] = true;
         itr = d;
         cnt += 1;
     }

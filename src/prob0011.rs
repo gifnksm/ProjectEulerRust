@@ -1,6 +1,4 @@
 #![crate_id = "prob0011"]
-#![crate_id = "prob0011"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 #![feature(macro_rules)]
@@ -65,7 +63,7 @@ pub fn solve() -> ~str {
     it.map(|mut row| {
             let v = row.collect::<~[(int, int)]>();
             v.windows(prod_len)
-                .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
+                .map(|ns| ns.iter().map(|&(x, y)| grid[y as uint][x as uint]).product())
                 .max().unwrap_or(0)
         }).max().unwrap().to_str()
 }
