@@ -24,7 +24,7 @@ fn word_value(word: &str) -> uint {
 pub fn solve() -> ~str {
     let mut reader = File::open(&Path::new("files/words.txt"))
         .ok().expect("file not found.");
-    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
+    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap().as_slice().to_owned()).unwrap();
     let result = reader::read_whole_word(input)
         .map(|words| words.iter().map(|w| word_value(*w)).collect::<~[uint]>())
         .map(|values| {

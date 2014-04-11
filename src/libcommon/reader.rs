@@ -25,7 +25,7 @@ impl<'a, R: Reader> Iterator<~str> for ReaderSplitIterator<'a, R> {
             .map(|mut bytes| {
                 self.sep_flag = bytes.last() == Some(&self.sep_char);
                 if self.sep_flag { bytes.pop(); }
-                str::from_utf8_owned(bytes).unwrap()
+                str::from_utf8_owned(bytes.as_slice().to_owned()).unwrap()
             }).or_else(|| {
                 if self.sep_flag {
                     self.sep_flag = false;
@@ -87,13 +87,13 @@ mod tests {
         use super::super::BufferedReaderUtil;
         use std::io::{BufferedReader, MemReader};
 
-        fn buffered(bytes: ~[u8]) -> BufferedReader<MemReader> {
-            BufferedReader::new(MemReader::new(bytes))
+        fn buffered(bytes: &[u8]) -> BufferedReader<MemReader> {
+            BufferedReader::new(MemReader::new(Vec::from_slice(bytes)))
         }
 
         #[test]
         fn exclusive_non_trailing_sep() {
-            let mut br = buffered(bytes!("a,bb,ccc").to_owned());
+            let mut br = buffered(bytes!("a,bb,ccc"));
             let mut it = br.sep_iter(',' as u8);
             assert_eq!(Some(~"a"), it.next());
             assert_eq!(Some(~"bb"), it.next());
@@ -103,7 +103,7 @@ mod tests {
 
         #[test]
         fn exclusive_trailing_sep() {
-            let mut br = buffered(bytes!("a,bb,ccc,").to_owned());
+            let mut br = buffered(bytes!("a,bb,ccc,"));
             let mut it = br.sep_iter(',' as u8);
             assert_eq!(Some(~"a"), it.next());
             assert_eq!(Some(~"bb"), it.next());
