@@ -1,18 +1,19 @@
 #![crate_id = "prob0082"]
-#![crate_id = "prob0082"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate prob0081;
 
-use std::{cmp, uint, slice};
+use std::{cmp, uint};
 
 pub static EXPECTED_ANSWER: &'static str = "260324";
 
 pub fn solve() -> ~str {
     let (w, h, mat) = prob0081::read_matrix("files/matrix.txt");
 
-    let mut sum = slice::from_fn(h, |_y| slice::from_elem(w, 0u));
+    let mut sum = Vec::from_fn(h, |_y| {
+        Vec::from_elem(w, 0u).move_iter().collect()
+    }).move_iter().collect::<~[~[uint]]>();
+
     for y in range(0, h) { sum[y][0] = mat[y][0]; }
     for x in range(1, w) {
         for y in range(0, h) {

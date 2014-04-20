@@ -1,6 +1,4 @@
 #![crate_id = "prob0107"]
-#![crate_id = "prob0107"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate data;
@@ -15,7 +13,7 @@ pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/network.txt")).ok().expect("file not found."));
 
-    let mut verts = ~[];
+    let mut verts = Vec::new();
     for (i, line) in br.lines().filter_map(|line| line.ok()).enumerate() {
         for (j, s) in line.trim().split(',').enumerate() {
             let n = from_str::<uint>(s);

@@ -1,6 +1,4 @@
 #![crate_id = "prob0079"]
-#![crate_id = "prob0079"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate collections;
@@ -54,7 +52,7 @@ impl<T: Hash + TotalEq + Clone> Relations<T> {
         }
     }
 
-    fn find_all_not_preceded(&self) -> ~[T] {
+    fn find_all_not_preceded(&self) -> Vec<T> {
         self.top
             .iter()
             .filter(|&(_k, v)| v.num_prec == 0)
@@ -62,8 +60,8 @@ impl<T: Hash + TotalEq + Clone> Relations<T> {
             .collect()
     }
 
-    fn delete_and_find(&mut self, prec: T) -> ~[T] {
-        let mut result = ~[];
+    fn delete_and_find(&mut self, prec: T) -> Vec<T> {
+        let mut result = Vec::new();
         self.top.pop(&prec).map(|p| {
             for s in p.succ.iter() {
                 match self.top.find_mut(s) {
@@ -77,19 +75,19 @@ impl<T: Hash + TotalEq + Clone> Relations<T> {
                 }
             }
         });
-        return result;
+        result
     }
 }
 
-fn tsort<T: Hash + TotalEq + Clone>(rels: &mut Relations<T>) -> ~[T] {
-    let mut sorted = ~[];
+fn tsort<T: Hash + TotalEq + Clone>(rels: &mut Relations<T>) -> Vec<T> {
+    let mut sorted = Vec::new();
     let mut queue = rels.find_all_not_preceded();
     while !queue.is_empty() {
         let prec = queue.shift().unwrap();
         sorted.push(prec.clone());
-        queue.push_all(rels.delete_and_find(prec));
+        queue.push_all(rels.delete_and_find(prec).as_slice());
     }
-    return sorted;
+    sorted
 }
 
 

@@ -13,22 +13,22 @@ static PRIMES_BELOW100: &'static [uint] = &[
 ];
 
 struct PrimeInner {
-    data: ~[uint]
+    data: Vec<uint>
 }
 
 impl PrimeInner {
     #[inline]
-    fn new() -> PrimeInner { PrimeInner { data: PRIMES_BELOW100.to_owned() } }
+    fn new() -> PrimeInner { PrimeInner { data: Vec::from_slice(PRIMES_BELOW100) } }
 
     #[inline]
     fn max_prime(&self) -> uint { *self.data.last().unwrap() }
 
     #[inline]
-    fn nth(&mut self, n: uint) -> uint { self.grow(n + 1); self.data[n] }
+    fn nth(&mut self, n: uint) -> uint { self.grow(n + 1); *self.data.get(n) }
 
     #[inline]
     fn contains(&mut self, n: uint) -> bool {
-        if n < self.max_prime() { return self.data.bsearch_elem(&n).is_some() }
+        if n < self.max_prime() { return self.data.as_slice().bsearch_elem(&n).is_some() }
 
         if !self.is_coprime(n) { return false }
 
@@ -342,26 +342,26 @@ mod tests {
 #[cfg(test)]
 mod bench {
     use super::Prime;
-    use test::BenchHarness;
+    use test::Bencher;
 
     #[bench]
-    fn get_5000th(bh: &mut BenchHarness) {
+    fn get_5000th(bh: &mut Bencher) {
         bh.iter(|| { Prime::new().nth(5000); });
     }
     #[bench]
-    fn get_5000th_nocache(bh: &mut BenchHarness) {
+    fn get_5000th_nocache(bh: &mut Bencher) {
         bh.iter(|| { Prime::new_empty().nth(5000); });
     }
 
     #[bench]
-    fn get_below_5000th(bh: &mut BenchHarness) {
+    fn get_below_5000th(bh: &mut Bencher) {
         bh.iter(|| {
                 let prime = Prime::new();
                 for _p in prime.iter().take(5000) {}
             });
     }
     #[bench]
-    fn get_below_5000th_nocache(bh: &mut BenchHarness) {
+    fn get_below_5000th_nocache(bh: &mut Bencher) {
         bh.iter(|| {
                 let prime = Prime::new_empty();
                 for _p in prime.iter().take(5000) {}
@@ -369,7 +369,7 @@ mod bench {
     }
 
     #[bench]
-    fn factorial_600851475143(bh: &mut BenchHarness) {
+    fn factorial_600851475143(bh: &mut Bencher) {
         bh.iter(|| {
                 let ps = Prime::new();
                 ps.factorize(600851475143).fold(0, |a, (b, _)| a + b);
@@ -377,7 +377,7 @@ mod bench {
     }
 
     #[bench]
-    fn factorial_600851475143_nocache(bh: &mut BenchHarness) {
+    fn factorial_600851475143_nocache(bh: &mut Bencher) {
         bh.iter(|| {
                 let ps = Prime::new_empty();
                 ps.factorize(600851475143).fold(0, |a, (b, _)| a + b);

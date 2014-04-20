@@ -47,8 +47,6 @@
 //! `R(n)` は `R(10^k)` を割り切る。
 
 #![crate_id = "prob0133"]
-#![crate_id = "prob0133"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate math;

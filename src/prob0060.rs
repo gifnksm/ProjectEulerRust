@@ -1,6 +1,4 @@
 #![crate_id = "prob0060"]
-#![crate_id = "prob0060"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate collections;
@@ -47,8 +45,8 @@ impl Iterator<(uint, ~[uint])> for ConcatPrimeIterator {
     }
 }
 
-fn union_vec(v1: &[uint], v2: &[uint]) -> ~[uint] {
-    let mut result = ~[];
+fn union_vec(v1: &[uint], v2: &[uint]) -> Vec<uint> {
+    let mut result = Vec::new();
     let mut i1 = 0;
     let mut i2 = 0;
     let l1 = v1.len();
@@ -63,15 +61,15 @@ fn union_vec(v1: &[uint], v2: &[uint]) -> ~[uint] {
     result
 }
 
-fn find_chain(pairs: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> ~[~[uint]] {
-    let mut result = ~[];
+fn find_chain(pairs: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> Vec<~[uint]> {
+    let mut result = Vec::new();
 
     for (i, &p) in pairs.iter().enumerate() {
         let union_pairs = union_vec(pairs.slice(0, i), *map.find(&p).unwrap());
         if union_pairs.is_empty() {
             result.push(~[p] + set);
         } else {
-            result.push_all(find_chain(union_pairs, ~[p] + set, map));
+            result.push_all(find_chain(union_pairs.as_slice(), ~[p] + set, map).as_slice());
         }
     }
 

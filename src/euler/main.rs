@@ -53,8 +53,8 @@ fn parse_range(s: &str) -> Option<(uint, uint)> {
 }
 
 fn main() {
-    let mut args = os::args();
-    args.shift();
+    let args = os::args();
+    let args = args.tail();
 
     let all_correct = if args.is_empty() {
         problem_list::PROBLEMS.iter()

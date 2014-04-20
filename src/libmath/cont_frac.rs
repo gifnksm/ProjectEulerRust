@@ -5,7 +5,7 @@ use arith::isqrt;
 
 pub fn sqrt(n: uint) -> (uint, ~[uint]) {
     let mut a0 = 0;
-    let mut an = ~[];
+    let mut an = Vec::new();
     let mut set = HashSet::new();
 
     for (a, pqr) in A::new(n) {
@@ -20,7 +20,7 @@ pub fn sqrt(n: uint) -> (uint, ~[uint]) {
             an.push(a);
         }
     }
-    return (a0, an);
+    return (a0, an.as_slice().to_owned());
 
     struct A {
         n: uint,

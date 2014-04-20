@@ -162,10 +162,10 @@ mod tests {
 #[cfg(test)]
 mod bench {
     use super::Comb;
-    use test::BenchHarness;
+    use test::Bencher;
 
     #[bench]
-    fn comb(bh: &mut BenchHarness) {
+    fn comb(bh: &mut Bencher) {
         bh.iter(|| { Comb::new(5, 10).last(); });
     }
 }

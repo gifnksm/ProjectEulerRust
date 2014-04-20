@@ -1,6 +1,4 @@
 #![crate_id = "prob0125"]
-#![crate_id = "prob0125"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate collections;
@@ -14,7 +12,7 @@ pub static EXPECTED_ANSWER: &'static str = "2906969179";
 
 fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
     let mut set = HashSet::new();
-    let mut sq_sums: ~[uint] = ~[];
+    let mut sq_sums = Vec::<uint>::new();
 
     let mut it = iter::count(1u, 1)
         .map(|n| n * n)
@@ -22,11 +20,11 @@ fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
 
     for pow in it {
         for j in range(0, sq_sums.len()).rev() {
-            let s = sq_sums[j] + pow;
+            let s = *sq_sums.get(j) + pow;
             if s >= limit { break; }
 
             if numconv::is_palindromic(s, 10) { set.insert(s); }
-            sq_sums[j] = s;
+            *sq_sums.get_mut(j) = s;
         }
         sq_sums.push(pow);
     }

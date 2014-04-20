@@ -2,7 +2,6 @@
 #![crate_type = "rlib"]
 
 extern crate math;
-use std::slice;
 use std::num::Zero;
 use math::poly;
 
@@ -11,10 +10,10 @@ pub static EXPECTED_ANSWER: &'static str = "38182";
 fn square<T: Zero + Add<T, T> + Mul<T, T>>(n: &[T]) -> ~[T] { poly::mul(n, n) }
 
 pub fn solve() -> ~str {
-    let mut single = slice::from_elem(26, 0);
-    let mut double = slice::from_elem(51, 0);
-    let mut triple = slice::from_elem(61, 0);
-    let mut dup    = slice::from_elem(121, 0);
+    let mut single = Vec::from_elem(26, 0).move_iter().collect::<~[int]>();
+    let mut double = Vec::from_elem(51, 0).move_iter().collect::<~[int]>();
+    let mut triple = Vec::from_elem(61, 0).move_iter().collect::<~[int]>();
+    let mut dup    = Vec::from_elem(121, 0).move_iter().collect::<~[int]>();
     for i in range(1u, 21) {
         single[1 * i] = 1;
         double[2 * i] = 1;

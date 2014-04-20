@@ -1,4 +1,4 @@
-use std::{slice, mem};
+use std::mem;
 use std::cmp::{Ord, Eq};
 use std::ops::{Add, Mul};
 use std::num::{Zero, One, Bounded};
@@ -196,7 +196,10 @@ pub struct MergeMultiMonoidIterator<V, T> {
 impl<V, T: Iterator<V>> MergeMultiMonoidIterator<V, T> {
     #[inline(always)]
     pub fn new(iters: ~[T]) -> MergeMultiMonoidIterator<V, T> {
-        MergeMultiMonoidIterator { values: slice::from_fn(iters.len(), |_| None), iters: iters }
+        MergeMultiMonoidIterator {
+            values: Vec::from_fn(iters.len(), |_| None).move_iter().collect(),
+            iters: iters
+        }
     }
 }
 
@@ -213,14 +216,14 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
             if self.values[i].is_none() { self.values[i] = self.iters[i].next(); }
         }
 
-        let mut min_idx = ~[];
+        let mut min_idx = Vec::new();
         for i in range(0, len) {
             if self.values[i].is_none() { continue }
             if min_idx.is_empty() { min_idx.push(i); continue }
 
-            match get_ref(&self.values[min_idx[0]]).cmp(get_ref(&self.values[i])) {
+            match get_ref(&self.values[*min_idx.get(0)]).cmp(get_ref(&self.values[i])) {
                 Less    => {},
-                Greater => { min_idx = ~[i];  }
+                Greater => { min_idx = vec!(i);  }
                 Equal   => { min_idx.push(i); }
             }
         }

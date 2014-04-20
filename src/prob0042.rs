@@ -1,12 +1,10 @@
 #![crate_id = "prob0042"]
-#![crate_id = "prob0042"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate common;
 extern crate math;
 
-use std::{str, slice};
+use std::str;
 use std::io::File;
 use common::reader;
 use math::sequence;
@@ -29,11 +27,11 @@ pub fn solve() -> ~str {
         .map(|words| words.iter().map(|w| word_value(*w)).collect::<~[uint]>())
         .map(|values| {
             let len = values.iter().max().unwrap() + 1;
-            let mut is_tri = slice::from_elem(len, false);
+            let mut is_tri = Vec::from_elem(len, false);
             let mut it = sequence::triangle::<uint>().take_while(|&t| t < len);
-            for t in it { is_tri[t] = true; }
+            for t in it { *is_tri.get_mut(t) = true; }
 
-            values.iter().count(|&v| is_tri[v]).to_str()
+            values.iter().count(|&v| *is_tri.get(v)).to_str()
         });
 
     match result {

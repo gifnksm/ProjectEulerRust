@@ -1,6 +1,4 @@
 #![crate_id = "prob0040"]
-#![crate_id = "prob0040"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate num;
@@ -76,13 +74,13 @@ impl Area {
 }
 
 struct AreaSeq<'a> {
-    seq: &'a mut ~[Area],
+    seq: &'a mut Vec<Area>,
     idx: uint
 }
 
 impl<'a> AreaSeq<'a> {
     #[inline]
-    fn new(seq: &'a mut ~[Area]) -> AreaSeq<'a> {
+    fn new(seq: &'a mut Vec<Area>) -> AreaSeq<'a> {
         AreaSeq { seq: seq, idx: 0 }
     }
 }
@@ -96,14 +94,14 @@ impl<'a> Iterator<Area> for AreaSeq<'a> {
             let next = self.seq.last().unwrap().next();
             self.seq.push(next)
         }
-        Some(self.seq[self.idx])
+        Some(*self.seq.get(self.idx))
     }
 }
 
 pub fn solve() -> ~str {
     let idx = &[ 1u, 10, 100, 1000, 10000, 100000, 1000000 ];
 
-    let mut area_seq = ~[ Area::new() ];
+    let mut area_seq = vec!(Area::new());
     idx.iter()
         .map(|&n| {
             AreaSeq::new(&mut area_seq)

@@ -1,9 +1,7 @@
 #![crate_id = "prob0067"]
-#![crate_id = "prob0067"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
-use std::{cmp, slice};
+use std::cmp;
 use std::io::{BufferedReader, File};
 
 pub static EXPECTED_ANSWER: &'static str = "7273";
@@ -19,10 +17,10 @@ pub fn solve() -> ~str {
         .collect::<~[~[uint]]>();
     let init = triangle.init();
     let last = triangle.last().unwrap();
-    init.rev_iter().fold(last.to_owned(), |prev, elem| {
-            slice::from_fn(elem.len(), |i| {
-                    elem[i] + cmp::max(prev[i], prev[i + 1])
-                })
-        })[0].to_str()
+    init.rev_iter()
+        .fold(Vec::from_slice(*last), |prev, elem| {
+            Vec::from_fn(elem.len(), |i| elem[i] + cmp::max(*prev.get(i), *prev.get(i + 1)))
+        }).get(0)
+        .to_str()
 }
 

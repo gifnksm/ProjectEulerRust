@@ -1,49 +1,46 @@
 #![crate_id = "prob0113"]
-#![crate_id = "prob0113"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
-use std::slice;
 use std::iter::AdditiveIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "51161058134250";
 
 fn num_increasing(len: uint) -> uint {
-    let mut buf = slice::from_fn(len, |_| [0u, ..10]);
+    let mut buf = Vec::from_fn(len, |_| [0u, ..10]);
 
-    for d in range(0, buf[0].len()) {
-        buf[0][d] = 1;
+    for d in range(0, buf.get(0).len()) {
+        buf.get_mut(0)[d] = 1;
     }
     for i in range(1, len) {
         let mut s = 0;
-        for d in range(0, buf[i].len()).rev() {
-            s += buf[i - 1][d];
-            buf[i][d] = s;
+        for d in range(0, buf.get(i).len()).rev() {
+            s += buf.get(i - 1)[d];
+            buf.get_mut(i)[d] = s;
         }
     }
 
-    let sum = range(0, buf[len - 1].len())
-        .map(|d| buf[len - 1][d])
+    let sum = range(0, buf.get(len - 1).len())
+        .map(|d| buf.get(len - 1)[d])
         .sum();
     sum - 1 // all zero
 }
 
 fn num_decreasing(len: uint) -> uint {
-    let mut buf = slice::from_fn(len, |_| [0u, ..11]); // 0, 1, 2, .., 9, A
+    let mut buf = Vec::from_fn(len, |_| [0u, ..11]); // 0, 1, 2, .., 9, A
 
-    for d in range(0, buf[0].len()) {
-        buf[0][d] = 1;
+    for d in range(0, buf.get(0).len()) {
+        buf.get_mut(0)[d] = 1;
     }
     for i in range(1, len) {
         let mut s = 0;
-        for d in range(0, buf[i].len()) {
-            s += buf[i - 1][d];
-            buf[i][d] = s;
+        for d in range(0, buf.get(i).len()) {
+            s += buf.get(i - 1)[d];
+            buf.get_mut(i)[d] = s;
         }
     }
 
-    let sum = range(0, buf[len - 1].len())
-        .map(|d| buf[len - 1][d])
+    let sum = range(0, buf.get(len - 1).len())
+        .map(|d| buf.get(len - 1)[d])
         .sum();
 
     sum - len // A のみからなるものを取り除く

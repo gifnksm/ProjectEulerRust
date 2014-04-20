@@ -1,6 +1,4 @@
 #![crate_id = "prob0089"]
-#![crate_id = "prob0089"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 use std::uint;
@@ -45,7 +43,7 @@ fn from_roman(mut s: &str) -> Option<uint> {
 }
 
 fn to_roman(mut n: uint) -> ~str {
-    let mut s = ~"";
+    let mut s = StrBuf::new();
     while n >= 1000 { n -= 1000; s.push_str("M"); }
     if n >= 900 { n -= 900; s.push_str("CM"); }
     if n >= 500 { n -= 500; s.push_str("D"); }
@@ -59,7 +57,7 @@ fn to_roman(mut n: uint) -> ~str {
     if n >= 5 { n -= 5; s.push_str("V"); }
     if n >= 4 { n -= 4; s.push_str("IV"); }
     while n > 0 { n -= 1; s.push_str("I"); }
-    return s;
+    return s.into_owned();
 }
 
 pub fn solve() -> ~str {

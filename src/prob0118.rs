@@ -1,12 +1,10 @@
 #![crate_id = "prob0118"]
-#![crate_id = "prob0118"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate num;
 extern crate math;
 
-use std::{iter, mem, slice};
+use std::{iter, mem};
 use num::Integer;
 use math::numconv;
 use math::prime::Prime;
@@ -35,7 +33,7 @@ impl ElementIndex {
             idx: if num_select_elem > num_all_elem {
                 None
             } else {
-                Some(slice::from_fn(num_select_elem, |i| i))
+                Some(Vec::from_fn(num_select_elem, |i| i).move_iter().collect())
             }
         }
     }
@@ -82,13 +80,13 @@ impl<T: Clone> Iterator<(~[T], ~[T])> for Groups<T> {
         self.idx
             .next()
             .map(|idx| {
-                let left = slice::from_fn(idx.len(), |i| self.vec[idx[i]].clone());
+                let left = Vec::from_fn(idx.len(), |i| self.vec[idx[i]].clone());
                 let mut offset = 0;
-                let right = slice::from_fn(self.vec.len() - idx.len(), |i| {
+                let right = Vec::from_fn(self.vec.len() - idx.len(), |i| {
                         while offset < idx.len() && offset + i == idx[offset] { offset += 1; }
                         self.vec[offset + i].clone()
                     });
-                (left, right)
+                (left.move_iter().collect(), right.move_iter().collect())
             })
     }
 }

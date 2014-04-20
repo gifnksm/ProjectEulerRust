@@ -1,6 +1,4 @@
 #![crate_id = "prob0112"]
-#![crate_id = "prob0112"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 #[cfg(test)]
@@ -101,13 +99,13 @@ mod tests {
 
 #[cfg(test)]
 mod bench {
-    use test::BenchHarness;
+    use test::Bencher;
     use std::iter;
     use math::numconv;
     use super::is_bouncy;
 
     #[bench]
-    fn bouncy_50percent(bh: &mut BenchHarness) {
+    fn bouncy_50percent(bh: &mut Bencher) {
         bh.iter(|| {
             let mut num_bouncy = 0;
             for n in iter::count(1u, 1) {
@@ -121,7 +119,7 @@ mod bench {
     }
 
     #[bench]
-    fn bouncy_90percent(bh: &mut BenchHarness) {
+    fn bouncy_90percent(bh: &mut Bencher) {
         bh.iter(|| {
             let mut num_bouncy = 0;
             for n in iter::count(1u, 1) {

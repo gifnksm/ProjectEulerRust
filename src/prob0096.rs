@@ -1,6 +1,4 @@
 #![crate_id = "prob0096"]
-#![crate_id = "prob0096"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 use std::{char, fmt, iter};
@@ -174,7 +172,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
         .min_by(|& &(_x, _y, cnt)| cnt)
         .unwrap();
 
-    let mut answers = ~[];
+    let mut answers = Vec::new();
     for n in range(0, MAX_NUMBER) {
         let bit = 1 << n;
         if puzzle.map[y][x] & bit == 0 { continue }
@@ -184,14 +182,14 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
         answers.push_all(solve_sudoku(p2));
     }
 
-    answers
+    answers.move_iter().collect()
 }
 
 pub fn solve() -> ~str {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/sudoku.txt")).ok().expect("file not found."));
 
-    let mut puzzles = ~[];
+    let mut puzzles = Vec::new();
     loop {
         match read_sudoku(&mut br) {
             Some(sudoku) => puzzles.push(sudoku),

@@ -19,8 +19,6 @@
 //! 冪剰余 (Modular exponation) を求める。
 
 #![crate_id = "prob0132"]
-#![crate_id = "prob0132"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate math;

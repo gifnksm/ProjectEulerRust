@@ -1,6 +1,4 @@
 #![crate_id = "prob0110"]
-#![crate_id = "prob0110"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate collections;
@@ -46,8 +44,8 @@ pub fn solve() -> ~str {
             new_pairs[pairs.len() - 1] += 1;
             queue.push(Elem(n * prime.nth(pairs.len() - 1), new_pairs));
         }
-        let mut pairs = pairs;
+        let mut pairs = Vec::from_slice(pairs);
         pairs.push(1);
-        queue.push(Elem(n * prime.nth(pairs.len() - 1), pairs));
+        queue.push(Elem(n * prime.nth(pairs.len() - 1), pairs.move_iter().collect()));
     }
 }

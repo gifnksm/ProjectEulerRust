@@ -1,6 +1,4 @@
 #![crate_id = "prob0111"]
-#![crate_id = "prob0111"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate data;
@@ -22,14 +20,14 @@ pub fn solve() -> ~str {
             let mut sum = 0;
             for other_ds in range(0, num::pow(9u, n - m)) {
                 let other_ds = {
-                    let mut ds = numconv::to_digits(other_ds, 9).rev().collect::<~[uint]>();
+                    let mut ds = numconv::to_digits(other_ds, 9).rev().collect::<Vec<uint>>();
                     while ds.len() < n - m { ds.unshift(0); }
                     for i in ds.mut_iter() { if *i >= d { *i += 1; } }
                     ds
                 };
 
                 for set in Comb::new(n - m, n) {
-                    let first = if set.contains(&0) { other_ds[0] } else { d };
+                    let first = if set.contains(&0) { *other_ds.get(0) } else { d };
                     if first == 0 { continue; }
 
                     let mut j = 0;
@@ -37,7 +35,7 @@ pub fn solve() -> ~str {
                     for i in range(0, n) {
                         num = num * 10 + if set.contains(&i) {
                             j += 1;
-                            other_ds[j - 1]
+                            *other_ds.get(j - 1)
                         } else {
                             d
                         };

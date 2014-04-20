@@ -1,6 +1,4 @@
 #![crate_id = "prob0124"]
-#![crate_id = "prob0124"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate collections;
@@ -229,11 +227,11 @@ mod tests {
 
 #[cfg(test)]
 mod bench {
-    use test::BenchHarness;
+    use test::Bencher;
     use super::RadValues;
 
     #[bench]
-    fn rad_value_below_10000(bh: &mut BenchHarness) {
+    fn rad_value_below_10000(bh: &mut Bencher) {
         bh.iter(|| for _n in RadValues::new().take_while(|&(n, _)| n < 10000) {})
     }
 }

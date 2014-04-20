@@ -1,6 +1,4 @@
 #![crate_id = "data"]
-#![crate_id = "data"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate collections;

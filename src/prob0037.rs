@@ -1,10 +1,9 @@
 #![crate_id = "prob0037"]
-#![crate_id = "prob0037"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate math;
 
+use std::iter::AdditiveIterator;
 use math::numconv;
 use math::prime::Prime;
 
@@ -21,11 +20,11 @@ fn is_r2l(prime: &Prime, n: uint) -> bool {
 
 pub fn solve() -> ~str {
     let prime = Prime::new();
-    let mut l2r_mat = ~[ ~[ 2u, 3, 5, 7 ] ];
+    let mut l2r_mat = vec!(vec!(2u, 3, 5, 7));
     let mut order = 10;
 
     loop {
-        let mut result = ~[];
+        let mut result = Vec::new();
         for &p in l2r_mat.last().unwrap().iter() {
             // 2 can only be appeared as the most left digits
             if numconv::to_digits(p, 10).next_back() == Some(2) { continue }
@@ -42,12 +41,11 @@ pub fn solve() -> ~str {
         order *= 10;
     }
 
-    let l2r = l2r_mat.concat_vec();
-    let mut sum = 0;
-    for n in  l2r.iter() {
-        if *n < 10 { continue }
-        if is_r2l(&prime, *n) { sum += *n; }
-    }
-
-    sum.to_str()
+    l2r_mat
+        .move_iter()
+        .flat_map(|l2r| l2r.move_iter())
+        .filter(|&n| n>= 10)
+        .filter(|&n| is_r2l(&prime, n))
+        .sum()
+        .to_str()
 }

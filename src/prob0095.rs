@@ -1,9 +1,7 @@
 #![crate_id = "prob0095"]
-#![crate_id = "prob0095"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
-use std::{iter, slice};
+use std::iter;
 
 pub static EXPECTED_ANSWER: &'static str = "14316";
 
@@ -14,7 +12,7 @@ fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) ->
         None => {}
     }
 
-    let mut itr_map = ~[n];
+    let mut itr_map = vec!(n);
     loop {
         n = div_map[n];
 
@@ -23,7 +21,7 @@ fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) ->
             return 0;
         }
 
-        match itr_map.position_elem(&n) {
+        match itr_map.as_slice().position_elem(&n) {
             Some(idx) => {
                 let len = itr_map.len() - idx;
                 for (i, &m) in itr_map.iter().enumerate() {
@@ -38,8 +36,8 @@ fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) ->
 
 pub fn solve() -> ~str {
     let limit = 1000000;
-    let mut len_map = slice::from_elem(limit + 1, None);
-    let mut div_map = slice::from_elem(limit + 1, 1u);
+    let mut len_map = Vec::from_elem(limit + 1, None).move_iter().collect::<~[_]>();
+    let mut div_map = Vec::from_elem(limit + 1, 1u).move_iter().collect::<~[_]>();
     div_map[0] = 0;
     div_map[1] = 0;
 

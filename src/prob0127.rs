@@ -1,9 +1,7 @@
 #![crate_id = "prob0127"]
-#![crate_id = "prob0127"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
-use std::{iter, slice};
+use std::iter;
 
 pub static EXPECTED_ANSWER: &'static str = "18407904";
 
@@ -28,18 +26,18 @@ pub static EXPECTED_ANSWER: &'static str = "18407904";
 struct Rad(uint, uint, ~[uint]); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: uint) -> ~[Rad] {
-    let mut rad_vec = slice::from_fn(n_limit, |i| Rad(1, i, ~[]));
+    let mut rad_vec = Vec::from_fn(n_limit, |i| (1, i, Vec::new()));
     for p in range(2, rad_vec.len()) {
-        let Rad(rad_p, _, _) = rad_vec[p];
+        let (rad_p, _, _) = *rad_vec.get(p);
         if rad_p != 1 { continue }
 
         for kp in iter::count(p, p).take_while(|&kp| kp < n_limit) {
-            let Rad(ref mut rad_kp, _, ref mut facts) = rad_vec[kp];
+            let (ref mut rad_kp, _, ref mut facts) = *rad_vec.get_mut(kp);
             (*rad_kp) *= p;
             facts.push(p);
         }
     }
-    rad_vec
+    rad_vec.move_iter().map(|(x, y, z)| Rad(x, y, z.move_iter().collect())).collect()
 }
 
 fn rad_has_union(a: &[uint], b: &[uint]) -> bool {

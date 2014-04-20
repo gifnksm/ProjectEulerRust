@@ -1,12 +1,9 @@
 #![crate_id = "prob0090"]
-#![crate_id = "prob0090"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate data;
 extern crate collections;
 
-use std::slice;
 use collections::bitv::BitvSet;
 use data::extiter::Comb;
 
@@ -23,10 +20,10 @@ pub fn solve() -> ~str {
             set
         }).collect::<~[BitvSet]>();
 
-    let nums = slice::from_fn(9, |i| {
+    let nums = Vec::from_fn(9, |i| {
         let n = (i + 1) * (i + 1);
         (n / 10, n % 10)
-    });
+    }).move_iter().collect::<~[(uint, uint)]>();
 
     let mut cnt = 0u;
     for (i, set1) in all_combs.iter().enumerate() {
@@ -39,5 +36,5 @@ pub fn solve() -> ~str {
             if cond { cnt += 1; }
         }
     }
-    return cnt.to_str();
+    cnt.to_str()
 }

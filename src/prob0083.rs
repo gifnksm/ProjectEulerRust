@@ -1,12 +1,10 @@
 #![crate_id = "prob0083"]
-#![crate_id = "prob0083"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate collections;
 extern crate prob0081;
 
-use std::{cmp, slice, uint};
+use std::{cmp, uint};
 use collections::HashSet;
 
 pub static EXPECTED_ANSWER: &'static str = "425185";
@@ -21,8 +19,12 @@ pub fn solve() -> ~str {
 
     let mut closed = HashSet::new();
     let mut open   = HashSet::new();
-    let mut dist = slice::from_fn(h, |_y| slice::from_elem(w, uint::MAX));
-    let mut parent = slice::from_fn(h, |_y| slice::from_elem(w, Point { x: w, y: h }));
+    let mut dist: ~[~[_]] = Vec::from_fn(h, |_y| {
+        Vec::from_elem(w, uint::MAX).move_iter().collect()
+    }).move_iter().collect();
+    let mut parent: ~[~[_]] = Vec::from_fn(h, |_y| {
+        Vec::from_elem(w, Point { x: w, y: h }).move_iter().collect()
+    }).move_iter().collect();
 
     dist[start.y][start.x] = mat[start.y][start.x];
     open.insert(start);
@@ -38,7 +40,7 @@ pub fn solve() -> ~str {
         open.remove(&min_pt);
         closed.insert(min_pt);
 
-        let mut ms = ~[];
+        let mut ms = Vec::new();
         if min_pt.x > 0 { ms.push(Point { x: min_pt.x - 1, .. min_pt }) }
         if min_pt.y > 0 { ms.push(Point { y: min_pt.y - 1, .. min_pt }) }
         if min_pt.x < w - 1 { ms.push(Point { x: min_pt.x + 1, .. min_pt }) }

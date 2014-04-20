@@ -1,11 +1,9 @@
 #![crate_id = "prob0088"]
-#![crate_id = "prob0088"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate collections;
 
-use std::{iter, uint, slice};
+use std::{iter, uint};
 use std::iter::AdditiveIterator;
 use collections::HashSet;
 
@@ -28,7 +26,7 @@ pub fn solve() -> ~str {
     let start = 2;
     let mut end = 4;
     let mut cnt = limit - 1;
-    let mut nums = slice::from_elem(limit + 1, uint::MAX);
+    let mut nums = Vec::from_elem(limit + 1, uint::MAX).move_iter().collect::<~[_]>();
 
     while cnt > 0 {
         each_sum_product(start, end, &|sum, prod, len| {

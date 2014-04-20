@@ -1,11 +1,8 @@
 #![crate_id = "prob0023"]
-#![crate_id = "prob0023"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate math;
 
-use std::slice;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "4179871";
@@ -19,20 +16,22 @@ pub fn solve() -> ~str {
     let max_num = 28123;
     let prime = Prime::new();
 
-    let abundant = slice::build(Some(max_num + 1), |push| {
+    let abundant = {
+        let mut buf = Vec::with_capacity(max_num + 1);
         for n in range(2, max_num + 1) {
-            if is_abundant(&prime, n) { push(n); }
+            if is_abundant(&prime, n) { buf.push(n); }
         }
-    });
+        buf
+    };
 
     let mut sum_of_sum_abundant = 0;
-    let mut is_sum_abundant = slice::from_elem(max_num + 1, false);
+    let mut is_sum_abundant = Vec::from_elem(max_num + 1, false);
     for (i, &a) in abundant.iter().enumerate() {
         for &b in abundant.tailn(i).iter() {
             let s = a + b;
             if s > max_num { break; }
-            if !is_sum_abundant[s] { sum_of_sum_abundant += s; }
-            is_sum_abundant[s] = true;
+            if !*is_sum_abundant.get(s) { sum_of_sum_abundant += s; }
+            *is_sum_abundant.get_mut(s) = true;
         }
     }
 

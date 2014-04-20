@@ -60,7 +60,7 @@ fn filled_digits(n: uint, radix: uint, len: uint) -> ~[uint] {
     numconv::to_digits(n, radix).chain(Repeat::new(0u)).take(len).collect()
 }
 
-fn create_dm_list(base: uint, radix: uint, len: uint) -> ~[(~[uint], DigitMap)] {
+fn create_dm_list(base: uint, radix: uint, len: uint) -> Vec<(~[uint], DigitMap)> {
     assert!(len > 0);
     let max = Repeat::new(radix).take(len).product();
     range(0, max / base)
@@ -74,12 +74,12 @@ fn create_dm_list(base: uint, radix: uint, len: uint) -> ~[(~[uint], DigitMap)] 
 }
 
 fn update_dm_list(list: &[(~[uint], DigitMap)], base: uint, radix: uint, len: uint)
-                  -> ~[(~[uint], DigitMap)]
+                  -> Vec<(~[uint], DigitMap)>
 {
     assert!(len > 0);
     let ord = Repeat::new(radix).take(len - 1).product();
 
-    let mut result = ~[];
+    let mut result = Vec::new();
     for &(ref ds, ref dm) in list.iter() {
         let lower = numconv::from_digits(ds.slice(ds.len() - (len - 1), ds.len()), radix);
         let it = range(0, radix)
@@ -94,7 +94,7 @@ pub fn solve() -> ~str {
     let mut result = create_dm_list(17, 10, 3);
     let base_list = [13u, 11, 7, 5, 3, 2, 1];
     for &base in base_list.iter() {
-        result = update_dm_list(result, base, 10, 3);
+        result = update_dm_list(result.as_slice(), base, 10, 3);
     }
 
     result.move_iter()
@@ -153,35 +153,35 @@ mod tests {
     fn create_dm_list() {
         let dm = super::create_dm_list(9, 10, 2);
         assert_eq!(10, dm.len());
-        assert_eq!(~[9, 0], *dm[0].ref0());
-        assert_eq!(~[8, 1], *dm[1].ref0());
-        assert_eq!(~[7, 2], *dm[2].ref0());
-        assert_eq!(~[6, 3], *dm[3].ref0());
-        assert_eq!(~[5, 4], *dm[4].ref0());
-        assert_eq!(~[4, 5], *dm[5].ref0());
-        assert_eq!(~[3, 6], *dm[6].ref0());
-        assert_eq!(~[2, 7], *dm[7].ref0());
-        assert_eq!(~[1, 8], *dm[8].ref0());
-        assert_eq!(~[0, 9], *dm[9].ref0());
+        assert_eq!(~[9, 0], *dm.get(0).ref0());
+        assert_eq!(~[8, 1], *dm.get(1).ref0());
+        assert_eq!(~[7, 2], *dm.get(2).ref0());
+        assert_eq!(~[6, 3], *dm.get(3).ref0());
+        assert_eq!(~[5, 4], *dm.get(4).ref0());
+        assert_eq!(~[4, 5], *dm.get(5).ref0());
+        assert_eq!(~[3, 6], *dm.get(6).ref0());
+        assert_eq!(~[2, 7], *dm.get(7).ref0());
+        assert_eq!(~[1, 8], *dm.get(8).ref0());
+        assert_eq!(~[0, 9], *dm.get(9).ref0());
 
         assert_eq!(0, super::create_dm_list(11, 10, 2).len());
     }
 
     #[test]
     fn update_dm_list() {
-        let dm = super::update_dm_list(super::create_dm_list(9, 10, 2), 5, 10, 2);
+        let dm = super::update_dm_list(super::create_dm_list(9, 10, 2).as_slice(), 5, 10, 2);
         assert_eq!(16, dm.len());
-        assert_eq!(~[9, 0, 1], *dm[0].ref0());
-        assert_eq!(~[9, 0, 2], *dm[1].ref0());
-        // // snip
-        assert_eq!(~[9, 0, 8], *dm[7].ref0());
-        assert_eq!(~[4, 5, 0], *dm[8].ref0());
-        assert_eq!(~[4, 5, 1], *dm[9].ref0());
-        assert_eq!(~[4, 5, 2], *dm[10].ref0());
-        assert_eq!(~[4, 5, 3], *dm[11].ref0());
-        assert_eq!(~[4, 5, 6], *dm[12].ref0());
-        assert_eq!(~[4, 5, 7], *dm[13].ref0());
-        assert_eq!(~[4, 5, 8], *dm[14].ref0());
-        assert_eq!(~[4, 5, 9], *dm[15].ref0());
+        assert_eq!(~[9, 0, 1], *dm.get(0).ref0());
+        assert_eq!(~[9, 0, 2], *dm.get(1).ref0());
+        // snip
+        assert_eq!(~[9, 0, 8], *dm.get(7).ref0());
+        assert_eq!(~[4, 5, 0], *dm.get(8).ref0());
+        assert_eq!(~[4, 5, 1], *dm.get(9).ref0());
+        assert_eq!(~[4, 5, 2], *dm.get(10).ref0());
+        assert_eq!(~[4, 5, 3], *dm.get(11).ref0());
+        assert_eq!(~[4, 5, 6], *dm.get(12).ref0());
+        assert_eq!(~[4, 5, 7], *dm.get(13).ref0());
+        assert_eq!(~[4, 5, 8], *dm.get(14).ref0());
+        assert_eq!(~[4, 5, 9], *dm.get(15).ref0());
     }
 }
