@@ -9,10 +9,10 @@ use collections::HashSet;
 
 pub static EXPECTED_ANSWER: &'static str = "7587457";
 
-fn each_sum_product(start: uint, end: uint, f: &|uint, uint, uint|) {
+fn each_sum_product(start: uint, end: uint, f: &mut |uint, uint, uint|) {
     sub(start, end, 0, 1, 0, f);
 
-    fn sub(start: uint, end: uint, sum: uint, prod: uint, len: uint, f: &|uint, uint, uint|) {
+    fn sub(start: uint, end: uint, sum: uint, prod: uint, len: uint, f: &mut |uint, uint, uint|) {
         for n in iter::range_inclusive(start, end / prod) {
             if len > 0 { (*f)(sum + n, prod * n, len + 1) }
             sub(n, end, sum + n, prod * n, len + 1, f)
@@ -29,7 +29,7 @@ pub fn solve() -> ~str {
     let mut nums = Vec::from_elem(limit + 1, uint::MAX).move_iter().collect::<~[_]>();
 
     while cnt > 0 {
-        each_sum_product(start, end, &|sum, prod, len| {
+        each_sum_product(start, end, &mut |sum, prod, len| {
             let k = prod - sum + len;
             if k <= limit && prod < nums[k] {
                 if nums[k] == uint::MAX { cnt -= 1; }

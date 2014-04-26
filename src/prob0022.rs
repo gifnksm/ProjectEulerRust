@@ -1,6 +1,4 @@
 #![crate_id = "prob0022"]
-#![crate_id = "prob0022"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate common;
@@ -20,7 +18,7 @@ pub fn solve() -> ~str {
                                         .ok()
                                         .expect("file not found."));
     let mut ss = input.sep_iter(',' as u8)
-        .map(|s| s.trim().trim_chars(&'\"').to_str())
+        .map(|s| s.trim().trim_chars('\"').to_str())
         .filter(|s| !s.is_empty())
         .collect::<~[~str]>();
     ss.sort();

@@ -148,7 +148,7 @@ impl RandomAccessIterator<uint> for PrimeIterator {
     fn indexable(&self) -> uint { uint::MAX }
 
     #[inline]
-    fn idx(&self, index: uint) -> Option<uint> {
+    fn idx(&mut self, index: uint) -> Option<uint> {
         Some(self.data.borrow_mut().nth(index))
     }
 }

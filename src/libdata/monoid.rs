@@ -291,7 +291,7 @@ mod tests {
     fn test_merge_monoid_iterator() {
         fn check<M: Monoid + Wrap<int> + Eq + Show>(v1: &[(int, int)],
                                                     v2: &[(int, int)],
-                                                    f: |int| -> M,
+                                                    f: fn(int) -> M,
                                                     result: &[(int, int)]) {
             let merged = MergeMonoidIterator::new(
                 v1.iter().map(|&(x, y)| (x, f(y))),
