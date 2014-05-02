@@ -14,7 +14,7 @@ pub static EXPECTED_ANSWER: &'static str = "249";
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_str();
-    let rev = str::from_chars(s.chars_rev().collect::<~[char]>());
+    let rev = str::from_chars(s.chars().rev().collect::<~[char]>());
     return FromStr::from_str(rev).unwrap();
 }
 

@@ -28,7 +28,7 @@ static TRIANGLE: &'static [&'static [uint]] = &[
 pub fn solve() -> ~str {
     let init = TRIANGLE.init();
     let last = TRIANGLE.last().unwrap();
-    let answer = init.rev_iter().fold(last.to_owned(), |mut total, elm| {
+    let answer = init.iter().rev().fold(last.to_owned(), |mut total, elm| {
         for (i, &e) in elm.iter().enumerate() {
             total[i] = e + cmp::max(total[i], total[i + 1]);
         }

@@ -78,7 +78,7 @@ pub fn solve() -> ~str {
         let cnt = count_seqlen(nums);
         if cnt > max_cnt {
             max_cnt = cnt;
-            let ds = nums.rev_iter().map(|r| r.to_integer() as uint).collect::<~[uint]>();
+            let ds = nums.iter().rev().map(|r| r.to_integer() as uint).collect::<~[uint]>();
             max_seq = numconv::from_digits(ds, 10).to_str();
         }
     });

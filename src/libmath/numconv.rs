@@ -40,7 +40,7 @@ impl DoubleEndedIterator<uint> for DigitIterator {
 }
 
 pub fn from_digits(v: &[uint], radix: uint) -> uint {
-    v.rev_iter().fold(0, |accum, &n| accum * radix + n)
+    v.iter().rev().fold(0, |accum, &n| accum * radix + n)
 }
 
 pub fn to_digit_histogram(n: uint) -> [uint, ..10] {
@@ -80,7 +80,7 @@ mod tests {
             assert_eq!(super::from_digits(v, radix), n);
             assert_eq!(super::to_digits(n, radix).collect::<~[uint]>(), v.clone());
             assert_eq!(super::to_digits(n, radix).rev().collect::<~[uint]>(),
-                       v.move_rev_iter().collect::<~[uint]>())
+                       v.move_iter().rev().collect::<~[uint]>())
         }
 
         check(0, ~[], 10);

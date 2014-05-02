@@ -83,7 +83,7 @@ pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T>>(an: &[uint]) -> (T, T) {
     let mut numer: T = FromPrimitive::from_int(1).unwrap();
     let mut denom: T = FromPrimitive::from_int(0).unwrap();
 
-    for &a in an.rev_iter() {
+    for &a in an.iter().rev() {
         mem::swap(&mut numer, &mut denom);
         let num: T = FromPrimitive::from_int(a as int).unwrap();
         numer = numer + num * denom;

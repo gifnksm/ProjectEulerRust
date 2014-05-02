@@ -17,7 +17,8 @@ pub fn solve() -> ~str {
         .collect::<~[~[uint]]>();
     let init = triangle.init();
     let last = triangle.last().unwrap();
-    init.rev_iter()
+    init.iter()
+        .rev()
         .fold(Vec::from_slice(*last), |prev, elem| {
             Vec::from_fn(elem.len(), |i| elem[i] + cmp::max(*prev.get(i), *prev.get(i + 1)))
         }).get(0)
