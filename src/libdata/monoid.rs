@@ -17,7 +17,7 @@ impl<T: Clone> Monoid for ~[T] {
 
 impl Monoid for ~str {
     #[inline(always)]
-    fn mempty() -> ~str { ~"" }
+    fn mempty() -> ~str { "".to_owned() }
     #[inline(always)]
     fn mappend(&self, other: &~str) -> ~str { *self + *other }
 }
@@ -284,7 +284,8 @@ mod tests {
         check_wrap(v3, Min, 0);
 
         assert_eq!(super::mconcat([~[], ~[1, 2, 3], ~[4], ~[5]]), ~[1, 2, 3, 4, 5]);
-        assert_eq!(super::mconcat([~"", ~"abc", ~"d", ~"e"]), ~"abcde");
+        assert_eq!(super::mconcat(["".to_owned(), "abc".to_owned(), "d".to_owned(), "e".to_owned()]),
+                   "abcde".to_owned());
     }
 
     #[test]

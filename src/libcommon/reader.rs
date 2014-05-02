@@ -29,7 +29,7 @@ impl<'a, R: Reader> Iterator<~str> for ReaderSplitIterator<'a, R> {
             }).or_else(|| {
                 if self.sep_flag {
                     self.sep_flag = false;
-                    Some(~"")
+                    Some("".to_owned())
                 } else {
                     None
                 }
@@ -48,10 +48,10 @@ fn skip_sep<'a>(mut input: &'a str) -> &'a str {
 }
 
 fn read_word<'a>(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
-    if input.is_empty() { return Err(~"string is empty"); }
+    if input.is_empty() { return Err("string is empty".to_owned()); }
 
     let (c, itr) = input.slice_shift_char();
-    if c != Some('\"') { return Err(~"string does not start with `\"`") }
+    if c != Some('\"') { return Err("string does not start with `\"`".to_owned()) }
 
     let mut itr = itr;
     let mut len = 0;
@@ -59,7 +59,7 @@ fn read_word<'a>(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
         let (head, tail) = itr.slice_shift_char();
         itr = tail;
         if head == Some('\"') { break; }
-        if head == None { return Err(~"string does not contains double `\"`") }
+        if head == None { return Err("string does not contains double `\"`".to_owned()) }
         len += 1;
     }
 
@@ -95,9 +95,9 @@ mod tests {
         fn exclusive_non_trailing_sep() {
             let mut br = buffered(bytes!("a,bb,ccc"));
             let mut it = br.sep_iter(',' as u8);
-            assert_eq!(Some(~"a"), it.next());
-            assert_eq!(Some(~"bb"), it.next());
-            assert_eq!(Some(~"ccc"), it.next());
+            assert_eq!(Some("a".to_owned()), it.next());
+            assert_eq!(Some("bb".to_owned()), it.next());
+            assert_eq!(Some("ccc".to_owned()), it.next());
             assert_eq!(None, it.next());
         }
 
@@ -105,10 +105,10 @@ mod tests {
         fn exclusive_trailing_sep() {
             let mut br = buffered(bytes!("a,bb,ccc,"));
             let mut it = br.sep_iter(',' as u8);
-            assert_eq!(Some(~"a"), it.next());
-            assert_eq!(Some(~"bb"), it.next());
-            assert_eq!(Some(~"ccc"), it.next());
-            assert_eq!(Some(~""), it.next());
+            assert_eq!(Some("a".to_owned()), it.next());
+            assert_eq!(Some("bb".to_owned()), it.next());
+            assert_eq!(Some("ccc".to_owned()), it.next());
+            assert_eq!(Some("".to_owned()), it.next());
             assert_eq!(None, it.next());
             assert_eq!(None, it.next());
         }

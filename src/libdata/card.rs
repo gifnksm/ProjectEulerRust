@@ -42,12 +42,12 @@ pub struct Card {
 impl fmt::Show for Card {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let n = match self.num {
-            10 => ~"T",
-            11 => ~"J",
-            12 => ~"Q",
-            13 => ~"K",
-            1  => ~"A",
-            0  => ~"_",
+            10 => "T".to_owned(),
+            11 => "J".to_owned(),
+            12 => "Q".to_owned(),
+            13 => "K".to_owned(),
+            1  => "A".to_owned(),
+            0  => "_".to_owned(),
             n  => n.to_str()
         };
 
@@ -83,32 +83,32 @@ mod tests {
 
     #[test]
     fn show_suit() {
-        assert_eq!(~"_", format!("{}", Dummy));
+        assert_eq!("_".to_owned(), format!("{}", Dummy));
 
         fn check_pair(s: ~str, suite: Suit) {
             assert_eq!(s, format!("{}", suite));
             assert_eq!(Some(suite), from_str(s));
         }
-        check_pair(~"S", Spade);
-        check_pair(~"H", Heart);
-        check_pair(~"D", Dia);
-        check_pair(~"C", Club);
+        check_pair("S".to_owned(), Spade);
+        check_pair("H".to_owned(), Heart);
+        check_pair("D".to_owned(), Dia);
+        check_pair("C".to_owned(), Club);
     }
 
     #[test]
     fn show_card() {
-        assert_eq!(~"__", format!("{}", Card::dummy()));
+        assert_eq!("__".to_owned(), format!("{}", Card::dummy()));
 
         fn check_pair(s: ~str, card: Card) {
             assert_eq!(s, format!("{}", card));
             assert_eq!(Some(card), from_str(s));
         }
-        check_pair(~"AH", Card::new(1, Heart));
-        check_pair(~"2C", Card::new(2, Club));
-        check_pair(~"9D", Card::new(9, Dia));
-        check_pair(~"TS", Card::new(10, Spade));
-        check_pair(~"JH", Card::new(11, Heart));
-        check_pair(~"QC", Card::new(12, Club));
-        check_pair(~"KD", Card::new(13, Dia));
+        check_pair("AH".to_owned(), Card::new(1, Heart));
+        check_pair("2C".to_owned(), Card::new(2, Club));
+        check_pair("9D".to_owned(), Card::new(9, Dia));
+        check_pair("TS".to_owned(), Card::new(10, Spade));
+        check_pair("JH".to_owned(), Card::new(11, Heart));
+        check_pair("QC".to_owned(), Card::new(12, Club));
+        check_pair("KD".to_owned(), Card::new(13, Dia));
     }
 }

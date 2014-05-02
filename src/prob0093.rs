@@ -72,7 +72,7 @@ fn count_seqlen(nums: &[Rational]) -> uint {
 }
 
 pub fn solve() -> ~str {
-    let mut max_seq = ~"";
+    let mut max_seq = "".to_owned();
     let mut max_cnt = 0;
     each_numseq(|nums| {
         let cnt = count_seqlen(nums);

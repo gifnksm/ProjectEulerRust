@@ -62,9 +62,9 @@ mod tests {
 
     #[test]
     fn naive_r() {
-        assert_eq!(~"1", naive::r(1).to_str());
-        assert_eq!(~"11", naive::r(2).to_str());
-        assert_eq!(~"111", naive::r(3).to_str());
+        assert_eq!("1".to_owned(), naive::r(1).to_str());
+        assert_eq!("11".to_owned(), naive::r(2).to_str());
+        assert_eq!("111".to_owned(), naive::r(3).to_str());
     }
 
     #[test]

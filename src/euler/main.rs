@@ -33,8 +33,8 @@ impl<T: Iterator<&'static Problem<'static>>> ProblemIterator for T {
 
         if solve_cnt > 1 {
             let avg_time = total_time / solve_cnt;
-            Solution::new(~"AVG",   all_correct, ~"", avg_time).print(true);
-            Solution::new(~"TOTAL", all_correct, ~"", total_time).print(false);
+            Solution::new("AVG".to_owned(),   all_correct, "".to_owned(), avg_time).print(true);
+            Solution::new("TOTAL".to_owned(), all_correct, "".to_owned(), total_time).print(false);
         }
 
         all_correct

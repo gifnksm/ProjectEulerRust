@@ -47,7 +47,7 @@ pub fn eval<T: Zero + One + Add<T, T> + Mul<T, T>>(a: &[T], x: T) -> T {
 
 pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~str {
     let a = omit_zeros(a);
-    if a.is_empty() { return ~"0"; }
+    if a.is_empty() { return "0".to_owned(); }
 
     let one = One::one();
 
@@ -68,7 +68,7 @@ pub fn to_str<T: Zero + One + Eq + Neg<T> + ToStr + Ord>(a: &[T], x: &str) -> ~s
             else { format!("{}*{}^{}", n.to_str(), x, i) }
         };
 
-        if s.len() > 0 && (*n) > Zero::zero() { s.push(~"+"); }
+        if s.len() > 0 && (*n) > Zero::zero() { s.push("+".to_owned()); }
         s.push(term);
     }
 
@@ -122,15 +122,15 @@ mod tests {
 
     #[test]
     fn test_poly_to_str() {
-        assert_eq!(super::to_str::<int>([], "x"), ~"0");
-        assert_eq!(super::to_str([1], "x"), ~"1");
-        assert_eq!(super::to_str([1, 1], "x"), ~"1+x");
-        assert_eq!(super::to_str([1, 1, 1], "x"), ~"1+x+x^2");
-        assert_eq!(super::to_str([2, 2, 2], "x"), ~"2+2*x+2*x^2");
-        assert_eq!(super::to_str([0, 0, 0, 1], "x"), ~"x^3");
-        assert_eq!(super::to_str([0, 0, 0, -1], "x"), ~"-x^3");
-        assert_eq!(super::to_str([-1, 0, 0, -1], "x"), ~"-1-x^3");
-        assert_eq!(super::to_str([-1, 1, 0, -1], "x"), ~"-1+x-x^3");
-        assert_eq!(super::to_str([-1, 1, -1, -1], "x"), ~"-1+x-x^2-x^3");
+        assert_eq!(super::to_str::<int>([], "x"), "0".to_owned());
+        assert_eq!(super::to_str([1], "x"), "1".to_owned());
+        assert_eq!(super::to_str([1, 1], "x"), "1+x".to_owned());
+        assert_eq!(super::to_str([1, 1, 1], "x"), "1+x+x^2".to_owned());
+        assert_eq!(super::to_str([2, 2, 2], "x"), "2+2*x+2*x^2".to_owned());
+        assert_eq!(super::to_str([0, 0, 0, 1], "x"), "x^3".to_owned());
+        assert_eq!(super::to_str([0, 0, 0, -1], "x"), "-x^3".to_owned());
+        assert_eq!(super::to_str([-1, 0, 0, -1], "x"), "-1-x^3".to_owned());
+        assert_eq!(super::to_str([-1, 1, 0, -1], "x"), "-1+x-x^3".to_owned());
+        assert_eq!(super::to_str([-1, 1, -1, -1], "x"), "-1+x-x^2-x^3".to_owned());
     }
 }

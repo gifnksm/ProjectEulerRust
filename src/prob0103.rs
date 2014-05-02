@@ -126,7 +126,7 @@ fn each_sss(f: |&SSSElem| -> bool) -> bool {
 // (a, b, c) => SSS if a > b > c && a + b > c
 // (a, b, c, d) +> SSS if a > b > c > d && a + b > d &&
 pub fn solve() -> ~str {
-    let mut ans = ~"";
+    let mut ans = "".to_owned();
     each_sss(|sss| {
             if sss.sss.len() == 7 {
                 ans = sss.sss.iter().map(|&n| n.to_str()).collect::<~[~str]>().concat();
