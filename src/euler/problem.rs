@@ -56,7 +56,7 @@ impl Solution {
         fn warn(s: ~str) -> (Option<Color>, ~str) { (Some(COLOR_WARN), s) }
         fn normal(s: ~str) -> (Option<Color>, ~str) { (None, s) }
 
-        let result_mark = if self.is_correct { ok("OK".TO_OWNED()) } else { ng("NG".TO_OWNED()) };
+        let result_mark = if self.is_correct { ok("OK".to_owned()) } else { ng("NG".to_owned()) };
         let time_str = format!(" {:13}", nanosec_to_str(self.time));
         let time_mark = if !enable_time_color || self.time < WARN_COLOR_NSEC {
             normal(time_str)
