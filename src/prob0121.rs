@@ -5,12 +5,12 @@ extern crate num;
 extern crate math;
 
 use std::iter;
-use std::iter::AdditiveIterator;
+use std::iter::{AdditiveIterator, MultiplicativeIterator};
 use std::num::One;
 use num::Integer;
 use num::bigint::BigUint;
 use num::rational::Ratio;
-use math::poly;
+use math::poly::Poly;
 
 pub static EXPECTED_ANSWER: &'static str = "2269";
 
@@ -41,8 +41,9 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: uint) ->
             let denom = t + One::one();
             let blue = Ratio::new(One::one(), denom.clone());
             let red  = Ratio::new(t, denom);
-            vec![blue, red]
-        }).fold(vec![One::one()], |x, y| poly::mul(x.as_slice(), y.as_slice()))
+            Poly::new(vec![blue, red])
+        }).product()
+        .into_vec()
         .move_iter()
         .take((turns + 1) / 2)
         .sum()

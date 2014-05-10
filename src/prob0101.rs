@@ -7,7 +7,7 @@ extern crate math;
 use std::num::{Zero, One};
 use num::bigint::BigInt;
 use num::rational::Ratio;
-use math::poly;
+use math::poly::Poly;
 
 pub static EXPECTED_ANSWER: &'static str = "37076114526";
 
@@ -22,19 +22,18 @@ fn u(n: BigInt) -> BigInt {
 }
 
 // Lagrange Interpolating with Naville's algorithm
-fn op(ns: &[(BigInt, BigInt)]) -> Vec<Ratio<BigInt>> {
-    let mut poly = vec![];
+fn op(ns: &[(BigInt, BigInt)]) -> Poly<Ratio<BigInt>> {
+    let mut poly = Poly::new(vec![]);
     for i in range(0, ns.len()) {
         let (ref xi, ref yi) = ns[i];
-        let mut term = vec![ Ratio::from_integer(yi.clone()) ];
+        let mut term = Poly::new(vec![ Ratio::from_integer(yi.clone()) ]);
         for j in range(0, ns.len()) {
             if i == j { continue }
 
             let (ref xj, ref _yj) = ns[j];
-            term = poly::mul(term.as_slice(),
-                             [Ratio::new(-xj, xi - *xj), Ratio::new(One::one(), xi - *xj)]);
+            term = term * Poly::new(vec![Ratio::new(-xj, xi - *xj), Ratio::new(One::one(), xi - *xj)]);
         }
-        poly = poly::add(poly.as_slice(), term.as_slice());
+        poly = poly + term;
     }
     poly
 }
@@ -47,8 +46,12 @@ pub fn solve() -> ~str {
                                    u(FromPrimitive::from_uint(n + 1).unwrap())));
     let mut sum: BigInt = Zero::zero();
     for i in range(1, un.len()) {
-        let poly = op(un.slice(0, i)).move_iter().map(|x| x.numer().clone()).collect::<Vec<BigInt>>();
-        sum = sum + poly::eval(poly.as_slice(), FromPrimitive::from_uint(i + 1).unwrap());
+        let poly = Poly::new(op(un.slice(0, i))
+                             .as_slice()
+                             .iter()
+                             .map(|x| x.numer().clone())
+                             .collect());
+        sum = sum + poly.eval(FromPrimitive::from_uint(i + 1).unwrap());
     }
     sum.to_str()
 }
