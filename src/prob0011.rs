@@ -35,14 +35,14 @@ static INPUT: &'static str = "
 ";
 
 pub fn solve() -> ~str {
-    let grid: ~[~[uint]] = INPUT
+    let grid: Vec<Vec<uint>> = INPUT
         .trim()
         .lines()
         .map(|line| line.words().filter_map(from_str::<uint>).collect())
         .collect();
 
     let prod_len = 4;
-    let (w, h) = (grid[0].len() as int, grid.len() as int);
+    let (w, h) = (grid.get(0).len() as int, grid.len() as int);
     macro_rules! iter (
         ($p0:expr, $dp1:expr, $dp2:expr) => (
             Range2D::new_from_matrix($p0, $dp1, (w, h))
@@ -61,9 +61,11 @@ pub fn solve() -> ~str {
     let it = row.chain(col).chain(diag_tr).chain(diag_bl).chain(diag_tl).chain(diag_br);
 
     it.map(|mut row| {
-            let v = row.collect::<~[(int, int)]>();
-            v.windows(prod_len)
-                .map(|ns| ns.iter().map(|&(x, y)| grid[y as uint][x as uint]).product())
-                .max().unwrap_or(0)
+            row
+            .collect::<Vec<(int, int)>>()
+            .as_slice()
+            .windows(prod_len)
+            .map(|ns| ns.iter().map(|&(x, y)| *grid.get(y as uint).get(x as uint)).product())
+            .max().unwrap_or(0)
         }).max().unwrap().to_str()
 }

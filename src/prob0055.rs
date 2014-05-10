@@ -1,6 +1,4 @@
 #![crate_id = "prob0055"]
-#![crate_id = "prob0055"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate num;
@@ -14,8 +12,8 @@ pub static EXPECTED_ANSWER: &'static str = "249";
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_str();
-    let rev = str::from_chars(s.chars().rev().collect::<~[char]>());
-    return FromStr::from_str(rev).unwrap();
+    let rev = str::from_chars(s.chars().rev().collect::<Vec<char>>().as_slice());
+    FromStr::from_str(rev).unwrap()
 }
 
 fn is_lychrel(n: uint) -> bool {

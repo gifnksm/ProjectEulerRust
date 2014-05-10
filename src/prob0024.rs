@@ -15,14 +15,14 @@ use math::numconv;
 pub static EXPECTED_ANSWER: &'static str = "2783915460";
 
 enum CountResult<K> {
-    Contains(~[K]),
+    Contains(Vec<K>),
     Skip(uint)
 }
 
 fn get_at<K: Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> CountResult<K> {
     if hist.is_empty() {
         if n == 1 {
-            return Contains(~[]);
+            return Contains(vec![]);
         } else {
             return Skip(0);
         }
@@ -31,7 +31,7 @@ fn get_at<K: Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> 
     let perm = calc::num_of_permutations(hist);
     if perm < n { return Skip(perm) }
 
-    let mut kv = hist.iter().map(|(k, v)| (k.clone(), *v)).collect::<~[(K, uint)]>();
+    let mut kv = hist.iter().map(|(k, v)| (k.clone(), *v)).collect::<Vec<(K, uint)>>();
     kv.sort_by(|&(ref a, _), &(ref b, _)| a.cmp(b));
 
     let mut idx = 0;
@@ -49,7 +49,7 @@ fn get_at<K: Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> 
 
         match get_at(&new_hist, n - idx) {
             Skip(cnt) => idx += cnt,
-            Contains(ans) => return Contains(ans + &[all_k.clone()])
+            Contains(ans) => return Contains(ans.append([all_k.clone()]))
         }
     }
 
@@ -62,5 +62,5 @@ pub fn solve() -> ~str {
         Contains(n) => n,
         _ => fail!()
     };
-    numconv::from_digits(ds, 10).to_str()
+    numconv::from_digits(ds.as_slice(), 10).to_str()
 }

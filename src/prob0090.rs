@@ -18,12 +18,12 @@ pub fn solve() -> ~str {
                 _ => {}
             }
             set
-        }).collect::<~[BitvSet]>();
+        }).collect::<Vec<BitvSet>>();
 
     let nums = Vec::from_fn(9, |i| {
         let n = (i + 1) * (i + 1);
         (n / 10, n % 10)
-    }).move_iter().collect::<~[(uint, uint)]>();
+    });
 
     let mut cnt = 0u;
     for (i, set1) in all_combs.iter().enumerate() {

@@ -39,9 +39,9 @@ pub fn solve() -> ~str {
     let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap().as_slice().to_owned()).unwrap();
 
     let result = reader::read_whole_word(input).map(|words| {
-        let mut map = ~HashMap::new();
+        let mut map = HashMap::new();
         for &word in words.iter() {
-            let mut cs = word.chars().collect::<~[char]>();
+            let mut cs = word.chars().collect::<Vec<char>>();
             cs.sort();
             match map.pop(&cs) {
                 None     => { map.insert(cs, vec!(word.to_str())); }
@@ -71,9 +71,9 @@ pub fn solve() -> ~str {
             let cs2 = w2.as_bytes();
             let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap();
             (w1.len(),
-             cs1.iter().map(|c| get_pos(c)).collect::<~[uint]>(),
-             cs2.iter().map(|c| get_pos(c)).collect::<~[uint]>())
-        }).collect::<~[(uint, ~[uint], ~[uint])]>();
+             cs1.iter().map(|c| get_pos(c)).collect(),
+             cs2.iter().map(|c| get_pos(c)).collect())
+        }).collect::<Vec<(uint, Vec<uint>, Vec<uint>)>>();
         words.sort_by(|&(l1, _, _), &(l2, _, _)| l2.cmp(&l1));
         words
     }).map(|idx_pairs| {
@@ -100,11 +100,11 @@ pub fn solve() -> ~str {
             let start = num::pow(10u, *len) - 1;
             let end   = num::pow(10u, *len - 1);
             for n in range(arith::isqrt(end), arith::isqrt(start)).rev() {
-                let ds = numconv::to_digits(n * n, 10).rev().collect::<~[uint]>();
+                let ds = numconv::to_digits(n * n, 10).rev().collect::<Vec<uint>>();
                 for &(ref v1, ref v2) in pairs.iter() {
-                    if ds[v2[0]] == 0 { continue }
-                    if !check_digit(*v1, ds) { continue }
-                    let num2 = idx_to_num(*v2, ds);
+                    if *ds.get(*v2.get(0)) == 0 { continue }
+                    if !check_digit(v1.as_slice(), ds.as_slice()) { continue }
+                    let num2 = idx_to_num(v2.as_slice(), ds.as_slice());
                     if !is_square(num2) { continue }
                     nums.push(n * n);
                     if n * n != num2 { nums.push(num2); }

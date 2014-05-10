@@ -8,11 +8,11 @@ pub trait Monoid {
     fn mappend(&self, other: &Self) -> Self;
 }
 
-impl<T: Clone> Monoid for ~[T] {
+impl<T: Clone> Monoid for Vec<T> {
     #[inline(always)]
-    fn mempty() -> ~[T] { ~[] }
+    fn mempty() -> Vec<T> { Vec::new() }
     #[inline(always)]
-    fn mappend(&self, other: &~[T]) -> ~[T] { self + *other }
+    fn mappend(&self, other: &Vec<T>) -> Vec<T> { self + *other }
 }
 
 impl Monoid for ~str {
@@ -188,76 +188,17 @@ impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
     }
 }
 
-pub struct MergeMultiMonoidIterator<V, T> {
-    iters:  ~[T],
-    values: ~[Option<V>]
-}
-
-impl<V, T: Iterator<V>> MergeMultiMonoidIterator<V, T> {
-    #[inline(always)]
-    pub fn new(iters: ~[T]) -> MergeMultiMonoidIterator<V, T> {
-        MergeMultiMonoidIterator {
-            values: Vec::from_fn(iters.len(), |_| None).move_iter().collect(),
-            iters: iters
-        }
-    }
-}
-
-impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>>
-    Iterator<(K, V)> for MergeMultiMonoidIterator<(K, V), T> {
-    fn next(&mut self) -> Option<(K, V)> {
-        fn get_ref<'a, K, V>(opt: &'a Option<(K, V)>) -> &'a K { opt.get_ref().ref0() }
-
-        let len = self.iters.len();
-        if len == 0 { return None; }
-
-        // Fill value if empty (if iter ends, set None)
-        for i in range(0, len) {
-            if self.values[i].is_none() { self.values[i] = self.iters[i].next(); }
-        }
-
-        let mut min_idx = Vec::new();
-        for i in range(0, len) {
-            if self.values[i].is_none() { continue }
-            if min_idx.is_empty() { min_idx.push(i); continue }
-
-            match get_ref(&self.values[*min_idx.get(0)]).cmp(get_ref(&self.values[i])) {
-                Less    => {},
-                Greater => { min_idx = vec!(i);  }
-                Equal   => { min_idx.push(i); }
-            }
-        }
-
-        if min_idx.is_empty() { return None; }
-        let mut result = None;
-        for &i in min_idx.iter() {
-            if result.is_none() {
-                mem::swap(&mut self.values[i], &mut result);
-            } else {
-                let mut r1 = None;
-                let mut r2 = None;
-                mem::swap(&mut r1, &mut self.values[i]);
-                mem::swap(&mut r2, &mut result);
-                let ((k, v1), (_, v2)) = (r1.unwrap(), r2.unwrap());
-                result = Some((k, v1.mappend(&v2)));
-            }
-        }
-
-        return result;
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::{Monoid, Wrap, Sum, Prod, Max, Min,
-                MergeMonoidIterator, MergeMultiMonoidIterator};
+                MergeMonoidIterator};
     use std::fmt::Show;
 
     #[test]
     fn test_mconcat() {
         fn check_wrap<T: Eq + Clone + Show, M: Monoid + Wrap<T>>(v: &[T], f: |T| -> M, result: T) {
-            let ms = v.to_owned().move_iter().map(f).collect::<~[M]>();
-            assert_eq!(super::mconcat(ms).unwrap(), result);
+            let ms = v.to_owned().move_iter().map(f).collect::<Vec<M>>();
+            assert_eq!(super::mconcat(ms.as_slice()).unwrap(), result);
         }
 
         let v1 = [1, 2, 3, 4];
@@ -283,7 +224,7 @@ mod tests {
         check_wrap(v2, Min, 0);
         check_wrap(v3, Min, 0);
 
-        assert_eq!(super::mconcat([~[], ~[1, 2, 3], ~[4], ~[5]]), ~[1, 2, 3, 4, 5]);
+        assert_eq!(super::mconcat([vec![], vec![1, 2, 3], vec![4], vec![5]]), vec![1, 2, 3, 4, 5]);
         assert_eq!(super::mconcat(["".to_owned(), "abc".to_owned(), "d".to_owned(), "e".to_owned()]),
                    "abcde".to_owned());
     }
@@ -297,13 +238,13 @@ mod tests {
             let merged = MergeMonoidIterator::new(
                 v1.iter().map(|&(x, y)| (x, f(y))),
                 v2.iter().map(|&(x, y)| (x, f(y)))
-            ).collect::<~[(int, M)]>();
+            ).collect::<Vec<(int, M)>>();
             assert_eq!(merged, result.iter().map(|&(x, y)| (x, f(y))).collect());
 
             let merged = MergeMonoidIterator::new(
                 v2.iter().map(|&(x, y)| (x, f(y))),
                 v1.iter().map(|&(x, y)| (x, f(y)))
-            ).collect::<~[(int, M)]>();
+            ).collect::<Vec<(int, M)>>();
             assert_eq!(merged, result.iter().map(|&(x, y)| (x, f(y))).collect());
         }
 
@@ -323,51 +264,5 @@ mod tests {
         check([], [], Max, []);
         check(v1, [], Min, v1);
         check([], [], Min, []);
-    }
-
-    #[test]
-    fn test_merge_multi_monoid_iterator() {
-        fn check<M: Monoid + Wrap<int> + Eq + Clone + Show>(vs: &[~[(int, int)]],
-                                                            f: |int| -> M,
-                                                            result: &[(int, int)]) {
-            use std;
-            for vs in vs.permutations() {
-                let vs = vs.iter().map(|ks| {
-                    ks.iter().map(|&(x, y)| (x, f(y))).collect::<~[(int, M)]>().move_iter()
-                }).collect::<~[std::slice::MoveItems<(int, M)>]>();
-                let merged = MergeMultiMonoidIterator::new(vs).collect::<~[(int, M)]>();
-                assert_eq!(merged, result.iter().map(|&(x, y)| (x, f(y))).collect());
-            }
-        }
-
-        {
-            let v = [~[(1, 1), (2, 1), (3, 5), (4, 0), (5, 3)],
-                     ~[(1, 2), (3, 2)],
-                     ~[(-1, 3), (4, 2), (7, 1)],
-                     ~[]];
-            check(v, Sum, [(-1, 3), (1, 3), (2, 1), (3, 7), (4, 2), (5, 3), (7, 1)]);
-            check(v, Prod, [(-1, 3), (1, 2), (2, 1), (3, 10), (4, 0), (5, 3), (7, 1)]);
-            check(v, Max, [(-1, 3), (1, 2), (2, 1), (3, 5), (4, 2), (5, 3), (7, 1)]);
-            check(v, Min, [(-1, 3), (1, 1), (2, 1), (3, 2), (4, 0), (5, 3), (7, 1)]);
-        }
-
-        {
-            let v = [~[(1, 2), (2, 1)],
-                     ~[(1, 3)],
-                     ~[(1, 0)],
-                     ~[(1, -4)]];
-            check(v, Sum,  [(1, 1), (2, 1)]);
-            check(v, Prod, [(1, 0), (2, 1)]);
-            check(v, Max,  [(1, 3), (2, 1)]);
-            check(v, Min,  [(1, -4), (2, 1)]);
-        }
-
-        {
-            let v = [~[], ~[], ~[]];
-            check(v, Sum, []);
-            check(v, Prod, []);
-            check(v, Max, []);
-            check(v, Min, []);
-        }
     }
 }

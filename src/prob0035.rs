@@ -12,14 +12,14 @@ pub static EXPECTED_ANSWER: &'static str = "55";
 
 #[inline(always)]
 fn is_circular_prime(prime: &Prime, n: uint) -> bool {
-    let ds = numconv::to_digits(n, 10).collect::<~[uint]>();
+    let ds = numconv::to_digits(n, 10).collect::<Vec<uint>>();
     let mut buf = ds.clone();
 
     for i in range(1, ds.len()) {
         for j in range(0, buf.len()) {
-            buf[j] = ds[(i + j) % ds.len()];
+            *buf.get_mut(j) = *ds.get((i + j) % ds.len());
         }
-        if !prime.contains(numconv::from_digits(buf, 10)) { return false; }
+        if !prime.contains(numconv::from_digits(buf.as_slice(), 10)) { return false; }
     }
 
     true

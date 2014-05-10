@@ -12,7 +12,7 @@ fn f0(a: uint, b: uint, c: uint) -> uint { 2 * (a*b + b*c + c*a) }
 pub fn solve() -> ~str {
     let sum   = 1000;
     let limit = 20000;
-    let mut cnt = Vec::from_elem(limit, 0u).move_iter().collect::<~[uint]>();
+    let mut cnt = Vec::from_elem(limit, 0u);
 
     for a in iter::count(1u, 1) {
         if f0(a, 1, 1) > limit { break; }
@@ -28,7 +28,7 @@ pub fn solve() -> ~str {
                 for n in iter::count(1u, 1) {
                     let f = 4*(n-1)*(n+q) + p;
                     if f >= cnt.len() { break; }
-                    cnt[f] += 1;
+                    *cnt.get_mut(f) += 1;
                 }
             }
         }

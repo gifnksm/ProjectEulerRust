@@ -66,7 +66,7 @@ mod tests {
             let ns = iter::count(1, 1);
             let sq = iter::count(1, 1).map(|x| x*x);
             let diff = Difference::new(ns, sq);
-            assert_eq!(~[2, 3, 5, 6, 7, 8, 10, 11],
+            assert_eq!(vec![2, 3, 5, 6, 7, 8, 10, 11],
                        diff.take(8).collect());
         }
 
@@ -75,7 +75,7 @@ mod tests {
             let a: ~[int] = ~[];
             let b = ~[1, 2, 3];
             let mut diff = Difference::new(a.iter(), b.iter());
-            assert_eq!(~[], diff.collect::<~[&int]>());
+            assert_eq!(vec![], diff.collect::<Vec<&int>>());
         }
 
         #[test]
@@ -83,7 +83,7 @@ mod tests {
             let a = ~[1, 2, 3];
             let b: ~[int] = ~[];
             let mut diff = Difference::new(a.move_iter(), b.move_iter());
-            assert_eq!(~[1, 2, 3], diff.collect());
+            assert_eq!(vec![1, 2, 3], diff.collect());
         }
     }
 }

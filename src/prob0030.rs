@@ -26,11 +26,11 @@ pub fn solve() -> ~str {
     calc::combinate_overlap([0u, 1, 2, 3, 4, 5, 6, 7, 8, 9], len, |comb| {
             let num = comb.iter().map(|&e| *pows.get(e)).sum();
 
-            let mut ds = numconv::to_digits(num, 10).collect::<~[uint]>();
+            let mut ds = numconv::to_digits(num, 10).collect::<Vec<uint>>();
             ds.sort_by(|a, b| a.cmp(b));
 
             let zero_len = len - ds.len();
-            if comb.tailn(zero_len) == ds &&
+            if comb.tailn(zero_len) == ds.as_slice() &&
                 comb.iter().take(zero_len).all(|&x| x == 0) {
                 sum += num;
             }

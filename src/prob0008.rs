@@ -33,13 +33,14 @@ static INPUT: &'static str = "
 
 pub fn solve() -> ~str {
     let prod_len = 5;
-    let nums = INPUT.chars()
+
+    INPUT.chars()
         .filter_map(|c| char::to_digit(c, 10))
-        .collect::<~[_]>();
-    return nums
+        .collect::<Vec<_>>()
+        .as_slice()
         .windows(prod_len)
         .map(|win| win.iter().fold(1u, |p, &n| p * n))
         .max()
         .unwrap()
-        .to_str();
+        .to_str()
 }

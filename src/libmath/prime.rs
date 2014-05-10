@@ -1,4 +1,4 @@
-use std::{iter, local_data, num, uint};
+use std::{iter, num, uint};
 use std::iter::MultiplicativeIterator;
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -66,16 +66,11 @@ pub struct Prime {
 impl Prime {
     #[inline]
     pub fn new() -> Prime {
-        let prime = local_data::get_mut(TASK_PRIME_KEY, |val| match val {
-                Some(prime) => Some(prime.clone()),
-                None        => None
-            });
-
-        match prime {
-            Some(prime) => prime,
+        match TASK_PRIME_KEY.get() {
+            Some(prime) => prime.clone(),
             None => {
                 let prime = Prime::new_empty();
-                local_data::set(TASK_PRIME_KEY, prime.clone());
+                TASK_PRIME_KEY.replace(Some(prime.clone()));
                 prime
             }
         }
@@ -219,7 +214,8 @@ mod tests {
     #[test]
     fn iter() {
         let prime = Prime::new();
-        assert_eq!(PRIMES_BELOW200.to_owned(), prime.iter().take(PRIMES_BELOW200.len()).collect());
+        assert_eq!(PRIMES_BELOW200,
+                   prime.iter().take(PRIMES_BELOW200.len()).collect::<Vec<_>>().as_slice());
     }
 
     #[test]
@@ -272,29 +268,29 @@ mod tests {
 
     #[test]
     fn factorize() {
-        fn check(n: uint, fs: ~[Factor]) {
+        fn check(n: uint, fs: &[Factor]) {
             let ps = Prime::new();
-            assert_eq!(fs, ps.factorize(n).collect());
+            assert_eq!(fs, ps.factorize(n).collect::<Vec<_>>().as_slice());
             if n != 0 {
                 assert_eq!(n, ps.factorize(n).to_uint());
             }
         }
 
-        check(0, ~[]);
-        check(1, ~[]);
-        check(2, ~[(2, 1)]);
-        check(3, ~[(3, 1)]);
-        check(4, ~[(2, 2)]);
-        check(5, ~[(5, 1)]);
-        check(6, ~[(2, 1), (3, 1)]);
-        check(7, ~[(7, 1)]);
-        check(8, ~[(2, 3)]);
-        check(9, ~[(3, 2)]);
-        check(10, ~[(2, 1), (5, 1)]);
+        check(0, []);
+        check(1, []);
+        check(2, [(2, 1)]);
+        check(3, [(3, 1)]);
+        check(4, [(2, 2)]);
+        check(5, [(5, 1)]);
+        check(6, [(2, 1), (3, 1)]);
+        check(7, [(7, 1)]);
+        check(8, [(2, 3)]);
+        check(9, [(3, 2)]);
+        check(10, [(2, 1), (5, 1)]);
 
-        check(8 * 27, ~[(2, 3), (3, 3)]);
-        check(97, ~[(97, 1)]);
-        check(97 * 41, ~[(41, 1), (97, 1)]);
+        check(8 * 27, [(2, 3), (3, 3)]);
+        check(97, [(97, 1)]);
+        check(97 * 41, [(41, 1), (97, 1)]);
     }
 
     #[test]

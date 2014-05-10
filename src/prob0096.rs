@@ -89,10 +89,10 @@ fn read_sudoku<T: Reader>(r: &mut BufferedReader<T>) -> Option<SuDoku> {
         })
 }
 
-fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
+fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     let group_it = range(0, GROUP_WIDTH * GROUP_HEIGHT)
         .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
-        .collect::<~[(uint, uint)]>();
+        .collect::<Vec<(uint, uint)>>();
 
     loop {
         let bkup = puzzle.clone();
@@ -162,10 +162,10 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
     let it = range(0, BOARD_HEIGHT * BOARD_WIDTH)
         .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
         .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones()))
-        .collect::<~[(uint, uint, u16)]>();
+        .collect::<Vec<(uint, uint, u16)>>();
 
-    if it.iter().any(|&(_x, _y, cnt)| cnt == 0) { return ~[]; }
-    if it.iter().all(|&(_x, _y, cnt)| cnt == 1) { return ~[puzzle]; }
+    if it.iter().any(|&(_x, _y, cnt)| cnt == 0) { return vec![]; }
+    if it.iter().all(|&(_x, _y, cnt)| cnt == 1) { return vec![puzzle]; }
 
     let (x, y, _cnt) = *it.iter()
         .filter(|& &(_x, _y, cnt)| cnt > 1)
@@ -179,7 +179,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> ~[SuDoku] {
 
         let mut p2 = puzzle.clone();
         p2.map[y][x] = bit;
-        answers.push_all(solve_sudoku(p2));
+        answers.push_all(solve_sudoku(p2).as_slice());
     }
 
     answers.move_iter().collect()
@@ -199,7 +199,7 @@ pub fn solve() -> ~str {
     let mut answers = puzzles
         .move_iter()
         .map(solve_sudoku)
-        .map(|ans| { assert_eq!(ans.len(), 1); ans[0] });
+        .map(|mut ans| { assert_eq!(ans.len(), 1); ans.shift().unwrap() });
     let mut sum = 0;
     for ans in answers {
         sum += 100 * ans.get_num(0, 0) + 10 * ans.get_num(1, 0) + ans.get_num(2, 0);

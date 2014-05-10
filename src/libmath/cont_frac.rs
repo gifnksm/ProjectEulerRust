@@ -98,9 +98,9 @@ pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     if an.is_empty() {
         fail!("{} is square", d)
     } else if an.len() % 2 == 0 {
-        fold::<T>(~[a0] + an.init())
+        fold::<T>(vec![a0].append(an.init()).as_slice())
     } else {
-        fold::<T>(~[a0] + an + an.init())
+        fold::<T>(vec![a0].append(an).append(an.init()).as_slice())
     }
 }
 
@@ -108,9 +108,9 @@ pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
 pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     if an.len() % 2 == 0 {
-        return fold::<T>(~[a0] + an + an.init());
+        return fold::<T>(vec![a0].append(an).append(an.init()).as_slice());
     } else {
-        return fold::<T>(~[a0] + an.init());
+        return fold::<T>(vec![a0].append(an.init()).as_slice());
     }
 }
 

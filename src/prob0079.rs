@@ -98,10 +98,10 @@ pub fn solve() -> ~str {
     let mut rels = Relations::new();
     for line in br.lines().filter_map(|line| line.ok()) {
         let ds = line.chars()
-            .filter_map(|c| char::to_digit(c, 10)).collect::<~[uint]>();
+            .filter_map(|c| char::to_digit(c, 10)).collect::<Vec<uint>>();
         for i in range(1, ds.len()) {
-            rels.set_dependant(ds[i - 1], ds[i]);
+            rels.set_dependant(*ds.get(i - 1), *ds.get(i));
         }
     }
-    tsort(&mut rels).iter().map(|d| d.to_str()).collect::<~[~str]>().concat()
+    tsort(&mut rels).iter().map(|d| d.to_str()).collect::<Vec<~str>>().concat()
 }

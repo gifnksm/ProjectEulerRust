@@ -31,13 +31,13 @@ impl Ord for Multiple {
 }
 
 struct Multiples {
-    facts: ~[uint],
+    facts: Vec<uint>,
     queue: PriorityQueue<Multiple>
 }
 
 impl Multiples {
     #[inline]
-    fn new(base: uint, facts: ~[uint]) -> Multiples {
+    fn new(base: uint, facts: Vec<uint>) -> Multiples {
         let mut queue = PriorityQueue::new();
         queue.push(Multiple(base, 0));
         Multiples { facts: facts, queue: queue }
@@ -53,19 +53,19 @@ impl Iterator<uint> for Multiples {
 
         if i < self.facts.len() {
             // n = ... * f[i]^k => ... * f[i]^(k+1)
-            self.queue.push(Multiple(n * self.facts[i], i));
+            self.queue.push(Multiple(n * *self.facts.get(i), i));
         }
 
         for j in range(i + 1, self.facts.len()) {
             // n = ... * f[i]^k => ... * f[i]^k * f[j]
-            self.queue.push(Multiple(n * self.facts[j], j));
+            self.queue.push(Multiple(n * *self.facts.get(j), j));
         }
 
         Some(n)
     }
 }
 
-struct RadValue(uint, ~[uint], uint);
+struct RadValue(uint, Vec<uint>, uint);
 
 impl Eq for RadValue {
     #[inline]
@@ -94,25 +94,26 @@ impl RadValues {
     #[inline]
     fn new() -> RadValues {
         let mut queue = PriorityQueue::new();
-        queue.push(RadValue(1, ~[], 0));
+        queue.push(RadValue(1, vec![], 0));
         RadValues { prime: Prime::new(), queue: queue }
     }
 }
 
-impl Iterator<(uint, ~[uint])> for RadValues {
+impl Iterator<(uint, Vec<uint>)> for RadValues {
     #[inline]
-    fn next(&mut self) -> Option<(uint, ~[uint])> {
+    fn next(&mut self) -> Option<(uint, Vec<uint>)> {
         let RadValue(n, facts, i) = self.queue.pop();
         let p = self.prime.nth(i);
 
         // n = ... * p[i-1] => ... * p[i-1] * p[i] (append p[i])
-        self.queue.push(RadValue(n * p, facts + &[p], i + 1));
+        self.queue.push(RadValue(n * p, facts.clone().append_one(p), i + 1));
 
         if !facts.is_empty() {
             // n = ... * p[i-1] => ... * p[i] (replace p[i-1] with p[i])
             let last = *facts.last().unwrap();
             let mut next_facts = facts.clone();
-            next_facts[next_facts.len() - 1] = p;
+            let len = next_facts.len();
+            *next_facts.get_mut(len - 1) = p;
             self.queue.push(RadValue(p * n / last, next_facts, i + 1));
         }
 
@@ -139,41 +140,41 @@ mod tests {
     #[test]
     fn rad_nums() {
         let mut it = RadValues::new();
-        assert_eq!(Some((1, ~[])), it.next());
-        assert_eq!(Some((2, ~[2])), it.next());
-        assert_eq!(Some((3, ~[3])), it.next());
-        assert_eq!(Some((5, ~[5])), it.next());
-        assert_eq!(Some((6, ~[2, 3])), it.next());
-        assert_eq!(Some((7, ~[7])), it.next());
-        assert_eq!(Some((10, ~[2, 5])), it.next());
-        assert_eq!(Some((11, ~[11])), it.next());
-        assert_eq!(Some((13, ~[13])), it.next());
-        assert_eq!(Some((14, ~[2, 7])), it.next());
-        assert_eq!(Some((15, ~[3, 5])), it.next());
-        assert_eq!(Some((17, ~[17])), it.next());
-        assert_eq!(Some((19, ~[19])), it.next());
-        assert_eq!(Some((21, ~[3, 7])), it.next());
-        assert_eq!(Some((22, ~[2, 11])), it.next());
-        assert_eq!(Some((23, ~[23])), it.next());
-        assert_eq!(Some((26, ~[2, 13])), it.next());
-        assert_eq!(Some((29, ~[29])), it.next());
-        assert_eq!(Some((30, ~[2, 3, 5])), it.next());
+        assert_eq!(Some((1, vec![])), it.next());
+        assert_eq!(Some((2, vec![2])), it.next());
+        assert_eq!(Some((3, vec![3])), it.next());
+        assert_eq!(Some((5, vec![5])), it.next());
+        assert_eq!(Some((6, vec![2, 3])), it.next());
+        assert_eq!(Some((7, vec![7])), it.next());
+        assert_eq!(Some((10, vec![2, 5])), it.next());
+        assert_eq!(Some((11, vec![11])), it.next());
+        assert_eq!(Some((13, vec![13])), it.next());
+        assert_eq!(Some((14, vec![2, 7])), it.next());
+        assert_eq!(Some((15, vec![3, 5])), it.next());
+        assert_eq!(Some((17, vec![17])), it.next());
+        assert_eq!(Some((19, vec![19])), it.next());
+        assert_eq!(Some((21, vec![3, 7])), it.next());
+        assert_eq!(Some((22, vec![2, 11])), it.next());
+        assert_eq!(Some((23, vec![23])), it.next());
+        assert_eq!(Some((26, vec![2, 13])), it.next());
+        assert_eq!(Some((29, vec![29])), it.next());
+        assert_eq!(Some((30, vec![2, 3, 5])), it.next());
     }
 
     #[test]
     fn prod_nums() {
-        let mut it = Multiples::new(1, ~[]);
+        let mut it = Multiples::new(1, vec![]);
         assert_eq!(Some(1), it.next());
         assert_eq!(None, it.next());
 
-        let mut it = Multiples::new(2, ~[2]);
+        let mut it = Multiples::new(2, vec![2]);
         assert_eq!(Some(2), it.next());
         assert_eq!(Some(4), it.next());
         assert_eq!(Some(8), it.next());
         assert_eq!(Some(16), it.next());
         assert_eq!(Some(32), it.next());
 
-        let mut it = Multiples::new(6, ~[2, 3]);
+        let mut it = Multiples::new(6, vec![2, 3]);
         assert_eq!(Some(6 * 1), it.next());
         assert_eq!(Some(6 * 2), it.next());
         assert_eq!(Some(6 * 3), it.next());
@@ -186,7 +187,7 @@ mod tests {
         assert_eq!(Some(6 * 18), it.next());
         assert_eq!(Some(6 * 24), it.next());
 
-        let mut it = Multiples::new(30, ~[2, 3, 5]);
+        let mut it = Multiples::new(30, vec![2, 3, 5]);
         assert_eq!(Some(30 * 1), it.next());
         assert_eq!(Some(30 * 2), it.next());
         assert_eq!(Some(30 * 3), it.next());

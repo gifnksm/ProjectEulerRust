@@ -56,11 +56,11 @@ impl DigitMap {
     }
 }
 
-fn filled_digits(n: uint, radix: uint, len: uint) -> ~[uint] {
+fn filled_digits(n: uint, radix: uint, len: uint) -> Vec<uint> {
     numconv::to_digits(n, radix).chain(Repeat::new(0u)).take(len).collect()
 }
 
-fn create_dm_list(base: uint, radix: uint, len: uint) -> Vec<(~[uint], DigitMap)> {
+fn create_dm_list(base: uint, radix: uint, len: uint) -> Vec<(Vec<uint>, DigitMap)> {
     assert!(len > 0);
     let max = Repeat::new(radix).take(len).product();
     range(0, max / base)
@@ -73,8 +73,8 @@ fn create_dm_list(base: uint, radix: uint, len: uint) -> Vec<(~[uint], DigitMap)
         }).collect()
 }
 
-fn update_dm_list(list: &[(~[uint], DigitMap)], base: uint, radix: uint, len: uint)
-                  -> Vec<(~[uint], DigitMap)>
+fn update_dm_list(list: &[(Vec<uint>, DigitMap)], base: uint, radix: uint, len: uint)
+                  -> Vec<(Vec<uint>, DigitMap)>
 {
     assert!(len > 0);
     let ord = Repeat::new(radix).take(len - 1).product();
@@ -98,7 +98,7 @@ pub fn solve() -> ~str {
     }
 
     result.move_iter()
-        .map(|(r, _e)| numconv::from_digits(r, 10))
+        .map(|(r, _e)| numconv::from_digits(r.as_slice(), 10))
         .sum()
         .to_str()
 }
@@ -142,27 +142,27 @@ mod tests {
 
     #[test]
     fn filled_digits() {
-        assert_eq!(~[], super::filled_digits(123, 10, 0));
-        assert_eq!(~[3], super::filled_digits(123, 10, 1));
-        assert_eq!(~[3, 2], super::filled_digits(123, 10, 2));
-        assert_eq!(~[3, 2, 1], super::filled_digits(123, 10, 3));
-        assert_eq!(~[3, 2, 1, 0], super::filled_digits(123, 10, 4));
+        assert_eq!(vec![], super::filled_digits(123, 10, 0));
+        assert_eq!(vec![3], super::filled_digits(123, 10, 1));
+        assert_eq!(vec![3, 2], super::filled_digits(123, 10, 2));
+        assert_eq!(vec![3, 2, 1], super::filled_digits(123, 10, 3));
+        assert_eq!(vec![3, 2, 1, 0], super::filled_digits(123, 10, 4));
     }
 
     #[test]
     fn create_dm_list() {
         let dm = super::create_dm_list(9, 10, 2);
         assert_eq!(10, dm.len());
-        assert_eq!(~[9, 0], *dm.get(0).ref0());
-        assert_eq!(~[8, 1], *dm.get(1).ref0());
-        assert_eq!(~[7, 2], *dm.get(2).ref0());
-        assert_eq!(~[6, 3], *dm.get(3).ref0());
-        assert_eq!(~[5, 4], *dm.get(4).ref0());
-        assert_eq!(~[4, 5], *dm.get(5).ref0());
-        assert_eq!(~[3, 6], *dm.get(6).ref0());
-        assert_eq!(~[2, 7], *dm.get(7).ref0());
-        assert_eq!(~[1, 8], *dm.get(8).ref0());
-        assert_eq!(~[0, 9], *dm.get(9).ref0());
+        assert_eq!(vec![9, 0], *dm.get(0).ref0());
+        assert_eq!(vec![8, 1], *dm.get(1).ref0());
+        assert_eq!(vec![7, 2], *dm.get(2).ref0());
+        assert_eq!(vec![6, 3], *dm.get(3).ref0());
+        assert_eq!(vec![5, 4], *dm.get(4).ref0());
+        assert_eq!(vec![4, 5], *dm.get(5).ref0());
+        assert_eq!(vec![3, 6], *dm.get(6).ref0());
+        assert_eq!(vec![2, 7], *dm.get(7).ref0());
+        assert_eq!(vec![1, 8], *dm.get(8).ref0());
+        assert_eq!(vec![0, 9], *dm.get(9).ref0());
 
         assert_eq!(0, super::create_dm_list(11, 10, 2).len());
     }
@@ -171,17 +171,17 @@ mod tests {
     fn update_dm_list() {
         let dm = super::update_dm_list(super::create_dm_list(9, 10, 2).as_slice(), 5, 10, 2);
         assert_eq!(16, dm.len());
-        assert_eq!(~[9, 0, 1], *dm.get(0).ref0());
-        assert_eq!(~[9, 0, 2], *dm.get(1).ref0());
+        assert_eq!(vec![9, 0, 1], *dm.get(0).ref0());
+        assert_eq!(vec![9, 0, 2], *dm.get(1).ref0());
         // snip
-        assert_eq!(~[9, 0, 8], *dm.get(7).ref0());
-        assert_eq!(~[4, 5, 0], *dm.get(8).ref0());
-        assert_eq!(~[4, 5, 1], *dm.get(9).ref0());
-        assert_eq!(~[4, 5, 2], *dm.get(10).ref0());
-        assert_eq!(~[4, 5, 3], *dm.get(11).ref0());
-        assert_eq!(~[4, 5, 6], *dm.get(12).ref0());
-        assert_eq!(~[4, 5, 7], *dm.get(13).ref0());
-        assert_eq!(~[4, 5, 8], *dm.get(14).ref0());
-        assert_eq!(~[4, 5, 9], *dm.get(15).ref0());
+        assert_eq!(vec![9, 0, 8], *dm.get(7).ref0());
+        assert_eq!(vec![4, 5, 0], *dm.get(8).ref0());
+        assert_eq!(vec![4, 5, 1], *dm.get(9).ref0());
+        assert_eq!(vec![4, 5, 2], *dm.get(10).ref0());
+        assert_eq!(vec![4, 5, 3], *dm.get(11).ref0());
+        assert_eq!(vec![4, 5, 6], *dm.get(12).ref0());
+        assert_eq!(vec![4, 5, 7], *dm.get(13).ref0());
+        assert_eq!(vec![4, 5, 8], *dm.get(14).ref0());
+        assert_eq!(vec![4, 5, 9], *dm.get(15).ref0());
     }
 }

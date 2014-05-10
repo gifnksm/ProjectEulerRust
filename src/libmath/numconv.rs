@@ -76,20 +76,18 @@ pub fn is_palindromic(n: uint, radix: uint) -> bool {
 mod tests {
     #[test]
     fn test_conv_digits() {
-        fn check(n: uint, v: ~[uint], radix: uint) {
+        fn check(n: uint, v: &[uint], radix: uint) {
             assert_eq!(super::from_digits(v, radix), n);
-            assert_eq!(super::to_digits(n, radix).collect::<~[uint]>(), v.clone());
-            assert_eq!(super::to_digits(n, radix).rev().collect::<~[uint]>(),
-                       v.move_iter().rev().collect::<~[uint]>())
+            assert_eq!(super::to_digits(n, radix).collect::<Vec<uint>>().as_slice(), v);
         }
 
-        check(0, ~[], 10);
-        check(1, ~[1], 10);
-        check(3, ~[3], 10);
-        check(12345, ~[5, 4, 3, 2, 1], 10);
-        check(0x12345,  ~[5, 4, 3, 2, 1], 16);
-        check(0xabcde, ~[0xe, 0xd, 0xc, 0xb, 0xa], 16);
-        check(0b11100, ~[0, 0, 1, 1, 1], 2);
+        check(0, [], 10);
+        check(1, [1], 10);
+        check(3, [3], 10);
+        check(12345, [5, 4, 3, 2, 1], 10);
+        check(0x12345, [5, 4, 3, 2, 1], 16);
+        check(0xabcde, [0xe, 0xd, 0xc, 0xb, 0xa], 16);
+        check(0b11100, [0, 0, 1, 1, 1], 2);
     }
 
     #[test]
@@ -100,12 +98,12 @@ mod tests {
 
     #[test]
     fn test_to_digit_histogram() {
-        assert_eq!(super::to_digit_histogram(123).to_owned(),
-                   ~[0, 1, 1, 1, 0, 0, 0, 0, 0, 0]);
-        assert_eq!(super::to_digit_histogram(111).to_owned(),
-                   ~[0, 3, 0, 0, 0, 0, 0, 0, 0, 0]);
-        assert_eq!(super::to_digit_histogram(0).to_owned(),
-                   ~[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        assert_eq!(super::to_digit_histogram(123).as_slice(),
+                   [0, 1, 1, 1, 0, 0, 0, 0, 0, 0].as_slice());
+        assert_eq!(super::to_digit_histogram(111).as_slice(),
+                   [0, 3, 0, 0, 0, 0, 0, 0, 0, 0].as_slice());
+        assert_eq!(super::to_digit_histogram(0).as_slice(),
+                   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].as_slice());
     }
 
     #[test]

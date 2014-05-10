@@ -26,14 +26,14 @@ pub fn solve() -> ~str {
     let start = 2;
     let mut end = 4;
     let mut cnt = limit - 1;
-    let mut nums = Vec::from_elem(limit + 1, uint::MAX).move_iter().collect::<~[_]>();
+    let mut nums = Vec::from_elem(limit + 1, uint::MAX);
 
     while cnt > 0 {
         each_sum_product(start, end, &mut |sum, prod, len| {
             let k = prod - sum + len;
-            if k <= limit && prod < nums[k] {
-                if nums[k] == uint::MAX { cnt -= 1; }
-                nums[k] = prod;
+            if k <= limit && prod < *nums.get(k) {
+                if *nums.get(k) == uint::MAX { cnt -= 1; }
+                *nums.get_mut(k) = prod;
             }
         });
         end *= 2;

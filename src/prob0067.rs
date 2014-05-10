@@ -13,14 +13,14 @@ pub fn solve() -> ~str {
     let triangle = br.lines()
         .filter_map(|line| line.ok())
         .filter(|line| !line.is_empty())
-        .map(|line| line.words().filter_map(from_str::<uint>).collect::<~[uint]>())
-        .collect::<~[~[uint]]>();
+        .map(|line| line.words().filter_map(from_str::<uint>).collect::<Vec<uint>>())
+        .collect::<Vec<Vec<uint>>>();
     let init = triangle.init();
-    let last = triangle.last().unwrap();
+    let last = triangle.last().unwrap().clone();
     init.iter()
         .rev()
-        .fold(Vec::from_slice(*last), |prev, elem| {
-            Vec::from_fn(elem.len(), |i| elem[i] + cmp::max(*prev.get(i), *prev.get(i + 1)))
+        .fold(last, |prev, elem| {
+            Vec::from_fn(elem.len(), |i| elem.get(i) + cmp::max(*prev.get(i), *prev.get(i + 1)))
         }).get(0)
         .to_str()
 }

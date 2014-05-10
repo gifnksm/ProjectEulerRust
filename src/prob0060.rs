@@ -31,16 +31,16 @@ impl ConcatPrimeIterator {
     }
 }
 
-impl Iterator<(uint, ~[uint])> for ConcatPrimeIterator {
+impl Iterator<(uint, Vec<uint>)> for ConcatPrimeIterator {
     #[inline]
-    fn next(&mut self) -> Option<(uint, ~[uint])> {
+    fn next(&mut self) -> Option<(uint, Vec<uint>)> {
         let n = self.iter.next().unwrap();
         let pairs = self.prime.iter()
             .take_while(|&m| m <= n)
             .filter(|&m| (n + m) % 3 != 0 && {
                 self.prime.contains(concat_num(n, m)) &&
                     self.prime.contains(concat_num(m, n))
-            }).collect::<~[uint]>();
+            }).collect();
         Some((n, pairs))
     }
 }
@@ -61,15 +61,16 @@ fn union_vec(v1: &[uint], v2: &[uint]) -> Vec<uint> {
     result
 }
 
-fn find_chain(pairs: &[uint], set: ~[uint], map: &HashMap<uint, ~[uint]>) -> Vec<~[uint]> {
+fn find_chain(pairs: &[uint], set: Vec<uint>, map: &HashMap<uint, Vec<uint>>) -> Vec<Vec<uint>> {
     let mut result = Vec::new();
 
     for (i, &p) in pairs.iter().enumerate() {
-        let union_pairs = union_vec(pairs.slice(0, i), *map.find(&p).unwrap());
+        let union_pairs = union_vec(pairs.slice(0, i), map.find(&p).unwrap().as_slice());
+        let pset = vec!(p).append(set.as_slice());
         if union_pairs.is_empty() {
-            result.push(~[p] + set);
+            result.push(pset);
         } else {
-            result.push_all(find_chain(union_pairs.as_slice(), ~[p] + set, map).as_slice());
+            result.push_all(find_chain(union_pairs.as_slice(), pset, map).as_slice());
         }
     }
 
@@ -83,7 +84,7 @@ pub fn solve() -> ~str {
 
     for (n, pairs) in ConcatPrimeIterator::new(&prime) {
         if pairs.len() >= len {
-            let sets = find_chain(pairs, ~[n], &map);
+            let sets = find_chain(pairs.as_slice(), vec![n], &map);
             for set in sets.iter() {
                 if set.len() >= len {
                     return set.iter().map(|&x| x).sum().to_str();

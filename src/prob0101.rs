@@ -22,18 +22,19 @@ fn u(n: BigInt) -> BigInt {
 }
 
 // Lagrange Interpolating with Naville's algorithm
-fn op(ns: &[(BigInt, BigInt)]) -> ~[Ratio<BigInt>] {
-    let mut poly = ~[];
+fn op(ns: &[(BigInt, BigInt)]) -> Vec<Ratio<BigInt>> {
+    let mut poly = vec![];
     for i in range(0, ns.len()) {
         let (ref xi, ref yi) = ns[i];
-        let mut term = ~[ Ratio::from_integer(yi.clone()) ];
+        let mut term = vec![ Ratio::from_integer(yi.clone()) ];
         for j in range(0, ns.len()) {
             if i == j { continue }
 
             let (ref xj, ref _yj) = ns[j];
-            term = poly::mul(term, [Ratio::new(-xj, xi - *xj), Ratio::new(One::one(), xi - *xj)]);
+            term = poly::mul(term.as_slice(),
+                             [Ratio::new(-xj, xi - *xj), Ratio::new(One::one(), xi - *xj)]);
         }
-        poly = poly::add(poly, term);
+        poly = poly::add(poly.as_slice(), term.as_slice());
     }
     poly
 }
@@ -46,8 +47,8 @@ pub fn solve() -> ~str {
                                    u(FromPrimitive::from_uint(n + 1).unwrap())));
     let mut sum: BigInt = Zero::zero();
     for i in range(1, un.len()) {
-        let poly = op(un.slice(0, i)).move_iter().map(|x| x.numer().clone()).collect::<~[BigInt]>();
-        sum = sum + poly::eval(poly, FromPrimitive::from_uint(i + 1).unwrap());
+        let poly = op(un.slice(0, i)).move_iter().map(|x| x.numer().clone()).collect::<Vec<BigInt>>();
+        sum = sum + poly::eval(poly.as_slice(), FromPrimitive::from_uint(i + 1).unwrap());
     }
     sum.to_str()
 }

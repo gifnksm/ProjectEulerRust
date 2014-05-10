@@ -82,15 +82,15 @@ pub fn solve() -> ~str {
     let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap().as_slice().to_owned()).unwrap();
 
     let code_list = input.trim().split(',')
-        .filter_map(from_str::<u8>).collect::<~[u8]>();
+        .filter_map(from_str::<u8>).collect::<Vec<u8>>();
 
     let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
     for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n as uint] += 1; }
 
-    let keys = freq.iter().map(|f| find_key(f.clone(), freq_dict)).collect::<~[u8]>();
+    let keys = freq.iter().map(|f| find_key(f.clone(), freq_dict)).collect::<Vec<u8>>();
     let l = keys.len();
     code_list.iter().enumerate()
-        .map(|(i, &n)| (n ^ keys[i % l]) as uint)
+        .map(|(i, &n)| (n ^ *keys.get(i % l)) as uint)
         .sum()
         .to_str()
 }

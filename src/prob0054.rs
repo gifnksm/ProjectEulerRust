@@ -48,13 +48,13 @@ impl fmt::Show for Hand {
 }
 
 fn hand(cards: &[Card, ..5]) -> Hand {
-    let mut num_count = Vec::from_fn(13, |_i| Vec::new()).move_iter().collect::<~[Vec<Card>]>();
-    let mut suit_count = Vec::from_fn(4, |_i| Vec::new()).move_iter().collect::<~[Vec<Card>]>();
+    let mut num_count = Vec::from_fn(13, |_i| Vec::new());
+    let mut suit_count = Vec::from_fn(4, |_i| Vec::new());
 
     for &c in cards.iter() {
         let val = if c.num == 1 { 12 } else { c.num - 2 };
-        num_count[12 - val].push(c);
-        suit_count[c.suit as uint - 1].push(c);
+        num_count.get_mut(12 - val).push(c);
+        suit_count.get_mut(c.suit as uint - 1).push(c);
     }
 
     let num_count = num_count;

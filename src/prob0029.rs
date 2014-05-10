@@ -16,12 +16,12 @@ pub fn solve() -> ~str {
     let prime = Prime::new();
 
     for a in range(2u, 101) {
-        let a_factor = prime.factorize(a).collect::<~[(uint, int)]>();
+        let a_factor = prime.factorize(a).collect::<Vec<(uint, int)>>();
         for b in range(2u, 101) {
             let ab_factor = a_factor
                 .iter()
                 .map(|&(base, exp)| (base, (exp) as uint * b))
-                .collect::<~[(uint, uint)]>();
+                .collect::<Vec<(uint, uint)>>();
             set.insert(ab_factor);
         }
     }

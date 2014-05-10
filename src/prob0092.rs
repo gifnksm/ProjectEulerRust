@@ -37,12 +37,12 @@ pub fn solve() -> ~str {
     let mut cnt = 0u;
 
     let vec_size = 81 * 7 + 1;
-    let mut map = Vec::from_elem(vec_size, None).move_iter().collect::<~[_]>();
-    map[0] = Some(false);
-    map[1] = Some(false);
-    map[89] = Some(true);
+    let mut map = Vec::from_elem(vec_size, None);
+    *map.get_mut(0) = Some(false);
+    *map.get_mut(1) = Some(false);
+    *map.get_mut(89) = Some(true);
     for n in range(1u, limit + 1) {
-        if is_reach_89(n, map) { cnt += 1; }
+        if is_reach_89(n, map.as_mut_slice()) { cnt += 1; }
     }
     cnt.to_str()
 }

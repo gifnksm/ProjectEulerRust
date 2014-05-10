@@ -109,53 +109,53 @@ mod tests {
 
     #[test]
     fn area2d() {
-        let vs = Range2D::new((0, 0), (1, 1), (0, 0), (3, 3)).collect::<~[(int, int)]>();
-        assert_eq!(vs, ~[(0, 0), (1, 1), (2, 2), (3, 3)]);
+        let vs = Range2D::new((0, 0), (1, 1), (0, 0), (3, 3)).collect::<Vec<(int, int)>>();
+        assert_eq!(vs, vec![(0, 0), (1, 1), (2, 2), (3, 3)]);
 
-        let vs = Range2D::new((1, 1), (1, 1), (0, 0), (3, 3)).collect::<~[(int, int)]>();
-        assert_eq!(vs, ~[(1, 1), (2, 2), (3, 3)]);
+        let vs = Range2D::new((1, 1), (1, 1), (0, 0), (3, 3)).collect::<Vec<(int, int)>>();
+        assert_eq!(vs, vec![(1, 1), (2, 2), (3, 3)]);
 
-        let vs = Range2D::new((3, 3), (1, 1), (0, 0), (3, 3)).collect::<~[(int, int)]>();
-        assert_eq!(vs, ~[(3, 3)]);
+        let vs = Range2D::new((3, 3), (1, 1), (0, 0), (3, 3)).collect::<Vec<(int, int)>>();
+        assert_eq!(vs, vec![(3, 3)]);
 
-        let vs = Range2D::new((0, 0), (2, 2), (0, 0), (3, 3)).collect::<~[(int, int)]>();
-        assert_eq!(vs, ~[(0, 0), (2, 2)]);
+        let vs = Range2D::new((0, 0), (2, 2), (0, 0), (3, 3)).collect::<Vec<(int, int)>>();
+        assert_eq!(vs, vec![(0, 0), (2, 2)]);
 
-        let vs = Range2D::new((0, 0), (0, 1), (0, 0), (3, 3)).collect::<~[(int, int)]>();
-        assert_eq!(vs, ~[(0, 0), (0, 1), (0, 2), (0, 3)]);
+        let vs = Range2D::new((0, 0), (0, 1), (0, 0), (3, 3)).collect::<Vec<(int, int)>>();
+        assert_eq!(vs, vec![(0, 0), (0, 1), (0, 2), (0, 3)]);
 
-        let vs = Range2D::new((0, 0), (0, 1), (0, 0), (3, 5)).collect::<~[(int, int)]>();
-        assert_eq!(vs, ~[(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)]);
+        let vs = Range2D::new((0, 0), (0, 1), (0, 0), (3, 5)).collect::<Vec<(int, int)>>();
+        assert_eq!(vs, vec![(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5)]);
 
-        let vs = Range2D::new((0, 0), (1, 2), (0, 0), (3, 5)).collect::<~[(int, int)]>();
-        assert_eq!(vs, ~[(0, 0), (1, 2), (2, 4)]);
+        let vs = Range2D::new((0, 0), (1, 2), (0, 0), (3, 5)).collect::<Vec<(int, int)>>();
+        assert_eq!(vs, vec![(0, 0), (1, 2), (2, 4)]);
 
-        let vs = Range2D::new((3, 3), (-1, -1), (0, 0), (3, 3)).collect::<~[(int, int)]>();
-        assert_eq!(vs, ~[(3, 3), (2, 2), (1, 1), (0, 0)]);
+        let vs = Range2D::new((3, 3), (-1, -1), (0, 0), (3, 3)).collect::<Vec<(int, int)>>();
+        assert_eq!(vs, vec![(3, 3), (2, 2), (1, 1), (0, 0)]);
 
-        let vs = Range2D::new((3, 3), (-2, -2), (0, 0), (3, 3)).collect::<~[(int, int)]>();
-        assert_eq!(vs, ~[(3, 3), (1, 1)]);
+        let vs = Range2D::new((3, 3), (-2, -2), (0, 0), (3, 3)).collect::<Vec<(int, int)>>();
+        assert_eq!(vs, vec![(3, 3), (1, 1)]);
     }
 
     #[test]
     fn comb() {
-        fn check(cnt: uint, size: uint, expected: ~[~[uint]]) {
+        fn check(cnt: uint, size: uint, expected: Vec<Vec<uint>>) {
             let actual = Comb::new(cnt, size)
                 .map(|set| set.iter().collect())
-                .collect::<~[~[uint]]>();
+                .collect::<Vec<Vec<_>>>();
             assert_eq!(actual, expected);
         }
-        check(0, 4, ~[~[]]);
-        check(1, 4, ~[~[0], ~[1], ~[2], ~[3]]);
-        check(2, 4, ~[~[0, 1], ~[0, 2], ~[0, 3],
-                      ~[1, 2], ~[1, 3],
-                      ~[2, 3]]);
-        check(3, 4, ~[~[0, 1, 2], ~[0, 1, 3], ~[0, 2, 3], ~[1, 2, 3]]);
-        check(4, 4, ~[~[0, 1, 2, 3]]);
+        check(0, 4, vec![vec![]]);
+        check(1, 4, vec![vec![0], vec![1], vec![2], vec![3]]);
+        check(2, 4, vec![vec![0, 1], vec![0, 2], vec![0, 3],
+                      vec![1, 2], vec![1, 3],
+                      vec![2, 3]]);
+        check(3, 4, vec![vec![0, 1, 2], vec![0, 1, 3], vec![0, 2, 3], vec![1, 2, 3]]);
+        check(4, 4, vec![vec![0, 1, 2, 3]]);
 
-        check(0, 0, ~[~[]]);
-        check(0, 1, ~[~[]]);
-        check(1, 1, ~[~[0]]);
+        check(0, 0, vec![vec![]]);
+        check(0, 1, vec![vec![]]);
+        check(1, 1, vec![vec![0]]);
     }
 }
 

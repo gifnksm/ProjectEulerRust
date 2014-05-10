@@ -41,8 +41,8 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: uint) ->
             let denom = t + One::one();
             let blue = Ratio::new(One::one(), denom.clone());
             let red  = Ratio::new(t, denom);
-            ~[blue, red]
-        }).fold(~[One::one()], |x, y| poly::mul(x, y))
+            vec![blue, red]
+        }).fold(vec![One::one()], |x, y| poly::mul(x.as_slice(), y.as_slice()))
         .move_iter()
         .take((turns + 1) / 2)
         .sum()

@@ -20,7 +20,7 @@ pub fn solve() -> ~str {
     let mut ss = input.sep_iter(',' as u8)
         .map(|s| s.trim().trim_chars('\"').to_str())
         .filter(|s| !s.is_empty())
-        .collect::<~[~str]>();
+        .collect::<Vec<~str>>();
     ss.sort();
     ss.iter()
         .enumerate()

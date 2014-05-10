@@ -10,7 +10,7 @@ use math::numconv;
 pub static EXPECTED_ANSWER: &'static str = "127035954683";
 
 pub fn solve() -> ~str {
-    let mut map = HashMap::<~[uint], Vec<uint>>::new();
+    let mut map = HashMap::<Vec<uint>, Vec<uint>>::new();
     let mut set = HashSet::<uint>::new();
     let mut n     = 0;
     let mut limit = 10;
@@ -24,7 +24,7 @@ pub fn solve() -> ~str {
         }
 
         let cube = n * n * n;
-        let mut ds = numconv::to_digits(cube, 10).collect::<~[uint]>();
+        let mut ds = numconv::to_digits(cube, 10).collect::<Vec<uint>>();
         ds.sort();
 
         let v = match map.pop(&ds) {

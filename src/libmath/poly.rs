@@ -5,7 +5,7 @@ fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
     return v.slice(0, len);
 }
 
-pub fn add<T: Zero + Add<T,T> + Clone>(a: &[T], b: &[T]) -> ~[T] {
+pub fn add<T: Zero + Add<T,T> + Clone>(a: &[T], b: &[T]) -> Vec<T> {
     let a = omit_zeros(a);
     let b = omit_zeros(b);
 
@@ -18,14 +18,14 @@ pub fn add<T: Zero + Add<T,T> + Clone>(a: &[T], b: &[T]) -> ~[T] {
     let mut sum = Vec::from_fn(max_len, |_i| Zero::zero());
     for i in range(0, min_len) { *sum.get_mut(i) = a[i] + b[i]; }
     rest.map(|v| { for i in range(min_len, max_len) { *sum.get_mut(i) = v[i].clone(); } });
-    sum.as_slice().to_owned()
+    sum
 }
 
-pub fn mul<T: Zero + Add<T, T> + Mul<T, T>>(a: &[T], b: &[T]) -> ~[T] {
+pub fn mul<T: Zero + Add<T, T> + Mul<T, T>>(a: &[T], b: &[T]) -> Vec<T> {
     let a = omit_zeros(a);
     let b = omit_zeros(b);
 
-    if a.is_empty() || b.is_empty() { return ~[]; }
+    if a.is_empty() || b.is_empty() { return vec![]; }
     let mut prod: Vec<T> = Vec::from_fn(a.len() + b.len() - 1, |_i| Zero::zero());
     for (i, na) in a.iter().enumerate() {
         for (j, nb) in b.iter().enumerate() {
@@ -80,8 +80,8 @@ mod tests {
     #[test]
     fn test_poly_add() {
         fn check(a: &[int], b: &[int], c: &[int]) {
-            assert_eq!(super::add(a, b), c.to_owned());
-            assert_eq!(super::add(b, a), c.to_owned());
+            assert_eq!(super::add(a, b).as_slice(), c);
+            assert_eq!(super::add(b, a).as_slice(), c);
         }
         check([], [], []);
         check([0, 0], [], []);
@@ -93,8 +93,8 @@ mod tests {
     #[test]
     fn test_poly_mul() {
         fn check(a: &[int], b: &[int], c: &[int]) {
-            assert_eq!(super::mul(a, b), c.to_owned());
-            assert_eq!(super::mul(b, a), c.to_owned());
+            assert_eq!(super::mul(a, b).as_slice(), c);
+            assert_eq!(super::mul(b, a).as_slice(), c);
         }
         check([], [], []);
         check([0, 0], [], []);

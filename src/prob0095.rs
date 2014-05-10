@@ -36,19 +36,19 @@ fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) ->
 
 pub fn solve() -> ~str {
     let limit = 1000000;
-    let mut len_map = Vec::from_elem(limit + 1, None).move_iter().collect::<~[_]>();
-    let mut div_map = Vec::from_elem(limit + 1, 1u).move_iter().collect::<~[_]>();
-    div_map[0] = 0;
-    div_map[1] = 0;
+    let mut len_map = Vec::from_elem(limit + 1, None);
+    let mut div_map = Vec::from_elem(limit + 1, 1u);
+    *div_map.get_mut(0) = 0;
+    *div_map.get_mut(1) = 0;
 
     for f in range(2, limit / 2) {
         for n in iter::range_step(2 * f, limit, f) {
-            div_map[n] += f;
+            *div_map.get_mut(n) += f;
         }
     }
 
     let (n, _div) = range(1, len_map.len())
-        .map(|n| (n, get_chain_len(n, len_map, div_map)))
+        .map(|n| (n, get_chain_len(n, len_map.as_mut_slice(), div_map.as_mut_slice())))
         .max_by(|&(_n, div)| div)
         .unwrap();
 

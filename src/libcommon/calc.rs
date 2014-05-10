@@ -24,12 +24,14 @@ pub fn num_of_permutations<T: Hash + TotalEq>(hist: &HashMap<T, uint>) -> uint {
     return factorial(sum) / div;
 }
 
-pub fn combinate<T: Clone>(elems: &[T], len: uint, f: |~[T], ~[T]| -> bool) -> bool {
-    if len == 0 { return f(~[], elems.to_owned()); }
+pub fn combinate<T: Clone>(elems: &[T], len: uint, f: |&[T], &[T]| -> bool) -> bool {
+    if len == 0 { return f(&[], elems); }
 
     for i in range(0, elems.len() - len + 1) {
         let ret = combinate(elems.slice(i + 1, elems.len()), len - 1, |v, rest| {
-            f(~[elems[i].clone()] + v, ~[] + elems.slice(0, i) + rest)
+            let a = vec![elems[i].clone()].append(v);
+            let b = Vec::from_slice(elems.slice(0, i)).append(rest);
+            f(a.as_slice(), b.as_slice())
         });
         if !ret { return false; }
     }
@@ -42,7 +44,8 @@ pub fn combinate_overlap<T: Clone>(elems: &[T], len: uint, f: |&[T]| -> bool) ->
 
     for i in range(0, elems.len()) {
         let ret = combinate_overlap(elems.slice(i, elems.len()), len - 1, |v| {
-            f(~[elems[i].clone()] + v)
+            let a = vec![elems[i].clone()].append(v);
+            f(a.as_slice())
         });
         if !ret { return false; }
     }
@@ -116,9 +119,9 @@ mod tests {
             let hist = super::histogram(inp);
             let mut vec = hist.iter()
                 .map(|(&k, &v)| (k, v))
-                .collect::<~[(uint, uint)]>();
+                .collect::<Vec<(uint, uint)>>();
             vec.sort();
-            assert_eq!(vec.initn(0), result);
+            assert_eq!(vec.as_slice().initn(0), result);
         }
         check([1, 2, 3], [(1, 1), (2, 1), (3, 1)]);
         check([1, 1, 1, 2, 2, 3, 3, 4], [(1, 3), (2, 2), (3, 2), (4, 1)]);
@@ -142,7 +145,7 @@ mod tests {
             ~[3, 4, 5]
         );
         super::combinate(&[1, 2, 3, 4, 5], 3, |n, _rest| {
-            assert_eq!(n, nums.shift().unwrap()); true
+            assert_eq!(n, nums.shift().unwrap().as_slice()); true
         });
     }
 

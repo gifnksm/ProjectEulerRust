@@ -9,8 +9,8 @@ pub static EXPECTED_ANSWER: &'static str = "20313839404245";
 
 struct SSSElem {
     avg: f64,
-    sss: ~[uint],
-    sums: ~[uint]
+    sss: Vec<uint>,
+    sums: Vec<uint>
 }
 
 impl Eq for SSSElem {
@@ -34,8 +34,8 @@ impl SSSElem {
         assert!(a < b);
         SSSElem {
             avg: ((a + b) as f64) / 2.0,
-            sss: ~[a, b],
-            sums: ~[0, a, b, a + b]
+            sss: vec![a, b],
+            sums: vec![0, a, b, a + b]
         }
     }
 
@@ -48,27 +48,27 @@ impl SSSElem {
         while i < len {
             assert!(j <= i);
 
-            match self.sums[i].cmp(&(self.sums[j] + n)) {
+            match self.sums.get(i).cmp(&(*self.sums.get(j) + n)) {
                 Equal => { return None; }
                 Less => {
-                    sums.push(self.sums[i]);
+                    sums.push(*self.sums.get(i));
                     i += 1;
                 }
                 Greater => {
-                    sums.push(self.sums[j] + n);
+                    sums.push(*self.sums.get(j) + n);
                     j += 1;
                 }
             }
         }
 
         while j < len {
-            sums.push(self.sums[j] + n);
+            sums.push(*self.sums.get(j) + n);
             j += 1;
         }
 
         let avg = (self.avg * (len as f64) + n as f64) / ((len as f64) + 1.0);
-        let sss = Vec::from_slice(self.sss).append_one(n);
-        Some(SSSElem { avg: avg, sss: sss.move_iter().collect(), sums: sums.move_iter().collect() })
+        let sss = self.sss.clone().append_one(n);
+        Some(SSSElem { avg: avg, sss: sss, sums: sums })
     }
 
     // 6: [a, b, c, d, e, f] => (a + b + c + d) - (e + f) - 1
@@ -90,7 +90,7 @@ impl SSSElem {
     #[inline(always)]
     pub fn each_next(&self, f: |SSSElem| -> bool) -> bool {
         if self.sss.len() == 2 {
-            let (a, b) = (self.sss[0], self.sss[1]);
+            let (a, b) = (*self.sss.get(0), *self.sss.get(1));
             if !f(SSSElem::new_pair(a, b + 1)) { return false; }
             if a == b - 1 && !f(SSSElem::new_pair(a + 1, b + 1)) { return false; }
         }
@@ -129,7 +129,7 @@ pub fn solve() -> ~str {
     let mut ans = "".to_owned();
     each_sss(|sss| {
             if sss.sss.len() == 7 {
-                ans = sss.sss.iter().map(|&n| n.to_str()).collect::<~[~str]>().concat();
+                ans = sss.sss.iter().map(|&n| n.to_str()).collect::<Vec<~str>>().concat();
                 false
             } else {
                 true

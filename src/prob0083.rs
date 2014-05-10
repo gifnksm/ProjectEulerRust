@@ -19,21 +19,17 @@ pub fn solve() -> ~str {
 
     let mut closed = HashSet::new();
     let mut open   = HashSet::new();
-    let mut dist: ~[~[_]] = Vec::from_fn(h, |_y| {
-        Vec::from_elem(w, uint::MAX).move_iter().collect()
-    }).move_iter().collect();
-    let mut parent: ~[~[_]] = Vec::from_fn(h, |_y| {
-        Vec::from_elem(w, Point { x: w, y: h }).move_iter().collect()
-    }).move_iter().collect();
+    let mut dist = Vec::from_fn(h, |_y| Vec::from_elem(w, uint::MAX));
+    let mut parent = Vec::from_fn(h, |_y| Vec::from_elem(w, Point { x: w, y: h }));
 
-    dist[start.y][start.x] = mat[start.y][start.x];
+    *dist.get_mut(start.y).get_mut(start.x) = *mat.get(start.y).get(start.x);
     open.insert(start);
 
     loop {
         if open.is_empty() { fail!(); }
 
         let &min_pt = open.iter()
-            .min_by(|&pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1))
+            .min_by(|&pt| *dist.get(pt.y).get(pt.x) + (h - pt.y - 1) + (w - pt.x - 1))
             .unwrap();
 
         if min_pt == goal { break }
@@ -47,28 +43,28 @@ pub fn solve() -> ~str {
         if min_pt.y < h - 1 { ms.push(Point { y: min_pt.y + 1, .. min_pt }) }
 
         for &pt in ms.iter() {
-            let new_dist = dist[min_pt.y][min_pt.x] + mat[pt.y][pt.x];
+            let new_dist = *dist.get(min_pt.y).get(min_pt.x) + *mat.get(pt.y).get(pt.x);
             if open.contains(&pt) {
-                if new_dist < dist[pt.y][pt.x] {
-                    dist[pt.y][pt.x]   = new_dist;
-                    parent[pt.y][pt.x] = min_pt;
+                if new_dist < *dist.get(pt.y).get(pt.x) {
+                    *dist.get_mut(pt.y).get_mut(pt.x)   = new_dist;
+                    *parent.get_mut(pt.y).get_mut(pt.x) = min_pt;
                 }
                 continue
             }
             if closed.contains(&pt) {
-                if new_dist < dist[pt.y][pt.x] {
+                if new_dist < *dist.get(pt.y).get(pt.x) {
                     closed.remove(&pt);
-                    dist[pt.y][pt.x] = cmp::min(dist[pt.y][pt.x], new_dist);
-                    parent[pt.y][pt.x] = min_pt;
+                    *dist.get_mut(pt.y).get_mut(pt.x) = cmp::min(*dist.get(pt.y).get(pt.x), new_dist);
+                    *parent.get_mut(pt.y).get_mut(pt.x) = min_pt;
                     open.insert(pt);
                 }
                 continue
             }
-            dist[pt.y][pt.x] = cmp::min(dist[pt.y][pt.x], new_dist);
-            parent[pt.y][pt.x] = min_pt;
+            *dist.get_mut(pt.y).get_mut(pt.x) = cmp::min(*dist.get(pt.y).get(pt.x), new_dist);
+            *parent.get_mut(pt.y).get_mut(pt.x) = min_pt;
             open.insert(pt);
         }
     }
 
-    dist[h - 1][w - 1].to_str()
+    dist.get(h - 1).get(w - 1).to_str()
 }
