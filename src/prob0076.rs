@@ -1,6 +1,4 @@
 #![crate_id = "prob0076"]
-#![crate_id = "prob0076"]
-#![crate_type = "rlib"]
 #![crate_type = "rlib"]
 
 extern crate collections;
