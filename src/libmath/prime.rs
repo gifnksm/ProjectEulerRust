@@ -267,6 +267,16 @@ mod tests {
     }
 
     #[test]
+    fn new_clones_data() {
+        let p1 = Prime::new();
+        let p2 = Prime::new();
+        p1.nth(500);
+        let l1 = p1.data.borrow().data.len();
+        let l2 = p2.data.borrow().data.len();
+        assert_eq!(l1, l2);
+    }
+
+    #[test]
     fn factorize() {
         fn check(n: uint, fs: &[Factor]) {
             let ps = Prime::new();
