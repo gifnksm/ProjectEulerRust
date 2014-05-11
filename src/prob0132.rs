@@ -2,13 +2,13 @@
 //!
 //! # 解析
 //!
-//! ``` {.math .notrust}
+//! ```notrust math
 //! R(k) = (10^k - 1) / 9
 //! ```
 //!
 //! 素数 `p` が `R(k)` の因数の場合、以下が成立する。
 //!
-//! ``` {.math .notrust}
+//! ```notrust math
 //! (10^k - 1) / 9 \equiv 0 (mod p)
 //! => 10^k - 1 \equiv 0 (mod 9p)
 //! => 10^k \qeuiv 1 (mod 9p)
