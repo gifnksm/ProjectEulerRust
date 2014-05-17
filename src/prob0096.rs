@@ -32,17 +32,17 @@ impl Eq for SuDoku {
 
 impl fmt::Show for SuDoku {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        try!(f.buf.write_line(self.name));
+        try!(writeln!(f, "{}", self.name));
 
         for row in self.map.iter() {
             for cell in row.iter() {
                 if cell.count_ones() == 1 {
-                    try!(write!(f.buf, "_"));
+                    try!(write!(f, "_"));
                 } else {
-                    try!(write!(f.buf, "{}", 1u << cell.trailing_zeros()));
+                    try!(write!(f, "{}", 1u << cell.trailing_zeros()));
                 }
             }
-            try!(f.buf.write_line(""));
+            try!(writeln!(f, ""));
         }
 
         Ok(())

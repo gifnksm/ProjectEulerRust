@@ -16,7 +16,7 @@ impl fmt::Show for Suit {
             &Club  => "C"
         };
 
-        write!(f.buf, "{}", s)
+        write!(f, "{}", s)
     }
 }
 
@@ -51,7 +51,7 @@ impl fmt::Show for Card {
             n  => n.to_str()
         };
 
-        write!(f.buf, "{}{}", n, self.suit)
+        write!(f, "{}{}", n, self.suit)
     }
 }
 

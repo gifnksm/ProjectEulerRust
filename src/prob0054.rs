@@ -25,24 +25,24 @@ impl fmt::Show for Hand {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             &Hi(ref c) =>
-                write!(f.buf, "Hi({})", c.as_slice()),
+                write!(f, "Hi({})", c.as_slice()),
             &Pair(ref c, ref r) =>
-                write!(f.buf, "Pair({}) + Hi({})", c.as_slice(), r.as_slice()),
+                write!(f, "Pair({}) + Hi({})", c.as_slice(), r.as_slice()),
             &TwoPair(ref c, ref r) =>
-                write!(f.buf, "TwoPair({}, {}) + Hi({})",
+                write!(f, "TwoPair({}, {}) + Hi({})",
                        c[0].as_slice(), c[1].as_slice(), r.as_slice()),
             &Three(ref c, ref r) =>
-                write!(f.buf, "Three({}) + Hi({})", c.as_slice(), r.as_slice()),
+                write!(f, "Three({}) + Hi({})", c.as_slice(), r.as_slice()),
             &Straight(ref c) =>
-                write!(f.buf, "Straight({})", c.as_slice()),
+                write!(f, "Straight({})", c.as_slice()),
             &Flush(ref c) =>
-                write!(f.buf, "Flush({})", c.as_slice()),
+                write!(f, "Flush({})", c.as_slice()),
             &FullHouse((ref c3, ref c2)) =>
-                write!(f.buf, "FullHouse({}, {})", c3.as_slice(), c2.as_slice()),
+                write!(f, "FullHouse({}, {})", c3.as_slice(), c2.as_slice()),
             &Four(ref c, ref r) =>
-                write!(f.buf, "Four({}) + Hi({})", c.as_slice(), r.as_slice()),
+                write!(f, "Four({}) + Hi({})", c.as_slice(), r.as_slice()),
             &StraightFlush(ref c) =>
-                write!(f.buf, "StraightFlush({})", c.as_slice()),
+                write!(f, "StraightFlush({})", c.as_slice()),
         }
     }
 }
