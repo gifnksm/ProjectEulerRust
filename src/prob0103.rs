@@ -16,6 +16,7 @@ struct SSSElem {
 impl Eq for SSSElem {
     fn eq(&self, other: &SSSElem) -> bool { self.avg == other.avg }
 }
+impl TotalEq for SSSElem {}
 
 impl Ord for SSSElem {
     #[inline(always)]
@@ -26,6 +27,15 @@ impl Ord for SSSElem {
     fn gt(&self, other: &SSSElem) -> bool { self.avg <  other.avg }
     #[inline(always)]
     fn ge(&self, other: &SSSElem) -> bool { self.avg <= other.avg }
+}
+
+impl TotalOrd for SSSElem {
+    fn cmp(&self, other: &SSSElem) -> Ordering {
+        assert!(!self.avg.is_nan() && !other.avg.is_nan());
+        if self.avg < other.avg { return Greater }
+        if self.avg > other.avg { return Less }
+        Equal
+    }
 }
 
 impl SSSElem {
@@ -111,15 +121,18 @@ impl SSSElem {
 fn each_sss(f: |&SSSElem| -> bool) -> bool {
     let mut pq = PriorityQueue::new();
     pq.push(SSSElem::new_pair(1, 2));
-    while !pq.is_empty() {
-        let e = pq.pop();
-        if !f(&e) { return false; }
-        e.each_next(|next| {
-                pq.push(next);
-                true
-            });
+    loop {
+        match pq.pop() {
+            Some(e) => {
+                if !f(&e) { return false; }
+                e.each_next(|next| {
+                    pq.push(next);
+                    true
+                });
+            }
+            None => return true
+        }
     }
-    true
 }
 
 // (a, b) => SSS if a > b

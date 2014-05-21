@@ -1,5 +1,6 @@
 use std::io;
 use time;
+use term;
 use term::Terminal;
 use term::color::Color;
 use term::color;
@@ -90,12 +91,12 @@ fn bench<T>(f: || -> T) -> (u64, T) {
 }
 
 fn print_items(items: &[(Option<Color>, ~str)]) {
-    match Terminal::new(io::stdout()) {
-        Err(_) => {
+    match term::stdout() {
+        None => {
             let mut out = io::stdout();
             for &(_, ref s) in items.iter() { let _ = out.write_str(*s); }
         },
-        Ok(mut t) => {
+        Some(mut t) => {
             for &(c, ref s) in items.iter() {
                 match c {
                     Some(c) => { let _ = t.fg(c); let _ = t.write_str(*s); let _ = t.reset(); }

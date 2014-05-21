@@ -22,12 +22,32 @@ impl Eq for Power {
     }
 }
 
+impl TotalEq for Power {}
+
 impl Ord for Power {
     #[inline]
     fn lt(&self, other: &Power) -> bool {
         let Power(sn, sb, _) = *self;
         let Power(on, ob, _) = *other;
         sn > on || (sn == on && sb > ob)
+    }
+}
+
+impl TotalOrd for Power {
+    fn cmp(&self, other: &Power) -> Ordering {
+        let Power(sn, sb, _) = *self;
+        let Power(on, ob, _) = *other;
+        match sn.cmp(&on) {
+            Less    => Greater,
+            Greater => Less,
+            Equal   => {
+                match sb.cmp(&ob) {
+                    Less    => Greater,
+                    Greater => Less,
+                    Equal   => Equal
+                }
+            }
+        }
     }
 }
 
@@ -47,7 +67,7 @@ impl Powers {
 impl Iterator<(uint, uint, uint)> for Powers {
     #[inline]
     fn next(&mut self) -> Option<(uint, uint, uint)> {
-        let Power(n, b, e) = self.queue.pop();
+        let Power(n, b, e) = self.queue.pop().unwrap();
         if b == 2 { self.queue.push(Power(n * b, b, e + 1)); }
         self.queue.push(Power(num::pow(b + 1, e), b + 1, e));
         Some((n, b, e))

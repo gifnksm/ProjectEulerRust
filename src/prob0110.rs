@@ -17,11 +17,23 @@ impl Eq for Elem {
         s == o
     }
 }
+impl TotalEq for Elem {}
 impl Ord for Elem {
     fn lt(&self, other: &Elem) -> bool {
         let &Elem(s, _) = self;
         let &Elem(o, _) = other;
         s.gt(&o)
+    }
+}
+impl TotalOrd for Elem {
+    fn cmp(&self, other: &Elem) -> Ordering {
+        let &Elem(s, _) = self;
+        let &Elem(o, _) = other;
+        match s.cmp(&o) {
+            Less    => Greater,
+            Equal   => Equal,
+            Greater => Less
+        }
     }
 }
 
@@ -34,7 +46,7 @@ pub fn solve() -> ~str {
     queue.push(Elem(2u, vec![1u]));
 
     loop {
-        let Elem(n, mut pairs) = queue.pop();
+        let Elem(n, mut pairs) = queue.pop().unwrap();
         let num_sol = (pairs.iter().fold(1, |n, &i| n * (2 * i + 1)) + 1) / 2;
         if num_sol > limit {
             return n.to_str();

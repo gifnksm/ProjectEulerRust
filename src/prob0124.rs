@@ -21,12 +21,22 @@ impl Eq for Multiple {
     }
 }
 
+impl TotalEq for Multiple {}
+
 impl Ord for Multiple {
     #[inline]
     fn lt(&self, other: &Multiple) -> bool {
         let Multiple(ref sn, _) = *self;
         let Multiple(ref on, _) = *other;
         on.lt(sn)
+    }
+}
+impl TotalOrd for Multiple {
+    #[inline]
+    fn cmp(&self, other: &Multiple) -> Ordering {
+        let Multiple(ref sn, _) = *self;
+        let Multiple(ref on, _) = *other;
+        on.cmp(sn)
     }
 }
 
@@ -47,21 +57,18 @@ impl Multiples {
 impl Iterator<uint> for Multiples {
     #[inline]
     fn next(&mut self) -> Option<uint> {
-        if self.queue.is_empty() { return None }
+        self.queue.pop().map(|Multiple(n, i)| {
+            if i < self.facts.len() {
+                // n = ... * f[i]^k => ... * f[i]^(k+1)
+                self.queue.push(Multiple(n * *self.facts.get(i), i));
+            }
 
-        let Multiple(n, i) = self.queue.pop();
-
-        if i < self.facts.len() {
-            // n = ... * f[i]^k => ... * f[i]^(k+1)
-            self.queue.push(Multiple(n * *self.facts.get(i), i));
-        }
-
-        for j in range(i + 1, self.facts.len()) {
-            // n = ... * f[i]^k => ... * f[i]^k * f[j]
-            self.queue.push(Multiple(n * *self.facts.get(j), j));
-        }
-
-        Some(n)
+            for j in range(i + 1, self.facts.len()) {
+                // n = ... * f[i]^k => ... * f[i]^k * f[j]
+                self.queue.push(Multiple(n * *self.facts.get(j), j));
+            }
+            n
+        })
     }
 }
 
@@ -76,12 +83,23 @@ impl Eq for RadValue {
     }
 }
 
+impl TotalEq for RadValue {}
+
 impl Ord for RadValue {
     #[inline]
     fn lt(&self, other: &RadValue) -> bool {
         let RadValue(ref sn, _, _) = *self;
         let RadValue(ref on, _, _) = *other;
         on.lt(sn)
+    }
+}
+
+impl TotalOrd for RadValue {
+    #[inline]
+    fn cmp(&self, other: &RadValue) -> Ordering {
+        let RadValue(ref sn, _, _) = *self;
+        let RadValue(ref on, _, _) = *other;
+        on.cmp(sn)
     }
 }
 
@@ -102,22 +120,23 @@ impl RadValues {
 impl Iterator<(uint, Vec<uint>)> for RadValues {
     #[inline]
     fn next(&mut self) -> Option<(uint, Vec<uint>)> {
-        let RadValue(n, facts, i) = self.queue.pop();
-        let p = self.prime.nth(i);
+        self.queue.pop().map(|RadValue(n, facts, i)| {
+            let p = self.prime.nth(i);
 
-        // n = ... * p[i-1] => ... * p[i-1] * p[i] (append p[i])
-        self.queue.push(RadValue(n * p, facts.clone().append_one(p), i + 1));
+            // n = ... * p[i-1] => ... * p[i-1] * p[i] (append p[i])
+            self.queue.push(RadValue(n * p, facts.clone().append_one(p), i + 1));
 
-        if !facts.is_empty() {
-            // n = ... * p[i-1] => ... * p[i] (replace p[i-1] with p[i])
-            let last = *facts.last().unwrap();
-            let mut next_facts = facts.clone();
-            let len = next_facts.len();
-            *next_facts.get_mut(len - 1) = p;
-            self.queue.push(RadValue(p * n / last, next_facts, i + 1));
-        }
+            if !facts.is_empty() {
+                // n = ... * p[i-1] => ... * p[i] (replace p[i-1] with p[i])
+                let last = *facts.last().unwrap();
+                let mut next_facts = facts.clone();
+                let len = next_facts.len();
+                *next_facts.get_mut(len - 1) = p;
+                self.queue.push(RadValue(p * n / last, next_facts, i + 1));
+            }
 
-        Some((n, facts))
+            (n, facts)
+        })
     }
 }
 
