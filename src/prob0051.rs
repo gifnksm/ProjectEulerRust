@@ -8,7 +8,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "121313";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let num_family = 8;
     let prime = Prime::new();
 

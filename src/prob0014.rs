@@ -24,7 +24,7 @@ fn get_len(map: &mut HashMap<uint, uint>, n: uint) -> uint {
     x
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut map = HashMap::new();
     map.insert(1u, 1u);
 

@@ -18,7 +18,7 @@ pub static EXPECTED_ANSWER: &'static str = "443839";
 // 9999999 => 9^5 * 7 = 413343
 
 // 1-6 digits numbers meet conditions
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let len = 7;
     let pows = Vec::from_fn(10, |i| num::pow(i, 5));
 

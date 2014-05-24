@@ -11,14 +11,14 @@ pub fn read_matrix(filename: &str) -> (uint, uint, Vec<Vec<uint>>) {
 
     let mut mat: Vec<Vec<uint>> = Vec::new();
     for line in br.lines().filter_map(|line| line.ok()) {
-        let row = line.trim().split(',').filter_map(from_str::<uint>).collect();
+        let row = line.as_slice().trim().split(',').filter_map(from_str::<uint>).collect();
         mat.push(row);
         assert_eq!(mat.get(0).len(), mat.last().unwrap().len());
     }
     (mat.get(0).len(), mat.len(), mat)
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let (w, h, mat) = read_matrix("files/matrix.txt");
 
     let mut sum = Vec::from_fn(h, |_y| Vec::from_elem(w, 0u));

@@ -37,7 +37,7 @@ pub static EXPECTED_ANSWER: &'static str = "518408346";
 // L <= 1000000000
 // k <= (100000000 - 4) / 6, (100000000 - 2) / 6
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = 1000000000;
 
     PelIterator::<BigUint>::new(3)

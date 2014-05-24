@@ -32,7 +32,7 @@ fn is_reach_89(n: uint, map: &mut [Option<bool>]) -> bool {
     result
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = 10000000;
     let mut cnt = 0u;
 

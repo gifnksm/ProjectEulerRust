@@ -72,16 +72,16 @@ fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
     return min_key as u8;
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut freq_dict = ~[0.0, ..256];
     for &(c, f) in ENGLISH_FREQUENCY.iter() {
         freq_dict[(c as u8) as uint] = f;
     }
 
     let mut reader = File::open(&Path::new("files/cipher1.txt")).ok().expect("file not found.");
-    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap().as_slice().to_owned()).unwrap();
+    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
 
-    let code_list = input.trim().split(',')
+    let code_list = input.as_slice().trim().split(',')
         .filter_map(from_str::<u8>).collect::<Vec<u8>>();
 
     let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];

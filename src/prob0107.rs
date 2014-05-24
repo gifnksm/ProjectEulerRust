@@ -8,14 +8,14 @@ use data::union_find::UnionFind;
 
 pub static EXPECTED_ANSWER: &'static str = "259679";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let size = 40;
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/network.txt")).ok().expect("file not found."));
 
     let mut verts = Vec::new();
     for (i, line) in br.lines().filter_map(|line| line.ok()).enumerate() {
-        for (j, s) in line.trim().split(',').enumerate() {
+        for (j, s) in line.as_slice().trim().split(',').enumerate() {
             let n = from_str::<uint>(s);
             if i < j && n.is_some() {
                 verts.push(((i, j), n.unwrap()));

@@ -31,7 +31,7 @@ fn count_all(len: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     count_red(len, map) + count_green(len, map) + count_blue(len, map)
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut map = HashMap::new();
     count_all(50, &mut map).to_str()
 }

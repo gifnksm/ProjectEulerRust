@@ -40,7 +40,7 @@ fn append_day(y: uint, offset: uint, result: &mut [uint, ..7]) -> uint {
     return day;
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut result = [0, ..7];
     let mut day = 1; // Monday
     day = (day + day_of_year(1900)) % 7;

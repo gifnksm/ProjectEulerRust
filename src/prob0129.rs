@@ -21,7 +21,7 @@ pub fn a(n: uint) -> uint {
         .val1()
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = 1000001u;
 
     iter::count(limit, 2)

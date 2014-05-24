@@ -6,14 +6,14 @@ use std::iter;
 
 pub static EXPECTED_ANSWER: &'static str = "709";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/base_exp.txt")).ok().expect("file not found."));
 
     br.lines()
         .filter_map(|line| line.ok())
         .map(|line| {
-            let line = line.trim();
+            let line = line.as_slice().trim();
             let i = line.find(',').unwrap();
             let base = from_str::<f64>(line.slice(0, i)).unwrap();
             let exp  = from_str::<f64>(line.slice(i + 1, line.len())).unwrap();

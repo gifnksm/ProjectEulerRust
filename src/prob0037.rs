@@ -18,7 +18,7 @@ fn is_r2l(prime: &Prime, n: uint) -> bool {
     true
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let prime = Prime::new();
     let mut l2r_mat = vec!(vec!(2u, 3, 5, 7));
     let mut order = 10;

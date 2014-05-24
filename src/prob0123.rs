@@ -26,7 +26,7 @@ fn get_mod(n: uint, pn: uint) -> uint {
     }
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = std::num::pow(10u, 10);
 
     let ps = Prime::new();

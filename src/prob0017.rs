@@ -5,7 +5,7 @@ use std::iter::AdditiveIterator;
 
 pub static EXPECTED_ANSWER: &'static str = "21124";
 
-fn to_word_under10(n: uint) -> ~str {
+fn to_word_under10(n: uint) -> StrBuf {
     return match n {
         0 => "zero".to_owned(),
         1 => "one".to_owned(),
@@ -21,7 +21,7 @@ fn to_word_under10(n: uint) -> ~str {
     };
 }
 
-fn to_word_under20(n: uint) -> ~str {
+fn to_word_under20(n: uint) -> StrBuf {
     assert!(n < 20);
     if n < 10 { return to_word_under10(n); }
     return match n {
@@ -39,7 +39,7 @@ fn to_word_under20(n: uint) -> ~str {
     };
 }
 
-fn to_word_under100(n: uint) -> ~str {
+fn to_word_under100(n: uint) -> StrBuf {
     assert!(n < 100);
     if n < 20 { return to_word_under20(n); }
 
@@ -56,34 +56,35 @@ fn to_word_under100(n: uint) -> ~str {
         _ => fail!()
     };
     if n % 10 != 0 {
-        return prefix + "-" + to_word_under10(n % 10);
+        format!("{}-{}", prefix, to_word_under10(n % 10))
     } else {
-        return prefix;
+        prefix
     }
 }
 
-fn to_word_under1000(n: uint) -> ~str {
+fn to_word_under1000(n: uint) -> StrBuf {
     assert!(n < 1000);
     if n < 100 { return to_word_under100(n); }
 
-    let prefix = to_word_under10(n / 100) + " hundred";
+    let prefix = format!("{} hundred", to_word_under10(n / 100));
     if n % 100 != 0 {
-        return prefix + " and " + to_word_under100(n % 100);
+        format!("{} and {}", prefix, to_word_under100(n % 100))
     } else {
-        return prefix;
+        prefix
     }
 }
 
-fn to_word(n: uint) -> ~str {
+fn to_word(n: uint) -> StrBuf {
     assert!(n <= 1000);
     if n < 1000 { return to_word_under1000(n); }
     return "one thousand".to_owned();
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     range(1u, 1001)
         .map(to_word)
-        .map(|w| w.chars()
+        .map(|w| w.as_slice()
+             .chars()
              .filter(|&c| c != '-' && c != ' ')
              .len())
         .sum()

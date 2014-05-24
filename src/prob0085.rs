@@ -26,7 +26,7 @@ fn min_idx(i_a: (uint, uint), i_b: (uint, uint), target: uint) -> (uint, uint) {
     return i_b;
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let target = 2000000;
 
     let mut x = 1;

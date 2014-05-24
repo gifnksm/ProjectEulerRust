@@ -15,11 +15,11 @@ impl<T: Clone> Monoid for Vec<T> {
     fn mappend(&self, other: &Vec<T>) -> Vec<T> { self + *other }
 }
 
-impl Monoid for ~str {
+impl Monoid for StrBuf {
     #[inline(always)]
-    fn mempty() -> ~str { "".to_owned() }
+    fn mempty() -> StrBuf { "".to_owned() }
     #[inline(always)]
-    fn mappend(&self, other: &~str) -> ~str { *self + *other }
+    fn mappend(&self, other: &StrBuf) -> StrBuf { format!("{}{}", self, other) }
 }
 
 

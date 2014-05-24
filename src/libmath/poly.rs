@@ -42,7 +42,7 @@ impl<T> Poly<T> {
 }
 
 impl<T: Zero + One + Eq + Neg<T> + Ord + fmt::Show> Poly<T> {
-    pub fn pretty(&self, x: &str) -> ~str {
+    pub fn pretty(&self, x: &str) -> StrBuf {
         if self.is_zero() { return "0".to_owned() }
 
         let one = One::one();

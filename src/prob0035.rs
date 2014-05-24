@@ -23,7 +23,7 @@ fn is_circular_prime(prime: &Prime, n: uint) -> bool {
     true
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let prime = Prime::new();
     return prime.iter()
         .take_while(|&p| p < 1000000)

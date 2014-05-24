@@ -9,7 +9,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "8319823";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = 10000000;
 
     // n / phi(n) = 1 / \Pi_{k=1}^d (1 - 1/p_k)

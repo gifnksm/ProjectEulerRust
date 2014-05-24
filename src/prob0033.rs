@@ -20,7 +20,7 @@ pub static EXPECTED_ANSWER: &'static str = "100";
 // A = 9BC / (10B - C)
 // C > B
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut prod_numer = 1;
     let mut prod_denom = 1;
 

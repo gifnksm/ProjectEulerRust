@@ -44,7 +44,7 @@ fn count_way(prime: &Prime, sum: uint, map: &mut HashMap<(uint, uint), uint>) ->
     }
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let prime = Prime::new();
     let mut map = HashMap::new();
     iter::count(1u, 1)

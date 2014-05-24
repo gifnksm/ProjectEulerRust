@@ -9,7 +9,7 @@ use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "127035954683";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut map = HashMap::<Vec<uint>, Vec<uint>>::new();
     let mut set = HashSet::<uint>::new();
     let mut n     = 0;

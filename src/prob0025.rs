@@ -9,8 +9,8 @@ use math::sequence;
 
 pub static EXPECTED_ANSWER: &'static str = "4782";
 
-pub fn solve() -> ~str {
-    let limit = from_str("9".repeat(999)).unwrap();
+pub fn solve() -> StrBuf {
+    let limit = from_str("9".repeat(999).as_slice()).unwrap();
     let mut it = sequence::fibonacci::<BigUint>().take_while(|n| *n <= limit);
-    return (it.len() + 1).to_str();
+    (it.len() + 1).to_str()
 }

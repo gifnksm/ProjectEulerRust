@@ -19,7 +19,7 @@ fn get_cycle_len(n: uint) -> uint {
     }
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     return range(2u, 1000)
         .max_by(|&n| get_cycle_len(n))
         .unwrap()

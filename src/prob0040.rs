@@ -98,7 +98,7 @@ impl<'a> Iterator<Area> for AreaSeq<'a> {
     }
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let idx = &[ 1u, 10, 100, 1000, 10000, 100000, 1000000 ];
 
     let mut area_seq = vec!(Area::new());

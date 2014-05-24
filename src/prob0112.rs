@@ -39,7 +39,7 @@ fn is_bouncy<T: Iterator<uint>>(mut ds: T) -> bool {
     }
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut num_bouncy = 0;
     for n in iter::count(1u, 1) {
         if is_bouncy(numconv::to_digits(n, 10)) { num_bouncy += 1; }

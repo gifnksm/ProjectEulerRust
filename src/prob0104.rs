@@ -22,8 +22,8 @@ fn is_pandigit(n: u64) -> bool {
     return cnt == 9;
 }
 
-pub fn solve() -> ~str {
-    let base = from_str::<u64>("1" + "0".repeat(9)).unwrap();
+pub fn solve() -> StrBuf {
+    let base = from_str::<u64>(format!("1{}", "0".repeat(9)).as_slice()).unwrap();
 
     let phi = (1.0 + (5.0f64).sqrt()) / 2.0;
     let next_fib_first10 = |st: &mut (u64, uint)| {

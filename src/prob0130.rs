@@ -12,7 +12,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "149253";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let ps = Prime::new();
     iter::count(3u, 2)
         .filter(|&n| !n.divides(&5))

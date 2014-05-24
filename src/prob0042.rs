@@ -19,11 +19,11 @@ fn word_value(word: &str) -> uint {
     return value;
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut reader = File::open(&Path::new("files/words.txt"))
         .ok().expect("file not found.");
-    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap().as_slice().to_owned()).unwrap();
-    let result = reader::read_whole_word(input)
+    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
+    let result = reader::read_whole_word(input.as_slice())
         .map(|words| words.iter().map(|w| word_value(*w)).collect::<Vec<uint>>())
         .map(|values| {
             let len = values.iter().max().unwrap() + 1;

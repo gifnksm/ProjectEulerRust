@@ -34,7 +34,7 @@ fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) ->
     }
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = 1000000;
     let mut len_map = Vec::from_elem(limit + 1, None);
     let mut div_map = Vec::from_elem(limit + 1, 1u);

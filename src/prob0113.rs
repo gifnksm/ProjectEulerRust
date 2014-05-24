@@ -54,7 +54,7 @@ fn num_nonbouncy(len: uint) -> uint {
     num_incr + num_decr - num_incr_and_decr
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     num_nonbouncy(100).to_str()
 }
 

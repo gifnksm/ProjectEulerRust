@@ -10,11 +10,11 @@ use num::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "972";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     range(One::one(), FromPrimitive::from_uint(100).unwrap())
         .map(|a: BigUint| {
             Unfold::new(One::one(), |n| { (*n) = a * (*n); Some((*n).to_str())})
-                .map(|s| s.chars().filter_map(|c| char::to_digit(c, 10)).sum())
+                .map(|s| s.as_slice().chars().filter_map(|c| char::to_digit(c, 10)).sum())
                 .take(100).max().unwrap()
         }).max().unwrap().to_str()
 }

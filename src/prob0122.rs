@@ -16,7 +16,7 @@ fn backtrack(power: uint, depth: uint, limit: uint, cost: &mut [uint], path: &mu
     }
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = 200;
     let mut cost = Vec::from_elem(limit + 1, uint::MAX);
     let mut path = Vec::from_elem(limit + 1, 0u);

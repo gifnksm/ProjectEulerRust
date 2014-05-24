@@ -33,6 +33,6 @@ fn sum(n: uint) -> uint {
     (4 * n*n*n + 3 * n*n + 8 * n - 9) / 6
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     return sum(1001).to_str();
 }

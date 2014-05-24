@@ -95,7 +95,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "18613426663617118";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let min_limit = 5;
     let max_limit = 1000000;
 

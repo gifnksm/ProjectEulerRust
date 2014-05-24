@@ -12,8 +12,8 @@ pub static EXPECTED_ANSWER: &'static str = "249";
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_str();
-    let rev = str::from_chars(s.chars().rev().collect::<Vec<char>>().as_slice());
-    FromStr::from_str(rev).unwrap()
+    let rev = str::from_chars(s.as_slice().chars().rev().collect::<Vec<char>>().as_slice());
+    FromStr::from_str(rev.as_slice()).unwrap()
 }
 
 fn is_lychrel(n: uint) -> bool {
@@ -27,7 +27,7 @@ fn is_lychrel(n: uint) -> bool {
     return true;
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut cnt = 0u;
     for n in range(1u, 10001) {
         if is_lychrel(n) { cnt += 1; }

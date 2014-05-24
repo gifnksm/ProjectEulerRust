@@ -65,7 +65,7 @@ fn get_chain_len(
     return chain_len + loop_len;
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = 1000000;
     let factorial = {
         let mut val = [1, ..10];

@@ -24,7 +24,7 @@ fn num_pairs(ps: &Prime, n: uint) -> uint {
     (prod - 1) / 2 + 1
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let n = 1000;
     let prime = Prime::new();
     iter::count(1u, 1).find(|&i| num_pairs(&prime, i) > n).unwrap().to_str()

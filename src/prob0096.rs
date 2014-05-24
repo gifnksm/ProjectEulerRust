@@ -16,7 +16,7 @@ type BITS = u16;
 static MASK_ALL: BITS = 0x1ff;
 
 struct SuDoku {
-    name: ~str,
+    name: StrBuf,
     map: [[BITS, .. BOARD_WIDTH], .. BOARD_HEIGHT]
 }
 
@@ -79,7 +79,7 @@ fn read_sudoku<T: Reader>(r: &mut BufferedReader<T>) -> Option<SuDoku> {
                     None => return None,
                     Some(line) => {
                         for x in range(0, BOARD_WIDTH) {
-                            let n = char::to_digit(line[x] as char, 10).unwrap();
+                            let n = char::to_digit(line.as_slice().char_at(x), 10).unwrap();
                             if n != 0 { sudoku.map[y][x] = 1 << (n - 1); }
                         }
                     }
@@ -185,7 +185,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     answers.move_iter().collect()
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/sudoku.txt")).ok().expect("file not found."));
 

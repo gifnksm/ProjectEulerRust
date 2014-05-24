@@ -197,7 +197,7 @@ fn judge(p1_cards: &[Card, ..5], p2_cards: &[Card, ..5]) -> int {
     };
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let r = File::open(&Path::new("files/poker.txt")).ok().expect("file not found.");
     let mut br = BufferedReader::new(r);
 
@@ -207,7 +207,7 @@ pub fn solve() -> ~str {
     for line in br.lines().filter_map(|line| line.ok()) {
         let mut p1_cards = [ Card::dummy(), ..5 ];
         let mut p2_cards = [ Card::dummy(), ..5 ];
-        for (i, word) in line.words().enumerate() {
+        for (i, word) in line.as_slice().words().enumerate() {
             let cards = if i < 5 { &mut p1_cards } else { &mut p2_cards };
             cards[i % 5] = from_str(word).unwrap();
         }

@@ -20,7 +20,7 @@ fn each_sum_product(start: uint, end: uint, f: &mut |uint, uint, uint|) {
     }
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = 12000;
 
     let start = 2;

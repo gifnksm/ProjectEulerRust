@@ -8,7 +8,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "296962999629";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let prime = Prime::new();
     let d = 3330;
     let (p1, p2, p3) = prime.iter()

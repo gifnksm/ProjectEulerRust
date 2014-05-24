@@ -12,7 +12,7 @@ use math::arith;
 
 pub static EXPECTED_ANSWER: &'static str = "840";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     // a + b + c = 2m(m + n) <= L
     // 1 <= n <= L / 2m - m
     // if n == 1, a + b + c = 2m^2 + 2m <= L

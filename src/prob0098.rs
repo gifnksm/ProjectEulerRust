@@ -34,11 +34,11 @@ fn is_square(n: uint) -> bool {
     (sq * sq == n)
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut reader = File::open(&Path::new("files/words.txt")).ok().expect("file not found.");
-    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap().as_slice().to_owned()).unwrap();
+    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
 
-    let result = reader::read_whole_word(input).map(|words| {
+    let result = reader::read_whole_word(input.as_slice()).map(|words| {
         let mut map = HashMap::new();
         for &word in words.iter() {
             let mut cs = word.chars().collect::<Vec<char>>();

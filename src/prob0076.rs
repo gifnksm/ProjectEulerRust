@@ -29,6 +29,6 @@ fn count_way(sum: uint) -> uint {
     }
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     return count_way(100).to_str();
 }

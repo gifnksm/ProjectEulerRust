@@ -19,16 +19,17 @@ fn napier_seq(i: uint) -> uint {
     }
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let len = 100;
 
     let napier = Vec::from_fn(len, napier_seq);
 
     let (n, _d) = cont_frac::fold::<BigUint>(napier.as_slice());
-    let ns = n.to_str();
-    return ns.chars()
+    n.to_str()
+        .as_slice()
+        .chars()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()
-        .to_str();
+        .to_str()
 }
 

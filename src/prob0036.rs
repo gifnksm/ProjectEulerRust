@@ -7,7 +7,7 @@ use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "872187";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let order_array = &[ 1u, 10, 100, 1000, 1000, 10000 ];
     let mut sum = 0;
     for i in range(0, order_array.len() - 1) {

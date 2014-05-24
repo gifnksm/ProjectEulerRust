@@ -9,7 +9,7 @@ use data::extiter::Comb;
 
 pub static EXPECTED_ANSWER: &'static str = "1217";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let all_combs = Comb::new(6, 10)
         .map(|mut set| {
             match (set.contains(&6), set.contains(&9)) {

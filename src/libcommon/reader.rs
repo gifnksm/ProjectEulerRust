@@ -16,16 +16,16 @@ pub struct ReaderSplitIterator<'a, R> {
     sep_char: u8,
     sep_flag: bool
 }
-impl<'a, R: Reader> Iterator<~str> for ReaderSplitIterator<'a, R> {
+impl<'a, R: Reader> Iterator<StrBuf> for ReaderSplitIterator<'a, R> {
     #[inline]
-    fn next(&mut self) -> Option<~str> {
+    fn next(&mut self) -> Option<StrBuf> {
         self.reader
             .read_until(self.sep_char)
             .ok()
             .map(|mut bytes| {
                 self.sep_flag = bytes.last() == Some(&self.sep_char);
                 if self.sep_flag { bytes.pop(); }
-                str::from_utf8_owned(bytes.as_slice().to_owned()).unwrap()
+                str::from_utf8_owned(bytes).unwrap()
             }).or_else(|| {
                 if self.sep_flag {
                     self.sep_flag = false;
@@ -47,7 +47,7 @@ fn skip_sep<'a>(mut input: &'a str) -> &'a str {
     }
 }
 
-fn read_word<'a>(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
+fn read_word<'a>(input: &'a str) -> Result<(&'a str, &'a str), StrBuf> {
     if input.is_empty() { return Err("string is empty".to_owned()); }
 
     let (c, itr) = input.slice_shift_char();
@@ -66,7 +66,7 @@ fn read_word<'a>(input: &'a str) -> Result<(&'a str, &'a str), ~str> {
     Ok((input.slice(1, 1 + len), itr))
 }
 
-pub fn read_whole_word<'a>(input: &'a str) -> Result<~[&'a str], ~str> {
+pub fn read_whole_word<'a>(input: &'a str) -> Result<~[&'a str], StrBuf> {
     let mut result = Vec::new();
     let mut itr = input;
     while !itr.is_empty() {

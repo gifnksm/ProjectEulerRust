@@ -3,7 +3,7 @@
 
 pub static EXPECTED_ANSWER: &'static str = "40730";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut facts: [uint, ..10] = [ 0, ..10 ];
     facts[0] = 1;
     for i in range(1, facts.len()) {

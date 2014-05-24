@@ -12,7 +12,7 @@ pub static EXPECTED_ANSWER: &'static str = "425185";
 #[deriving(TotalEq, Eq, Hash, Clone)]
 struct Point { x: uint, y: uint }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let (w, h, mat) = prob0081::read_matrix("files/matrix.txt");
     let start = Point { x: 0,     y: 0 };
     let goal  = Point { x: w - 1, y: h - 1 };

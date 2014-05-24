@@ -11,7 +11,7 @@ fn count_between(
         count_between((na + nb, da + db), (nb, db), max_d) + 1
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = 12000;
     let cnt = count_between((1, 3), (1, 2), limit);
     return cnt.to_str();

@@ -57,7 +57,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "453647705";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let ps = Prime::new();
 
     let sum = ps.iter()

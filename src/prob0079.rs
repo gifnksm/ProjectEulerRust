@@ -91,17 +91,17 @@ fn tsort<T: Hash + TotalEq + Clone>(rels: &mut Relations<T>) -> Vec<T> {
 }
 
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/keylog.txt")).ok().expect("file not found."));
 
     let mut rels = Relations::new();
     for line in br.lines().filter_map(|line| line.ok()) {
-        let ds = line.chars()
+        let ds = line.as_slice().chars()
             .filter_map(|c| char::to_digit(c, 10)).collect::<Vec<uint>>();
         for i in range(1, ds.len()) {
             rels.set_dependant(*ds.get(i - 1), *ds.get(i));
         }
     }
-    tsort(&mut rels).iter().map(|d| d.to_str()).collect::<Vec<~str>>().concat()
+    tsort(&mut rels).iter().map(|d| d.to_str()).collect::<Vec<StrBuf>>().concat()
 }

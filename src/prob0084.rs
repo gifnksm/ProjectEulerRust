@@ -184,7 +184,7 @@ fn get_trans(roll_map: &[(f64, f64)]) -> Vec<Vec<f64>> {
     //         mul_mat(trans_square, trans_doubles)));
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let trans = get_trans(create_roll_map(4).as_slice());
     let mut vec = create_mat(trans.len(), 1, |i, _j| if i == 0 { 1.0 } else { 0.0 });
 
@@ -213,7 +213,7 @@ pub fn solve() -> ~str {
     pairs.slice(0, 3)
         .iter()
         .map(|&(_, sq)| { format!("{:02}", sq.to_uint()) })
-        .collect::<Vec<~str>>()
+        .collect::<Vec<StrBuf>>()
         .concat()
 }
 

@@ -12,7 +12,7 @@ use math::arith;
 
 pub static EXPECTED_ANSWER: &'static str = "40886";
 
-fn sqrt_newton_raphson(n: uint, precision: uint) -> ~str {
+fn sqrt_newton_raphson(n: uint, precision: uint) -> StrBuf {
     assert!(precision >= 1);
 
     let _1:  BigInt = FromPrimitive::from_uint(1).unwrap();
@@ -40,12 +40,13 @@ fn is_square(n: uint) -> bool {
     return isq * isq == n;
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     return range(2u, 101)
         .filter(|&n| !is_square(n))
         .map(|n| {
-            let sqn = sqrt_newton_raphson(n, 100);
-            sqn.chars()
+            sqrt_newton_raphson(n, 100)
+                .as_slice()
+                .chars()
                 .filter_map(|c| char::to_digit(c, 10))
                 .sum()
         }).sum()

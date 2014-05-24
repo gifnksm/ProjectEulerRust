@@ -29,7 +29,7 @@ static INPUT: &'static str = "
 71636269561882670428252483600823257530420752963450
 ";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let prod_len = 5;
 
     INPUT.chars()

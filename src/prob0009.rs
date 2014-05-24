@@ -9,7 +9,7 @@ use math::arith;
 
 pub static EXPECTED_ANSWER: &'static str = "31875000";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let sum = 1000u;
 
     range(2, sum - 1)

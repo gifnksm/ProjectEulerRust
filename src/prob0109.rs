@@ -7,7 +7,7 @@ use math::poly::Poly;
 
 pub static EXPECTED_ANSWER: &'static str = "38182";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut single = Vec::from_elem(26, 0);
     let mut double = Vec::from_elem(51, 0);
     let mut triple = Vec::from_elem(61, 0);

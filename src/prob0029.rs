@@ -9,7 +9,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "9183";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut set = HashSet::new();
     let prime = Prime::new();
 

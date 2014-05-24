@@ -77,7 +77,7 @@ fn find_chain(pairs: &[uint], set: Vec<uint>, map: &HashMap<uint, Vec<uint>>) ->
     result
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let prime = Prime::new();
     let len = 5;
     let mut map = HashMap::new();

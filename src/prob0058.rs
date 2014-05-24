@@ -7,7 +7,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "26241";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let prime = Prime::new();
     let mut side = 1;
     let mut num_prime = 0;

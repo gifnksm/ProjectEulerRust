@@ -62,7 +62,7 @@ fn main() {
             .solve_all()
     } else {
         args.iter()
-            .filter_map(|s| parse_range(*s))
+            .filter_map(|s| parse_range(s.as_slice()))
             .flat_map(|(a, b)| iter::range_inclusive(a, b))
             .filter_map(|id| problem_list::PROBLEMS.bsearch(|p| p.id.cmp(&id)))
             .map(|i| problem_list::PROBLEMS[i])

@@ -39,14 +39,15 @@ fn is_sss(nums: &[uint]) -> bool {
     true
 }
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/sets.txt")).ok().expect("file not found."));
 
     br.lines()
         .filter_map(|line| line.ok())
         .map(|line| {
-            line.trim()
+            line.as_slice()
+                .trim()
                 .split(',')
                 .filter_map(from_str::<uint>)
                 .collect::<Vec<uint>>()

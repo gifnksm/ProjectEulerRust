@@ -6,14 +6,14 @@ use std::io::{BufferedReader, File};
 
 pub static EXPECTED_ANSWER: &'static str = "7273";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/triangle.txt")).ok().expect("file not found."));
 
     let triangle = br.lines()
         .filter_map(|line| line.ok())
         .filter(|line| !line.is_empty())
-        .map(|line| line.words().filter_map(from_str::<uint>).collect::<Vec<uint>>())
+        .map(|line| line.as_slice().words().filter_map(from_str::<uint>).collect::<Vec<uint>>())
         .collect::<Vec<Vec<uint>>>();
     let init = triangle.init();
     let last = triangle.last().unwrap().clone();

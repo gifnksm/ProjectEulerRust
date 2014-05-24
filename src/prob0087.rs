@@ -9,7 +9,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "1097343";
 
-pub fn solve() -> ~str {
+pub fn solve() -> StrBuf {
     let limit = 50000000;
 
     let prime = Prime::new();
