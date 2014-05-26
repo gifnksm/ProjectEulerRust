@@ -18,7 +18,7 @@ fn hexagonal(i: uint) -> uint {
     return n * (2 * n - 1);
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut n = 40755 + 1;
     let mut t_i = 0;
     let mut p_i = 0;

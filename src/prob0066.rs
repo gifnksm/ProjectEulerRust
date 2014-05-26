@@ -42,7 +42,7 @@ impl<E: Eq + Ord + TotalOrd, M: Iterator<E>, S: Iterator<E>> Iterator<E> for Dif
     }
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let ns = iter::count(1u, 1);
     let sq = iter::count(1u, 1).map(|x| x*x);
 

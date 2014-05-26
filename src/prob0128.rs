@@ -198,7 +198,7 @@ impl Iterator<uint> for Pd3Nums {
     }
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     Pd3Nums::new().nth(2000 - 1).unwrap().to_str()
 }
 

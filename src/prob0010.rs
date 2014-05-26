@@ -8,7 +8,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "142913828922";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let limit = 2000000;
     let prime = Prime::new();
     return prime.iter()

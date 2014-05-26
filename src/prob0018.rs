@@ -23,7 +23,7 @@ static TRIANGLE: &'static [&'static [uint]] = &[
     &[04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23]
 ];
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let init = TRIANGLE.init();
     let last = TRIANGLE.last().unwrap();
     let answer = init.iter().rev().fold(last.to_owned(), |mut total, elm| {

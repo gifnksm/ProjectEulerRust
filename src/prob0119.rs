@@ -81,7 +81,7 @@ fn a<'a>() -> Filter<'a, (uint, uint, uint), SkipWhile<'a, (uint, uint, uint), P
         .filter(|&(n, b, _e)| numconv::to_digits(n, 10).sum() == b)
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let (n, _b, _e) = a().nth(29).unwrap();
     n.to_str()
 }

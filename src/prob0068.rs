@@ -3,7 +3,7 @@
 
 pub static EXPECTED_ANSWER: &'static str = "6531031914842725";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     // solve by hand...
     //
     // outside: 6, 10, 9, 8, 7

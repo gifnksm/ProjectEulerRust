@@ -42,7 +42,7 @@ fn is_inside((a, b, c): Triangle, p: Point) -> bool {
     }
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/triangles.txt")).ok().expect("file not found."));
 

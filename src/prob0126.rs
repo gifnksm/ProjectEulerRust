@@ -9,7 +9,7 @@ pub static EXPECTED_ANSWER: &'static str = "18522";
 // nth layer: 4(n-1)(n+a+b+c-2) + 2(ab+bc+ca)
 fn f0(a: uint, b: uint, c: uint) -> uint { 2 * (a*b + b*c + c*a) }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let sum   = 1000;
     let limit = 20000;
     let mut cnt = Vec::from_elem(limit, 0u);

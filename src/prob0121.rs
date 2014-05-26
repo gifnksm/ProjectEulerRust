@@ -51,7 +51,7 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: uint) ->
 
 fn max_prize<T: Integer + Clone>(p: Ratio<T>) -> T { p.denom().div_floor(p.numer()) }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let prob = probability_of_player_win::<BigUint>(15);
     max_prize(prob).to_str()
 }

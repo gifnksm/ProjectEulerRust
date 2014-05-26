@@ -17,7 +17,7 @@ fn create_map(f: |uint| -> uint) -> Vec<Vec<uint>> {
     result
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let map = [
         create_map(|n| n * (n + 1) / 2),
         create_map(|n| n * n),

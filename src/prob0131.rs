@@ -93,7 +93,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "173";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let limit = 1000000;
     let ps = Prime::new();
 

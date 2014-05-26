@@ -7,7 +7,7 @@ use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "142857";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut n = 0;
     let mut order = 0;
     let mut limit = 0;

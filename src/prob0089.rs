@@ -42,8 +42,8 @@ fn from_roman(mut s: &str) -> Option<uint> {
     return Some(n);
 }
 
-fn to_roman(mut n: uint) -> StrBuf {
-    let mut s = StrBuf::new();
+fn to_roman(mut n: uint) -> String {
+    let mut s = String::new();
     while n >= 1000 { n -= 1000; s.push_str("M"); }
     if n >= 900 { n -= 900; s.push_str("CM"); }
     if n >= 500 { n -= 500; s.push_str("D"); }
@@ -60,7 +60,7 @@ fn to_roman(mut n: uint) -> StrBuf {
     return s.into_owned();
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/roman.txt")).ok().expect("file not found."));
     br.lines()

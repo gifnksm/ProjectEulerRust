@@ -72,7 +72,7 @@ fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
     return min_key as u8;
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut freq_dict = ~[0.0, ..256];
     for &(c, f) in ENGLISH_FREQUENCY.iter() {
         freq_dict[(c as u8) as uint] = f;

@@ -16,7 +16,7 @@ static COLOR_WARN: Color = color::YELLOW;
 pub struct Problem<'a> {
     pub id: uint,
     pub answer: &'a str,
-    pub solve: fn() -> StrBuf
+    pub solve: fn() -> String
 }
 
 impl<'a> Problem<'a> {
@@ -32,14 +32,14 @@ impl<'a> Problem<'a> {
 }
 
 pub struct Solution {
-    name: StrBuf,
+    name: String,
     is_correct: bool,
-    answer: StrBuf,
+    answer: String,
     time: u64
 }
 
 impl Solution {
-    pub fn new(name: StrBuf, is_correct: bool, answer: StrBuf, time: u64) -> Solution {
+    pub fn new(name: String, is_correct: bool, answer: String, time: u64) -> Solution {
         Solution {
             name: name,
             is_correct: is_correct,
@@ -79,7 +79,7 @@ impl Solution {
     }
 }
 
-fn nanosec_to_str(nsec: u64) -> StrBuf {
+fn nanosec_to_str(nsec: u64) -> String {
     return format!("{}.{:09}",
          (nsec / NSEC_PER_SEC) as uint,
          (nsec % NSEC_PER_SEC) as uint);

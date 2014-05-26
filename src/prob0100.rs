@@ -21,7 +21,7 @@ pub static EXPECTED_ANSWER: &'static str = "756872327473";
 // x^2 - 2y = -1
 // s = (x + 1) / 2
 // b = (y + 1) / 2
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let one   = One::one();
     let limit = FromStr::from_str("1000000000000").unwrap();
 

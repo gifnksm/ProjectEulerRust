@@ -22,7 +22,7 @@ fn is_pentagonal(n: uint, table: &[uint]) -> bool {
     return table.bsearch_elem(&n).is_some();
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let pentagonal_table = Vec::from_fn(10000, get_pentagonal);
 
     let mut m = 0;

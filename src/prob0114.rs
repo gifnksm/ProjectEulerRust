@@ -32,7 +32,7 @@ pub fn get_cnt(n: uint, m: uint, map: &mut HashMap<(uint, uint), uint>) -> uint 
     sum
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut map = HashMap::new();
     get_cnt(50, 3, &mut map).to_str()
 }

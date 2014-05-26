@@ -6,7 +6,7 @@ pub static EXPECTED_ANSWER: &'static str = "4075";
 // nCr-1 = r/(n-r+1) nCr!
 // nCr = n/(n-r) n-1Cr
 // nC(r+1) = (n-r)/(r+1) nCr
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let limit = 1000000;
 
     let mut r = 0;

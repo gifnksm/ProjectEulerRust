@@ -9,7 +9,7 @@ use num::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "648";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     range::<BigUint>(FromPrimitive::from_uint(1).unwrap(),
                      FromPrimitive::from_uint(101).unwrap())
         .product()

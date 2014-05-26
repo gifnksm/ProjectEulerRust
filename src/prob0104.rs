@@ -22,7 +22,7 @@ fn is_pandigit(n: u64) -> bool {
     return cnt == 9;
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let base = from_str::<u64>(format!("1{}", "0".repeat(9)).as_slice()).unwrap();
 
     let phi = (1.0 + (5.0f64).sqrt()) / 2.0;

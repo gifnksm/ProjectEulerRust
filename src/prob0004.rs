@@ -31,7 +31,7 @@ impl Iterator<(uint, uint)> for DividablePairsIterator {
     }
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let it1 = range(99u, 999).rev().map(|seed| numconv::to_palindromic(seed, 10, false));
     let it2 = range(99u, 999).rev().map(|seed| numconv::to_palindromic(seed, 10, true));
 

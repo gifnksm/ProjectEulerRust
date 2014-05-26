@@ -6,7 +6,7 @@ use std::iter;
 
 pub static EXPECTED_ANSWER: &'static str = "709";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/base_exp.txt")).ok().expect("file not found."));
 

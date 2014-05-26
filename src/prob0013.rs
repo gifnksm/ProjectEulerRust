@@ -108,7 +108,7 @@ static INPUT: &'static str = "
 53503534226472524250874054075591789781264330331690
 ";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let sum = INPUT
         .trim()
         .lines()

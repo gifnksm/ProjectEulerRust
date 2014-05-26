@@ -91,7 +91,7 @@ fn tsort<T: Hash + TotalEq + Clone>(rels: &mut Relations<T>) -> Vec<T> {
 }
 
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/keylog.txt")).ok().expect("file not found."));
 
@@ -103,5 +103,5 @@ pub fn solve() -> StrBuf {
             rels.set_dependant(*ds.get(i - 1), *ds.get(i));
         }
     }
-    tsort(&mut rels).iter().map(|d| d.to_str()).collect::<Vec<StrBuf>>().concat()
+    tsort(&mut rels).iter().map(|d| d.to_str()).collect::<Vec<String>>().concat()
 }

@@ -6,7 +6,7 @@ use std::io::{BufferedReader, File};
 
 pub static EXPECTED_ANSWER: &'static str = "7273";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/triangle.txt")).ok().expect("file not found."));
 

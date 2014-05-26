@@ -7,7 +7,7 @@ use num::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "49";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut cnt = 1u; // a == 1
     for a in range::<BigUint>(FromPrimitive::from_uint(2).unwrap(),
                               FromPrimitive::from_uint(10).unwrap()) {

@@ -12,7 +12,7 @@ fn is_abundant(prime: &Prime, n: uint) -> bool {
     prime.sum_of_proper_divisor(n) > n
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let max_num = 28123;
     let prime = Prime::new();
 

@@ -44,7 +44,7 @@ fn get_longer(prime: &Prime, p: uint, min_len: uint) -> Option<uint> {
     }
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let limit = 1000000;
 
     let prime = Prime::new();

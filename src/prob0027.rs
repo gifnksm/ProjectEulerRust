@@ -20,7 +20,7 @@ fn get_len(prime: &Prime, a: int, b: int) -> uint {
         }).last().unwrap() as uint;
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let prime = Prime::new();
     let (a, b, _len) = prime.iter()
         .take_while(|&p| p < 1000)

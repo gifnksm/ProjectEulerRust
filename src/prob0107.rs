@@ -8,7 +8,7 @@ use data::union_find::UnionFind;
 
 pub static EXPECTED_ANSWER: &'static str = "259679";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let size = 40;
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/network.txt")).ok().expect("file not found."));

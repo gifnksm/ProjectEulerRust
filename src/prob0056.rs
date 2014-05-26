@@ -10,7 +10,7 @@ use num::bigint::BigUint;
 
 pub static EXPECTED_ANSWER: &'static str = "972";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     range(One::one(), FromPrimitive::from_uint(100).unwrap())
         .map(|a: BigUint| {
             Unfold::new(One::one(), |n| { (*n) = a * (*n); Some((*n).to_str())})

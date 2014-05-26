@@ -7,7 +7,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "6857";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let num = 600851475143;
 
     return Prime::new()

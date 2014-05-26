@@ -18,7 +18,7 @@ pub fn read_matrix(filename: &str) -> (uint, uint, Vec<Vec<uint>>) {
     (mat.get(0).len(), mat.len(), mat)
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let (w, h, mat) = read_matrix("files/matrix.txt");
 
     let mut sum = Vec::from_fn(h, |_y| Vec::from_elem(w, 0u));

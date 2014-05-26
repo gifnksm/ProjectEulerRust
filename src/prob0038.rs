@@ -9,7 +9,7 @@ use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "932718654";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut ans = 0;
     calc::permutate_num([9, 8, 7, 6, 5, 4, 3, 2, 1], 4, 0, 9999, |num, rest| {
             let mut ds = numconv::to_digits(num * 2, 10).collect::<Vec<uint>>();

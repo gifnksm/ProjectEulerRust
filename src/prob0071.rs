@@ -3,7 +3,7 @@
 
 pub static EXPECTED_ANSWER: &'static str = "428570";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let limit = 1000000;
     let mut max_n = 0;
     let mut max_d = 1;

@@ -140,7 +140,7 @@ impl Iterator<(uint, Vec<uint>)> for RadValues {
     }
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     static LIMIT: uint = 100000;
     let index = 10000;
 

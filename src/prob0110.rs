@@ -38,7 +38,7 @@ impl TotalOrd for Elem {
 }
 
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let limit = 4000000;
 
     let prime = Prime::new();

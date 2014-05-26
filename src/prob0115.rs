@@ -10,7 +10,7 @@ use prob0114::get_cnt;
 
 pub static EXPECTED_ANSWER: &'static str = "168";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut map = HashMap::new();
     iter::count(1u, 1)
         .filter(|&n| get_cnt(n, 50, &mut map) > 1000000)

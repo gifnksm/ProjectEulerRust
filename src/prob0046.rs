@@ -18,7 +18,7 @@ fn is_goldbach(prime: &Prime, n: uint) -> bool {
     return false;
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let prime = Prime::new();
     return iter::count(3u, 2)
         .filter(|&n| !prime.contains(n))

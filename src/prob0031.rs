@@ -14,7 +14,7 @@ fn count_ways(sum: uint, coins: &[uint]) -> uint {
     return ans;
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let coins = [ 200, 100, 50, 20, 10, 5, 2, 1 ];
     return count_ways(200, coins).to_str();
 }

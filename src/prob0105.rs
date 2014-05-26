@@ -39,7 +39,7 @@ fn is_sss(nums: &[uint]) -> bool {
     true
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/sets.txt")).ok().expect("file not found."));
 

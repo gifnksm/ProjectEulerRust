@@ -90,7 +90,7 @@ fn update_dm_list(list: &[(Vec<uint>, DigitMap)], base: uint, radix: uint, len: 
     result
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut result = create_dm_list(17, 10, 3);
     let base_list = [13u, 11, 7, 5, 3, 2, 1];
     for &base in base_list.iter() {

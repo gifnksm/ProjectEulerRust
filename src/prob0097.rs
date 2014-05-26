@@ -34,7 +34,7 @@ fn add_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
     (a + *b) % *unit
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let unit: BigUint = FromPrimitive::from_uint(100_0000_0000).unwrap();
     return add_unit(
         &mul_unit(&FromPrimitive::from_uint(28433).unwrap(),

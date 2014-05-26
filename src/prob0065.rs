@@ -19,7 +19,7 @@ fn napier_seq(i: uint) -> uint {
     }
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let len = 100;
 
     let napier = Vec::from_fn(len, napier_seq);

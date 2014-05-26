@@ -11,7 +11,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "612407567715";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let n = 10u;
     let prime = Prime::new();
     let mut total = 0;

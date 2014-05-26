@@ -11,7 +11,7 @@ use math::prime::{Prime, FactorIterator};
 
 pub static EXPECTED_ANSWER: &'static str = "232792560";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut map = HashMap::new();
     let prime = Prime::new();
     for i in range(1u, 20) {

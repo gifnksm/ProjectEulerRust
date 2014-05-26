@@ -21,7 +21,7 @@ pub static EXPECTED_ANSWER: &'static str = "45228";
 // 2 x 3 = 4 : OK
 // 3 x 3 = 3 : NG
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let digits = &[1, 2, 3, 4, 5, 6, 7, 8, 9];
     let mut answer = HashSet::new();
 

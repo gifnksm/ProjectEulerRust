@@ -16,7 +16,7 @@ type BITS = u16;
 static MASK_ALL: BITS = 0x1ff;
 
 struct SuDoku {
-    name: StrBuf,
+    name: String,
     map: [[BITS, .. BOARD_WIDTH], .. BOARD_HEIGHT]
 }
 
@@ -185,7 +185,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     answers.move_iter().collect()
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut br = BufferedReader::new(
         File::open(&Path::new("files/sudoku.txt")).ok().expect("file not found."));
 

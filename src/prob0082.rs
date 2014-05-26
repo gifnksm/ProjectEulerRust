@@ -7,7 +7,7 @@ use std::{cmp, uint};
 
 pub static EXPECTED_ANSWER: &'static str = "260324";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let (w, h, mat) = prob0081::read_matrix("files/matrix.txt");
 
     let mut sum = Vec::from_fn(h, |_y| Vec::from_elem(w, 0u));

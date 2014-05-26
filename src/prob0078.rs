@@ -10,7 +10,7 @@ static MILLION: int = 1000000;
 #[inline]
 fn penta(n: int) -> int { n * (3 * n - 1) / 2 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut v = [0, ..65536];
     v[0] = 1;
 

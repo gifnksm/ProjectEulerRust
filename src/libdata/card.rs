@@ -85,7 +85,7 @@ mod tests {
     fn show_suit() {
         assert_eq!("_".to_owned(), format!("{}", Dummy));
 
-        fn check_pair(s: StrBuf, suite: Suit) {
+        fn check_pair(s: String, suite: Suit) {
             assert_eq!(s, format!("{}", suite));
             assert_eq!(Some(suite), from_str(s.as_slice()));
         }
@@ -99,7 +99,7 @@ mod tests {
     fn show_card() {
         assert_eq!("__".to_owned(), format!("{}", Card::dummy()));
 
-        fn check_pair(s: StrBuf, card: Card) {
+        fn check_pair(s: String, card: Card) {
             assert_eq!(s, format!("{}", card));
             assert_eq!(Some(card), from_str(s.as_slice()));
         }

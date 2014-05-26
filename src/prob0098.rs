@@ -34,7 +34,7 @@ fn is_square(n: uint) -> bool {
     (sq * sq == n)
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut reader = File::open(&Path::new("files/words.txt")).ok().expect("file not found.");
     let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
 

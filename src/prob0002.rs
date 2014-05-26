@@ -8,7 +8,7 @@ use math::sequence;
 
 pub static EXPECTED_ANSWER: &'static str = "4613732";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let limit = 4000000;
     return sequence::fibonacci::<uint>()
         .take_while(|&f| f < limit)

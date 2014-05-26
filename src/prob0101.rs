@@ -41,7 +41,7 @@ fn op(ns: &[(BigInt, BigInt)]) -> Poly<Ratio<BigInt>> {
 // y = y1 (x - x2)(x - x3) / (x1 - x2)(x1 - x3)
 //   + y2 (x - x1)(x - x3) / (x2 - x1)(x2 - x3)
 //   + y3 (x - x1)(x - x2) / (x3 - x1)(x3 - x2)
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let un = Vec::from_fn(11, |n| (FromPrimitive::from_uint(n + 1).unwrap(),
                                    u(FromPrimitive::from_uint(n + 1).unwrap())));
     let mut sum: BigInt = Zero::zero();

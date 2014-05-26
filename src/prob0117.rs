@@ -25,7 +25,7 @@ fn count(len: uint, map: &mut HashMap<uint, uint>) -> uint {
     sum
 }
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let mut map = HashMap::new();
     count(50, &mut map).to_str()
 }

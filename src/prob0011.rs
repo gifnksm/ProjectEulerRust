@@ -33,7 +33,7 @@ static INPUT: &'static str = "
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 ";
 
-pub fn solve() -> StrBuf {
+pub fn solve() -> String {
     let grid: Vec<Vec<uint>> = INPUT
         .trim()
         .lines()
