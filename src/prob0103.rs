@@ -139,7 +139,7 @@ fn each_sss(f: |&SSSElem| -> bool) -> bool {
 // (a, b, c) => SSS if a > b > c && a + b > c
 // (a, b, c, d) +> SSS if a > b > c > d && a + b > d &&
 pub fn solve() -> String {
-    let mut ans = "".to_owned();
+    let mut ans = "".to_string();
     each_sss(|sss| {
             if sss.sss.len() == 7 {
                 ans = sss.sss.iter().map(|&n| n.to_str()).collect::<Vec<String>>().concat();

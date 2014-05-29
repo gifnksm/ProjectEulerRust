@@ -17,7 +17,7 @@ impl<T: Clone> Monoid for Vec<T> {
 
 impl Monoid for String {
     #[inline(always)]
-    fn mempty() -> String { "".to_owned() }
+    fn mempty() -> String { "".to_string() }
     #[inline(always)]
     fn mappend(&self, other: &String) -> String { format!("{}{}", self, other) }
 }
@@ -225,8 +225,8 @@ mod tests {
         check_wrap(v3, Min, 0);
 
         assert_eq!(super::mconcat([vec![], vec![1, 2, 3], vec![4], vec![5]]), vec![1, 2, 3, 4, 5]);
-        assert_eq!(super::mconcat(["".to_owned(), "abc".to_owned(), "d".to_owned(), "e".to_owned()]),
-                   "abcde".to_owned());
+        assert_eq!(super::mconcat(["".to_string(), "abc".to_string(), "d".to_string(), "e".to_string()]),
+                   "abcde".to_string());
     }
 
     #[test]

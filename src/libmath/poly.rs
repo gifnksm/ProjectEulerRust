@@ -43,7 +43,7 @@ impl<T> Poly<T> {
 
 impl<T: Zero + One + Eq + Neg<T> + Ord + fmt::Show> Poly<T> {
     pub fn pretty(&self, x: &str) -> String {
-        if self.is_zero() { return "0".to_owned() }
+        if self.is_zero() { return "0".to_string() }
 
         let one = One::one();
         let mut s = Vec::new();
@@ -63,7 +63,7 @@ impl<T: Zero + One + Eq + Neg<T> + Ord + fmt::Show> Poly<T> {
                 else { format!("{}*{}^{}", n.to_str(), x, i) }
             };
 
-            if s.len() > 0 && (*n) > Zero::zero() { s.push("+".to_owned()); }
+            if s.len() > 0 && (*n) > Zero::zero() { s.push("+".to_string()); }
             s.push(term);
         }
 
@@ -225,15 +225,15 @@ mod tests {
 
     #[test]
     fn pretty() {
-        assert_eq!(Poly::from_slice([0]).pretty("x"), "0".to_owned());
-        assert_eq!(Poly::from_slice([1]).pretty("x"), "1".to_owned());
-        assert_eq!(Poly::from_slice([1, 1]).pretty("x"), "1+x".to_owned());
-        assert_eq!(Poly::from_slice([1, 1, 1]).pretty("x"), "1+x+x^2".to_owned());
-        assert_eq!(Poly::from_slice([2, 2, 2]).pretty("x"), "2+2*x+2*x^2".to_owned());
-        assert_eq!(Poly::from_slice([0, 0, 0, 1]).pretty("x"), "x^3".to_owned());
-        assert_eq!(Poly::from_slice([0, 0, 0, -1]).pretty("x"), "-x^3".to_owned());
-        assert_eq!(Poly::from_slice([-1, 0, 0, -1]).pretty("x"), "-1-x^3".to_owned());
-        assert_eq!(Poly::from_slice([-1, 1, 0, -1]).pretty("x"), "-1+x-x^3".to_owned());
-        assert_eq!(Poly::from_slice([-1, 1, -1, -1]).pretty("x"), "-1+x-x^2-x^3".to_owned());
+        assert_eq!(Poly::from_slice([0]).pretty("x"), "0".to_string());
+        assert_eq!(Poly::from_slice([1]).pretty("x"), "1".to_string());
+        assert_eq!(Poly::from_slice([1, 1]).pretty("x"), "1+x".to_string());
+        assert_eq!(Poly::from_slice([1, 1, 1]).pretty("x"), "1+x+x^2".to_string());
+        assert_eq!(Poly::from_slice([2, 2, 2]).pretty("x"), "2+2*x+2*x^2".to_string());
+        assert_eq!(Poly::from_slice([0, 0, 0, 1]).pretty("x"), "x^3".to_string());
+        assert_eq!(Poly::from_slice([0, 0, 0, -1]).pretty("x"), "-x^3".to_string());
+        assert_eq!(Poly::from_slice([-1, 0, 0, -1]).pretty("x"), "-1-x^3".to_string());
+        assert_eq!(Poly::from_slice([-1, 1, 0, -1]).pretty("x"), "-1+x-x^3".to_string());
+        assert_eq!(Poly::from_slice([-1, 1, -1, -1]).pretty("x"), "-1+x-x^2-x^3".to_string());
     }
 }
