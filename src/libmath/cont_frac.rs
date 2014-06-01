@@ -208,7 +208,7 @@ mod tests {
         assert_eq!(super::sqrt(13), (3, ~[1,1,1,1,6]));
     }
 
-    #[deriving(Eq, Show)]
+    #[deriving(TotalEq, PartialEq, Show)]
     struct Uint(uint);
 
     impl Uint {

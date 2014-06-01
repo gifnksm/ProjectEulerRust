@@ -21,7 +21,7 @@ impl<E, M, S: Iterator<E>> Difference<E, M, S> {
     }
 }
 
-impl<E: Eq + Ord + TotalOrd, M: Iterator<E>, S: Iterator<E>> Iterator<E> for Difference<E, M, S> {
+impl<E: TotalEq + TotalOrd, M: Iterator<E>, S: Iterator<E>> Iterator<E> for Difference<E, M, S> {
     fn next(&mut self) -> Option<E> {
         'minuend: loop {
             match self.minuend.next() {

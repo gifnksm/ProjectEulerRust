@@ -1,7 +1,7 @@
 use std::{cmp, fmt, num};
 use std::num::{Zero, One};
 
-#[deriving(Eq, Clone, Show)]
+#[deriving(Eq, PartialEq, Clone, Show)]
 pub struct Poly<T> { data: Vec<T> }
 
 impl<T: Zero> Poly<T> {
@@ -41,7 +41,7 @@ impl<T> Poly<T> {
     pub fn into_vec(self) -> Vec<T> { self.data }
 }
 
-impl<T: Zero + One + Eq + Neg<T> + Ord + fmt::Show> Poly<T> {
+impl<T: Zero + One + TotalEq + Neg<T> + TotalOrd + fmt::Show> Poly<T> {
     pub fn pretty(&self, x: &str) -> String {
         if self.is_zero() { return "0".to_string() }
 

@@ -9,10 +9,10 @@ use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "16695334890";
 
-#[deriving(TotalEq)]
+#[deriving(Eq)]
 struct DigitMap { used: [ bool, ..10] }
 
-impl Eq for DigitMap {
+impl PartialEq for DigitMap {
     fn eq(&self, other: &DigitMap) -> bool { self.used == other.used }
 }
 

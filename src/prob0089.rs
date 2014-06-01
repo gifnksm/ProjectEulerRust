@@ -57,7 +57,7 @@ fn to_roman(mut n: uint) -> String {
     if n >= 5 { n -= 5; s.push_str("V"); }
     if n >= 4 { n -= 4; s.push_str("IV"); }
     while n > 0 { n -= 1; s.push_str("I"); }
-    return s.into_owned();
+    return s.into_string();
 }
 
 pub fn solve() -> String {

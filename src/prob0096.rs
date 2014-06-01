@@ -23,7 +23,7 @@ struct SuDoku {
 // #7622 (rust): #[deriving(TotalEq, Eq, Clone)] cannnot be used
 impl TotalEq for SuDoku {}
 
-impl Eq for SuDoku {
+impl PartialEq for SuDoku {
     #[inline]
     fn eq(&self, other: &SuDoku) -> bool {
         self.name == other.name && range(0, BOARD_HEIGHT).all(|y| self.map[y] == other.map[y])

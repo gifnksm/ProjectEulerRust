@@ -13,7 +13,7 @@ pub static EXPECTED_ANSWER: &'static str = "21417";
 
 struct Multiple(uint, uint);
 
-impl Eq for Multiple {
+impl PartialEq for Multiple {
     fn eq(&self, other: &Multiple) -> bool {
         let Multiple(ref sn, _) = *self;
         let Multiple(ref on, _) = *other;
@@ -23,7 +23,7 @@ impl Eq for Multiple {
 
 impl TotalEq for Multiple {}
 
-impl Ord for Multiple {
+impl PartialOrd for Multiple {
     #[inline]
     fn lt(&self, other: &Multiple) -> bool {
         let Multiple(ref sn, _) = *self;
@@ -74,7 +74,7 @@ impl Iterator<uint> for Multiples {
 
 struct RadValue(uint, Vec<uint>, uint);
 
-impl Eq for RadValue {
+impl PartialEq for RadValue {
     #[inline]
     fn eq(&self, other: &RadValue) -> bool {
         let RadValue(ref sn, _, _) = *self;
@@ -85,7 +85,7 @@ impl Eq for RadValue {
 
 impl TotalEq for RadValue {}
 
-impl Ord for RadValue {
+impl PartialOrd for RadValue {
     #[inline]
     fn lt(&self, other: &RadValue) -> bool {
         let RadValue(ref sn, _, _) = *self;

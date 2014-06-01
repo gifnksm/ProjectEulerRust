@@ -1,7 +1,7 @@
 use std::{char, fmt};
 use std::from_str::FromStr;
 
-#[deriving(Eq)]
+#[deriving(Eq, PartialEq)]
 pub enum Suit {
     Dummy, Spade, Heart, Dia, Club
 }
@@ -33,7 +33,7 @@ impl FromStr for Suit {
     }
 }
 
-#[deriving(Eq)]
+#[deriving(Eq, PartialEq)]
 pub struct Card {
     pub num: uint,
     pub suit: Suit

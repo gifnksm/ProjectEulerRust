@@ -10,7 +10,7 @@ pub static EXPECTED_ANSWER: &'static str = "9350130049860600";
 
 struct Elem (uint, Vec<uint>);
 
-impl Eq for Elem {
+impl PartialEq for Elem {
     fn eq(&self, other: &Elem) -> bool {
         let &Elem(s, _) = self;
         let &Elem(o, _) = other;
@@ -18,7 +18,7 @@ impl Eq for Elem {
     }
 }
 impl TotalEq for Elem {}
-impl Ord for Elem {
+impl PartialOrd for Elem {
     fn lt(&self, other: &Elem) -> bool {
         let &Elem(s, _) = self;
         let &Elem(o, _) = other;

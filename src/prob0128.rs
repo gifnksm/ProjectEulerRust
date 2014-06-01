@@ -139,7 +139,7 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "14516824220";
 
-#[deriving(Eq, Show)]
+#[deriving(Eq, PartialEq, Show)]
 struct PdTriple {
     n: uint,
     r: uint,

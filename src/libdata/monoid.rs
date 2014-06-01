@@ -9,16 +9,16 @@ pub trait Monoid {
 }
 
 impl<T: Clone> Monoid for Vec<T> {
-    #[inline(always)]
+    #[inline]
     fn mempty() -> Vec<T> { Vec::new() }
-    #[inline(always)]
+    #[inline]
     fn mappend(&self, other: &Vec<T>) -> Vec<T> { self + *other }
 }
 
 impl Monoid for String {
-    #[inline(always)]
+    #[inline]
     fn mempty() -> String { "".to_string() }
-    #[inline(always)]
+    #[inline]
     fn mappend(&self, other: &String) -> String { format!("{}{}", self, other) }
 }
 
@@ -31,111 +31,119 @@ pub trait Wrap<T> {
 
 pub trait WrapMonoid<T>: Wrap<T> + Monoid {}
 
-#[deriving(Eq, Clone, Show)]
+#[deriving(Eq, PartialEq, Clone, Show)]
 pub struct Sum<T> { repr: T }
 
-#[inline(always)]
-pub fn Sum<T>(val: T) -> Sum<T> { Sum { repr: val } }
+impl<T> Sum<T> {
+    #[inline]
+    pub fn new(val: T) -> Sum<T> { Sum { repr: val }}
+}
 
 impl<T: Zero + Add<T, T>> Monoid for Sum<T> {
-    #[inline(always)]
-    fn mempty() -> Sum<T> { Sum(Zero::zero()) }
-    #[inline(always)]
-    fn mappend(&self, other: &Sum<T>) -> Sum<T> { Sum(self.repr + other.repr) }
+    #[inline]
+    fn mempty() -> Sum<T> { Sum::new(Zero::zero()) }
+    #[inline]
+    fn mappend(&self, other: &Sum<T>) -> Sum<T> { Sum::new(self.repr + other.repr) }
 }
 
 impl<T> Wrap<T> for Sum<T> {
-    #[inline(always)]
-    fn wrap(val: T) -> Sum<T> { Sum(val) }
-    #[inline(always)]
+    #[inline]
+    fn wrap(val: T) -> Sum<T> { Sum::new(val) }
+    #[inline]
     fn unwrap(self) -> T { match self { Sum { repr: repr } => repr } }
-    #[inline(always)]
+    #[inline]
     fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
 impl<T: Zero + Add<T, T>> WrapMonoid<T> for Sum<T> {}
 
 
-#[deriving(Eq, Clone, Show)]
+#[deriving(Eq, PartialEq, Clone, Show)]
 pub struct Prod<T> { repr: T }
 
-#[inline(always)]
-pub fn Prod<T>(val: T) -> Prod<T> { Prod { repr: val }}
+impl<T> Prod<T> {
+    #[inline]
+    pub fn new(val: T) -> Prod<T> { Prod { repr: val }}
+}
 
 impl<T: One + Mul<T, T>> Monoid for Prod<T> {
-    #[inline(always)]
-    fn mempty() -> Prod<T> { Prod(One::one()) }
-    #[inline(always)]
-    fn mappend(&self, other: &Prod<T>) -> Prod<T> { Prod(self.repr * other.repr) }
+    #[inline]
+    fn mempty() -> Prod<T> { Prod::new(One::one()) }
+    #[inline]
+    fn mappend(&self, other: &Prod<T>) -> Prod<T> { Prod::new(self.repr * other.repr) }
 }
 
 impl<T> Wrap<T> for Prod<T> {
-    #[inline(always)]
-    fn wrap(val: T) -> Prod<T> { Prod(val) }
-    #[inline(always)]
+    #[inline]
+    fn wrap(val: T) -> Prod<T> { Prod::new(val) }
+    #[inline]
     fn unwrap(self) -> T { match self { Prod { repr: repr } => repr } }
-    #[inline(always)]
+    #[inline]
     fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
 impl<T: One + Mul<T, T>> WrapMonoid<T> for Prod<T> {}
 
 
-#[deriving(Eq, Clone, Show)]
+#[deriving(Eq, PartialEq, Clone, Show)]
 pub struct Max<T> { repr: T }
 
-#[inline(always)]
-pub fn Max<T>(val: T) -> Max<T> { Max{ repr: val } }
+impl<T> Max<T> {
+    #[inline]
+    pub fn new(val: T) -> Max<T> { Max { repr: val } }
+}
 
 impl<T: Clone + Bounded + Ord> Monoid for Max<T> {
-    #[inline(always)]
-    fn mempty() -> Max<T> { Max(Bounded::min_value()) }
-    #[inline(always)]
+    #[inline]
+    fn mempty() -> Max<T> { Max::new(Bounded::min_value()) }
+    #[inline]
     fn mappend(&self, other: &Max<T>) -> Max<T> {
         if self.repr > other.repr { self.clone() } else { other.clone() }
     }
 }
 
 impl<T> Wrap<T> for Max<T> {
-    #[inline(always)]
-    fn wrap(val: T) -> Max<T> { Max(val) }
-    #[inline(always)]
+    #[inline]
+    fn wrap(val: T) -> Max<T> { Max::new(val) }
+    #[inline]
     fn unwrap(self) -> T { match self { Max { repr: repr } => repr } }
-    #[inline(always)]
+    #[inline]
     fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
 impl<T: Clone + Bounded + Ord> WrapMonoid<T> for Max<T> {}
 
 
-#[deriving(Eq, Clone, Show)]
+#[deriving(Eq, PartialEq, Clone, Show)]
 pub struct Min<T> { repr: T }
 
-#[inline(always)]
-pub fn Min<T>(val: T) -> Min<T> { Min { repr: val } }
+impl<T> Min<T> {
+    #[inline]
+    pub fn new(val: T) -> Min<T> { Min { repr: val } }
+}
 
 impl<T: Clone + Bounded + Ord> Monoid for Min<T> {
-    #[inline(always)]
-    fn mempty() -> Min<T> { Min(Bounded::max_value()) }
-    #[inline(always)]
+    #[inline]
+    fn mempty() -> Min<T> { Min::new(Bounded::max_value()) }
+    #[inline]
     fn mappend(&self, other: &Min<T>) -> Min<T> {
         if self.repr < other.repr { self.clone() } else { other.clone() }
     }
 }
 
 impl<T> Wrap<T> for Min<T> {
-    #[inline(always)]
-    fn wrap(val: T) -> Min<T> { Min(val) }
-    #[inline(always)]
+    #[inline]
+    fn wrap(val: T) -> Min<T> { Min::new(val) }
+    #[inline]
     fn unwrap(self) -> T { match self { Min { repr: repr } => repr } }
-    #[inline(always)]
+    #[inline]
     fn unwrap_ref<'a>(&'a self) -> &'a T { &self.repr}
 }
 
 impl<T: Clone + Bounded + Ord> WrapMonoid<T> for Min<T> {}
 
 
-#[inline(always)]
+#[inline]
 pub fn mconcat<T: Monoid>(v: &[T]) -> T {
     v.iter().fold(Monoid::mempty(), |accum: T, elem| { accum.mappend(elem) })
 }
@@ -148,7 +156,7 @@ pub struct MergeMonoidIterator<V, T, U> {
 }
 
 impl<V, T: Iterator<V>, U: Iterator<V>> MergeMonoidIterator<V, T, U> {
-    #[inline(always)]
+    #[inline]
     pub fn new(iter1: T, iter2: U) -> MergeMonoidIterator<V, T, U> {
         MergeMonoidIterator { iter1: iter1, value1: None, iter2: iter2, value2: None }
     }
@@ -196,7 +204,7 @@ mod tests {
 
     #[test]
     fn test_mconcat() {
-        fn check_wrap<T: Eq + Clone + Show, M: Monoid + Wrap<T>>(v: &[T], f: |T| -> M, result: T) {
+        fn check_wrap<T: TotalEq + Clone + Show, M: Monoid + Wrap<T>>(v: &[T], f: |T| -> M, result: T) {
             let ms = v.to_owned().move_iter().map(f).collect::<Vec<M>>();
             assert_eq!(super::mconcat(ms.as_slice()).unwrap(), result);
         }
@@ -206,23 +214,23 @@ mod tests {
         let v3 = [0, 0, 0, 0];
         let v4 = [];
 
-        check_wrap(v1, Sum, 10);
-        check_wrap(v2, Sum, 10);
-        check_wrap(v3, Sum, 0);
-        check_wrap(v4, Sum, 0);
+        check_wrap(v1, Sum::new, 10);
+        check_wrap(v2, Sum::new, 10);
+        check_wrap(v3, Sum::new, 0);
+        check_wrap(v4, Sum::new, 0);
 
-        check_wrap(v1, Prod, 24);
-        check_wrap(v2, Prod, 0);
-        check_wrap(v3, Prod, 0);
-        check_wrap(v4, Prod, 1);
+        check_wrap(v1, Prod::new, 24);
+        check_wrap(v2, Prod::new, 0);
+        check_wrap(v3, Prod::new, 0);
+        check_wrap(v4, Prod::new, 1);
 
-        check_wrap(v1, Max, 4);
-        check_wrap(v2, Max, 4);
-        check_wrap(v3, Max, 0);
+        check_wrap(v1, Max::new, 4);
+        check_wrap(v2, Max::new, 4);
+        check_wrap(v3, Max::new, 0);
 
-        check_wrap(v1, Min, 1);
-        check_wrap(v2, Min, 0);
-        check_wrap(v3, Min, 0);
+        check_wrap(v1, Min::new, 1);
+        check_wrap(v2, Min::new, 0);
+        check_wrap(v3, Min::new, 0);
 
         assert_eq!(super::mconcat([vec![], vec![1, 2, 3], vec![4], vec![5]]), vec![1, 2, 3, 4, 5]);
         assert_eq!(super::mconcat(["".to_string(), "abc".to_string(), "d".to_string(), "e".to_string()]),
@@ -231,7 +239,7 @@ mod tests {
 
     #[test]
     fn test_merge_monoid_iterator() {
-        fn check<M: Monoid + Wrap<int> + Eq + Show>(v1: &[(int, int)],
+        fn check<M: Monoid + Wrap<int> + TotalEq + Show>(v1: &[(int, int)],
                                                     v2: &[(int, int)],
                                                     f: fn(int) -> M,
                                                     result: &[(int, int)]) {
@@ -251,18 +259,18 @@ mod tests {
         let v1 = [(1, 1), (3, 1), (4, 3), (6, 1)];
         let v2 = [(1, 2), (2, 1), (4, 2), (7, 2)];
 
-        check(v1, v2, Sum, [(1, 3), (2, 1), (3, 1), (4, 5), (6, 1), (7, 2)]);
-        check(v1, v2, Prod, [(1, 2), (2, 1), (3, 1), (4, 6), (6, 1), (7, 2)]);
-        check(v1, v2, Max, [(1, 2), (2, 1), (3, 1), (4, 3), (6, 1), (7, 2)]);
-        check(v1, v2, Min, [(1, 1), (2, 1), (3, 1), (4, 2), (6, 1), (7, 2)]);
+        check(v1, v2, Sum::new, [(1, 3), (2, 1), (3, 1), (4, 5), (6, 1), (7, 2)]);
+        check(v1, v2, Prod::new, [(1, 2), (2, 1), (3, 1), (4, 6), (6, 1), (7, 2)]);
+        check(v1, v2, Max::new, [(1, 2), (2, 1), (3, 1), (4, 3), (6, 1), (7, 2)]);
+        check(v1, v2, Min::new, [(1, 1), (2, 1), (3, 1), (4, 2), (6, 1), (7, 2)]);
 
-        check(v1, [], Sum, v1);
-        check([], [], Sum, []);
-        check(v1, [], Prod, v1);
-        check([], [], Prod, []);
-        check(v1, [], Max, v1);
-        check([], [], Max, []);
-        check(v1, [], Min, v1);
-        check([], [], Min, []);
+        check(v1, [], Sum::new, v1);
+        check([], [], Sum::new, []);
+        check(v1, [], Prod::new, v1);
+        check([], [], Prod::new, []);
+        check(v1, [], Max::new, v1);
+        check([], [], Max::new, []);
+        check(v1, [], Min::new, v1);
+        check([], [], Min::new, []);
     }
 }

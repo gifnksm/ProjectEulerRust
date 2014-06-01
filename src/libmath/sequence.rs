@@ -70,7 +70,7 @@ impl Iterator<(uint, uint, uint)> for PrimPythagoreanIterator {
 #[cfg(test)]
 mod tests {
     use std::fmt;
-    fn check<T: Eq + fmt::Show, I: Iterator<T>>(expected: &[T], mut it: I) {
+    fn check<T: TotalEq + fmt::Show, I: Iterator<T>>(expected: &[T], mut it: I) {
         assert_eq!(expected, it.collect::<Vec<_>>().as_slice());
     }
 

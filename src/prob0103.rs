@@ -13,12 +13,12 @@ struct SSSElem {
     sums: Vec<uint>
 }
 
-impl Eq for SSSElem {
+impl PartialEq for SSSElem {
     fn eq(&self, other: &SSSElem) -> bool { self.avg == other.avg }
 }
 impl TotalEq for SSSElem {}
 
-impl Ord for SSSElem {
+impl PartialOrd for SSSElem {
     #[inline(always)]
     fn lt(&self, other: &SSSElem) -> bool { self.avg >  other.avg }
     #[inline(always)]

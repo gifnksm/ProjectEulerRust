@@ -17,7 +17,7 @@ enum CountResult<K> {
     Skip(uint)
 }
 
-fn get_at<K: Hash + Eq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> CountResult<K> {
+fn get_at<K: Hash + TotalEq + TotalOrd + Clone>(hist: &HashMap<K, uint>, n: uint) -> CountResult<K> {
     if hist.is_empty() {
         if n == 1 {
             return Contains(vec![]);

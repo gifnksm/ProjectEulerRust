@@ -9,7 +9,7 @@ use collections::HashSet;
 
 pub static EXPECTED_ANSWER: &'static str = "425185";
 
-#[deriving(TotalEq, Eq, Hash, Clone)]
+#[deriving(Eq, PartialEq, Hash, Clone)]
 struct Point { x: uint, y: uint }
 
 pub fn solve() -> String {
