@@ -1,4 +1,3 @@
-use std::mem;
 use std::cmp::{Ord, Eq};
 use std::ops::{Add, Mul};
 use std::num::{Zero, One, Bounded};
@@ -148,58 +147,9 @@ pub fn mconcat<T: Monoid>(v: &[T]) -> T {
     v.iter().fold(Monoid::mempty(), |accum: T, elem| { accum.mappend(elem) })
 }
 
-pub struct MergeMonoidIterator<V, T, U> {
-    iter1: T,
-    value1: Option<V>,
-    iter2: U,
-    value2: Option<V>
-}
-
-impl<V, T: Iterator<V>, U: Iterator<V>> MergeMonoidIterator<V, T, U> {
-    #[inline]
-    pub fn new(iter1: T, iter2: U) -> MergeMonoidIterator<V, T, U> {
-        MergeMonoidIterator { iter1: iter1, value1: None, iter2: iter2, value2: None }
-    }
-}
-
-impl<K: TotalOrd, V: Monoid, T: Iterator<(K, V)>, U: Iterator<(K, V)>>
-    Iterator<(K, V)> for MergeMonoidIterator<(K, V), T, U> {
-    fn next(&mut self) -> Option<(K, V)> {
-        fn return_val<V>(opt: &mut Option<V>) -> Option<V> {
-            let mut result = None;
-            mem::swap(opt, &mut result);
-            return result;
-        }
-
-        // Fill value if empty (if iter ends, set None)
-        if self.value1.is_none() { self.value1 = self.iter1.next(); }
-        if self.value2.is_none() { self.value2 = self.iter2.next(); }
-
-        // If one value is None, returns anogher value (with setting None)
-        if self.value1.is_none() { return return_val(&mut self.value2); }
-        if self.value2.is_none() { return return_val(&mut self.value1); }
-
-        // Returns smaller value
-        let cmp = self.value1.get_ref().ref0().cmp(self.value2.get_ref().ref0());
-        match cmp {
-            Less    => { return return_val(&mut self.value1); }
-            Greater => { return return_val(&mut self.value2); },
-            Equal   => {
-                let mut r1 = None;
-                let mut r2 = None;
-                mem::swap(&mut self.value1, &mut r1);
-                mem::swap(&mut self.value2, &mut r2);
-                let ((k, v1), (_, v2)) = (r1.unwrap(), r2.unwrap());
-                return Some((k, v1.mappend(&v2)));
-            }
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
-    use super::{Monoid, Wrap, Sum, Prod, Max, Min,
-                MergeMonoidIterator};
+    use super::{Monoid, Wrap, Sum, Prod, Max, Min};
     use std::fmt::Show;
 
     #[test]
@@ -235,42 +185,5 @@ mod tests {
         assert_eq!(super::mconcat([vec![], vec![1, 2, 3], vec![4], vec![5]]), vec![1, 2, 3, 4, 5]);
         assert_eq!(super::mconcat(["".to_string(), "abc".to_string(), "d".to_string(), "e".to_string()]),
                    "abcde".to_string());
-    }
-
-    #[test]
-    fn test_merge_monoid_iterator() {
-        fn check<M: Monoid + Wrap<int> + TotalEq + Show>(v1: &[(int, int)],
-                                                    v2: &[(int, int)],
-                                                    f: fn(int) -> M,
-                                                    result: &[(int, int)]) {
-            let merged = MergeMonoidIterator::new(
-                v1.iter().map(|&(x, y)| (x, f(y))),
-                v2.iter().map(|&(x, y)| (x, f(y)))
-            ).collect::<Vec<(int, M)>>();
-            assert_eq!(merged, result.iter().map(|&(x, y)| (x, f(y))).collect());
-
-            let merged = MergeMonoidIterator::new(
-                v2.iter().map(|&(x, y)| (x, f(y))),
-                v1.iter().map(|&(x, y)| (x, f(y)))
-            ).collect::<Vec<(int, M)>>();
-            assert_eq!(merged, result.iter().map(|&(x, y)| (x, f(y))).collect());
-        }
-
-        let v1 = [(1, 1), (3, 1), (4, 3), (6, 1)];
-        let v2 = [(1, 2), (2, 1), (4, 2), (7, 2)];
-
-        check(v1, v2, Sum::new, [(1, 3), (2, 1), (3, 1), (4, 5), (6, 1), (7, 2)]);
-        check(v1, v2, Prod::new, [(1, 2), (2, 1), (3, 1), (4, 6), (6, 1), (7, 2)]);
-        check(v1, v2, Max::new, [(1, 2), (2, 1), (3, 1), (4, 3), (6, 1), (7, 2)]);
-        check(v1, v2, Min::new, [(1, 1), (2, 1), (3, 1), (4, 2), (6, 1), (7, 2)]);
-
-        check(v1, [], Sum::new, v1);
-        check([], [], Sum::new, []);
-        check(v1, [], Prod::new, v1);
-        check([], [], Prod::new, []);
-        check(v1, [], Max::new, v1);
-        check([], [], Max::new, []);
-        check(v1, [], Min::new, v1);
-        check([], [], Min::new, []);
     }
 }
