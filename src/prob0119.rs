@@ -22,7 +22,7 @@ impl PartialEq for Power {
     }
 }
 
-impl TotalEq for Power {}
+impl Eq for Power {}
 
 impl PartialOrd for Power {
     #[inline]
@@ -33,7 +33,7 @@ impl PartialOrd for Power {
     }
 }
 
-impl TotalOrd for Power {
+impl Ord for Power {
     fn cmp(&self, other: &Power) -> Ordering {
         let Power(sn, sb, _) = *self;
         let Power(on, ob, _) = *other;

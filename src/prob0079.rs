@@ -15,7 +15,7 @@ struct Relation<T> {
     succ: HashSet<T>
 }
 
-impl<T: Hash + TotalEq> Relation<T> {
+impl<T: Hash + Eq> Relation<T> {
     fn new() -> Relation<T> { Relation { num_prec: 0, succ: HashSet::new() } }
 }
 
@@ -23,7 +23,7 @@ struct Relations<T> {
     top: HashMap<T, Relation<T>>
 }
 
-impl<T: Hash + TotalEq + Clone> Relations<T> {
+impl<T: Hash + Eq + Clone> Relations<T> {
     fn new() -> Relations<T> { Relations { top: HashMap::new() } }
 
     fn set_dependant(&mut self, prec: T, succ: T) {
@@ -79,7 +79,7 @@ impl<T: Hash + TotalEq + Clone> Relations<T> {
     }
 }
 
-fn tsort<T: Hash + TotalEq + Clone>(rels: &mut Relations<T>) -> Vec<T> {
+fn tsort<T: Hash + Eq + Clone>(rels: &mut Relations<T>) -> Vec<T> {
     let mut sorted = Vec::new();
     let mut queue = rels.find_all_not_preceded();
     while !queue.is_empty() {

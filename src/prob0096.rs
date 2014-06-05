@@ -20,8 +20,8 @@ struct SuDoku {
     map: [[BITS, .. BOARD_WIDTH], .. BOARD_HEIGHT]
 }
 
-// #7622 (rust): #[deriving(TotalEq, Eq, Clone)] cannnot be used
-impl TotalEq for SuDoku {}
+// #7622 (rust): #[deriving(Eq, Eq, Clone)] cannnot be used
+impl Eq for SuDoku {}
 
 impl PartialEq for SuDoku {
     #[inline]

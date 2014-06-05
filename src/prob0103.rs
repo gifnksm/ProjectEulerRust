@@ -16,7 +16,7 @@ struct SSSElem {
 impl PartialEq for SSSElem {
     fn eq(&self, other: &SSSElem) -> bool { self.avg == other.avg }
 }
-impl TotalEq for SSSElem {}
+impl Eq for SSSElem {}
 
 impl PartialOrd for SSSElem {
     #[inline(always)]
@@ -29,7 +29,7 @@ impl PartialOrd for SSSElem {
     fn ge(&self, other: &SSSElem) -> bool { self.avg <= other.avg }
 }
 
-impl TotalOrd for SSSElem {
+impl Ord for SSSElem {
     fn cmp(&self, other: &SSSElem) -> Ordering {
         assert!(!self.avg.is_nan() && !other.avg.is_nan());
         if self.avg < other.avg { return Greater }

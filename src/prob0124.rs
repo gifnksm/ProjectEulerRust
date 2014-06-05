@@ -21,7 +21,7 @@ impl PartialEq for Multiple {
     }
 }
 
-impl TotalEq for Multiple {}
+impl Eq for Multiple {}
 
 impl PartialOrd for Multiple {
     #[inline]
@@ -31,7 +31,7 @@ impl PartialOrd for Multiple {
         on.lt(sn)
     }
 }
-impl TotalOrd for Multiple {
+impl Ord for Multiple {
     #[inline]
     fn cmp(&self, other: &Multiple) -> Ordering {
         let Multiple(ref sn, _) = *self;
@@ -83,7 +83,7 @@ impl PartialEq for RadValue {
     }
 }
 
-impl TotalEq for RadValue {}
+impl Eq for RadValue {}
 
 impl PartialOrd for RadValue {
     #[inline]
@@ -94,7 +94,7 @@ impl PartialOrd for RadValue {
     }
 }
 
-impl TotalOrd for RadValue {
+impl Ord for RadValue {
     #[inline]
     fn cmp(&self, other: &RadValue) -> Ordering {
         let RadValue(ref sn, _, _) = *self;

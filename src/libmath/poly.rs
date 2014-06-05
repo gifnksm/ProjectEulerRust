@@ -41,7 +41,7 @@ impl<T> Poly<T> {
     pub fn into_vec(self) -> Vec<T> { self.data }
 }
 
-impl<T: Zero + One + TotalEq + Neg<T> + TotalOrd + fmt::Show> Poly<T> {
+impl<T: Zero + One + Eq + Neg<T> + Ord + fmt::Show> Poly<T> {
     pub fn pretty(&self, x: &str) -> String {
         if self.is_zero() { return "0".to_string() }
 

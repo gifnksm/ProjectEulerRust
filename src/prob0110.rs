@@ -17,7 +17,7 @@ impl PartialEq for Elem {
         s == o
     }
 }
-impl TotalEq for Elem {}
+impl Eq for Elem {}
 impl PartialOrd for Elem {
     fn lt(&self, other: &Elem) -> bool {
         let &Elem(s, _) = self;
@@ -25,7 +25,7 @@ impl PartialOrd for Elem {
         s.gt(&o)
     }
 }
-impl TotalOrd for Elem {
+impl Ord for Elem {
     fn cmp(&self, other: &Elem) -> Ordering {
         let &Elem(s, _) = self;
         let &Elem(o, _) = other;
