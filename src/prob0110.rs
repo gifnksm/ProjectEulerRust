@@ -1,9 +1,8 @@
 #![crate_id = "prob0110"]
 #![crate_type = "rlib"]
 
-extern crate collections;
 extern crate math;
-use collections::priority_queue::PriorityQueue;
+use std::collections::priority_queue::PriorityQueue;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "9350130049860600";

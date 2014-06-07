@@ -1,12 +1,11 @@
 #![crate_id = "prob0079"]
 #![crate_type = "rlib"]
 
-extern crate collections;
 
 use std::char;
 use std::io::{BufferedReader, File};
 use std::hash::Hash;
-use collections::{HashMap, HashSet};
+use std::collections::{HashMap, HashSet};
 
 pub static EXPECTED_ANSWER: &'static str = "73162890";
 

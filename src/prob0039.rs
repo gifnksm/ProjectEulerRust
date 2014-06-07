@@ -1,12 +1,11 @@
 #![crate_id = "prob0039"]
 #![crate_type = "rlib"]
 
-extern crate collections;
 extern crate num;
 extern crate math;
 
 use std::cmp;
-use collections::HashMap;
+use std::collections::HashMap;
 use num::Integer;
 use math::arith;
 

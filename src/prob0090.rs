@@ -2,9 +2,8 @@
 #![crate_type = "rlib"]
 
 extern crate data;
-extern crate collections;
 
-use collections::bitv::BitvSet;
+use std::collections::bitv::BitvSet;
 use data::extiter::Comb;
 
 pub static EXPECTED_ANSWER: &'static str = "1217";

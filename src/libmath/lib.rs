@@ -1,7 +1,6 @@
 #![crate_id = "math"]
 #![crate_type = "rlib"]
 
-extern crate collections;
 extern crate num;
 extern crate data;
 

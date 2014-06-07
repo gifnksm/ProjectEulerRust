@@ -3,7 +3,7 @@ use std::iter::MultiplicativeIterator;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::local_data::Key;
-use collections::HashMap;
+use std::collections::HashMap;
 
 use num::Integer;
 

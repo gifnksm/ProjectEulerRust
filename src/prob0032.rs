@@ -1,12 +1,11 @@
 #![crate_id = "prob0032"]
 #![crate_type = "rlib"]
 
-extern crate collections;
 extern crate common;
 extern crate math;
 
 use std::iter::AdditiveIterator;
-use collections::HashSet;
+use std::collections::HashSet;
 use common::calc;
 use math::numconv;
 

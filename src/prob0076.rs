@@ -1,9 +1,8 @@
 #![crate_id = "prob0076"]
 #![crate_type = "rlib"]
 
-extern crate collections;
 
-use collections::HashMap;
+use std::collections::HashMap;
 
 pub static EXPECTED_ANSWER: &'static str = "190569291";
 

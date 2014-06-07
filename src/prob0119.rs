@@ -1,12 +1,11 @@
 #![crate_id = "prob0119"]
 #![crate_type = "rlib"]
 
-extern crate collections;
 extern crate math;
 
 use std::num;
 use std::iter::{AdditiveIterator, Filter, SkipWhile};
-use collections::priority_queue::PriorityQueue;
+use std::collections::priority_queue::PriorityQueue;
 use math::numconv;
 
 pub static EXPECTED_ANSWER: &'static str = "248155780267521";

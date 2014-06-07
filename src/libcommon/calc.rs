@@ -1,7 +1,7 @@
 use std::hash::Hash;
 use std::num;
 use std::iter::MultiplicativeIterator;
-use collections::HashMap;
+use std::collections::HashMap;
 
 pub fn histogram<T: Hash + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
     let mut map = HashMap::<T, uint>::new();

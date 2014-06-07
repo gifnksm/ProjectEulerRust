@@ -1,5 +1,5 @@
 use std::mem;
-use collections::HashSet;
+use std::collections::HashSet;
 use num::Integer;
 use arith::isqrt;
 

@@ -1,12 +1,11 @@
 #![crate_id = "prob0124"]
 #![crate_type = "rlib"]
 
-extern crate collections;
 extern crate math;
 #[cfg(test)]
 extern crate test;
 
-use collections::priority_queue::PriorityQueue;
+use std::collections::priority_queue::PriorityQueue;
 use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "21417";
