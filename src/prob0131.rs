@@ -101,6 +101,6 @@ pub fn solve() -> String {
         .map(|q| 3*q*q + 3*q + 1)
         .take_while(|&p| p <= limit)
         .filter(|&p| ps.contains(p) )
-        .len()
+        .count()
         .to_str()
 }

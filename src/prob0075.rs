@@ -20,5 +20,8 @@ pub fn solve() -> String {
         }
     }
 
-    return v.iter().count(|&x| x == 1).to_str();
+    v.iter()
+        .filter(|&x| x == &1)
+        .count()
+        .to_str()
 }

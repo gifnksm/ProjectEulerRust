@@ -31,11 +31,11 @@ pub fn solve() -> String {
             let mut it = sequence::triangle::<uint>().take_while(|&t| t < len);
             for t in it { *is_tri.get_mut(t) = true; }
 
-            values.iter().count(|&v| *is_tri.get(v)).to_str()
+            values.iter().filter(|&v| *is_tri.get(*v)).count().to_str()
         });
 
     match result {
         Err(msg) => { fail!(msg) }
-        Ok(cnt) => { return cnt.to_str(); }
+        Ok(cnt) => { cnt.to_str() }
     }
 }

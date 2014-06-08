@@ -27,6 +27,7 @@ pub fn solve() -> String {
     let prime = Prime::new();
     return prime.iter()
         .take_while(|&p| p < 1000000)
-        .count(|n| is_circular_prime(&prime, n))
+        .filter(|&n| is_circular_prime(&prime, n))
+        .count()
         .to_str();
 }

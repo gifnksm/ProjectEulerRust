@@ -86,7 +86,7 @@ pub fn solve() -> String {
         .map(|w| w.as_slice()
              .chars()
              .filter(|&c| c != '-' && c != ' ')
-             .len())
+             .count())
         .sum()
         .to_str()
 }

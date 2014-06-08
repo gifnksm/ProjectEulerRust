@@ -15,7 +15,7 @@ pub fn solve() -> String {
 
     let mut cnt = 0;
     for n in iter::count(1u, 1) {
-        if prime.factorize(n).len() != num_factor {
+        if prime.factorize(n).count() != num_factor {
             cnt = 0;
             continue
         }
