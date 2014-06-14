@@ -55,11 +55,11 @@ pub fn combinate_overlap<T: Clone>(elems: &[T], len: uint, f: |&[T]| -> bool) ->
 
 pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
                       f: |uint, &[uint]| -> bool) -> bool {
-    let min_vec = fill_zero(num_to_digits(min, 10), len);
-    let max_vec = fill_zero(num_to_digits(max, 10), len);
+    let min_vec = fill_zero(num_to_digits(min, 10).as_slice(), len);
+    let max_vec = fill_zero(num_to_digits(max, 10).as_slice(), len);
     return perm_sub(digits, len, to_some(min_vec.as_slice()), to_some(max_vec.as_slice()), f);
 
-    fn num_to_digits(n: uint, radix: uint) -> ~[uint] {
+    fn num_to_digits(n: uint, radix: uint) -> Vec<uint> {
         let mut buf: [uint, ..64] = [0, ..64];
         let mut filled_idx = buf.len();
         let mut itr = n;
@@ -68,7 +68,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
             filled_idx -= 1;
             itr /= radix;
         }
-        return buf.slice(filled_idx, buf.len()).to_owned();
+        Vec::from_slice(buf.slice(filled_idx, buf.len()))
     }
 
     fn fill_zero(v: &[uint], n: uint) -> Vec<uint> {
@@ -139,11 +139,11 @@ mod tests {
 
     #[test]
     fn test_combinate() {
-        let mut nums = vec!(
-            ~[1, 2, 3], ~[1, 2, 4], ~[1, 2, 5], ~[1, 3, 4], ~[1, 3, 5], ~[1, 4, 5],
-            ~[2, 3, 4], ~[2, 3, 5], ~[2, 4, 5],
-            ~[3, 4, 5]
-        );
+        let mut nums = vec![
+            vec![1, 2, 3], vec![1, 2, 4], vec![1, 2, 5], vec![1, 3, 4], vec![1, 3, 5], vec![1, 4, 5],
+            vec![2, 3, 4], vec![2, 3, 5], vec![2, 4, 5],
+            vec![3, 4, 5]
+        ];
         super::combinate(&[1, 2, 3, 4, 5], 3, |n, _rest| {
             assert_eq!(n, nums.shift().unwrap().as_slice()); true
         });
@@ -151,23 +151,23 @@ mod tests {
 
     #[test]
     fn test_combinate_overlap() {
-        let mut nums = vec!(
-            ~[1, 1, 1], ~[1, 1, 2], ~[1, 1, 3], ~[1, 1, 4], ~[1, 1, 5],
-            ~[1, 2, 2], ~[1, 2, 3], ~[1, 2, 4], ~[1, 2, 5],
-            ~[1, 3, 3], ~[1, 3, 4], ~[1, 3, 5],
-            ~[1, 4, 4], ~[1, 4, 5],
-            ~[1, 5, 5],
-            ~[2, 2, 2], ~[2, 2, 3], ~[2, 2, 4], ~[2, 2, 5],
-            ~[2, 3, 3], ~[2, 3, 4], ~[2, 3, 5],
-            ~[2, 4, 4], ~[2, 4, 5],
-            ~[2, 5, 5],
-            ~[3, 3, 3], ~[3, 3, 4], ~[3, 3, 5],
-            ~[3, 4, 4], ~[3, 4, 5],
-            ~[3, 5, 5],
-            ~[4, 4, 4], ~[4, 4, 5],
-            ~[4, 5, 5],
-            ~[5, 5, 5]
-        );
+        let mut nums = vec![
+            vec![1, 1, 1], vec![1, 1, 2], vec![1, 1, 3], vec![1, 1, 4], vec![1, 1, 5],
+            vec![1, 2, 2], vec![1, 2, 3], vec![1, 2, 4], vec![1, 2, 5],
+            vec![1, 3, 3], vec![1, 3, 4], vec![1, 3, 5],
+            vec![1, 4, 4], vec![1, 4, 5],
+            vec![1, 5, 5],
+            vec![2, 2, 2], vec![2, 2, 3], vec![2, 2, 4], vec![2, 2, 5],
+            vec![2, 3, 3], vec![2, 3, 4], vec![2, 3, 5],
+            vec![2, 4, 4], vec![2, 4, 5],
+            vec![2, 5, 5],
+            vec![3, 3, 3], vec![3, 3, 4], vec![3, 3, 5],
+            vec![3, 4, 4], vec![3, 4, 5],
+            vec![3, 5, 5],
+            vec![4, 4, 4], vec![4, 4, 5],
+            vec![4, 5, 5],
+            vec![5, 5, 5]
+        ];
 
         super::combinate_overlap(&[1, 2, 3, 4, 5], 3, |n| {
             assert_eq!(n, nums.shift().unwrap().as_slice()); true
@@ -176,25 +176,25 @@ mod tests {
 
     #[test]
     fn test_permutate_num() {
-        let mut nums = vec!(
+        let mut nums = vec![
             123, 124, 125, 132, 134, 135, 142, 143, 145, 152, 153, 154,
             213, 214, 215, 231, 234, 235, 241, 243, 245, 251, 253, 254,
             312, 314, 315, 321, 324, 325, 341, 342, 345, 351, 352, 354,
             412, 413, 415, 421, 423, 425, 431, 432, 435, 451, 452, 453,
             512, 513, 514, 521, 523, 524, 531, 532, 534, 541, 542, 543
-        );
+        ];
 
         super::permutate_num(&[1, 2, 3, 4, 5], 3, 0, 555, |n, _rest| {
             assert_eq!(n, nums.shift().unwrap()); true
         });
 
-        let mut nums = vec!(
+        let mut nums = vec![
             123, 124, 125, 132, 134, 135, 142, 143, 145, 152, 153, 154,
             213, 214, 215, 231, 234, 235, 241, 243, 245, 251, 253, 254,
             312, 314, 315, 321, 324, 325, 341, 342, 345, 351, 352, 354,
             412, 413, 415, 421, 423, 425, 431, 432, 435, 451, 452, 453,
             512, 513, 514, 521, 523, 524, 531, 532, 534, 541, 542, 543
-        );
+        ];
 
         super::permutate_num(&[1, 2, 3, 4, 5], 3, 140, 300, |n, _rest| {
             let mut num = nums.shift().unwrap();

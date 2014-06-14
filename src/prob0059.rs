@@ -53,12 +53,12 @@ fn get_dist(a: &[f64], b: &[f64]) -> f64 {
 fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
     let total = count.iter().map(|&x| x).sum();
 
-    let mut freq = ~[0.0, ..256];
+    let mut freq = [0.0, ..256];
     for (f, &n) in freq.mut_iter().zip(count.iter()) {
         *f = (n as f64) / (total as f64);
     }
 
-    let mut freq_buf = ~[0.0, ..256];
+    let mut freq_buf = [0.0, ..256];
     let mut min_key  = 0;
     let mut min_dist = f64::INFINITY;
     for k in range(0u, 256) {
@@ -73,7 +73,7 @@ fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
 }
 
 pub fn solve() -> String {
-    let mut freq_dict = ~[0.0, ..256];
+    let mut freq_dict = [0.0, ..256];
     for &(c, f) in ENGLISH_FREQUENCY.iter() {
         freq_dict[(c as u8) as uint] = f;
     }
@@ -84,10 +84,10 @@ pub fn solve() -> String {
     let code_list = input.as_slice().trim().split(',')
         .filter_map(from_str::<u8>).collect::<Vec<u8>>();
 
-    let mut freq = [~[0u, ..256], ~[0u, ..256], ~[0u, ..256]];
+    let mut freq = [[0u, ..256], [0u, ..256], [0u, ..256]];
     for (i, &n) in code_list.iter().enumerate() { freq[i % 3][n as uint] += 1; }
 
-    let keys = freq.iter().map(|f| find_key(f.clone(), freq_dict)).collect::<Vec<u8>>();
+    let keys = freq.iter().map(|f| find_key(f.as_slice(), freq_dict)).collect::<Vec<u8>>();
     let l = keys.len();
     code_list.iter().enumerate()
         .map(|(i, &n)| (n ^ *keys.get(i % l)) as uint)

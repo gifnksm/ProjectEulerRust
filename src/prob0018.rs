@@ -26,11 +26,11 @@ static TRIANGLE: &'static [&'static [uint]] = &[
 pub fn solve() -> String {
     let init = TRIANGLE.init();
     let last = TRIANGLE.last().unwrap();
-    let answer = init.iter().rev().fold(last.to_owned(), |mut total, elm| {
+    let answer = init.iter().rev().fold(Vec::from_slice(*last), |mut total, elm| {
         for (i, &e) in elm.iter().enumerate() {
-            total[i] = e + cmp::max(total[i], total[i + 1]);
+            *total.get_mut(i) = e + cmp::max(*total.get(i), *total.get(i + 1));
         }
         total
     });
-    return answer[0].to_str();
+    answer.get(0).to_str()
 }

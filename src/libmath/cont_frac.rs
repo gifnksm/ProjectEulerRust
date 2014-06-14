@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use num::Integer;
 use arith::isqrt;
 
-pub fn sqrt(n: uint) -> (uint, ~[uint]) {
+pub fn sqrt(n: uint) -> (uint, Vec<uint>) {
     let mut a0 = 0;
     let mut an = Vec::new();
     let mut set = HashSet::new();
@@ -20,7 +20,7 @@ pub fn sqrt(n: uint) -> (uint, ~[uint]) {
             an.push(a);
         }
     }
-    return (a0, an.as_slice().to_owned());
+    return (a0, an);
 
     struct A {
         n: uint,
@@ -100,7 +100,7 @@ pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     } else if an.len() % 2 == 0 {
         fold::<T>(vec![a0].append(an.init()).as_slice())
     } else {
-        fold::<T>(vec![a0].append(an).append(an.init()).as_slice())
+        fold::<T>(vec![a0].append(an.as_slice()).append(an.init()).as_slice())
     }
 }
 
@@ -108,7 +108,7 @@ pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
 pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     if an.len() % 2 == 0 {
-        return fold::<T>(vec![a0].append(an).append(an.init()).as_slice());
+        return fold::<T>(vec![a0].append(an.as_slice()).append(an.init()).as_slice());
     } else {
         return fold::<T>(vec![a0].append(an.init()).as_slice());
     }
@@ -193,19 +193,19 @@ impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelNegIterator<T> {
 mod tests {
     #[test]
     fn test_sqrt() {
-        assert_eq!(super::sqrt(1), (1, ~[]));
-        assert_eq!(super::sqrt(2), (1, ~[2]));
-        assert_eq!(super::sqrt(3), (1, ~[1,2]));
-        assert_eq!(super::sqrt(4), (2, ~[]));
-        assert_eq!(super::sqrt(5), (2, ~[4]));
-        assert_eq!(super::sqrt(6), (2, ~[2,4]));
-        assert_eq!(super::sqrt(7), (2, ~[1,1,1,4]));
-        assert_eq!(super::sqrt(8), (2, ~[1,4]));
-        assert_eq!(super::sqrt(9), (3, ~[]));
-        assert_eq!(super::sqrt(10), (3, ~[6]));
-        assert_eq!(super::sqrt(11), (3, ~[3,6]));
-        assert_eq!(super::sqrt(12), (3, ~[2,6]));
-        assert_eq!(super::sqrt(13), (3, ~[1,1,1,1,6]));
+        assert_eq!(super::sqrt(1), (1, vec![]));
+        assert_eq!(super::sqrt(2), (1, vec![2]));
+        assert_eq!(super::sqrt(3), (1, vec![1,2]));
+        assert_eq!(super::sqrt(4), (2, vec![]));
+        assert_eq!(super::sqrt(5), (2, vec![4]));
+        assert_eq!(super::sqrt(6), (2, vec![2,4]));
+        assert_eq!(super::sqrt(7), (2, vec![1,1,1,4]));
+        assert_eq!(super::sqrt(8), (2, vec![1,4]));
+        assert_eq!(super::sqrt(9), (3, vec![]));
+        assert_eq!(super::sqrt(10), (3, vec![6]));
+        assert_eq!(super::sqrt(11), (3, vec![3,6]));
+        assert_eq!(super::sqrt(12), (3, vec![2,6]));
+        assert_eq!(super::sqrt(13), (3, vec![1,1,1,1,6]));
     }
 
     #[deriving(Eq, PartialEq, Show)]

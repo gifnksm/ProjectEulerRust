@@ -66,7 +66,7 @@ fn read_word<'a>(input: &'a str) -> Result<(&'a str, &'a str), String> {
     Ok((input.slice(1, 1 + len), itr))
 }
 
-pub fn read_whole_word<'a>(input: &'a str) -> Result<~[&'a str], String> {
+pub fn read_whole_word<'a>(input: &'a str) -> Result<Vec<&'a str>, String> {
     let mut result = Vec::new();
     let mut itr = input;
     while !itr.is_empty() {
@@ -78,7 +78,7 @@ pub fn read_whole_word<'a>(input: &'a str) -> Result<~[&'a str], String> {
             Err(msg) => return Err(msg)
         }
     }
-    Ok(result.as_slice().to_owned())
+    Ok(result)
 }
 
 #[cfg(test)]

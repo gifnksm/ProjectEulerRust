@@ -14,7 +14,6 @@ DEPEND=$(DEPEND_DIR)/all.mk
 
 RUSTC_FLAGS = \
 	-D warnings \
-	-A deprecated-owned-vector \
 	-W unnecessary-qualification \
 	-W non-uppercase-statics \
 	-W unnecessary-typecast

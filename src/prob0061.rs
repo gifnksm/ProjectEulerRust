@@ -33,18 +33,18 @@ pub fn solve() -> String {
             if i < 10 { continue }
             for &n5 in v5.iter() {
                 if n5 < 10 { continue }
-                for &n0 in map[idx[0]].get(n5).iter() {
+                for &n0 in map[*idx.get(0)].get(n5).iter() {
                     if n0 < 10 { continue }
-                    for &n1 in map[idx[1]].get(n0).iter() {
+                    for &n1 in map[*idx.get(1)].get(n0).iter() {
                         if n1 < 10 { continue }
-                        for &n2 in map[idx[2]].get(n1).iter() {
+                        for &n2 in map[*idx.get(2)].get(n1).iter() {
                             if n2 < 10 { continue }
-                            for &n3 in map[idx[3]].get(n2).iter() {
+                            for &n3 in map[*idx.get(3)].get(n2).iter() {
                                 if n3 < 10 { continue }
-                                for &n4 in map[idx[4]].get(n3).iter() {
+                                for &n4 in map[*idx.get(4)].get(n3).iter() {
                                     if n4 < 10 { continue }
                                     if n4 == i {
-                                        result.push(~[
+                                        result.push([
                                             n5 * 100 + n0,
                                             n0 * 100 + n1,
                                             n1 * 100 + n2,
@@ -62,7 +62,13 @@ pub fn solve() -> String {
         }
     }
 
-    let sum = result.move_iter().flat_map(|vs| vs.move_iter()).sum();
-    sum.to_str()
+    result.iter()
+        .map(|vs| {
+            vs.iter()
+             .map(|x| x.clone())
+                .sum()
+        })
+        .sum()
+        .to_str()
 }
 

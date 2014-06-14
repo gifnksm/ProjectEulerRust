@@ -56,7 +56,7 @@ fn rad_has_union(a: &[uint], b: &[uint]) -> bool {
 
 fn abc_hits_c_sum(c_limit: uint) -> uint {
     let rad_vec = create_rad_vec(c_limit);
-    let mut sorted_rad_vec = rad_vec.tail().to_owned(); // drop a == 0 element
+    let mut sorted_rad_vec = Vec::from_slice(rad_vec.tail()); // drop a == 0 element
     sorted_rad_vec.sort();
 
     let mut c_sum = 0;

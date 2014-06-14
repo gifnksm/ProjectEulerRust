@@ -128,14 +128,14 @@ mod tests {
 
         #[test]
         fn join_all() {
-            let dm = DigitMap::new().join_all((~[1u, 2, 3]).move_iter()).unwrap();
+            let dm = DigitMap::new().join_all(vec![1u, 2, 3].move_iter()).unwrap();
 
             assert_eq!(false, dm.is_used(0));
             assert_eq!(true, dm.is_used(1));
             assert_eq!(true, dm.is_used(2));
             assert_eq!(false, dm.is_used(4));
 
-            assert_eq!(None, DigitMap::new().join_all((~[0u, 0]).move_iter()));
+            assert_eq!(None, DigitMap::new().join_all(vec![0u, 0].move_iter()));
         }
 
     }

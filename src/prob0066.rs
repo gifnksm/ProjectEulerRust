@@ -70,16 +70,16 @@ mod tests {
 
         #[test]
         fn minuend_is_empty() {
-            let a: ~[int] = ~[];
-            let b = ~[1, 2, 3];
+            let a: Vec<int> = vec![];
+            let b = vec![1, 2, 3];
             let mut diff = Difference::new(a.iter(), b.iter());
             assert_eq!(vec![], diff.collect::<Vec<&int>>());
         }
 
         #[test]
         fn subtrahend_is_empty() {
-            let a = ~[1, 2, 3];
-            let b: ~[int] = ~[];
+            let a = vec![1, 2, 3];
+            let b: Vec<int> = vec![];
             let mut diff = Difference::new(a.move_iter(), b.move_iter());
             assert_eq!(vec![1, 2, 3], diff.collect());
         }

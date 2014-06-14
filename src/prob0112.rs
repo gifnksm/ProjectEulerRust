@@ -56,44 +56,44 @@ mod tests {
     mod is_increasing {
         use super::super::is_increasing;
 
-        fn check(result: bool, input: ~[uint]) {
+        fn check(result: bool, input: Vec<uint>) {
             assert_eq!(result, is_increasing(input.move_iter()));
         }
 
-        #[test] fn empty_is_increasing()       { check(true, ~[]) }
-        #[test] fn one_digit_is_increasing()   { check(true, ~[1]) }
-        #[test] fn increasing_number()         { check(true, ~[4, 5, 6]) }
-        #[test] fn decreasing_number()         { check(false, ~[5, 4, 3]) }
-        #[test] fn bouncy_number()             { check(false, ~[4, 5, 3]) }
-        #[test] fn increasing_with_same_sdigit() { check(true, ~[1, 3, 4, 4, 6, 8]) }
+        #[test] fn empty_is_increasing()       { check(true, vec![]) }
+        #[test] fn one_digit_is_increasing()   { check(true, vec![1]) }
+        #[test] fn increasing_number()         { check(true, vec![4, 5, 6]) }
+        #[test] fn decreasing_number()         { check(false, vec![5, 4, 3]) }
+        #[test] fn bouncy_number()             { check(false, vec![4, 5, 3]) }
+        #[test] fn increasing_with_same_sdigit() { check(true, vec![1, 3, 4, 4, 6, 8]) }
     }
 
     mod is_decreasing {
         use super::super::is_decreasing;
 
-        fn check(result: bool, input: ~[uint]) {
+        fn check(result: bool, input: Vec<uint>) {
             assert_eq!(result, is_decreasing(input.move_iter()));
         }
-        #[test] fn empty_is_decreasing()     { check(true, ~[]) }
-        #[test] fn one_digit_is_decreasing() { check(true, ~[1]) }
-        #[test] fn increasing_number()       { check(false, ~[4, 5, 6]) }
-        #[test] fn decreasing_number()       { check(true, ~[5, 4, 3]) }
-        #[test] fn bouncy_number()           { check(false, ~[4, 5, 3]) }
-        #[test] fn decreasing_with_same_digit() { check(true, ~[6, 6, 4, 2, 0]) }
+        #[test] fn empty_is_decreasing()     { check(true, vec![]) }
+        #[test] fn one_digit_is_decreasing() { check(true, vec![1]) }
+        #[test] fn increasing_number()       { check(false, vec![4, 5, 6]) }
+        #[test] fn decreasing_number()       { check(true, vec![5, 4, 3]) }
+        #[test] fn bouncy_number()           { check(false, vec![4, 5, 3]) }
+        #[test] fn decreasing_with_same_digit() { check(true, vec![6, 6, 4, 2, 0]) }
     }
 
     mod is_bouncy {
         use super::super::is_bouncy;
 
-        fn check(result: bool, input: ~[uint]) {
+        fn check(result: bool, input: Vec<uint>) {
             assert_eq!(result, is_bouncy(input.move_iter()));
         }
-        #[test] fn empty_is_not_bouncy()     { check(false, ~[]) }
-        #[test] fn one_digit_is_not_bouncy() { check(false, ~[1]) }
-        #[test] fn increasing_number()       { check(false, ~[4, 5, 6]) }
-        #[test] fn decreasing_number()       { check(false, ~[5, 4, 3]) }
-        #[test] fn bouncy_number()           { check(true, ~[4, 5, 3]) }
-        #[test] fn bouncy_with_same_digit()  { check(true, ~[1, 5, 5, 3, 4, 9]) }
+        #[test] fn empty_is_not_bouncy()     { check(false, vec![]) }
+        #[test] fn one_digit_is_not_bouncy() { check(false, vec![1]) }
+        #[test] fn increasing_number()       { check(false, vec![4, 5, 6]) }
+        #[test] fn decreasing_number()       { check(false, vec![5, 4, 3]) }
+        #[test] fn bouncy_number()           { check(true, vec![4, 5, 3]) }
+        #[test] fn bouncy_with_same_digit()  { check(true, vec![1, 5, 5, 3, 4, 9]) }
     }
 }
 

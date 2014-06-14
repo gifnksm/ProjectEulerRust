@@ -105,8 +105,8 @@ fn count_primes(prime: &Prime, digits: &[uint]) -> uint {
             } else {
                 if ds.iter().fold(0, |x, &y| x + y) % 3 != 0 {
                     ds.as_slice().permutations()
-                        .filter(|perm| perm[0].is_odd() && perm[0] != 5)
-                        .filter(|perm| prime.contains(numconv::from_digits(*perm, 10)))
+                        .filter(|perm| perm.get(0).is_odd() && *perm.get(0) != 5)
+                        .filter(|perm| prime.contains(numconv::from_digits(perm.as_slice(), 10)))
                         .count()
                 } else {
                     0

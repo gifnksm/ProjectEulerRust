@@ -155,7 +155,7 @@ mod tests {
     #[test]
     fn test_mconcat() {
         fn check_wrap<T: Eq + Clone + Show, M: Monoid + Wrap<T>>(v: &[T], f: |T| -> M, result: T) {
-            let ms = v.to_owned().move_iter().map(f).collect::<Vec<M>>();
+            let ms = v.iter().map(|x| x.clone()).map(f).collect::<Vec<M>>();
             assert_eq!(super::mconcat(ms.as_slice()).unwrap(), result);
         }
 

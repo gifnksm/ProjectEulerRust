@@ -24,7 +24,7 @@ fn each_numseq(f: |&[Rational]|) {
 
 #[inline(always)]
 fn each_opseq(f: |&[Op]|) {
-    let ops = ~[ Add, Sub, Mul, Div ];
+    let ops = [ Add, Sub, Mul, Div ];
     for i1 in range(0, ops.len()) {
         for i2 in range(0, ops.len()) {
             for i3 in  range(0, ops.len()) {
