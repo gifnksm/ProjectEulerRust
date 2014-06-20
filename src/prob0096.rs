@@ -3,7 +3,6 @@
 
 use std::{char, fmt, iter};
 use std::io::{BufferedReader, File};
-use std::num::Bitwise;
 
 pub static EXPECTED_ANSWER: &'static str = "24702";
 
