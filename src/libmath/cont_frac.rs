@@ -254,11 +254,11 @@ mod tests {
 
     #[test]
     fn test_solve_pel() {
-        assert_eq!(super::solve_pel(2), (3, 2));
-        assert_eq!(super::solve_pel(3), (2, 1));
-        assert_eq!(super::solve_pel(5), (9, 4));
-        assert_eq!(super::solve_pel(6), (5, 2));
-        assert_eq!(super::solve_pel(7), (8, 3));
+        assert_eq!(super::solve_pel(2), (3i, 2));
+        assert_eq!(super::solve_pel(3), (2i, 1));
+        assert_eq!(super::solve_pel(5), (9i, 4));
+        assert_eq!(super::solve_pel(6), (5i, 2));
+        assert_eq!(super::solve_pel(7), (8i, 3));
     }
     #[test] #[should_fail]
     fn test_solve_pel_1() { super::solve_pel::<uint>(1); }

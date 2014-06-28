@@ -43,7 +43,7 @@ pub static EXPECTED_ANSWER: &'static str = "333082500";
 //     a (a - 1)
 
 pub fn solve() -> String {
-    iter::range_inclusive(3, 1000)
+    iter::range_inclusive(3, 1000u)
         .map(|a| if a.is_even() { a * (a - 2) } else { a * (a - 1) })
         .sum()
         .to_str()

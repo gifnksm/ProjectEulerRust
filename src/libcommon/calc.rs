@@ -132,9 +132,9 @@ mod tests {
     #[test]
     fn test_num_of_permutasions() {
         assert_eq!(super::num_of_permutations(&super::histogram::<uint>(&[])), 1);
-        assert_eq!(super::num_of_permutations(&super::histogram([1, 2, 3])), 6);
-        assert_eq!(super::num_of_permutations(&super::histogram([1, 1, 1, 2, 3])), 20);
-        assert_eq!(super::num_of_permutations(&super::histogram([1, 1, 1, 2, 3, 1, 1])), 42);
+        assert_eq!(super::num_of_permutations(&super::histogram([1u, 2, 3])), 6);
+        assert_eq!(super::num_of_permutations(&super::histogram([1u, 1, 1, 2, 3])), 20);
+        assert_eq!(super::num_of_permutations(&super::histogram([1u, 1, 1, 2, 3, 1, 1])), 42);
     }
 
     #[test]
@@ -144,7 +144,7 @@ mod tests {
             vec![2, 3, 4], vec![2, 3, 5], vec![2, 4, 5],
             vec![3, 4, 5]
         ];
-        super::combinate(&[1, 2, 3, 4, 5], 3, |n, _rest| {
+        super::combinate(&[1u, 2, 3, 4, 5], 3, |n, _rest| {
             assert_eq!(n, nums.shift().unwrap().as_slice()); true
         });
     }
@@ -169,7 +169,7 @@ mod tests {
             vec![5, 5, 5]
         ];
 
-        super::combinate_overlap(&[1, 2, 3, 4, 5], 3, |n| {
+        super::combinate_overlap(&[1u, 2, 3, 4, 5], 3, |n| {
             assert_eq!(n, nums.shift().unwrap().as_slice()); true
         });
     }

@@ -8,10 +8,10 @@ use math::poly::Poly;
 pub static EXPECTED_ANSWER: &'static str = "38182";
 
 pub fn solve() -> String {
-    let mut single = Vec::from_elem(26, 0);
-    let mut double = Vec::from_elem(51, 0);
-    let mut triple = Vec::from_elem(61, 0);
-    let mut dup    = Vec::from_elem(121, 0);
+    let mut single = Vec::from_elem(26, 0u);
+    let mut double = Vec::from_elem(51, 0u);
+    let mut triple = Vec::from_elem(61, 0u);
+    let mut dup    = Vec::from_elem(121, 0u);
     for i in range(1u, 21) {
         *single.get_mut(1 * i) = 1;
         *double.get_mut(2 * i) = 1;

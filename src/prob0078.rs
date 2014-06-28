@@ -14,9 +14,9 @@ pub fn solve() -> String {
     let mut v = [0, ..65536];
     v[0] = 1;
 
-    for n in iter::count(1, 1) {
+    for n in iter::count(1i, 1) {
         let mut way = 0;
-        for i in iter::count(0, 1) {
+        for i in iter::count(0i, 1) {
             let k = i % 4;
             let p = if k == 0 || k == 2 { penta(i / 2 + 1) } else { penta(-i / 2 - 1) };
             if p > n { break; }

@@ -67,7 +67,7 @@ pub fn trans_mat(m: &[Vec<f64>]) -> Vec<Vec<f64>> {
 }
 
 fn create_roll_map(dice_side: uint) -> Vec<(f64, f64)> {
-    let mut map = Vec::from_elem(dice_side * 2 + 1, (0, 0));
+    let mut map = Vec::from_elem(dice_side * 2 + 1, (0u, 0u));
     for i in range(1, dice_side + 1) {
         for j in range(i, dice_side + 1) {
             let sum = i + j;

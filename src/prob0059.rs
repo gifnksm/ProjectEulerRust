@@ -53,13 +53,13 @@ fn get_dist(a: &[f64], b: &[f64]) -> f64 {
 fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
     let total = count.iter().map(|&x| x).sum();
 
-    let mut freq = [0.0, ..256];
+    let mut freq = [0.0f64, ..256];
     for (f, &n) in freq.mut_iter().zip(count.iter()) {
         *f = (n as f64) / (total as f64);
     }
 
     let mut freq_buf = [0.0, ..256];
-    let mut min_key  = 0;
+    let mut min_key  = 0u;
     let mut min_dist = f64::INFINITY;
     for k in range(0u, 256) {
         trans_map(k as u8, freq, freq_buf);

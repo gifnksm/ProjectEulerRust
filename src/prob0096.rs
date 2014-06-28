@@ -38,7 +38,7 @@ impl fmt::Show for SuDoku {
                 if cell.count_ones() == 1 {
                     try!(write!(f, "_"));
                 } else {
-                    try!(write!(f, "{}", 1u << cell.trailing_zeros()));
+                    try!(write!(f, "{}", 1u << (cell.trailing_zeros() as uint)));
                 }
             }
             try!(writeln!(f, ""));

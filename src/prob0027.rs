@@ -13,7 +13,7 @@ pub static EXPECTED_ANSWER: &'static str = "-59231";
 // p(1) = 1 + a + b => a > -(1+b)
 // p(2) = 4 + 2a + b
 fn get_len(prime: &Prime, a: int, b: int) -> uint {
-    return iter::count(0, 1)
+    return iter::count(0i, 1)
         .take_while(|&n| {
             let val = n * n + a * n + b;
             (val >= 0 && prime.contains(val as uint))

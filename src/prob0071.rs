@@ -4,7 +4,7 @@
 pub static EXPECTED_ANSWER: &'static str = "428570";
 
 pub fn solve() -> String {
-    let limit = 1000000;
+    let limit = 1000000u;
     let mut max_n = 0;
     let mut max_d = 1;
     for d in range(limit - 7, limit).rev() {
@@ -14,5 +14,5 @@ pub fn solve() -> String {
             max_d = d;
         }
     };
-    return max_n.to_str();
+    max_n.to_str()
 }

@@ -9,8 +9,8 @@ use math::{arith, sequence};
 pub static EXPECTED_ANSWER: &'static str = "161667";
 
 pub fn solve() -> String {
-    let limit = 1500000;
-    let mut v = Vec::from_elem(limit + 1, 0);
+    let limit = 1500000u;
+    let mut v = Vec::from_elem(limit + 1, 0u);
     for m in range(2, arith::isqrt(limit / 2)) {
         for (a, b, c) in sequence::prim_pythagorean(m) {
             let sum = a + b + c;

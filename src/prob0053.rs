@@ -12,7 +12,7 @@ pub fn solve() -> String {
     let mut r = 0;
     let mut c = 1;
     let mut cnt = 0;
-    for n in range(1, 101) {
+    for n in range(1u, 101) {
         c = c * n / (n - r); // nCr
         if c < limit {
             while c < limit {

@@ -93,7 +93,7 @@ mod tests {
 
         #[test]
         fn exclusive_non_trailing_sep() {
-            let mut br = buffered(bytes!("a,bb,ccc"));
+            let mut br = buffered(b"a,bb,ccc");
             let mut it = br.sep_iter(',' as u8);
             assert_eq!(Some("a".to_string()), it.next());
             assert_eq!(Some("bb".to_string()), it.next());
@@ -103,7 +103,7 @@ mod tests {
 
         #[test]
         fn exclusive_trailing_sep() {
-            let mut br = buffered(bytes!("a,bb,ccc,"));
+            let mut br = buffered(b"a,bb,ccc,");
             let mut it = br.sep_iter(',' as u8);
             assert_eq!(Some("a".to_string()), it.next());
             assert_eq!(Some("bb".to_string()), it.next());

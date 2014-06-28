@@ -159,10 +159,10 @@ mod tests {
             assert_eq!(super::mconcat(ms.as_slice()).unwrap(), result);
         }
 
-        let v1 = [1, 2, 3, 4];
-        let v2 = [0, 1, 2, 3, 4];
-        let v3 = [0, 0, 0, 0];
-        let v4 = [];
+        let v1 = [1u, 2, 3, 4];
+        let v2 = [0u, 1, 2, 3, 4];
+        let v3 = [0u, 0, 0, 0];
+        let v4: &[uint] = [];
 
         check_wrap(v1, Sum::new, 10);
         check_wrap(v2, Sum::new, 10);
@@ -182,7 +182,7 @@ mod tests {
         check_wrap(v2, Min::new, 0);
         check_wrap(v3, Min::new, 0);
 
-        assert_eq!(super::mconcat([vec![], vec![1, 2, 3], vec![4], vec![5]]), vec![1, 2, 3, 4, 5]);
+        assert_eq!(super::mconcat([vec![], vec![1u, 2, 3], vec![4], vec![5]]), vec![1, 2, 3, 4, 5]);
         assert_eq!(super::mconcat(["".to_string(), "abc".to_string(), "d".to_string(), "e".to_string()]),
                    "abcde".to_string());
     }

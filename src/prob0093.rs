@@ -18,7 +18,7 @@ enum Op { Add, Sub, Mul, Div }
 
 #[inline(always)]
 fn each_numseq(f: |&[Rational]|) {
-    let v = range(1, 10).map(Ratio::from_integer).collect::<Vec<Ratio<int>>>();
+    let v = range(1i, 10).map(Ratio::from_integer).collect::<Vec<Ratio<int>>>();
     calc::combinate(v.as_slice(), 4, |x, _| {f(x); true});
 }
 

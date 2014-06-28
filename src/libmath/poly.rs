@@ -154,9 +154,12 @@ mod tests {
 
     #[test]
     fn new() {
-        assert_eq!(vec![1, 2, 3], Poly::new(vec![1, 2, 3]).data);
-        assert_eq!(vec![1, 2, 3], Poly::new(vec![1, 2, 3, 0, 0]).data);
-        assert_eq!(vec![], Poly::new(vec![0, 0, 0]).data);
+        fn check(dst: Vec<int>, src: Vec<int>) {
+            assert_eq!(dst, Poly::new(src).data);
+        }
+        check(vec![1, 2, 3], vec![1, 2, 3]);
+        check(vec![1, 2, 3], vec![1, 2, 3, 0, 0]);
+        check(vec![], vec![0, 0, 0]);
     }
 
     #[test]
@@ -212,7 +215,7 @@ mod tests {
     #[test]
     fn eval() {
         fn check(pol: &[int], f: |int| -> int) {
-            for n in range(-10, 10) {
+            for n in range(-10i, 10) {
                 assert_eq!(f(n), Poly::from_slice(pol).eval(n));
             }
         }
@@ -225,15 +228,18 @@ mod tests {
 
     #[test]
     fn pretty() {
-        assert_eq!(Poly::from_slice([0]).pretty("x"), "0".to_string());
-        assert_eq!(Poly::from_slice([1]).pretty("x"), "1".to_string());
-        assert_eq!(Poly::from_slice([1, 1]).pretty("x"), "1+x".to_string());
-        assert_eq!(Poly::from_slice([1, 1, 1]).pretty("x"), "1+x+x^2".to_string());
-        assert_eq!(Poly::from_slice([2, 2, 2]).pretty("x"), "2+2*x+2*x^2".to_string());
-        assert_eq!(Poly::from_slice([0, 0, 0, 1]).pretty("x"), "x^3".to_string());
-        assert_eq!(Poly::from_slice([0, 0, 0, -1]).pretty("x"), "-x^3".to_string());
-        assert_eq!(Poly::from_slice([-1, 0, 0, -1]).pretty("x"), "-1-x^3".to_string());
-        assert_eq!(Poly::from_slice([-1, 1, 0, -1]).pretty("x"), "-1+x-x^3".to_string());
-        assert_eq!(Poly::from_slice([-1, 1, -1, -1]).pretty("x"), "-1+x-x^2-x^3".to_string());
+        fn check(slice: &[int], s: &str) {
+            assert_eq!(s.to_string(), Poly::from_slice(slice).pretty("x"));
+        }
+        check([0], "0");
+        check([1], "1");
+        check([1, 1], "1+x");
+        check([1, 1, 1], "1+x+x^2");
+        check([2, 2, 2], "2+2*x+2*x^2");
+        check([0, 0, 0, 1], "x^3");
+        check([0, 0, 0, -1], "-x^3");
+        check([-1, 0, 0, -1], "-1-x^3");
+        check([-1, 1, 0, -1], "-1+x-x^3");
+        check([-1, 1, -1, -1], "-1+x-x^2-x^3");
     }
 }
