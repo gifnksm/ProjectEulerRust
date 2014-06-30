@@ -24,12 +24,7 @@ impl PartialEq for Power {
 impl Eq for Power {}
 
 impl PartialOrd for Power {
-    #[inline]
-    fn lt(&self, other: &Power) -> bool {
-        let Power(sn, sb, _) = *self;
-        let Power(on, ob, _) = *other;
-        sn > on || (sn == on && sb > ob)
-    }
+    fn partial_cmp(&self, other: &Power) -> Option<Ordering> { Some(self.cmp(other)) }
 }
 
 impl Ord for Power {

@@ -23,12 +23,7 @@ impl PartialEq for Multiple {
 impl Eq for Multiple {}
 
 impl PartialOrd for Multiple {
-    #[inline]
-    fn lt(&self, other: &Multiple) -> bool {
-        let Multiple(ref sn, _) = *self;
-        let Multiple(ref on, _) = *other;
-        on.lt(sn)
-    }
+    fn partial_cmp(&self, other: &Multiple) -> Option<Ordering> { Some(self.cmp(other)) }
 }
 impl Ord for Multiple {
     #[inline]
@@ -85,12 +80,7 @@ impl PartialEq for RadValue {
 impl Eq for RadValue {}
 
 impl PartialOrd for RadValue {
-    #[inline]
-    fn lt(&self, other: &RadValue) -> bool {
-        let RadValue(ref sn, _, _) = *self;
-        let RadValue(ref on, _, _) = *other;
-        on.lt(sn)
-    }
+    fn partial_cmp(&self, other: &RadValue) -> Option<Ordering> { Some(self.cmp(other)) }
 }
 
 impl Ord for RadValue {

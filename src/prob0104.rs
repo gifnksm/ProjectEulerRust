@@ -10,7 +10,7 @@ pub static EXPECTED_ANSWER: &'static str = "329468";
 
 fn is_pandigit(n: u64) -> bool {
     let mut hist = [false, .. 10];
-    let mut cnt = 0;
+    let mut cnt = 0u;
     let mut itr = n;
     while itr > 0 {
         let (d, r) = itr.div_rem(&10);
@@ -19,7 +19,7 @@ fn is_pandigit(n: u64) -> bool {
         itr = d;
         cnt += 1;
     }
-    return cnt == 9;
+    cnt == 9
 }
 
 pub fn solve() -> String {

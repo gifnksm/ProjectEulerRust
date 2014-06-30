@@ -15,7 +15,7 @@ fn get_longer(prime: &Prime, p: uint, min_len: uint) -> Option<uint> {
     let mut start     = prime.nth(0);
     let mut sum       = prime.nth(0);
     loop {
-        let len = (end_idx - start_idx + 1) as uint;
+        let len = end_idx - start_idx + 1;
         if sum / len > max_avg { return None; }
         if sum == p {
             if len <= min_len {
@@ -27,18 +27,14 @@ fn get_longer(prime: &Prime, p: uint, min_len: uint) -> Option<uint> {
 
         if sum < p {
             end_idx += 1;
-            if end_idx >= 0 { sum += prime.nth(end_idx as uint); }
+            sum += prime.nth(end_idx);
             continue
         }
 
         if sum > p {
             sum -= start;
             start_idx += 1;
-            if start_idx < 0 {
-                start = 0;
-            } else {
-                start = prime.nth(start_idx as uint)
-            }
+            start = prime.nth(start_idx);
             continue
         }
     }

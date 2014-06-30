@@ -18,22 +18,19 @@ impl PartialEq for SSSElem {
 impl Eq for SSSElem {}
 
 impl PartialOrd for SSSElem {
-    #[inline(always)]
-    fn lt(&self, other: &SSSElem) -> bool { self.avg >  other.avg }
-    #[inline(always)]
-    fn le(&self, other: &SSSElem) -> bool { self.avg >= other.avg }
-    #[inline(always)]
-    fn gt(&self, other: &SSSElem) -> bool { self.avg <  other.avg }
-    #[inline(always)]
-    fn ge(&self, other: &SSSElem) -> bool { self.avg <= other.avg }
+    fn partial_cmp(&self, other: &SSSElem) -> Option<Ordering> {
+        match self.avg.partial_cmp(&other.avg) {
+            Some(Less)    => Some(Greater),
+            Some(Equal)   => Some(Equal),
+            Some(Greater) => Some(Less),
+            None          => None
+        }
+    }
 }
 
 impl Ord for SSSElem {
     fn cmp(&self, other: &SSSElem) -> Ordering {
-        assert!(!self.avg.is_nan() && !other.avg.is_nan());
-        if self.avg < other.avg { return Greater }
-        if self.avg > other.avg { return Less }
-        Equal
+        self.partial_cmp(other).unwrap()
     }
 }
 
