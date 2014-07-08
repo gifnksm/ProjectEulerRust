@@ -1,4 +1,4 @@
-#![crate_id = "prob0008"]
+#![crate_name = "prob0008"]
 #![crate_type = "rlib"]
 
 use std::char;

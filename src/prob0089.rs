@@ -1,4 +1,4 @@
-#![crate_id = "prob0089"]
+#![crate_name = "prob0089"]
 #![crate_type = "rlib"]
 
 use std::uint;

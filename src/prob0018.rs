@@ -1,4 +1,4 @@
-#![crate_id = "prob0018"]
+#![crate_name = "prob0018"]
 #![crate_type = "rlib"]
 
 use std::cmp;

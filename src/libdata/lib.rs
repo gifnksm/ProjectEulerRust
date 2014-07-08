@@ -1,4 +1,4 @@
-#![crate_id = "data"]
+#![crate_name = "data"]
 #![crate_type = "rlib"]
 
 #[cfg(test)]

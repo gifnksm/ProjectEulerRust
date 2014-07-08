@@ -1,4 +1,4 @@
-#![crate_id = "prob0116"]
+#![crate_name = "prob0116"]
 #![crate_type = "rlib"]
 
 use std::iter;

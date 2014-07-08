@@ -1,4 +1,4 @@
-#![crate_id = "common"]
+#![crate_name = "common"]
 #![crate_type = "rlib"]
 
 

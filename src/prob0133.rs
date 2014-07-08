@@ -46,7 +46,7 @@
 //! problem 129 で求めた `A(n)` の素因数が 2 または 5 のみの場合に、
 //! `R(n)` は `R(10^k)` を割り切る。
 
-#![crate_id = "prob0133"]
+#![crate_name = "prob0133"]
 #![crate_type = "rlib"]
 
 extern crate math;

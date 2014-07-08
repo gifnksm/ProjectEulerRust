@@ -1,4 +1,4 @@
-#![crate_id = "prob0115"]
+#![crate_name = "prob0115"]
 #![crate_type = "rlib"]
 
 extern crate prob0114;

@@ -1,4 +1,4 @@
-#![crate_id = "prob0011"]
+#![crate_name = "prob0011"]
 #![crate_type = "rlib"]
 
 #![feature(macro_rules)]

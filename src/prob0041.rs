@@ -1,4 +1,4 @@
-#![crate_id = "prob0041"]
+#![crate_name = "prob0041"]
 #![crate_type = "rlib"]
 
 extern crate common;

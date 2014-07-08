@@ -1,4 +1,4 @@
-#![crate_id = "euler"]
+#![crate_name = "euler"]
 #![crate_type = "bin"]
 
 extern crate time;

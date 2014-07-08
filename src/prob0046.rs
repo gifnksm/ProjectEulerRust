@@ -1,4 +1,4 @@
-#![crate_id = "prob0046"]
+#![crate_name = "prob0046"]
 #![crate_type = "rlib"]
 
 extern crate math;

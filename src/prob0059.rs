@@ -1,4 +1,4 @@
-#![crate_id = "prob0059"]
+#![crate_name = "prob0059"]
 #![crate_type = "rlib"]
 
 use std::{f64, str};

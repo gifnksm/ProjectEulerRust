@@ -83,7 +83,7 @@
 //! `3q^2 + 3q + 1` を `q` について計算し、素数のものを列挙する。
 //! `q` が
 
-#![crate_id = "prob0131"]
+#![crate_name = "prob0131"]
 #![crate_type = "rlib"]
 
 extern crate math;

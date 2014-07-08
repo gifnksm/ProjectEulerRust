@@ -84,7 +84,7 @@
 //! S = b[3] = 48101
 //! ```
 
-#![crate_id = "prob0134"]
+#![crate_name = "prob0134"]
 #![crate_type = "rlib"]
 
 extern crate num;

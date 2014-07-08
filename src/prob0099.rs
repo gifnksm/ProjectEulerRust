@@ -1,4 +1,4 @@
-#![crate_id = "prob0099"]
+#![crate_name = "prob0099"]
 #![crate_type = "rlib"]
 
 use std::io::{BufferedReader, File};

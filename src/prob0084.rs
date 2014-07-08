@@ -1,4 +1,4 @@
-#![crate_id = "prob0084"]
+#![crate_name = "prob0084"]
 #![crate_type = "rlib"]
 
 pub static EXPECTED_ANSWER: &'static str = "101524";

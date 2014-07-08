@@ -1,4 +1,4 @@
-#![crate_id = "prob0114"]
+#![crate_name = "prob0114"]
 #![crate_type = "rlib"]
 
 

@@ -1,4 +1,4 @@
-#![crate_id = "prob0013"]
+#![crate_name = "prob0013"]
 #![crate_type = "rlib"]
 
 use std::iter::AdditiveIterator;
