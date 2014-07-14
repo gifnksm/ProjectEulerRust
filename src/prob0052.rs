@@ -38,7 +38,7 @@ pub fn solve() -> String {
         if ds != numconv::to_digit_histogram(n * 5) { continue }
         if ds != numconv::to_digit_histogram(n * 6) { continue }
 
-        return n.to_str()
+        return n.to_string()
     }
 }
 

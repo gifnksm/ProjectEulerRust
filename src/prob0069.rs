@@ -17,5 +17,5 @@ pub fn solve() -> String {
         n *= p;
     }
 
-    return n.to_str();
+    return n.to_string();
 }

@@ -109,5 +109,5 @@ pub fn solve() -> String {
                 .unwrap()
                 .get_nth_digit(n)
         }).product()
-        .to_str()
+        .to_string()
 }

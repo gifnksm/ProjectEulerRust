@@ -69,6 +69,6 @@ pub fn solve() -> String {
                 .sum()
         })
         .sum()
-        .to_str()
+        .to_string()
 }
 

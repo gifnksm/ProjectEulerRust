@@ -31,5 +31,5 @@ pub fn solve() -> String {
                 .max_by(|&(_a, _b, len)| len)
         }).max_by(|&(_a, _b, len)| len)
         .unwrap();
-    return (a * b).to_str();
+    return (a * b).to_string();
 }

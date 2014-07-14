@@ -12,5 +12,5 @@ pub fn solve() -> String {
     let prime = Prime::new();
     return sequence::triangle::<uint>()
         .skip_while(|&t| prime.num_of_divisor(t) <= 500)
-        .next().unwrap().to_str();
+        .next().unwrap().to_string();
 }

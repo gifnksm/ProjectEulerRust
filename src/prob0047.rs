@@ -22,7 +22,7 @@ pub fn solve() -> String {
 
         cnt += 1;
         if cnt == len {
-            return (n + 1 - len).to_str()
+            return (n + 1 - len).to_string()
         }
     }
 

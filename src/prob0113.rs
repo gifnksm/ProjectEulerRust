@@ -55,7 +55,7 @@ fn num_nonbouncy(len: uint) -> uint {
 }
 
 pub fn solve() -> String {
-    num_nonbouncy(100).to_str()
+    num_nonbouncy(100).to_string()
 }
 
 #[cfg(test)]

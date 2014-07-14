@@ -54,5 +54,5 @@ pub fn solve() -> String {
     nearest = min_idx(nearest, (x, y), target);
 
     let (x, y) = nearest;
-    return (x * y).to_str();
+    return (x * y).to_string();
 }

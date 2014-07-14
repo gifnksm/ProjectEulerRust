@@ -37,5 +37,5 @@ pub fn solve() -> String {
 
     let sum_of_all_int = (1 + max_num) * max_num / 2;
 
-    return (sum_of_all_int - sum_of_sum_abundant).to_str();
+    return (sum_of_all_int - sum_of_sum_abundant).to_string();
 }

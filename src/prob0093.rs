@@ -80,7 +80,7 @@ pub fn solve() -> String {
         if cnt > max_cnt {
             max_cnt = cnt;
             let ds = nums.iter().rev().map(|r| r.to_integer() as uint).collect::<Vec<uint>>();
-            max_seq = numconv::from_digits(ds.as_slice(), 10).to_str();
+            max_seq = numconv::from_digits(ds.as_slice(), 10).to_string();
         }
     });
 

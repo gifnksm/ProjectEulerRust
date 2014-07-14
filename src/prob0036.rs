@@ -24,6 +24,6 @@ pub fn solve() -> String {
         }
     }
 
-    return sum.to_str();
+    return sum.to_string();
 }
 

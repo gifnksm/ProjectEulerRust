@@ -7,4 +7,4 @@ use math::prime::Prime;
 
 pub static EXPECTED_ANSWER: &'static str = "137846528820";
 
-pub fn solve() -> String { Prime::new().comb(40, 20).to_str() }
+pub fn solve() -> String { Prime::new().comb(40, 20).to_string() }

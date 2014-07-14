@@ -29,5 +29,5 @@ fn count_way(sum: uint) -> uint {
 }
 
 pub fn solve() -> String {
-    return count_way(100).to_str();
+    return count_way(100).to_string();
 }

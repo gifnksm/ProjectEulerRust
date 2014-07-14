@@ -37,5 +37,5 @@ pub fn solve() -> String {
     cnt.iter()
         .position(|&n| n == sum)
         .unwrap()
-        .to_str()
+        .to_string()
 }

@@ -30,7 +30,7 @@ pub fn solve() -> String {
         }
         v[n as uint] = way;
 
-        if way == 0 { return n.to_str() }
+        if way == 0 { return n.to_string() }
     }
 
     unreachable!()

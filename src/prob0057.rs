@@ -42,9 +42,9 @@ impl Iterator<(BigUint, BigUint)> for Frac {
 pub fn solve() -> String {
     Frac::new()
         .take(1000)
-        .filter(|&(ref n, ref d)| n.to_str().len() > d.to_str().len())
+        .filter(|&(ref n, ref d)| n.to_string().len() > d.to_string().len())
         .count()
-        .to_str()
+        .to_string()
 }
 
 #[cfg(test)]

@@ -60,5 +60,5 @@ pub fn solve() -> String {
         .map(|(a, b)| 2 * a + b)
         .take_while(|&side| side <= limit)
         .sum()
-        .to_str()
+        .to_string()
 }

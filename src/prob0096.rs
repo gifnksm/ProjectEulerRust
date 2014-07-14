@@ -203,5 +203,5 @@ pub fn solve() -> String {
     for ans in answers {
         sum += 100 * ans.get_num(0, 0) + 10 * ans.get_num(1, 0) + ans.get_num(2, 0);
     }
-    sum.to_str()
+    sum.to_string()
 }

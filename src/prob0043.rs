@@ -100,7 +100,7 @@ pub fn solve() -> String {
     result.move_iter()
         .map(|(r, _e)| numconv::from_digits(r.as_slice(), 10))
         .sum()
-        .to_str()
+        .to_string()
 }
 
 #[cfg(test)]

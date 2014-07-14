@@ -47,5 +47,5 @@ pub fn solve() -> String {
         .filter(|&n| n>= 10)
         .filter(|&n| is_r2l(&prime, n))
         .sum()
-        .to_str()
+        .to_string()
 }

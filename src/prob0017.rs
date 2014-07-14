@@ -88,5 +88,5 @@ pub fn solve() -> String {
              .filter(|&c| c != '-' && c != ' ')
              .count())
         .sum()
-        .to_str()
+        .to_string()
 }

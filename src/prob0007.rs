@@ -8,5 +8,5 @@ use math::prime::Prime;
 pub static EXPECTED_ANSWER: &'static str = "104743";
 
 pub fn solve() -> String {
-    return Prime::new().nth(10000).to_str();
+    return Prime::new().nth(10000).to_string();
 }

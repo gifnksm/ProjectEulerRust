@@ -53,5 +53,5 @@ pub fn solve() -> String {
                              .collect());
         sum = sum + poly.eval(FromPrimitive::from_uint(i + 1).unwrap());
     }
-    sum.to_str()
+    sum.to_string()
 }

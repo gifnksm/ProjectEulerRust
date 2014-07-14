@@ -23,5 +23,5 @@ pub fn solve() -> String {
         }
     }
 
-    set.len().to_str()
+    set.len().to_string()
 }

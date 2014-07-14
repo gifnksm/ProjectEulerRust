@@ -29,5 +29,5 @@ pub fn solve() -> String {
         .take_while(|&p| p < 1000000)
         .filter(|&n| is_circular_prime(&prime, n))
         .count()
-        .to_str();
+        .to_string();
 }

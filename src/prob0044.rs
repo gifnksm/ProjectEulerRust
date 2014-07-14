@@ -33,7 +33,7 @@ pub fn solve() -> String {
             if (pm - pk) % 2 != 0 { continue }
             if is_pentagonal(pm - pk, pentagonal_table.as_slice()) {
                 if is_pentagonal(pm + pk, pentagonal_table.as_slice()) {
-                    return (pm - pk).to_str();
+                    return (pm - pk).to_string();
                 }
             }
         }

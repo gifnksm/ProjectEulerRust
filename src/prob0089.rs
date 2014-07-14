@@ -69,5 +69,5 @@ pub fn solve() -> String {
             let line = line.as_slice().trim();
             line.len() - to_roman(from_roman(line).unwrap()).len()
         }).sum()
-        .to_str()
+        .to_string()
 }

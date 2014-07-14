@@ -23,5 +23,5 @@ pub fn solve() -> String {
     v.iter()
         .filter(|&x| x == &1)
         .count()
-        .to_str()
+        .to_string()
 }

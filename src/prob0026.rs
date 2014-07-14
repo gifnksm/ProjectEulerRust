@@ -23,5 +23,5 @@ pub fn solve() -> String {
     return range(2u, 1000)
         .max_by(|&n| get_cycle_len(n))
         .unwrap()
-        .to_str();
+        .to_string();
 }

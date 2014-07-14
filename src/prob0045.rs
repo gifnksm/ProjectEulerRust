@@ -49,5 +49,5 @@ pub fn solve() -> String {
         break
     }
 
-    return triangle(t_i).to_str();
+    return triangle(t_i).to_string();
 }

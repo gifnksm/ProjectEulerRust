@@ -22,6 +22,6 @@ pub fn solve() -> String {
         .fold(last, |prev, elem| {
             Vec::from_fn(elem.len(), |i| elem.get(i) + cmp::max(*prev.get(i), *prev.get(i + 1)))
         }).get(0)
-        .to_str()
+        .to_string()
 }
 

@@ -47,5 +47,5 @@ pub fn solve() -> String {
     for y in range(1901u, 2000 + 1) {
         day = append_day(y, day, &mut result);
     }
-    return result[0].to_str();
+    return result[0].to_string();
 }

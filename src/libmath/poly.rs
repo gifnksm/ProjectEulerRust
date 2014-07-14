@@ -52,15 +52,15 @@ impl<T: Zero + One + Eq + Neg<T> + Ord + fmt::Show> Poly<T> {
             if n.is_zero() { continue }
 
             let term = if i.is_zero() {
-                n.to_str()
+                n.to_string()
             } else if i == 1 {
-                if (*n) == one { x.to_str() }
+                if (*n) == one { x.to_string() }
                 else if (*n) == -one { format!("-{}", x) }
-                else { format!("{}*{}", n.to_str(), x) }
+                else { format!("{}*{}", n.to_string(), x) }
             } else {
                 if (*n) == one { format!("{}^{}", x, i) }
                 else if (*n) == -one { format!("-{}^{}", x, i) }
-                else { format!("{}*{}^{}", n.to_str(), x, i) }
+                else { format!("{}*{}^{}", n.to_string(), x, i) }
             };
 
             if s.len() > 0 && (*n) > Zero::zero() { s.push("+".to_string()); }

@@ -34,5 +34,5 @@ fn sum(n: uint) -> uint {
 }
 
 pub fn solve() -> String {
-    return sum(1001).to_str();
+    return sum(1001).to_string();
 }

@@ -52,5 +52,5 @@ pub fn solve() -> String {
         .max_by(|&(_n, div)| div)
         .unwrap();
 
-    return n.to_str();
+    return n.to_string();
 }

@@ -23,7 +23,7 @@ impl<'a> Problem<'a> {
     pub fn solve(&self) -> Solution {
         let (time, answer) = bench(|| (self.solve)());
         Solution {
-            name: self.id.to_str(),
+            name: self.id.to_string(),
             is_correct: answer.equiv(&self.answer),
             answer: answer,
             time: time

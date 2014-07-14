@@ -26,5 +26,5 @@ pub fn solve() -> String {
     cost.slice(1, limit + 1)
         .iter()
         .fold(0, |x, &y| x + y)
-        .to_str()
+        .to_string()
 }

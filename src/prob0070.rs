@@ -43,5 +43,5 @@ pub fn solve() -> String {
         }
     }
 
-    min_n.to_str()
+    min_n.to_string()
 }

@@ -35,5 +35,5 @@ pub fn solve() -> String {
         .find(|&(n, pn)| get_mod(n, pn) > limit)
         .unwrap()
         .val0()
-        .to_str()
+        .to_string()
 }

@@ -32,7 +32,7 @@ fn count_all(len: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
 
 pub fn solve() -> String {
     let mut map = HashMap::new();
-    count_all(50, &mut map).to_str()
+    count_all(50, &mut map).to_string()
 }
 
 #[cfg(test)]

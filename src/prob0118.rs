@@ -125,7 +125,7 @@ fn count_primes(prime: &Prime, digits: &[uint]) -> uint {
 pub fn solve() -> String {
     let digits = iter::range_inclusive(1u, 9).collect::<Vec<uint>>();
     let prime = Prime::new();
-    count_primes(&prime, digits.as_slice()).to_str()
+    count_primes(&prime, digits.as_slice()).to_string()
 }
 
 #[cfg(test)]

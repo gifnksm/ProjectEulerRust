@@ -57,5 +57,5 @@ pub fn solve() -> String {
         let ps = ((*ns.get(0), *ns.get(1)), (*ns.get(2), *ns.get(3)), (*ns.get(4), *ns.get(5)));
         if is_inside(ps, (0, 0)) { cnt += 1; }
     }
-    cnt.to_str()
+    cnt.to_string()
 }

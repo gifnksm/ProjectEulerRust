@@ -39,5 +39,5 @@ pub fn solve() -> String {
                                    .map(|n| n / 2)
                                    .collect());
     let total = p1 + p2 + p3;
-    return total.as_slice().iter().take(100).fold(0, |i, &a| i + a).to_str();
+    return total.as_slice().iter().take(100).fold(0, |i, &a| i + a).to_string();
 }

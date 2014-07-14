@@ -20,5 +20,5 @@ pub fn solve() -> String {
         .find(|&(a, b, c)| a * a + b * b == c * c)
         .map(|(a, b, c)| a * b * c)
         .unwrap()
-        .to_str()
+        .to_string()
 }

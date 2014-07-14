@@ -12,5 +12,5 @@ pub fn solve() -> String {
     for n in range(1u, 1000 + 1) {
         sum = (sum + arith::mod_pow(n, n, modulo)) % modulo;
     }
-    return sum.to_str();
+    return sum.to_string();
 }

@@ -53,7 +53,7 @@ fn max_prize<T: Integer + Clone>(p: Ratio<T>) -> T { p.denom().div_floor(p.numer
 
 pub fn solve() -> String {
     let prob = probability_of_player_win::<BigUint>(15);
-    max_prize(prob).to_str()
+    max_prize(prob).to_string()
 }
 
 #[cfg(test)]

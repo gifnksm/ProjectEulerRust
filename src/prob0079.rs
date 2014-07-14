@@ -102,5 +102,5 @@ pub fn solve() -> String {
             rels.set_dependant(*ds.get(i - 1), *ds.get(i));
         }
     }
-    tsort(&mut rels).iter().map(|d| d.to_str()).collect::<Vec<String>>().concat()
+    tsort(&mut rels).iter().map(|d| d.to_string()).collect::<Vec<String>>().concat()
 }

@@ -36,5 +36,5 @@ pub fn solve() -> String {
     for y in range(0, h) {
         min = cmp::min(*sum.get(y).get(w - 1), min);
     }
-    min.to_str()
+    min.to_string()
 }

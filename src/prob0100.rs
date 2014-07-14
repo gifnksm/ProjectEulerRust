@@ -31,5 +31,5 @@ pub fn solve() -> String {
         .find(|&(ref x, ref _y)| ((*x) > limit))
         .map(|(_x, y)| y)
         .unwrap()
-        .to_str()
+        .to_string()
 }

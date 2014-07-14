@@ -33,7 +33,7 @@ pub fn solve() -> String {
             }
 
             if cnt >= num_family {
-                return p.to_str();
+                return p.to_string();
             }
         }
     }

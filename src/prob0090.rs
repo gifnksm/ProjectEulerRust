@@ -35,5 +35,5 @@ pub fn solve() -> String {
             if cond { cnt += 1; }
         }
     }
-    cnt.to_str()
+    cnt.to_string()
 }

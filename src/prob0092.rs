@@ -44,5 +44,5 @@ pub fn solve() -> String {
     for n in range(1u, limit + 1) {
         if is_reach_89(n, map.as_mut_slice()) { cnt += 1; }
     }
-    cnt.to_str()
+    cnt.to_string()
 }

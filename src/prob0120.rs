@@ -46,5 +46,5 @@ pub fn solve() -> String {
     iter::range_inclusive(3, 1000u)
         .map(|a| if a.is_even() { a * (a - 2) } else { a * (a - 1) })
         .sum()
-        .to_str()
+        .to_string()
 }

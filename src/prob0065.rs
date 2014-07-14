@@ -25,11 +25,11 @@ pub fn solve() -> String {
     let napier = Vec::from_fn(len, napier_seq);
 
     let (n, _d) = cont_frac::fold::<BigUint>(napier.as_slice());
-    n.to_str()
+    n.to_string()
         .as_slice()
         .chars()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()
-        .to_str()
+        .to_string()
 }
 

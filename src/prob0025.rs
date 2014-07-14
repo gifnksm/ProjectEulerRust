@@ -14,5 +14,5 @@ pub fn solve() -> String {
     let ans = sequence::fibonacci::<BigUint>()
         .take_while(|n| *n <= limit)
         .count() + 1;
-    ans.to_str()
+    ans.to_string()
 }

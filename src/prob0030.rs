@@ -37,5 +37,5 @@ pub fn solve() -> String {
             true
         });
 
-    return (sum - 1).to_str();  // remove 1
+    return (sum - 1).to_string();  // remove 1
 }

@@ -35,6 +35,6 @@ pub fn solve() -> String {
         .filter(|&p| arith::mod_pow(10, num::pow(10u, 9), 9 * p) == 1)
         .take(40)
         .sum()
-        .to_str()
+        .to_string()
 }
 

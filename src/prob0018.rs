@@ -32,5 +32,5 @@ pub fn solve() -> String {
         }
         total
     });
-    answer.get(0).to_str()
+    answer.get(0).to_string()
 }

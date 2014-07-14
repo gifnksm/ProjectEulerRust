@@ -40,5 +40,5 @@ pub fn solve() -> String {
         .map(|win| win.iter().fold(1u, |p, &n| p * n))
         .max()
         .unwrap()
-        .to_str()
+        .to_string()
 }

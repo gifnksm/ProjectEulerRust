@@ -44,7 +44,7 @@ pub fn solve() -> String {
     for n in iter::count(1u, 1) {
         if is_bouncy(numconv::to_digits(n, 10)) { num_bouncy += 1; }
         if n * 99 == 100 * num_bouncy {
-            return n.to_str();
+            return n.to_string();
         }
     }
     unreachable!()

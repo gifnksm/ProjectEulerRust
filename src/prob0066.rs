@@ -50,7 +50,7 @@ pub fn solve() -> String {
         .take_while(|&d| d <= 1000)
         .max_by(|&d| cont_frac::solve_pel::<BigUint>(d).val0())
         .unwrap()
-        .to_str()
+        .to_string()
 }
 
 #[cfg(test)]

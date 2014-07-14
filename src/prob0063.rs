@@ -16,13 +16,13 @@ pub fn solve() -> String {
         loop {
             n += 1;
             an = an * a;
-            let an_str = an.to_str();
+            let an_str = an.to_string();
             if an_str.len() != n { break; }
 
             cnt += 1;
         }
     }
 
-    return cnt.to_str();
+    return cnt.to_string();
 }
 

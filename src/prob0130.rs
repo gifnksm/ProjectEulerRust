@@ -20,7 +20,7 @@ pub fn solve() -> String {
         .filter(|&n| (n - 1).divides(&prob0129::a(n)))
         .take(25)
         .sum()
-        .to_str()
+        .to_string()
 }
 
 #[cfg(test)]

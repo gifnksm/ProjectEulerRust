@@ -25,6 +25,6 @@ pub fn solve() -> String {
         num_total += 4;
         if num_prime * 10 < num_total { break; }
     }
-    side.to_str()
+    side.to_string()
 }
 

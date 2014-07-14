@@ -13,10 +13,10 @@ pub fn solve() -> String {
     range::<BigUint>(FromPrimitive::from_uint(1).unwrap(),
                      FromPrimitive::from_uint(101).unwrap())
         .product()
-        .to_str()
+        .to_string()
         .as_slice()
         .chars()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()
-        .to_str()
+        .to_string()
 }

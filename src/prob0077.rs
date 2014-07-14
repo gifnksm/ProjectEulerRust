@@ -50,5 +50,5 @@ pub fn solve() -> String {
         .skip_while(|&n| count_way(&prime, n, &mut map) <= 5000)
         .next()
         .unwrap()
-        .to_str()
+        .to_string()
 }

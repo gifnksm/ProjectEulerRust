@@ -20,5 +20,5 @@ pub fn solve() -> String {
             });
         }
     }
-    map.move_iter().to_uint().to_str()
+    map.move_iter().to_uint().to_string()
 }

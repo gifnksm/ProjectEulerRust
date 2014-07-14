@@ -34,5 +34,5 @@ pub fn solve() -> String {
                 + cmp::min(*sum.get(y - 1).get(x), *sum.get(y).get(x - 1));
         }
     }
-    sum.get(h - 1).get(w - 1).to_str()
+    sum.get(h - 1).get(w - 1).to_string()
 }

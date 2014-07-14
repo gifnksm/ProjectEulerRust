@@ -39,6 +39,6 @@ pub fn solve() -> String {
         map.insert(ds, v);
     }
 
-    return set.iter().min().unwrap().to_str();
+    return set.iter().min().unwrap().to_string();
 }
 

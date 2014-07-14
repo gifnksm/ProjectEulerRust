@@ -62,5 +62,5 @@ pub fn solve() -> String {
         }).filter(|nums| is_sss(nums.as_slice()))
         .map(|nums| nums.iter().map(|&x| x).sum())
         .sum()
-        .to_str()
+        .to_string()
 }

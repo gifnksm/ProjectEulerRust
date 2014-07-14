@@ -23,5 +23,5 @@ pub fn solve() -> String {
         .filter(is_amicable)
         .map(|(a, b)| a + b)
         .sum()
-        .to_str()
+        .to_string()
 }

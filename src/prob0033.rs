@@ -44,5 +44,5 @@ pub fn solve() -> String {
     }
 
     let gcd = prod_numer.gcd(&prod_denom);
-    return (prod_denom / gcd).to_str();
+    return (prod_denom / gcd).to_string();
 }

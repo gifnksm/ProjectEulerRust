@@ -77,7 +77,7 @@ fn a<'a>() -> Filter<'a, (uint, uint, uint), SkipWhile<'a, (uint, uint, uint), P
 
 pub fn solve() -> String {
     let (n, _b, _e) = a().nth(29).unwrap();
-    n.to_str()
+    n.to_string()
 }
 
 #[cfg(test)]

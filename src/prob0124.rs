@@ -138,7 +138,7 @@ pub fn solve() -> String {
         .flat_map(|(base, facts)| Multiples::new(base, facts).take_while(|&n| n <= LIMIT))
         .nth(index - 1)
         .unwrap()
-        .to_str()
+        .to_string()
 }
 
 #[cfg(test)]

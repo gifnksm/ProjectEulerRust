@@ -14,5 +14,5 @@ pub fn solve() -> String {
     return prime.iter()
         .take_while(|&p| p < limit)
         .sum()
-        .to_str();
+        .to_string();
 }

@@ -45,7 +45,7 @@ pub fn solve() -> String {
         let Elem(n, mut pairs) = queue.pop().unwrap();
         let num_sol = (pairs.iter().fold(1, |n, &i| n * (2 * i + 1)) + 1) / 2;
         if num_sol > limit {
-            return n.to_str();
+            return n.to_string();
         }
         if pairs.len() == 1 || *pairs.get(pairs.len() - 1) < *pairs.get(pairs.len() - 2) {
             let mut new_pairs = pairs.clone();

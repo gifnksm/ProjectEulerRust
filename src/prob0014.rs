@@ -30,5 +30,5 @@ pub fn solve() -> String {
     range(2u, 1000000)
         .max_by(|&n| get_len(&mut map, n))
         .unwrap()
-        .to_str()
+        .to_string()
 }

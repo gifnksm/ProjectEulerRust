@@ -104,7 +104,7 @@ fn get_num_pairs(prime: &Prime, n: uint) -> uint {
 }
 
 pub fn solve() -> String {
-    get_num_pairs(&Prime::new(), 12).to_str()
+    get_num_pairs(&Prime::new(), 12).to_string()
 }
 
 #[cfg(test)]

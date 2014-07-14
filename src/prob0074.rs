@@ -80,5 +80,5 @@ pub fn solve() -> String {
         let len = get_chain_len(n, map.as_mut_slice(), &factorial);
         if len == 60 { cnt += 1; }
     }
-    return cnt.to_str();
+    return cnt.to_string();
 }

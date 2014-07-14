@@ -14,5 +14,5 @@ fn count_between(
 pub fn solve() -> String {
     let limit = 12000;
     let cnt = count_between((1, 3), (1, 2), limit);
-    return cnt.to_str();
+    return cnt.to_string();
 }

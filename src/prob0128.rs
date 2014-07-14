@@ -199,7 +199,7 @@ impl Iterator<uint> for Pd3Nums {
 }
 
 pub fn solve() -> String {
-    Pd3Nums::new().nth(2000 - 1).unwrap().to_str()
+    Pd3Nums::new().nth(2000 - 1).unwrap().to_string()
 }
 
 #[cfg(test)]

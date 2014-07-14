@@ -40,5 +40,5 @@ pub fn solve() -> String {
         .next()
         .map(|(d1, d2)| d1 * d2)
         .unwrap()
-        .to_str()
+        .to_string()
 }

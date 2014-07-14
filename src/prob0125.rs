@@ -34,7 +34,7 @@ fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
 pub fn solve() -> String {
     let limit = num::pow(10u, 8);
     let set = palindromic_sum_set(limit);
-    set.iter().fold(0, |x, &y| x + y).to_str()
+    set.iter().fold(0, |x, &y| x + y).to_string()
 }
 
 #[cfg(test)]

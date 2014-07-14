@@ -32,7 +32,7 @@ fn sqrt_newton_raphson(n: uint, precision: uint) -> String {
         if ((ds * delta_2) >> (2 * shift)).is_zero() { break; }
     }
 
-    return ((n * x_1 * ds) >> shift).to_str();
+    return ((n * x_1 * ds) >> shift).to_string();
 }
 
 fn is_square(n: uint) -> bool {
@@ -50,5 +50,5 @@ pub fn solve() -> String {
                 .filter_map(|c| char::to_digit(c, 10))
                 .sum()
         }).sum()
-        .to_str();
+        .to_string();
 }

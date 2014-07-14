@@ -14,5 +14,5 @@ pub fn solve() -> String {
             max_d = d;
         }
     };
-    max_n.to_str()
+    max_n.to_string()
 }

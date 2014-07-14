@@ -216,5 +216,5 @@ pub fn solve() -> String {
         if cmp < 0 { _p2_win += 1;  }
         if cmp == 0 { _draw += 1;  }
     }
-    p1_win.to_str()
+    p1_win.to_string()
 }

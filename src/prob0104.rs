@@ -57,5 +57,5 @@ pub fn solve() -> String {
     let last  = Unfold::new((0, 1), next_fib_last10);
     let mut it = first.zip(last).enumerate().filter(|&(_, (f, l))| is_pandigit(f) && is_pandigit(l));
     let (k, _) = it.next().unwrap();
-    return k.to_str();
+    return k.to_string();
 }

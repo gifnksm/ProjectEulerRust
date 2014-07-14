@@ -13,8 +13,8 @@ pub static EXPECTED_ANSWER: &'static str = "972";
 pub fn solve() -> String {
     range(One::one(), FromPrimitive::from_uint(100).unwrap())
         .map(|a: BigUint| {
-            Unfold::new(One::one(), |n| { (*n) = a * (*n); Some((*n).to_str())})
+            Unfold::new(One::one(), |n| { (*n) = a * (*n); Some((*n).to_string())})
                 .map(|s| s.as_slice().chars().filter_map(|c| char::to_digit(c, 10)).sum())
                 .take(100).max().unwrap()
-        }).max().unwrap().to_str()
+        }).max().unwrap().to_string()
 }

@@ -120,7 +120,7 @@ pub fn solve() -> String {
         let mut b = 0;
         let mut p1_digit = p1;
         let mut coef = 1;
-        for _ in range(0, p1.to_str().len()) {
+        for _ in range(0, p1.to_string().len()) {
             let (d, m) = p1_digit.div_rem(&10);
             p1_digit = d;
             a = *xmap.get((10 + m - (b / coef) % 10) % 10);
@@ -129,5 +129,5 @@ pub fn solve() -> String {
         }
         sum += b;
     }
-    sum.to_str()
+    sum.to_string()
 }

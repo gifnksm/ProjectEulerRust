@@ -86,7 +86,7 @@ pub fn solve() -> String {
             let sets = find_chain(pairs.as_slice(), vec![n], &map);
             for set in sets.iter() {
                 if set.len() >= len {
-                    return set.iter().map(|&x| x).sum().to_str();
+                    return set.iter().map(|&x| x).sum().to_string();
                 }
             }
         }

@@ -12,11 +12,11 @@ pub static EXPECTED_ANSWER: &'static str = "1366";
 pub fn solve() -> String {
     let two: BigInt = FromPrimitive::from_uint(2).unwrap();
     std::num::pow(two, 1000)
-        .to_str()
+        .to_string()
         .as_slice()
         .chars()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()
-        .to_str()
+        .to_string()
 }
 

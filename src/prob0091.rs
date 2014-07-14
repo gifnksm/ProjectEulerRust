@@ -30,5 +30,5 @@ fn count_right_p(x_max: uint, y_max: uint) -> uint {
 pub fn solve() -> String {
     let (x_max, y_max) = (50, 50);
     let answer = count_right_o(x_max, y_max) + count_right_p(x_max, y_max) * 2;
-    return answer.to_str();
+    return answer.to_string();
 }

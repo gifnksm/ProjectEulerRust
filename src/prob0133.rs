@@ -68,5 +68,5 @@ pub fn solve() -> String {
                 .any(|(b, _e)| b != 2 && b != 5)
         }).sum();
 
-    (sum + 2 + 3 + 5).to_str()
+    (sum + 2 + 3 + 5).to_string()
 }

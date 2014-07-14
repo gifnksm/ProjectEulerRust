@@ -53,5 +53,5 @@ pub fn solve() -> String {
         lim >>= 1;
     }
 
-    return m.to_str();
+    return m.to_string();
 }

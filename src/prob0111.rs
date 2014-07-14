@@ -49,5 +49,5 @@ pub fn solve() -> String {
             }
         }
     }
-    total.to_str()
+    total.to_string()
 }

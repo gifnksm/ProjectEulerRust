@@ -48,7 +48,7 @@ impl fmt::Show for Card {
             13 => "K".to_string(),
             1  => "A".to_string(),
             0  => "_".to_string(),
-            n  => n.to_str()
+            n  => n.to_string()
         };
 
         write!(f, "{}{}", n, self.suit)

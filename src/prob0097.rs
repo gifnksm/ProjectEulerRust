@@ -44,5 +44,5 @@ pub fn solve() -> String {
                   &unit),
         &One::one(),
         &unit
-    ).to_str();
+    ).to_string();
 }

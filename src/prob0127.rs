@@ -79,7 +79,7 @@ fn abc_hits_c_sum(c_limit: uint) -> uint {
     c_sum
 }
 
-pub fn solve() -> String { abc_hits_c_sum(120000).to_str() }
+pub fn solve() -> String { abc_hits_c_sum(120000).to_string() }
 
 #[cfg(test)]
 mod tests {

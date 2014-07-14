@@ -33,5 +33,5 @@ pub fn solve() -> String {
     }
 
     let (max_key, _max_val) = map.iter().max_by(|&(&_k, &v)| v).unwrap();
-    max_key.to_str()
+    max_key.to_string()
 }

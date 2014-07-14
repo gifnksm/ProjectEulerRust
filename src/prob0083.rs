@@ -65,5 +65,5 @@ pub fn solve() -> String {
         }
     }
 
-    dist.get(h - 1).get(w - 1).to_str()
+    dist.get(h - 1).get(w - 1).to_string()
 }

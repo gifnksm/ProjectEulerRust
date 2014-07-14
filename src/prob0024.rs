@@ -59,5 +59,5 @@ pub fn solve() -> String {
         Contains(n) => n,
         _ => fail!()
     };
-    numconv::from_digits(ds.as_slice(), 10).to_str()
+    numconv::from_digits(ds.as_slice(), 10).to_string()
 }

@@ -13,5 +13,5 @@ fn square_of_sum(n: uint) -> uint {
 pub fn solve() -> String {
     let sq_of_sum = square_of_sum(100);
     let sum_of_sq = sum_of_square(100);
-    return (sq_of_sum - sum_of_sq).to_str();
+    return (sq_of_sum - sum_of_sq).to_string();
 }

@@ -30,5 +30,5 @@ pub fn solve() -> String {
         cnt += ((n - r) - r) + 1;
     }
 
-    cnt.to_str()
+    cnt.to_string()
 }

@@ -30,5 +30,5 @@ pub fn solve() -> String {
             }
         }).unwrap()
         .val1()
-        .to_str()
+        .to_string()
 }

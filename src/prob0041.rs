@@ -20,5 +20,5 @@ pub fn solve() -> String {
             true
         }
     });
-    return ans.to_str();
+    return ans.to_string();
 }

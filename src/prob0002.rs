@@ -14,5 +14,5 @@ pub fn solve() -> String {
         .take_while(|&f| f < limit)
         .filter(|&f| f % 2 == 0)
         .sum()
-        .to_str();
+        .to_string();
 }

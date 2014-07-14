@@ -15,5 +15,5 @@ pub fn solve() -> String {
         .map(|(base, _exp)| base)
         .max()
         .unwrap()
-        .to_str();
+        .to_string();
 }

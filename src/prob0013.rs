@@ -116,6 +116,6 @@ pub fn solve() -> String {
         .filter_map(from_str::<uint>)
         .sum();
 
-    let sum_str = sum.to_str();
-    return sum_str.as_slice().slice(0, 10).to_str();
+    let sum_str = sum.to_string();
+    return sum_str.as_slice().slice(0, 10).to_string();
 }

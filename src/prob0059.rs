@@ -92,6 +92,6 @@ pub fn solve() -> String {
     code_list.iter().enumerate()
         .map(|(i, &n)| (n ^ *keys.get(i % l)) as uint)
         .sum()
-        .to_str()
+        .to_string()
 }
 

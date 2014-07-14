@@ -14,5 +14,5 @@ pub fn solve() -> String {
         let period = an.len();
         if period % 2 == 1 { cnt += 1; }
     }
-    return cnt.to_str();
+    return cnt.to_string();
 }

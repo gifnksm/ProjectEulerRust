@@ -34,5 +34,5 @@ pub fn solve() -> String {
             uf.union(i, j);
         }
     }
-    saving.to_str()
+    saving.to_string()
 }

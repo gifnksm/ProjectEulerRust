@@ -66,5 +66,5 @@ pub fn solve() -> String {
             .windows(prod_len)
             .map(|ns| ns.iter().map(|&(x, y)| *grid.get(y as uint).get(x as uint)).product())
             .max().unwrap_or(0)
-        }).max().unwrap().to_str()
+        }).max().unwrap().to_string()
 }

@@ -15,7 +15,7 @@ pub fn solve() -> String {
         .filter(|&n| get_cnt(n, 50, &mut map) > 1000000)
         .next()
         .unwrap()
-        .to_str()
+        .to_string()
 }
 
 #[cfg(test)]

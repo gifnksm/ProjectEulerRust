@@ -32,5 +32,5 @@ pub fn solve() -> String {
         }
     }
 
-    cnt.to_str()
+    cnt.to_string()
 }

@@ -57,5 +57,5 @@ pub fn solve() -> String {
             None => {}
         }
     }
-    return num.to_str();
+    return num.to_string();
 }

@@ -102,5 +102,5 @@ pub fn solve() -> String {
         .take_while(|&p| p <= limit)
         .filter(|&p| ps.contains(p) )
         .count()
-        .to_str()
+        .to_string()
 }

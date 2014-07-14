@@ -138,7 +138,7 @@ pub fn solve() -> String {
     let mut ans = "".to_string();
     each_sss(|sss| {
             if sss.sss.len() == 7 {
-                ans = sss.sss.iter().map(|&n| n.to_str()).collect::<Vec<String>>().concat();
+                ans = sss.sss.iter().map(|&n| n.to_string()).collect::<Vec<String>>().concat();
                 false
             } else {
                 true

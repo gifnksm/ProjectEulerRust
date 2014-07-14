@@ -11,7 +11,7 @@ pub fn solve() -> String {
     }
 
     let mut answer = 0;
-    for n in range(0, facts[9].to_str().len() * facts[9]) {
+    for n in range(0, facts[9].to_string().len() * facts[9]) {
         let mut itr = n;
         let mut sum = 0;
         while itr > 0 {
@@ -23,5 +23,5 @@ pub fn solve() -> String {
         }
     }
 
-    return (answer - 1 - 2).to_str();
+    return (answer - 1 - 2).to_string();
 }

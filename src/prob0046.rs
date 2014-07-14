@@ -25,5 +25,5 @@ pub fn solve() -> String {
         .skip_while(|&n| is_goldbach(&prime, n))
         .next()
         .unwrap()
-        .to_str();
+        .to_string();
 }
