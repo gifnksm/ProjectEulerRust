@@ -115,7 +115,7 @@ pub fn solve() -> String {
 
     for (p1, p2) in pairs {
         if p1 == 3 { continue }
-        let xmap = mod_map.get(p2 % 10);
+        let xmap = &mod_map[p2 % 10];
         let mut a;
         let mut b = 0;
         let mut p1_digit = p1;
@@ -123,7 +123,7 @@ pub fn solve() -> String {
         for _ in range(0, p1.to_string().len()) {
             let (d, m) = p1_digit.div_rem(&10);
             p1_digit = d;
-            a = *xmap.get((10 + m - (b / coef) % 10) % 10);
+            a = xmap[(10 + m - (b / coef) % 10) % 10];
             b += a * p2 * coef;
             coef *= 10;
         }

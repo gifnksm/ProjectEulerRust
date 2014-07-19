@@ -4,7 +4,7 @@
 extern crate common;
 extern crate math;
 
-use std::{num, str, mem, uint};
+use std::{num, mem, uint};
 use std::iter::OrdIterator;
 use std::io::File;
 use std::collections::HashMap;
@@ -35,7 +35,7 @@ fn is_square(n: uint) -> bool {
 
 pub fn solve() -> String {
     let mut reader = File::open(&Path::new("files/words.txt")).ok().expect("file not found.");
-    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
+    let input = String::from_utf8(reader.read_to_end().ok().unwrap()).unwrap();
 
     let result = reader::read_whole_word(input.as_slice()).map(|words| {
         let mut map = HashMap::new();
@@ -59,7 +59,7 @@ pub fn solve() -> String {
         for elt in words.iter() {
             for i in range(0, elt.len()) {
                 for j in range(i + 1, elt.len()) {
-                    buf.push((elt.get(i).clone(), elt.get(j).clone()))
+                    buf.push((elt[i].clone(), elt[j].clone()))
                 }
             }
         }
@@ -101,7 +101,7 @@ pub fn solve() -> String {
             for n in range(arith::isqrt(end), arith::isqrt(start)).rev() {
                 let ds = numconv::to_digits(n * n, 10).rev().collect::<Vec<uint>>();
                 for &(ref v1, ref v2) in pairs.iter() {
-                    if *ds.get(*v2.get(0)) == 0 { continue }
+                    if ds[v2[0]] == 0 { continue }
                     if !check_digit(v1.as_slice(), ds.as_slice()) { continue }
                     let num2 = idx_to_num(v2.as_slice(), ds.as_slice());
                     if !is_square(num2) { continue }

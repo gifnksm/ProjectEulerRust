@@ -1,7 +1,7 @@
 #![crate_name = "prob0059"]
 #![crate_type = "rlib"]
 
-use std::{f64, str};
+use std::f64;
 use std::io::File;
 use std::iter::AdditiveIterator;
 
@@ -79,7 +79,7 @@ pub fn solve() -> String {
     }
 
     let mut reader = File::open(&Path::new("files/cipher1.txt")).ok().expect("file not found.");
-    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
+    let input = String::from_utf8(reader.read_to_end().ok().unwrap()).unwrap();
 
     let code_list = input.as_slice().trim().split(',')
         .filter_map(from_str::<u8>).collect::<Vec<u8>>();
@@ -90,7 +90,7 @@ pub fn solve() -> String {
     let keys = freq.iter().map(|f| find_key(f.as_slice(), freq_dict)).collect::<Vec<u8>>();
     let l = keys.len();
     code_list.iter().enumerate()
-        .map(|(i, &n)| (n ^ *keys.get(i % l)) as uint)
+        .map(|(i, &n)| (n ^ keys[i % l]) as uint)
         .sum()
         .to_string()
 }

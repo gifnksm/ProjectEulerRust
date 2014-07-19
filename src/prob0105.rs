@@ -15,23 +15,14 @@ fn is_sss(nums: &[uint]) -> bool {
         let mut new_sums = Vec::with_capacity(len * 2);
         while i < len {
             assert!(j <= i);
-            match sums.get(i).cmp(&(*sums.get(j) + n)) {
-                Equal => { return false; }
-                Less => {
-                    new_sums.push(*sums.get(i));
-                    i += 1;
-                }
-                Greater => {
-                    new_sums.push(*sums.get(j) + n);
-                    j += 1;
-                }
+            match sums[i].cmp(&(sums[j] + n)) {
+                Equal   => { return false; }
+                Less    => { new_sums.push(sums[i]);     i += 1; }
+                Greater => { new_sums.push(sums[j] + n); j += 1; }
             }
         }
 
-        while j < len {
-            new_sums.push(*sums.get(j) + n);
-            j += 1;
-        }
+        while j < len { new_sums.push(sums[j] + n); j += 1; }
 
         sums = new_sums;
     }

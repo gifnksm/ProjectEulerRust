@@ -45,7 +45,7 @@ pub fn mul_mat(m1: &[Vec<f64>], m2: &[Vec<f64>]) -> Vec<Vec<f64>> {
     create_mat(m1.len(), m2[0].len(), |i, j| {
         let mut sum = 0.0;
         for k in range(0, m1[0].len()) {
-            sum += *m1[i].get(k) * *m2[k].get(j);
+            sum += m1[i][k] * m2[k][j];
         }
         sum
     })
@@ -53,17 +53,17 @@ pub fn mul_mat(m1: &[Vec<f64>], m2: &[Vec<f64>]) -> Vec<Vec<f64>> {
 
 #[inline(always)]
 pub fn add_mat(m1: &[Vec<f64>], m2: &[Vec<f64>]) -> Vec<Vec<f64>> {
-    create_mat(m1.len(), m1[0].len(), |i, j| { *m1[i].get(j) + *m2[i].get(j) })
+    create_mat(m1.len(), m1[0].len(), |i, j| { m1[i][j] + m2[i][j] })
 }
 
 #[inline(always)]
 pub fn sub_mat(m1: &[Vec<f64>], m2: &[Vec<f64>]) -> Vec<Vec<f64>> {
-    create_mat(m1.len(), m1[0].len(), |i, j| { *m1[i].get(j) - *m2[i].get(j) })
+    create_mat(m1.len(), m1[0].len(), |i, j| { m1[i][j] - m2[i][j] })
 }
 
 #[inline(always)]
 pub fn trans_mat(m: &[Vec<f64>]) -> Vec<Vec<f64>> {
-    create_mat(m[0].len(), m.len(), |i, j| { *m[j].get(i) })
+    create_mat(m[0].len(), m.len(), |i, j| { m[j][i] })
 }
 
 fn create_roll_map(dice_side: uint) -> Vec<(f64, f64)> {
@@ -71,7 +71,7 @@ fn create_roll_map(dice_side: uint) -> Vec<(f64, f64)> {
     for i in range(1, dice_side + 1) {
         for j in range(i, dice_side + 1) {
             let sum = i + j;
-            let (p, q) = *map.get(sum);
+            let (p, q) = map[sum];
             *map.get_mut(sum) = if i == j { (p, q + 1) } else { (p + 2, q) };
         }
     }
@@ -162,11 +162,11 @@ fn get_trans(roll_map: &[(f64, f64)]) -> Vec<Vec<f64>> {
         let src = j % NUM_SQUARE;
 
         match (dst_block, src_block) {
-            (0, 0) => *trans_sq_singles.get(dst).get(src),
-            (1, 0) => *trans_sq_doubles.get(dst).get(src),
-            (0, 1) => *trans_sq_singles.get(dst).get(src),
-            (2, 1) => *trans_sq_doubles.get(dst).get(src),
-            (0, 2) => *trans_sq_singles.get(dst).get(src) + *trans_g2j_doubles.get(dst).get(src),
+            (0, 0) => trans_sq_singles[dst][src],
+            (1, 0) => trans_sq_doubles[dst][src],
+            (0, 1) => trans_sq_singles[dst][src],
+            (2, 1) => trans_sq_doubles[dst][src],
+            (0, 2) => trans_sq_singles[dst][src] + trans_g2j_doubles[dst][src],
             _      => 0.0
         }
     })
@@ -192,15 +192,15 @@ pub fn solve() -> String {
         let vec2 = mul_mat(trans.as_slice(), vec.as_slice());
         let sub = sub_mat(vec2.as_slice(), vec.as_slice());
         let err = mul_mat(trans_mat(sub.as_slice()).as_slice(), sub.as_slice());
-        if *err.get(0).get(0) < 1e-10 { break }
+        if err[0][0] < 1e-10 { break }
         vec = vec2;
     }
 
     let mut pairs = Vec::from_fn(NUM_SQUARE, |i| (0.0, Square::from_uint(i)));
     for (i, vs) in vec.iter().enumerate() {
         let dst = i % NUM_SQUARE;
-        let (p, sq) = *pairs.get(dst);
-        *pairs.get_mut(dst) = (p + *vs.get(0), sq);
+        let (p, sq) = pairs[dst];
+        *pairs.get_mut(dst) = (p + vs[0], sq);
     }
     pairs.sort_by(|&(p1, _), &(p2, _)| {
             match () {

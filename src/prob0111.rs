@@ -27,7 +27,7 @@ pub fn solve() -> String {
                 };
 
                 for set in Comb::new(n - m, n) {
-                    let first = if set.contains(&0) { *other_ds.get(0) } else { d };
+                    let first = if set.contains(&0) { other_ds[0] } else { d };
                     if first == 0 { continue; }
 
                     let mut j = 0;
@@ -35,7 +35,7 @@ pub fn solve() -> String {
                     for i in range(0, n) {
                         num = num * 10 + if set.contains(&i) {
                             j += 1;
-                            *other_ds.get(j - 1)
+                            other_ds[j - 1]
                         } else {
                             d
                         };

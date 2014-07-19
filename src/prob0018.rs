@@ -28,9 +28,9 @@ pub fn solve() -> String {
     let last = TRIANGLE.last().unwrap();
     let answer = init.iter().rev().fold(Vec::from_slice(*last), |mut total, elm| {
         for (i, &e) in elm.iter().enumerate() {
-            *total.get_mut(i) = e + cmp::max(*total.get(i), *total.get(i + 1));
+            *total.get_mut(i) = e + cmp::max(total[i], total[i + 1]);
         }
         total
     });
-    answer.get(0).to_string()
+    answer[0].to_string()
 }

@@ -99,7 +99,7 @@ pub fn solve() -> String {
         let ds = line.as_slice().chars()
             .filter_map(|c| char::to_digit(c, 10)).collect::<Vec<uint>>();
         for i in range(1, ds.len()) {
-            rels.set_dependant(*ds.get(i - 1), *ds.get(i));
+            rels.set_dependant(ds[i - 1], ds[i]);
         }
     }
     tsort(&mut rels).iter().map(|d| d.to_string()).collect::<Vec<String>>().concat()

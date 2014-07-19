@@ -47,7 +47,7 @@ impl UnionFind {
     }
 
     pub fn get_key_size(&mut self, key: uint) -> (uint, uint) {
-        let (root_key, size) = match *self.data.get(key) {
+        let (root_key, size) = match self.data[key] {
             UFSize(size) => { return (key, size); }
             UFKey(key) => self.get_key_size(key)
         };

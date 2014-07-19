@@ -30,8 +30,8 @@ pub fn solve() -> String {
     while cnt > 0 {
         each_sum_product(start, end, &mut |sum, prod, len| {
             let k = prod - sum + len;
-            if k <= limit && prod < *nums.get(k) {
-                if *nums.get(k) == uint::MAX { cnt -= 1; }
+            if k <= limit && prod < nums[k] {
+                if nums[k] == uint::MAX { cnt -= 1; }
                 *nums.get_mut(k) = prod;
             }
         });

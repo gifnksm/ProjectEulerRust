@@ -54,7 +54,7 @@ pub fn solve() -> String {
             .split(',')
             .filter_map(from_str::<int>)
             .collect::<Vec<int>>();
-        let ps = ((*ns.get(0), *ns.get(1)), (*ns.get(2), *ns.get(3)), (*ns.get(4), *ns.get(5)));
+        let ps = ((ns[0], ns[1]), (ns[2], ns[3]), (ns[4], ns[5]));
         if is_inside(ps, (0, 0)) { cnt += 1; }
     }
     cnt.to_string()

@@ -19,9 +19,9 @@ pub fn solve() -> String {
     for p in prime.iter() {
         if p > limit { break; }
         for n in iter::range_step(p, limit + 1, p) {
-            *v.get_mut(n) = *v.get(n) * (p - 1) / p;
+            *v.get_mut(n) = v[n] * (p - 1) / p;
         }
     }
 
-    return v.move_iter().sum().to_string();
+    v.move_iter().sum().to_string()
 }

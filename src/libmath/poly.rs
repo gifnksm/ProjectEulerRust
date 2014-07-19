@@ -98,10 +98,10 @@ impl<T: Zero + Add<T, T>> Add<Poly<T>, Poly<T>> for Poly<T> {
 
         let mut sum = Vec::with_capacity(max_len);
         for i in range(0, min_len) {
-            sum.push(*self.data.get(i) + *other.data.get(i));
+            sum.push(self.data[i] + other.data[i]);
         }
         for i in range(min_len, max_len) {
-            sum.push(*bigger.data.get(i) + Zero::zero())
+            sum.push(bigger.data[i] + Zero::zero())
         }
         Poly::new(sum)
     }
@@ -114,15 +114,15 @@ impl<T: Zero + Sub<T, T>> Sub<Poly<T>, Poly<T>> for Poly<T> {
 
         let mut sub = Vec::with_capacity(max_len);
         for i in range(0, min_len) {
-            sub.push(*self.data.get(i) - *other.data.get(i));
+            sub.push(self.data[i] - other.data[i]);
         }
         if self.data.len() <= other.data.len() {
             for i in range(min_len, max_len) {
-                sub.push(num::zero::<T>() - *other.data.get(i))
+                sub.push(num::zero::<T>() - other.data[i])
             }
         } else {
             for i in range(min_len, max_len) {
-                sub.push(*self.data.get(i) + Zero::zero())
+                sub.push(self.data[i] + Zero::zero())
             }
         }
         Poly::new(sub)
@@ -136,7 +136,7 @@ impl<T: Zero + Mul<T, T>> Mul<Poly<T>, Poly<T>> for Poly<T> {
         let mut prod: Vec<T> = Vec::from_fn(self.data.len() + other.data.len() - 1, |_| Zero::zero());
         for (i, n) in self.data.iter().enumerate() {
             for (j, m) in other.data.iter().enumerate() {
-                *prod.get_mut(i + j) = *prod.get(i + j) + (*n) * (*m);
+                *prod.get_mut(i + j) = prod[i + j] + (*n) * (*m);
             }
         }
         Poly::new(prod)

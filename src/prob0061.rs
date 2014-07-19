@@ -33,15 +33,15 @@ pub fn solve() -> String {
             if i < 10 { continue }
             for &n5 in v5.iter() {
                 if n5 < 10 { continue }
-                for &n0 in map[*idx.get(0)].get(n5).iter() {
+                for &n0 in map[idx[0]][n5].iter() {
                     if n0 < 10 { continue }
-                    for &n1 in map[*idx.get(1)].get(n0).iter() {
+                    for &n1 in map[idx[1]][n0].iter() {
                         if n1 < 10 { continue }
-                        for &n2 in map[*idx.get(2)].get(n1).iter() {
+                        for &n2 in map[idx[2]][n1].iter() {
                             if n2 < 10 { continue }
-                            for &n3 in map[*idx.get(3)].get(n2).iter() {
+                            for &n3 in map[idx[3]][n2].iter() {
                                 if n3 < 10 { continue }
-                                for &n4 in map[*idx.get(4)].get(n3).iter() {
+                                for &n4 in map[idx[4]][n3].iter() {
                                     if n4 < 10 { continue }
                                     if n4 == i {
                                         result.push([

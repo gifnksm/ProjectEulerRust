@@ -4,7 +4,6 @@
 extern crate common;
 extern crate math;
 
-use std::str;
 use std::io::File;
 use common::reader;
 use math::sequence;
@@ -22,7 +21,7 @@ fn word_value(word: &str) -> uint {
 pub fn solve() -> String {
     let mut reader = File::open(&Path::new("files/words.txt"))
         .ok().expect("file not found.");
-    let input = str::from_utf8_owned(reader.read_to_end().ok().unwrap()).unwrap();
+    let input = String::from_utf8(reader.read_to_end().ok().unwrap()).unwrap();
     let result = reader::read_whole_word(input.as_slice())
         .map(|words| words.iter().map(|w| word_value(*w)).collect::<Vec<uint>>())
         .map(|values| {
@@ -31,7 +30,7 @@ pub fn solve() -> String {
             let mut it = sequence::triangle::<uint>().take_while(|&t| t < len);
             for t in it { *is_tri.get_mut(t) = true; }
 
-            values.iter().filter(|&v| *is_tri.get(*v)).count().to_string()
+            values.iter().filter(|&&v| is_tri[v]).count().to_string()
         });
 
     match result {

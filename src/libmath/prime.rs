@@ -24,7 +24,7 @@ impl PrimeInner {
     fn max_prime(&self) -> uint { *self.data.last().unwrap() }
 
     #[inline]
-    fn nth(&mut self, n: uint) -> uint { self.grow(n + 1); *self.data.get(n) }
+    fn nth(&mut self, n: uint) -> uint { self.grow(n + 1); self.data[n] }
 
     #[inline]
     fn contains(&mut self, n: uint) -> bool {

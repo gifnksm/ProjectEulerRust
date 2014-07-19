@@ -10,7 +10,7 @@ fn get_cycle_len(n: uint) -> uint {
     let mut idx = 1;
     loop {
         let new_rem = rem % n;
-        match *buf.get(new_rem) {
+        match buf[new_rem] {
             Some(i) => { return idx - i }
             None    => { *buf.get_mut(new_rem) = Some(idx); }
         }

@@ -20,8 +20,8 @@ pub fn solve() -> String {
     init.iter()
         .rev()
         .fold(last, |prev, elem| {
-            Vec::from_fn(elem.len(), |i| elem.get(i) + cmp::max(*prev.get(i), *prev.get(i + 1)))
-        }).get(0)
+            Vec::from_fn(elem.len(), |i| elem[i] + cmp::max(prev[i], prev[i + 1]))
+        })[0]
         .to_string()
 }
 

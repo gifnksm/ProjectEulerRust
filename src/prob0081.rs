@@ -13,9 +13,9 @@ pub fn read_matrix(filename: &str) -> (uint, uint, Vec<Vec<uint>>) {
     for line in br.lines().filter_map(|line| line.ok()) {
         let row = line.as_slice().trim().split(',').filter_map(from_str::<uint>).collect();
         mat.push(row);
-        assert_eq!(mat.get(0).len(), mat.last().unwrap().len());
+        assert_eq!(mat[0].len(), mat.last().unwrap().len());
     }
-    (mat.get(0).len(), mat.len(), mat)
+    (mat[0].len(), mat.len(), mat)
 }
 
 pub fn solve() -> String {
@@ -23,16 +23,16 @@ pub fn solve() -> String {
 
     let mut sum = Vec::from_fn(h, |_y| Vec::from_elem(w, 0u));
 
-    *sum.get_mut(0).get_mut(0) = *mat.get(0).get(0);
+    *sum.get_mut(0).get_mut(0) = mat[0][0];
     for y in range(1, h) {
-        *sum.get_mut(y).get_mut(0) = *mat.get(y).get(0) + *sum.get(y - 1).get(0);
+        *sum.get_mut(y).get_mut(0) = mat[y][0] + sum[y - 1][0];
     }
     for x in range(1, w) {
-        *sum.get_mut(0).get_mut(x) = *mat.get(0).get(x) + *sum.get(0).get(x - 1);
+        *sum.get_mut(0).get_mut(x) = mat[0][x] + sum[0][x - 1];
         for y in range(1, h) {
-            *sum.get_mut(y).get_mut(x) = *mat.get(y).get(x)
-                + cmp::min(*sum.get(y - 1).get(x), *sum.get(y).get(x - 1));
+            *sum.get_mut(y).get_mut(x) = mat[y][x]
+                + cmp::min(sum[y - 1][x], sum[y][x - 1]);
         }
     }
-    sum.get(h - 1).get(w - 1).to_string()
+    sum[h - 1][w - 1].to_string()
 }

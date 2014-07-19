@@ -28,7 +28,7 @@ struct Rad(uint, uint, Vec<uint>); // (n, rad, facts)
 fn create_rad_vec(n_limit: uint) -> Vec<Rad> {
     let mut rad_vec = Vec::from_fn(n_limit, |i| (1, i, Vec::new()));
     for p in range(2, rad_vec.len()) {
-        let (rad_p, _, _) = *rad_vec.get(p);
+        let (rad_p, _, _) = rad_vec[p];
         if rad_p != 1 { continue }
 
         for kp in iter::count(p, p).take_while(|&kp| kp < n_limit) {
@@ -62,14 +62,14 @@ fn abc_hits_c_sum(c_limit: uint) -> uint {
     let mut c_sum = 0;
 
     for c in range(3, c_limit) {
-        let Rad(rad_c, _, ref c_facts) = *rad_vec.get(c);
+        let Rad(rad_c, _, ref c_facts) = rad_vec[c];
         if rad_c == c { continue } // if rad(c) == c, rad(ab) must be 1. this doesn't satisfy condition 2.
 
         for &Rad(rad_a, a, ref a_facts) in sorted_rad_vec.iter() {
             if rad_a >= c / rad_c { break }
             if a >= (c + 1) / 2 { continue }
 
-            let Rad(rad_b, _, _) = *rad_vec.get(c - a);
+            let Rad(rad_b, _, _) = rad_vec[c - a];
             let rad_abc = rad_a * rad_b * rad_c;
             if rad_abc >= c || (a != 1 && rad_has_union(c_facts.as_slice(), a_facts.as_slice())) { continue; }
             c_sum += c;

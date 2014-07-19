@@ -31,10 +31,10 @@ pub fn solve() -> String {
             None       => vec!(cube)
         };
         if v.len() == 5 {
-            set.insert(*v.get(0));
+            set.insert(v[0]);
         }
         if v.len() == 6 {
-            set.remove(v.get(0));
+            set.remove(&v[0]);
         }
         map.insert(ds, v);
     }

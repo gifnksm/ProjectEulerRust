@@ -30,7 +30,7 @@ pub fn solve() -> String {
         for &b in abundant.tailn(i).iter() {
             let s = a + b;
             if s > max_num { break; }
-            if !*is_sum_abundant.get(s) { sum_of_sum_abundant += s; }
+            if !is_sum_abundant[s] { sum_of_sum_abundant += s; }
             *is_sum_abundant.get_mut(s) = true;
         }
     }

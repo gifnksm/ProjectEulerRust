@@ -1,5 +1,4 @@
 use std::io::BufferedReader;
-use std::str;
 
 pub trait BufferedReaderUtil<R> {
     fn sep_iter<'a>(&'a mut self, c: u8) -> ReaderSplitIterator<'a, R>;
@@ -25,7 +24,7 @@ impl<'a, R: Reader> Iterator<String> for ReaderSplitIterator<'a, R> {
             .map(|mut bytes| {
                 self.sep_flag = bytes.last() == Some(&self.sep_char);
                 if self.sep_flag { bytes.pop(); }
-                str::from_utf8_owned(bytes).unwrap()
+                String::from_utf8(bytes).unwrap()
             }).or_else(|| {
                 if self.sep_flag {
                     self.sep_flag = false;

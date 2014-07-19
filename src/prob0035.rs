@@ -15,7 +15,7 @@ fn is_circular_prime(prime: &Prime, n: uint) -> bool {
 
     for i in range(1, ds.len()) {
         for j in range(0, buf.len()) {
-            *buf.get_mut(j) = *ds.get((i + j) % ds.len());
+            *buf.get_mut(j) = ds[(i + j) % ds.len()];
         }
         if !prime.contains(numconv::from_digits(buf.as_slice(), 10)) { return false; }
     }

@@ -94,7 +94,7 @@ impl<'a> Iterator<Area> for AreaSeq<'a> {
             let next = self.seq.last().unwrap().next();
             self.seq.push(next)
         }
-        Some(*self.seq.get(self.idx))
+        Some((*self.seq)[self.idx])
     }
 }
 

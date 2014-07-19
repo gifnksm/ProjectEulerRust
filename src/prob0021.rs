@@ -14,7 +14,7 @@ pub fn solve() -> String {
 
     let sum_of_div = Vec::from_fn(limit, |n| prime.sum_of_proper_divisor(n));
     let is_deficient = |&(n, div): &(uint, uint)| div < n;
-    let is_amicable  = |&(n, div): &(uint, uint)| *sum_of_div.get(div) == n;
+    let is_amicable  = |&(n, div): &(uint, uint)| sum_of_div[div] == n;
     sum_of_div
         .iter()
         .map(|&n| n)

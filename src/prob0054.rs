@@ -67,23 +67,19 @@ fn hand(cards: &[Card, ..5]) -> Hand {
     for v in num_count.iter() {
         match v.len() {
             0 => { /* Do nothing */ },
-            1 => single.push(*v.get(0)),
-            2 => pairs.push([*v.get(0), *v.get(1)]),
-            3 => three.push([*v.get(0), *v.get(1), *v.get(2)]),
-            4 => four.push([*v.get(0), *v.get(1), *v.get(2), *v.get(3)]),
+            1 => single.push(v[0]),
+            2 => pairs.push([v[0], v[1]]),
+            3 => three.push([v[0], v[1], v[2]]),
+            4 => four.push([v[0], v[1], v[2], v[3]]),
             _ => fail!()
         }
     }
     match (pairs.len(), three.len(), four.len()) {
-        (1, 0, 0) => return Pair      (*pairs.get(0),
-                                       [ *single.get(0), *single.get(1), *single.get(2) ]),
-        (2, 0, 0) => return TwoPair   ([ *pairs.get(0), *pairs.get(1) ],
-                                       [ *single.get(0) ]),
-        (0, 1, 0) => return Three     (*three.get(0),
-                                       [ *single.get(0), *single.get(1) ]),
-        (1, 1, 0) => return FullHouse ((*three.get(0), *pairs.get(0))),
-        (0, 0, 1) => return Four      (*four.get(0),
-                                       [ *single.get(0) ]),
+        (1, 0, 0) => return Pair      (pairs[0], [ single[0], single[1], single[2] ]),
+        (2, 0, 0) => return TwoPair   ([ pairs[0], pairs[1] ], [ single[0] ]),
+        (0, 1, 0) => return Three     (three[0], [ single[0], single[1] ]),
+        (1, 1, 0) => return FullHouse ((three[0], pairs[0])),
+        (0, 0, 1) => return Four      (four[0], [ single[0] ]),
         _ => { /* Do nothing */ }
     }
 
@@ -100,10 +96,10 @@ fn hand(cards: &[Card, ..5]) -> Hand {
     };
 
     return match (is_flush, is_straight) {
-        (true, true) => StraightFlush([ *single.get(0), *single.get(1), *single.get(2), *single.get(3), *single.get(4) ]),
-        (true, false) => Flush([ *single.get(0), *single.get(1), *single.get(2), *single.get(3), *single.get(4) ]),
-        (false, true) => Straight([ *single.get(0), *single.get(1), *single.get(2), *single.get(3), *single.get(4) ]),
-        (false, false) => Hi([ *single.get(0), *single.get(1), *single.get(2), *single.get(3), *single.get(4) ])
+        (true, true) => StraightFlush([ single[0], single[1], single[2], single[3], single[4] ]),
+        (true, false) => Flush([ single[0], single[1], single[2], single[3], single[4] ]),
+        (false, true) => Straight([ single[0], single[1], single[2], single[3], single[4] ]),
+        (false, false) => Hi([ single[0], single[1], single[2], single[3], single[4] ])
     }
 }
 

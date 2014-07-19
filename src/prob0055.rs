@@ -3,7 +3,6 @@
 
 extern crate num;
 
-use std::str;
 use std::from_str::FromStr;
 use std::num::FromPrimitive;
 use num::bigint::BigUint;
@@ -12,7 +11,7 @@ pub static EXPECTED_ANSWER: &'static str = "249";
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_string();
-    let rev = str::from_chars(s.as_slice().chars().rev().collect::<Vec<char>>().as_slice());
+    let rev = String::from_chars(s.as_slice().chars().rev().collect::<Vec<char>>().as_slice());
     FromStr::from_str(rev.as_slice()).unwrap()
 }
 
@@ -32,5 +31,5 @@ pub fn solve() -> String {
     for n in range(1u, 10001) {
         if is_lychrel(n) { cnt += 1; }
     }
-    return cnt.to_string();
+    cnt.to_string()
 }

@@ -54,21 +54,15 @@ impl SSSElem {
         while i < len {
             assert!(j <= i);
 
-            match self.sums.get(i).cmp(&(*self.sums.get(j) + n)) {
-                Equal => { return None; }
-                Less => {
-                    sums.push(*self.sums.get(i));
-                    i += 1;
-                }
-                Greater => {
-                    sums.push(*self.sums.get(j) + n);
-                    j += 1;
-                }
+            match self.sums[i].cmp(&(self.sums[j] + n)) {
+                Equal   => { return None; }
+                Less    => { sums.push(self.sums[i]);     i += 1; }
+                Greater => { sums.push(self.sums[j] + n); j += 1; }
             }
         }
 
         while j < len {
-            sums.push(*self.sums.get(j) + n);
+            sums.push(self.sums[j] + n);
             j += 1;
         }
 
@@ -96,7 +90,7 @@ impl SSSElem {
     #[inline(always)]
     pub fn each_next(&self, f: |SSSElem| -> bool) -> bool {
         if self.sss.len() == 2 {
-            let (a, b) = (*self.sss.get(0), *self.sss.get(1));
+            let (a, b) = (self.sss[0], self.sss[1]);
             if !f(SSSElem::new_pair(a, b + 1)) { return false; }
             if a == b - 1 && !f(SSSElem::new_pair(a + 1, b + 1)) { return false; }
         }

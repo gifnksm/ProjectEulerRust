@@ -54,12 +54,12 @@ impl Iterator<uint> for Multiples {
         self.queue.pop().map(|Multiple(n, i)| {
             if i < self.facts.len() {
                 // n = ... * f[i]^k => ... * f[i]^(k+1)
-                self.queue.push(Multiple(n * *self.facts.get(i), i));
+                self.queue.push(Multiple(n * self.facts[i], i));
             }
 
             for j in range(i + 1, self.facts.len()) {
                 // n = ... * f[i]^k => ... * f[i]^k * f[j]
-                self.queue.push(Multiple(n * *self.facts.get(j), j));
+                self.queue.push(Multiple(n * self.facts[j], j));
             }
             n
         })

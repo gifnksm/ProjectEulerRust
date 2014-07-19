@@ -49,7 +49,7 @@ impl Iterator<Vec<uint>> for ElementIndex {
                 let max_idx = idx.len() - 1;
                 range(0, idx.len())
                     .rev()
-                    .find(|&i| *idx.get(i) < max_num - (max_idx - i))
+                    .find(|&i|  idx[i] < max_num - (max_idx - i))
                     .map(|incr_idx| (idx, incr_idx))
             }).map(|(idx, incr_idx)| {
                 let mut next = idx.clone();
@@ -80,11 +80,11 @@ impl<T: Clone> Iterator<(Vec<T>, Vec<T>)> for Groups<T> {
         self.idx
             .next()
             .map(|idx| {
-                let left = Vec::from_fn(idx.len(), |i| self.vec.get(*idx.get(i)).clone());
+                let left = Vec::from_fn(idx.len(), |i| self.vec[idx[i]].clone());
                 let mut offset = 0;
                 let right = Vec::from_fn(self.vec.len() - idx.len(), |i| {
-                        while offset < idx.len() && offset + i == *idx.get(offset) { offset += 1; }
-                        self.vec.get(offset + i).clone()
+                        while offset < idx.len() && offset + i == idx[offset] { offset += 1; }
+                        self.vec[offset + i].clone()
                     });
                 (left.move_iter().collect(), right.move_iter().collect())
             })
@@ -97,15 +97,15 @@ fn count_primes(prime: &Prime, digits: &[uint]) -> uint {
     let mut cnt = 0;
     for n in iter::range_inclusive(1, digits.len()) {
         for (ds, rest) in digits.groups(n) {
-            if *ds.get(0) != digits[0] { break }
-            if rest.len() == 1 && !prime.contains(*rest.get(0)) { continue }
+            if ds[0] != digits[0] { break }
+            if rest.len() == 1 && !prime.contains(rest[0]) { continue }
 
             let num_prime = if ds.len() == 1 {
-                if prime.contains(*ds.get(0)) { 1 } else { 0 }
+                if prime.contains(ds[0]) { 1 } else { 0 }
             } else {
                 if ds.iter().fold(0, |x, &y| x + y) % 3 != 0 {
                     ds.as_slice().permutations()
-                        .filter(|perm| perm.get(0).is_odd() && *perm.get(0) != 5)
+                        .filter(|perm| perm[0].is_odd() && perm[0] != 5)
                         .filter(|perm| prime.contains(numconv::from_digits(perm.as_slice(), 10)))
                         .count()
                 } else {

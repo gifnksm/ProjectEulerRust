@@ -24,7 +24,7 @@ pub fn solve() -> String {
 
     let mut sum = 0;
     calc::combinate_overlap([0u, 1, 2, 3, 4, 5, 6, 7, 8, 9], len, |comb| {
-            let num = comb.iter().map(|&e| *pows.get(e)).sum();
+            let num = comb.iter().map(|&e| pows[e]).sum();
 
             let mut ds = numconv::to_digits(num, 10).collect::<Vec<uint>>();
             ds.sort_by(|a, b| a.cmp(b));
