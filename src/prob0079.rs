@@ -82,7 +82,7 @@ fn tsort<T: Hash + Eq + Clone>(rels: &mut Relations<T>) -> Vec<T> {
     let mut sorted = Vec::new();
     let mut queue = rels.find_all_not_preceded();
     while !queue.is_empty() {
-        let prec = queue.shift().unwrap();
+        let prec = queue.remove(0).unwrap();
         sorted.push(prec.clone());
         queue.push_all(rels.delete_and_find(prec).as_slice());
     }

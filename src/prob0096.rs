@@ -198,7 +198,7 @@ pub fn solve() -> String {
     let mut answers = puzzles
         .move_iter()
         .map(solve_sudoku)
-        .map(|mut ans| { assert_eq!(ans.len(), 1); ans.shift().unwrap() });
+        .map(|mut ans| { assert_eq!(ans.len(), 1); ans.remove(0).unwrap() });
     let mut sum = 0;
     for ans in answers {
         sum += 100 * ans.get_num(0, 0) + 10 * ans.get_num(1, 0) + ans.get_num(2, 0);

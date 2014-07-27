@@ -197,9 +197,9 @@ mod tests {
         ];
 
         super::permutate_num(&[1, 2, 3, 4, 5], 3, 140, 300, |n, _rest| {
-            let mut num = nums.shift().unwrap();
+            let mut num = nums.remove(0).unwrap();
             while num < 140 || 300 < num {
-                num = nums.shift().unwrap();
+                num = nums.remove(0).unwrap();
             }
             assert_eq!(n, num);
             true

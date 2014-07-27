@@ -22,7 +22,7 @@ impl<T: Iterator<&'static Problem<'static>>> ProblemIterator for T {
         let mut solve_cnt   = 0;
         let mut all_correct = true;
 
-        for p in &mut *self {
+        for p in *self {
             let sol = p.solve();
             sol.print(true);
 

@@ -21,7 +21,7 @@ pub fn solve() -> String {
             for other_ds in range(0, num::pow(9u, n - m)) {
                 let other_ds = {
                     let mut ds = numconv::to_digits(other_ds, 9).rev().collect::<Vec<uint>>();
-                    while ds.len() < n - m { ds.unshift(0); }
+                    while ds.len() < n - m { ds.insert(0, 0); }
                     for i in ds.mut_iter() { if *i >= d { *i += 1; } }
                     ds
                 };
