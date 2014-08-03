@@ -15,9 +15,9 @@ pub static EXPECTED_ANSWER: &'static str = "149253";
 pub fn solve() -> String {
     let ps = Prime::new();
     iter::count(3u, 2)
-        .filter(|&n| !n.divides(&5))
+        .filter(|&n| !n.is_multiple_of(&5))
         .filter(|&n| !ps.contains(n))
-        .filter(|&n| (n - 1).divides(&prob0129::a(n)))
+        .filter(|&n| (n - 1).is_multiple_of(&prob0129::a(n)))
         .take(25)
         .sum()
         .to_string()
@@ -34,9 +34,9 @@ mod tests {
     fn first5() {
         let ps = Prime::new();
         let mut it = iter::count(3u, 2)
-            .filter(|&n| !n.divides(&5))
+            .filter(|&n| !n.is_multiple_of(&5))
             .filter(|&n| !ps.contains(n))
-            .filter(|&n| (n - 1).divides(&prob0129::a(n)));
+            .filter(|&n| (n - 1).is_multiple_of(&prob0129::a(n)));
 
         assert_eq!(Some(91), it.next());
         assert_eq!(Some(259), it.next());

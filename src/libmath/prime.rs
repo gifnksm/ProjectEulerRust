@@ -35,14 +35,14 @@ impl PrimeInner {
         iter::count(self.data.len(), 1)
             .map(|i| self.nth(i))
             .take_while(|&p| p * p <= n)
-            .all(|p| !n.divides(&p))
+            .all(|p| !n.is_multiple_of(&p))
     }
 
     #[inline]
     fn is_coprime(&self, n: uint) -> bool {
         self.data.iter()
             .take_while(|& &p| p * p <= n)
-            .all(|&p| !n.divides(&p))
+            .all(|&p| !n.is_multiple_of(&p))
     }
 
     #[inline]
@@ -167,11 +167,11 @@ impl Iterator<Factor> for FactorizeIterator {
                 return Some((n, 1))
             }
 
-            if self.num.divides(&p) {
+            if self.num.is_multiple_of(&p) {
                 let mut exp = 1;
                 self.num /= p;
 
-                while self.num.divides(&p) {
+                while self.num.is_multiple_of(&p) {
                     exp += 1;
                     self.num /= p;
                 }
