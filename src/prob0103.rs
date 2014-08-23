@@ -19,12 +19,7 @@ impl Eq for SSSElem {}
 
 impl PartialOrd for SSSElem {
     fn partial_cmp(&self, other: &SSSElem) -> Option<Ordering> {
-        match self.avg.partial_cmp(&other.avg) {
-            Some(Less)    => Some(Greater),
-            Some(Equal)   => Some(Equal),
-            Some(Greater) => Some(Less),
-            None          => None
-        }
+        self.avg.partial_cmp(&other.avg).map(|ord| ord.reverse())
     }
 }
 

@@ -28,7 +28,9 @@ impl PrimeInner {
 
     #[inline]
     fn contains(&mut self, n: uint) -> bool {
-        if n < self.max_prime() { return self.data.as_slice().bsearch_elem(&n).is_some() }
+        if n < self.max_prime() {
+            return self.data.as_slice().binary_search_elem(&n).found().is_some()
+        }
 
         if !self.is_coprime(n) { return false }
 

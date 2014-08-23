@@ -31,17 +31,7 @@ impl Ord for Power {
     fn cmp(&self, other: &Power) -> Ordering {
         let Power(sn, sb, _) = *self;
         let Power(on, ob, _) = *other;
-        match sn.cmp(&on) {
-            Less    => Greater,
-            Greater => Less,
-            Equal   => {
-                match sb.cmp(&ob) {
-                    Less    => Greater,
-                    Greater => Less,
-                    Equal   => Equal
-                }
-            }
-        }
+        (sn, sb).cmp(&(on, ob)).reverse()
     }
 }
 

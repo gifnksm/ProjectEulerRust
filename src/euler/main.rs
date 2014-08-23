@@ -45,7 +45,7 @@ fn parse_range(s: &str) -> Option<(uint, uint)> {
     if !s.contains_char('-') {
         from_str::<uint>(s).map(|n| (n, n))
     } else {
-        let mut ss = s.splitn('-', 1);
+        let mut ss = s.splitn(1,'-');
         let opt_a = ss.next().and_then(|sa| from_str(sa));
         let opt_b = ss.next().and_then(|sb| from_str(sb));
         opt_a.and_then(|a| opt_b.map(|b| (a, b)))
@@ -64,7 +64,7 @@ fn main() {
         args.iter()
             .filter_map(|s| parse_range(s.as_slice()))
             .flat_map(|(a, b)| iter::range_inclusive(a, b))
-            .filter_map(|id| problem_list::PROBLEMS.bsearch(|p| p.id.cmp(&id)))
+            .filter_map(|id| problem_list::PROBLEMS.binary_search(|p| p.id.cmp(&id)).found())
             .map(|i| problem_list::PROBLEMS[i])
             .solve_all()
     };

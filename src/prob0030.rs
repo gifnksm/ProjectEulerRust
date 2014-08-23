@@ -30,7 +30,7 @@ pub fn solve() -> String {
             ds.sort_by(|a, b| a.cmp(b));
 
             let zero_len = len - ds.len();
-            if comb.tailn(zero_len) == ds.as_slice() &&
+            if comb.slice_from(zero_len) == ds.as_slice() &&
                 comb.iter().take(zero_len).all(|&x| x == 0) {
                 sum += num;
             }

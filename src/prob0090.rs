@@ -26,7 +26,7 @@ pub fn solve() -> String {
 
     let mut cnt = 0u;
     for (i, set1) in all_combs.iter().enumerate() {
-        for set2 in  all_combs.tailn(i + 1).iter() {
+        for set2 in  all_combs.slice_from(i + 1).iter() {
             let cond = nums.iter()
                 .all(|&(a, b)| {
                     (set1.contains(&a) && set2.contains(&b)) ||

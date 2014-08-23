@@ -18,19 +18,14 @@ impl PartialEq for Elem {
 }
 impl Eq for Elem {}
 impl PartialOrd for Elem {
-    fn partial_cmp(&self, other: &Elem) -> Option<Ordering> {
-        let &Elem(s, _) = self;
-        let &Elem(o, _) = other;
-        match s.partial_cmp(&o) {
-            Some(Less)    => Some(Greater),
-            Some(Equal)   => Some(Equal),
-            Some(Greater) => Some(Less),
-            None          => None
-        }
-    }
+    fn partial_cmp(&self, other: &Elem) -> Option<Ordering> { Some(self.cmp(other)) }
 }
 impl Ord for Elem {
-    fn cmp(&self, other: &Elem) -> Ordering { self.partial_cmp(other).unwrap() }
+    fn cmp(&self, other: &Elem) -> Ordering {
+        let &Elem(s, _) = self;
+        let &Elem(o, _) = other;
+        s.cmp(&o).reverse()
+    }
 }
 
 

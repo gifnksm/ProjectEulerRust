@@ -40,7 +40,7 @@ fn each_value(num: &[Rational], op: &[Op], f: |Rational|) {
 
     calc::combinate(num, 1, |v1, rest| {
         let a = v1[0];
-        each_value(rest, op.tailn(1), |b| {
+        each_value(rest, op.slice_from(1), |b| {
             match op[0] {
                 Add => { f(a + b) }
                 Mul => { f(a * b) }

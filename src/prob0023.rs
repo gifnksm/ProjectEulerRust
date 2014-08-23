@@ -27,7 +27,7 @@ pub fn solve() -> String {
     let mut sum_of_sum_abundant = 0;
     let mut is_sum_abundant = Vec::from_elem(max_num + 1, false);
     for (i, &a) in abundant.iter().enumerate() {
-        for &b in abundant.tailn(i).iter() {
+        for &b in abundant.slice_from(i).iter() {
             let s = a + b;
             if s > max_num { break; }
             if !is_sum_abundant[s] { sum_of_sum_abundant += s; }

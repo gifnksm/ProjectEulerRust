@@ -14,12 +14,12 @@ pub static EXPECTED_ANSWER: &'static str = "5482660";
 
 fn get_pentagonal(i: uint) -> uint {
     let n = i + 1;
-    return n * (3 * n - 1) / 2;
+    n * (3 * n - 1) / 2
 }
 
 fn is_pentagonal(n: uint, table: &[uint]) -> bool {
     if *table.last().unwrap() < n { fail!() }
-    return table.bsearch_elem(&n).is_some();
+    table.binary_search_elem(&n).found().is_some()
 }
 
 pub fn solve() -> String {
