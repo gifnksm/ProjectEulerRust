@@ -84,7 +84,10 @@ fn update_dm_list(list: &[(Vec<uint>, DigitMap)], base: uint, radix: uint, len: 
         let lower = numconv::from_digits(ds.slice(ds.len() - (len - 1), ds.len()), radix);
         let it = range(0, radix)
             .filter(|d| (d * ord + lower) % base == 0)
-            .filter_map(|d| dm.join(d).map(|dm| (*ds + &[d], dm)));
+            .filter_map(|d| {
+                let sd: &[uint] = &[d];
+                dm.join(d).map(|dm| (*ds + sd, dm))
+            });
         result.extend(it);
     }
     result
