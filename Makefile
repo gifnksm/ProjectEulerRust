@@ -14,8 +14,9 @@ DEPEND=$(DEPEND_DIR)/all.mk
 
 RUSTC_FLAGS = \
 	-D warnings \
+	-W bad-style \
+	-W unused \
 	-W unnecessary-qualification \
-	-W non-uppercase-statics \
 	-W unnecessary-typecast
 DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) #-g
 RELEASE_RUSTC_FLAGS = $(RUSTC_FLAGS) -L $(RELEASE_RLIB_DIR) --opt-level 3
