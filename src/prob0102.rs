@@ -44,7 +44,7 @@ fn is_inside((a, b, c): Triangle, p: Point) -> bool {
 
 pub fn solve() -> String {
     let mut br = BufferedReader::new(
-        File::open(&Path::new("files/triangles.txt")).ok().expect("file not found."));
+        File::open(&Path::new("files/p102_triangles.txt")).ok().expect("file not found."));
 
     let mut cnt = 0u;
     for line in br.lines().filter_map(|line| line.ok()) {

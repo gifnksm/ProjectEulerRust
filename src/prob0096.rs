@@ -186,7 +186,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
 
 pub fn solve() -> String {
     let mut br = BufferedReader::new(
-        File::open(&Path::new("files/sudoku.txt")).ok().expect("file not found."));
+        File::open(&Path::new("files/p096_sudoku.txt")).ok().expect("file not found."));
 
     let mut puzzles = Vec::new();
     loop {

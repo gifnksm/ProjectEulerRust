@@ -8,7 +8,7 @@ pub static EXPECTED_ANSWER: &'static str = "7273";
 
 pub fn solve() -> String {
     let mut br = BufferedReader::new(
-        File::open(&Path::new("files/triangle.txt")).ok().expect("file not found."));
+        File::open(&Path::new("files/p067_triangle.txt")).ok().expect("file not found."));
 
     let triangle = br.lines()
         .filter_map(|line| line.ok())

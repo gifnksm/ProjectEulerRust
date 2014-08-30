@@ -62,7 +62,7 @@ fn to_roman(mut n: uint) -> String {
 
 pub fn solve() -> String {
     let mut br = BufferedReader::new(
-        File::open(&Path::new("files/roman.txt")).ok().expect("file not found."));
+        File::open(&Path::new("files/p089_roman.txt")).ok().expect("file not found."));
     br.lines()
         .filter_map(|line| line.ok())
         .map(|line| {

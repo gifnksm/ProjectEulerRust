@@ -14,7 +14,7 @@ fn get_score(n: uint, s: &str) -> uint {
 }
 
 pub fn solve() -> String {
-    let mut input = BufferedReader::new(File::open(&Path::new("files/names.txt"))
+    let mut input = BufferedReader::new(File::open(&Path::new("files/p022_names.txt"))
                                         .ok()
                                         .expect("file not found."));
     let mut ss = input.sep_iter(',' as u8)

@@ -78,7 +78,7 @@ pub fn solve() -> String {
         freq_dict[(c as u8) as uint] = f;
     }
 
-    let mut reader = File::open(&Path::new("files/cipher1.txt")).ok().expect("file not found.");
+    let mut reader = File::open(&Path::new("files/p059_cipher.txt")).ok().expect("file not found.");
     let input = String::from_utf8(reader.read_to_end().ok().unwrap()).unwrap();
 
     let code_list = input.as_slice().trim().split(',')

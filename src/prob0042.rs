@@ -19,7 +19,7 @@ fn word_value(word: &str) -> uint {
 }
 
 pub fn solve() -> String {
-    let mut reader = File::open(&Path::new("files/words.txt"))
+    let mut reader = File::open(&Path::new("files/p042_words.txt"))
         .ok().expect("file not found.");
     let input = String::from_utf8(reader.read_to_end().ok().unwrap()).unwrap();
     let result = reader::read_whole_word(input.as_slice())

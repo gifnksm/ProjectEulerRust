@@ -32,7 +32,7 @@ fn is_sss(nums: &[uint]) -> bool {
 
 pub fn solve() -> String {
     let mut br = BufferedReader::new(
-        File::open(&Path::new("files/sets.txt")).ok().expect("file not found."));
+        File::open(&Path::new("files/p105_sets.txt")).ok().expect("file not found."));
 
     br.lines()
         .filter_map(|line| line.ok())
