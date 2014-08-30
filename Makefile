@@ -1,6 +1,7 @@
-PROB_SRC   = $(sort $(wildcard src/prob*.rs))
-MOD_SRC    = src/euler/problem_list.rs
-ALL_SRC    = $(wildcard src/*.rs) $(wildcard src/*/*.rs)
+SRC_DIR    = mk_src
+PROB_SRC   = $(sort $(wildcard $(SRC_DIR)/prob*.rs))
+MOD_SRC    = $(SRC_DIR)/euler/problem_list.rs
+ALL_SRC    = $(wildcard $(SRC_DIR)/*.rs) $(wildcard $(SRC_DIR)/*/*.rs)
 
 DEPEND_DIR=depend
 DEBUG_RLIB_DIR=lib/debug
@@ -39,9 +40,9 @@ clean: mostlyclean
 	$(RM) -r $(DOC_DIR)
 
 $(DEPEND): $(ALL_SRC) $(MOD_SRC)
-	./etc/mkdepend > $@
+	./etc/mkdepend $(SRC_DIR) > $@
 $(MOD_SRC): $(PROB_SRC)
-	./etc/mkproblist ./src > $@
+	./etc/mkproblist $(SRC_DIR) > $@
 
 ifneq "$(MAKECMDGOALS)" "clean"
 ifneq "$(MAKECMDGOALS)" "mostlyclean"
