@@ -10,7 +10,7 @@ impl<R> BufferedReaderUtil<R> for BufferedReader<R> {
     }
 }
 
-pub struct ReaderSplitIterator<'a, R> {
+pub struct ReaderSplitIterator<'a, R: 'a> {
     reader: &'a mut BufferedReader<R>,
     sep_char: u8,
     sep_flag: bool
