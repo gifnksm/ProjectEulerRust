@@ -1,0 +1,12 @@
+[root]
+name = "ProjectEulerRust"
+version = "0.0.1"
+dependencies = [
+ "glob 0.0.1 (git+https://github.com/rust-lang/glob#c4495d9f2f2a1b22173b860f907760ba8c419843)",
+]
+
+[[package]]
+name = "glob"
+version = "0.0.1"
+source = "git+https://github.com/rust-lang/glob#c4495d9f2f2a1b22173b860f907760ba8c419843"
+

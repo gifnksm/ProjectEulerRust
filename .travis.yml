@@ -12,3 +12,10 @@ script:
   - make doc
   - ./bin/debug/euler
   - ./bin/release/euler
+  - cargo build --verbose
+  - cargo build --verbose --release
+  - cargo test --verbose
+  - cargo bench --verbose
+  - cargo doc --verbose
+  - ./target/euler
+  - ./target/release/euler

@@ -7,7 +7,7 @@ lib/debug/*
 lib/release/*
 
 # ignore auto generated module files
-src/euler/problem_list.rs
+mk_src/euler/problem_list.rs
 
 # ignore attachment files
 files/*.txt
@@ -17,3 +17,5 @@ depend/*.mk
 
 # ignore document files
 doc/*
+
+/target
