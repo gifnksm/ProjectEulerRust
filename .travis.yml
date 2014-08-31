@@ -12,6 +12,8 @@ script:
   - make doc
   - ./bin/debug/euler
   - ./bin/release/euler
+  - cargo test --verbose --manifest-path ./pkg/seq
+  - cargo test --verbose --manifest-path ./pkg/prime
   - cargo build --verbose
   - ./target/euler
   - cargo build --verbose --release

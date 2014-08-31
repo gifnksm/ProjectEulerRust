@@ -11,3 +11,11 @@ name = "common"
 [dependencies.glob]
 
 git = "https://github.com/rust-lang/glob"
+
+[dependencies.seq]
+
+path = "./pkg/seq"
+
+[dependencies.prime]
+
+path = "./pkg/prime"

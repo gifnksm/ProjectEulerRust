@@ -19,3 +19,6 @@ depend/*.mk
 doc/*
 
 /target
+pkg/*/target
+pkg/*/Cargo.lock
+
