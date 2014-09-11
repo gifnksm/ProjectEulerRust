@@ -38,7 +38,7 @@ impl fmt::Show for SuDoku {
                 if cell.count_ones() == 1 {
                     try!(write!(f, "_"));
                 } else {
-                    try!(write!(f, "{}", 1u << (cell.trailing_zeros() as uint)));
+                    try!(write!(f, "{}", 1u << cell.trailing_zeros()));
                 }
             }
             try!(writeln!(f, ""));
@@ -60,7 +60,7 @@ impl SuDoku {
     fn get_num(&self, x: uint, y: uint) -> BITS {
         match self.map[y][x].count_ones() {
             0 => -1,
-            1 => self.map[y][x].trailing_zeros() + 1,
+            1 => (self.map[y][x].trailing_zeros() + 1) as BITS,
             _ => 0
         }
     }
@@ -160,8 +160,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
 
     let it = range(0, BOARD_HEIGHT * BOARD_WIDTH)
         .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
-        .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones()))
-        .collect::<Vec<(uint, uint, u16)>>();
+        .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones() as BITS))
+        .collect::<Vec<(uint, uint, BITS)>>();
 
     if it.iter().any(|&(_x, _y, cnt)| cnt == 0) { return vec![]; }
     if it.iter().all(|&(_x, _y, cnt)| cnt == 1) { return vec![puzzle]; }
