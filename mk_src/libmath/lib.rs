@@ -2,7 +2,6 @@
 #![crate_type = "rlib"]
 
 extern crate num;
-extern crate data;
 
 #[cfg(test)]
 extern crate test;

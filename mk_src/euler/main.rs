@@ -2,7 +2,6 @@
 #![crate_type = "bin"]
 
 extern crate time;
-extern crate common;
 extern crate term;
 
 use std::os;

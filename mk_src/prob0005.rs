@@ -1,7 +1,6 @@
 #![crate_name = "prob0005"]
 #![crate_type = "rlib"]
 
-extern crate data;
 extern crate math;
 
 use std::cmp;
