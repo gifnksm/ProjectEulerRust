@@ -2,7 +2,7 @@
 name = "ProjectEulerRust"
 version = "0.0.1"
 dependencies = [
- "glob 0.0.1 (git+https://github.com/rust-lang/glob#c4495d9f2f2a1b22173b860f907760ba8c419843)",
+ "glob 0.0.1 (git+https://github.com/rust-lang/glob#88738e0c5ab490b5a9f5e645cf83e4ba043ad1d2)",
  "prime 0.0.1",
  "seq 0.0.1",
 ]
@@ -10,7 +10,7 @@ dependencies = [
 [[package]]
 name = "glob"
 version = "0.0.1"
-source = "git+https://github.com/rust-lang/glob#c4495d9f2f2a1b22173b860f907760ba8c419843"
+source = "git+https://github.com/rust-lang/glob#88738e0c5ab490b5a9f5e645cf83e4ba043ad1d2"
 
 [[package]]
 name = "prime"
