@@ -14,7 +14,6 @@ DOC_DIR=doc
 DEPEND=$(DEPEND_DIR)/all.mk
 
 RUSTC_FLAGS = \
-	-D warnings \
 	-W bad-style \
 	-W unused \
 	-W unnecessary-qualification \
