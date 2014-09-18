@@ -12,6 +12,10 @@ name = "common"
 
 git = "https://github.com/rust-lang/glob"
 
+[dependencies.num]
+
+git = "https://github.com/rust-lang/num"
+
 [dependencies.seq]
 
 path = "./pkg/seq"
