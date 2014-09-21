@@ -1,10 +1,11 @@
-#![crate_name = "prob0008"]
-#![crate_type = "rlib"]
+#![warn(unused, bad_style,
+        unnecessary_qualification, unnecessary_typecast, unused_result)]
+
+extern crate common;
 
 use std::char;
 use std::iter::OrdIterator;
-
-pub static EXPECTED_ANSWER: &'static str = "40824";
+use common::Solver;
 
 static INPUT: &'static str = "
 73167176531330624919225119674426574742355349194934
@@ -29,9 +30,7 @@ static INPUT: &'static str = "
 71636269561882670428252483600823257530420752963450
 ";
 
-pub fn solve() -> String {
-    let prod_len = 5;
-
+fn compute(prod_len: uint) -> uint {
     INPUT.chars()
         .filter_map(|c| char::to_digit(c, 10))
         .collect::<Vec<_>>()
@@ -40,5 +39,16 @@ pub fn solve() -> String {
         .map(|win| win.iter().fold(1u, |p, &n| p * n))
         .max()
         .unwrap()
-        .to_string()
+}
+
+fn solve() -> String { compute(13).to_string() }
+
+fn main() { Solver::new("23514624000", solve).run(); }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn four_seq() {
+        assert_eq!(5832 , super::compute(4));
+    }
 }

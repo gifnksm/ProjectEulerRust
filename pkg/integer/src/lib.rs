@@ -88,6 +88,29 @@ pub trait Integer: num::Integer + Clone {
         if !duplicate_middle { let _ = rv.next_back(); }
         rv.chain(digits).fold(Zero::zero(), |sum: Self, i| sum * radix + i)
     }
+
+    /// Take the square root of the number.
+    #[inline]
+    fn sqrt(&self) -> Self {
+        let one: Self = One::one();
+        let two: Self = one + one;
+        let mut min: Self = Zero::zero();
+        let mut max: Self = self.clone();
+
+        while min < max {
+            let mid = (min + max + one) / two;
+            if mid * mid == *self {
+                return mid;
+            }
+            if mid * mid >= *self {
+                max = mid - one
+            } else {
+                min = mid
+            }
+        }
+
+        return min
+    }
 }
 
 impl Integer for num::BigUint {}
