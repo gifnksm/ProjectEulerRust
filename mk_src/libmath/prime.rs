@@ -2,7 +2,7 @@ use std::{iter, num, uint};
 use std::iter::MultiplicativeIterator;
 use std::cell::RefCell;
 use std::rc::Rc;
-use std::local_data::Key;
+use std::local_data::{Key, KeyValueKey};
 use std::collections::HashMap;
 
 use num::Integer;
@@ -58,7 +58,7 @@ impl PrimeInner {
     }
 }
 
-static TASK_PRIME_KEY: Key<Prime> = &Key;
+static TASK_PRIME_KEY: Key<Prime> = &KeyValueKey;
 
 #[deriving(Clone)]
 pub struct Prime {
