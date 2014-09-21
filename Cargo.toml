@@ -23,3 +23,7 @@ path = "./pkg/seq"
 [dependencies.prime]
 
 path = "./pkg/prime"
+
+[dependencies.integer]
+
+path = "./pkg/integer"
