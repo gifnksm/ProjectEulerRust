@@ -2,7 +2,7 @@ language: rust
 install:
   - sudo apt-get install python3
 before_script:
-  - wget -i ./etc/files.txt -P ./files
+  - wget --no-check-certificate -i ./etc/files.txt -P ./files
   - make depend
 script:
   - make debug
@@ -12,12 +12,16 @@ script:
   - make doc
   - ./bin/debug/euler
   - ./bin/release/euler
-  - cargo test --verbose --manifest-path ./pkg/seq
-  - cargo test --verbose --manifest-path ./pkg/prime
+  - cargo test  --verbose --manifest-path ./pkg/integer
+  - cargo bench --verbose --manifest-path ./pkg/integer
+  - cargo test  --verbose --manifest-path ./pkg/seq
+  - cargo bench --verbose --manifest-path ./pkg/seq
+  - cargo test  --verbose --manifest-path ./pkg/prime
+  - cargo bench --verbose --manifest-path ./pkg/prime
   - cargo build --verbose
   - ./target/euler
   - cargo build --verbose --release
   - ./target/release/euler
-  - cargo test --verbose
+  - cargo test  --verbose
   - cargo bench --verbose
-  - cargo doc --verbose
+  - cargo doc   --verbose
