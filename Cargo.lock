@@ -3,7 +3,7 @@ name = "ProjectEulerRust"
 version = "0.0.1"
 dependencies = [
  "glob 0.0.1 (git+https://github.com/rust-lang/glob#2bcf0fcf0d19705cce3cb89fa8930397feea782d)",
- "num 0.0.1 (git+https://github.com/rust-lang/num#4fa331aa4165488f1067e70dca6b6817fa3c4ae7)",
+ "num 0.0.1 (git+https://github.com/rust-lang/num#900a6a2fd21ceb2154af99d91f43ee744a1e9250)",
  "prime 0.0.1",
  "seq 0.0.1",
 ]
@@ -16,13 +16,19 @@ source = "git+https://github.com/rust-lang/glob#2bcf0fcf0d19705cce3cb89fa8930397
 [[package]]
 name = "num"
 version = "0.0.1"
-source = "git+https://github.com/rust-lang/num#4fa331aa4165488f1067e70dca6b6817fa3c4ae7"
+source = "git+https://github.com/rust-lang/num#900a6a2fd21ceb2154af99d91f43ee744a1e9250"
 
 [[package]]
 name = "prime"
 version = "0.0.1"
+dependencies = [
+ "num 0.0.1 (git+https://github.com/rust-lang/num#900a6a2fd21ceb2154af99d91f43ee744a1e9250)",
+]
 
 [[package]]
 name = "seq"
 version = "0.0.1"
+dependencies = [
+ "num 0.0.1 (git+https://github.com/rust-lang/num#900a6a2fd21ceb2154af99d91f43ee744a1e9250)",
+]
 

@@ -10,7 +10,7 @@ extern crate term;
 extern crate common;
 
 use std::{io, os, str};
-use std::io::{Command, IoError, MemReader};
+use std::io::{Command, MemReader};
 use std::io::process::ExitStatus;
 use std::path::Display;
 use std::str::{MaybeOwned, SendStr};
@@ -40,7 +40,7 @@ type OutputPair<'a> = (Option<Color>, MaybeOwned<'a>);
 
 #[deriving(Show)]
 enum ProgramErrorKind {
-    IoError(IoError),
+    IoError(io::IoError),
     JsonSyntaxError(json::ErrorCode, uint, uint),
     JsonDecoderError(json::DecoderError),
     Unknown
@@ -65,8 +65,8 @@ trait ToProgramError {
     fn to_program_error(self: Self) -> ProgramError;
 }
 
-impl ToProgramError for IoError {
-    fn to_program_error(self: IoError) -> ProgramError {
+impl ToProgramError for io::IoError {
+    fn to_program_error(self: io::IoError) -> ProgramError {
         ProgramError::new(self.desc.into_maybe_owned(), IoError(self))
     }
 }
@@ -79,7 +79,7 @@ impl ToProgramError for json::ParserError {
                                   JsonSyntaxError(code, line, col))
             },
             json::IoError(kind, desc) => {
-                (IoError {kind: kind, desc: desc, detail: None })
+                (io::IoError {kind: kind, desc: desc, detail: None })
                     .to_program_error()
             }
         }
