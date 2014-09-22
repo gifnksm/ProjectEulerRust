@@ -7,7 +7,7 @@ extern crate prime;
 use common::Solver;
 use prime::{PrimeSet, Factorize};
 
-fn compute(n: uint) -> uint {
+fn compute(n: u64) -> u64 {
     let ps = PrimeSet::new();
     n.factorize(&ps)
         .map(|(base, _exp)| base)

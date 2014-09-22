@@ -30,13 +30,14 @@ static INPUT: &'static str = "
 71636269561882670428252483600823257530420752963450
 ";
 
-fn compute(prod_len: uint) -> uint {
+fn compute(prod_len: uint) -> u64 {
     INPUT.chars()
         .filter_map(|c| char::to_digit(c, 10))
+        .map(|n| n as u64)
         .collect::<Vec<_>>()
         .as_slice()
         .windows(prod_len)
-        .map(|win| win.iter().fold(1u, |p, &n| p * n))
+        .map(|win| win.iter().fold(1u64, |p, &n| p * n))
         .max()
         .unwrap()
 }
