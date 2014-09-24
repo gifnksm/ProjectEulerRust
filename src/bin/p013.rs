@@ -1,9 +1,10 @@
-#![crate_name = "prob0013"]
-#![crate_type = "rlib"]
+#![warn(unused, bad_style,
+        unnecessary_qualification, unnecessary_typecast, unused_result)]
+
+extern crate common;
 
 use std::iter::AdditiveIterator;
-
-pub static EXPECTED_ANSWER: &'static str = "5537376230";
+use common::Solver;
 
 static INPUT: &'static str = "
 37107287533902102798797998220837590246510135740250
@@ -108,14 +109,18 @@ static INPUT: &'static str = "
 53503534226472524250874054075591789781264330331690
 ";
 
-pub fn solve() -> String {
-    let sum = INPUT
-        .trim()
+fn compute() -> String {
+    INPUT.trim()
         .lines()
         .map(|line| line.slice(0, 12))
-        .filter_map(from_str::<uint>)
-        .sum();
-
-    let sum_str = sum.to_string();
-    return sum_str.as_slice().slice(0, 10).to_string();
+        .filter_map(from_str::<u64>)
+        .sum()
+        .to_string()
+        .as_slice()
+        .slice(0, 10)
+        .to_string()
 }
+
+fn solve() -> String { compute() }
+
+fn main() { Solver::new("5537376230", solve).run(); }

@@ -4,31 +4,16 @@
 extern crate common;
 extern crate prime;
 
-use std::{cmp, num};
-use std::collections::HashMap;
 use common::Solver;
-use prime::{PrimeSet, Factorize};
+use prime::{PrimeSet, Factorized};
 
 fn compute(n: uint) -> uint {
-    let mut map = HashMap::new();
     let ps = PrimeSet::new();
-
+    let mut fac = Factorized::new(&ps);
     for i in range(1u, n) {
-        for (b, e) in i.factorize(&ps) {
-            let _ = map.insert_or_update_with(b, e, |_, v| {
-                *v = cmp::max(*v, e);
-            });
-        }
+        fac.lcm_with(i);
     }
-
-    map.into_iter()
-        .fold(1, |prod, (base, exp)| {
-            if exp > 0 {
-                prod * num::pow(base, exp as uint)
-            } else {
-                prod / num::pow(base, (-exp) as uint)
-            }
-        })
+    fac.into_integer()
 }
 
 fn solve() -> String { compute(20).to_string() }

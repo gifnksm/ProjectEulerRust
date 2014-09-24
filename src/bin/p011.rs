@@ -1,14 +1,10 @@
-#![crate_name = "prob0011"]
-#![crate_type = "rlib"]
+#![warn(unused, bad_style,
+        unnecessary_qualification, unnecessary_typecast, unused_result)]
 
-#![feature(macro_rules)]
-
-extern crate data;
+extern crate common;
 
 use std::iter::{OrdIterator, MultiplicativeIterator};
-use data::extiter::Range2D;
-
-pub static EXPECTED_ANSWER: &'static str = "70600674";
+use common::Solver;
 
 static INPUT: &'static str = "
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -33,38 +29,53 @@ static INPUT: &'static str = "
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 ";
 
-pub fn solve() -> String {
+fn compute(prod_len: uint) -> uint {
     let grid: Vec<Vec<uint>> = INPUT
         .trim()
         .lines()
         .map(|line| line.words().filter_map(from_str::<uint>).collect())
         .collect();
 
-    let prod_len = 4;
-    let (w, h) = (grid[0].len() as int, grid.len() as int);
-    macro_rules! iter (
-        ($p0:expr, $dp1:expr, $dp2:expr) => (
-            Range2D::new_from_matrix($p0, $dp1, (w, h))
-            .map(|p0| Range2D::new_from_matrix(p0, $dp2, (w, h)))
-        )
-    );
+    let w = grid[0].len();
+    let h = grid.len();
 
-    let row = iter!((0, 0), (0, 1), (1, 0));
-    let col = iter!((0, 0), (1, 0), (0, 1));
+    let lines =
+        // rows
+        Vec::from_fn(h, |y| Vec::from_fn(w, |x| (x, y))) +
+        // cols
+        Vec::from_fn(w, |x| Vec::from_fn(h, |y| (x, y))) +
+        // top 2 right diagonal
+        Vec::from_fn(w, |i| {
+            let (x0, y0) = (i, 0);
+            Vec::from_fn(w - x0, |j| (x0 + j, y0 + j))
+        }) +
+        // left 2 bottom diagonal
+        Vec::from_fn(h - 1, |i| {
+            let (x0, y0) = (0, i + 1);
+            Vec::from_fn(h - y0, |j| (x0 + j, y0 + j))
+        }) +
+        // top 2 left diagonal
+        Vec::from_fn(w, |i| {
+            let (x0, y0) = (i, 0);
+            Vec::from_fn(x0 + 1, |j| (x0 - j, y0 + j))
+        }) +
+        // right 2 bottom diagonal
+        Vec::from_fn(h - 1, |i| {
+            let (x0, y0) = (w - 1, i + 1);
+            Vec::from_fn(h - y0, |j| (x0 - j, y0 + j))
+        });
 
-    let diag_tr = iter!((w-1, 0), (-1, 0), ( 1, 1));
-    let diag_bl = iter!((  0, 1), ( 0, 1), ( 1, 1));
-    let diag_tl = iter!((  0, 0), ( 1, 0), (-1, 1));
-    let diag_br = iter!((w-1, 1), ( 0, 1), (-1, 1));
-
-    let it = row.chain(col).chain(diag_tr).chain(diag_bl).chain(diag_tl).chain(diag_br);
-
-    it.map(|mut row| {
-            row
-            .collect::<Vec<(int, int)>>()
-            .as_slice()
-            .windows(prod_len)
-            .map(|ns| ns.iter().map(|&(x, y)| grid[y as uint][x as uint]).product())
-            .max().unwrap_or(0)
-        }).max().unwrap().to_string()
+    lines.iter()
+        .map(|cells| {
+            cells.as_slice()
+                .windows(prod_len)
+                .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
+                .max()
+                .unwrap_or(0)
+        }).max()
+        .unwrap()
 }
+
+fn solve() -> String { compute(4).to_string() }
+
+fn main() { Solver::new("70600674", solve).run(); }

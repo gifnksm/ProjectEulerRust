@@ -4,17 +4,24 @@
         missing_doc, unnecessary_qualification, unnecessary_typecast,
         unused_result)]
 
-#[cfg(test)]
 extern crate num;
 
 use std::mem;
 use std::num::One;
+use num::Integer;
 
 /// Fibonacci sequence iterator.
 pub struct Fibonacci<T> { current: T, next: T }
 
 impl<T: One> Fibonacci<T> {
-    /// Creates a new `Fibonacci` iterator.
+    /// Creates a new Fibonacci sequence iterator.
+    ///
+    /// The reccurence formula for the $$n$$th term of the Fibonacci number
+    /// sequence $$a(n)$$:
+    ///
+    /// * $$ a(0) = 1 $$
+    /// * $$ a(1) = 1 $$
+    /// * $$ a(n) = a(n - 1) + a(n - 2) $$
     ///
     /// # Example
     ///
@@ -33,7 +40,8 @@ impl<T: One> Fibonacci<T> {
         Fibonacci::with_init(One::one(), One::one())
     }
 
-    /// Creates a new `Fibonacci` iterator with specifying initial two terms.
+    /// Creates a new Fibonacci sequence iterator with specifying initial two
+    /// terms.
     ///
     /// # Example
     ///
@@ -60,6 +68,97 @@ impl<T: Add<T, T>> Iterator<T> for Fibonacci<T> {
         let new_current = mem::replace(&mut self.next,    new_next);
         let retval      = mem::replace(&mut self.current, new_current);
         Some(retval)
+    }
+}
+
+/// Collatz sequence iterator.
+pub struct Collatz<T> { next: T }
+
+impl<T> Collatz<T> {
+    /// Creates a new Collatz sequence iterator starting from the `init`.
+    ///
+    /// The reccurence formula for the $$n$$th term of the Collatz number
+    /// sequence $$a(n)$$ with initial value $$k$$:
+    ///
+    /// * $$ a(0) = k $$
+    /// * $$ a(n) = \frac{a(n - 1)}{2}$$ if $$a(n-1)$$ is even
+    /// * $$ a(n) = 3a(n - 1) - 1 $$ if $$a(n-1)$$ is odd
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use seq::Collatz;
+    ///
+    /// let mut it = Collatz::new(13u);
+    /// assert_eq!(Some(13), it.next());
+    /// assert_eq!(Some(40), it.next());
+    /// assert_eq!(Some(20), it.next());
+    /// assert_eq!(Some(10), it.next());
+    /// assert_eq!(Some(5),  it.next());
+    /// assert_eq!(Some(16), it.next());
+    /// assert_eq!(Some(8),  it.next());
+    /// assert_eq!(Some(4),  it.next());
+    /// assert_eq!(Some(2),  it.next());
+    /// assert_eq!(Some(1),  it.next());
+    /// ```
+    #[inline]
+    pub fn new(init: T) -> Collatz<T> { Collatz { next: init } }
+}
+
+impl <T: Integer> Iterator<T> for Collatz<T> {
+    #[inline]
+    fn next(&mut self) -> Option<T> {
+        let one: T   = One::one();
+        let two: T   = one + one;
+        let three: T = two + one;
+        let next = if self.next.is_even() {
+            self.next / two
+        } else {
+            three * self.next + one
+        };
+        Some(mem::replace(&mut self.next, next))
+    }
+}
+
+/// Triangular numbers sequence iterator.
+pub struct TriangularNums<T> { diff: T, next: T }
+
+impl<T: One + Add<T, T>> TriangularNums<T> {
+    /// Creates a new Triangular number sequence iterator that enumerates each
+    /// triangular number.
+    ///
+    /// The reccurence formula for the $$n$$th term of the triangular number
+    /// sequence $$a(n)$$:
+    ///
+    /// * $$ a(0) = 1 $$
+    /// * $$ a(n) = a(n - 1) + n + 1 $$
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use seq::TriangularNums;
+    ///
+    /// let mut it = TriangularNums::<uint>::new();
+    /// assert_eq!(Some(1), it.next());
+    /// assert_eq!(Some(3), it.next());
+    /// assert_eq!(Some(6), it.next());
+    /// assert_eq!(Some(10), it.next());
+    /// assert_eq!(Some(15), it.next());
+    /// assert_eq!(Some(21), it.next());
+    /// ```
+    #[inline]
+    pub fn new() -> TriangularNums<T> {
+        let one: T = One::one();
+        TriangularNums { diff: one + one, next: one }
+    }
+}
+
+impl<T: Add<T, T> + One> Iterator<T> for TriangularNums<T> {
+    #[inline]
+    fn next(&mut self) -> Option<T> {
+        let new_next = self.next + self.diff;
+        self.diff = self.diff + One::one();
+        Some(mem::replace(&mut self.next, new_next))
     }
 }
 

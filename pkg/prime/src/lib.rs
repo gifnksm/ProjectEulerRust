@@ -6,14 +6,17 @@
 
 #![feature(macro_rules)]
 
-extern crate num;
+extern crate "num" as numcrate;
 #[cfg(test)] extern crate test;
 
-use std::{iter, mem, uint};
+use std::{cmp, mem, uint};
 use std::cell::RefCell;
-use std::num::One;
+use std::collections::HashMap;
+use std::hash::Hash;
+use std::iter::{mod, MultiplicativeIterator};
+use std::num::{mod, One, Zero};
 use std::rc::Rc;
-use num::Integer;
+use numcrate::Integer;
 
 static SMALL_PRIMES: &'static [u64] = &[
       2,   3,   5,   7,  11,  13,  17,  19,  23,  29,  31,  37,  41,  43,  47,
@@ -194,9 +197,38 @@ impl RandomAccessIterator<u64> for Nums {
 pub type Factor<T> = (T, int);
 
 /// Numbers which can be factorized.
-pub trait Factorize {
+pub trait Factorize: Integer + FromPrimitive {
     /// An iterator visiting all factors in ascending order.
     fn factorize(&self, ps: &PrimeSet) -> Factors<Self>;
+
+    /// Calculates the number of all positive divisors.
+    fn num_of_divisor(&self, ps: &PrimeSet) -> uint {
+        if self.is_zero() { return Zero::zero() }
+        self.factorize(ps)
+            .map(|(_base, exp)| (exp as uint) + 1)
+            .product()
+    }
+
+    /// Calculates the sum of all positive divisors.
+    fn sum_of_divisor(&self, ps: &PrimeSet) -> Self {
+        if self.is_zero() { return Zero::zero() }
+        let one: Self = One::one();
+        self.factorize(ps)
+            .map(|(base, exp)| {
+                let denom = base - one;
+                (num::pow(base, (exp as uint) + 1) - one) / denom
+            }).product()
+    }
+
+    /// Calculates the number of proper positive divisors.
+    fn num_of_proper_divisor(&self, ps: &PrimeSet) -> uint {
+        self.num_of_divisor(ps) - 1
+    }
+
+    /// Caluculates the sum of all positive divisors.
+    fn sum_of_proper_divisor(&self, ps: &PrimeSet) -> Self {
+        self.sum_of_divisor(ps) - *self
+    }
 }
 
 macro_rules! trait_impl_unsigned(
@@ -259,6 +291,80 @@ impl<T: Integer + FromPrimitive> Iterator<Factor<T>> for Factors<T> {
     }
 }
 
+/// Factorized number providing multiple or divide operation without causing
+/// overflow.
+///
+/// # Example
+///
+/// ```
+/// use prime::{Factorized, PrimeSet};
+/// use std::iter;
+///
+/// // Calculates 40C20
+/// let ps = PrimeSet::new();
+/// let mut fac = Factorized::<uint>::new(&ps);
+/// for n in iter::range_inclusive(21, 40) {
+///     fac.mul_assign(n);
+/// }
+/// for n in iter::range_inclusive(1, 20) {
+///     fac.div_assign(n);
+/// }
+/// assert_eq!(137846528820, fac.into_integer());
+/// ```
+pub struct Factorized<'a, T> {
+    ps: &'a PrimeSet,
+    map: HashMap<T, int>
+}
+
+impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
+    /// Creates new empty factorized number.
+    ///
+    /// The empty factorized number represents `1`.
+    pub fn new(ps: &PrimeSet) -> Factorized<T> {
+        Factorized { ps: ps, map: HashMap::new() }
+    }
+
+    /// Creates a factorized number from an integer type.
+    pub fn from_integer(ps: &PrimeSet, n: T) -> Factorized<T> {
+        Factorized { ps: ps, map: n.factorize(ps).collect() }
+    }
+
+    /// Converts the factorized number into an integer type.
+    pub fn into_integer(self) -> T {
+        self.map
+            .into_iter()
+            .fold::<T>(One::one(), |prod, (base, exp)| {
+                if exp > 0 {
+                    prod * num::pow(base, exp as uint)
+                } else {
+                    prod / num::pow(base, (-exp) as uint)
+                }
+            })
+    }
+
+    /// Takes LCM (lowest common multiple) with given number and the factorized
+    /// number.
+    pub fn lcm_with(&mut self, n: T) {
+        for (b, e) in n.factorize(self.ps) {
+            let p = self.map.find_or_insert(b, 0);
+            *p = cmp::max(e, *p);
+        }
+    }
+
+    /// Multiples the factorized number and given number.
+    pub fn mul_assign(&mut self, n: T) {
+        for (b, e) in n.factorize(self.ps) {
+            *self.map.find_or_insert(b, 0) += e;
+        }
+    }
+
+    /// DIvides the factorized number by given number.
+    pub fn div_assign(&mut self, n: T) {
+        for (b, e) in n.factorize(self.ps) {
+            *self.map.find_or_insert(b, 0) -= e;
+        }
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -328,6 +434,40 @@ mod tests {
         check(8 * 27, [(2, 3), (3, 3)]);
         check(97, [(97, 1)]);
         check(97 * 41, [(41, 1), (97, 1)]);
+    }
+
+    #[test]
+    fn num_of_divisor() {
+        let pairs = [
+            (0i, 0u),
+            (1, 1), (2, 2), (3, 2), (4, 3), (5, 2), (6, 4),
+            (7, 2), (8, 4), (9, 3), (10, 4), (11, 2), (12, 6),
+            (24, 8), (36, 9), (48, 10), (60, 12),
+            (50, 6)
+            ];
+
+        let ps = PrimeSet::new();
+        for &(n, num_div) in pairs.iter() {
+            assert_eq!(num_div, n.num_of_divisor(&ps));
+            assert_eq!(num_div, (-n).num_of_divisor(&ps));
+        }
+    }
+
+    #[test]
+    fn sum_of_divisor() {
+        let pairs = [
+            (0i, 0i),
+            (1, 1), (2, 3), (3, 4), (4, 7), (5, 6), (6, 12),
+            (7, 8), (8, 15), (9, 13), (10, 18), (11, 12), (12, 28),
+            (24, 60), (36, 91), (48, 124), (60, 168),
+            (50, 93)
+            ];
+
+        let ps = PrimeSet::new();
+        for &(n, sum_div) in pairs.iter() {
+            assert_eq!(sum_div, n.sum_of_divisor(&ps));
+            assert_eq!(sum_div, (-n).sum_of_divisor(&ps));
+        }
     }
 }
 
