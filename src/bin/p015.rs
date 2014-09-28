@@ -8,9 +8,9 @@ use std::iter;
 use common::Solver;
 use prime::{Factorized, PrimeSet};
 
-fn combination(n: uint, r: uint) -> uint {
+fn combination(n: u64, r: u64) -> u64 {
     let ps = PrimeSet::new();
-    let mut fac = Factorized::<uint>::new(&ps);
+    let mut fac = Factorized::<u64>::new(&ps);
     for n in iter::range_inclusive(r + 1, n) {
         fac.mul_assign(n);
     }
@@ -20,7 +20,7 @@ fn combination(n: uint, r: uint) -> uint {
     fac.into_integer()
 }
 
-fn compute(w: uint, h: uint) -> uint {
+fn compute(w: u64, h: u64) -> u64 {
     combination(w + h, w)
 }
 
