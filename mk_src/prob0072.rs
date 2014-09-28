@@ -23,5 +23,5 @@ pub fn solve() -> String {
         }
     }
 
-    v.move_iter().sum().to_string()
+    v.into_iter().sum().to_string()
 }

@@ -26,7 +26,7 @@ static TRIANGLE: &'static [&'static [uint]] = &[
 pub fn solve() -> String {
     let init = TRIANGLE.init();
     let last = TRIANGLE.last().unwrap();
-    let answer = init.iter().rev().fold(Vec::from_slice(*last), |mut total, elm| {
+    let answer = init.iter().rev().fold(last.to_vec(), |mut total, elm| {
         for (i, &e) in elm.iter().enumerate() {
             *total.get_mut(i) = e + cmp::max(total[i], total[i + 1]);
         }

@@ -12,6 +12,7 @@ extern crate "num" as numcrate;
 use std::{cmp, mem, uint};
 use std::cell::RefCell;
 use std::collections::HashMap;
+use std::collections::hashmap::{Occupied, Vacant};
 use std::hash::Hash;
 use std::iter::{mod, MultiplicativeIterator};
 use std::num::{mod, One, Zero};
@@ -346,22 +347,33 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// number.
     pub fn lcm_with(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
-            let p = self.map.find_or_insert(b, 0);
-            *p = cmp::max(e, *p);
+            let p = match self.map.entry(b) {
+                Vacant(entry)   => { let _ = entry.set(e); }
+                Occupied(entry) => {
+                    let p = entry.into_mut();
+                    *p = cmp::max(e, *p);
+                }
+            };
         }
     }
 
     /// Multiples the factorized number and given number.
     pub fn mul_assign(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
-            *self.map.find_or_insert(b, 0) += e;
+            match self.map.entry(b) {
+                Vacant(entry)   => { let _ = entry.set(e); }
+                Occupied(entry) => { *entry.into_mut() += e; }
+            }
         }
     }
 
     /// DIvides the factorized number by given number.
     pub fn div_assign(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
-            *self.map.find_or_insert(b, 0) -= e;
+            match self.map.entry(b) {
+                Vacant(entry)   => { let _ = entry.set(-e); }
+                Occupied(entry) => { *entry.into_mut() -= e; }
+            }
         }
     }
 }

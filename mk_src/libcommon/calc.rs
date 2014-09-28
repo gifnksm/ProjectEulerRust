@@ -30,7 +30,7 @@ pub fn combinate<T: Clone>(elems: &[T], len: uint, f: |&[T], &[T]| -> bool) -> b
     for i in range(0, elems.len() - len + 1) {
         let ret = combinate(elems.slice(i + 1, elems.len()), len - 1, |v, rest| {
             let a = vec![elems[i].clone()].append(v);
-            let b = Vec::from_slice(elems.slice(0, i)).append(rest);
+            let b = elems.slice(0, i).to_vec().append(rest);
             f(a.as_slice(), b.as_slice())
         });
         if !ret { return false; }
@@ -68,7 +68,7 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
             filled_idx -= 1;
             itr /= radix;
         }
-        Vec::from_slice(buf.slice(filled_idx, buf.len()))
+        buf.slice(filled_idx, buf.len()).to_vec()
     }
 
     fn fill_zero(v: &[uint], n: uint) -> Vec<uint> {

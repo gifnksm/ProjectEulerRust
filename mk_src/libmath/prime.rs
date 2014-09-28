@@ -18,7 +18,7 @@ struct PrimeInner {
 
 impl PrimeInner {
     #[inline]
-    fn new() -> PrimeInner { PrimeInner { data: Vec::from_slice(PRIMES_BELOW100) } }
+    fn new() -> PrimeInner { PrimeInner { data: PRIMES_BELOW100.to_vec() } }
 
     #[inline]
     fn max_prime(&self) -> uint { *self.data.last().unwrap() }
@@ -122,7 +122,7 @@ impl Prime {
                 *map.get_mut(&b) -= e;
             }
         }
-        map.move_iter().to_uint()
+        map.into_iter().to_uint()
     }
 }
 

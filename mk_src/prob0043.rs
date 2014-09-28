@@ -100,7 +100,7 @@ pub fn solve() -> String {
         result = update_dm_list(result.as_slice(), base, 10, 3);
     }
 
-    result.move_iter()
+    result.into_iter()
         .map(|(r, _e)| numconv::from_digits(r.as_slice(), 10))
         .sum()
         .to_string()
@@ -131,14 +131,14 @@ mod tests {
 
         #[test]
         fn join_all() {
-            let dm = DigitMap::new().join_all(vec![1u, 2, 3].move_iter()).unwrap();
+            let dm = DigitMap::new().join_all(vec![1u, 2, 3].into_iter()).unwrap();
 
             assert_eq!(false, dm.is_used(0));
             assert_eq!(true, dm.is_used(1));
             assert_eq!(true, dm.is_used(2));
             assert_eq!(false, dm.is_used(4));
 
-            assert_eq!(None, DigitMap::new().join_all(vec![0u, 0].move_iter()));
+            assert_eq!(None, DigitMap::new().join_all(vec![0u, 0].into_iter()));
         }
 
     }

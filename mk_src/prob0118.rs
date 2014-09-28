@@ -17,7 +17,7 @@ trait ImmutableCloneableVector<T> {
 
 impl<'a, T: Clone> ImmutableCloneableVector<T> for &'a [T] {
     #[inline]
-    fn groups(&self, n: uint) -> Groups<T> { Groups::new(n, Vec::from_slice(*self)) }
+    fn groups(&self, n: uint) -> Groups<T> { Groups::new(n, self.to_vec()) }
 }
 
 struct ElementIndex {
@@ -86,7 +86,7 @@ impl<T: Clone> Iterator<(Vec<T>, Vec<T>)> for Groups<T> {
                         while offset < idx.len() && offset + i == idx[offset] { offset += 1; }
                         self.vec[offset + i].clone()
                     });
-                (left.move_iter().collect(), right.move_iter().collect())
+                (left.into_iter().collect(), right.into_iter().collect())
             })
     }
 }

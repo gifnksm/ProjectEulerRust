@@ -44,7 +44,7 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: uint) ->
             Poly::new(vec![blue, red])
         }).product()
         .into_vec()
-        .move_iter()
+        .into_iter()
         .take((turns + 1) / 2)
         .sum()
 }

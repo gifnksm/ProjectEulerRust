@@ -87,7 +87,7 @@ mod tests {
         use std::io::{BufferedReader, MemReader};
 
         fn buffered(bytes: &[u8]) -> BufferedReader<MemReader> {
-            BufferedReader::new(MemReader::new(Vec::from_slice(bytes)))
+            BufferedReader::new(MemReader::new(bytes.to_vec()))
         }
 
         #[test]

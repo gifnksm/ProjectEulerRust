@@ -43,5 +43,5 @@ pub fn solve() -> String {
         if n != uint::MAX { set.insert(n); }
     }
 
-    return set.move_iter().sum().to_string();
+    return set.into_iter().sum().to_string();
 }

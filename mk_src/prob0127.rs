@@ -37,7 +37,7 @@ fn create_rad_vec(n_limit: uint) -> Vec<Rad> {
             facts.push(p);
         }
     }
-    rad_vec.move_iter().map(|(x, y, z)| Rad(x, y, z)).collect()
+    rad_vec.into_iter().map(|(x, y, z)| Rad(x, y, z)).collect()
 }
 
 fn rad_has_union(a: &[uint], b: &[uint]) -> bool {
@@ -56,7 +56,7 @@ fn rad_has_union(a: &[uint], b: &[uint]) -> bool {
 
 fn abc_hits_c_sum(c_limit: uint) -> uint {
     let rad_vec = create_rad_vec(c_limit);
-    let mut sorted_rad_vec = Vec::from_slice(rad_vec.tail()); // drop a == 0 element
+    let mut sorted_rad_vec = rad_vec.tail().to_vec(); // drop a == 0 element
     sorted_rad_vec.sort();
 
     let mut c_sum = 0;

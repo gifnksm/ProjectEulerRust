@@ -181,7 +181,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
         answers.push_all(solve_sudoku(p2).as_slice());
     }
 
-    answers.move_iter().collect()
+    answers.into_iter().collect()
 }
 
 pub fn solve() -> String {
@@ -196,7 +196,7 @@ pub fn solve() -> String {
         }
     }
     let mut answers = puzzles
-        .move_iter()
+        .into_iter()
         .map(solve_sudoku)
         .map(|mut ans| { assert_eq!(ans.len(), 1); ans.remove(0).unwrap() });
     let mut sum = 0;

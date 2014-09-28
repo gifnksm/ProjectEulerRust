@@ -42,8 +42,8 @@ pub fn solve() -> String {
     }
 
     l2r_mat
-        .move_iter()
-        .flat_map(|l2r| l2r.move_iter())
+        .into_iter()
+        .flat_map(|l2r| l2r.into_iter())
         .filter(|&n| n>= 10)
         .filter(|&n| is_r2l(&prime, n))
         .sum()

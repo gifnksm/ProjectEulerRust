@@ -80,7 +80,7 @@ mod tests {
         fn subtrahend_is_empty() {
             let a = vec![1u, 2, 3];
             let b: Vec<uint> = vec![];
-            let mut diff = Difference::new(a.move_iter(), b.move_iter());
+            let mut diff = Difference::new(a.into_iter(), b.into_iter());
             assert_eq!(vec![1u, 2, 3], diff.collect());
         }
     }

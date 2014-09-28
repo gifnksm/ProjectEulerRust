@@ -57,7 +57,7 @@ mod tests {
         use super::super::is_increasing;
 
         fn check(result: bool, input: Vec<uint>) {
-            assert_eq!(result, is_increasing(input.move_iter()));
+            assert_eq!(result, is_increasing(input.into_iter()));
         }
 
         #[test] fn empty_is_increasing()       { check(true, vec![]) }
@@ -72,7 +72,7 @@ mod tests {
         use super::super::is_decreasing;
 
         fn check(result: bool, input: Vec<uint>) {
-            assert_eq!(result, is_decreasing(input.move_iter()));
+            assert_eq!(result, is_decreasing(input.into_iter()));
         }
         #[test] fn empty_is_decreasing()     { check(true, vec![]) }
         #[test] fn one_digit_is_decreasing() { check(true, vec![1]) }
@@ -86,7 +86,7 @@ mod tests {
         use super::super::is_bouncy;
 
         fn check(result: bool, input: Vec<uint>) {
-            assert_eq!(result, is_bouncy(input.move_iter()));
+            assert_eq!(result, is_bouncy(input.into_iter()));
         }
         #[test] fn empty_is_not_bouncy()     { check(false, vec![]) }
         #[test] fn one_digit_is_not_bouncy() { check(false, vec![1]) }

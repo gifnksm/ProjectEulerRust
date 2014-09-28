@@ -17,7 +17,7 @@ impl<T: Zero> Poly<T> {
 impl<T: Clone + Zero> Poly<T> {
     #[inline]
     pub fn from_slice(data: &[T]) -> Poly<T> {
-        Poly { data: Vec::from_slice(omit_zeros(data))}
+        Poly { data: omit_zeros(data).to_vec()}
     }
 }
 

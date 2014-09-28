@@ -48,7 +48,7 @@ pub fn solve() -> String {
             }
         }
         let mut buf = Vec::new();
-        for (_key, values) in map.move_iter() {
+        for (_key, values) in map.into_iter() {
             if values.len() > 1 {
                 buf.push(values)
             }
@@ -111,7 +111,7 @@ pub fn solve() -> String {
             }
 
             if !nums.is_empty() {
-                max = nums.move_iter().max().unwrap();
+                max = nums.into_iter().max().unwrap();
                 break
             }
         }

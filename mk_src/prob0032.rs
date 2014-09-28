@@ -58,5 +58,5 @@ pub fn solve() -> String {
             true
         });
 
-    return answer.move_iter().sum().to_string();
+    return answer.into_iter().sum().to_string();
 }
