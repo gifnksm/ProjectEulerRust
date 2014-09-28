@@ -1,9 +1,10 @@
-#![crate_name = "prob0017"]
-#![crate_type = "rlib"]
+#![warn(unused, bad_style,
+        unnecessary_qualification, unnecessary_typecast, unused_result)]
+
+extern crate common;
 
 use std::iter::AdditiveIterator;
-
-pub static EXPECTED_ANSWER: &'static str = "21124";
+use common::Solver;
 
 fn to_word_under10(n: uint) -> String {
     return match n {
@@ -80,13 +81,25 @@ fn to_word(n: uint) -> String {
     return "one thousand".to_string();
 }
 
-pub fn solve() -> String {
-    range(1u, 1001)
+fn compute(max: uint) -> uint {
+    range(1, max + 1)
         .map(to_word)
-        .map(|w| w.as_slice()
-             .chars()
-             .filter(|&c| c != '-' && c != ' ')
-             .count())
-        .sum()
-        .to_string()
+        .map(|w| {
+            w.as_slice()
+                .chars()
+                .filter(|&c| c != '-' && c != ' ')
+                .count()
+        }).sum()
+}
+
+fn solve() -> String { compute(1000).to_string() }
+
+fn main() { Solver::new("21124", solve).run(); }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn one_to_five() {
+        assert_eq!(19, super::compute(5));
+    }
 }

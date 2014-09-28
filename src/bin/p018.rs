@@ -1,9 +1,10 @@
-#![crate_name = "prob0018"]
-#![crate_type = "rlib"]
+#![warn(unused, bad_style,
+        unnecessary_qualification, unnecessary_typecast, unused_result)]
+
+extern crate common;
 
 use std::cmp;
-
-pub static EXPECTED_ANSWER: &'static str = "1074";
+use common::Solver;
 
 static TRIANGLE: &'static [&'static [uint]] = &[
     &[75],
@@ -23,14 +24,32 @@ static TRIANGLE: &'static [&'static [uint]] = &[
     &[04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23]
 ];
 
-pub fn solve() -> String {
-    let init = TRIANGLE.init();
-    let last = TRIANGLE.last().unwrap();
-    let answer = init.iter().rev().fold(last.to_vec(), |mut total, elm| {
+fn compute(input: &[&[uint]]) -> uint {
+    let init = input.init();
+    let last = input.last().unwrap();
+    init.iter().rev().fold(last.to_vec(), |mut total, elm| {
         for (i, &e) in elm.iter().enumerate() {
             *total.get_mut(i) = e + cmp::max(total[i], total[i + 1]);
         }
         total
-    });
-    answer[0].to_string()
+    })[0]
+}
+
+fn solve() -> String { compute(TRIANGLE).to_string() }
+
+fn main() { Solver::new("1074", solve).run(); }
+
+#[cfg(test)]
+mod tests {
+    static TRIANGLE: &'static [&'static [uint]] = &[
+        &[3],
+        &[7, 4],
+        &[2, 4, 6],
+        &[8, 5, 9, 3]
+    ];
+
+    #[test]
+    fn small() {
+        assert_eq!(23, super::compute(TRIANGLE));
+    }
 }
