@@ -12,12 +12,12 @@ script:
   - make doc
   - ./bin/debug/euler
   - ./bin/release/euler
-  - cargo test  --verbose --manifest-path ./pkg/integer
-  - cargo bench --verbose --manifest-path ./pkg/integer
-  - cargo test  --verbose --manifest-path ./pkg/seq
-  - cargo bench --verbose --manifest-path ./pkg/seq
-  - cargo test  --verbose --manifest-path ./pkg/prime
-  - cargo bench --verbose --manifest-path ./pkg/prime
+  - (cd ./pkg/integer && cargo test  --verbose)
+  - (cd ./pkg/integer && cargo bench --verbose)
+  - (cd ./pkg/seq     && cargo test  --verbose)
+  - (cd ./pkg/seq     && cargo bench --verbose)
+  - (cd ./pkg/prime   && cargo test  --verbose)
+  - (cd ./pkg/prime   && cargo bench --verbose)
   - cargo build --verbose
   - ./target/euler
   - cargo build --verbose --release
