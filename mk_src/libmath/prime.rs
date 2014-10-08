@@ -90,24 +90,6 @@ impl Prime {
     pub fn factorize(&self, n: uint) -> FactorizeIterator {
         FactorizeIterator { num: n, iter: self.iter() }
     }
-    #[inline]
-    pub fn num_of_divisor(&self, n: uint) -> uint {
-        if n == 0 { return 0 }
-        self.factorize(n)
-            .map(|(_base, exp)| (exp as uint) + 1)
-            .product()
-    }
-    #[inline]
-    pub fn sum_of_divisor(&self, n: uint) -> uint {
-        if n == 0 { return 0 }
-        self.factorize(n)
-            .map(|(base, exp)| (num::pow(base, (exp as uint) + 1) - 1) / (base - 1) )
-            .product()
-    }
-    #[inline]
-    pub fn num_of_proper_divisor(&self, n: uint) -> uint { self.num_of_divisor(n) - 1 }
-    #[inline]
-    pub fn sum_of_proper_divisor(&self, n: uint) -> uint { self.sum_of_divisor(n) - n }
 
     #[inline]
     pub fn comb(&self, n: uint, r: uint) -> uint {
@@ -303,36 +285,6 @@ mod tests {
         check(8 * 27, [(2, 3), (3, 3)]);
         check(97, [(97, 1)]);
         check(97 * 41, [(41, 1), (97, 1)]);
-    }
-
-    #[test]
-    fn num_of_divisor() {
-        let pairs = [
-            (0, 0),
-            (1, 1), (2, 2), (3, 2), (4, 3), (5, 2), (6, 4),
-            (7, 2), (8, 4), (9, 3), (10, 4), (11, 2), (12, 6),
-            (24, 8), (36, 9), (48, 10), (60, 12),
-            (50, 6)
-            ];
-        let p = Prime::new();
-        for &(n, num_div) in pairs.iter() {
-            assert_eq!(num_div, p.num_of_divisor(n));
-        }
-    }
-
-    #[test]
-    fn sum_of_divisor() {
-        let pairs = [
-            (0, 0),
-            (1, 1), (2, 3), (3, 4), (4, 7), (5, 6), (6, 12),
-            (7, 8), (8, 15), (9, 13), (10, 18), (11, 12), (12, 28),
-            (24, 60), (36, 91), (48, 124), (60, 168),
-            (50, 93)
-            ];
-        let p = Prime::new();
-        for &(n, sum_div) in pairs.iter() {
-            assert_eq!(sum_div, p.sum_of_divisor(n));
-        }
     }
 
     #[test]

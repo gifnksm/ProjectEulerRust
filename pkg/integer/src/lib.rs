@@ -71,6 +71,28 @@ pub trait Integer: num::Integer + Clone {
         Digits::new(self, radix)
     }
 
+    /// Creates an integer from an iterator to enumerate each digit from the lower.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use integer::Integer;
+    ///
+    /// assert_eq!(321, Integer::from_digits(vec![1, 2, 3].into_iter(), 10i));
+    /// assert_eq!(0x321, Integer::from_digits(vec![1, 2, 3].into_iter(), 16i));
+    /// assert_eq!(0, Integer::from_digits(vec![].into_iter(), 10i));
+    /// ```
+    #[inline]
+    fn from_digits<T: Iterator<Self>>(mut digits: T, radix: Self) -> Self {
+        let mut result: Self = Zero::zero();
+        let mut order: Self = One::one();
+        for d in digits {
+            result = result + order * d;
+            order = order * radix;
+        }
+        result
+    }
+
     /// Creates a palindromic number from `self`.
     ///
     /// # Example
@@ -89,7 +111,7 @@ pub trait Integer: num::Integer + Clone {
         rv.chain(digits).fold(Zero::zero(), |sum: Self, i| sum * radix + i)
     }
 
-    /// Take the square root of the number.
+    /// Takes the square root of the number.
     #[inline]
     fn sqrt(&self) -> Self {
         let one: Self = One::one();
@@ -110,6 +132,31 @@ pub trait Integer: num::Integer + Clone {
         }
 
         return min
+    }
+
+    /// Gets the factorial of the number.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use integer::Integer;
+    ///
+    /// assert_eq!(1u, 0u.factorial());
+    /// assert_eq!(1u, 1u.factorial());
+    /// assert_eq!(2u, 2u.factorial());
+    /// assert_eq!(6u, 3u.factorial());
+    /// assert_eq!(24u, 4u.factorial());
+    /// ```
+    fn factorial(&self) -> Self {
+        assert!(*self >= Zero::zero());
+
+        let mut p: Self = One::one();
+        let mut i: Self = One::one();
+        while i <= *self {
+            p = p * i;
+            i = i + One::one();
+        }
+        p
     }
 }
 

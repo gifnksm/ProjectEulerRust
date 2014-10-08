@@ -1,4 +1,3 @@
-https://projecteuler.net/project/resources/p022_names.txt
 https://projecteuler.net/project/resources/p042_words.txt
 https://projecteuler.net/project/resources/p054_poker.txt
 https://projecteuler.net/project/resources/p059_cipher.txt

@@ -3,27 +3,6 @@ use std::num;
 use std::iter::MultiplicativeIterator;
 use std::collections::HashMap;
 
-pub fn histogram<T: Hash + Eq + Clone>(v: &[T]) -> HashMap<T, uint> {
-    let mut map = HashMap::<T, uint>::new();
-    for k in v.iter() {
-        let val = map.find(k).map_or(1, |v| *v + 1);
-        map.insert(k.clone(), val);
-    }
-    return map;
-}
-
-pub fn num_of_permutations<T: Hash + Eq>(hist: &HashMap<T, uint>) -> uint {
-    fn factorial(n: uint) -> uint { range(1, n + 1).product() }
-
-    let mut sum = 0;
-    let mut div = 1;
-    for (_, cnt) in hist.iter() {
-        sum += *cnt;
-        div *= factorial(*cnt);
-    }
-    return factorial(sum) / div;
-}
-
 pub fn combinate<T: Clone>(elems: &[T], len: uint, f: |&[T], &[T]| -> bool) -> bool {
     if len == 0 { return f(&[], elems); }
 
@@ -113,30 +92,6 @@ pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
 
 #[cfg(test)]
 mod tests {
-    #[test]
-    fn test_histogram() {
-        fn check(inp: &[uint], result: &[(uint, uint)]) {
-            let hist = super::histogram(inp);
-            let mut vec = hist.iter()
-                .map(|(&k, &v)| (k, v))
-                .collect::<Vec<(uint, uint)>>();
-            vec.sort();
-            assert_eq!(vec.as_slice().initn(0), result);
-        }
-        check([1, 2, 3], [(1, 1), (2, 1), (3, 1)]);
-        check([1, 1, 1, 2, 2, 3, 3, 4], [(1, 3), (2, 2), (3, 2), (4, 1)]);
-        check([1, 1, 1, 2, 2, 1, 1], [(1, 5), (2, 2)]);
-        check([], []);
-    }
-
-    #[test]
-    fn test_num_of_permutasions() {
-        assert_eq!(super::num_of_permutations(&super::histogram::<uint>(&[])), 1);
-        assert_eq!(super::num_of_permutations(&super::histogram([1u, 2, 3])), 6);
-        assert_eq!(super::num_of_permutations(&super::histogram([1u, 1, 1, 2, 3])), 20);
-        assert_eq!(super::num_of_permutations(&super::histogram([1u, 1, 1, 2, 3, 1, 1])), 42);
-    }
-
     #[test]
     fn test_combinate() {
         let mut nums = vec![

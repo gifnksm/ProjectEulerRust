@@ -62,17 +62,17 @@ impl ProgramError {
 }
 
 trait ToProgramError {
-    fn to_program_error(self: Self) -> ProgramError;
+    fn to_program_error(self) -> ProgramError;
 }
 
 impl ToProgramError for io::IoError {
-    fn to_program_error(self: io::IoError) -> ProgramError {
+    fn to_program_error(self) -> ProgramError {
         ProgramError::new(self.desc.into_maybe_owned(), IoError(self))
     }
 }
 
 impl ToProgramError for json::ParserError {
-    fn to_program_error(self: json::ParserError) -> ProgramError {
+    fn to_program_error(self) -> ProgramError {
         match self {
             json::SyntaxError(code, line, col) => {
                 ProgramError::new(format!("{}:{}:{}", line, col, json::error_str(code)),
