@@ -1,6 +1,8 @@
 #![warn(unused, bad_style,
         unnecessary_qualification, unnecessary_typecast, unused_result)]
 
+#![feature(slicing_syntax)]
+
 extern crate common;
 
 use std::char;
@@ -35,7 +37,7 @@ fn compute(prod_len: uint) -> u64 {
         .filter_map(|c| char::to_digit(c, 10))
         .map(|n| n as u64)
         .collect::<Vec<_>>()
-        .as_slice()
+        []
         .windows(prod_len)
         .map(|win| win.iter().fold(1u64, |p, &n| p * n))
         .max()

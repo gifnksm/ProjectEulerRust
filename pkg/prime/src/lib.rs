@@ -4,7 +4,7 @@
         missing_doc, unnecessary_qualification, unnecessary_typecast,
         unused_result)]
 
-#![feature(macro_rules)]
+#![feature(macro_rules, slicing_syntax)]
 
 extern crate "num" as numcrate;
 #[cfg(test)] extern crate test;
@@ -68,7 +68,7 @@ impl PrimeInner {
     #[inline]
     fn contains(&mut self, n: &u64) -> bool {
         if *n < self.max_prime() {
-            return self.data.as_slice().binary_search_elem(n).found().is_some()
+            return self.data[].binary_search_elem(n).found().is_some()
         }
 
         if !self.is_coprime(*n) { return false }
@@ -386,7 +386,7 @@ mod tests {
     fn iter() {
         let p1 = PrimeSet::new_empty();
         assert_eq!(super::SMALL_PRIMES,
-                   p1.iter().take(super::SMALL_PRIMES.len()).collect::<Vec<_>>().as_slice())
+                   p1.iter().take(super::SMALL_PRIMES.len()).collect::<Vec<_>>()[])
     }
 
     #[test]
@@ -428,7 +428,7 @@ mod tests {
     fn factorize() {
         fn check(n: uint, fs: &[Factor<uint>]) {
             let ps = PrimeSet::new();
-            assert_eq!(fs, n.factorize(&ps).collect::<Vec<_>>().as_slice());
+            assert_eq!(fs, n.factorize(&ps).collect::<Vec<_>>()[]);
         }
 
         check(0, []);

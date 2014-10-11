@@ -1,6 +1,8 @@
 #![warn(unused, bad_style,
         unnecessary_qualification, unnecessary_typecast, unused_result)]
 
+#![feature(slicing_syntax)]
+
 extern crate common;
 
 use std::iter::AdditiveIterator;
@@ -116,7 +118,7 @@ fn compute() -> String {
         .filter_map(from_str::<u64>)
         .sum()
         .to_string()
-        .as_slice()
+        []
         .slice(0, 10)
         .to_string()
 }

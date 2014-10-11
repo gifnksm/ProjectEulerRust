@@ -251,10 +251,10 @@ mod tests {
     #[test]
     fn digits() {
         fn check(n: uint, v: &[uint], radix: uint) {
-            assert_eq!(v, n.into_digits(radix).collect::<Vec<_>>().as_slice());
+            assert_eq!(v, n.into_digits(radix).collect::<Vec<_>>()[]);
             let mut rev = n.into_digits(radix).rev().collect::<Vec<_>>();
             rev.reverse();
-            assert_eq!(v, rev.as_slice())
+            assert_eq!(v, rev[])
         }
 
         check(0, [], 10);

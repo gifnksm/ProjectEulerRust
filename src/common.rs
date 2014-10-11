@@ -1,7 +1,7 @@
 #![warn(unused, bad_style,
         unnecessary_qualification, unnecessary_typecast, unused_result)]
 
-#![feature(macro_rules)]
+#![feature(macro_rules, slicing_syntax)]
 
 extern crate curl;
 extern crate time;
@@ -101,13 +101,13 @@ impl<'a> Solver<'a> {
             }
         };
 
-        let is_ok = answer.as_slice() == self.answer;
+        let is_ok = answer[] == self.answer;
         let result = SolveResult {
             time:   time,
             answer: answer,
             is_ok:  is_ok
         };
-        io::stdio::println(json::encode(&result).as_slice());
+        io::stdio::println(json::encode(&result)[]);
 
         if !is_ok {
             os::set_exit_status(1);

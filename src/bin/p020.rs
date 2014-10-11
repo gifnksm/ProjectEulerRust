@@ -1,6 +1,8 @@
 #![warn(unused, bad_style,
         unnecessary_qualification, unnecessary_typecast, unused_result)]
 
+#![feature(slicing_syntax)]
+
 extern crate num;
 extern crate common;
 
@@ -14,7 +16,7 @@ fn compute(max: uint) -> uint {
                      FromPrimitive::from_uint(max + 1).unwrap())
         .product()
         .to_string()
-        .as_slice()
+        []
         .chars()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()

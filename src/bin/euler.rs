@@ -1,7 +1,7 @@
 #![warn(unused, bad_style,
         unnecessary_qualification, unnecessary_typecast, unused_result)]
 
-#![feature(macro_rules)]
+#![feature(macro_rules, slicing_syntax)]
 
 extern crate glob;
 extern crate num;
@@ -111,7 +111,7 @@ fn run_problem(path: &Path) -> ProgramResult<SolveResult<String>> {
     let proc_out = try2!(Command::new(path).output());
 
     if !proc_out.error.is_empty() {
-        let _ = match str::from_utf8(proc_out.error.as_slice()) {
+        let _ = match str::from_utf8(proc_out.error[]) {
             Some(s) => writeln!(&mut io::stderr(), "{}", s.trim()),
             None    => writeln!(&mut io::stderr(), "{}", proc_out.error)
         };
@@ -180,7 +180,7 @@ fn print_result<'a, T: GenericPath>(name: Display<T>, result: ProgramResult<Solv
         }
     }
     items.push(normal("\n"));
-    print_items(items.as_slice());
+    print_items(items[]);
 
     fn normal<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
         (None, s.into_maybe_owned())

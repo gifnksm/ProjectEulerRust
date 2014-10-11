@@ -169,7 +169,7 @@ mod tests {
     use num::bigint::ToBigInt;
 
     fn check<T: Eq + Show, I: Iterator<T>>(expected: &[T], mut it: I) {
-        assert_eq!(expected, it.collect::<Vec<_>>().as_slice());
+        assert_eq!(expected, it.collect::<Vec<_>>()[]);
     }
 
     #[test]

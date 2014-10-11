@@ -1,6 +1,8 @@
 #![warn(unused, bad_style,
         unnecessary_qualification, unnecessary_typecast, unused_result)]
 
+#![feature(slicing_syntax)]
+
 extern crate common;
 
 use std::iter::{OrdIterator, MultiplicativeIterator};
@@ -67,7 +69,7 @@ fn compute(prod_len: uint) -> uint {
 
     lines.iter()
         .map(|cells| {
-            cells.as_slice()
+            cells[]
                 .windows(prod_len)
                 .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
                 .max()

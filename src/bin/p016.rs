@@ -1,6 +1,8 @@
 #![warn(unused, bad_style,
         unnecessary_qualification, unnecessary_typecast, unused_result)]
 
+#![feature(slicing_syntax)]
+
 extern crate num;
 extern crate common;
 
@@ -13,7 +15,7 @@ fn compute(base: uint, exp: uint) -> uint {
     let base: BigInt = FromPrimitive::from_uint(base).unwrap();
     std::num::pow(base, exp)
         .to_string()
-        .as_slice()
+        []
         .chars()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()

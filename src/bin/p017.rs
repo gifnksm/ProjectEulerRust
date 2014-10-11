@@ -1,6 +1,8 @@
 #![warn(unused, bad_style,
         unnecessary_qualification, unnecessary_typecast, unused_result)]
 
+#![feature(slicing_syntax)]
+
 extern crate common;
 
 use std::iter::AdditiveIterator;
@@ -85,7 +87,7 @@ fn compute(max: uint) -> uint {
     range(1, max + 1)
         .map(to_word)
         .map(|w| {
-            w.as_slice()
+            w[]
                 .chars()
                 .filter(|&c| c != '-' && c != ' ')
                 .count()
