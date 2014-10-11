@@ -7,7 +7,7 @@ use std::fmt;
 use std::iter::{AdditiveIterator, MultiplicativeIterator, Repeat};
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "16695334890";
+pub const EXPECTED_ANSWER: &'static str = "16695334890";
 
 #[deriving(Eq)]
 struct DigitMap { used: [ bool, ..10] }

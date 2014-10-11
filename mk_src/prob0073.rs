@@ -1,7 +1,7 @@
 #![crate_name = "prob0073"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "7295372";
+pub const EXPECTED_ANSWER: &'static str = "7295372";
 
 fn count_between(
     (na, da): (uint, uint), (nb, db): (uint, uint), max_d: uint

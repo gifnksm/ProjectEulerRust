@@ -8,7 +8,7 @@ use std::iter;
 use num::Integer;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "21035";
+pub const EXPECTED_ANSWER: &'static str = "21035";
 
 // from problem 120
 // f(n) := (p[n]-1)^n + (p[n]+1)^n

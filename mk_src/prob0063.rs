@@ -5,7 +5,7 @@ extern crate num;
 
 use num::bigint::BigUint;
 
-pub static EXPECTED_ANSWER: &'static str = "49";
+pub const EXPECTED_ANSWER: &'static str = "49";
 
 pub fn solve() -> String {
     let mut cnt = 1u; // a == 1

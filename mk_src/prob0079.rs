@@ -7,7 +7,7 @@ use std::io::{BufferedReader, File};
 use std::hash::Hash;
 use std::collections::{HashMap, HashSet};
 
-pub static EXPECTED_ANSWER: &'static str = "73162890";
+pub const EXPECTED_ANSWER: &'static str = "73162890";
 
 struct Relation<T> {
     num_prec: uint,

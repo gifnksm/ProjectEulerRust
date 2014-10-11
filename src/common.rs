@@ -137,7 +137,7 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
     Ok(file)
 }
 
-static BASE_URL: &'static str = "https://projecteuler.net/project/resources/";
+const BASE_URL: &'static str = "https://projecteuler.net/project/resources/";
 fn download(file_name: &str) -> Result<Vec<u8>, curl::ErrCode> {
     let url = format!("{}{}", BASE_URL, file_name);
     let resp = try!(http::handle()

@@ -1,7 +1,7 @@
 #![crate_name = "prob0026"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "983";
+pub const EXPECTED_ANSWER: &'static str = "983";
 
 fn get_cycle_len(n: uint) -> uint {
     if n == 1 { return 1 }

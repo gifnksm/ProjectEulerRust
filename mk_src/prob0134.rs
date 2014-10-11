@@ -93,7 +93,7 @@ extern crate math;
 use num::Integer;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "18613426663617118";
+pub const EXPECTED_ANSWER: &'static str = "18613426663617118";
 
 pub fn solve() -> String {
     let min_limit = 5;

@@ -1,7 +1,7 @@
 #![crate_name = "prob0028"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "669171001";
+pub const EXPECTED_ANSWER: &'static str = "669171001";
 
 // 43 44 45 46 47 48 49
 // 42 21 22 23 24 25 26

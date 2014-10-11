@@ -7,7 +7,7 @@ use std::iter;
 use math::arith;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "5777";
+pub const EXPECTED_ANSWER: &'static str = "5777";
 
 fn is_goldbach(prime: &Prime, n: uint) -> bool {
     for s in range(1, arith::isqrt(n / 2) + 1) {

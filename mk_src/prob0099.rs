@@ -4,7 +4,7 @@
 use std::io::{BufferedReader, File};
 use std::iter;
 
-pub static EXPECTED_ANSWER: &'static str = "709";
+pub const EXPECTED_ANSWER: &'static str = "709";
 
 pub fn solve() -> String {
     let mut br = BufferedReader::new(

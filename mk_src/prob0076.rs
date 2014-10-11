@@ -4,7 +4,7 @@
 
 use std::collections::HashMap;
 
-pub static EXPECTED_ANSWER: &'static str = "190569291";
+pub const EXPECTED_ANSWER: &'static str = "190569291";
 
 fn count_way(sum: uint) -> uint {
     let mut map = HashMap::new();

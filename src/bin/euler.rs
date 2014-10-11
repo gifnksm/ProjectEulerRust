@@ -21,15 +21,15 @@ use term::{color, Terminal};
 use term::color::Color;
 use common::SolveResult;
 
-static PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
+const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
 
-static NSEC_PER_SEC:    u64 = 1000000000;
-static NSEC_WARN_LIMIT: u64 = 1  * NSEC_PER_SEC;
-static NSEC_NG_LIMIT:   u64 = 10 * NSEC_PER_SEC;
+const NSEC_PER_SEC:    u64 = 1000000000;
+const NSEC_WARN_LIMIT: u64 = 1  * NSEC_PER_SEC;
+const NSEC_NG_LIMIT:   u64 = 10 * NSEC_PER_SEC;
 
-static COLOR_OK:   Color = color::GREEN;
-static COLOR_NG:   Color = color::RED;
-static COLOR_WARN: Color = color::YELLOW;
+const COLOR_OK:   Color = color::GREEN;
+const COLOR_NG:   Color = color::RED;
+const COLOR_WARN: Color = color::YELLOW;
 
 macro_rules! try2(
     ($e:expr) => (try!($e.map_err(|e| e.to_program_error())))

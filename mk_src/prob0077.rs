@@ -7,7 +7,7 @@ use std::iter;
 use std::collections::HashMap;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "71";
+pub const EXPECTED_ANSWER: &'static str = "71";
 
 fn count_way(prime: &Prime, sum: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     let cnt = count_sub(prime, sum, 0, map);

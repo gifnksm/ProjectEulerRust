@@ -6,7 +6,7 @@ extern crate math;
 use std::iter;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "134043";
+pub const EXPECTED_ANSWER: &'static str = "134043";
 
 pub fn solve() -> String {
     let len = 4;

@@ -5,9 +5,9 @@ use std::f64;
 use std::io::File;
 use std::iter::AdditiveIterator;
 
-pub static EXPECTED_ANSWER: &'static str = "107359";
+pub const EXPECTED_ANSWER: &'static str = "107359";
 
-static ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
+const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
     ('a', 0.08167),
     ('b', 0.01492),
     ('c', 0.02782),

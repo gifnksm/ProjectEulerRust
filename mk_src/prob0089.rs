@@ -5,9 +5,9 @@ use std::uint;
 use std::iter::AdditiveIterator;
 use std::io::{BufferedReader, File};
 
-pub static EXPECTED_ANSWER: &'static str = "743";
+pub const EXPECTED_ANSWER: &'static str = "743";
 
-static ROMAN_PAIRS: &'static [(&'static str, uint)] = &[
+const ROMAN_PAIRS: &'static [(&'static str, uint)] = &[
     ("IV", 4),
     ("IX", 9),
     ("XL", 40),

@@ -10,7 +10,7 @@ use std::iter::AdditiveIterator;
 use num::Integer;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "149253";
+pub const EXPECTED_ANSWER: &'static str = "149253";
 
 pub fn solve() -> String {
     let ps = Prime::new();

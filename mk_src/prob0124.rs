@@ -8,7 +8,7 @@ extern crate test;
 use std::collections::priority_queue::PriorityQueue;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "21417";
+pub const EXPECTED_ANSWER: &'static str = "21417";
 
 struct Multiple(uint, uint);
 
@@ -130,7 +130,7 @@ impl Iterator<(uint, Vec<uint>)> for RadValues {
 }
 
 pub fn solve() -> String {
-    static LIMIT: uint = 100000;
+    const LIMIT: uint = 100000;
     let index = 10000;
 
     RadValues::new()

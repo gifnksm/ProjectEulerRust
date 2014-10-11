@@ -1,7 +1,7 @@
 #![crate_name = "prob0084"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "101524";
+pub const EXPECTED_ANSWER: &'static str = "101524";
 
 pub enum Square {
     GO, A1, CC1, A2, T1, R1, B1, CH1, B2, B3, JAIL,
@@ -31,7 +31,7 @@ impl Square {
     }
 }
 
-static NUM_SQUARE: uint = NumSquare as uint;
+const NUM_SQUARE: uint = NumSquare as uint;
 
 #[inline(always)]
 fn create_mat<T>(h: uint, w: uint, f: |uint, uint| -> T) -> Vec<Vec<T>> {

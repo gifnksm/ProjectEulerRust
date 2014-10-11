@@ -3,7 +3,7 @@
 
 use std::iter::AdditiveIterator;
 
-pub static EXPECTED_ANSWER: &'static str = "28684";
+pub const EXPECTED_ANSWER: &'static str = "28684";
 
 fn create_map(f: |uint| -> uint) -> Vec<Vec<uint>> {
     let mut result = Vec::from_fn(100, |_| Vec::new());

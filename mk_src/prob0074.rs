@@ -4,7 +4,7 @@
 
 use std::collections::HashMap;
 
-pub static EXPECTED_ANSWER: &'static str = "402";
+pub const EXPECTED_ANSWER: &'static str = "402";
 
 #[deriving(Clone)]
 enum Length {

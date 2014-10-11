@@ -5,7 +5,7 @@
 use std::iter;
 use std::collections::HashMap;
 
-pub static EXPECTED_ANSWER: &'static str = "100808458960497";
+pub const EXPECTED_ANSWER: &'static str = "100808458960497";
 
 fn count(len: uint, map: &mut HashMap<uint, uint>) -> uint {
     match map.find(&len) {

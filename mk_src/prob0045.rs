@@ -1,7 +1,7 @@
 #![crate_name = "prob0045"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "1533776805";
+pub const EXPECTED_ANSWER: &'static str = "1533776805";
 
 fn triangle(i: uint) -> uint {
     let n = i + 1;

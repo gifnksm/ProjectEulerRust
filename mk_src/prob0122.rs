@@ -3,7 +3,7 @@
 
 use std::{iter, uint};
 
-pub static EXPECTED_ANSWER: &'static str = "1582";
+pub const EXPECTED_ANSWER: &'static str = "1582";
 
 fn backtrack(power: uint, depth: uint, limit: uint, cost: &mut [uint], path: &mut [uint]) {
     if power > limit || depth > cost[power] { return }

@@ -7,7 +7,7 @@ use std::iter::AdditiveIterator;
 use std::collections::HashMap;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "21384";
+pub const EXPECTED_ANSWER: &'static str = "21384";
 
 // n = 4
 // (i, j): i: size of B, j: size of C

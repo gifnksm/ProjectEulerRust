@@ -10,7 +10,7 @@ use std::num::Zero;
 use num::bigint::BigInt;
 use math::arith;
 
-pub static EXPECTED_ANSWER: &'static str = "40886";
+pub const EXPECTED_ANSWER: &'static str = "40886";
 
 fn sqrt_newton_raphson(n: uint, precision: uint) -> String {
     assert!(precision >= 1);

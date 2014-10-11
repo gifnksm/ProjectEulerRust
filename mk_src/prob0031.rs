@@ -1,7 +1,7 @@
 #![crate_name = "prob0031"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "73682";
+pub const EXPECTED_ANSWER: &'static str = "73682";
 
 fn count_ways(sum: uint, coins: &[uint]) -> uint {
     if coins.len() == 1 { return 1 }

@@ -6,7 +6,7 @@ extern crate num;
 use std::num::{One, Zero};
 use num::bigint::BigUint;
 
-pub static EXPECTED_ANSWER: &'static str = "8739992577";
+pub const EXPECTED_ANSWER: &'static str = "8739992577";
 
 #[inline(always)]
 fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {

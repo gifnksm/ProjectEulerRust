@@ -6,7 +6,7 @@ extern crate math;
 use math::numconv;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "121313";
+pub const EXPECTED_ANSWER: &'static str = "121313";
 
 pub fn solve() -> String {
     let num_family = 8;

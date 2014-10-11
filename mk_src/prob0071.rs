@@ -1,7 +1,7 @@
 #![crate_name = "prob0071"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "428570";
+pub const EXPECTED_ANSWER: &'static str = "428570";
 
 pub fn solve() -> String {
     let limit = 1000000u;

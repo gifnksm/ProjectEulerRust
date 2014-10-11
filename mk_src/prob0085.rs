@@ -1,7 +1,7 @@
 #![crate_name = "prob0085"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "2772";
+pub const EXPECTED_ANSWER: &'static str = "2772";
 
 // x by y => C = (1 + 2 + .. + x) * (1 + 2 + .. + y) recutangulars
 //             = (x (1 + x) / 2) * (y (1 + y)) / 2

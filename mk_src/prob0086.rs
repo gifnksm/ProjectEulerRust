@@ -6,7 +6,7 @@ extern crate math;
 use std::cmp;
 use math::sequence;
 
-pub static EXPECTED_ANSWER: &'static str = "1818";
+pub const EXPECTED_ANSWER: &'static str = "1818";
 
 fn get_count(m: uint) -> uint {
     let mut cnt = 0u;

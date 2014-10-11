@@ -7,7 +7,7 @@ use std::iter;
 use std::iter::AdditiveIterator;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "303963552391";
+pub const EXPECTED_ANSWER: &'static str = "303963552391";
 
 pub fn solve() -> String {
     let limit = 1000000;

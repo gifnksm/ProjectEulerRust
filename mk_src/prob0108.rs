@@ -6,7 +6,7 @@ use std::iter;
 use std::iter::MultiplicativeIterator;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "180180";
+pub const EXPECTED_ANSWER: &'static str = "180180";
 
 // 1/x + 1/y = 1/n
 // a := x - n >= 0

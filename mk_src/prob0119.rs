@@ -8,7 +8,7 @@ use std::iter::{AdditiveIterator, Filter, SkipWhile};
 use std::collections::priority_queue::PriorityQueue;
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "248155780267521";
+pub const EXPECTED_ANSWER: &'static str = "248155780267521";
 
 struct Power(uint, uint, uint);
 

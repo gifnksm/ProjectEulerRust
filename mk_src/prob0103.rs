@@ -4,7 +4,7 @@
 
 use std::collections::priority_queue::PriorityQueue;
 
-pub static EXPECTED_ANSWER: &'static str = "20313839404245";
+pub const EXPECTED_ANSWER: &'static str = "20313839404245";
 
 struct SSSElem {
     avg: f64,

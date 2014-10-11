@@ -8,7 +8,7 @@ use std::iter::MultiplicativeIterator;
 use num::Integer;
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "210";
+pub const EXPECTED_ANSWER: &'static str = "210";
 
 // d_(a*10 + b)
 //    0 1 2 3 4 5 6 7 8 9

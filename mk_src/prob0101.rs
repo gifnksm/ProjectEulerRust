@@ -9,7 +9,7 @@ use num::bigint::BigInt;
 use num::rational::Ratio;
 use math::poly::Poly;
 
-pub static EXPECTED_ANSWER: &'static str = "37076114526";
+pub const EXPECTED_ANSWER: &'static str = "37076114526";
 
 fn u(n: BigInt) -> BigInt {
     let mut sum: BigInt = Zero::zero();

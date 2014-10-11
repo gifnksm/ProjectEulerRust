@@ -4,7 +4,7 @@
 use std::cmp;
 use std::io::{BufferedReader, File};
 
-pub static EXPECTED_ANSWER: &'static str = "427337";
+pub const EXPECTED_ANSWER: &'static str = "427337";
 
 pub fn read_matrix(filename: &str) -> (uint, uint, Vec<Vec<uint>>) {
     let mut br = BufferedReader::new(File::open(&Path::new(filename)).ok().expect("file not found."));

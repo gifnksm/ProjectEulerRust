@@ -7,7 +7,7 @@ use std::fmt;
 use std::io::{BufferedReader, File};
 use data::card::Card;
 
-pub static EXPECTED_ANSWER: &'static str = "376";
+pub const EXPECTED_ANSWER: &'static str = "376";
 
 enum Hand {
     Hi            ( [Card, ..5] ),

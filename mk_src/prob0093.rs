@@ -11,7 +11,7 @@ use num::rational::{Rational, Ratio};
 use common::calc;
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "1258";
+pub const EXPECTED_ANSWER: &'static str = "1258";
 
 #[deriving(Clone)]
 enum Op { Add, Sub, Mul, Div }

@@ -3,7 +3,7 @@
 
 use std::iter::AdditiveIterator;
 
-pub static EXPECTED_ANSWER: &'static str = "51161058134250";
+pub const EXPECTED_ANSWER: &'static str = "51161058134250";
 
 fn num_increasing(len: uint) -> uint {
     let mut buf = Vec::from_fn(len, |_| [0u, ..10]);

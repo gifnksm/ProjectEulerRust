@@ -5,7 +5,7 @@
 use std::iter;
 use std::collections::HashMap;
 
-pub static EXPECTED_ANSWER: &'static str = "16475640049";
+pub const EXPECTED_ANSWER: &'static str = "16475640049";
 
 pub fn get_cnt(n: uint, m: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     let mut sum = 0;

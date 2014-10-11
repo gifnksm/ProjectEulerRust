@@ -7,7 +7,7 @@ use std::{iter, num};
 use std::collections::HashSet;
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "2906969179";
+pub const EXPECTED_ANSWER: &'static str = "2906969179";
 
 fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
     let mut set = HashSet::new();

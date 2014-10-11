@@ -9,7 +9,7 @@ use std::collections::HashMap;
 use num::Integer;
 use math::arith;
 
-pub static EXPECTED_ANSWER: &'static str = "840";
+pub const EXPECTED_ANSWER: &'static str = "840";
 
 pub fn solve() -> String {
     // a + b + c = 2m(m + n) <= L

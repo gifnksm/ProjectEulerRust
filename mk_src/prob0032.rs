@@ -9,7 +9,7 @@ use std::collections::HashSet;
 use common::calc;
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "45228";
+pub const EXPECTED_ANSWER: &'static str = "45228";
 
 // possible num of digits combinations
 // 1 x 1 = 7 : NG 10 * 10

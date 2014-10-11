@@ -6,7 +6,7 @@ extern crate math;
 use std::collections::HashSet;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "1097343";
+pub const EXPECTED_ANSWER: &'static str = "1097343";
 
 pub fn solve() -> String {
     let limit = 50000000;

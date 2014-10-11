@@ -9,7 +9,7 @@ use data::extiter::Comb;
 use math::numconv;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "612407567715";
+pub const EXPECTED_ANSWER: &'static str = "612407567715";
 
 pub fn solve() -> String {
     let n = 10u;

@@ -9,7 +9,7 @@ use num::Integer;
 use math::numconv;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "44680";
+pub const EXPECTED_ANSWER: &'static str = "44680";
 
 trait ImmutableCloneableVector<T> {
     fn groups(&self, n: uint) -> Groups<T>;

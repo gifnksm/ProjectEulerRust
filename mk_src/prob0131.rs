@@ -91,7 +91,7 @@ extern crate math;
 use std::iter;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "173";
+pub const EXPECTED_ANSWER: &'static str = "173";
 
 pub fn solve() -> String {
     let limit = 1000000;

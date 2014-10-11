@@ -11,7 +11,7 @@ use std::collections::HashMap;
 use common::reader;
 use math::{arith, numconv};
 
-pub static EXPECTED_ANSWER: &'static str = "18769";
+pub const EXPECTED_ANSWER: &'static str = "18769";
 
 #[inline(always)]
 fn check_digit(idx: &[uint], ds: &[uint]) -> bool {

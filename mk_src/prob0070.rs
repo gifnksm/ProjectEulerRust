@@ -7,7 +7,7 @@ use std::f64;
 use math::numconv;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "8319823";
+pub const EXPECTED_ANSWER: &'static str = "8319823";
 
 pub fn solve() -> String {
     let limit = 10000000;

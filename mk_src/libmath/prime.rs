@@ -7,7 +7,7 @@ use std::collections::HashMap;
 
 use num::Integer;
 
-static PRIMES_BELOW100: &'static [uint] = &[
+const PRIMES_BELOW100: &'static [uint] = &[
     2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
     43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
 ];
@@ -58,7 +58,7 @@ impl PrimeInner {
     }
 }
 
-static TASK_PRIME_KEY: Key<Prime> = &KeyValueKey;
+const TASK_PRIME_KEY: Key<Prime> = &KeyValueKey;
 
 #[deriving(Clone)]
 pub struct Prime {
@@ -188,7 +188,7 @@ impl<IA: Iterator<Factor>> FactorIterator for IA {
 mod tests {
     use super::{Prime, Factor, FactorIterator};
 
-    static PRIMES_BELOW200: &'static [uint] = &[
+    const PRIMES_BELOW200: &'static [uint] = &[
         2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
         43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
         101, 103, 107, 109, 113, 127, 131, 137, 139, 149,

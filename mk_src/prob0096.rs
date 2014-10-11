@@ -4,15 +4,15 @@
 use std::{char, fmt, iter};
 use std::io::{BufferedReader, File};
 
-pub static EXPECTED_ANSWER: &'static str = "24702";
+pub const EXPECTED_ANSWER: &'static str = "24702";
 
-static BOARD_WIDTH: uint = 9;
-static BOARD_HEIGHT: uint = 9;
-static GROUP_WIDTH: uint = 3;
-static GROUP_HEIGHT: uint = 3;
-static MAX_NUMBER: uint = 9;
+const BOARD_WIDTH: uint = 9;
+const BOARD_HEIGHT: uint = 9;
+const GROUP_WIDTH: uint = 3;
+const GROUP_HEIGHT: uint = 3;
+const MAX_NUMBER: uint = 9;
 type BITS = u16;
-static MASK_ALL: BITS = 0x1ff;
+const MASK_ALL: BITS = 0x1ff;
 
 struct SuDoku {
     name: String,

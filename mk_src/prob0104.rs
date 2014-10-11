@@ -6,7 +6,7 @@ extern crate num;
 use std::iter::Unfold;
 use num::Integer;
 
-pub static EXPECTED_ANSWER: &'static str = "329468";
+pub const EXPECTED_ANSWER: &'static str = "329468";
 
 fn is_pandigit(n: u64) -> bool {
     let mut hist = [false, .. 10];

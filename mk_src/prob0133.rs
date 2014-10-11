@@ -55,7 +55,7 @@ extern crate prob0129;
 use std::iter::AdditiveIterator;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "453647705";
+pub const EXPECTED_ANSWER: &'static str = "453647705";
 
 pub fn solve() -> String {
     let ps = Prime::new();

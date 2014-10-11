@@ -5,7 +5,7 @@ extern crate math;
 
 use math::poly::Poly;
 
-pub static EXPECTED_ANSWER: &'static str = "38182";
+pub const EXPECTED_ANSWER: &'static str = "38182";
 
 pub fn solve() -> String {
     let mut single = Vec::from_elem(26, 0u);

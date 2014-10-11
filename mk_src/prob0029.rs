@@ -6,7 +6,7 @@ extern crate math;
 use std::collections::HashSet;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "9183";
+pub const EXPECTED_ANSWER: &'static str = "9183";
 
 pub fn solve() -> String {
     let mut set = HashSet::new();

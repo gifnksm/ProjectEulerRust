@@ -5,7 +5,7 @@ extern crate math;
 
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "142857";
+pub const EXPECTED_ANSWER: &'static str = "142857";
 
 pub fn solve() -> String {
     let mut n = 0;

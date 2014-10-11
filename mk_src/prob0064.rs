@@ -5,7 +5,7 @@ extern crate math;
 
 use math::cont_frac;
 
-pub static EXPECTED_ANSWER: &'static str = "1322";
+pub const EXPECTED_ANSWER: &'static str = "1322";
 
 pub fn solve() -> String {
     let mut cnt = 0u;

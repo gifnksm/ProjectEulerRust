@@ -8,7 +8,7 @@ extern crate math;
 use std::iter;
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "1587000";
+pub const EXPECTED_ANSWER: &'static str = "1587000";
 
 fn is_increasing_with<T: Iterator<uint>>(mut ds: T, mut prev: uint) -> bool {
     for n in ds {

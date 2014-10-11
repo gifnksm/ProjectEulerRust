@@ -1,7 +1,7 @@
 #![crate_name = "prob0053"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "4075";
+pub const EXPECTED_ANSWER: &'static str = "4075";
 
 // nCr-1 = r/(n-r+1) nCr!
 // nCr = n/(n-r) n-1Cr

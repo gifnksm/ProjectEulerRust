@@ -7,7 +7,7 @@ use std::iter;
 use std::collections::HashMap;
 use prob0114::get_cnt;
 
-pub static EXPECTED_ANSWER: &'static str = "168";
+pub const EXPECTED_ANSWER: &'static str = "168";
 
 pub fn solve() -> String {
     let mut map = HashMap::new();

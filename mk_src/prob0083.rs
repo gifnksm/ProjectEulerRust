@@ -6,7 +6,7 @@ extern crate prob0081;
 use std::{cmp, uint};
 use std::collections::HashSet;
 
-pub static EXPECTED_ANSWER: &'static str = "425185";
+pub const EXPECTED_ANSWER: &'static str = "425185";
 
 #[deriving(Eq, PartialEq, Hash, Clone)]
 struct Point { x: uint, y: uint }

@@ -9,7 +9,7 @@ use std::iter::AdditiveIterator;
 use common::calc;
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "443839";
+pub const EXPECTED_ANSWER: &'static str = "443839";
 
 // 9^5     = 59049
 // 9999    => 9^5 * 4 = 236196

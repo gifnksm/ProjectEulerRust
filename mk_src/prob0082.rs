@@ -5,7 +5,7 @@ extern crate prob0081;
 
 use std::{cmp, uint};
 
-pub static EXPECTED_ANSWER: &'static str = "260324";
+pub const EXPECTED_ANSWER: &'static str = "260324";
 
 pub fn solve() -> String {
     let (w, h, mat) = prob0081::read_matrix("files/p082_matrix.txt");

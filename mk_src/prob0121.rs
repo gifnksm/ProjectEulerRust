@@ -12,7 +12,7 @@ use num::bigint::BigUint;
 use num::rational::Ratio;
 use math::poly::Poly;
 
-pub static EXPECTED_ANSWER: &'static str = "2269";
+pub const EXPECTED_ANSWER: &'static str = "2269";
 
 // turn  blue    red
 // 1     1/2     1/2

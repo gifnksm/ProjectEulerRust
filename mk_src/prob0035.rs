@@ -6,7 +6,7 @@ extern crate math;
 use math::numconv;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "55";
+pub const EXPECTED_ANSWER: &'static str = "55";
 
 #[inline(always)]
 fn is_circular_prime(prime: &Prime, n: uint) -> bool {

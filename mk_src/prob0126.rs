@@ -3,7 +3,7 @@
 
 use std::iter;
 
-pub static EXPECTED_ANSWER: &'static str = "18522";
+pub const EXPECTED_ANSWER: &'static str = "18522";
 
 // cube size: (a, b, c)
 // nth layer: 4(n-1)(n+a+b+c-2) + 2(ab+bc+ca)

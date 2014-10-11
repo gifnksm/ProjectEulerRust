@@ -6,7 +6,7 @@ extern crate math;
 use math::numconv;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "296962999629";
+pub const EXPECTED_ANSWER: &'static str = "296962999629";
 
 pub fn solve() -> String {
     let prime = Prime::new();

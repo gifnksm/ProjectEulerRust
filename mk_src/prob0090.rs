@@ -6,7 +6,7 @@ extern crate data;
 use std::collections::bitv::BitvSet;
 use data::extiter::Comb;
 
-pub static EXPECTED_ANSWER: &'static str = "1217";
+pub const EXPECTED_ANSWER: &'static str = "1217";
 
 pub fn solve() -> String {
     let all_combs = Comb::new(6, 10)

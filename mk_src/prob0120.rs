@@ -7,7 +7,7 @@ use std::iter;
 use std::iter::AdditiveIterator;
 use num::Integer;
 
-pub static EXPECTED_ANSWER: &'static str = "333082500";
+pub const EXPECTED_ANSWER: &'static str = "333082500";
 
 // f(a, n) := (a-1)^n + (a+1)^n
 //

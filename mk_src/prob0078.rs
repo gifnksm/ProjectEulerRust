@@ -3,9 +3,9 @@
 
 use std::iter;
 
-pub static EXPECTED_ANSWER: &'static str = "55374";
+pub const EXPECTED_ANSWER: &'static str = "55374";
 
-static MILLION: int = 1000000;
+const MILLION: int = 1000000;
 
 #[inline]
 fn penta(n: int) -> int { n * (3 * n - 1) / 2 }

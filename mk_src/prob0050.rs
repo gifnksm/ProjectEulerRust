@@ -5,7 +5,7 @@ extern crate math;
 
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "997651";
+pub const EXPECTED_ANSWER: &'static str = "997651";
 
 fn get_longer(prime: &Prime, p: uint, min_len: uint) -> Option<uint> {
     let max_avg = if min_len == 0 { p } else { p / min_len };

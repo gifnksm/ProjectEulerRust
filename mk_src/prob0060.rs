@@ -7,7 +7,7 @@ use std::iter::AdditiveIterator;
 use std::collections::HashMap;
 use math::prime::{Prime, PrimeIterator};
 
-pub static EXPECTED_ANSWER: &'static str = "26033";
+pub const EXPECTED_ANSWER: &'static str = "26033";
 
 fn concat_num(n: uint, m: uint) -> uint {
     let mut d = 1;

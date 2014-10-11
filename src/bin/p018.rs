@@ -6,7 +6,7 @@ extern crate common;
 use std::cmp;
 use common::Solver;
 
-static TRIANGLE: &'static [&'static [uint]] = &[
+const TRIANGLE: &'static [&'static [uint]] = &[
     &[75],
     &[95, 64],
     &[17, 47, 82],
@@ -41,7 +41,7 @@ fn main() { Solver::new("1074", solve).run(); }
 
 #[cfg(test)]
 mod tests {
-    static TRIANGLE: &'static [&'static [uint]] = &[
+    const TRIANGLE: &'static [&'static [uint]] = &[
         &[3],
         &[7, 4],
         &[2, 4, 6],

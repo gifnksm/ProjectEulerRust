@@ -5,7 +5,7 @@ extern crate num;
 
 use num::Integer;
 
-pub static EXPECTED_ANSWER: &'static str = "8581146";
+pub const EXPECTED_ANSWER: &'static str = "8581146";
 
 fn square_digit_sum(mut n: uint) -> uint {
     let mut sum = 0;

@@ -10,7 +10,7 @@ use num::Integer;
 use num::bigint::BigUint;
 use math::cont_frac::PelNegIterator;
 
-pub static EXPECTED_ANSWER: &'static str = "756872327473";
+pub const EXPECTED_ANSWER: &'static str = "756872327473";
 
 // b/s * (b-1)/(s-1) = 1/2
 // 2b(b - 1) = s * (s-1)

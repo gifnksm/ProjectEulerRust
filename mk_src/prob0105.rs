@@ -4,7 +4,7 @@
 use std::io::{BufferedReader, File};
 use std::iter::AdditiveIterator;
 
-pub static EXPECTED_ANSWER: &'static str = "73702";
+pub const EXPECTED_ANSWER: &'static str = "73702";
 
 fn is_sss(nums: &[uint]) -> bool {
     let mut sums = vec![0u];

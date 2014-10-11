@@ -6,7 +6,7 @@ extern crate data;
 use std::io::{BufferedReader, File};
 use data::union_find::UnionFind;
 
-pub static EXPECTED_ANSWER: &'static str = "259679";
+pub const EXPECTED_ANSWER: &'static str = "259679";
 
 pub fn solve() -> String {
     let size = 40;

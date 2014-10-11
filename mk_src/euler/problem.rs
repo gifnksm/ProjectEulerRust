@@ -5,13 +5,13 @@ use term::Terminal;
 use term::color::Color;
 use term::color;
 
-static WARN_COLOR_NSEC:  u64 = 1  * NSEC_PER_SEC;
-static ERROR_COLOR_NSEC: u64 = 10 * NSEC_PER_SEC;
-static NSEC_PER_SEC:     u64 = 1000000000;
+const WARN_COLOR_NSEC:  u64 = 1  * NSEC_PER_SEC;
+const ERROR_COLOR_NSEC: u64 = 10 * NSEC_PER_SEC;
+const NSEC_PER_SEC:     u64 = 1000000000;
 
-static COLOR_OK:   Color = color::GREEN;
-static COLOR_NG:   Color = color::RED;
-static COLOR_WARN: Color = color::YELLOW;
+const COLOR_OK:   Color = color::GREEN;
+const COLOR_NG:   Color = color::RED;
+const COLOR_WARN: Color = color::YELLOW;
 
 pub struct Problem<'a> {
     pub id: uint,

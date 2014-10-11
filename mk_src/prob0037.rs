@@ -7,7 +7,7 @@ use std::iter::AdditiveIterator;
 use math::numconv;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "748317";
+pub const EXPECTED_ANSWER: &'static str = "748317";
 
 fn is_r2l(prime: &Prime, n: uint) -> bool {
     let mut itr = n / 10;

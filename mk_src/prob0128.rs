@@ -137,7 +137,7 @@ extern crate math;
 use std::mem;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "14516824220";
+pub const EXPECTED_ANSWER: &'static str = "14516824220";
 
 #[deriving(Eq, PartialEq, Show)]
 struct PdTriple {

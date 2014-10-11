@@ -28,7 +28,7 @@ use std::iter::AdditiveIterator;
 use math::arith;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "843296";
+pub const EXPECTED_ANSWER: &'static str = "843296";
 
 pub fn solve() -> String {
     Prime::new().iter()

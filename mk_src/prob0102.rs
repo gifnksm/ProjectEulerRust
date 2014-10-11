@@ -3,7 +3,7 @@
 
 use std::io::{BufferedReader, File};
 
-pub static EXPECTED_ANSWER: &'static str = "228";
+pub const EXPECTED_ANSWER: &'static str = "228";
 
 type Point = (int, int);
 type Triangle = (Point, Point, Point);

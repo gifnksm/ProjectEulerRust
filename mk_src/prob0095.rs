@@ -3,7 +3,7 @@
 
 use std::iter;
 
-pub static EXPECTED_ANSWER: &'static str = "14316";
+pub const EXPECTED_ANSWER: &'static str = "14316";
 
 #[inline(always)]
 fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) -> uint {

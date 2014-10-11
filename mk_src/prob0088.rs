@@ -6,7 +6,7 @@ use std::{iter, uint};
 use std::iter::AdditiveIterator;
 use std::collections::HashSet;
 
-pub static EXPECTED_ANSWER: &'static str = "7587457";
+pub const EXPECTED_ANSWER: &'static str = "7587457";
 
 fn each_sum_product(start: uint, end: uint, f: &mut |uint, uint, uint|) {
     sub(start, end, 0, 1, 0, f);

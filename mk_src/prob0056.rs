@@ -8,7 +8,7 @@ use std::iter::{AdditiveIterator, Unfold};
 use std::num::One;
 use num::bigint::BigUint;
 
-pub static EXPECTED_ANSWER: &'static str = "972";
+pub const EXPECTED_ANSWER: &'static str = "972";
 
 pub fn solve() -> String {
     range(One::one(), FromPrimitive::from_uint(100).unwrap())

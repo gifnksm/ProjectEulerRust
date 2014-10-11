@@ -8,7 +8,7 @@ use std::io::File;
 use common::reader;
 use math::sequence;
 
-pub static EXPECTED_ANSWER: &'static str = "162";
+pub const EXPECTED_ANSWER: &'static str = "162";
 
 fn word_value(word: &str) -> uint {
     let mut value = 0;

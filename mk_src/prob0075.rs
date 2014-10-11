@@ -6,7 +6,7 @@ extern crate math;
 use std::iter;
 use math::{arith, sequence};
 
-pub static EXPECTED_ANSWER: &'static str = "161667";
+pub const EXPECTED_ANSWER: &'static str = "161667";
 
 pub fn solve() -> String {
     let limit = 1500000u;

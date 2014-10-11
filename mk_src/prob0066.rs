@@ -8,7 +8,7 @@ use std::iter::Peekable;
 use num::bigint::BigUint;
 use math::cont_frac;
 
-pub static EXPECTED_ANSWER: &'static str = "661";
+pub const EXPECTED_ANSWER: &'static str = "661";
 
 struct Difference<E, M, S> {
     minuend: M,

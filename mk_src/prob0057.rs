@@ -6,7 +6,7 @@ extern crate num;
 use std::mem;
 use num::bigint::BigUint;
 
-pub static EXPECTED_ANSWER: &'static str = "153";
+pub const EXPECTED_ANSWER: &'static str = "153";
 
 // a[0] = 1 + 1/2
 // a[1] = 1 + 1/(2 + 1/2)

@@ -1,7 +1,7 @@
 #![crate_name = "prob0044"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "5482660";
+pub const EXPECTED_ANSWER: &'static str = "5482660";
 
 // P[m] <= minimal sum
 // P[n+i] + P[n] = P[m]

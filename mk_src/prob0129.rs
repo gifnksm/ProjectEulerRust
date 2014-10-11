@@ -6,7 +6,7 @@ extern crate num;
 use std::iter;
 use num::Integer;
 
-pub static EXPECTED_ANSWER: &'static str = "1000023";
+pub const EXPECTED_ANSWER: &'static str = "1000023";
 
 #[inline]
 pub fn a(n: uint) -> uint {

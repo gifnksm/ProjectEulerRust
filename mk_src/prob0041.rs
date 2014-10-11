@@ -7,7 +7,7 @@ extern crate math;
 use common::calc;
 use math::prime::Prime;
 
-pub static EXPECTED_ANSWER: &'static str = "7652413";
+pub const EXPECTED_ANSWER: &'static str = "7652413";
 
 pub fn solve() -> String {
     let mut ans = 0;

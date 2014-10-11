@@ -8,7 +8,7 @@ use std::iter::AdditiveIterator;
 use num::bigint::BigUint;
 use math::cont_frac::PelIterator;
 
-pub static EXPECTED_ANSWER: &'static str = "518408346";
+pub const EXPECTED_ANSWER: &'static str = "518408346";
 
 // triangle a-a-b's area
 // S(a, b) := b * sqrt(4a^2-b^2) / 4

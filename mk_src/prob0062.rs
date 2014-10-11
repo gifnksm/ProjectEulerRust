@@ -6,7 +6,7 @@ extern crate math;
 use std::collections::{HashMap, HashSet};
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "127035954683";
+pub const EXPECTED_ANSWER: &'static str = "127035954683";
 
 pub fn solve() -> String {
     let mut map = HashMap::<Vec<uint>, Vec<uint>>::new();

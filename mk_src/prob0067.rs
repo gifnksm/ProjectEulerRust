@@ -4,7 +4,7 @@
 use std::cmp;
 use std::io::{BufferedReader, File};
 
-pub static EXPECTED_ANSWER: &'static str = "7273";
+pub const EXPECTED_ANSWER: &'static str = "7273";
 
 pub fn solve() -> String {
     let mut br = BufferedReader::new(

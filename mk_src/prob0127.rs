@@ -3,7 +3,7 @@
 
 use std::iter;
 
-pub static EXPECTED_ANSWER: &'static str = "18407904";
+pub const EXPECTED_ANSWER: &'static str = "18407904";
 
 // [定理]
 // a + b = c のとき、

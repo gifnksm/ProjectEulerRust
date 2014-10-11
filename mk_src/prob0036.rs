@@ -5,7 +5,7 @@ extern crate math;
 
 use math::numconv;
 
-pub static EXPECTED_ANSWER: &'static str = "872187";
+pub const EXPECTED_ANSWER: &'static str = "872187";
 
 pub fn solve() -> String {
     let order_array = &[ 1u, 10, 100, 1000, 1000, 10000 ];

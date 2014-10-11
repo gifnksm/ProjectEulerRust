@@ -1,7 +1,7 @@
 #![crate_name = "prob0034"]
 #![crate_type = "rlib"]
 
-pub static EXPECTED_ANSWER: &'static str = "40730";
+pub const EXPECTED_ANSWER: &'static str = "40730";
 
 pub fn solve() -> String {
     let mut facts: [uint, ..10] = [ 0, ..10 ];

@@ -5,7 +5,7 @@ extern crate num;
 
 use num::Integer;
 
-pub static EXPECTED_ANSWER: &'static str = "100";
+pub const EXPECTED_ANSWER: &'static str = "100";
 
 // AB / AC => NG (10A+B : 10A+C = B : C => 10AC+BC = 10AB+BC => 10A(C-B) = 0 -> trivial)
 // BA / CA => NG
