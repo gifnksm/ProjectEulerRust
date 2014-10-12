@@ -23,7 +23,7 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-fn main() { Solver::new("2783915460", solve).run(); }
+fn main() { Solver::new("4782", solve).run(); }
 
 #[cfg(test)]
 mod tests {
