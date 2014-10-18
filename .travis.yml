@@ -12,16 +12,16 @@ script:
   - make -s doc
   - ./bin/debug/euler
   - ./bin/release/euler
-  - (cd ./pkg/integer && cargo test)
-  - (cd ./pkg/integer && cargo bench)
-  - (cd ./pkg/seq     && cargo test)
-  - (cd ./pkg/seq     && cargo bench)
-  - (cd ./pkg/prime   && cargo test)
-  - (cd ./pkg/prime   && cargo bench)
   - cargo build
   - ./target/euler
   - cargo build --release
   - ./target/release/euler
   - cargo test
+  - cargo test -p integer
+  - cargo test -p seq
+  - cargo test -p prime
   - cargo bench
+  - cargo bench -p integer
+  - cargo bench -p seq
+  - cargo bench -p prime
   - cargo doc
