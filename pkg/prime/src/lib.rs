@@ -347,7 +347,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// number.
     pub fn lcm_with(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
-            let p = match self.map.entry(b) {
+            match self.map.entry(b) {
                 Vacant(entry)   => { let _ = entry.set(e); }
                 Occupied(entry) => {
                     let p = entry.into_mut();
