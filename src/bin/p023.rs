@@ -26,9 +26,7 @@ fn compute(max: uint) -> uint {
             if s > max { break; }
             if !is_sum_abundant[s] {
                 sum_of_sum_abundant += s;
-                // FIXME: rust-lang/rust#12825
-                // is_sum_abundant[s] = true;
-                *is_sum_abundant.get_mut(s) = true;
+                is_sum_abundant[s] = true;
             }
         }
     }
