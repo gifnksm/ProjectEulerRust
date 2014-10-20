@@ -1,4 +1,4 @@
- #![warn(unused, bad_style,
+#![warn(unused, bad_style,
         unnecessary_qualification, unnecessary_typecast, unused_result)]
 
 extern crate num;
