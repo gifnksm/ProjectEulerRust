@@ -5,6 +5,7 @@ dependencies = [
  "curl 0.0.1 (git+https://github.com/carllerche/curl-rust#4fd00ca19445304237d5cb0b19b8aa48393fac4f)",
  "glob 0.0.1 (git+https://github.com/rust-lang/glob#469a6bc1a0fc289ab220170e691cffbc01dcf1e6)",
  "integer 0.0.1",
+ "iter 0.0.1",
  "num 0.0.1 (git+https://github.com/rust-lang/num#5e2ece2f6fd1508cc32c16757885e5b6919f1d41)",
  "prime 0.0.1",
  "seq 0.0.1",
@@ -34,6 +35,10 @@ version = "0.0.1"
 dependencies = [
  "num 0.0.1 (git+https://github.com/rust-lang/num#5e2ece2f6fd1508cc32c16757885e5b6919f1d41)",
 ]
+
+[[package]]
+name = "iter"
+version = "0.0.1"
 
 [[package]]
 name = "num"

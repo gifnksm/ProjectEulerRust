@@ -18,20 +18,6 @@ pub fn combinate<T: Clone>(elems: &[T], len: uint, f: |&[T], &[T]| -> bool) -> b
     return true;
 }
 
-pub fn combinate_overlap<T: Clone>(elems: &[T], len: uint, f: |&[T]| -> bool) -> bool {
-    if len == 0 { return f([]); }
-
-    for i in range(0, elems.len()) {
-        let ret = combinate_overlap(elems.slice(i, elems.len()), len - 1, |v| {
-            let a = vec![elems[i].clone()].append(v);
-            f(a.as_slice())
-        });
-        if !ret { return false; }
-    }
-
-    return true;
-}
-
 pub fn permutate_num(digits: &[uint], len: uint, min: uint, max: uint,
                       f: |uint, &[uint]| -> bool) -> bool {
     let min_vec = fill_zero(num_to_digits(min, 10).as_slice(), len);
@@ -100,31 +86,6 @@ mod tests {
             vec![3, 4, 5]
         ];
         super::combinate(&[1u, 2, 3, 4, 5], 3, |n, _rest| {
-            assert_eq!(n, nums.shift().unwrap().as_slice()); true
-        });
-    }
-
-    #[test]
-    fn test_combinate_overlap() {
-        let mut nums = vec![
-            vec![1, 1, 1], vec![1, 1, 2], vec![1, 1, 3], vec![1, 1, 4], vec![1, 1, 5],
-            vec![1, 2, 2], vec![1, 2, 3], vec![1, 2, 4], vec![1, 2, 5],
-            vec![1, 3, 3], vec![1, 3, 4], vec![1, 3, 5],
-            vec![1, 4, 4], vec![1, 4, 5],
-            vec![1, 5, 5],
-            vec![2, 2, 2], vec![2, 2, 3], vec![2, 2, 4], vec![2, 2, 5],
-            vec![2, 3, 3], vec![2, 3, 4], vec![2, 3, 5],
-            vec![2, 4, 4], vec![2, 4, 5],
-            vec![2, 5, 5],
-            vec![3, 3, 3], vec![3, 3, 4], vec![3, 3, 5],
-            vec![3, 4, 4], vec![3, 4, 5],
-            vec![3, 5, 5],
-            vec![4, 4, 4], vec![4, 4, 5],
-            vec![4, 5, 5],
-            vec![5, 5, 5]
-        ];
-
-        super::combinate_overlap(&[1u, 2, 3, 4, 5], 3, |n| {
             assert_eq!(n, nums.shift().unwrap().as_slice()); true
         });
     }

@@ -1,7 +1,9 @@
-#![crate_name = "prob0028"]
-#![crate_type = "rlib"]
+#![warn(unused, bad_style,
+        unnecessary_qualification, unnecessary_typecast, unused_result)]
 
-pub const EXPECTED_ANSWER: &'static str = "669171001";
+extern crate common;
+
+use common::Solver;
 
 // 43 44 45 46 47 48 49
 // 42 21 22 23 24 25 26
@@ -29,10 +31,20 @@ pub const EXPECTED_ANSWER: &'static str = "669171001";
 // N := (n + 1) / 2
 // ans[n] = \sum_{k=1}^{N} sum[k] - 3
 //        = 1/6 (4n^3 + 3n^2 + 8n - 9)
-fn sum(n: uint) -> uint {
+fn compute(n: uint) -> uint {
     (4 * n*n*n + 3 * n*n + 8 * n - 9) / 6
 }
 
-pub fn solve() -> String {
-    return sum(1001).to_string();
+fn solve() -> String {
+    compute(1001).to_string()
+}
+
+fn main() { Solver::new("669171001", solve).run(); }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn five() {
+        assert_eq!(101, super::compute(5));
+    }
 }

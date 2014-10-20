@@ -1,7 +1,9 @@
-#![crate_name = "prob0026"]
-#![crate_type = "rlib"]
+#![warn(unused, bad_style,
+        unnecessary_qualification, unnecessary_typecast, unused_result)]
 
-pub const EXPECTED_ANSWER: &'static str = "983";
+extern crate common;
+
+use common::Solver;
 
 fn get_cycle_len(n: uint) -> uint {
     if n == 1 { return 1 }
@@ -19,9 +21,22 @@ fn get_cycle_len(n: uint) -> uint {
     }
 }
 
-pub fn solve() -> String {
-    return range(2u, 1000)
+fn compute(limit: uint) -> uint {
+    range(2, limit)
         .max_by(|&n| get_cycle_len(n))
         .unwrap()
-        .to_string();
+}
+
+fn solve() -> String {
+    compute(1000).to_string()
+}
+
+fn main() { Solver::new("983", solve).run(); }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn ten() {
+        assert_eq!(7, super::compute(10));
+    }
 }

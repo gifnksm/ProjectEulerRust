@@ -23,3 +23,6 @@ path = "./pkg/prime"
 
 [dependencies.integer]
 path = "./pkg/integer"
+
+[dependencies.iter]
+path = "./pkg/iter"
