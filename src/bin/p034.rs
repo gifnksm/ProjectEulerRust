@@ -1,9 +1,11 @@
-#![crate_name = "prob0034"]
-#![crate_type = "rlib"]
+#![warn(unused, bad_style,
+        unnecessary_qualification, unnecessary_typecast, unused_result)]
 
-pub const EXPECTED_ANSWER: &'static str = "40730";
+extern crate common;
 
-pub fn solve() -> String {
+use common::Solver;
+
+fn compute() -> uint {
     let mut facts: [uint, ..10] = [ 0, ..10 ];
     facts[0] = 1;
     for i in range(1, facts.len()) {
@@ -22,6 +24,11 @@ pub fn solve() -> String {
             answer += sum;
         }
     }
-
-    return (answer - 1 - 2).to_string();
+    answer - 1 - 2
 }
+
+fn solve() -> String {
+    compute().to_string()
+}
+
+fn main() { Solver::new("40730", solve).run(); }

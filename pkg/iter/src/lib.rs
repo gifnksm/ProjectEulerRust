@@ -1,5 +1,14 @@
+//! Some useful iterators.
+
+#![warn(unused, bad_style,
+        missing_doc, unnecessary_qualification, unnecessary_typecast,
+        unused_result)]
+
 #![feature(slicing_syntax)]
 
+/// An iterator that enumerates all combinations of elemnts.
+///
+/// The iteratee vector may contain the same elements multiple times.
 pub struct CombinationOverlap<'a, T: 'a> {
     elems: &'a [T],
     idxs: Vec<uint>,
@@ -7,6 +16,22 @@ pub struct CombinationOverlap<'a, T: 'a> {
 }
 
 impl<'a, T> CombinationOverlap<'a, T> {
+    /// Creates a new `CombinationOverlap` iterator
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use iter::CombinationOverlap;
+    /// let nums = &[1u, 2, 3];
+    /// let mut it = CombinationOverlap::new(nums, 2);
+    /// assert_eq!(Some(vec![1, 1]), it.next());
+    /// assert_eq!(Some(vec![1, 2]), it.next());
+    /// assert_eq!(Some(vec![1, 3]), it.next());
+    /// assert_eq!(Some(vec![2, 2]), it.next());
+    /// assert_eq!(Some(vec![2, 3]), it.next());
+    /// assert_eq!(Some(vec![3, 3]), it.next());
+    /// assert_eq!(None, it.next());
+    /// ```
     pub fn new(elems: &'a [T], len: uint) -> CombinationOverlap<'a, T> {
         CombinationOverlap {
             elems: elems,
@@ -38,9 +63,75 @@ impl<'a, T: Clone> Iterator<Vec<T>> for CombinationOverlap<'a, T> {
     }
 }
 
+/// An iterator that enumerates all permutations of elemnts.
+pub struct Permutation<'a, T: 'a> {
+    elems: &'a [T],
+    idxs: Vec<uint>,
+    cycles: Vec<uint>,
+    consumed: bool
+}
+
+impl<'a, T: 'a> Permutation<'a, T> {
+    /// Creates a new `Permutation` iterator
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use iter::Permutation;
+    /// let nums = &[1u, 2, 3];
+    /// let mut it = Permutation::new(nums, 2);
+    /// assert_eq!(Some((vec![1, 2], vec![3])), it.next());
+    /// ```
+    pub fn new(elems: &'a [T], n: uint) -> Permutation<'a, T> {
+        Permutation {
+            elems: elems,
+            idxs: Vec::from_fn(elems.len(), |x| x),
+            cycles: Vec::from_fn(n, |x| elems.len() - x),
+            consumed: n > elems.len()
+        }
+    }
+}
+
+impl<'a, T: Clone> Iterator<(Vec<T>, Vec<T>)> for Permutation<'a, T> {
+    fn next(&mut self) -> Option<(Vec<T>, Vec<T>)> {
+        if self.consumed { return None }
+
+        let n = self.cycles.len();
+        let perm = self.idxs[..n].iter().map(|&i| self.elems[i].clone()).collect();
+        let rest = self.idxs[n..].iter().map(|&i| self.elems[i].clone()).collect();
+
+        if n == 0 {
+            self.consumed = true;
+            return Some((perm, rest));
+        }
+
+        loop {
+            for i in range(0, n).rev() {
+                self.cycles[i] -= 1;
+                if self.cycles[i] == 0 {
+                    let p = self.idxs.remove(i).unwrap();
+                    self.idxs.push(p);
+                    self.cycles[i] = self.elems.len() - i;
+                    if i == 0 {
+                        self.consumed = true;
+                        return Some((perm, rest));
+                    }
+                } else {
+                    let j = self.cycles[i];
+                    let len = self.idxs.len();
+                    let (p, q) = (self.idxs[i], self.idxs[len - j]);
+                    self.idxs[i] = q;
+                    self.idxs[len - j] = p;
+                    return Some((perm, rest));
+                }
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::CombinationOverlap;
+    use super::{CombinationOverlap, Permutation};
 
     #[test]
     fn combinate_overlap() {
@@ -89,10 +180,45 @@ mod tests {
         assert_eq!(Some(vec![3]), it.next());
         assert_eq!(Some(vec![4]), it.next());
         assert_eq!(Some(vec![5]), it.next());
-        assert_eq!(None, it.next())
+        assert_eq!(None, it.next());
 
         let mut it = CombinationOverlap::new(nums, 0);
         assert_eq!(Some(vec![]), it.next());
-        assert_eq!(None, it.next())
+        assert_eq!(None, it.next());
+    }
+
+    #[test]
+    fn permutation() {
+        let nums = &[1u, 2, 3, 4, 5];
+
+        let mut it = Permutation::new(nums, 2);
+        assert_eq!(Some((vec![1, 2], vec![3, 4, 5])), it.next());
+        assert_eq!(Some((vec![1, 3], vec![2, 4, 5])), it.next());
+        assert_eq!(Some((vec![1, 4], vec![2, 3, 5])), it.next());
+        assert_eq!(Some((vec![1, 5], vec![2, 3, 4])), it.next());
+        assert_eq!(Some((vec![2, 1], vec![3, 4, 5])), it.next());
+        assert_eq!(Some((vec![2, 3], vec![1, 4, 5])), it.next());
+        assert_eq!(Some((vec![2, 4], vec![1, 3, 5])), it.next());
+        assert_eq!(Some((vec![2, 5], vec![1, 3, 4])), it.next());
+        assert_eq!(Some((vec![3, 1], vec![2, 4, 5])), it.next());
+        assert_eq!(Some((vec![3, 2], vec![1, 4, 5])), it.next());
+        assert_eq!(Some((vec![3, 4], vec![1, 2, 5])), it.next());
+        assert_eq!(Some((vec![3, 5], vec![1, 2, 4])), it.next());
+        assert_eq!(Some((vec![4, 1], vec![2, 3, 5])), it.next());
+        assert_eq!(Some((vec![4, 2], vec![1, 3, 5])), it.next());
+        assert_eq!(Some((vec![4, 3], vec![1, 2, 5])), it.next());
+        assert_eq!(Some((vec![4, 5], vec![1, 2, 3])), it.next());
+        assert_eq!(Some((vec![5, 1], vec![2, 3, 4])), it.next());
+        assert_eq!(Some((vec![5, 2], vec![1, 3, 4])), it.next());
+        assert_eq!(Some((vec![5, 3], vec![1, 2, 4])), it.next());
+        assert_eq!(Some((vec![5, 4], vec![1, 2, 3])), it.next());
+        assert_eq!(None, it.next());
+
+        let mut it = Permutation::new(nums, 7);
+        assert_eq!(None, it.next());
+
+        let mut it = Permutation::new(nums, 0);
+        assert_eq!(Some((vec![], vec![1, 2, 3, 4, 5])), it.next());
+        assert_eq!(None, it.next());
     }
 }

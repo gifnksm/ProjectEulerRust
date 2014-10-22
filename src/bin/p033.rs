@@ -1,11 +1,11 @@
-#![crate_name = "prob0033"]
-#![crate_type = "rlib"]
+#![warn(unused, bad_style,
+        unnecessary_qualification, unnecessary_typecast, unused_result)]
 
 extern crate num;
+extern crate common;
 
 use num::Integer;
-
-pub const EXPECTED_ANSWER: &'static str = "100";
+use common::Solver;
 
 // AB / AC => NG (10A+B : 10A+C = B : C => 10AC+BC = 10AB+BC => 10A(C-B) = 0 -> trivial)
 // BA / CA => NG
@@ -20,7 +20,7 @@ pub const EXPECTED_ANSWER: &'static str = "100";
 // A = 9BC / (10B - C)
 // C > B
 
-pub fn solve() -> String {
+fn compute() -> uint {
     let mut prod_numer = 1;
     let mut prod_denom = 1;
 
@@ -44,5 +44,11 @@ pub fn solve() -> String {
     }
 
     let gcd = prod_numer.gcd(&prod_denom);
-    return (prod_denom / gcd).to_string();
+    prod_denom / gcd
 }
+
+fn solve() -> String {
+    compute().to_string()
+}
+
+fn main() { Solver::new("100", solve).run(); }
