@@ -127,7 +127,7 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
     let path = Path::new(format!(".cache/{}", file_name));
     if !path.is_file() {
         let dir_path = path.dir_path();
-        try2!(fs::mkdir_recursive(&dir_path, io::UserRWX));
+        try2!(fs::mkdir_recursive(&dir_path, io::USER_RWX));
         let mut file = try2!(File::create(&path));
         let content = try2!(download(file_name));
         try2!(file.write(content[]));
