@@ -51,13 +51,6 @@ pub fn to_digit_histogram(n: uint) -> [uint, ..10] {
     hist
 }
 
-pub fn to_palindromic(n: uint, radix: uint, dup_flag: bool) -> uint {
-    let digits = to_digits(n, radix);
-    let mut rv = digits.rev();
-    if dup_flag { rv.next_back(); }
-    return rv.chain(digits).fold(0, |sum, i| sum * radix + i);
-}
-
 pub fn is_palindromic(n: uint, radix: uint) -> bool {
     let mut digits = to_digits(n, radix);
     loop {
@@ -104,30 +97,6 @@ mod tests {
                    [0, 3, 0, 0, 0, 0, 0, 0, 0, 0].as_slice());
         assert_eq!(super::to_digit_histogram(0).as_slice(),
                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].as_slice());
-    }
-
-    #[test]
-    fn test_to_palindromic() {
-        fn check(n: uint, radix: uint, is_dup: bool, result: uint) {
-            let ret = super::to_palindromic(n, radix, is_dup);
-            assert_eq!(ret, result);
-            assert!(super::is_palindromic(ret, radix));
-        }
-
-        check(10, 10, true,  101);
-        check(10, 10, false, 1001);
-
-        check(999, 10, true,  99999);
-        check(999, 10, false, 999999);
-
-        check(990, 10, true,  99099);
-        check(990, 10, false, 990099);
-
-        check(1100, 10, true,  1100011);
-        check(1100, 10, false, 11000011);
-
-        check(0xabc, 16, true,  0xabcba);
-        check(0xabc, 16, false, 0xabccba);
     }
 
     #[test]

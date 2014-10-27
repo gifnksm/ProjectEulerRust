@@ -111,6 +111,30 @@ pub trait Integer: num::Integer + Clone {
         rv.chain(digits).fold(Zero::zero(), |sum: Self, i| sum * radix + i)
     }
 
+    /// Returns `true` if the number is palindromic.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use integer::Integer;
+    ///
+    /// assert_eq!(true, 12321i.is_palindromic(10));
+    /// assert_eq!(false, 12345i.is_palindromic(10));
+    /// ```
+    fn is_palindromic(self, radix: Self) -> bool {
+        let mut digits = self.into_digits(radix);
+        loop {
+            let next = digits.next();
+            let next_back = digits.next_back();
+            if next.is_none() || next_back.is_none() {
+                return true;
+            }
+            if next != next_back {
+                return false;
+            }
+        }
+    }
+
     /// Takes the square root of the number.
     #[inline]
     fn sqrt(&self) -> Self {
@@ -217,7 +241,7 @@ impl<T: num::Integer> DoubleEndedIterator<T> for Digits<T> {
 #[cfg(test)]
 mod tests {
     use super::Integer;
-    use num::Integer as SInteger;
+    use num::Integer as NumInteger;
 
     #[test]
     fn div() {
@@ -282,5 +306,17 @@ mod tests {
 
         assert_eq!(0xabcba, 0xabci.into_palindromic(16, false));
         assert_eq!(0xabccba, 0xabci.into_palindromic(16, true));
+    }
+
+    #[test]
+    fn is_palindromic() {
+        assert!(0i.is_palindromic(10));
+        assert!(1i.is_palindromic(10));
+        assert!(9i.is_palindromic(10));
+        assert!(11i.is_palindromic(10));
+        assert!(121i.is_palindromic(10));
+        assert!(!123i.is_palindromic(10));
+        assert!(1221i.is_palindromic(10));
+        assert!(12321i.is_palindromic(10));
     }
 }

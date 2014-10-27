@@ -6,7 +6,7 @@ extern crate num;
 extern crate common;
 extern crate integer;
 
-use num::Integer as SInteger;
+use num::Integer as NumInteger;
 use common::Solver;
 use integer::Integer;
 

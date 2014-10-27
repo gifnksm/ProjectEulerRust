@@ -1,8 +1,6 @@
 #![warn(unused, bad_style,
         unnecessary_qualification, unnecessary_typecast, unused_result)]
 
-#![feature(slicing_syntax)]
-
 extern crate common;
 extern crate integer;
 extern crate prime;
