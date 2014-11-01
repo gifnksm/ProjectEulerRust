@@ -64,26 +64,26 @@ impl<'a, T: Clone> Iterator<Vec<T>> for CombinationOverlap<'a, T> {
 }
 
 /// An iterator that enumerates all permutations of elemnts.
-pub struct Permutation<'a, T: 'a> {
+pub struct Permutations<'a, T: 'a> {
     elems: &'a [T],
     idxs: Vec<uint>,
     cycles: Vec<uint>,
     consumed: bool
 }
 
-impl<'a, T: 'a> Permutation<'a, T> {
-    /// Creates a new `Permutation` iterator
+impl<'a, T: 'a> Permutations<'a, T> {
+    /// Creates a new `Permutations` iterator
     ///
     /// # Example
     ///
     /// ```
-    /// use iter::Permutation;
+    /// use iter::Permutations;
     /// let nums = &[1u, 2, 3];
-    /// let mut it = Permutation::new(nums, 2);
+    /// let mut it = Permutations::new(nums, 2);
     /// assert_eq!(Some((vec![1, 2], vec![3])), it.next());
     /// ```
-    pub fn new(elems: &'a [T], n: uint) -> Permutation<'a, T> {
-        Permutation {
+    pub fn new(elems: &'a [T], n: uint) -> Permutations<'a, T> {
+        Permutations {
             elems: elems,
             idxs: Vec::from_fn(elems.len(), |x| x),
             cycles: Vec::from_fn(n, |x| elems.len() - x),
@@ -92,7 +92,7 @@ impl<'a, T: 'a> Permutation<'a, T> {
     }
 }
 
-impl<'a, T: Clone> Iterator<(Vec<T>, Vec<T>)> for Permutation<'a, T> {
+impl<'a, T: Clone> Iterator<(Vec<T>, Vec<T>)> for Permutations<'a, T> {
     fn next(&mut self) -> Option<(Vec<T>, Vec<T>)> {
         if self.consumed { return None }
 
@@ -131,7 +131,7 @@ impl<'a, T: Clone> Iterator<(Vec<T>, Vec<T>)> for Permutation<'a, T> {
 
 #[cfg(test)]
 mod tests {
-    use super::{CombinationOverlap, Permutation};
+    use super::{CombinationOverlap, Permutations};
 
     #[test]
     fn combinate_overlap() {
@@ -191,7 +191,7 @@ mod tests {
     fn permutation() {
         let nums = &[1u, 2, 3, 4, 5];
 
-        let mut it = Permutation::new(nums, 2);
+        let mut it = Permutations::new(nums, 2);
         assert_eq!(Some((vec![1, 2], vec![3, 4, 5])), it.next());
         assert_eq!(Some((vec![1, 3], vec![2, 4, 5])), it.next());
         assert_eq!(Some((vec![1, 4], vec![2, 3, 5])), it.next());
@@ -214,10 +214,10 @@ mod tests {
         assert_eq!(Some((vec![5, 4], vec![1, 2, 3])), it.next());
         assert_eq!(None, it.next());
 
-        let mut it = Permutation::new(nums, 7);
+        let mut it = Permutations::new(nums, 7);
         assert_eq!(None, it.next());
 
-        let mut it = Permutation::new(nums, 0);
+        let mut it = Permutations::new(nums, 0);
         assert_eq!(Some((vec![], vec![1, 2, 3, 4, 5])), it.next());
         assert_eq!(None, it.next());
     }
