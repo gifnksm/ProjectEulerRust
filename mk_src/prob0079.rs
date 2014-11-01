@@ -41,12 +41,12 @@ impl<T: Hash + Eq + Clone> Relations<T> {
                     contained = false;
                 }
             }
-            None => { fail!() }
+            None => { panic!() }
         }
         if !contained {
             match self.top.find_mut(&succ) {
                 Some(p) => { p.num_prec += 1; }
-                None => { fail!(); }
+                None => { panic!(); }
             }
         }
     }

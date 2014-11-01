@@ -1,8 +1,8 @@
 //! Integer operations and traits.
 
 #![warn(unused, bad_style,
-        missing_doc, unnecessary_qualification, unnecessary_typecast,
-        unused_result)]
+        missing_docs, unused_qualifications, unused_typecasts,
+        unused_results)]
 
 extern crate num;
 

@@ -1,5 +1,5 @@
 #![warn(unused, bad_style,
-        unnecessary_qualification, unnecessary_typecast, unused_result)]
+        unused_qualifications, unused_typecasts, unused_results)]
 
 extern crate common;
 
@@ -29,7 +29,7 @@ fn compute(input: &[&[uint]]) -> uint {
     let last = input.last().unwrap();
     init.iter().rev().fold(last.to_vec(), |mut total, elm| {
         for (i, &e) in elm.iter().enumerate() {
-            *total.get_mut(i) = e + cmp::max(total[i], total[i + 1]);
+            total[i] = e + cmp::max(total[i], total[i + 1]);
         }
         total
     })[0]

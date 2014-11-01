@@ -28,7 +28,7 @@ fn get_side(a: Point, b: Point, p: Point) -> Side {
         1  => L,
         0  => C,
         -1 => R,
-        _  => fail!()
+        _  => panic!()
     };
 }
 

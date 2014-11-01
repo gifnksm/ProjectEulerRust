@@ -1,5 +1,5 @@
 #![warn(unused, bad_style,
-        unnecessary_qualification, unnecessary_typecast, unused_result)]
+        unused_qualifications, unused_typecasts, unused_results)]
 
 extern crate common;
 

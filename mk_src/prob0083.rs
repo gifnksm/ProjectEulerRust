@@ -25,7 +25,7 @@ pub fn solve() -> String {
     open.insert(start);
 
     loop {
-        if open.is_empty() { fail!(); }
+        if open.is_empty() { panic!(); }
 
         let &min_pt = open.iter()
             .min_by(|&pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1))

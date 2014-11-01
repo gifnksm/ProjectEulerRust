@@ -119,7 +119,7 @@ pub fn solve() -> String {
     });
 
     match result {
-        Err(msg) => fail!(msg),
+        Err(msg) => panic!(msg),
         Ok(value) => value.to_string()
     }
 }

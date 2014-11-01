@@ -34,7 +34,7 @@ pub fn solve() -> String {
         });
 
     match result {
-        Err(msg) => { fail!(msg) }
+        Err(msg) => { panic!(msg) }
         Ok(cnt) => { cnt.to_string() }
     }
 }

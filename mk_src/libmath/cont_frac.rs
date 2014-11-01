@@ -96,7 +96,7 @@ pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T>>(an: &[uint]) -> (T, T) {
 pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     if an.is_empty() {
-        fail!("{} is square", d)
+        panic!("{} is square", d)
     } else if an.len() % 2 == 0 {
         fold::<T>(vec![a0].append(an.init()).as_slice())
     } else {

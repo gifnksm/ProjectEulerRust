@@ -2,11 +2,11 @@
 name = "ProjectEulerRust"
 version = "0.0.1"
 dependencies = [
- "curl 0.0.1 (git+https://github.com/carllerche/curl-rust#f574d177895d5817e4b84cf41a2fd5f201ec96d3)",
- "glob 0.0.1 (git+https://github.com/rust-lang/glob#469a6bc1a0fc289ab220170e691cffbc01dcf1e6)",
+ "curl 0.0.1 (git+https://github.com/carllerche/curl-rust)",
+ "glob 0.0.1 (git+https://github.com/rust-lang/glob)",
  "integer 0.0.1",
  "iter 0.0.1",
- "num 0.0.1 (git+https://github.com/rust-lang/num#6c56fe940ca2a45df438cf02b05b82a10465d28e)",
+ "num 0.0.1 (git+https://github.com/rust-lang/num)",
  "prime 0.0.1",
  "seq 0.0.1",
 ]
@@ -16,24 +16,24 @@ name = "curl"
 version = "0.0.1"
 source = "git+https://github.com/carllerche/curl-rust#f574d177895d5817e4b84cf41a2fd5f201ec96d3"
 dependencies = [
- "url 0.1.0 (git+https://github.com/servo/rust-url#7f1991d847fb8cf8648def2ff121bae90b89131f)",
+ "url 0.1.0 (git+https://github.com/servo/rust-url)",
 ]
 
 [[package]]
 name = "encoding"
 version = "0.1.0"
-source = "git+https://github.com/lifthrasiir/rust-encoding#dd6183298e20b038fcd1cc4ab91405b3c72e49db"
+source = "git+https://github.com/lifthrasiir/rust-encoding#6daaad9f4c0fcde4525821032686090d6426c462"
 
 [[package]]
 name = "glob"
 version = "0.0.1"
-source = "git+https://github.com/rust-lang/glob#469a6bc1a0fc289ab220170e691cffbc01dcf1e6"
+source = "git+https://github.com/rust-lang/glob#a469534627dec112d371f5acb95a561ea8940e69"
 
 [[package]]
 name = "integer"
 version = "0.0.1"
 dependencies = [
- "num 0.0.1 (git+https://github.com/rust-lang/num#6c56fe940ca2a45df438cf02b05b82a10465d28e)",
+ "num 0.0.1 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
@@ -43,27 +43,27 @@ version = "0.0.1"
 [[package]]
 name = "num"
 version = "0.0.1"
-source = "git+https://github.com/rust-lang/num#6c56fe940ca2a45df438cf02b05b82a10465d28e"
+source = "git+https://github.com/rust-lang/num#52e2afa3040134b06384fb3ac6f78184cf9a6257"
 
 [[package]]
 name = "prime"
 version = "0.0.1"
 dependencies = [
- "num 0.0.1 (git+https://github.com/rust-lang/num#6c56fe940ca2a45df438cf02b05b82a10465d28e)",
+ "num 0.0.1 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
 name = "seq"
 version = "0.0.1"
 dependencies = [
- "num 0.0.1 (git+https://github.com/rust-lang/num#6c56fe940ca2a45df438cf02b05b82a10465d28e)",
+ "num 0.0.1 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
 name = "url"
 version = "0.1.0"
-source = "git+https://github.com/servo/rust-url#7f1991d847fb8cf8648def2ff121bae90b89131f"
+source = "git+https://github.com/servo/rust-url#9142b86a812ac5bc886f76235585557d8e002246"
 dependencies = [
- "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding#dd6183298e20b038fcd1cc4ab91405b3c72e49db)",
+ "encoding 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding)",
 ]
 

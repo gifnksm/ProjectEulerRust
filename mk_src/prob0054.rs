@@ -71,7 +71,7 @@ fn hand(cards: &[Card, ..5]) -> Hand {
             2 => pairs.push([v[0], v[1]]),
             3 => three.push([v[0], v[1], v[2]]),
             4 => four.push([v[0], v[1], v[2], v[3]]),
-            _ => fail!()
+            _ => panic!()
         }
     }
     match (pairs.len(), three.len(), four.len()) {

@@ -1,8 +1,8 @@
 //! Prime number generator and related functions.
 
 #![warn(unused, bad_style,
-        missing_doc, unnecessary_qualification, unnecessary_typecast,
-        unused_result)]
+        missing_docs, unused_qualifications, unused_typecasts,
+        unused_results)]
 
 #![feature(macro_rules, slicing_syntax)]
 

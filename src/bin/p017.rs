@@ -1,5 +1,5 @@
 #![warn(unused, bad_style,
-        unnecessary_qualification, unnecessary_typecast, unused_result)]
+        unused_qualifications, unused_typecasts, unused_results)]
 
 #![feature(slicing_syntax)]
 
@@ -20,7 +20,7 @@ fn to_word_under10(n: uint) -> String {
         7 => "seven".to_string(),
         8 => "eight".to_string(),
         9 => "nine".to_string(),
-        _ => fail!()
+        _ => panic!()
     };
 }
 
@@ -38,7 +38,7 @@ fn to_word_under20(n: uint) -> String {
         17 => "seventeen".to_string(),
         18 => "eighteen".to_string(),
         19 => "nineteen".to_string(),
-        _  => fail!()
+        _  => panic!()
     };
 }
 
@@ -47,7 +47,7 @@ fn to_word_under100(n: uint) -> String {
     if n < 20 { return to_word_under20(n); }
 
     let prefix = match n / 10 {
-        0 | 1 => fail!(),
+        0 | 1 => panic!(),
         2 => "twenty".to_string(),
         3 => "thirty".to_string(),
         4 => "forty".to_string(),
@@ -56,7 +56,7 @@ fn to_word_under100(n: uint) -> String {
         7 => "seventy".to_string(),
         8 => "eighty".to_string(),
         9 => "ninety".to_string(),
-        _ => fail!()
+        _ => panic!()
     };
     if n % 10 != 0 {
         format!("{}-{}", prefix, to_word_under10(n % 10))

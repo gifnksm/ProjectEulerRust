@@ -26,7 +26,7 @@ impl Square {
             25 => R3, 26 => F1, 27 => F2, 28 => U2, 29 => F3,
             30 => G2J, 31 => G1, 32 => G2, 33 => CC3, 34 => G3,
             35 => R4, 36 => CH3, 37 => H1, 38 => T2, 39 => H2,
-            _ => fail!()
+            _ => panic!()
         }
     }
 }
@@ -207,7 +207,7 @@ pub fn solve() -> String {
                 _ if p2 <  p1 => Less,
                 _ if p2 == p1 => Equal,
                 _ if p2 >  p1 => Greater,
-                _ => fail!()
+                _ => panic!()
             }
         });
     pairs.slice(0, 3)

@@ -1,5 +1,5 @@
 #![warn(unused, bad_style,
-        unnecessary_qualification, unnecessary_typecast, unused_result)]
+        unused_qualifications, unused_typecasts, unused_results)]
 
 extern crate common;
 
@@ -14,7 +14,7 @@ fn get_cycle_len(n: uint) -> uint {
         let new_rem = rem % n;
         match buf[new_rem] {
             Some(i) => { return idx - i }
-            None    => { *buf.get_mut(new_rem) = Some(idx); }
+            None    => { buf[new_rem] = Some(idx); }
         }
         idx += 1;
         rem = new_rem * 10;
