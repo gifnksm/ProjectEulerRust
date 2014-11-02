@@ -17,7 +17,7 @@ fn get_limit_n(ps: &PrimeSet, a: int, b: int) -> uint {
     iter::count(0i, 1)
         .take_while(|&n| {
             let val = n * n + a * n + b;
-            (val >= 0 && ps.contains(&(val as u64)))
+            (val >= 0 && ps.contains(val as u64))
         }).last().unwrap() as uint
 }
 

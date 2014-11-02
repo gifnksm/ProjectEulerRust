@@ -13,7 +13,7 @@ use prime::PrimeSet;
 fn is_r2l(ps: &PrimeSet, n: u64) -> bool {
     let mut itr = n / 10;
     while itr > 0 {
-        if !ps.contains(&itr) { return false }
+        if !ps.contains(itr) { return false }
         itr /= 10;
     }
     true
@@ -33,7 +33,7 @@ fn compute() -> u64 {
             let ds = [ 1, 2, 3, 5, 7, 9 ];
             for &d in ds.iter() {
                 let n = order * d + p;
-                if ps.contains(&n) { result.push(n); }
+                if ps.contains(n) { result.push(n); }
             }
         }
 

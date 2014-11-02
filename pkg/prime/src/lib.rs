@@ -66,16 +66,16 @@ impl PrimeInner {
     fn nth(&mut self, n: uint) -> u64 { self.grow(n + 1); self.data[n] }
 
     #[inline]
-    fn contains(&mut self, n: &u64) -> bool {
-        if *n < self.max_prime() {
-            return self.data[].binary_search_elem(n).found().is_some()
+    fn contains(&mut self, n: u64) -> bool {
+        if n < self.max_prime() {
+            return self.data[].binary_search_elem(&n).found().is_some()
         }
 
-        if !self.is_coprime(*n) { return false }
+        if !self.is_coprime(n) { return false }
 
         iter::count(self.data.len(), 1)
             .map(|i| self.nth(i))
-            .take_while(|&p| p * p <= *n)
+            .take_while(|&p| p * p <= n)
             .all(|p| !n.is_multiple_of(&p))
     }
 
@@ -150,24 +150,14 @@ impl PrimeSet {
         Nums { idx: 0, data: self.data.clone() }
     }
 
+    /// Return `true` if the given number is prime.
+    #[inline]
+    pub fn contains(&self, n: u64) -> bool { self.data.borrow_mut().contains(n) }
+
     fn from_inner(inner: PrimeInner) -> PrimeSet {
         PrimeSet { data: Rc::new(RefCell::new(inner)) }
     }
-}
 
-impl Collection for PrimeSet {
-    fn len(&self) -> uint { uint::MAX }
-}
-
-impl Set<u64> for PrimeSet {
-    #[inline]
-    fn contains(&self, n: &u64) -> bool { self.data.borrow_mut().contains(n) }
-
-    #[inline]
-    fn is_disjoint(&self, _: &PrimeSet) -> bool { false }
-
-    #[inline]
-    fn is_subset(&self, _: &PrimeSet) -> bool { true }
 }
 
 /// Prime number iterator
@@ -392,15 +382,15 @@ mod tests {
     #[test]
     fn contains() {
         let ps = PrimeSet::new();
-        assert!(!ps.contains(&0));
-        assert!(!ps.contains(&1));
-        assert!(ps.contains(&2));
-        assert!(ps.contains(&3));
-        assert!(!ps.contains(&4));
-        assert!(ps.contains(&5));
-        assert!(!ps.contains(&6));
-        assert!(ps.contains(&7));
-        assert!(!ps.contains(&100));
+        assert!(!ps.contains(0));
+        assert!(!ps.contains(1));
+        assert!(ps.contains(2));
+        assert!(ps.contains(3));
+        assert!(!ps.contains(4));
+        assert!(ps.contains(5));
+        assert!(!ps.contains(6));
+        assert!(ps.contains(7));
+        assert!(!ps.contains(100));
     }
 
     #[test]

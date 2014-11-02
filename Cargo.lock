@@ -14,7 +14,7 @@ dependencies = [
 [[package]]
 name = "curl"
 version = "0.0.1"
-source = "git+https://github.com/carllerche/curl-rust#f574d177895d5817e4b84cf41a2fd5f201ec96d3"
+source = "git+https://github.com/carllerche/curl-rust#7e6355a1df822afb4d425f14477b40971ddf62c2"
 dependencies = [
  "url 0.1.0 (git+https://github.com/servo/rust-url)",
 ]
@@ -22,7 +22,7 @@ dependencies = [
 [[package]]
 name = "encoding"
 version = "0.1.0"
-source = "git+https://github.com/lifthrasiir/rust-encoding#6daaad9f4c0fcde4525821032686090d6426c462"
+source = "git+https://github.com/lifthrasiir/rust-encoding#a739425a3f3174a31fe38c158dcaf22ea1d856f4"
 
 [[package]]
 name = "glob"
@@ -43,7 +43,7 @@ version = "0.0.1"
 [[package]]
 name = "num"
 version = "0.0.1"
-source = "git+https://github.com/rust-lang/num#52e2afa3040134b06384fb3ac6f78184cf9a6257"
+source = "git+https://github.com/rust-lang/num#3ac6af6b2de299f0bea43f91648f74eaf5b71e49"
 
 [[package]]
 name = "prime"
