@@ -1,7 +1,7 @@
 #![warn(unused, bad_style,
         unused_qualifications, unused_typecasts, unused_results)]
 
-#![feature(macro_rules, slicing_syntax)]
+#![feature(if_let, macro_rules, slicing_syntax)]
 
 extern crate glob;
 extern crate num;
@@ -12,7 +12,6 @@ extern crate common;
 use std::{io, os, str};
 use std::io::{Command, MemReader};
 use std::io::process::ExitStatus;
-use std::path::Display;
 use std::str::{MaybeOwned, SendStr};
 use glob::Paths;
 use num::Integer;
@@ -132,14 +131,22 @@ fn print_items<'a>(items: &[OutputPair]) {
     match term::stdout() {
         None => {
             let mut out = io::stdout();
-            for &(_, ref s) in items.iter() { let _ = out.write_str(s.as_slice()); }
+            for &(_, ref s) in items.iter() {
+                let _ = out.write_str(s.as_slice());
+            }
             let _ = out.flush();
-        },
+        }
         Some(mut t) => {
             for &(c, ref s) in items.iter() {
                 match c {
-                    Some(c) => { let _ = t.fg(c); let _ = t.write_str(s.as_slice()); let _ = t.reset(); }
-                    None    => { let _ = t.write_str(s.as_slice()); }
+                    Some(c) => {
+                        let _ = t.fg(c);
+                        let _ = t.write_str(s.as_slice());
+                        let _ = t.reset();
+                    }
+                    None => {
+                        let _ = t.write_str(s.as_slice());
+                    }
                 }
             }
             let _ = t.flush();
@@ -147,7 +154,7 @@ fn print_items<'a>(items: &[OutputPair]) {
     }
 }
 
-fn print_result<'a, T: GenericPath>(name: Display<T>, result: ProgramResult<SolveResult<String>>) {
+fn print_result(name: &str, result: ProgramResult<SolveResult<String>>, enable_time_color: bool) {
     let mut items = vec![];
     match result {
         Ok(r) => {
@@ -159,11 +166,11 @@ fn print_result<'a, T: GenericPath>(name: Display<T>, result: ProgramResult<Solv
                 os::set_exit_status(1);
             }
             items.push(normal("] "));
-            items.push(normal(format!("{} ", name)));
+            items.push(normal(format!("{:5} ", name)));
             items.push(normal(format!("{:20} ", r.answer)));
             let (sec, nsec) = r.time.div_rem(&NSEC_PER_SEC);
             let time_str = format!("{:3}.{:09}", sec, nsec);
-            if r.time < NSEC_WARN_LIMIT {
+            if !enable_time_color || r.time < NSEC_WARN_LIMIT {
                 items.push(normal(time_str));
             } else if r.time < NSEC_NG_LIMIT {
                 items.push(warn(time_str));
@@ -175,7 +182,7 @@ fn print_result<'a, T: GenericPath>(name: Display<T>, result: ProgramResult<Solv
             items.push(normal("["));
             items.push(ng("!!"));
             items.push(normal("] "));
-            items.push(normal(format!("{} ", name)));
+            items.push(normal(format!("{:5} ", name)));
             items.push(normal(format!("{}", e)));
             os::set_exit_status(1);
         }
@@ -200,8 +207,35 @@ fn print_result<'a, T: GenericPath>(name: Display<T>, result: ProgramResult<Solv
 fn run() -> ProgramResult<()> {
     let dir_path = try!(exe_path()).dir_path();
 
+    let mut is_ok = true;
+    let mut num_prob = 0;
+    let mut total_time = 0;
     for path in try!(problem_paths(dir_path)) {
-        print_result(path.filename_display(), run_problem(&path));
+        let result = run_problem(&path);
+        if let Ok(ref r) = result {
+            num_prob   += 1;
+            total_time += r.time;
+            is_ok &= r.is_ok;
+        } else {
+            is_ok = false;
+        }
+        print_result(format!("{}", path.filename_display())[], result, true);
+    }
+
+    if num_prob > 0 {
+        let r = SolveResult {
+            time: total_time / num_prob,
+            answer: "".to_string(),
+            is_ok: is_ok
+        };
+        print_result("AVG", Ok(r), true);
+
+        let r = SolveResult {
+            time: total_time,
+            answer: "".to_string(),
+            is_ok: is_ok
+        };
+        print_result("TOTAL", Ok(r), false);
     }
 
     Ok(())
