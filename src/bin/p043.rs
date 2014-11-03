@@ -27,13 +27,13 @@ impl Pandigimal {
         }
     }
 
-    fn from_uint(n: uint, len: uint) -> Option<Pandigimal> {
-        let it = n.into_digits(RADIX).chain(Repeat::new(0));
-        Pandigimal::new().join_all(it.take(len))
+    fn from_u64(n: u64, len: uint) -> Option<Pandigimal> {
+        let it = n.into_digits(RADIX as u64).chain(Repeat::new(0));
+        Pandigimal::new().join_all(it.map(|x| x as uint).take(len))
     }
 
-    fn to_uint(&self) -> uint {
-        Integer::from_digits(self.num().iter().map(|&x| x), RADIX)
+    fn to_u64(&self) -> u64 {
+        Integer::from_digits(self.num().iter().map(|&x| x as u64), RADIX as u64)
     }
 
     fn is_used(&self, n: uint) -> bool {
@@ -66,26 +66,26 @@ impl Pandigimal {
     }
 }
 
-fn create_pandigimal_list(base: uint, len: uint) -> Vec<Pandigimal> {
+fn create_pandigimal_list(base: u64, len: uint) -> Vec<Pandigimal> {
     assert!(len > 0);
-    let max = Repeat::new(RADIX).take(len).product() - 1;
+    let max = Repeat::new(RADIX as u64).take(len).product() - 1;
     iter::range_inclusive(0, max / base)
-        .filter_map(|n| Pandigimal::from_uint(base * n, len))
+        .filter_map(|n| Pandigimal::from_u64(base * n, len))
         .collect()
 }
 
-fn update_pandigimal_list(list: Vec<Pandigimal>, base: uint, len: uint) -> Vec<Pandigimal> {
+fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: uint) -> Vec<Pandigimal> {
     assert!(len > 0);
-    let ord = Repeat::new(RADIX).take(len - 1).product();
+    let ord = Repeat::new(RADIX as u64).take(len - 1).product();
 
     let mut result = Vec::new();
     for pd in list.iter() {
         let num = pd.num();
         let ds = num[num.len() - (len - 1) ..];
-        let lower = Integer::from_digits(ds.iter().map(|&x| x), RADIX);
+        let lower = Integer::from_digits(ds.iter().map(|&x| x as u64), RADIX as u64);
         let it = range(0, RADIX)
             .filter(|&d| !pd.is_used(d))
-            .filter(|&d| (d * ord + lower) % base == 0)
+            .filter(|&d| ((d as u64) * ord + lower) % base == 0)
             .map(|d| pd.join(d).unwrap());
         result.extend(it);
     }
@@ -100,7 +100,7 @@ fn solve() -> String {
 
     result
         .iter()
-        .map(|pd| pd.to_uint())
+        .map(|pd| pd.to_u64())
         .sum()
         .to_string()
 }
@@ -114,8 +114,8 @@ mod tests {
         use super::super::Pandigimal;
 
         #[test]
-        fn from_uint() {
-            let pd = Pandigimal::from_uint(123, 3).unwrap();
+        fn from_u64() {
+            let pd = Pandigimal::from_u64(123, 3).unwrap();
             assert_eq!(false, pd.is_used(0));
             assert_eq!(true, pd.is_used(1));
             assert_eq!(true, pd.is_used(2));
@@ -123,7 +123,7 @@ mod tests {
             assert_eq!(false, pd.is_used(4));
             assert_eq!([3, 2, 1][], pd.num())
 
-            let pd = Pandigimal::from_uint(123, 4).unwrap();
+            let pd = Pandigimal::from_u64(123, 4).unwrap();
             assert_eq!(true, pd.is_used(0));
             assert_eq!(true, pd.is_used(1));
             assert_eq!(true, pd.is_used(2));
@@ -131,7 +131,7 @@ mod tests {
             assert_eq!(false, pd.is_used(4));
             assert_eq!([3, 2, 1, 0][], pd.num());
 
-            let pd = Pandigimal::from_uint(123, 2).unwrap();
+            let pd = Pandigimal::from_u64(123, 2).unwrap();
             assert_eq!(false, pd.is_used(0));
             assert_eq!(false, pd.is_used(1));
             assert_eq!(true, pd.is_used(2));
@@ -139,12 +139,12 @@ mod tests {
             assert_eq!(false, pd.is_used(4));
             assert_eq!([3, 2][], pd.num());
 
-            assert!(Pandigimal::from_uint(11, 2).is_none());
+            assert!(Pandigimal::from_u64(11, 2).is_none());
         }
 
         #[test]
         fn join() {
-            let pd = Pandigimal::from_uint(123, 3).unwrap();
+            let pd = Pandigimal::from_u64(123, 3).unwrap();
 
             let pd2 = pd.join(5).unwrap();
             assert_eq!(false, pd2.is_used(0));
