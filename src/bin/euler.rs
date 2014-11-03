@@ -156,6 +156,7 @@ fn print_result<'a, T: GenericPath>(name: Display<T>, result: ProgramResult<Solv
                 items.push(ok("OK"));
             } else {
                 items.push(ng("NG"));
+                os::set_exit_status(1);
             }
             items.push(normal("] "));
             items.push(normal(format!("{} ", name)));
