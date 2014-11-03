@@ -3,7 +3,7 @@ install:
   - sudo apt-get install python3
 before_script:
   - wget --no-check-certificate -i ./etc/files.txt -P ./files
-  - make depend
+  - make -s depend
 script:
   - make -s debug
   - make -s release
@@ -12,10 +12,8 @@ script:
   - make -s doc
   - ./bin/debug/euler
   - ./bin/release/euler
-  - cargo build
-  - ./target/euler
-  - cargo build --release
-  - ./target/release/euler
+  - cargo run --name euler
+  - cargo run --name euler --release
   - cargo test
   - cargo test -p integer
   - cargo test -p seq
