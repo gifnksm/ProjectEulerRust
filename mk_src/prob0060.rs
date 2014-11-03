@@ -65,7 +65,11 @@ fn find_chain(pairs: &[uint], set: Vec<uint>, map: &HashMap<uint, Vec<uint>>) ->
 
     for (i, &p) in pairs.iter().enumerate() {
         let union_pairs = union_vec(pairs.slice(0, i), map.find(&p).unwrap().as_slice());
-        let pset = vec!(p).append(set.as_slice());
+        let pset = {
+            let mut v = vec!(p);
+            v.extend(set.iter().map(|&x| x));
+            v
+        };
         if union_pairs.is_empty() {
             result.push(pset);
         } else {

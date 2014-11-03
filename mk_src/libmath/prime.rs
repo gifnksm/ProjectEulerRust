@@ -1,9 +1,9 @@
 use std::{iter, num, uint};
-use std::iter::MultiplicativeIterator;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::local_data::{Key, KeyValueKey};
 use std::collections::HashMap;
+use std::collections::hashmap::{Occupied, Vacant};
 
 use num::Integer;
 
@@ -96,12 +96,15 @@ impl Prime {
         let mut map = HashMap::new();
         for n in range(r + 1, n + 1) {
             for (b, e) in self.factorize(n) {
-                *map.find_or_insert(b, 0) += e;
+                match map.entry(b) {
+                    Vacant(entry)   => { entry.set(e); }
+                    Occupied(entry) => { *entry.into_mut() += e; }
+                }
             }
         }
         for n in range(1, n - r + 1) {
             for (b, e) in self.factorize(n) {
-                *map.get_mut(&b) -= e;
+                map[b] -= e;
             }
         }
         map.into_iter().to_uint()
@@ -188,7 +191,7 @@ impl<IA: Iterator<Factor>> FactorIterator for IA {
 mod tests {
     use super::{Prime, Factor, FactorIterator};
 
-    const PRIMES_BELOW200: &'static [uint] = &[
+    static PRIMES_BELOW200: &'static [uint] = &[
         2,  3,  5,  7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
         43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
         101, 103, 107, 109, 113, 127, 131, 137, 139, 149,

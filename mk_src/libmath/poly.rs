@@ -136,7 +136,7 @@ impl<T: Zero + Mul<T, T>> Mul<Poly<T>, Poly<T>> for Poly<T> {
         let mut prod: Vec<T> = Vec::from_fn(self.data.len() + other.data.len() - 1, |_| Zero::zero());
         for (i, n) in self.data.iter().enumerate() {
             for (j, m) in other.data.iter().enumerate() {
-                *prod.get_mut(i + j) = prod[i + j] + (*n) * (*m);
+                prod[i + j] = prod[i + j] + (*n) * (*m);
             }
         }
         Poly::new(prod)

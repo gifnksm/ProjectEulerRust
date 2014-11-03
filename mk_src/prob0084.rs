@@ -72,7 +72,7 @@ fn create_roll_map(dice_side: uint) -> Vec<(f64, f64)> {
         for j in range(i, dice_side + 1) {
             let sum = i + j;
             let (p, q) = map[sum];
-            *map.get_mut(sum) = if i == j { (p, q + 1) } else { (p + 2, q) };
+            map[sum] = if i == j { (p, q + 1) } else { (p + 2, q) };
         }
     }
 
@@ -200,7 +200,7 @@ pub fn solve() -> String {
     for (i, vs) in vec.iter().enumerate() {
         let dst = i % NUM_SQUARE;
         let (p, sq) = pairs[dst];
-        *pairs.get_mut(dst) = (p + vs[0], sq);
+        pairs[dst] = (p + vs[0], sq);
     }
     pairs.sort_by(|&(p1, _), &(p2, _)| {
             match () {

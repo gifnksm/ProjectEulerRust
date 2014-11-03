@@ -21,7 +21,7 @@ pub fn solve() -> String {
     let mut dist = Vec::from_fn(h, |_y| Vec::from_elem(w, uint::MAX));
     let mut parent = Vec::from_fn(h, |_y| Vec::from_elem(w, Point { x: w, y: h }));
 
-    *dist.get_mut(start.y).get_mut(start.x) = mat[start.y][start.x];
+    dist[start.y][start.x] = mat[start.y][start.x];
     open.insert(start);
 
     loop {
@@ -45,22 +45,22 @@ pub fn solve() -> String {
             let new_dist = dist[min_pt.y][min_pt.x] + mat[pt.y][pt.x];
             if open.contains(&pt) {
                 if new_dist < dist[pt.y][pt.x] {
-                    *dist.get_mut(pt.y).get_mut(pt.x)   = new_dist;
-                    *parent.get_mut(pt.y).get_mut(pt.x) = min_pt;
+                    dist[pt.y][pt.x]   = new_dist;
+                    parent[pt.y][pt.x] = min_pt;
                 }
                 continue
             }
             if closed.contains(&pt) {
                 if new_dist < dist[pt.y][pt.x] {
                     closed.remove(&pt);
-                    *dist.get_mut(pt.y).get_mut(pt.x) = cmp::min(dist[pt.y][pt.x], new_dist);
-                    *parent.get_mut(pt.y).get_mut(pt.x) = min_pt;
+                    dist[pt.y][pt.x]   = cmp::min(dist[pt.y][pt.x], new_dist);
+                    parent[pt.y][pt.x] = min_pt;
                     open.insert(pt);
                 }
                 continue
             }
-            *dist.get_mut(pt.y).get_mut(pt.x) = cmp::min(dist[pt.y][pt.x], new_dist);
-            *parent.get_mut(pt.y).get_mut(pt.x) = min_pt;
+            dist[pt.y][pt.x]   = cmp::min(dist[pt.y][pt.x], new_dist);
+            parent[pt.y][pt.x] = min_pt;
             open.insert(pt);
         }
     }

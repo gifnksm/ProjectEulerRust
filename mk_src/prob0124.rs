@@ -113,14 +113,18 @@ impl Iterator<(uint, Vec<uint>)> for RadValues {
             let p = self.prime.nth(i);
 
             // n = ... * p[i-1] => ... * p[i-1] * p[i] (append p[i])
-            self.queue.push(RadValue(n * p, facts.clone().append_one(p), i + 1));
+            {
+                let mut v = facts.clone();
+                v.push(p);
+                self.queue.push(RadValue(n * p, v, i + 1));
+            }
 
             if !facts.is_empty() {
                 // n = ... * p[i-1] => ... * p[i] (replace p[i-1] with p[i])
                 let last = *facts.last().unwrap();
                 let mut next_facts = facts.clone();
                 let len = next_facts.len();
-                *next_facts.get_mut(len - 1) = p;
+                next_facts[len - 1] = p;
                 self.queue.push(RadValue(p * n / last, next_facts, i + 1));
             }
 

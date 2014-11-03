@@ -54,7 +54,7 @@ fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
     let total = count.iter().map(|&x| x).sum();
 
     let mut freq = [0.0f64, ..256];
-    for (f, &n) in freq.mut_iter().zip(count.iter()) {
+    for (f, &n) in freq.iter_mut().zip(count.iter()) {
         *f = (n as f64) / (total as f64);
     }
 

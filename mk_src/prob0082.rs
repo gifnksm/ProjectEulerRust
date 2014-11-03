@@ -12,7 +12,7 @@ pub fn solve() -> String {
 
     let mut sum = Vec::from_fn(h, |_y| Vec::from_elem(w, 0u));
 
-    for y in range(0, h) { *sum.get_mut(y).get_mut(0) = mat[y][0]; }
+    for y in range(0, h) { sum[y][0] = mat[y][0]; }
     for x in range(1, w) {
         for y in range(0, h) {
             let mut min = sum[y][x - 1];
@@ -29,7 +29,7 @@ pub fn solve() -> String {
                 min = cmp::min(sum[y + dy][x - 1] + s, min);
             }
 
-            *sum.get_mut(y).get_mut(x) = mat[y][x] + min;
+            sum[y][x] = mat[y][x] + min;
         }
     }
     let mut min = uint::MAX;

@@ -32,7 +32,7 @@ fn create_rad_vec(n_limit: uint) -> Vec<Rad> {
         if rad_p != 1 { continue }
 
         for kp in iter::count(p, p).take_while(|&kp| kp < n_limit) {
-            let (ref mut rad_kp, _, ref mut facts) = *rad_vec.get_mut(kp);
+            let &(ref mut rad_kp, _, ref mut facts) = &mut rad_vec[kp];
             (*rad_kp) *= p;
             facts.push(p);
         }

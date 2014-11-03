@@ -53,8 +53,8 @@ fn hand(cards: &[Card, ..5]) -> Hand {
 
     for &c in cards.iter() {
         let val = if c.num == 1 { 12 } else { c.num - 2 };
-        num_count.get_mut(12 - val).push(c);
-        suit_count.get_mut(c.suit as uint - 1).push(c);
+        num_count[12 - val].push(c);
+        suit_count[c.suit as uint - 1].push(c);
     }
 
     let num_count = num_count;

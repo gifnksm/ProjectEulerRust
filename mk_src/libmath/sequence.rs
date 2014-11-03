@@ -54,18 +54,6 @@ mod tests {
     }
 
     #[test]
-    fn test_fibonacci() {
-        let fib = &[ 1u, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
-        check(fib, super::fibonacci::<uint>().take(fib.len()));
-
-        let fib = &[ 0u, 0, 0, 0, 0, 0, 0];
-        check(fib, super::fibonacci_with_init(0u, 0).take(fib.len()));
-
-        let fib = &[ 1u, 5, 6, 11, 17, 28, 45, 73, 118, 191, 309, 500];
-        check(fib, super::fibonacci_with_init(1u, 5).take(fib.len()));
-    }
-
-    #[test]
     fn test_triangle() {
         let tri = &[1u, 3, 6, 10, 15, 21];
         check(tri, super::triangle::<uint>().take(tri.len()));

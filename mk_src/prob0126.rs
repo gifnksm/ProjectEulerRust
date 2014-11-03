@@ -28,7 +28,7 @@ pub fn solve() -> String {
                 for n in iter::count(1u, 1) {
                     let f = 4*(n-1)*(n+q) + p;
                     if f >= cnt.len() { break; }
-                    *cnt.get_mut(f) += 1;
+                    cnt[f] += 1;
                 }
             }
         }

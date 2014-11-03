@@ -15,7 +15,7 @@ pub fn solve() -> String {
         for (a, b, c) in sequence::prim_pythagorean(m) {
             let sum = a + b + c;
             for s in iter::range_step(sum, limit + 1, sum) {
-                *v.get_mut(s) += 1;
+                v[s] += 1;
             }
         }
     }

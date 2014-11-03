@@ -21,6 +21,9 @@ RUSTC_FLAGS = \
 DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) #-g
 RELEASE_RUSTC_FLAGS = $(RUSTC_FLAGS) -L $(RELEASE_RLIB_DIR) --opt-level 3
 
+DEBUG_num = $(DEBUG_RLIB_DIR)/libnum.rlib
+RELEASE_num = $(RELEASE_RLIB_DIR)/libnum.rlib
+
 .PHONY: debug release test bench doc depend mostlyclean clean
 
 debug:
@@ -61,3 +64,11 @@ DOC=rustdoc -L $(DEBUG_RLIB_DIR) $(1) -o $(DOC_DIR)
 
 RUN_TEST=$(1) --test
 RUN_BENCH=$(1) --bench
+
+$(DEBUG_num):
+	cargo build -p num
+	cp target/deps/libnum-*.rlib $@
+
+$(RELEASE_num):
+	cargo build -p num --release
+	cp target/release/deps/libnum-*.rlib $@

@@ -44,7 +44,7 @@ pub fn solve() -> String {
         }
         if pairs.len() == 1 || pairs[pairs.len() - 1] < pairs[pairs.len() - 2] {
             let mut new_pairs = pairs.clone();
-            *new_pairs.get_mut(pairs.len() - 1) += 1;
+            new_pairs[pairs.len() - 1] += 1;
             queue.push(Elem(n * prime.nth(pairs.len() - 1), new_pairs));
         }
         pairs.push(1);

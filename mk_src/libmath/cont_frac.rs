@@ -97,21 +97,28 @@ pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     if an.is_empty() {
         panic!("{} is square", d)
-    } else if an.len() % 2 == 0 {
-        fold::<T>(vec![a0].append(an.init()).as_slice())
-    } else {
-        fold::<T>(vec![a0].append(an.as_slice()).append(an.init()).as_slice())
     }
+    let mut v = vec![a0];
+    if an.len() % 2 == 0 {
+        v.extend(an.init().iter().map(|&x| x))
+    } else {
+        v.extend(an.iter().map(|&x| x));
+        v.extend(an.init().iter().map(|&x| x))
+    }
+    fold::<T>(v[])
 }
 
 /// solve pel equation x^2 - d y^2 = -1
 pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
+    let mut v = vec![a0];
     if an.len() % 2 == 0 {
-        return fold::<T>(vec![a0].append(an.as_slice()).append(an.init()).as_slice());
+        v.extend(an.iter().map(|&x| x));
+        v.extend(an.init().iter().map(|&x| x));
     } else {
-        return fold::<T>(vec![a0].append(an.init()).as_slice());
+        v.extend(an.init().iter().map(|&x| x));
     }
+    fold::<T>(v[])
 }
 
 

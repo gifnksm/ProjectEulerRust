@@ -13,17 +13,17 @@ pub fn solve() -> String {
     let mut triple = Vec::from_elem(61, 0u);
     let mut dup    = Vec::from_elem(121, 0u);
     for i in range(1u, 21) {
-        *single.get_mut(1 * i) = 1;
-        *double.get_mut(2 * i) = 1;
-        *triple.get_mut(3 * i) = 1;
-        *dup.get_mut(2 * i) += 1;
-        *dup.get_mut(4 * i) += 1;
-        *dup.get_mut(6 * i) += 1;
+        single[1 * i] = 1;
+        double[2 * i] = 1;
+        triple[3 * i] = 1;
+        dup[2 * i] += 1;
+        dup[4 * i] += 1;
+        dup[6 * i] += 1;
     }
-    *single.get_mut(25) = 1;
-    *double.get_mut(50) = 1;
-    *dup.get_mut(50)    += 1;
-    *dup.get_mut(100)   += 1;
+    single[25] = 1;
+    double[50] = 1;
+    dup[50]    += 1;
+    dup[100]   += 1;
 
     let single = Poly::new(single);
     let double = Poly::new(double);

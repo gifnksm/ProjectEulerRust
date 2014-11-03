@@ -11,7 +11,7 @@ fn create_map(f: |uint| -> uint) -> Vec<Vec<uint>> {
     loop {
         let n = f(i);
         if n >= 10000 { break }
-        result.get_mut(n / 100).push(n % 100);
+        result[n / 100].push(n % 100);
         i += 1;
     }
     result

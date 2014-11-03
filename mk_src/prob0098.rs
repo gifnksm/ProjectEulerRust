@@ -43,8 +43,11 @@ pub fn solve() -> String {
             let mut cs = word.chars().collect::<Vec<char>>();
             cs.sort();
             match map.pop(&cs) {
-                None     => { map.insert(cs, vec!(word.to_string())); }
-                Some(ws) => { map.insert(cs, ws.append_one(word.to_string())); }
+                None => { map.insert(cs, vec!(word.to_string())); }
+                Some(mut ws) => {
+                    ws.push(word.to_string());
+                    map.insert(cs, ws);
+                }
             }
         }
         let mut buf = Vec::new();

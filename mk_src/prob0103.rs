@@ -62,7 +62,8 @@ impl SSSElem {
         }
 
         let avg = (self.avg * (len as f64) + n as f64) / ((len as f64) + 1.0);
-        let sss = self.sss.clone().append_one(n);
+        let mut sss = self.sss.clone();
+        sss.push(n);
         Some(SSSElem { avg: avg, sss: sss, sums: sums })
     }
 

@@ -23,15 +23,14 @@ pub fn solve() -> String {
 
     let mut sum = Vec::from_fn(h, |_y| Vec::from_elem(w, 0u));
 
-    *sum.get_mut(0).get_mut(0) = mat[0][0];
+    sum[0][0] = mat[0][0];
     for y in range(1, h) {
-        *sum.get_mut(y).get_mut(0) = mat[y][0] + sum[y - 1][0];
+        sum[y][0] = mat[y][0] + sum[y - 1][0];
     }
     for x in range(1, w) {
-        *sum.get_mut(0).get_mut(x) = mat[0][x] + sum[0][x - 1];
+        sum[0][x] = mat[0][x] + sum[0][x - 1];
         for y in range(1, h) {
-            *sum.get_mut(y).get_mut(x) = mat[y][x]
-                + cmp::min(sum[y - 1][x], sum[y][x - 1]);
+            sum[y][x] = mat[y][x] + cmp::min(sum[y - 1][x], sum[y][x - 1]);
         }
     }
     sum[h - 1][w - 1].to_string()

@@ -26,8 +26,8 @@ impl UnionFind {
             mem::swap(&mut size1, &mut size2);
         }
 
-        *self.data.get_mut(key1) = UFSize(size1 + size2);
-        *self.data.get_mut(key2) = UFKey(key1);
+        self.data[key1] = UFSize(size1 + size2);
+        self.data[key2] = UFKey(key1);
 
         return true;
     }
@@ -51,7 +51,7 @@ impl UnionFind {
             UFSize(size) => { return (key, size); }
             UFKey(key) => self.get_key_size(key)
         };
-        *self.data.get_mut(key) = UFKey(root_key);
+        self.data[key] = UFKey(root_key);
         return (root_key, size);
     }
 }

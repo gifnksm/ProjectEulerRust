@@ -102,7 +102,7 @@ pub fn solve() -> String {
     let mut mod_map = Vec::from_fn(10, |_| Vec::from_elem(10, 0u));
     for &b in [1u, 3, 7, 9].iter() {
         for n in range(1u, 10) {
-            *mod_map.get_mut(b).get_mut((b * n) % 10) = n;
+            mod_map[b][(b * n) % 10] = n;
         }
     }
 

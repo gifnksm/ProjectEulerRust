@@ -53,9 +53,9 @@ impl Iterator<Vec<uint>> for ElementIndex {
                     .map(|incr_idx| (idx, incr_idx))
             }).map(|(idx, incr_idx)| {
                 let mut next = idx.clone();
-                *next.get_mut(incr_idx) += 1;
+                next[incr_idx] += 1;
                 for j in range(incr_idx + 1, idx.len()) {
-                    *next.get_mut(j) = *next.get_mut(incr_idx) + (j - incr_idx);
+                    next[j] = next[incr_idx] + (j - incr_idx);
                 }
                 next
             });

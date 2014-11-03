@@ -27,8 +27,8 @@ pub fn solve() -> String {
         ds.sort();
 
         let v = match map.pop(&ds) {
-            Some(nums) => nums.append_one(cube),
-            None       => vec!(cube)
+            Some(mut nums) => { nums.push(cube); nums },
+            None => vec!(cube)
         };
         if v.len() == 5 {
             set.insert(v[0]);

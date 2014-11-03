@@ -23,7 +23,7 @@ fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
             if s >= limit { break; }
 
             if numconv::is_palindromic(s, 10) { set.insert(s); }
-            *sq_sums.get_mut(j) = s;
+            sq_sums[j] = s;
         }
         sq_sums.push(pow);
     }

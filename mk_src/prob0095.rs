@@ -38,12 +38,12 @@ pub fn solve() -> String {
     let limit = 1000000;
     let mut len_map = Vec::from_elem(limit + 1, None);
     let mut div_map = Vec::from_elem(limit + 1, 1u);
-    *div_map.get_mut(0) = 0;
-    *div_map.get_mut(1) = 0;
+    div_map[0] = 0;
+    div_map[1] = 0;
 
     for f in range(2, limit / 2) {
         for n in iter::range_step(2 * f, limit, f) {
-            *div_map.get_mut(n) += f;
+            div_map[n] += f;
         }
     }
 

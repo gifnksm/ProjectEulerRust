@@ -32,7 +32,7 @@ pub fn solve() -> String {
             let k = prod - sum + len;
             if k <= limit && prod < nums[k] {
                 if nums[k] == uint::MAX { cnt -= 1; }
-                *nums.get_mut(k) = prod;
+                nums[k] = prod;
             }
         });
         end *= 2;
