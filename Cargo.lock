@@ -14,7 +14,7 @@ dependencies = [
 [[package]]
 name = "curl"
 version = "0.0.1"
-source = "git+https://github.com/carllerche/curl-rust#7e6355a1df822afb4d425f14477b40971ddf62c2"
+source = "git+https://github.com/carllerche/curl-rust#1ac39dc594cbcaf53e8b3fd7ed327ae37c8dee6f"
 dependencies = [
  "url 0.1.0 (git+https://github.com/servo/rust-url)",
 ]
@@ -43,7 +43,7 @@ version = "0.0.1"
 [[package]]
 name = "num"
 version = "0.0.1"
-source = "git+https://github.com/rust-lang/num#3ac6af6b2de299f0bea43f91648f74eaf5b71e49"
+source = "git+https://github.com/rust-lang/num#c0cf374c4ae3a4d102ead0ab6f9d31d9646d454d"
 
 [[package]]
 name = "prime"
