@@ -5,7 +5,7 @@ extern crate math;
 #[cfg(test)]
 extern crate test;
 
-use std::collections::priority_queue::PriorityQueue;
+use std::collections::BinaryHeap;
 use math::prime::Prime;
 
 pub const EXPECTED_ANSWER: &'static str = "21417";
@@ -36,30 +36,30 @@ impl Ord for Multiple {
 
 struct Multiples {
     facts: Vec<uint>,
-    queue: PriorityQueue<Multiple>
+    heap: BinaryHeap<Multiple>
 }
 
 impl Multiples {
     #[inline]
     fn new(base: uint, facts: Vec<uint>) -> Multiples {
-        let mut queue = PriorityQueue::new();
-        queue.push(Multiple(base, 0));
-        Multiples { facts: facts, queue: queue }
+        let mut heap = BinaryHeap::new();
+        heap.push(Multiple(base, 0));
+        Multiples { facts: facts, heap: heap }
     }
 }
 
 impl Iterator<uint> for Multiples {
     #[inline]
     fn next(&mut self) -> Option<uint> {
-        self.queue.pop().map(|Multiple(n, i)| {
+        self.heap.pop().map(|Multiple(n, i)| {
             if i < self.facts.len() {
                 // n = ... * f[i]^k => ... * f[i]^(k+1)
-                self.queue.push(Multiple(n * self.facts[i], i));
+                self.heap.push(Multiple(n * self.facts[i], i));
             }
 
             for j in range(i + 1, self.facts.len()) {
                 // n = ... * f[i]^k => ... * f[i]^k * f[j]
-                self.queue.push(Multiple(n * self.facts[j], j));
+                self.heap.push(Multiple(n * self.facts[j], j));
             }
             n
         })
@@ -94,29 +94,29 @@ impl Ord for RadValue {
 
 struct RadValues {
     prime: Prime,
-    queue: PriorityQueue<RadValue>
+    heap: BinaryHeap<RadValue>
 }
 
 impl RadValues {
     #[inline]
     fn new() -> RadValues {
-        let mut queue = PriorityQueue::new();
-        queue.push(RadValue(1, vec![], 0));
-        RadValues { prime: Prime::new(), queue: queue }
+        let mut heap = BinaryHeap::new();
+        heap.push(RadValue(1, vec![], 0));
+        RadValues { prime: Prime::new(), heap: heap }
     }
 }
 
 impl Iterator<(uint, Vec<uint>)> for RadValues {
     #[inline]
     fn next(&mut self) -> Option<(uint, Vec<uint>)> {
-        self.queue.pop().map(|RadValue(n, facts, i)| {
+        self.heap.pop().map(|RadValue(n, facts, i)| {
             let p = self.prime.nth(i);
 
             // n = ... * p[i-1] => ... * p[i-1] * p[i] (append p[i])
             {
                 let mut v = facts.clone();
                 v.push(p);
-                self.queue.push(RadValue(n * p, v, i + 1));
+                self.heap.push(RadValue(n * p, v, i + 1));
             }
 
             if !facts.is_empty() {
@@ -125,7 +125,7 @@ impl Iterator<(uint, Vec<uint>)> for RadValues {
                 let mut next_facts = facts.clone();
                 let len = next_facts.len();
                 next_facts[len - 1] = p;
-                self.queue.push(RadValue(p * n / last, next_facts, i + 1));
+                self.heap.push(RadValue(p * n / last, next_facts, i + 1));
             }
 
             (n, facts)

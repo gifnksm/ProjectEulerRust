@@ -5,7 +5,7 @@ extern crate math;
 
 use std::num;
 use std::iter::{AdditiveIterator, Filter, SkipWhile};
-use std::collections::priority_queue::PriorityQueue;
+use std::collections::BinaryHeap;
 use math::numconv;
 
 pub const EXPECTED_ANSWER: &'static str = "248155780267521";
@@ -36,24 +36,24 @@ impl Ord for Power {
 }
 
 struct Powers {
-    queue: PriorityQueue<Power>
+    heap: BinaryHeap<Power>
 }
 
 impl Powers {
     #[inline]
     fn new() -> Powers {
-        let mut queue = PriorityQueue::new();
-        queue.push(Power(4, 2, 2));
-        Powers { queue: queue }
+        let mut heap = BinaryHeap::new();
+        heap.push(Power(4, 2, 2));
+        Powers { heap: heap }
     }
 }
 
 impl Iterator<(uint, uint, uint)> for Powers {
     #[inline]
     fn next(&mut self) -> Option<(uint, uint, uint)> {
-        let Power(n, b, e) = self.queue.pop().unwrap();
-        if b == 2 { self.queue.push(Power(n * b, b, e + 1)); }
-        self.queue.push(Power(num::pow(b + 1, e), b + 1, e));
+        let Power(n, b, e) = self.heap.pop().unwrap();
+        if b == 2 { self.heap.push(Power(n * b, b, e + 1)); }
+        self.heap.push(Power(num::pow(b + 1, e), b + 1, e));
         Some((n, b, e))
     }
 }

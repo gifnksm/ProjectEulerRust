@@ -2,7 +2,7 @@
 #![crate_type = "rlib"]
 
 extern crate math;
-use std::collections::priority_queue::PriorityQueue;
+use std::collections::BinaryHeap;
 use math::prime::Prime;
 
 pub const EXPECTED_ANSWER: &'static str = "9350130049860600";
@@ -33,11 +33,11 @@ pub fn solve() -> String {
     let limit = 4000000;
 
     let prime = Prime::new();
-    let mut queue = PriorityQueue::new();
-    queue.push(Elem(2u, vec![1u]));
+    let mut heap = BinaryHeap::new();
+    heap.push(Elem(2u, vec![1u]));
 
     loop {
-        let Elem(n, mut pairs) = queue.pop().unwrap();
+        let Elem(n, mut pairs) = heap.pop().unwrap();
         let num_sol = (pairs.iter().fold(1, |n, &i| n * (2 * i + 1)) + 1) / 2;
         if num_sol > limit {
             return n.to_string();
@@ -45,9 +45,9 @@ pub fn solve() -> String {
         if pairs.len() == 1 || pairs[pairs.len() - 1] < pairs[pairs.len() - 2] {
             let mut new_pairs = pairs.clone();
             new_pairs[pairs.len() - 1] += 1;
-            queue.push(Elem(n * prime.nth(pairs.len() - 1), new_pairs));
+            heap.push(Elem(n * prime.nth(pairs.len() - 1), new_pairs));
         }
         pairs.push(1);
-        queue.push(Elem(n * prime.nth(pairs.len() - 1), pairs));
+        heap.push(Elem(n * prime.nth(pairs.len() - 1), pairs));
     }
 }

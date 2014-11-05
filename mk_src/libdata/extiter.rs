@@ -1,4 +1,4 @@
-use std::collections::bitv::BitvSet;
+use std::collections::BitvSet;
 
 pub struct Comb {
     consumed: bool,

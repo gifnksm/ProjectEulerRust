@@ -2,7 +2,7 @@
 #![crate_type = "rlib"]
 
 
-use std::collections::priority_queue::PriorityQueue;
+use std::collections::BinaryHeap;
 
 pub const EXPECTED_ANSWER: &'static str = "20313839404245";
 
@@ -105,14 +105,14 @@ impl SSSElem {
 
 #[inline(always)]
 fn each_sss(f: |&SSSElem| -> bool) -> bool {
-    let mut pq = PriorityQueue::new();
-    pq.push(SSSElem::new_pair(1, 2));
+    let mut heap = BinaryHeap::new();
+    heap.push(SSSElem::new_pair(1, 2));
     loop {
-        match pq.pop() {
+        match heap.pop() {
             Some(e) => {
                 if !f(&e) { return false; }
                 e.each_next(|next| {
-                    pq.push(next);
+                    heap.push(next);
                     true
                 });
             }

@@ -3,7 +3,7 @@
 
 extern crate data;
 
-use std::collections::bitv::BitvSet;
+use std::collections::BitvSet;
 use data::extiter::Comb;
 
 pub const EXPECTED_ANSWER: &'static str = "1217";
