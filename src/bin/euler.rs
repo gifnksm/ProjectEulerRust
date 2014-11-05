@@ -14,21 +14,11 @@ use std::io::{Command, MemReader};
 use std::io::process::ExitStatus;
 use std::str::{MaybeOwned, SendStr};
 use glob::Paths;
-use num::Integer;
 use serialize::{json, Decodable};
-use term::{color, Terminal};
 use term::color::Color;
 use common::SolverResult;
 
 const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
-
-const NSEC_PER_SEC:    u64 = 1000000000;
-const NSEC_WARN_LIMIT: u64 = 1  * NSEC_PER_SEC;
-const NSEC_NG_LIMIT:   u64 = 10 * NSEC_PER_SEC;
-
-const COLOR_OK:   Color = color::GREEN;
-const COLOR_NG:   Color = color::RED;
-const COLOR_WARN: Color = color::YELLOW;
 
 macro_rules! try2(
     ($e:expr) => (try!($e.map_err(|e| e.to_program_error())))
@@ -107,7 +97,7 @@ fn problem_paths(dir_path: Path) -> ProgramResult<Paths> {
 }
 
 fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
-    let proc_out = try2!(Command::new(path).output());
+    let proc_out = try2!(Command::new(path).arg("--json").output());
 
     if !proc_out.error.is_empty() {
         let _ = match str::from_utf8(proc_out.error[]) {
@@ -127,99 +117,28 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
     Ok(try2!(Decodable::decode(&mut json::Decoder::new(json))))
 }
 
-fn print_items<'a>(items: &[OutputPair]) {
-    match term::stdout() {
-        None => {
-            let mut out = io::stdout();
-            for &(_, ref s) in items.iter() {
-                let _ = out.write_str(s.as_slice());
-            }
-            let _ = out.flush();
-        }
-        Some(mut t) => {
-            for &(c, ref s) in items.iter() {
-                match c {
-                    Some(c) => {
-                        let _ = t.fg(c);
-                        let _ = t.write_str(s.as_slice());
-                        let _ = t.reset();
-                    }
-                    None => {
-                        let _ = t.write_str(s.as_slice());
-                    }
-                }
-            }
-            let _ = t.flush();
-        }
-    }
-}
-
-fn print_result(name: &str, result: ProgramResult<SolverResult<String>>, enable_time_color: bool) {
-    let mut items = vec![];
-    match result {
-        Ok(r) => {
-            items.push(normal("["));
-            if r.is_ok {
-                items.push(ok("OK"));
-            } else {
-                items.push(ng("NG"));
-                os::set_exit_status(1);
-            }
-            items.push(normal("] "));
-            items.push(normal(format!("{:5} ", name)));
-            items.push(normal(format!("{:20} ", r.answer)));
-            let (sec, nsec) = r.time.div_rem(&NSEC_PER_SEC);
-            let time_str = format!("{:3}.{:09}", sec, nsec);
-            if !enable_time_color || r.time < NSEC_WARN_LIMIT {
-                items.push(normal(time_str));
-            } else if r.time < NSEC_NG_LIMIT {
-                items.push(warn(time_str));
-            } else {
-                items.push(ng(time_str));
-            }
-        }
-        Err(e) => {
-            items.push(normal("["));
-            items.push(ng("!!"));
-            items.push(normal("] "));
-            items.push(normal(format!("{:5} ", name)));
-            items.push(normal(format!("{}", e)));
-            os::set_exit_status(1);
-        }
-    }
-    items.push(normal("\n"));
-    print_items(items[]);
-
-    fn normal<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
-        (None, s.into_maybe_owned())
-    }
-    fn ok<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
-        (Some(COLOR_OK), s.into_maybe_owned())
-    }
-    fn warn<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
-        (Some(COLOR_WARN), s.into_maybe_owned())
-    }
-    fn ng<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
-        (Some(COLOR_NG), s.into_maybe_owned())
-    }
-}
-
 fn run() -> ProgramResult<()> {
     let dir_path = try!(exe_path()).dir_path();
+    let mut out = io::stdout();
 
     let mut is_ok = true;
     let mut num_prob = 0;
     let mut total_time = 0;
     for path in try!(problem_paths(dir_path)) {
-        let result = run_problem(&path);
-        if let Ok(ref r) = result {
-            num_prob   += 1;
-            total_time += r.time;
-            is_ok &= r.is_ok;
-        } else {
-            is_ok = false;
+        let program = format!("{}", path.filename_display());
+
+        match run_problem(&path) {
+            Ok(ref r) => {
+                num_prob   += 1;
+                total_time += r.time;
+                is_ok &= r.is_ok;
+                let _ = r.print_pretty(program[], true);
+            }
+            Err(e) => {
+                is_ok = false;
+                let _ = writeln!(out, "{}: {}", program, e);
+            }
         }
-        print_result(format!("{}", path.filename_display())[], result, true);
     }
 
     if num_prob > 0 {
@@ -228,14 +147,18 @@ fn run() -> ProgramResult<()> {
             answer: "".to_string(),
             is_ok: is_ok
         };
-        print_result("AVG", Ok(r), true);
+        let _ = r.print_pretty(" AVG", true);
 
         let r = SolverResult {
             time: total_time,
             answer: "".to_string(),
             is_ok: is_ok
         };
-        print_result("TOTAL", Ok(r), false);
+        let _ = r.print_pretty(" SUM", false);
+    }
+
+    if !is_ok {
+        os::set_exit_status(1);
     }
 
     Ok(())

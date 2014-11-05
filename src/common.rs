@@ -4,15 +4,32 @@
 #![feature(macro_rules, slicing_syntax)]
 
 extern crate curl;
-extern crate time;
+extern crate getopts;
+extern crate num;
 extern crate serialize;
+extern crate term;
+extern crate time;
 
 use std::error::{Error, FromError};
 use std::{fmt, os};
 use std::io::{mod, IoResult, File};
 use std::io::fs::{mod, PathExtensions};
+use std::str::MaybeOwned;
 use curl::http;
-use serialize::json;
+use num::Integer;
+use serialize::{json, Encodable};
+use term::{color, Terminal};
+use term::color::Color;
+
+type OutputPair<'a> = (Option<Color>, MaybeOwned<'a>);
+
+const NSEC_PER_SEC:    u64 = 1000000000;
+const NSEC_WARN_LIMIT: u64 = 1  * NSEC_PER_SEC;
+const NSEC_NG_LIMIT:   u64 = 10 * NSEC_PER_SEC;
+
+const COLOR_OK:   Color = color::GREEN;
+const COLOR_NG:   Color = color::RED;
+const COLOR_WARN: Color = color::YELLOW;
 
 enum SolverError {
     Io(io::IoError),
@@ -65,6 +82,88 @@ pub struct SolverResult<T> {
     pub is_ok: bool
 }
 
+impl<'a, T: Encodable<json::Encoder<'a>, io::IoError>> SolverResult<T> {
+    pub fn print_json<W: Writer>(&self, out: &mut W) -> IoResult<()> {
+        out.write_line(json::encode(self)[])
+    }
+}
+
+fn print_items(items: &[OutputPair]) {
+    match term::stdout() {
+        None => {
+            let mut out = io::stdout();
+            for &(_, ref s) in items.iter() {
+                let _ = out.write_str(s.as_slice());
+            }
+            let _ = out.flush();
+        }
+        Some(mut t) => {
+            for &(c, ref s) in items.iter() {
+                match c {
+                    Some(c) => {
+                        let _ = t.fg(c);
+                        let _ = t.write_str(s.as_slice());
+                        let _ = t.reset();
+                    }
+                    None => {
+                        let _ = t.write_str(s.as_slice());
+                    }
+                }
+            }
+            let _ = t.flush();
+        }
+    }
+}
+
+impl<T: fmt::Show> SolverResult<T> {
+    pub fn print_pretty(&self, name: &str, enable_time_color: bool) -> IoResult<()> {
+        let mut items = vec![];
+        if self.is_ok {
+            items.push(normal(format!("{} ", name)));
+        } else {
+            items.push(normal(format!("{} ", name)));
+        }
+
+        items.push(normal("["));
+        if self.is_ok {
+            items.push(ok("OK"));
+        } else {
+            items.push(ng("NG"));
+        }
+        items.push(normal("] "));
+
+        let (sec, nsec) = self.time.div_rem(&NSEC_PER_SEC);
+        let time_str = format!("{:3}.{:09} ", sec, nsec);
+        if !enable_time_color || self.time < NSEC_WARN_LIMIT {
+            items.push(normal(time_str));
+        } else if self.time < NSEC_NG_LIMIT {
+            items.push(warn(time_str));
+        } else {
+            items.push(ng(time_str));
+        }
+
+        items.push(normal(format!("{} ", self.answer)));
+
+        items.push(normal("\n"));
+        print_items(items[]);
+
+        fn normal<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
+            (None, s.into_maybe_owned())
+        }
+        fn ok<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
+            (Some(COLOR_OK), s.into_maybe_owned())
+        }
+        fn warn<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
+            (Some(COLOR_WARN), s.into_maybe_owned())
+        }
+        fn ng<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
+            (Some(COLOR_NG), s.into_maybe_owned())
+        }
+
+        Ok(())
+    }
+}
+
 enum SolverFn<'a> {
     FnOnly(fn() -> String),
     FnWithFile(&'a str, fn(File) -> IoResult<String>)
@@ -87,16 +186,43 @@ impl<'a> Solver<'a> {
     }
 
     pub fn run(self) {
+        let args = os::args();
+        let program = &args[0];
+
+        let opts = [
+            getopts::optflag("", "json", "Output JSON format"),
+            getopts::optflag("h", "help", "Display this message")
+        ];
+
+        let matches = match getopts::getopts(args[1 ..], opts) {
+            Ok(m) => m,
+            Err(f) => {
+                let _ = writeln!(&mut io::stderr(), "{}: {}", program, f);
+                os::set_exit_status(255);
+                return
+            }
+        };
+
+        if matches.opt_present("h") {
+            let short = getopts::short_usage(program[], opts);
+            println!("{}", getopts::usage(short[], opts));
+            return
+        }
+
         match self.solve() {
             Err(err) => {
-                let _ = writeln!(&mut io::stderr(), "{}: {}", os::args()[0], err);
+                let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
                 os::set_exit_status(255);
             }
             Ok(result) => {
                 if !result.is_ok {
                     os::set_exit_status(1);
                 }
-                io::stdio::println(json::encode(&result)[]);
+                if matches.opt_present("json") {
+                    let _ = result.print_json(&mut io::stdout());
+                } else {
+                    let _ = result.print_pretty(program[], true);
+                }
             }
         }
     }
