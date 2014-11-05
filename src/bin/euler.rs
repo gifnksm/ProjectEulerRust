@@ -18,7 +18,7 @@ use num::Integer;
 use serialize::{json, Decodable};
 use term::{color, Terminal};
 use term::color::Color;
-use common::SolveResult;
+use common::SolverResult;
 
 const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
 
@@ -106,7 +106,7 @@ fn problem_paths(dir_path: Path) -> ProgramResult<Paths> {
     }
 }
 
-fn run_problem(path: &Path) -> ProgramResult<SolveResult<String>> {
+fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
     let proc_out = try2!(Command::new(path).output());
 
     if !proc_out.error.is_empty() {
@@ -154,7 +154,7 @@ fn print_items<'a>(items: &[OutputPair]) {
     }
 }
 
-fn print_result(name: &str, result: ProgramResult<SolveResult<String>>, enable_time_color: bool) {
+fn print_result(name: &str, result: ProgramResult<SolverResult<String>>, enable_time_color: bool) {
     let mut items = vec![];
     match result {
         Ok(r) => {
@@ -223,14 +223,14 @@ fn run() -> ProgramResult<()> {
     }
 
     if num_prob > 0 {
-        let r = SolveResult {
+        let r = SolverResult {
             time: total_time / num_prob,
             answer: "".to_string(),
             is_ok: is_ok
         };
         print_result("AVG", Ok(r), true);
 
-        let r = SolveResult {
+        let r = SolverResult {
             time: total_time,
             answer: "".to_string(),
             is_ok: is_ok

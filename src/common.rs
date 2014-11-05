@@ -7,51 +7,59 @@ extern crate curl;
 extern crate time;
 extern crate serialize;
 
-use std::os;
+use std::error::{Error, FromError};
+use std::{fmt, os};
 use std::io::{mod, IoResult, File};
 use std::io::fs::{mod, PathExtensions};
 use curl::http;
 use serialize::json;
 
-macro_rules! try2(
-    ($e:expr) => (try!($e.map_err(|e| e.to_solver_error())))
-)
-
-#[deriving(Show)]
-enum SolverErrorKind {
-    HttpError(curl::ErrCode),
-    IoError(io::IoErrorKind)
+enum SolverError {
+    Io(io::IoError),
+    Http(curl::ErrCode)
 }
 
-#[deriving(Show)]
-struct SolverError {
-    kind: SolverErrorKind,
-    desc: Option<&'static str>,
-    detail: Option<String>
+impl FromError<io::IoError> for SolverError {
+    fn from_error(err: io::IoError) -> SolverError { Io(err) }
+}
+impl FromError<curl::ErrCode> for SolverError {
+    fn from_error(err: curl::ErrCode) -> SolverError { Http(err) }
 }
 
-trait ToSolverError {
-    fn to_solver_error(self) -> SolverError;
-}
+impl Error for SolverError {
+    fn description(&self) -> &str {
+        match *self {
+            Io(ref err) => err.description(),
+            Http(ref err) => err.description()
+        }
+    }
 
-impl ToSolverError for curl::ErrCode {
-    fn to_solver_error(self) -> SolverError {
-        SolverError { kind: HttpError(self), desc: None, detail: None }
+    fn detail(&self) -> Option<String> {
+        match *self {
+            Io(ref err) => err.detail(),
+            Http(ref err) => err.detail()
+        }
+    }
+
+    fn cause(&self) -> Option<&Error> {
+        match *self {
+            Io(ref err) => Some(err as &Error),
+            Http(ref err) => Some(err as &Error)
+        }
     }
 }
 
-impl ToSolverError for io::IoError {
-    fn to_solver_error(self) -> SolverError {
-        SolverError {
-            kind: IoError(self.kind),
-            desc: Some(self.desc),
-            detail: self.detail
+impl fmt::Show for SolverError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            Io(ref err) => write!(f, "{}", err),
+            Http(ref err) => write!(f, "{}", err)
         }
     }
 }
 
 #[deriving(Show, Encodable, Decodable)]
-pub struct SolveResult<T> {
+pub struct SolverResult<T> {
     pub time: u64,
     pub answer: T,
     pub is_ok: bool
@@ -79,39 +87,36 @@ impl<'a> Solver<'a> {
     }
 
     pub fn run(self) {
+        match self.solve() {
+            Err(err) => {
+                let _ = writeln!(&mut io::stderr(), "{}: {}", os::args()[0], err);
+                os::set_exit_status(255);
+            }
+            Ok(result) => {
+                if !result.is_ok {
+                    os::set_exit_status(1);
+                }
+                io::stdio::println(json::encode(&result)[]);
+            }
+        }
+    }
+
+    fn solve(&self) -> Result<SolverResult<String>, SolverError> {
         let (time, answer) = match self.solver {
             FnOnly(fun) => bench(proc() fun()),
             FnWithFile(file_name, fun) => {
-                let file = match setup_file(file_name) {
-                    Ok(file) => file,
-                    Err(e) => {
-                        let _ = writeln!(&mut io::stderr(), "{}", e);
-                        os::set_exit_status(255);
-                        return
-                    }
-                };
-                match bench(proc() fun(file)) {
-                    (_, Err(e)) => {
-                        let _ = writeln!(&mut io::stderr(), "{}", e);
-                        os::set_exit_status(255);
-                        return
-                    }
-                    (time, Ok(anser)) => (time, anser)
-                }
+                let file = try!(setup_file(file_name));
+                let (time, answer) = bench(proc() fun(file));
+                (time, try!(answer))
             }
         };
 
-        let is_ok = answer[] == self.answer;
-        let result = SolveResult {
+        let result = SolverResult {
+            is_ok:  answer[] == self.answer,
             time:   time,
-            answer: answer,
-            is_ok:  is_ok
+            answer: answer
         };
-        io::stdio::println(json::encode(&result)[]);
-
-        if !is_ok {
-            os::set_exit_status(1);
-        }
+        Ok(result)
     }
 }
 
@@ -127,13 +132,13 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
     let path = Path::new(format!(".cache/{}", file_name));
     if !path.is_file() {
         let dir_path = path.dir_path();
-        try2!(fs::mkdir_recursive(&dir_path, io::USER_RWX));
-        let mut file = try2!(File::create(&path));
-        let content = try2!(download(file_name));
-        try2!(file.write(content[]));
+        try!(fs::mkdir_recursive(&dir_path, io::USER_RWX));
+        let mut file = try!(File::create(&path));
+        let content = try!(download(file_name));
+        try!(file.write(content[]));
     }
 
-    let file = try2!(File::open(&path));
+    let file = try!(File::open(&path));
     Ok(file)
 }
 
