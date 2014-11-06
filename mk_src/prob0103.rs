@@ -91,7 +91,7 @@ impl SSSElem {
             if a == b - 1 && !f(SSSElem::new_pair(a + 1, b + 1)) { return false; }
         }
 
-        for n in range(self.sss.last().unwrap() + 1, self.max_addable() + 1) {
+        for n in range(*self.sss.last().unwrap() + 1, self.max_addable() + 1) {
             match self.add_num(n) {
                 Some(x) => {
                     if !f(x) { return false; }

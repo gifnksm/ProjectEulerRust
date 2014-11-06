@@ -26,12 +26,12 @@ fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
 
 #[inline(always)]
 fn mul_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
-    (a * *b) % *unit
+    (*a * *b) % *unit
 }
 
 #[inline(always)]
 fn add_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
-    (a + *b) % *unit
+    (*a + *b) % *unit
 }
 
 pub fn solve() -> String {

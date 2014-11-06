@@ -75,7 +75,7 @@ version = "0.0.1"
 [[package]]
 name = "num"
 version = "0.0.1"
-source = "git+https://github.com/rust-lang/num#b27db913131fc3316d2634aa5e7fcd6222ee8bb9"
+source = "git+https://github.com/rust-lang/num#c694115f92a0859d083a602740ef044a20e9aab6"
 
 [[package]]
 name = "prime"
@@ -94,7 +94,7 @@ dependencies = [
 [[package]]
 name = "url"
 version = "0.1.0"
-source = "git+https://github.com/servo/rust-url#9142b86a812ac5bc886f76235585557d8e002246"
+source = "git+https://github.com/servo/rust-url#cec3c32168ce4233e179f22ef50215b3a9c34342"
 dependencies = [
  "encoding 0.2.0 (git+https://github.com/lifthrasiir/rust-encoding)",
 ]
