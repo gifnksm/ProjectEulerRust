@@ -9,7 +9,7 @@ pub const EXPECTED_ANSWER: &'static str = "16475640049";
 
 pub fn get_cnt(n: uint, m: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     let mut sum = 0;
-    match map.find(&(n, m)) {
+    match map.get(&(n, m)) {
         Some(&x) => return x,
         None     => {}
     }

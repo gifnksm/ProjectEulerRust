@@ -34,7 +34,7 @@ impl<T: Hash + Eq + Clone> Relations<T> {
         }
 
         let mut contained = true;
-        match self.top.find_mut(&prec) {
+        match self.top.get_mut(&prec) {
             Some(s) => {
                 if !s.succ.contains(&succ) {
                     s.succ.insert(succ.clone());
@@ -44,7 +44,7 @@ impl<T: Hash + Eq + Clone> Relations<T> {
             None => { panic!() }
         }
         if !contained {
-            match self.top.find_mut(&succ) {
+            match self.top.get_mut(&succ) {
                 Some(p) => { p.num_prec += 1; }
                 None => { panic!(); }
             }
@@ -61,9 +61,9 @@ impl<T: Hash + Eq + Clone> Relations<T> {
 
     fn delete_and_find(&mut self, prec: T) -> Vec<T> {
         let mut result = Vec::new();
-        self.top.pop(&prec).map(|p| {
+        self.top.remove(&prec).map(|p| {
             for s in p.succ.iter() {
-                match self.top.find_mut(s) {
+                match self.top.get_mut(s) {
                     Some(y) => {
                         y.num_prec -= 1;
                         if y.num_prec == 0 {

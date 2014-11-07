@@ -37,7 +37,7 @@ fn get_chain_len(
             Loop(c)  => { loop_len += c;  break; }
             Chain(c) => { chain_len += c; break; }
             Unknown  => {
-                match chain_map.find(&idx) {
+                match chain_map.get(&idx) {
                     Some(&chain_idx) => {
                         loop_len  = chain_len - chain_idx;
                         chain_len = chain_idx;

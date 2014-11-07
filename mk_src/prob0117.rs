@@ -8,7 +8,7 @@ use std::collections::HashMap;
 pub const EXPECTED_ANSWER: &'static str = "100808458960497";
 
 fn count(len: uint, map: &mut HashMap<uint, uint>) -> uint {
-    match map.find(&len) {
+    match map.get(&len) {
         Some(&x) => return x,
         None => {}
     }

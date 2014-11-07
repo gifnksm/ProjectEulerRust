@@ -26,7 +26,7 @@ pub fn solve() -> String {
         let mut ds = numconv::to_digits(cube, 10).collect::<Vec<uint>>();
         ds.sort();
 
-        let v = match map.pop(&ds) {
+        let v = match map.remove(&ds) {
             Some(mut nums) => { nums.push(cube); nums },
             None => vec!(cube)
         };

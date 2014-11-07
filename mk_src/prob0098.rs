@@ -42,7 +42,7 @@ pub fn solve() -> String {
         for &word in words.iter() {
             let mut cs = word.chars().collect::<Vec<char>>();
             cs.sort();
-            match map.pop(&cs) {
+            match map.remove(&cs) {
                 None => { map.insert(cs, vec!(word.to_string())); }
                 Some(mut ws) => {
                     ws.push(word.to_string());

@@ -33,7 +33,7 @@ fn count_way(prime: &Prime, sum: uint, map: &mut HashMap<(uint, uint), uint>) ->
                 break;
             }
 
-            cnt += match map.find(&(sum - p, i)) {
+            cnt += match map.get(&(sum - p, i)) {
                 Some(&n) => n,
                 None     => count_sub(prime, sum - p, i, map)
             };

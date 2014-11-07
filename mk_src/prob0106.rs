@@ -86,7 +86,7 @@ fn f(i: uint, j: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
         _ => {}
     }
 
-    match map.find(&(i, j)) {
+    match map.get(&(i, j)) {
         Some(n) => return *n,
         None => {}
     }

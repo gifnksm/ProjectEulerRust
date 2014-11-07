@@ -17,8 +17,8 @@ fn num_sum_pythagorean(limit: uint) -> HashMap<uint, uint> {
         for (a, b, c) in PrimitivePythagoreans::new(m) {
             let s = a + b + c;
             for k in range(1, limit / s + 1) {
-                let new_val = map.find(&(k * s)).map_or(1, |&v| v + 1);
-                map.insert(k * s, new_val);
+                let new_val = map.get(&(k * s)).map_or(1, |&v| v + 1);
+                let _ = map.insert(k * s, new_val);
             }
         }
     }
