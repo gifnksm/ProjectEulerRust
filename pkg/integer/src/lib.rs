@@ -9,7 +9,7 @@ extern crate num;
 use std::num::{One, Zero};
 
 /// Extension methods for num::Integer trait.
-pub trait Integer: num::Integer + Clone {
+pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
 
     /// Divide two numbers, return the result, rounded up.
     ///
@@ -69,6 +69,26 @@ pub trait Integer: num::Integer + Clone {
     #[inline]
     fn into_digits(self, radix: Self) -> Digits<Self> {
         Digits::new(self, radix)
+    }
+
+    /// Creates a histogram of the number.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use integer::Integer;
+    /// assert!([0, 1, 1, 1, 0, 0, 0, 0, 0, 0] == 123u.into_digit_histogram());
+    /// assert!([0, 3, 0, 0, 0, 0, 0, 0, 0, 0] == 111u.into_digit_histogram());
+    /// assert!([0, 0, 0, 0, 0, 0, 0, 0, 0, 0] == 0u.into_digit_histogram());
+    /// ```
+    #[inline]
+    fn into_digit_histogram(self) -> [uint, .. 10] {
+        let mut hist = [0, .. 10];
+        let ten = FromPrimitive::from_uint(10).unwrap();
+        for d in self.into_digits(ten) {
+            hist[d.to_uint().unwrap()] += 1;
+        }
+        hist
     }
 
     /// Creates an integer from an iterator to enumerate each digit from the lower.
@@ -182,6 +202,28 @@ pub trait Integer: num::Integer + Clone {
         }
         p
     }
+
+    /// Takes the modular exponentation of the number.
+    fn mod_pow(&self, exp: &Self, modulo: &Self) -> Self {
+        let zero = Zero::zero();
+        let one: Self  = One::one();
+        let two: Self  = one + one;
+        if *self == zero { return zero }
+
+        let mut result = one;
+        let mut base   = self.clone();
+        let mut exp    = exp.clone();
+        let     modulo = modulo.clone();
+
+        while exp > zero {
+            if exp.is_odd() {
+                result = (result * base) % modulo;
+            }
+            exp = exp / two;
+            base = (base * base) % modulo;
+        }
+        result
+    }
 }
 
 impl Integer for num::BigUint {}
@@ -241,6 +283,7 @@ impl<T: num::Integer> DoubleEndedIterator<T> for Digits<T> {
 #[cfg(test)]
 mod tests {
     use super::Integer;
+    use std::num as snum;
     use num::Integer as NumInteger;
 
     #[test]
@@ -318,5 +361,16 @@ mod tests {
         assert!(!123i.is_palindromic(10));
         assert!(1221i.is_palindromic(10));
         assert!(12321i.is_palindromic(10));
+    }
+
+    #[test]
+    fn mod_pow() {
+        for b in range(1u, 10) {
+            for e in range(0u, 5) {
+                for r in range(10u, 100) {
+                    assert_eq!(snum::pow(b, e) % r, b.mod_pow(&e, &r));
+                }
+            }
+        }
     }
 }
