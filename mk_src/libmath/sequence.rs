@@ -1,22 +1,4 @@
-use std::mem;
-use std::num::One;
 use num::Integer;
-
-pub fn triangle<T: One + Add<T, T>>() -> Triangle<T> {
-    let one: T = One::one();
-    Triangle { diff: one + one, next: one }
-}
-
-pub struct Triangle<T> { diff: T, next: T }
-
-impl<T: Add<T, T> + One> Iterator<T> for Triangle<T> {
-    #[inline]
-    fn next(&mut self) -> Option<T> {
-        let new_next = self.next + self.diff;
-        self.diff = self.diff + One::one();
-        Some(mem::replace(&mut self.next, new_next))
-    }
-}
 
 pub fn prim_pythagorean(m: uint) -> PrimPythagoreanIterator {
     let n0 = if m.is_even() { 1 } else { 2 };
@@ -51,12 +33,6 @@ mod tests {
     use std::fmt;
     fn check<T: Eq + fmt::Show, I: Iterator<T>>(expected: &[T], mut it: I) {
         assert_eq!(expected, it.collect::<Vec<_>>().as_slice());
-    }
-
-    #[test]
-    fn test_triangle() {
-        let tri = &[1u, 3, 6, 10, 15, 21];
-        check(tri, super::triangle::<uint>().take(tri.len()));
     }
 
     #[test]
