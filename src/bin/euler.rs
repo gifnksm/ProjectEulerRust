@@ -1,10 +1,10 @@
-#![warn(unused, bad_style,
-        unused_qualifications, unused_typecasts, unused_results)]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
 #![feature(if_let, macro_rules, slicing_syntax)]
 
 extern crate glob;
-extern crate num;
 extern crate serialize;
 extern crate term;
 extern crate common;
