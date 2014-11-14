@@ -6,14 +6,17 @@ authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
 [lib]
 name = "common"
 
+[dependencies.curl]
+git = "https://github.com/carllerche/curl-rust"
+
 [dependencies.glob]
 git = "https://github.com/rust-lang/glob"
 
 [dependencies.num]
 git = "https://github.com/rust-lang/num"
 
-[dependencies.curl]
-git = "https://github.com/carllerche/curl-rust"
+[dependencies.time]
+git = "https://github.com/rust-lang/time"
 
 [dependencies.seq]
 path = "./pkg/seq"

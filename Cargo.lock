@@ -9,6 +9,7 @@ dependencies = [
  "num 0.0.1 (git+https://github.com/rust-lang/num)",
  "prime 0.0.1",
  "seq 0.0.1",
+ "time 0.0.1 (git+https://github.com/rust-lang/time)",
 ]
 
 [[package]]
@@ -57,6 +58,11 @@ version = "1.0.20140915"
 source = "git+https://github.com/lifthrasiir/rust-encoding#841527086854d6958cd1008dabd2b69865c36267"
 
 [[package]]
+name = "gcc"
+version = "0.0.1"
+source = "git+https://github.com/alexcrichton/gcc-rs#f23b4ba15348508b9ac557fc7eed2733f65bc1ee"
+
+[[package]]
 name = "glob"
 version = "0.0.1"
 source = "git+https://github.com/rust-lang/glob#a469534627dec112d371f5acb95a561ea8940e69"
@@ -89,6 +95,14 @@ name = "seq"
 version = "0.0.1"
 dependencies = [
  "num 0.0.1 (git+https://github.com/rust-lang/num)",
+]
+
+[[package]]
+name = "time"
+version = "0.0.1"
+source = "git+https://github.com/rust-lang/time#76698f52381a78cf654dbedfefd04c28a9806788"
+dependencies = [
+ "gcc 0.0.1 (git+https://github.com/alexcrichton/gcc-rs)",
 ]
 
 [[package]]
