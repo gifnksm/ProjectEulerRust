@@ -3,23 +3,24 @@ install:
   - sudo apt-get install python3
 before_script:
   - wget --no-check-certificate -i ./etc/files.txt -P ./files
-  - make -s depend
+  - make depend
 script:
-  - make -s debug
-  - make -s release
-  - make -s test
-  - make -s bench
-  - make -s doc
+  - make debug
+  - make release
+  - make test
+  - make bench
+  - make doc
   - ./bin/debug/euler
   - ./bin/release/euler
-  - cargo run --name euler
-  - cargo run --name euler --release
-  - cargo test
-  - cargo test -p integer
-  - cargo test -p seq
-  - cargo test -p prime
-  - cargo bench
-  - cargo bench -p integer
-  - cargo bench -p seq
-  - cargo bench -p prime
-  - cargo doc
+  - cargo run --name euler --verbose
+  - cargo run --name euler --release --verbose
+  - cargo test --verbose
+  - cargo test -p integer --verbose
+  - cargo test -p seq --verbose
+  - cargo test -p prime --verbose
+  - cargo bench --verbose
+  - cargo bench -p integer --verbose
+  - cargo bench -p seq --verbose
+  - cargo bench -p prime --verbose
+  - cargo doc --verbose
+
