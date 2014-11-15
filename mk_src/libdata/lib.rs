@@ -4,6 +4,5 @@
 #[cfg(test)]
 extern crate test;
 
-pub mod card;
 pub mod extiter;
 pub mod union_find;

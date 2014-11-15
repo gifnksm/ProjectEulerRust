@@ -18,14 +18,17 @@ git = "https://github.com/rust-lang/num"
 [dependencies.time]
 git = "https://github.com/rust-lang/time"
 
-[dependencies.seq]
-path = "./pkg/seq"
-
-[dependencies.prime]
-path = "./pkg/prime"
-
 [dependencies.integer]
 path = "./pkg/integer"
 
 [dependencies.iter]
 path = "./pkg/iter"
+
+[dependencies.prime]
+path = "./pkg/prime"
+
+[dependencies.playing_card]
+path = "./pkg/playing_card"
+
+[dependencies.seq]
+path = "./pkg/seq"

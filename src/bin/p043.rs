@@ -79,7 +79,7 @@ fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: uint) -> Vec<Pa
     assert!(len > 0);
     let ord = Repeat::new(RADIX as u64).take(len - 1).product();
 
-    let mut result = Vec::new();
+    let mut result = vec![];
     for pd in list.iter() {
         let num = pd.num();
         let ds = num[num.len() - (len - 1) ..];

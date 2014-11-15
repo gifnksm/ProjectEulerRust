@@ -26,7 +26,7 @@ fn compute() -> u64 {
     let mut order = 10;
 
     loop {
-        let mut result = Vec::new();
+        let mut result = vec![];
         for &p in l2r_mat.last().unwrap().iter() {
             // 2 can only be appeared as the most left digits
             if p.into_digits(10).next_back() == Some(2) { continue; }

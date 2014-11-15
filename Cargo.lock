@@ -7,6 +7,7 @@ dependencies = [
  "integer 0.0.1",
  "iter 0.0.1",
  "num 0.0.1 (git+https://github.com/rust-lang/num)",
+ "playing_card 0.0.1",
  "prime 0.0.1",
  "seq 0.0.1",
  "time 0.0.1 (git+https://github.com/rust-lang/time)",
@@ -82,6 +83,10 @@ version = "0.0.1"
 name = "num"
 version = "0.0.1"
 source = "git+https://github.com/rust-lang/num#c694115f92a0859d083a602740ef044a20e9aab6"
+
+[[package]]
+name = "playing_card"
+version = "0.0.1"
 
 [[package]]
 name = "prime"

@@ -1,12 +1,15 @@
-#![crate_name = "prob0053"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-pub const EXPECTED_ANSWER: &'static str = "4075";
+extern crate common;
 
-// nCr-1 = r/(n-r+1) nCr!
+use common::Solver;
+
+// nCr-1 = r/(n-r+1) nCr
 // nCr = n/(n-r) n-1Cr
 // nC(r+1) = (n-r)/(r+1) nCr
-pub fn solve() -> String {
+fn compute() -> uint {
     let limit = 1000000;
 
     let mut r = 0;
@@ -14,6 +17,7 @@ pub fn solve() -> String {
     let mut cnt = 0;
     for n in range(1u, 101) {
         c = c * n / (n - r); // nCr
+
         if c < limit {
             while c < limit {
                 if r == (n + 1) / 2 { break }
@@ -27,8 +31,15 @@ pub fn solve() -> String {
                 r -= 1;
             }
         }
+
         cnt += ((n - r) - r) + 1;
     }
 
-    cnt.to_string()
+    cnt
 }
+
+fn solve() -> String {
+    compute().to_string()
+}
+
+fn main() { Solver::new("4075", solve).run(); }
