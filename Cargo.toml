@@ -13,7 +13,7 @@ git = "https://github.com/carllerche/curl-rust"
 git = "https://github.com/rust-lang/glob"
 
 [dependencies.num]
-git = "https://github.com/rust-lang/num"
+git = "https://github.com/gifnksm/num"
 
 [dependencies.time]
 git = "https://github.com/rust-lang/time"
