@@ -10,13 +10,13 @@ use common::Solver;
 use num::BigUint;
 use integer::Integer;
 
-fn compute(max: uint, modulo: uint) -> uint {
-    let bu_m: BigUint = FromPrimitive::from_uint(modulo).unwrap();
+fn compute(max: uint, modulo: u64) -> u64 {
+    let bu_m: BigUint = FromPrimitive::from_u64(modulo).unwrap();
 
     let mut sum = 0;
     for n in range(1, max + 1) {
         let bu_n: BigUint = FromPrimitive::from_uint(n).unwrap();
-        let pow = bu_n.mod_pow(&bu_n, &bu_m).to_uint().unwrap();
+        let pow = bu_n.mod_pow(&bu_n, &bu_m).to_u64().unwrap();
         sum = (sum + pow) % modulo;
     }
     sum
