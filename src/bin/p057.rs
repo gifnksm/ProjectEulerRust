@@ -1,12 +1,15 @@
-#![crate_name = "prob0057"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
+extern crate common;
 extern crate num;
 
 use std::mem;
+use common::Solver;
 use num::bigint::BigUint;
 
-pub const EXPECTED_ANSWER: &'static str = "153";
+// FIXME: Use cont_frac?
 
 // a[0] = 1 + 1/2
 // a[1] = 1 + 1/(2 + 1/2)
@@ -39,13 +42,15 @@ impl Iterator<(BigUint, BigUint)> for Frac {
     }
 }
 
-pub fn solve() -> String {
+fn solve() -> String {
     Frac::new()
         .take(1000)
         .filter(|&(ref n, ref d)| n.to_string().len() > d.to_string().len())
         .count()
         .to_string()
 }
+
+fn main() { Solver::new("153", solve).run(); }
 
 #[cfg(test)]
 mod tests {
