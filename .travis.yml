@@ -12,8 +12,8 @@ script:
   - make doc
   - ./bin/debug/euler
   - ./bin/release/euler
-  - cargo run --name euler --verbose
-  - cargo run --name euler --release --verbose
+  - cargo run --bin euler --verbose
+  - cargo run --bin euler --release --verbose
   - cargo test --verbose
   - cargo test -p integer --verbose
   - cargo test -p seq --verbose
