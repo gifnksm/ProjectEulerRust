@@ -2,11 +2,11 @@
 name = "ProjectEulerRust"
 version = "0.0.1"
 dependencies = [
- "curl 0.0.1 (git+https://github.com/carllerche/curl-rust)",
+ "curl 0.1.0 (git+https://github.com/carllerche/curl-rust)",
  "glob 0.0.1 (git+https://github.com/rust-lang/glob)",
  "integer 0.0.1",
  "iter 0.0.1",
- "num 0.0.1 (git+https://github.com/rust-lang/num)",
+ "num 0.0.1 (git+https://github.com/gifnksm/num)",
  "playing_card 0.0.1",
  "prime 0.0.1",
  "seq 0.0.1",
@@ -15,16 +15,27 @@ dependencies = [
 
 [[package]]
 name = "curl"
-version = "0.0.1"
-source = "git+https://github.com/carllerche/curl-rust#6fe45af9bf15c3ed60db61eb36bb070869769bba"
+version = "0.1.0"
+source = "git+https://github.com/carllerche/curl-rust#dbd06414ba879572faae75bfd0320a38fbbc3518"
 dependencies = [
+ "curl-sys 0.1.0 (git+https://github.com/carllerche/curl-rust)",
  "url 0.1.0 (git+https://github.com/servo/rust-url)",
+]
+
+[[package]]
+name = "curl-sys"
+version = "0.1.0"
+source = "git+https://github.com/carllerche/curl-rust#dbd06414ba879572faae75bfd0320a38fbbc3518"
+dependencies = [
+ "libz-sys 0.0.1 (git+https://github.com/alexcrichton/libz-sys)",
+ "openssl-sys 0.0.1 (git+https://github.com/alexcrichton/openssl-sys)",
+ "pkg-config 0.0.1 (git+https://github.com/alexcrichton/pkg-config-rs)",
 ]
 
 [[package]]
 name = "encoding"
 version = "0.2.0"
-source = "git+https://github.com/lifthrasiir/rust-encoding#841527086854d6958cd1008dabd2b69865c36267"
+source = "git+https://github.com/lifthrasiir/rust-encoding#d67c864d8dfeb16a00656e9472133b0e2206781f"
 dependencies = [
  "encoding-index-japanese 1.0.20140915 (git+https://github.com/lifthrasiir/rust-encoding)",
  "encoding-index-korean 1.0.20140915 (git+https://github.com/lifthrasiir/rust-encoding)",
@@ -36,32 +47,52 @@ dependencies = [
 [[package]]
 name = "encoding-index-japanese"
 version = "1.0.20140915"
-source = "git+https://github.com/lifthrasiir/rust-encoding#841527086854d6958cd1008dabd2b69865c36267"
+source = "git+https://github.com/lifthrasiir/rust-encoding#d67c864d8dfeb16a00656e9472133b0e2206781f"
+dependencies = [
+ "encoding_index_tests 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding)",
+]
 
 [[package]]
 name = "encoding-index-korean"
 version = "1.0.20140915"
-source = "git+https://github.com/lifthrasiir/rust-encoding#841527086854d6958cd1008dabd2b69865c36267"
+source = "git+https://github.com/lifthrasiir/rust-encoding#d67c864d8dfeb16a00656e9472133b0e2206781f"
+dependencies = [
+ "encoding_index_tests 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding)",
+]
 
 [[package]]
 name = "encoding-index-simpchinese"
 version = "1.0.20140915"
-source = "git+https://github.com/lifthrasiir/rust-encoding#841527086854d6958cd1008dabd2b69865c36267"
+source = "git+https://github.com/lifthrasiir/rust-encoding#d67c864d8dfeb16a00656e9472133b0e2206781f"
+dependencies = [
+ "encoding_index_tests 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding)",
+]
 
 [[package]]
 name = "encoding-index-singlebyte"
 version = "1.0.20140915"
-source = "git+https://github.com/lifthrasiir/rust-encoding#841527086854d6958cd1008dabd2b69865c36267"
+source = "git+https://github.com/lifthrasiir/rust-encoding#d67c864d8dfeb16a00656e9472133b0e2206781f"
+dependencies = [
+ "encoding_index_tests 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding)",
+]
 
 [[package]]
 name = "encoding-index-tradchinese"
 version = "1.0.20140915"
-source = "git+https://github.com/lifthrasiir/rust-encoding#841527086854d6958cd1008dabd2b69865c36267"
+source = "git+https://github.com/lifthrasiir/rust-encoding#d67c864d8dfeb16a00656e9472133b0e2206781f"
+dependencies = [
+ "encoding_index_tests 0.1.0 (git+https://github.com/lifthrasiir/rust-encoding)",
+]
+
+[[package]]
+name = "encoding_index_tests"
+version = "0.1.0"
+source = "git+https://github.com/lifthrasiir/rust-encoding#d67c864d8dfeb16a00656e9472133b0e2206781f"
 
 [[package]]
 name = "gcc"
 version = "0.0.1"
-source = "git+https://github.com/alexcrichton/gcc-rs#f23b4ba15348508b9ac557fc7eed2733f65bc1ee"
+source = "git+https://github.com/alexcrichton/gcc-rs#f25b3ba9c40303781189cc137fb98fffe5b56de7"
 
 [[package]]
 name = "glob"
@@ -72,7 +103,7 @@ source = "git+https://github.com/rust-lang/glob#a469534627dec112d371f5acb95a561e
 name = "integer"
 version = "0.0.1"
 dependencies = [
- "num 0.0.1 (git+https://github.com/rust-lang/num)",
+ "num 0.0.1 (git+https://github.com/gifnksm/num)",
 ]
 
 [[package]]
@@ -80,9 +111,30 @@ name = "iter"
 version = "0.0.1"
 
 [[package]]
+name = "libz-sys"
+version = "0.0.1"
+source = "git+https://github.com/alexcrichton/libz-sys#37926b786b09e013e5fd64cc278b3df1b49c4fbe"
+dependencies = [
+ "pkg-config 0.0.1 (git+https://github.com/alexcrichton/pkg-config-rs)",
+]
+
+[[package]]
 name = "num"
 version = "0.0.1"
-source = "git+https://github.com/rust-lang/num#c694115f92a0859d083a602740ef044a20e9aab6"
+source = "git+https://github.com/gifnksm/num#3568298a223196d64608819eb7dc017d022e7f51"
+
+[[package]]
+name = "openssl-sys"
+version = "0.0.1"
+source = "git+https://github.com/alexcrichton/openssl-sys#d66fe8400ab3cbb79ed405e26ae19c0d0cc20931"
+dependencies = [
+ "pkg-config 0.0.1 (git+https://github.com/alexcrichton/pkg-config-rs)",
+]
+
+[[package]]
+name = "pkg-config"
+version = "0.0.1"
+source = "git+https://github.com/alexcrichton/pkg-config-rs#d24a08d87d63df8dc9526c503944415b86719220"
 
 [[package]]
 name = "playing_card"
@@ -92,20 +144,20 @@ version = "0.0.1"
 name = "prime"
 version = "0.0.1"
 dependencies = [
- "num 0.0.1 (git+https://github.com/rust-lang/num)",
+ "num 0.0.1 (git+https://github.com/gifnksm/num)",
 ]
 
 [[package]]
 name = "seq"
 version = "0.0.1"
 dependencies = [
- "num 0.0.1 (git+https://github.com/rust-lang/num)",
+ "num 0.0.1 (git+https://github.com/gifnksm/num)",
 ]
 
 [[package]]
 name = "time"
 version = "0.0.1"
-source = "git+https://github.com/rust-lang/time#76698f52381a78cf654dbedfefd04c28a9806788"
+source = "git+https://github.com/rust-lang/time#d6219df8537e74fa87eeb7d372681c276dc5f9ff"
 dependencies = [
  "gcc 0.0.1 (git+https://github.com/alexcrichton/gcc-rs)",
 ]
@@ -113,7 +165,7 @@ dependencies = [
 [[package]]
 name = "url"
 version = "0.1.0"
-source = "git+https://github.com/servo/rust-url#cec3c32168ce4233e179f22ef50215b3a9c34342"
+source = "git+https://github.com/servo/rust-url#8a61b7654ab5378b488225a1d8a9cbbbcbd38894"
 dependencies = [
  "encoding 0.2.0 (git+https://github.com/lifthrasiir/rust-encoding)",
 ]
