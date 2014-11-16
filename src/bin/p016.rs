@@ -14,7 +14,7 @@ use common::Solver;
 
 fn compute(base: uint, exp: uint) -> uint {
     let base: BigInt = FromPrimitive::from_uint(base).unwrap();
-    std::num::pow(base, exp)
+    num::pow(base, exp)
         .to_string()
         []
         .chars()

@@ -38,9 +38,7 @@ mod tests {
 
     mod naive {
         use std::iter;
-        use std::num::{Zero, One};
-        use num::Integer;
-        use num::bigint::BigUint;
+        use num::{One, Zero, Integer, BigUint};
 
         pub fn r(k: uint) -> BigUint {
             let mut r: BigUint = Zero::zero();

@@ -4,8 +4,7 @@
 extern crate num;
 extern crate math;
 
-use std::num::{Zero, One};
-use num::bigint::BigInt;
+use num::{Zero, One, BigInt};
 use num::rational::Ratio;
 use math::poly::Poly;
 

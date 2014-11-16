@@ -6,7 +6,7 @@
 
 #![feature(macro_rules, slicing_syntax)]
 
-extern crate "num" as numcrate;
+extern crate num;
 #[cfg(test)] extern crate test;
 
 use std::{cmp, mem, uint};
@@ -15,9 +15,8 @@ use std::collections::HashMap;
 use std::collections::hash_map::{Occupied, Vacant};
 use std::hash::Hash;
 use std::iter::{mod, MultiplicativeIterator};
-use std::num::{mod, One, Zero};
 use std::rc::Rc;
-use numcrate::Integer;
+use num::{One, Zero, Integer};
 
 const SMALL_PRIMES: &'static [u64] = &[
       2,   3,   5,   7,  11,  13,  17,  19,  23,  29,  31,  37,  41,  43,  47,
@@ -208,7 +207,7 @@ pub trait Factorize: Integer + FromPrimitive {
             .map(|(base, exp)| {
                 let denom = base - one;
                 (num::pow(base, (exp as uint) + 1) - one) / denom
-            }).product()
+            }).fold(num::one::<Self>(), |acc, n| acc * n)
     }
 
     /// Calculates the number of proper positive divisors.

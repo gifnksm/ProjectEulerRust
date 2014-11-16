@@ -5,9 +5,7 @@ extern crate num;
 extern crate math;
 
 use std::from_str::FromStr;
-use std::num::One;
-use num::Integer;
-use num::bigint::BigUint;
+use num::{One, Integer, BigUint};
 use math::cont_frac::PelNegIterator;
 
 pub const EXPECTED_ANSWER: &'static str = "756872327473";

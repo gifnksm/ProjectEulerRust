@@ -3,6 +3,7 @@
 
 use std::io::{BufferedReader, File};
 use std::iter;
+use std::num::Float;
 
 pub const EXPECTED_ANSWER: &'static str = "709";
 

@@ -1,5 +1,6 @@
-use std::{cmp, fmt, num};
-use std::num::{Zero, One};
+use std::{cmp, fmt};
+use std::iter::{AdditiveIterator, MultiplicativeIterator};
+use num::{mod, Zero, One};
 
 #[deriving(Eq, PartialEq, Clone, Show)]
 pub struct Poly<T> { data: Vec<T> }
@@ -146,6 +147,20 @@ impl<T: Zero + Mul<T, T>> Mul<Poly<T>, Poly<T>> for Poly<T> {
 fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
     let len = v.iter().rposition(|n| !n.is_zero()).map_or(0, |p| p + 1);
     return v.slice(0, len);
+}
+
+impl<A: Zero + Add<A, A>, T: Iterator<Poly<A>>> AdditiveIterator<Poly<A>> for T {
+    fn sum(&mut self) -> Poly<A> {
+        let init: Poly<A> = Zero::zero();
+        self.fold(init, |acc, x| acc + x)
+    }
+}
+
+impl<A: Zero + One + Mul<A, A>, T: Iterator<Poly<A>>> MultiplicativeIterator<Poly<A>> for T {
+    fn product(&mut self) -> Poly<A> {
+        let init: Poly<A> = One::one();
+        self.fold(init, |acc, x| acc * x)
+    }
 }
 
 #[cfg(test)]

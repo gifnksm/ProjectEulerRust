@@ -3,8 +3,7 @@
 
 extern crate num;
 
-use std::num::{One, Zero};
-use num::bigint::BigUint;
+use num::{One, Zero, BigUint};
 
 pub const EXPECTED_ANSWER: &'static str = "8739992577";
 

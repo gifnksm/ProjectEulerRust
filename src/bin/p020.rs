@@ -13,8 +13,8 @@ use num::bigint::BigUint;
 use common::Solver;
 
 fn compute(max: uint) -> uint {
-    range::<BigUint>(FromPrimitive::from_uint(1).unwrap(),
-                     FromPrimitive::from_uint(max + 1).unwrap())
+    num::range::<BigUint>(FromPrimitive::from_uint(1).unwrap(),
+                          FromPrimitive::from_uint(max + 1).unwrap())
         .product()
         .to_string()
         []

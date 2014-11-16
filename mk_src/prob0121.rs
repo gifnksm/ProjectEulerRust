@@ -6,9 +6,7 @@ extern crate math;
 
 use std::iter;
 use std::iter::{AdditiveIterator, MultiplicativeIterator};
-use std::num::One;
-use num::Integer;
-use num::bigint::BigUint;
+use num::{One, Integer, BigUint};
 use num::rational::Ratio;
 use math::poly::Poly;
 

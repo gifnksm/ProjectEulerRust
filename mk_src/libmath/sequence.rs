@@ -30,11 +30,6 @@ impl Iterator<(uint, uint, uint)> for PrimPythagoreanIterator {
 
 #[cfg(test)]
 mod tests {
-    use std::fmt;
-    fn check<T: Eq + fmt::Show, I: Iterator<T>>(expected: &[T], mut it: I) {
-        assert_eq!(expected, it.collect::<Vec<_>>().as_slice());
-    }
-
     #[test]
     fn test_prim_pythagorean_iterator() {
         fn check(m: uint, v: &[(uint, uint, uint)]) {

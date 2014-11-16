@@ -6,7 +6,7 @@
 
 extern crate num;
 
-use std::num::{One, Zero};
+use num::{One, Zero};
 
 /// Extension methods for num::Integer trait.
 pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
@@ -283,7 +283,7 @@ impl<T: num::Integer> DoubleEndedIterator<T> for Digits<T> {
 #[cfg(test)]
 mod tests {
     use super::Integer;
-    use std::num as snum;
+    use num;
     use num::Integer as NumInteger;
 
     #[test]
@@ -368,7 +368,7 @@ mod tests {
         for b in range(1u, 10) {
             for e in range(0u, 5) {
                 for r in range(10u, 100) {
-                    assert_eq!(snum::pow(b, e) % r, b.mod_pow(&e, &r));
+                    assert_eq!(num::pow(b, e) % r, b.mod_pow(&e, &r));
                 }
             }
         }

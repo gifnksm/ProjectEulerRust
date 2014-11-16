@@ -2,6 +2,7 @@
 #![crate_type = "rlib"]
 
 use std::io::{BufferedReader, File};
+use std::num::SignedInt;
 
 pub const EXPECTED_ANSWER: &'static str = "228";
 

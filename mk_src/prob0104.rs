@@ -4,6 +4,7 @@
 extern crate num;
 
 use std::iter::Unfold;
+use std::num::Float;
 use num::Integer;
 
 pub const EXPECTED_ANSWER: &'static str = "329468";

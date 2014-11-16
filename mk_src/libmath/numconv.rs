@@ -1,5 +1,4 @@
-use std::num::Zero;
-use num::Integer;
+use num::{Integer, Zero};
 
 #[deriving(Clone)]
 pub struct DigitIterator { num: uint, radix: uint, order: uint }

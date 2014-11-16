@@ -7,8 +7,7 @@
 extern crate num;
 
 use std::mem;
-use std::num::One;
-use num::Integer;
+use num::{Integer, One};
 
 /// Fibonacci sequence iterator.
 pub struct Fibonacci<T> { current: T, next: T }
@@ -222,8 +221,8 @@ impl<T: Integer> Iterator<(T, T, T)> for PrimitivePythagoreans<T> {
 
 #[cfg(test)]
 mod tests {
-    use std::num::One;
     use std::fmt::Show;
+    use num::One;
     use num::bigint::ToBigInt;
 
     fn check<T: Eq + Show, I: Iterator<T>>(expected: &[T], mut it: I) {

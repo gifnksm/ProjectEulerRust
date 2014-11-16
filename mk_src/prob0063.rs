@@ -3,13 +3,13 @@
 
 extern crate num;
 
-use num::bigint::BigUint;
+use num::BigUint;
 
 pub const EXPECTED_ANSWER: &'static str = "49";
 
 pub fn solve() -> String {
     let mut cnt = 1u; // a == 1
-    for a in range::<BigUint>(FromPrimitive::from_uint(2).unwrap(),
+    for a in num::range::<BigUint>(FromPrimitive::from_uint(2).unwrap(),
                               FromPrimitive::from_uint(10).unwrap()) {
         let mut n = 0;
         let mut an: BigUint = FromPrimitive::from_uint(1).unwrap();

@@ -6,7 +6,7 @@ extern crate common;
 extern crate math;
 
 use std::iter;
-use std::num::Zero;
+use num::{Signed, Zero};
 use num::rational::{Rational, Ratio};
 use common::calc;
 use math::numconv;

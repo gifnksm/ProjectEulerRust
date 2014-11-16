@@ -2,6 +2,7 @@
 #![crate_type = "rlib"]
 
 use std::{char, fmt, iter};
+use std::num::Int;
 use std::io::{BufferedReader, File};
 
 pub const EXPECTED_ANSWER: &'static str = "24702";
