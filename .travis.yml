@@ -15,12 +15,16 @@ script:
   - cargo run --bin euler --verbose
   - cargo run --bin euler --release --verbose
   - cargo test --verbose
-  - cargo test -p integer --verbose
-  - cargo test -p seq --verbose
-  - cargo test -p prime --verbose
+  - cargo test -p integer      --verbose
+  - cargo test -p iter         --verbose
+  - cargo test -p playing_card --verbose
+  - cargo test -p prime        --verbose
+  - cargo test -p seq          --verbose
   - cargo bench --verbose
-  - cargo bench -p integer --verbose
-  - cargo bench -p seq --verbose
-  - cargo bench -p prime --verbose
+  - cargo bench -p integer      --verbose
+  - cargo bench -p iter         --verbose
+  - cargo bench -p playing_card --verbose
+  - cargo bench -p prime        --verbose
+  - cargo bench -p seq          --verbose
   - cargo doc --verbose
 
