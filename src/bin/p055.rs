@@ -5,7 +5,7 @@
 extern crate num;
 extern crate common;
 
-use std::from_str::FromStr;
+use std::str::FromStr;
 use common::Solver;
 use num::bigint::BigUint;
 

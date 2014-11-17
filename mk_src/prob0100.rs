@@ -4,7 +4,7 @@
 extern crate num;
 extern crate math;
 
-use std::from_str::FromStr;
+use std::str::FromStr;
 use num::{One, Integer, BigUint};
 use math::cont_frac::PelNegIterator;
 

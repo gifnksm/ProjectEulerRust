@@ -7,7 +7,7 @@
 #![feature(if_let)]
 
 use std::{char, fmt};
-use std::from_str::FromStr;
+use std::str::FromStr;
 
 /// Playing card's suite.
 #[allow(missing_docs)]

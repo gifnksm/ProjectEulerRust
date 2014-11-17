@@ -8,7 +8,7 @@ extern crate common;
 extern crate playing_card;
 
 use std::fmt;
-use std::from_str::FromStr;
+use std::str::FromStr;
 use std::io::{BufferedReader, File, IoResult};
 use common::Solver;
 use playing_card::SuitCard as Card;
@@ -307,7 +307,7 @@ fn main() { Solver::new_with_file("376", "p054_poker.txt", solve).run(); }
 #[cfg(test)]
 mod tests {
     use super::Hand;
-    use std::from_str::FromStr;
+    use std::str::FromStr;
     use std::rand::{mod, Rng};
     use playing_card::SuitCard as Card;
 
