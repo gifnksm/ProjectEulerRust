@@ -16,7 +16,6 @@ fn compute(base: uint, exp: uint) -> uint {
     let base: BigInt = FromPrimitive::from_uint(base).unwrap();
     num::pow(base, exp)
         .to_string()
-        []
         .chars()
         .filter_map(|c| char::to_digit(c, 10))
         .sum()

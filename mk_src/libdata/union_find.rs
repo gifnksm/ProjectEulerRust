@@ -2,8 +2,8 @@ use std::mem;
 
 #[deriving(Clone)]
 enum UFNode {
-    UFKey(uint),
-    UFSize(uint)
+    Key(uint),
+    Size(uint)
 }
 
 pub struct UnionFind {
@@ -11,7 +11,7 @@ pub struct UnionFind {
 }
 
 impl UnionFind {
-    pub fn new(len: uint) -> UnionFind { UnionFind { data: Vec::from_elem(len, UFSize(1)) } }
+    pub fn new(len: uint) -> UnionFind { UnionFind { data: Vec::from_elem(len, UFNode::Size(1)) } }
 
     pub fn union(&mut self, key1: uint, key2: uint) -> bool {
         let (key1, size1) = self.get_key_size(key1);
@@ -26,8 +26,8 @@ impl UnionFind {
             mem::swap(&mut size1, &mut size2);
         }
 
-        self.data[key1] = UFSize(size1 + size2);
-        self.data[key2] = UFKey(key1);
+        self.data[key1] = UFNode::Size(size1 + size2);
+        self.data[key2] = UFNode::Key(key1);
 
         return true;
     }
@@ -48,10 +48,10 @@ impl UnionFind {
 
     pub fn get_key_size(&mut self, key: uint) -> (uint, uint) {
         let (root_key, size) = match self.data[key] {
-            UFSize(size) => { return (key, size); }
-            UFKey(key) => self.get_key_size(key)
+            UFNode::Size(size) => { return (key, size); }
+            UFNode::Key(key) => self.get_key_size(key)
         };
-        self.data[key] = UFKey(root_key);
+        self.data[key] = UFNode::Key(root_key);
         return (root_key, size);
     }
 }

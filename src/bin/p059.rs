@@ -57,12 +57,12 @@ fn get_dist(a: &[f64], b: &[f64]) -> f64 {
 fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
     let total = count.iter().map(|&x| x).sum();
 
-    let mut freq = [0.0f64, ..256];
+    let mut freq = &mut [0.0f64, ..256];
     for (f, &n) in freq.iter_mut().zip(count.iter()) {
         *f = (n as f64) / (total as f64);
     }
 
-    let mut freq_buf = [0.0, ..256];
+    let mut freq_buf = &mut [0.0, ..256];
     let mut min_key  = 0;
     let mut min_dist = f64::INFINITY;
     for k in iter::range_inclusive(0, 255) {
@@ -105,7 +105,7 @@ fn solve(file: File) -> IoResult<String> {
     const KEY_LEN: uint = 3;
     let code_list = try!(read_file(file));
 
-    let mut freq_dict = [0.0, ..256];
+    let freq_dict = &mut [0.0, ..256];
     for &(c, f) in ENGLISH_FREQUENCY.iter() {
         freq_dict[(c as u8) as uint] = f;
     }

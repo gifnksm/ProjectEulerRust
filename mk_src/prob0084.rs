@@ -1,6 +1,12 @@
 #![crate_name = "prob0084"]
 #![crate_type = "rlib"]
 
+use Square::{GO, A1, CC1, A2, T1, R1, B1, CH1, B2, B3, JAIL,
+             C1, U1, C2, C3, R2, D1, CC2, D2, D3, FP,
+             E1, CH2, E2, E3, R3, F1, F2, U2, F3, G2J,
+             G1, G2, CC3, G3, R4, CH3, H1, T2, H2,
+             NumSquare};
+
 pub const EXPECTED_ANSWER: &'static str = "101524";
 
 pub enum Square {
@@ -231,13 +237,13 @@ mod tests {
 
     #[test]
     fn test_mul_mat() {
-        assert_eq!(super::mul_mat([vec![1.0, 2.0, 3.0]], [vec![1.0], vec![2.0], vec![3.0]]),
+        assert_eq!(super::mul_mat(&[vec![1.0, 2.0, 3.0]], &[vec![1.0], vec![2.0], vec![3.0]]),
                    vec![vec![14.0]]);
-        assert_eq!(super::mul_mat([vec![1.0, 2.0, 3.0], vec![4.0, 5.0, 6.0], vec![7.0, 8.0, 9.0]],
-                                  [vec![1.0], vec![0.0], vec![0.0]]),
+        assert_eq!(super::mul_mat(&[vec![1.0, 2.0, 3.0], vec![4.0, 5.0, 6.0], vec![7.0, 8.0, 9.0]],
+                                  &[vec![1.0], vec![0.0], vec![0.0]]),
                    vec![vec![1.0], vec![4.0], vec![7.0]]);
-        assert_eq!(super::mul_mat([vec![1.0, 2.0, 3.0], vec![4.0, 5.0, 6.0], vec![7.0, 8.0, 9.0]],
-                                  [vec![1.0, 0.0], vec![0.0, 0.0], vec![0.0, 1.0]]),
+        assert_eq!(super::mul_mat(&[vec![1.0, 2.0, 3.0], vec![4.0, 5.0, 6.0], vec![7.0, 8.0, 9.0]],
+                                  &[vec![1.0, 0.0], vec![0.0, 0.0], vec![0.0, 1.0]]),
                    vec![vec![1.0, 3.0], vec![4.0, 6.0], vec![7.0, 9.0]]);
     }
 }

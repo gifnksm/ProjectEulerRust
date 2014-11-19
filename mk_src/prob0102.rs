@@ -4,6 +4,8 @@
 use std::io::{BufferedReader, File};
 use std::num::SignedInt;
 
+use Side::{L, R, C};
+
 pub const EXPECTED_ANSWER: &'static str = "228";
 
 type Point = (int, int);

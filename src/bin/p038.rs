@@ -11,7 +11,7 @@ use integer::Integer;
 use iter::Permutations;
 
 fn compute() -> String {
-    let nums = [9, 8, 7, 6, 5, 4, 3, 2, 1];
+    let nums = &[9, 8, 7, 6, 5, 4, 3, 2, 1];
     let radix = 10;
 
     let mut ans = 0;

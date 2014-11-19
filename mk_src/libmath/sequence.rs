@@ -36,8 +36,8 @@ mod tests {
             assert_eq!(super::prim_pythagorean(m).collect::<Vec<_>>().as_slice(), v);
         }
 
-        check(2, [(3, 4, 5)]);
-        check(3, [(5, 12, 13)]);
-        check(4, [(8, 15, 17), (7, 24, 25)]);
+        check(2, &[(3, 4, 5)]);
+        check(3, &[(5, 12, 13)]);
+        check(4, &[(8, 15, 17), (7, 24, 25)]);
     }
 }

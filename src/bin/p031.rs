@@ -20,7 +20,7 @@ fn count_ways(sum: uint, coins: &[uint]) -> uint {
 }
 
 fn compute(sum: uint) -> uint {
-    let coins = [ 200, 100, 50, 20, 10, 5, 2, 1 ];
+    let coins = &[ 200, 100, 50, 20, 10, 5, 2, 1 ];
     count_ways(sum, coins)
 }
 

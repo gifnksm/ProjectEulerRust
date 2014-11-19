@@ -3,7 +3,8 @@
 
 extern crate math;
 
-use std::{iter, num};
+use std::iter;
+use std::num::Int;
 use std::collections::HashSet;
 use math::numconv;
 
@@ -32,7 +33,7 @@ fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
 }
 
 pub fn solve() -> String {
-    let limit = num::pow(10u, 8);
+    let limit = 10u.pow(8);
     let set = palindromic_sum_set(limit);
     set.iter().fold(0, |x, &y| x + y).to_string()
 }

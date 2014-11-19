@@ -8,8 +8,8 @@ extern crate common;
 extern crate iter;
 extern crate integer;
 
-use std::num;
 use std::iter::AdditiveIterator;
+use std::num::Int;
 use common::Solver;
 use iter::CombinationOverlap;
 use integer::Integer;
@@ -21,8 +21,8 @@ use integer::Integer;
 // 9999999 => 9^5 * 7 = 413343
 
 fn compute(len: uint, pow: uint) -> uint {
-    let pows = Vec::from_fn(10, |i| num::pow(i, pow));
-    let digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let pows = Vec::from_fn(10, |i| i.pow(pow));
+    let digits = &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     let mut sum = 0;
     for comb in CombinationOverlap::new(digits, len) {

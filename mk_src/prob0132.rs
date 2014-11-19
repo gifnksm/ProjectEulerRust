@@ -23,7 +23,7 @@
 
 extern crate math;
 
-use std::num;
+use std::num::Int;
 use std::iter::AdditiveIterator;
 use math::arith;
 use math::prime::Prime;
@@ -32,7 +32,7 @@ pub const EXPECTED_ANSWER: &'static str = "843296";
 
 pub fn solve() -> String {
     Prime::new().iter()
-        .filter(|&p| arith::mod_pow(10, num::pow(10u, 9), 9 * p) == 1)
+        .filter(|&p| arith::mod_pow(10, 10u.pow(9), 9 * p) == 1)
         .take(40)
         .sum()
         .to_string()

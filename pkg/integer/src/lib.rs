@@ -324,13 +324,13 @@ mod tests {
             assert_eq!(v, rev[])
         }
 
-        check(0, [], 10);
-        check(1, [1], 10);
-        check(3, [3], 10);
-        check(12345, [5, 4, 3, 2, 1], 10);
-        check(0x12345, [5, 4, 3, 2, 1], 16);
-        check(0xabcde, [0xe, 0xd, 0xc, 0xb, 0xa], 16);
-        check(0b11100, [0, 0, 1, 1, 1], 2);
+        check(0, &[], 10);
+        check(1, &[1], 10);
+        check(3, &[3], 10);
+        check(12345, &[5, 4, 3, 2, 1], 10);
+        check(0x12345, &[5, 4, 3, 2, 1], 16);
+        check(0xabcde, &[0xe, 0xd, 0xc, 0xb, 0xa], 16);
+        check(0b11100, &[0, 0, 1, 1, 1], 2);
     }
 
     #[test]

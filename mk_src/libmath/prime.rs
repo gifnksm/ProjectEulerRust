@@ -1,9 +1,10 @@
-use std::{iter, num, uint};
+use std::{iter, uint};
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::local_data::{Key, KeyValueKey};
 use std::collections::HashMap;
 use std::collections::hash_map::{Occupied, Vacant};
+use std::num::Int;
 
 use num::Integer;
 
@@ -179,9 +180,9 @@ impl<IA: Iterator<Factor>> FactorIterator for IA {
     fn to_uint(&mut self) -> uint {
         self.fold(1, |s, (base, exp)| {
                 if exp > 0 {
-                    s * num::pow(base, exp as uint)
+                    s * base.pow(exp as uint)
                 } else {
-                    s / num::pow(base, (-exp) as uint)
+                    s / base.pow((-exp) as uint)
                 }
             })
     }
@@ -273,21 +274,21 @@ mod tests {
             }
         }
 
-        check(0, []);
-        check(1, []);
-        check(2, [(2, 1)]);
-        check(3, [(3, 1)]);
-        check(4, [(2, 2)]);
-        check(5, [(5, 1)]);
-        check(6, [(2, 1), (3, 1)]);
-        check(7, [(7, 1)]);
-        check(8, [(2, 3)]);
-        check(9, [(3, 2)]);
-        check(10, [(2, 1), (5, 1)]);
+        check(0, &[]);
+        check(1, &[]);
+        check(2, &[(2, 1)]);
+        check(3, &[(3, 1)]);
+        check(4, &[(2, 2)]);
+        check(5, &[(5, 1)]);
+        check(6, &[(2, 1), (3, 1)]);
+        check(7, &[(7, 1)]);
+        check(8, &[(2, 3)]);
+        check(9, &[(3, 2)]);
+        check(10, &[(2, 1), (5, 1)]);
 
-        check(8 * 27, [(2, 3), (3, 3)]);
-        check(97, [(97, 1)]);
-        check(97 * 41, [(41, 1), (97, 1)]);
+        check(8 * 27, &[(2, 3), (3, 3)]);
+        check(97, &[(97, 1)]);
+        check(97 * 41, &[(41, 1), (97, 1)]);
     }
 
     #[test]

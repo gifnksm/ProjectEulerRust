@@ -56,7 +56,7 @@ trait ToProgramError {
 
 impl ToProgramError for io::IoError {
     fn to_program_error(self) -> ProgramError {
-        ProgramError::new(self.desc.into_maybe_owned(), IoError(self))
+        ProgramError::new(self.desc.into_maybe_owned(), ProgramErrorKind::IoError(self))
     }
 }
 
@@ -65,7 +65,7 @@ impl ToProgramError for json::ParserError {
         match self {
             json::SyntaxError(code, line, col) => {
                 ProgramError::new(format!("{}:{}:{}", line, col, json::error_str(code)),
-                                  JsonSyntaxError(code, line, col))
+                                  ProgramErrorKind::JsonSyntaxError(code, line, col))
             },
             json::IoError(kind, desc) => {
                 (io::IoError {kind: kind, desc: desc, detail: None })
@@ -77,14 +77,14 @@ impl ToProgramError for json::ParserError {
 
 impl ToProgramError for json::DecoderError {
     fn to_program_error(self: json::DecoderError) -> ProgramError {
-        ProgramError::new(format!("{}", self), JsonDecoderError(self))
+        ProgramError::new(format!("{}", self), ProgramErrorKind::JsonDecoderError(self))
     }
 }
 
 fn exe_path() -> ProgramResult<Path> {
     match os::self_exe_name() {
         Some(x) => Ok(x),
-        None    => Err(ProgramError::new("cannot get self exe name", Unknown))
+        None    => Err(ProgramError::new("cannot get self exe name", ProgramErrorKind::Unknown))
     }
 }
 
@@ -92,7 +92,7 @@ fn problem_paths(dir_path: Path) -> ProgramResult<Paths> {
     let pat = dir_path.join(PROBLEM_EXE_PAT);
     match pat.as_str() {
         Some(x) => Ok(glob::glob(x)),
-        None    => Err(ProgramError::new("path contains non-utf8 character", Unknown))
+        None    => Err(ProgramError::new("path contains non-utf8 character", ProgramErrorKind::Unknown))
     }
 }
 
@@ -109,7 +109,7 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
     match proc_out.status {
         ExitStatus(0) | ExitStatus(1) => { } // expected
         st => {
-            return Err(ProgramError::new(format!("child process exit with {}", st), Unknown))
+            return Err(ProgramError::new(format!("child process exit with {}", st), ProgramErrorKind::Unknown))
         }
     }
 

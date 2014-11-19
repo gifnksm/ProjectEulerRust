@@ -9,6 +9,8 @@
 use std::{char, fmt};
 use std::str::FromStr;
 
+use Suit::{Spade, Heart, Dia, Club};
+
 /// Playing card's suite.
 #[allow(missing_docs)]
 #[deriving(Eq, PartialEq, Clone)]
@@ -69,9 +71,9 @@ impl fmt::Show for SuitCard {
 impl FromStr for SuitCard {
     fn from_str(s: &str) -> Option<SuitCard> {
         if s.len() != 2 { return None }
-        let (c0, c1) = s.slice_shift_char();
+        let (c0, c1) = s.slice_shift_char().unwrap();
         let suit = FromStr::from_str(c1);
-                let num = match c0.unwrap() {
+                let num = match c0 {
                     'A' => Some(1),
                     'T' => Some(10),
                     'J' => Some(11),
@@ -91,7 +93,7 @@ impl FromStr for SuitCard {
 #[allow(missing_docs)]
 #[deriving(Eq, PartialEq, Clone)]
 pub enum Card {
-    SuitCard_(SuitCard),
+    Suit(SuitCard),
     BlackJoker,
     WhiteJoker
 }
@@ -99,9 +101,9 @@ pub enum Card {
 impl fmt::Show for Card {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            BlackJoker => write!(f, "BJ"),
-            WhiteJoker => write!(f, "WJ"),
-            SuitCard_(sc) => write!(f, "{}", sc),
+            Card::BlackJoker => write!(f, "BJ"),
+            Card::WhiteJoker => write!(f, "WJ"),
+            Card::Suit(sc) => write!(f, "{}", sc),
         }
     }
 }
@@ -109,23 +111,24 @@ impl fmt::Show for Card {
 impl FromStr for Card {
     fn from_str(s: &str) -> Option<Card> {
         match s {
-            "BJ" => Some(BlackJoker),
-            "WJ" => Some(WhiteJoker),
-            _    => FromStr::from_str(s).map(|sc| SuitCard_(sc))
+            "BJ" => Some(Card::BlackJoker),
+            "WJ" => Some(Card::WhiteJoker),
+            _    => FromStr::from_str(s).map(|sc| Card::Suit(sc))
         }
     }
 }
 
 impl Card {
-    /// Creates new `SuitCard_`.
+    /// Creates new `SuitCard`.
     pub fn new(n: uint, s: Suit) -> Card {
-        SuitCard_(SuitCard { num: n, suit: s })
+        Card::Suit(SuitCard { num: n, suit: s })
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{Suit, Spade, Heart, Dia, Club, Card, WhiteJoker, BlackJoker};
+    use super::{Suit, Card};
+    use super::Suit::{Spade, Heart, Dia, Club};
 
     #[test]
     fn show_suit() {
@@ -145,8 +148,8 @@ mod tests {
             assert_eq!(s, format!("{}", card));
             assert_eq!(Some(card), from_str(s.as_slice()));
         }
-        check_pair("BJ".to_string(), BlackJoker);
-        check_pair("WJ".to_string(), WhiteJoker);
+        check_pair("BJ".to_string(), Card::BlackJoker);
+        check_pair("WJ".to_string(), Card::WhiteJoker);
         check_pair("AH".to_string(), Card::new(1, Heart));
         check_pair("2C".to_string(), Card::new(2, Club));
         check_pair("9D".to_string(), Card::new(9, Dia));

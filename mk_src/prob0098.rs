@@ -4,10 +4,11 @@
 extern crate common;
 extern crate math;
 
-use std::{num, mem, uint};
+use std::{mem, uint};
 use std::iter::OrdIterator;
 use std::io::File;
 use std::collections::HashMap;
+use std::num::Int;
 use common::reader;
 use math::{arith, numconv};
 
@@ -99,8 +100,8 @@ pub fn solve() -> String {
         for &(ref len, ref pairs) in groups.iter() {
             let mut nums = Vec::new();
 
-            let start = num::pow(10u, *len) - 1;
-            let end   = num::pow(10u, *len - 1);
+            let start = 10u.pow(*len) - 1;
+            let end   = 10u.pow(*len - 1);
             for n in range(arith::isqrt(end), arith::isqrt(start)).rev() {
                 let ds = numconv::to_digits(n * n, 10).rev().collect::<Vec<uint>>();
                 for &(ref v1, ref v2) in pairs.iter() {

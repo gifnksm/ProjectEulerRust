@@ -24,7 +24,7 @@ fn each_numseq(f: |&[Rational]|) {
 
 #[inline(always)]
 fn each_opseq(f: |&[Op]|) {
-    let ops = [ Add, Sub, Mul, Div ];
+    let ops = [ Op::Add, Op::Sub, Op::Mul, Op::Div ];
     for i1 in range(0, ops.len()) {
         for i2 in range(0, ops.len()) {
             for i3 in  range(0, ops.len()) {
@@ -42,10 +42,10 @@ fn each_value(num: &[Rational], op: &[Op], f: |Rational|) {
         let a = v1[0];
         each_value(rest, op.slice_from(1), |b| {
             match op[0] {
-                Add => { f(a + b) }
-                Mul => { f(a * b) }
-                Sub => { f(a - b); f(b - a) }
-                Div => {
+                Op::Add => { f(a + b) }
+                Op::Mul => { f(a * b) }
+                Op::Sub => { f(a - b); f(b - a) }
+                Op::Div => {
                     if !b.is_zero() { f(a / b) }
                     if !a.is_zero() { f(b / a) }
                 }

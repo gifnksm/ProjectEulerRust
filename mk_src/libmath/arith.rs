@@ -39,7 +39,7 @@ pub fn mod_pow(base: uint, mut exp: uint, modulo: uint) -> uint {
 
 #[cfg(test)]
 mod tests {
-    use std::num;
+    use std::num::Int;
 
     #[test]
     fn isqrt() {
@@ -55,7 +55,7 @@ mod tests {
         for b in range(1u, 10) {
             for e in range(0u, 5) {
                 for r in range(10u, 100) {
-                    assert_eq!(num::pow(b, e) % r, super::mod_pow(b, e, r));
+                    assert_eq!(b.pow(e) % r, super::mod_pow(b, e, r));
                 }
             }
         }

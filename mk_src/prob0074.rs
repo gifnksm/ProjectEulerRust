@@ -34,9 +34,9 @@ fn get_chain_len(
 
     loop {
         match map[idx] {
-            Loop(c)  => { loop_len += c;  break; }
-            Chain(c) => { chain_len += c; break; }
-            Unknown  => {
+            Length::Loop(c)  => { loop_len += c;  break; }
+            Length::Chain(c) => { chain_len += c; break; }
+            Length::Unknown  => {
                 match chain_map.get(&idx) {
                     Some(&chain_idx) => {
                         loop_len  = chain_len - chain_idx;
@@ -55,9 +55,9 @@ fn get_chain_len(
 
     for (&key, &idx) in chain_map.iter() {
         if idx >= chain_len {
-            map[key] = Loop(loop_len);
+            map[key] = Length::Loop(loop_len);
         } else {
-            map[key] = Chain(loop_len + chain_len - idx);
+            map[key] = Length::Chain(loop_len + chain_len - idx);
         }
     }
 
@@ -74,7 +74,7 @@ pub fn solve() -> String {
         val
     };
 
-    let mut map = Vec::from_elem(factorial[9] * 6 + 1, Unknown);
+    let mut map = Vec::from_elem(factorial[9] * 6 + 1, Length::Unknown);
     let mut cnt = 0u;
     for n in range(1u, limit + 1) {
         let len = get_chain_len(n, map.as_mut_slice(), &factorial);

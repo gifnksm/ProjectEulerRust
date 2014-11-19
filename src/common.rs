@@ -38,31 +38,31 @@ enum SolverError {
 }
 
 impl FromError<io::IoError> for SolverError {
-    fn from_error(err: io::IoError) -> SolverError { Io(err) }
+    fn from_error(err: io::IoError) -> SolverError { SolverError::Io(err) }
 }
 impl FromError<curl::ErrCode> for SolverError {
-    fn from_error(err: curl::ErrCode) -> SolverError { Http(err) }
+    fn from_error(err: curl::ErrCode) -> SolverError { SolverError::Http(err) }
 }
 
 impl Error for SolverError {
     fn description(&self) -> &str {
         match *self {
-            Io(ref err) => err.description(),
-            Http(ref err) => err.description()
+            SolverError::Io(ref err) => err.description(),
+            SolverError::Http(ref err) => err.description()
         }
     }
 
     fn detail(&self) -> Option<String> {
         match *self {
-            Io(ref err) => err.detail(),
-            Http(ref err) => err.detail()
+            SolverError::Io(ref err) => err.detail(),
+            SolverError::Http(ref err) => err.detail()
         }
     }
 
     fn cause(&self) -> Option<&Error> {
         match *self {
-            Io(ref err) => Some(err as &Error),
-            Http(ref err) => Some(err as &Error)
+            SolverError::Io(ref err) => Some(err as &Error),
+            SolverError::Http(ref err) => Some(err as &Error)
         }
     }
 }
@@ -70,8 +70,8 @@ impl Error for SolverError {
 impl fmt::Show for SolverError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Io(ref err) => write!(f, "{}", err),
-            Http(ref err) => write!(f, "{}", err)
+            SolverError::Io(ref err) => write!(f, "{}", err),
+            SolverError::Http(ref err) => write!(f, "{}", err)
         }
     }
 }
@@ -177,20 +177,20 @@ pub struct Solver<'a> {
 
 impl<'a> Solver<'a> {
     pub fn new(answer: &'a str, solver: fn() -> String) -> Solver<'a> {
-        Solver { answer: answer, solver: FnOnly(solver) }
+        Solver { answer: answer, solver: SolverFn::FnOnly(solver) }
     }
 
     pub fn new_with_file(
         answer: &'a str, file_name: &'a str, solver: fn(File) -> IoResult<String>
     ) -> Solver<'a> {
-        Solver { answer: answer, solver: FnWithFile(file_name, solver) }
+        Solver { answer: answer, solver: SolverFn::FnWithFile(file_name, solver) }
     }
 
     pub fn run(self) {
         let args = os::args();
         let program = &args[0];
 
-        let opts = [
+        let opts = &[
             getopts::optflag("", "json", "Output JSON format"),
             getopts::optflag("h", "help", "Display this message")
         ];
@@ -230,8 +230,8 @@ impl<'a> Solver<'a> {
 
     fn solve(&self) -> Result<SolverResult<String>, SolverError> {
         let (time, answer) = match self.solver {
-            FnOnly(fun) => bench(proc() fun()),
-            FnWithFile(file_name, fun) => {
+            SolverFn::FnOnly(fun) => bench(proc() fun()),
+            SolverFn::FnWithFile(file_name, fun) => {
                 let file = try!(setup_file(file_name));
                 let (time, answer) = bench(proc() fun(file));
                 (time, try!(answer))

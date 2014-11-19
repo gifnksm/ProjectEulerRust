@@ -4,7 +4,7 @@
 extern crate data;
 extern crate math;
 
-use std::num;
+use std::num::Int;
 use data::extiter::Comb;
 use math::numconv;
 use math::prime::Prime;
@@ -18,7 +18,7 @@ pub fn solve() -> String {
     for d in range(0u, 10) {
         for m in range(0, n + 1).rev() {
             let mut sum = 0;
-            for other_ds in range(0, num::pow(9u, n - m)) {
+            for other_ds in range(0, 9u.pow(n - m)) {
                 let other_ds = {
                     let mut ds = numconv::to_digits(other_ds, 9).rev().collect::<Vec<uint>>();
                     while ds.len() < n - m { ds.insert(0, 0); }

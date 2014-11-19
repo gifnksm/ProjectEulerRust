@@ -5,6 +5,7 @@ extern crate num;
 extern crate math;
 
 use std::iter;
+use std::num::Int;
 use num::Integer;
 use math::prime::Prime;
 
@@ -27,7 +28,7 @@ fn get_mod(n: uint, pn: uint) -> uint {
 }
 
 pub fn solve() -> String {
-    let limit = std::num::pow(10u, 10);
+    let limit = 10u.pow(10);
 
     let ps = Prime::new();
     iter::count(1, 1u)

@@ -3,7 +3,7 @@
 
 extern crate math;
 
-use std::num;
+use std::num::Int;
 use std::iter::{AdditiveIterator, Filter, SkipWhile};
 use std::collections::BinaryHeap;
 use math::numconv;
@@ -53,7 +53,7 @@ impl Iterator<(uint, uint, uint)> for Powers {
     fn next(&mut self) -> Option<(uint, uint, uint)> {
         let Power(n, b, e) = self.heap.pop().unwrap();
         if b == 2 { self.heap.push(Power(n * b, b, e + 1)); }
-        self.heap.push(Power(num::pow(b + 1, e), b + 1, e));
+        self.heap.push(Power((b + 1).pow(e), b + 1, e));
         Some((n, b, e))
     }
 }
