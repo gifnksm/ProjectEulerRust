@@ -6,7 +6,7 @@ dependencies = [
  "glob 0.0.3 (git+https://github.com/rust-lang/glob)",
  "integer 0.0.1",
  "iter 0.0.1",
- "num 0.0.1 (git+https://github.com/gifnksm/num)",
+ "num 0.0.4 (git+https://github.com/rust-lang/num)",
  "playing_card 0.0.1",
  "prime 0.0.1",
  "seq 0.0.1",
@@ -46,7 +46,7 @@ source = "git+https://github.com/rust-lang/glob#9efe98bd82ad4932819888a94eb933ac
 name = "integer"
 version = "0.0.1"
 dependencies = [
- "num 0.0.1 (git+https://github.com/gifnksm/num)",
+ "num 0.0.4 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
@@ -63,8 +63,8 @@ dependencies = [
 
 [[package]]
 name = "num"
-version = "0.0.1"
-source = "git+https://github.com/gifnksm/num#233c02030d8982637cca637b3843955e9cbff6c3"
+version = "0.0.4"
+source = "git+https://github.com/rust-lang/num#8f8530fc00c1ab753c5051b457eb9b4b52926373"
 
 [[package]]
 name = "openssl-sys"
@@ -87,14 +87,14 @@ version = "0.0.1"
 name = "prime"
 version = "0.0.1"
 dependencies = [
- "num 0.0.1 (git+https://github.com/gifnksm/num)",
+ "num 0.0.4 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
 name = "seq"
 version = "0.0.1"
 dependencies = [
- "num 0.0.1 (git+https://github.com/gifnksm/num)",
+ "num 0.0.4 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
