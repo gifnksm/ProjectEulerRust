@@ -2,7 +2,6 @@
 #![crate_type = "rlib"]
 
 
-use std::char;
 use std::io::{BufferedReader, File};
 use std::hash::Hash;
 use std::collections::{HashMap, HashSet};
@@ -97,7 +96,7 @@ pub fn solve() -> String {
     let mut rels = Relations::new();
     for line in br.lines().filter_map(|line| line.ok()) {
         let ds = line.as_slice().chars()
-            .filter_map(|c| char::to_digit(c, 10)).collect::<Vec<uint>>();
+            .filter_map(|c| c.to_digit(10)).collect::<Vec<uint>>();
         for i in range(1, ds.len()) {
             rels.set_dependant(ds[i - 1], ds[i]);
         }

@@ -6,7 +6,6 @@
 
 extern crate common;
 
-use std::char;
 use std::iter::OrdIterator;
 use common::Solver;
 
@@ -35,10 +34,9 @@ const INPUT: &'static str = "
 
 fn compute(prod_len: uint) -> u64 {
     INPUT.chars()
-        .filter_map(|c| char::to_digit(c, 10))
+        .filter_map(|c| c.to_digit(10))
         .map(|n| n as u64)
         .collect::<Vec<_>>()
-        []
         .windows(prod_len)
         .map(|win| win.iter().fold(1u64, |p, &n| p * n))
         .max()

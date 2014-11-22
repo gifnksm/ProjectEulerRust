@@ -70,8 +70,7 @@ fn compute(prod_len: uint) -> uint {
 
     lines.iter()
         .map(|cells| {
-            cells[]
-                .windows(prod_len)
+            cells.windows(prod_len)
                 .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
                 .max()
                 .unwrap_or(0)

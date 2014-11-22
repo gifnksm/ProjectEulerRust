@@ -5,7 +5,6 @@
 extern crate common;
 extern crate num;
 
-use std::char;
 use std::iter::{AdditiveIterator, Unfold};
 use common::Solver;
 use num::{One, BigUint};
@@ -14,7 +13,7 @@ fn compute(a: uint, b: uint) -> uint {
     num::range(One::one(), FromPrimitive::from_uint(a).unwrap())
         .map(|a: BigUint| {
             Unfold::new(One::one(), |n| { (*n) = a * (*n); Some((*n).to_string()) })
-                .map(|s| s.chars().filter_map(|c| char::to_digit(c, 10)).sum())
+                .map(|s| s.chars().filter_map(|c| c.to_digit(10)).sum())
                 .take(b)
                 .max()
                 .unwrap()

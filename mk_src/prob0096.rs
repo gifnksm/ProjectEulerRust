@@ -1,7 +1,7 @@
 #![crate_name = "prob0096"]
 #![crate_type = "rlib"]
 
-use std::{char, fmt, iter};
+use std::{fmt, iter};
 use std::num::Int;
 use std::io::{BufferedReader, File};
 
@@ -79,7 +79,7 @@ fn read_sudoku<T: Reader>(r: &mut BufferedReader<T>) -> Option<SuDoku> {
                     None => return None,
                     Some(line) => {
                         for x in range(0, BOARD_WIDTH) {
-                            let n = char::to_digit(line.as_slice().char_at(x), 10).unwrap();
+                            let n = line.char_at(x).to_digit(10).unwrap();
                             if n != 0 { sudoku.map[y][x] = 1 << (n - 1); }
                         }
                     }

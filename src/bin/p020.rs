@@ -7,7 +7,6 @@
 extern crate num;
 extern crate common;
 
-use std::char;
 use std::iter::{AdditiveIterator, MultiplicativeIterator};
 use num::bigint::BigUint;
 use common::Solver;
@@ -17,9 +16,8 @@ fn compute(max: uint) -> uint {
                           FromPrimitive::from_uint(max + 1).unwrap())
         .product()
         .to_string()
-        []
         .chars()
-        .filter_map(|c| char::to_digit(c, 10))
+        .filter_map(|c| c.to_digit(10))
         .sum()
 }
 

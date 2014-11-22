@@ -4,7 +4,6 @@
 extern crate num;
 extern crate math;
 
-use std::char;
 use std::iter::AdditiveIterator;
 use num::bigint::BigUint;
 use math::cont_frac;
@@ -28,7 +27,7 @@ pub fn solve() -> String {
     n.to_string()
         .as_slice()
         .chars()
-        .filter_map(|c| char::to_digit(c, 10))
+        .filter_map(|c| c.to_digit(10))
         .sum()
         .to_string()
 }

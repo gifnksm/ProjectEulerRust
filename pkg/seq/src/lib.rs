@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(slicing_syntax)]
+
 extern crate num;
 
 use std::mem;
@@ -257,7 +259,7 @@ mod tests {
         use super::PrimitivePythagoreans;
 
         fn check(m: uint, v: &[(uint, uint, uint)]) {
-            assert_eq!(PrimitivePythagoreans::new(m).collect::<Vec<_>>().as_slice(), v);
+            assert_eq!(PrimitivePythagoreans::new(m).collect::<Vec<_>>()[], v);
         }
 
         check(2, [(3, 4, 5)]);

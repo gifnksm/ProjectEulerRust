@@ -4,7 +4,6 @@
 extern crate num;
 extern crate math;
 
-use std::char;
 use std::iter::AdditiveIterator;
 use num::{Zero, BigInt};
 use math::arith;
@@ -46,7 +45,7 @@ pub fn solve() -> String {
             sqrt_newton_raphson(n, 100)
                 .as_slice()
                 .chars()
-                .filter_map(|c| char::to_digit(c, 10))
+                .filter_map(|c| c.to_digit(10))
                 .sum()
         }).sum()
         .to_string();

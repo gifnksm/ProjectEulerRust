@@ -4,9 +4,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(if_let)]
+#![feature(if_let, slicing_syntax)]
 
-use std::{char, fmt};
+use std::fmt;
 use std::str::FromStr;
 
 use Suit::{Spade, Heart, Dia, Club};
@@ -79,7 +79,7 @@ impl FromStr for SuitCard {
                     'J' => Some(11),
                     'Q' => Some(12),
                     'K' => Some(13),
-                    d => char::to_digit(d, 10)
+                    d => d.to_digit(10)
                 };
         if let (Some(n), Some(s)) = (num, suit) {
             Some(SuitCard { num: n, suit: s })
@@ -134,7 +134,7 @@ mod tests {
     fn show_suit() {
         fn check_pair(s: String, suite: Suit) {
             assert_eq!(s, format!("{}", suite));
-            assert_eq!(Some(suite), from_str(s.as_slice()));
+            assert_eq!(Some(suite), from_str(s[]));
         }
         check_pair("S".to_string(), Spade);
         check_pair("H".to_string(), Heart);
@@ -146,7 +146,7 @@ mod tests {
     fn show_card() {
         fn check_pair(s: String, card: Card) {
             assert_eq!(s, format!("{}", card));
-            assert_eq!(Some(card), from_str(s.as_slice()));
+            assert_eq!(Some(card), from_str(s[]));
         }
         check_pair("BJ".to_string(), Card::BlackJoker);
         check_pair("WJ".to_string(), Card::WhiteJoker);

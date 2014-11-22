@@ -88,8 +88,7 @@ fn compute(max: uint) -> uint {
     range(1, max + 1)
         .map(to_word)
         .map(|w| {
-            w[]
-                .chars()
+            w.chars()
                 .filter(|&c| c != '-' && c != ' ')
                 .count()
         }).sum()

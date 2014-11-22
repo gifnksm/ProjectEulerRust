@@ -7,7 +7,6 @@
 extern crate num;
 extern crate common;
 
-use std::char;
 use std::iter::AdditiveIterator;
 use num::bigint::BigInt;
 use common::Solver;
@@ -17,7 +16,7 @@ fn compute(base: uint, exp: uint) -> uint {
     num::pow(base, exp)
         .to_string()
         .chars()
-        .filter_map(|c| char::to_digit(c, 10))
+        .filter_map(|c| c.to_digit(10))
         .sum()
 }
 

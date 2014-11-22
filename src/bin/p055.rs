@@ -2,6 +2,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(slicing_syntax)]
+
 extern crate num;
 extern crate common;
 
@@ -11,8 +13,8 @@ use num::bigint::BigUint;
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_string();
-    let rev = String::from_chars(s.as_slice().chars().rev().collect::<Vec<char>>().as_slice());
-    FromStr::from_str(rev.as_slice()).unwrap()
+    let rev = String::from_chars(s.chars().rev().collect::<Vec<char>>()[]);
+    FromStr::from_str(rev[]).unwrap()
 }
 
 fn is_lychrel(n: uint, limit: uint) -> bool {

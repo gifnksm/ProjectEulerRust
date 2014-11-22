@@ -115,12 +115,10 @@ const INPUT: &'static str = "
 fn compute() -> String {
     INPUT.trim()
         .lines()
-        .map(|line| line.slice(0, 12))
+        .map(|line| line[0 .. 12])
         .filter_map(from_str::<u64>)
         .sum()
-        .to_string()
-        []
-        .slice(0, 10)
+        .to_string()[0 .. 10]
         .to_string()
 }
 
