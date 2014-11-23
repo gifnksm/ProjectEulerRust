@@ -136,7 +136,7 @@ fn run() -> ProgramResult<()> {
             }
             Err(e) => {
                 is_ok = false;
-                let _ = writeln!(out, "{}: {}", program, e);
+                let _ = writeln!(&mut out, "{}: {}", program, e);
             }
         }
     }
