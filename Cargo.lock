@@ -17,6 +17,9 @@ dependencies = [
 [[package]]
 name = "cont_frac"
 version = "0.0.1"
+dependencies = [
+ "integer 0.0.1",
+]
 
 [[package]]
 name = "curl"
