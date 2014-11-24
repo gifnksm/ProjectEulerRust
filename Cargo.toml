@@ -18,6 +18,9 @@ git = "https://github.com/rust-lang/num"
 [dependencies.time]
 git = "https://github.com/rust-lang/time"
 
+[dependencies.cont_frac]
+path = "./pkg/cont_frac"
+
 [dependencies.integer]
 path = "./pkg/integer"
 

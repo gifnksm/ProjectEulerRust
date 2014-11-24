@@ -2,6 +2,7 @@
 name = "ProjectEulerRust"
 version = "0.0.1"
 dependencies = [
+ "cont_frac 0.0.1",
  "curl 0.1.0 (git+https://github.com/carllerche/curl-rust)",
  "glob 0.0.3 (git+https://github.com/rust-lang/glob)",
  "integer 0.0.1",
@@ -12,6 +13,10 @@ dependencies = [
  "seq 0.0.1",
  "time 0.0.3 (git+https://github.com/rust-lang/time)",
 ]
+
+[[package]]
+name = "cont_frac"
+version = "0.0.1"
 
 [[package]]
 name = "curl"
