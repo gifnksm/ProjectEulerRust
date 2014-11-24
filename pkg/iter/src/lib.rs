@@ -6,6 +6,8 @@
 
 #![feature(slicing_syntax)]
 
+use std::iter::Peekable;
+
 /// An iterator that enumerates all combinations of elemnts.
 ///
 /// The iteratee vector may contain the same elements multiple times.
@@ -129,6 +131,60 @@ impl<'a, T: Clone> Iterator<(Vec<T>, Vec<T>)> for Permutations<'a, T> {
     }
 }
 
+/// An iterator that enumerates elemnts that is contained in the first iterator.
+pub struct Difference<E, M, S> {
+    minuend: M,
+    subtrahend: Peekable<E, S>
+}
+
+impl<E, M, S: Iterator<E>> Difference<E, M, S> {
+    /// Creates a new `Difference` iterator.
+    ///
+    /// ```rust
+    /// use std::iter;
+    /// use iter::Difference;
+    ///
+    /// let ints    = iter::count(1u, 1);
+    /// let squares = iter::count(1u, 1).map(|n| n * n);
+    /// let mut it = Difference::new(ints, squares);
+    /// assert_eq!(Some(2), it.next()); // iterates non-square numbers
+    /// assert_eq!(Some(3), it.next());
+    /// assert_eq!(Some(5), it.next());
+    /// assert_eq!(Some(6), it.next());
+    /// assert_eq!(Some(7), it.next());
+    /// assert_eq!(Some(8), it.next());
+    /// assert_eq!(Some(10), it.next());
+    /// ```
+    pub fn new(m: M, s: S) -> Difference<E, M, S> {
+        Difference { minuend: m, subtrahend: s.peekable() }
+    }
+}
+
+impl<E: Eq + Ord, M: Iterator<E>, S: Iterator<E>> Iterator<E> for Difference<E, M, S> {
+    fn next(&mut self) -> Option<E> {
+        'minuend: loop {
+            let n = match self.minuend.next() {
+                None    => return None,
+                Some(n) => n
+            };
+            'subtrahend: loop {
+                let cmp = match self.subtrahend.peek() {
+                    None    => return Some(n),
+                    Some(p) => n.cmp(p)
+                };
+                match cmp {
+                    Less    => return Some(n),
+                    Equal   => continue 'minuend,
+                    Greater => {
+                        let _ = self.subtrahend.next();
+                        continue 'subtrahend
+                    }
+                }
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::{CombinationOverlap, Permutations};
@@ -220,5 +276,35 @@ mod tests {
         let mut it = Permutations::new(nums, 0);
         assert_eq!(Some((vec![], vec![1, 2, 3, 4, 5])), it.next());
         assert_eq!(None, it.next());
+    }
+
+    mod difference {
+        use std::iter;
+        use super::super::Difference;
+
+        #[test]
+        fn no_square_nums() {
+            let ns = iter::count(1u, 1);
+            let sq = iter::count(1u, 1).map(|x| x*x);
+            let diff = Difference::new(ns, sq);
+            assert_eq!(vec![2u, 3, 5, 6, 7, 8, 10, 11],
+                       diff.take(8).collect());
+        }
+
+        #[test]
+        fn minuend_is_empty() {
+            let a: Vec<uint> = vec![];
+            let b = vec![1u, 2, 3];
+            let mut diff = Difference::new(a.iter(), b.iter());
+            assert_eq!(vec![], diff.collect::<Vec<&uint>>());
+        }
+
+        #[test]
+        fn subtrahend_is_empty() {
+            let a = vec![1u, 2, 3];
+            let b: Vec<uint> = vec![];
+            let mut diff = Difference::new(a.into_iter(), b.into_iter());
+            assert_eq!(vec![1u, 2, 3], diff.collect());
+        }
     }
 }

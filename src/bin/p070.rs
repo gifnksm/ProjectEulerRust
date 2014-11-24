@@ -1,17 +1,18 @@
-#![crate_name = "prob0070"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate math;
+extern crate common;
+extern crate integer;
+extern crate prime;
 
 use std::f64;
-use math::numconv;
-use math::prime::Prime;
+use common::Solver;
+use integer::Integer;
+use prime::PrimeSet;
 
-pub const EXPECTED_ANSWER: &'static str = "8319823";
-
-pub fn solve() -> String {
-    let limit = 10000000;
-
+fn compute(limit: u64) -> u64 {
+    // n = \Pi_{k=1}^d p_k
     // n / phi(n) = 1 / \Pi_{k=1}^d (1 - 1/p_k)
     // => p^k / phi(p^k) = p / phi(p)
     // p is greater then n / phi(p) is less
@@ -19,20 +20,20 @@ pub fn solve() -> String {
     // phi(p) = p - 1 (if p is prime) => phi(p) is not permutation of p
     // phi(p1 * p2) = (p1 - 1) * (p2 - 1)
 
-    let prime = Prime::new();
+    let ps = PrimeSet::new();
     let mut min_n   = 0;
     let mut min_n_phi = f64::INFINITY;
-    for p1 in prime.iter() {
+    for p1 in ps.iter() {
         if p1 * p1 > limit { break }
-        for p2 in prime.iter() {
+        for p2 in ps.iter() {
             if p2 < p1 { continue }
 
             let n = p1 * p2;
             if n > limit { break }
 
             let phi = (p1 - 1) * (p2 - 1);
-            let ds1 = numconv::to_digit_histogram(n);
-            let ds2 = numconv::to_digit_histogram(phi);
+            let ds1 = n.into_digit_histogram();
+            let ds2 = phi.into_digit_histogram();
             if ds1 != ds2 { continue }
 
             let n_phi = (n as f64) / (phi as f64);
@@ -42,6 +43,12 @@ pub fn solve() -> String {
             }
         }
     }
-
-    min_n.to_string()
+    min_n
 }
+
+fn solve() -> String {
+    compute(10000000).to_string()
+}
+
+fn main() { Solver::new("8319823", solve).run(); }
+

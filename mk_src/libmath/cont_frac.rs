@@ -93,7 +93,7 @@ fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T>>(an: &[uint]) -> (T, T) {
 }
 
 /// solve pel equation x^2 - d y^2 = 1
-pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
+fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     if an.is_empty() {
         panic!("{} is square", d)
@@ -109,7 +109,7 @@ pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
 }
 
 /// solve pel equation x^2 - d y^2 = -1
-pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
+fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     let mut v = vec![a0];
     if an.len() % 2 == 0 {

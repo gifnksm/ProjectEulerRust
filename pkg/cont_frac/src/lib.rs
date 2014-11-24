@@ -111,6 +111,35 @@ pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T>, I: Iterator<uint> + Double
     (numer, denom)
 }
 
+/// solve pel equation x^2 - d y^2 = 1
+pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
+    let (a0, an) = sqrt(d);
+    if an.is_empty() {
+        panic!("{} is square", d)
+    }
+    let mut v = vec![a0];
+    if an.len() % 2 == 0 {
+        v.extend(an.init().iter().map(|&x| x))
+    } else {
+        v.extend(an.iter().map(|&x| x));
+        v.extend(an.init().iter().map(|&x| x))
+    }
+    fold(v.into_iter())
+}
+
+/// solve pel equation x^2 - d y^2 = -1
+pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
+    let (a0, an) = sqrt(d);
+    let mut v = vec![a0];
+    if an.len() % 2 == 0 {
+        v.extend(an.iter().map(|&x| x));
+        v.extend(an.init().iter().map(|&x| x));
+    } else {
+        v.extend(an.init().iter().map(|&x| x));
+    }
+    fold(v.into_iter())
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
@@ -173,4 +202,18 @@ mod tests {
         check(&[2, 1, 2, 1, 1, 4, 1, 1, 6], (1264, 465));
         check(&[2, 1, 2, 1, 1, 4, 1, 1, 6, 1], (1457, 536));
     }
+
+    #[test]
+    fn solve_pel() {
+        assert_eq!(super::solve_pel(2), (3i, 2));
+        assert_eq!(super::solve_pel(3), (2i, 1));
+        assert_eq!(super::solve_pel(5), (9i, 4));
+        assert_eq!(super::solve_pel(6), (5i, 2));
+        assert_eq!(super::solve_pel(7), (8i, 3));
+    }
+    #[test] #[should_fail]
+    fn solve_pel_1() { let _ = super::solve_pel::<uint>(1); }
+    #[test] #[should_fail]
+    fn solve_pel_4() { let _ = super::solve_pel::<uint>(4); }
+
 }

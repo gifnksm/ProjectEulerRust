@@ -1,9 +1,12 @@
-#![crate_name = "prob0068"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-pub const EXPECTED_ANSWER: &'static str = "6531031914842725";
+extern crate common;
 
-pub fn solve() -> String {
+use common::Solver;
+
+fn solve() -> String {
     // solve by hand...
     //
     // outside: 6, 10, 9, 8, 7
@@ -22,4 +25,6 @@ pub fn solve() -> String {
 
     "6531031914842725".to_string()
 }
+
+fn main() { Solver::new("6531031914842725", solve).run(); }
 
