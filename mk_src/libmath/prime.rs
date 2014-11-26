@@ -1,7 +1,6 @@
 use std::{iter, uint};
 use std::cell::RefCell;
 use std::rc::Rc;
-use std::local_data::{Key, KeyValueKey};
 use std::collections::HashMap;
 use std::collections::hash_map::{Occupied, Vacant};
 use std::num::Int;
@@ -59,7 +58,7 @@ impl PrimeInner {
     }
 }
 
-const TASK_PRIME_KEY: Key<Prime> = &KeyValueKey;
+thread_local!(static TASK_PRIME: Prime = Prime::new_empty())
 
 #[deriving(Clone)]
 pub struct Prime {
@@ -68,16 +67,7 @@ pub struct Prime {
 
 impl Prime {
     #[inline]
-    pub fn new() -> Prime {
-        match TASK_PRIME_KEY.get() {
-            Some(prime) => prime.clone(),
-            None => {
-                let prime = Prime::new_empty();
-                TASK_PRIME_KEY.replace(Some(prime.clone()));
-                prime
-            }
-        }
-    }
+    pub fn new() -> Prime { TASK_PRIME.with(|p| p.clone()) }
     #[inline]
     fn new_empty() -> Prime { Prime { data: Rc::new(RefCell::new(PrimeInner::new())) } }
     #[inline]
