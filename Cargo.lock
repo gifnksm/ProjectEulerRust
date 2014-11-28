@@ -4,14 +4,14 @@ version = "0.0.1"
 dependencies = [
  "cont_frac 0.0.1",
  "curl 0.1.0 (git+https://github.com/carllerche/curl-rust)",
- "glob 0.0.3 (git+https://github.com/rust-lang/glob)",
+ "glob 0.1.0 (git+https://github.com/rust-lang/glob)",
  "integer 0.0.1",
  "iter 0.0.1",
- "num 0.0.4 (git+https://github.com/rust-lang/num)",
+ "num 0.0.5 (git+https://github.com/rust-lang/num)",
  "playing_card 0.0.1",
  "prime 0.0.1",
  "seq 0.0.1",
- "time 0.0.3 (git+https://github.com/rust-lang/time)",
+ "time 0.1.0 (git+https://github.com/rust-lang/time)",
 ]
 
 [[package]]
@@ -35,26 +35,26 @@ name = "curl-sys"
 version = "0.1.0"
 source = "git+https://github.com/carllerche/curl-rust#c1b96e146f6752353a1e84cca932c628e6bf73af"
 dependencies = [
- "libz-sys 0.0.1 (git+https://github.com/alexcrichton/libz-sys)",
- "openssl-sys 0.1.1 (git+https://github.com/sfackler/rust-openssl)",
- "pkg-config 0.0.1 (git+https://github.com/alexcrichton/pkg-config-rs)",
+ "libz-sys 0.1.0 (git+https://github.com/alexcrichton/libz-sys)",
+ "openssl-sys 0.2.0 (git+https://github.com/sfackler/rust-openssl)",
+ "pkg-config 0.1.0 (git+https://github.com/alexcrichton/pkg-config-rs)",
 ]
 
 [[package]]
 name = "gcc"
-version = "0.0.2"
-source = "git+https://github.com/alexcrichton/gcc-rs#a3a9a2618d7d80493abd34b34c08edf516734ef6"
+version = "0.1.0"
+source = "git+https://github.com/alexcrichton/gcc-rs#96c9e44ce3dfccc47c16fcfd743a33b3b4205daf"
 
 [[package]]
 name = "glob"
-version = "0.0.3"
-source = "git+https://github.com/rust-lang/glob#9efe98bd82ad4932819888a94eb933ac618312f0"
+version = "0.1.0"
+source = "git+https://github.com/rust-lang/glob#923126289064ded89f028d14dc2f28bb347ae178"
 
 [[package]]
 name = "integer"
 version = "0.0.1"
 dependencies = [
- "num 0.0.4 (git+https://github.com/rust-lang/num)",
+ "num 0.0.5 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
@@ -63,33 +63,33 @@ version = "0.0.1"
 
 [[package]]
 name = "libz-sys"
-version = "0.0.1"
-source = "git+https://github.com/alexcrichton/libz-sys#37926b786b09e013e5fd64cc278b3df1b49c4fbe"
+version = "0.1.0"
+source = "git+https://github.com/alexcrichton/libz-sys#5622ae17a0262af56055b71f0d74fa5ee91d3a41"
 dependencies = [
- "pkg-config 0.0.1 (git+https://github.com/alexcrichton/pkg-config-rs)",
+ "pkg-config 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "num"
-version = "0.0.4"
-source = "git+https://github.com/rust-lang/num#8f8530fc00c1ab753c5051b457eb9b4b52926373"
+version = "0.0.5"
+source = "git+https://github.com/rust-lang/num#16787045e5f9764626a3d5cfbee4655e06efaccf"
 
 [[package]]
 name = "openssl-sys"
-version = "0.1.1"
-source = "git+https://github.com/sfackler/rust-openssl#5340344a5cf3783ecc7f16d0518d1b6584b4a56a"
+version = "0.2.0"
+source = "git+https://github.com/sfackler/rust-openssl#4bf953bc2bd2922f6d8bbddf09af7e2ef735ccf9"
 dependencies = [
- "pkg-config 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "pkg-config 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "pkg-config"
-version = "0.0.1"
-source = "git+https://github.com/alexcrichton/pkg-config-rs#d24a08d87d63df8dc9526c503944415b86719220"
+version = "0.1.0"
+source = "git+https://github.com/alexcrichton/pkg-config-rs#9b3b44a2e1a8ccc70c3f701aeb5154ad79e665e9"
 
 [[package]]
 name = "pkg-config"
-version = "0.0.1"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -100,26 +100,26 @@ version = "0.0.1"
 name = "prime"
 version = "0.0.1"
 dependencies = [
- "num 0.0.4 (git+https://github.com/rust-lang/num)",
+ "num 0.0.5 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
 name = "seq"
 version = "0.0.1"
 dependencies = [
- "num 0.0.4 (git+https://github.com/rust-lang/num)",
+ "num 0.0.5 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
 name = "time"
-version = "0.0.3"
-source = "git+https://github.com/rust-lang/time#533d3823dbe200aaa2a2599176a6b30579581232"
+version = "0.1.0"
+source = "git+https://github.com/rust-lang/time#afab521f3b91658a3ba2d3e877b7e01699733bef"
 dependencies = [
- "gcc 0.0.2 (git+https://github.com/alexcrichton/gcc-rs)",
+ "gcc 0.1.0 (git+https://github.com/alexcrichton/gcc-rs)",
 ]
 
 [[package]]
 name = "url"
 version = "0.1.0"
-source = "git+https://github.com/servo/rust-url#ce3d3176c1b7dfa99b81f29396b68fd5fe25a755"
+source = "git+https://github.com/servo/rust-url#9f05a0108025a1c9002e8977a42dce764895d170"
 
