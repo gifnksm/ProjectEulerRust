@@ -150,14 +150,14 @@ fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
 }
 
 impl<A: Zero + Add<A, A>, T: Iterator<Poly<A>>> AdditiveIterator<Poly<A>> for T {
-    fn sum(&mut self) -> Poly<A> {
+    fn sum(self) -> Poly<A> {
         let init: Poly<A> = Zero::zero();
         self.fold(init, |acc, x| acc + x)
     }
 }
 
 impl<A: Zero + One + Mul<A, A>, T: Iterator<Poly<A>>> MultiplicativeIterator<Poly<A>> for T {
-    fn product(&mut self) -> Poly<A> {
+    fn product(self) -> Poly<A> {
         let init: Poly<A> = One::one();
         self.fold(init, |acc, x| acc * x)
     }

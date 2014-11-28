@@ -162,19 +162,19 @@ impl Iterator<Factor> for FactorizeIterator {
 }
 
 pub trait FactorIterator {
-    fn to_uint(&mut self) -> uint;
+    fn to_uint(self) -> uint;
 }
 
 impl<IA: Iterator<Factor>> FactorIterator for IA {
     #[inline]
-    fn to_uint(&mut self) -> uint {
+    fn to_uint(self) -> uint {
         self.fold(1, |s, (base, exp)| {
-                if exp > 0 {
-                    s * base.pow(exp as uint)
-                } else {
-                    s / base.pow((-exp) as uint)
-                }
-            })
+            if exp > 0 {
+                s * base.pow(exp as uint)
+            } else {
+                s / base.pow((-exp) as uint)
+            }
+        })
     }
 }
 

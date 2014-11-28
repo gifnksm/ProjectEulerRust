@@ -5,7 +5,6 @@ extern crate common;
 extern crate math;
 
 use std::{mem, uint};
-use std::iter::OrdIterator;
 use std::io::File;
 use std::collections::HashMap;
 use std::num::Int;
