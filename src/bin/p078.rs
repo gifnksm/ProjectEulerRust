@@ -1,24 +1,30 @@
-#![crate_name = "prob0078"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
+
+extern crate common;
 
 use std::iter;
-
-pub const EXPECTED_ANSWER: &'static str = "55374";
+use common::Solver;
 
 const MILLION: int = 1000000;
 
-#[inline]
 fn penta(n: int) -> int { n * (3 * n - 1) / 2 }
 
-pub fn solve() -> String {
+fn solve() -> String {
     let mut v = [0, ..65536];
     v[0] = 1;
 
     for n in iter::count(1i, 1) {
         let mut way = 0;
+
         for i in iter::count(0i, 1) {
             let k = i % 4;
-            let p = if k == 0 || k == 2 { penta(i / 2 + 1) } else { penta(-i / 2 - 1) };
+            let p = if k == 0 || k == 2 {
+                penta(i / 2 + 1)
+            } else {
+                penta(-i / 2 - 1)
+            };
             if p > n { break; }
 
             way = match k {
@@ -35,3 +41,5 @@ pub fn solve() -> String {
 
     unreachable!()
 }
+
+fn main() { Solver::new("55374", solve).run(); }

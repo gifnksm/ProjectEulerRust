@@ -1,0 +1,40 @@
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
+
+extern crate common;
+
+use std::collections::HashMap;
+use common::Solver;
+
+fn count_way(sum: uint) -> uint {
+    let mut map = HashMap::new();
+    return count_sub(sum, 1, &mut map) - 1;
+
+    fn count_sub(
+        sum: uint, min_n: uint, map: &mut HashMap<(uint, uint), uint>
+    ) -> uint {
+        let mut cnt = 1; // only sum
+        for k in range(min_n, sum / 2 + 1) {
+            let n = match map.get(&(sum - k, k)) {
+                Some(&n) => n,
+                None     => count_sub(sum - k, k, map)
+            };
+            cnt += n;
+        }
+        let _ = map.insert((sum, min_n), cnt);
+        cnt
+    }
+}
+
+fn solve() -> String {
+    count_way(100).to_string()
+}
+
+fn main() { Solver::new("190569291", solve).run(); }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn five() { assert_eq!(6, super::count_way(5)); }
+}

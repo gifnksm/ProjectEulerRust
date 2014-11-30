@@ -21,6 +21,7 @@ script:
   - cargo test -p playing_card --verbose
   - cargo test -p prime        --verbose
   - cargo test -p seq          --verbose
+  - cargo test -p tsort        --verbose
   - cargo bench --verbose
   - cargo bench -p cont_frac    --verbose
   - cargo bench -p integer      --verbose
@@ -28,5 +29,6 @@ script:
   - cargo bench -p playing_card --verbose
   - cargo bench -p prime        --verbose
   - cargo bench -p seq          --verbose
+  - cargo bench -p tsort        --verbose
   - cargo doc --verbose
 

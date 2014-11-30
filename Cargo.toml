@@ -35,3 +35,6 @@ path = "./pkg/playing_card"
 
 [dependencies.seq]
 path = "./pkg/seq"
+
+[dependencies.tsort]
+path = "./pkg/tsort"
