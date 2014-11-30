@@ -6,7 +6,7 @@
 
 extern crate common;
 
-use std::iter::{OrdIterator, MultiplicativeIterator};
+use std::iter::MultiplicativeIterator;
 use common::Solver;
 
 const INPUT: &'static str = "

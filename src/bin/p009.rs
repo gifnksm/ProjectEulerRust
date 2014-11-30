@@ -5,8 +5,7 @@
 extern crate common;
 extern crate integer;
 
-use std::cmp;
-use std::iter::Repeat;
+use std::{cmp, iter};
 use common::Solver;
 use integer::Integer;
 
@@ -14,7 +13,7 @@ fn compute(sum: uint) -> uint {
     range(2, sum - 1)
         .flat_map(|c| {
             let a_max = cmp::min((sum - c) / 2, (c * c / 2).sqrt());
-            range(1, a_max).zip(Repeat::new(c))
+            range(1, a_max).zip(iter::repeat(c))
         }).map(|(a, c)| (a, sum - c - a, c))
         .find(|&(a, b, c)| a * a + b * b == c * c)
         .map(|(a, b, c)| a * b * c)

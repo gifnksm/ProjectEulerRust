@@ -7,7 +7,7 @@
 extern crate common;
 extern crate integer;
 
-use std::iter::{mod, AdditiveIterator, MultiplicativeIterator, Repeat};
+use std::iter::{mod, AdditiveIterator, MultiplicativeIterator};
 use common::Solver;
 use integer::Integer;
 
@@ -29,7 +29,7 @@ impl Pandigimal {
     }
 
     fn from_u64(n: u64, len: uint) -> Option<Pandigimal> {
-        let it = n.into_digits(RADIX as u64).chain(Repeat::new(0));
+        let it = n.into_digits(RADIX as u64).chain(iter::repeat(0));
         Pandigimal::new().join_all(it.map(|x| x as uint).take(len))
     }
 
@@ -69,7 +69,7 @@ impl Pandigimal {
 
 fn create_pandigimal_list(base: u64, len: uint) -> Vec<Pandigimal> {
     assert!(len > 0);
-    let max = Repeat::new(RADIX as u64).take(len).product() - 1;
+    let max = iter::repeat(RADIX as u64).take(len).product() - 1;
     iter::range_inclusive(0, max / base)
         .filter_map(|n| Pandigimal::from_u64(base * n, len))
         .collect()
@@ -77,7 +77,7 @@ fn create_pandigimal_list(base: u64, len: uint) -> Vec<Pandigimal> {
 
 fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: uint) -> Vec<Pandigimal> {
     assert!(len > 0);
-    let ord = Repeat::new(RADIX as u64).take(len - 1).product();
+    let ord = iter::repeat(RADIX as u64).take(len - 1).product();
 
     let mut result = vec![];
     for pd in list.iter() {

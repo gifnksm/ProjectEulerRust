@@ -42,10 +42,10 @@ struct ProgramError {
 }
 
 impl ProgramError {
-    pub fn new<T: IntoMaybeOwned<'static>>(msg: T, kind: ProgramErrorKind) -> ProgramError {
+    pub fn new<T: IntoCow<'static, String, str>>(msg: T, kind: ProgramErrorKind) -> ProgramError {
         ProgramError {
             kind: kind,
-            message: msg.into_maybe_owned()
+            message: msg.into_cow()
         }
     }
 }
@@ -56,18 +56,18 @@ trait ToProgramError {
 
 impl ToProgramError for io::IoError {
     fn to_program_error(self) -> ProgramError {
-        ProgramError::new(self.desc.into_maybe_owned(), ProgramErrorKind::IoError(self))
+        ProgramError::new(self.desc.into_cow(), ProgramErrorKind::IoError(self))
     }
 }
 
 impl ToProgramError for json::ParserError {
     fn to_program_error(self) -> ProgramError {
         match self {
-            json::SyntaxError(code, line, col) => {
+            json::ParserError::SyntaxError(code, line, col) => {
                 ProgramError::new(format!("{}:{}:{}", line, col, json::error_str(code)),
                                   ProgramErrorKind::JsonSyntaxError(code, line, col))
             },
-            json::IoError(kind, desc) => {
+            json::ParserError::IoError(kind, desc) => {
                 (io::IoError {kind: kind, desc: desc, detail: None })
                     .to_program_error()
             }

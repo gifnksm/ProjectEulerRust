@@ -15,14 +15,14 @@ use std::error::{Error, FromError};
 use std::{fmt, os};
 use std::io::{mod, IoResult, File};
 use std::io::fs::{mod, PathExtensions};
-use std::str::MaybeOwned;
+use std::str::CowString;
 use curl::http;
 use num::Integer;
 use serialize::{json, Encodable};
 use term::{color, Terminal};
 use term::color::Color;
 
-type OutputPair<'a> = (Option<Color>, MaybeOwned<'a>);
+type OutputPair<'a> = (Option<Color>, CowString<'a>);
 
 const NSEC_PER_SEC:    u64 = 1000000000;
 const NSEC_WARN_LIMIT: u64 = 1  * NSEC_PER_SEC;
@@ -148,17 +148,17 @@ impl<T: fmt::Show> SolverResult<T> {
         items.push(normal("\n"));
         print_items(items[]);
 
-        fn normal<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
-            (None, s.into_maybe_owned())
+        fn normal<'a, T: IntoCow<'a, String, str>>(s: T) -> OutputPair<'a> {
+            (None, s.into_cow())
         }
-        fn ok<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
-            (Some(COLOR_OK), s.into_maybe_owned())
+        fn ok<'a, T: IntoCow<'a, String, str>>(s: T) -> OutputPair<'a> {
+            (Some(COLOR_OK), s.into_cow())
         }
-        fn warn<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
-            (Some(COLOR_WARN), s.into_maybe_owned())
+        fn warn<'a, T: IntoCow<'a, String, str>>(s: T) -> OutputPair<'a> {
+            (Some(COLOR_WARN), s.into_cow())
         }
-        fn ng<'a, T: IntoMaybeOwned<'a>>(s: T) -> OutputPair<'a> {
-            (Some(COLOR_NG), s.into_maybe_owned())
+        fn ng<'a, T: IntoCow<'a, String, str>>(s: T) -> OutputPair<'a> {
+            (Some(COLOR_NG), s.into_cow())
         }
 
         Ok(())

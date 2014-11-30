@@ -24,7 +24,7 @@ dependencies = [
 [[package]]
 name = "curl"
 version = "0.1.0"
-source = "git+https://github.com/carllerche/curl-rust#c1b96e146f6752353a1e84cca932c628e6bf73af"
+source = "git+https://github.com/carllerche/curl-rust#e57e9b2e6c2fc544056f28412e877268673d13c5"
 dependencies = [
  "curl-sys 0.1.0 (git+https://github.com/carllerche/curl-rust)",
  "url 0.1.0 (git+https://github.com/servo/rust-url)",
@@ -33,10 +33,10 @@ dependencies = [
 [[package]]
 name = "curl-sys"
 version = "0.1.0"
-source = "git+https://github.com/carllerche/curl-rust#c1b96e146f6752353a1e84cca932c628e6bf73af"
+source = "git+https://github.com/carllerche/curl-rust#e57e9b2e6c2fc544056f28412e877268673d13c5"
 dependencies = [
  "libz-sys 0.1.0 (git+https://github.com/alexcrichton/libz-sys)",
- "openssl-sys 0.2.0 (git+https://github.com/sfackler/rust-openssl)",
+ "openssl-sys 0.2.1 (git+https://github.com/sfackler/rust-openssl)",
  "pkg-config 0.1.0 (git+https://github.com/alexcrichton/pkg-config-rs)",
 ]
 
@@ -76,8 +76,8 @@ source = "git+https://github.com/rust-lang/num#16787045e5f9764626a3d5cfbee4655e0
 
 [[package]]
 name = "openssl-sys"
-version = "0.2.0"
-source = "git+https://github.com/sfackler/rust-openssl#4bf953bc2bd2922f6d8bbddf09af7e2ef735ccf9"
+version = "0.2.1"
+source = "git+https://github.com/sfackler/rust-openssl#c3603b0db00d044c8332d39dd9d49e3c76a2a978"
 dependencies = [
  "pkg-config 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
