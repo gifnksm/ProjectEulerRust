@@ -1,24 +1,39 @@
-#![crate_name = "prob0083"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate prob0081;
+extern crate common;
 
 use std::{cmp, uint};
 use std::collections::HashSet;
+use std::io::{BufferedReader, File, IoResult};
+use common::Solver;
 
-pub const EXPECTED_ANSWER: &'static str = "425185";
+fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<uint>>> {
+    let mut br = BufferedReader::new(reader);
+
+    let mut mat = vec![];
+
+    for line in br.lines() {
+        let row = try!(line).trim().split(',').filter_map(from_str::<uint>).collect();
+        mat.push(row);
+    }
+
+    Ok(mat)
+}
 
 #[deriving(Eq, PartialEq, Hash, Clone)]
 struct Point { x: uint, y: uint }
 
-pub fn solve() -> String {
-    let (w, h, mat) = prob0081::read_matrix("files/p083_matrix.txt");
+fn minimal_path_sum(mat: Vec<Vec<uint>>) -> uint {
+    let (w, h) = (mat[0].len(), mat.len());
+
     let start = Point { x: 0,     y: 0 };
     let goal  = Point { x: w - 1, y: h - 1 };
 
     let mut closed = HashSet::new();
     let mut open   = HashSet::new();
-    let mut dist = Vec::from_fn(h, |_y| Vec::from_elem(w, uint::MAX));
+    let mut dist   = Vec::from_fn(h, |_y| Vec::from_elem(w, uint::MAX));
     let mut parent = Vec::from_fn(h, |_y| Vec::from_elem(w, Point { x: w, y: h }));
 
     dist[start.y][start.x] = mat[start.y][start.x];
@@ -65,5 +80,27 @@ pub fn solve() -> String {
         }
     }
 
-    dist[h - 1][w - 1].to_string()
+    dist[h - 1][w - 1]
+}
+
+fn solve(file: File) -> IoResult<String> {
+    let mat = try!(read_matrix(file));
+    Ok(minimal_path_sum(mat).to_string())
+}
+
+fn main() { Solver::new_with_file("425185", "p083_matrix.txt", solve).run(); }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn five_by_five() {
+        let mat = vec![
+            vec![131, 673, 234, 103,  18],
+            vec![201,  96, 342, 965, 150],
+            vec![630, 803, 746, 422, 111],
+            vec![537, 699, 497, 121, 956],
+            vec![805, 732, 524,  37, 331]
+        ];
+        assert_eq!(2297, super::minimal_path_sum(mat));
+    }
 }

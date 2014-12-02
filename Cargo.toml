@@ -27,6 +27,9 @@ path = "./pkg/integer"
 [dependencies.iter]
 path = "./pkg/iter"
 
+[dependencies.matrix]
+path = "./pkg/matrix"
+
 [dependencies.prime]
 path = "./pkg/prime"
 

@@ -7,6 +7,7 @@ dependencies = [
  "glob 0.1.0 (git+https://github.com/rust-lang/glob)",
  "integer 0.0.1",
  "iter 0.0.1",
+ "matrix 0.0.1",
  "num 0.0.5 (git+https://github.com/rust-lang/num)",
  "playing_card 0.0.1",
  "prime 0.0.1",
@@ -69,6 +70,10 @@ source = "git+https://github.com/alexcrichton/libz-sys#5622ae17a0262af56055b71f0
 dependencies = [
  "pkg-config 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
+
+[[package]]
+name = "matrix"
+version = "0.0.1"
 
 [[package]]
 name = "num"

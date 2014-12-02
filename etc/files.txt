@@ -1,4 +1,3 @@
-https://projecteuler.net/project/resources/p079_keylog.txt
 https://projecteuler.net/project/resources/p081_matrix.txt
 https://projecteuler.net/project/resources/p082_matrix.txt
 https://projecteuler.net/project/resources/p083_matrix.txt
