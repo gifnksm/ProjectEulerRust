@@ -61,7 +61,7 @@ fn roll_trans_matrix(dice_side: uint) -> Matrix<f64> {
         }
 
         // not consecutive doubles or goto jail (reset consecutive doubles).
-        let mut prob = if pos_diff < roll_dist.len() {
+        let prob = if pos_diff < roll_dist.len() {
             roll_dist[pos_diff].0
         } else {
             0.0
