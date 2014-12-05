@@ -74,6 +74,9 @@ dependencies = [
 [[package]]
 name = "matrix"
 version = "0.0.1"
+dependencies = [
+ "num 0.0.5 (git+https://github.com/rust-lang/num)",
+]
 
 [[package]]
 name = "num"
