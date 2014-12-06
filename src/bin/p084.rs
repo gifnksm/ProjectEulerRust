@@ -124,9 +124,13 @@ fn cc_trans_matrix() -> Matrix<f64> {
         let dst_sq: Square = FromPrimitive::from_uint(dst_pos).unwrap();
         match src_sq {
             Square::CC1 | Square::CC2 | Square::CC3 => {
-                if dst_seq == 0 && dst_sq == Square::JAIL {
-                    return 1.0 / 16.0;
+                if dst_seq == src_seq && dst_sq == Square::JAIL {
+                    return 1.0 / 16.0
                 }
+                // Reset consecutive doubles after go to JAIL.
+                // if dst_seq == 0 && dst_sq == Square::JAIL {
+                //     return 1.0 / 16.0;
+                // }
                 if dst_seq != src_seq {
                     return 0.0;
                 }
