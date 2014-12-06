@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(if_let, macro_rules, slicing_syntax)]
+#![feature(macro_rules, slicing_syntax)]
 
 extern crate glob;
 extern crate serialize;

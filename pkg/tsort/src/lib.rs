@@ -4,7 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(if_let)]
 #![cfg_attr(test, feature(slicing_syntax))]
 
 use std::collections::{HashMap, HashSet};

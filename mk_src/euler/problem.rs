@@ -24,7 +24,7 @@ impl<'a> Problem<'a> {
         let (time, answer) = bench(|| (self.solve)());
         Solution {
             name: self.id.to_string(),
-            is_correct: answer.equiv(&self.answer),
+            is_correct: answer == self.answer,
             answer: answer,
             time: time
         }

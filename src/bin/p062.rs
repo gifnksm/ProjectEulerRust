@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(default_type_params, if_let, slicing_syntax)]
+#![feature(default_type_params)]
 
 extern crate common;
 extern crate integer;

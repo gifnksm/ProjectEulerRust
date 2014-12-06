@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(if_let, slicing_syntax)]
+#![feature(slicing_syntax)]
 
 use std::fmt;
 use std::str::FromStr;
