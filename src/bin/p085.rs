@@ -18,7 +18,7 @@ fn distance(a: uint, target: uint) -> uint {
     if a > target { a - target } else { target - a }
 }
 
-pub fn check_distance(min_dist: &mut uint, min_pos: &mut (uint, uint), pos: (uint, uint), target: uint) {
+fn check_distance(min_dist: &mut uint, min_pos: &mut (uint, uint), pos: (uint, uint), target: uint) {
     let dist = distance(count_rect(pos), target);
     if dist < *min_dist {
         *min_dist = dist;
@@ -26,7 +26,7 @@ pub fn check_distance(min_dist: &mut uint, min_pos: &mut (uint, uint), pos: (uin
     }
 }
 
-pub fn solve() -> String {
+fn solve() -> String {
     let target = 2000000;
 
     let mut x = 1;
