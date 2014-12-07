@@ -1,15 +1,17 @@
-#![crate_name = "prob0090"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate data;
+#![feature(slicing_syntax)]
 
-use std::collections::BitvSet;
-use data::extiter::Comb;
+extern crate common;
+extern crate iter;
 
-pub const EXPECTED_ANSWER: &'static str = "1217";
+use common::Solver;
+use iter::BitCombination;
 
-pub fn solve() -> String {
-    let all_combs = Comb::new(6, 10)
+fn solve() -> String {
+    let all_combs = BitCombination::new(6, 10)
         .map(|mut set| {
             match (set.contains(&6), set.contains(&9)) {
                 (false, true) => { set.insert(6); },
@@ -17,7 +19,7 @@ pub fn solve() -> String {
                 _ => {}
             }
             set
-        }).collect::<Vec<BitvSet>>();
+        }).collect::<Vec<_>>();
 
     let nums = Vec::from_fn(9, |i| {
         let n = (i + 1) * (i + 1);
@@ -26,7 +28,7 @@ pub fn solve() -> String {
 
     let mut cnt = 0u;
     for (i, set1) in all_combs.iter().enumerate() {
-        for set2 in  all_combs.slice_from(i + 1).iter() {
+        for set2 in  all_combs[i + 1 ..].iter() {
             let cond = nums.iter()
                 .all(|&(a, b)| {
                     (set1.contains(&a) && set2.contains(&b)) ||
@@ -37,3 +39,5 @@ pub fn solve() -> String {
     }
     cnt.to_string()
 }
+
+fn main() { Solver::new("1217", solve).run(); }

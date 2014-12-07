@@ -1,17 +1,18 @@
-#![crate_name = "prob0086"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate math;
+extern crate common;
+extern crate seq;
 
 use std::cmp;
-use math::sequence;
-
-pub const EXPECTED_ANSWER: &'static str = "1818";
+use common::Solver;
+use seq::PrimitivePythagoreans;
 
 fn get_count(m: uint) -> uint {
     let mut cnt = 0u;
     for max_a in range(0, m) {
-        for (p, q, _) in sequence::prim_pythagorean(max_a) {
+        for (p, q, _) in PrimitivePythagoreans::new(max_a) {
             for k in range(1, m / q + 1) {
                 cnt += k * p / 2;
             }
@@ -23,26 +24,24 @@ fn get_count(m: uint) -> uint {
             }
         }
     }
-    return cnt;
+    cnt
 }
 
 // cuboid: (a, b, c),  a <= b <= c <= M
 // => S = sqrt(c^2 + (a + b)^2)
-pub fn solve() -> String {
-    let limit_cnt = 1000000;
-
+fn get_min_m(limit: uint) -> uint {
     let mut lim = 1;
     let mut cnt = get_count(lim);
-    while cnt < limit_cnt {
+    while cnt < limit {
         lim *= 2;
         cnt = get_count(lim);
     }
 
     let mut m = 0;
     while lim != 0 {
-        let ix = m + (lim >> 1);
+        let ix = m + (lim / 2);
         let cnt = get_count(ix);
-        match cnt.cmp(&limit_cnt) {
+        match cnt.cmp(&limit) {
             Equal => break,
             Less  => {
                 m = ix + 1;
@@ -50,8 +49,28 @@ pub fn solve() -> String {
             }
             Greater => {}
         }
-        lim >>= 1;
+        lim /= 2;
     }
 
-    return m.to_string();
+    m
+}
+
+fn solve() -> String {
+    get_min_m(1000000).to_string()
+}
+
+fn main() { Solver::new("1818", solve).run(); }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn exceed_two_thousand() {
+        assert_eq!(100, super::get_min_m(2000));
+    }
+
+    #[test]
+    fn get_count() {
+        assert_eq!(1975, super::get_count(99));
+        assert_eq!(2060, super::get_count(100));
+    }
 }

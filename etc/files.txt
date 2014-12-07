@@ -1,7 +1,3 @@
-https://projecteuler.net/project/resources/p081_matrix.txt
-https://projecteuler.net/project/resources/p082_matrix.txt
-https://projecteuler.net/project/resources/p083_matrix.txt
-https://projecteuler.net/project/resources/p089_roman.txt
 https://projecteuler.net/project/resources/p096_sudoku.txt
 https://projecteuler.net/project/resources/p098_words.txt
 https://projecteuler.net/project/resources/p099_base_exp.txt
