@@ -140,6 +140,44 @@ pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T
     fold(v.into_iter())
 }
 
+/// iterates all (x, y) sufficient x^2 - d y^2 = 1
+pub struct PelRoots<T> {
+    d: T,
+    x1y1: (T, T),
+    xy: (T, T)
+}
+
+impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelRoots<T> {
+    /// Creates a new `PelRoots` iterator
+    #[inline]
+    pub fn new(d: uint) -> PelRoots<T> {
+        let x1y1 = solve_pel(d);
+        let xy   = x1y1.clone();
+        PelRoots {
+            d: FromPrimitive::from_uint(d).unwrap(),
+            x1y1: x1y1, xy: xy
+        }
+    }
+}
+
+impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelRoots<T> {
+    // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
+    // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
+    //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
+    #[inline]
+    fn next(&mut self) -> Option<(T, T)> {
+        let next = {
+            let ref d = self.d;
+            let (ref x1, ref y1) = self.x1y1;
+            let (ref xk, ref yk) = self.xy;
+            ((*xk) * (*x1) + (*d) * (*yk) * (*y1),
+             (*yk) * (*x1) +        (*xk) * (*y1))
+        };
+
+        Some(mem::replace(&mut self.xy, next))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     #[test]

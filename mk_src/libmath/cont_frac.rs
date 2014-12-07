@@ -92,22 +92,6 @@ fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T>>(an: &[uint]) -> (T, T) {
     return (numer, denom);
 }
 
-/// solve pel equation x^2 - d y^2 = 1
-fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
-    let (a0, an) = sqrt(d);
-    if an.is_empty() {
-        panic!("{} is square", d)
-    }
-    let mut v = vec![a0];
-    if an.len() % 2 == 0 {
-        v.extend(an.init().iter().map(|&x| x))
-    } else {
-        v.extend(an.iter().map(|&x| x));
-        v.extend(an.init().iter().map(|&x| x))
-    }
-    fold::<T>(v[])
-}
-
 /// solve pel equation x^2 - d y^2 = -1
 fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
@@ -119,44 +103,6 @@ fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
         v.extend(an.init().iter().map(|&x| x));
     }
     fold::<T>(v[])
-}
-
-
-/// iterates all (x, y) sufficient x^2 - d y^2 = 1
-pub struct PelIterator<T> {
-    d: T,
-    x1y1: (T, T),
-    xy: (T, T)
-}
-
-impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelIterator<T> {
-    #[inline]
-    pub fn new(d: uint) -> PelIterator<T> {
-        let x1y1 = solve_pel(d);
-        let xy   = x1y1.clone();
-        PelIterator {
-            d: FromPrimitive::from_uint(d).unwrap(),
-            x1y1: x1y1, xy: xy
-        }
-    }
-}
-
-impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelIterator<T> {
-    // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
-    // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
-    //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
-    #[inline]
-    fn next(&mut self) -> Option<(T, T)> {
-        let next = {
-            let ref d = self.d;
-            let (ref x1, ref y1) = self.x1y1;
-            let (ref xk, ref yk) = self.xy;
-            ((*xk) * (*x1) + (*d) * (*yk) * (*y1),
-             (*yk) * (*x1) +        (*xk) * (*y1))
-        };
-
-        Some(mem::replace(&mut self.xy, next))
-    }
 }
 
 
@@ -258,17 +204,4 @@ mod tests {
         test(&[2, 1, 2, 1, 1, 4, 1, 1, 6], (1264, 465));
         test(&[2, 1, 2, 1, 1, 4, 1, 1, 6, 1], (1457, 536));
     }
-
-    #[test]
-    fn test_solve_pel() {
-        assert_eq!(super::solve_pel(2), (3i, 2));
-        assert_eq!(super::solve_pel(3), (2i, 1));
-        assert_eq!(super::solve_pel(5), (9i, 4));
-        assert_eq!(super::solve_pel(6), (5i, 2));
-        assert_eq!(super::solve_pel(7), (8i, 3));
-    }
-    #[test] #[should_fail]
-    fn test_solve_pel_1() { super::solve_pel::<uint>(1); }
-    #[test] #[should_fail]
-    fn test_solve_pel_4() { super::solve_pel::<uint>(4); }
 }

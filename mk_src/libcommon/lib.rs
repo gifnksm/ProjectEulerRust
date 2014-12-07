@@ -3,5 +3,4 @@
 
 #![feature(slicing_syntax)]
 
-pub mod calc;
 pub mod reader;
