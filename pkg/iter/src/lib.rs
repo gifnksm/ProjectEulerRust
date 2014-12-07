@@ -288,23 +288,23 @@ mod tests {
             let sq = iter::count(1u, 1).map(|x| x*x);
             let diff = Difference::new(ns, sq);
             assert_eq!(vec![2u, 3, 5, 6, 7, 8, 10, 11],
-                       diff.take(8).collect());
+                       diff.take(8).collect::<Vec<_>>());
         }
 
         #[test]
         fn minuend_is_empty() {
             let a: Vec<uint> = vec![];
             let b = vec![1u, 2, 3];
-            let mut diff = Difference::new(a.iter(), b.iter());
-            assert_eq!(vec![], diff.collect::<Vec<&uint>>());
+            let diff = Difference::new(a.iter(), b.iter());
+            assert!(diff.collect::<Vec<&uint>>().is_empty());
         }
 
         #[test]
         fn subtrahend_is_empty() {
             let a = vec![1u, 2, 3];
             let b: Vec<uint> = vec![];
-            let mut diff = Difference::new(a.into_iter(), b.into_iter());
-            assert_eq!(vec![1u, 2, 3], diff.collect());
+            let diff = Difference::new(a.into_iter(), b.into_iter());
+            assert_eq!(vec![1u, 2, 3], diff.collect::<Vec<_>>());
         }
     }
 }

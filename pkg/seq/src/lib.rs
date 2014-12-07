@@ -227,7 +227,7 @@ mod tests {
     use num::One;
     use num::bigint::ToBigInt;
 
-    fn check<T: Eq + Show, I: Iterator<T>>(expected: &[T], mut it: I) {
+    fn check<T: Eq + Show, I: Iterator<T>>(expected: &[T], it: I) {
         assert_eq!(expected, it.collect::<Vec<_>>()[]);
     }
 

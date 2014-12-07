@@ -40,8 +40,7 @@ impl<T: Hash + Eq + Clone> TopologicalSort<T> {
     ///            { let mut v = ts.pop_all(); v.sort(); v });
     /// assert_eq!(vec!["hello_world"],
     ///            { let mut v = ts.pop_all(); v.sort(); v });
-    /// assert_eq!(vec![],
-    ///            { let mut v = ts.pop_all(); v.sort(); v });
+    /// assert!(ts.pop_all().is_empty());
     /// ```
     #[inline]
     pub fn new() -> TopologicalSort<T> { TopologicalSort { top: HashMap::new() } }
