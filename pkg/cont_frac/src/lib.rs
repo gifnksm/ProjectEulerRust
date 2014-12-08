@@ -178,6 +178,43 @@ impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelRoots<T> {
     }
 }
 
+/// iterates all (x, y) sufficient x^2 - d y^2 = -1
+pub struct PelNegRoots<T> {
+    d: T,
+    x1y1: (T, T),
+    xy: (T, T)
+}
+
+impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelNegRoots<T> {
+    /// Creates a new `PelNegRoots` iterator
+    #[inline]
+    pub fn new(d: uint) -> PelNegRoots<T> {
+        let x1y1 = solve_pel_neg(d);
+        let xy   = x1y1.clone();
+        PelNegRoots {
+            d: FromPrimitive::from_uint(d).unwrap(),
+            x1y1: x1y1, xy: xy
+        }
+    }
+}
+
+impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelNegRoots<T> {
+    #[inline]
+    fn next(&mut self) -> Option<(T, T)> {
+        let next = {
+            let ref d = self.d;
+            let (ref x1, ref y1) = self.x1y1;
+            let (ref xk, ref yk) = self.xy;
+            let (xk, yk) = ((*xk) * (*x1) + (*d) * (*yk) * (*y1),
+                            (*yk) * (*x1) +        (*xk) * (*y1));
+            (xk * (*x1) + (*d) * yk * (*y1),
+             yk * (*x1) +        xk * (*y1))
+        };
+
+        Some(mem::replace(&mut self.xy, next))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     #[test]

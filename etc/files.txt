@@ -1,6 +1,3 @@
-https://projecteuler.net/project/resources/p096_sudoku.txt
-https://projecteuler.net/project/resources/p098_words.txt
-https://projecteuler.net/project/resources/p099_base_exp.txt
 https://projecteuler.net/project/resources/p102_triangles.txt
 https://projecteuler.net/project/resources/p105_sets.txt
 https://projecteuler.net/project/resources/p107_network.txt

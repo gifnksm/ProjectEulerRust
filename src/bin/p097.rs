@@ -1,13 +1,13 @@
-#![crate_name = "prob0097"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
+extern crate common;
 extern crate num;
 
+use common::Solver;
 use num::{One, Zero, BigUint};
 
-pub const EXPECTED_ANSWER: &'static str = "8739992577";
-
-#[inline(always)]
 fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
     let two: BigUint = FromPrimitive::from_uint(2).unwrap();
     let mut result = One::one();
@@ -23,19 +23,17 @@ fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
     return result;
 }
 
-#[inline(always)]
 fn mul_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
     (*a * *b) % *unit
 }
 
-#[inline(always)]
 fn add_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
     (*a + *b) % *unit
 }
 
-pub fn solve() -> String {
+fn solve() -> String {
     let unit: BigUint = FromPrimitive::from_uint(100_0000_0000).unwrap();
-    return add_unit(
+    add_unit(
         &mul_unit(&FromPrimitive::from_uint(28433).unwrap(),
                   &pow_unit(&FromPrimitive::from_uint(2).unwrap(),
                             &FromPrimitive::from_uint(7830457).unwrap(),
@@ -43,5 +41,9 @@ pub fn solve() -> String {
                   &unit),
         &One::one(),
         &unit
-    ).to_string();
+    ).to_string()
+}
+
+fn main() {
+    Solver::new("8739992577", solve).run();
 }

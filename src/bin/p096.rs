@@ -1,11 +1,15 @@
-#![crate_name = "prob0096"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-use std::{fmt, iter};
+#![feature(slicing_syntax)]
+
+extern crate common;
+
+use std::io::{BufferedReader, File, IoErrorKind, IoResult};
+use std::iter;
 use std::num::Int;
-use std::io::{BufferedReader, File};
-
-pub const EXPECTED_ANSWER: &'static str = "24702";
+use common::Solver;
 
 const BOARD_WIDTH: uint = 9;
 const BOARD_HEIGHT: uint = 9;
@@ -15,94 +19,67 @@ const MAX_NUMBER: uint = 9;
 type BITS = u16;
 const MASK_ALL: BITS = 0x1ff;
 
+#[deriving(Eq, PartialEq, Clone, Show)]
 struct SuDoku {
     name: String,
     map: [[BITS, .. BOARD_WIDTH], .. BOARD_HEIGHT]
 }
 
-// #7622 (rust): #[deriving(Eq, Eq, Clone)] cannnot be used
-impl Eq for SuDoku {}
-
-impl PartialEq for SuDoku {
-    #[inline]
-    fn eq(&self, other: &SuDoku) -> bool {
-        self.name == other.name && range(0, BOARD_HEIGHT).all(|y| self.map[y] == other.map[y])
-    }
-}
-
-impl fmt::Show for SuDoku {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        try!(writeln!(f, "{}", self.name));
-
-        for row in self.map.iter() {
-            for cell in row.iter() {
-                if cell.count_ones() == 1 {
-                    try!(write!(f, "_"));
-                } else {
-                    try!(write!(f, "{}", 1u << cell.trailing_zeros()));
-                }
-            }
-            try!(writeln!(f, ""));
-        }
-
-        Ok(())
-    }
-}
-
-impl Clone for SuDoku {
-    #[inline]
-    fn clone(&self) -> SuDoku {
-        SuDoku { name: self.name.clone(), map: self.map }
-    }
-}
-
 impl SuDoku {
-    #[inline]
-    fn get_num(&self, x: uint, y: uint) -> BITS {
+    fn get_at(&self, x: uint, y: uint) -> uint {
         match self.map[y][x].count_ones() {
             0 => -1,
-            1 => (self.map[y][x].trailing_zeros() + 1) as BITS,
+            1 => self.map[y][x].trailing_zeros() + 1,
             _ => 0
         }
     }
+
+    fn set_at(&mut self, x: uint, y: uint, n: uint) {
+        self.map[y][x] = 1 << (n - 1);
+    }
 }
 
-fn read_sudoku<T: Reader>(r: &mut BufferedReader<T>) -> Option<SuDoku> {
-    r.read_line().ok()
-        .and_then(|name| {
-            let mut sudoku = SuDoku {
-                name: name,
-                map: [[MASK_ALL, .. BOARD_WIDTH], .. BOARD_HEIGHT]
-            };
-            for y in range(0, BOARD_HEIGHT) {
-                match r.read_line().ok() {
-                    None => return None,
-                    Some(line) => {
-                        for x in range(0, BOARD_WIDTH) {
-                            let n = line.char_at(x).to_digit(10).unwrap();
-                            if n != 0 { sudoku.map[y][x] = 1 << (n - 1); }
-                        }
-                    }
-                }
+fn read_sudoku<T: Reader>(br: &mut BufferedReader<T>) -> IoResult<Option<SuDoku>> {
+    let name = match br.read_line() {
+        Ok(line) => line,
+        Err(err) => {
+            if err.kind == IoErrorKind::EndOfFile {
+                return Ok(None)
             }
-            Some(sudoku)
-        })
+            return Err(err)
+        }
+    };
+    let mut sudoku = SuDoku {
+        name: name,
+        map: [[MASK_ALL, .. BOARD_WIDTH], .. BOARD_HEIGHT]
+    };
+
+    for y in range(0, BOARD_HEIGHT) {
+        let line = try!(br.read_line());
+        for x in range(0, BOARD_WIDTH) {
+            let n = line.char_at(x).to_digit(10).unwrap();
+            if n != 0 { sudoku.set_at(x, y, n); }
+        }
+    }
+
+    Ok(Some(sudoku))
 }
 
 fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     let group_it = range(0, GROUP_WIDTH * GROUP_HEIGHT)
         .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
-        .collect::<Vec<(uint, uint)>>();
+        .collect::<Vec<_>>();
 
     loop {
         let bkup = puzzle.clone();
 
+        // if the number on (x, y) is uniquely determined, off the number bit on the other cells.
         for y in range(0, BOARD_HEIGHT) {
             for x in range(0, BOARD_WIDTH) {
                 if puzzle.map[y][x].count_ones() != 1 { continue }
 
-                let (x0, y0) = (x / GROUP_WIDTH * GROUP_WIDTH,
-                                y / GROUP_HEIGHT * GROUP_HEIGHT);
+                let (x0, y0) = ((x / GROUP_WIDTH) * GROUP_WIDTH,
+                                (y / GROUP_HEIGHT) * GROUP_HEIGHT);
                 let row = range(0, BOARD_WIDTH).map(|x| (x, y));
                 let col = range(0, BOARD_HEIGHT).map(|y| (x, y));
                 let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
@@ -114,6 +91,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
             }
         }
 
+        // if the number n can be appears on only one cell in the row or col or group,
+        // the number of the cell is n.
         for n in range(0, MAX_NUMBER) {
             let bit = 1 << n;
 
@@ -172,37 +151,36 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
         .min_by(|& &(_x, _y, cnt)| cnt)
         .unwrap();
 
-    let mut answers = Vec::new();
+    let mut answers = vec![];
     for n in range(0, MAX_NUMBER) {
         let bit = 1 << n;
         if puzzle.map[y][x] & bit == 0 { continue }
 
         let mut p2 = puzzle.clone();
         p2.map[y][x] = bit;
-        answers.push_all(solve_sudoku(p2).as_slice());
+        answers.extend(solve_sudoku(p2).into_iter());
     }
-
-    answers.into_iter().collect()
+    answers
 }
 
-pub fn solve() -> String {
-    let mut br = BufferedReader::new(
-        File::open(&Path::new("files/p096_sudoku.txt")).ok().expect("file not found."));
+fn solve(file: File) -> IoResult<String> {
+    let mut br = BufferedReader::new(file);
 
-    let mut puzzles = Vec::new();
-    loop {
-        match read_sudoku(&mut br) {
-            Some(sudoku) => puzzles.push(sudoku),
-            None => break
-        }
+    let mut answers = Vec::new();
+    while let Some(puzzle) = try!(read_sudoku(&mut br)) {
+        let mut ans = solve_sudoku(puzzle);
+        assert_eq!(1, ans.len());
+        answers.push(ans.pop().unwrap())
     }
-    let mut answers = puzzles
-        .into_iter()
-        .map(solve_sudoku)
-        .map(|mut ans| { assert_eq!(ans.len(), 1); ans.remove(0).unwrap() });
+
     let mut sum = 0;
-    for ans in answers {
-        sum += 100 * ans.get_num(0, 0) + 10 * ans.get_num(1, 0) + ans.get_num(2, 0);
+    for ans in answers.iter() {
+        sum += 100 * ans.get_at(0, 0) + 10 * ans.get_at(1, 0) + ans.get_at(2, 0);
     }
-    sum.to_string()
+
+    Ok(sum.to_string())
+}
+
+fn main() {
+    Solver::new_with_file("24702", "p096_sudoku.txt", solve).run();
 }
