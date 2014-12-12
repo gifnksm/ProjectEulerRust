@@ -13,7 +13,7 @@ use Suit::{Spade, Heart, Dia, Club};
 
 /// Playing card's suite.
 #[allow(missing_docs)]
-#[deriving(Eq, PartialEq, Clone)]
+#[deriving(Eq, PartialEq, Copy, Clone)]
 pub enum Suit {
     Spade,
     Heart,
@@ -49,7 +49,7 @@ impl FromStr for Suit {
 
 /// Playing card that only contains suit cards.
 #[allow(missing_docs)]
-#[deriving(Eq, PartialEq, Clone)]
+#[deriving(Eq, PartialEq, Copy, Clone)]
 pub struct SuitCard {
     pub num: uint,
     pub suit: Suit
@@ -91,7 +91,7 @@ impl FromStr for SuitCard {
 
 /// Playing card that also contaiins jokers.
 #[allow(missing_docs)]
-#[deriving(Eq, PartialEq, Clone)]
+#[deriving(Eq, PartialEq, Copy, Clone)]
 pub enum Card {
     Suit(SuitCard),
     BlackJoker,

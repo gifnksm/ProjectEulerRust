@@ -13,6 +13,7 @@ use integer::Integer;
 
 const RADIX: uint = 10;
 
+#[deriving(Copy)]
 struct Pandigimal {
     used: [ bool, .. RADIX ],
     num:  [ uint, .. RADIX ],

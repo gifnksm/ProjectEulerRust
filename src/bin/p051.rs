@@ -26,7 +26,7 @@ fn compute(num_value: uint) -> u64 {
             for d_dst in range(d_src + 1, radix) {
                 if radix - d_dst < num_value - num_prime { break }
 
-                let it = ds.map(|d| if d == (d_src as u64) { d_dst as u64 } else { d });
+                let it = ds.clone().map(|d| if d == (d_src as u64) { d_dst as u64 } else { d });
                 if ps.contains(Integer::from_digits(it, radix as u64)) {
                     num_prime += 1;
                 }

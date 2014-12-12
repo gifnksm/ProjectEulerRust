@@ -14,7 +14,7 @@ use itercrate::{BitCombination, CombinationOverlap};
 use num::{Signed, Zero};
 use num::rational::Ratio;
 
-#[deriving(Clone, Eq, PartialEq)]
+#[deriving(Copy, Clone, Eq, PartialEq)]
 enum Op { Add, Sub, Mul, Div }
 
 struct Nums {

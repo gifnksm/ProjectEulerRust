@@ -9,7 +9,7 @@ use std::iter::{mod, AdditiveIterator};
 use common::Solver;
 use matrix::Matrix;
 
-#[deriving(FromPrimitive, Show, Eq, PartialEq)]
+#[deriving(FromPrimitive, Show, Eq, PartialEq, Copy)]
 enum Square {
     GO, A1, CC1, A2, T1, R1, B1, CH1, B2, B3, JAIL,
     C1, U1, C2, C3, R2, D1, CC2, D2, D3, FP,

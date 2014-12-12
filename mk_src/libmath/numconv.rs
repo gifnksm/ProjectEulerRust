@@ -1,5 +1,6 @@
 use num::{Integer, Zero};
 
+#[allow(missing_copy_implementations)]
 #[deriving(Clone)]
 pub struct DigitIterator { num: uint, radix: uint, order: uint }
 
