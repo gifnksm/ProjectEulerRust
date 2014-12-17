@@ -23,7 +23,7 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     /// The smallest integer `q` such that `x/y <= q`.
     ///
     fn div_ceil(&self, other: &Self) -> Self {
-        let div = *self / *other;
+        let div = self.clone() / other.clone();
         if self.is_multiple_of(other) {
             div
         } else {
@@ -44,7 +44,7 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     ///
     fn div_round(&self, other: &Self) -> Self {
         let (div, rem) = self.div_rem(other);
-        if rem + rem < *other {
+        if rem.clone() + rem.clone() < other.clone() {
             div
         } else {
             div + One::one()
@@ -107,8 +107,8 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
         let mut result: Self = Zero::zero();
         let mut order: Self = One::one();
         for d in digits {
-            result = result + order * d;
-            order = order * radix;
+            result = result + order.clone() * d;
+            order = order * radix.clone();
         }
         result
     }
@@ -128,7 +128,7 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
         let digits = self.into_digits(radix.clone());
         let mut rv = digits.clone().rev();
         if !duplicate_middle { let _ = rv.next_back(); }
-        rv.chain(digits).fold(Zero::zero(), |sum: Self, i| sum * radix + i)
+        rv.chain(digits).fold(Zero::zero(), |sum: Self, i| sum * radix.clone() + i)
     }
 
     /// Returns `true` if the number is palindromic.
@@ -159,19 +159,17 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     #[inline]
     fn sqrt(&self) -> Self {
         let one: Self = One::one();
-        let two: Self = one + one;
+        let two: Self = one.clone() + one.clone();
         let mut min: Self = Zero::zero();
         let mut max: Self = self.clone();
 
         while min < max {
-            let mid = (min + max + one) / two;
-            if mid * mid == *self {
-                return mid;
-            }
-            if mid * mid >= *self {
-                max = mid - one
-            } else {
-                min = mid
+            let mid = (min.clone() + max.clone() + one.clone()) / two.clone();
+            let mid2 = mid.clone() * mid.clone();
+            match mid2.partial_cmp(self).unwrap() {
+                Equal => return mid,
+                Greater => { max = mid - one.clone() }
+                Less    => { min = mid }
             }
         }
 
@@ -197,7 +195,7 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
         let mut p: Self = One::one();
         let mut i: Self = One::one();
         while i <= *self {
-            p = p * i;
+            p = p * i.clone();
             i = i + One::one();
         }
         p
@@ -207,20 +205,20 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     fn mod_pow(&self, exp: &Self, modulo: &Self) -> Self {
         let zero = Zero::zero();
         let one: Self  = One::one();
-        let two: Self  = one + one;
+        let two: Self  = one.clone() + one.clone();
         if *self == zero { return zero }
 
-        let mut result = one;
+        let mut result = one.clone();
         let mut base   = self.clone();
         let mut exp    = exp.clone();
         let     modulo = modulo.clone();
 
         while exp > zero {
             if exp.is_odd() {
-                result = (result * base) % modulo;
+                result = (result * base.clone()) % modulo.clone();
             }
-            exp = exp / two;
-            base = (base * base) % modulo;
+            exp = exp / two.clone();
+            base = (base.clone() * base) % modulo.clone();
         }
         result
     }
@@ -243,39 +241,41 @@ impl Integer for uint {}
 #[deriving(Clone)]
 pub struct Digits<T> { num: T, radix: T, order: T }
 
-impl<T: num::Integer> Digits<T> {
+impl<T: num::Integer + Clone> Digits<T> {
     fn new(num: T, radix: T) -> Digits<T> {
         let mut order: T;
         if num.is_zero() {
             order = Zero::zero();
         } else {
             order = One::one();
-            while order * radix <= num {
-                order = order * radix;
+            let mut prod = order.clone() * radix.clone();
+            while prod <= num {
+                order = prod;
+                prod = order.clone() * radix.clone();
             }
         }
         Digits { num: num, radix: radix, order: order }
     }
 }
 
-impl<T: num::Integer> Iterator<T> for Digits<T> {
+impl<T: num::Integer + Clone> Iterator<T> for Digits<T> {
     #[inline]
     fn next(&mut self) -> Option<T> {
         if self.order.is_zero() { return None; }
         let (d, r) = self.num.div_rem(&self.radix);
         self.num   = d;
-        self.order = self.order / self.radix;
+        self.order = self.order.clone() / self.radix.clone();
         Some(r)
     }
 }
 
-impl<T: num::Integer> DoubleEndedIterator<T> for Digits<T> {
+impl<T: num::Integer + Clone> DoubleEndedIterator<T> for Digits<T> {
     #[inline]
     fn next_back(&mut self) -> Option<T> {
         if self.order.is_zero() { return None; }
         let (d, r) = self.num.div_rem(&self.order);
         self.num   = r;
-        self.order = self.order / self.radix;
+        self.order = self.order.clone() / self.radix.clone();
         Some(d)
     }
 }

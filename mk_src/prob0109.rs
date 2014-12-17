@@ -30,10 +30,10 @@ pub fn solve() -> String {
     let triple = Poly::new(triple);
     let dup    = Poly::new(dup);
 
-    let p_all = single + double + triple;
+    let p_all = single + &double + triple;
     let p1    = double.clone();
-    let p2    = double * p_all;
-    let p3    = double * Poly::new((p_all * p_all + dup)
+    let p2    = &double * &p_all;
+    let p3    = double * Poly::new((&p_all * &p_all + dup)
                                    .as_slice()
                                    .iter()
                                    .map(|&n| n / 2)

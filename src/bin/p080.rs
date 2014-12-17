@@ -21,14 +21,14 @@ fn sqrt_newton_raphson(n: uint, precision: uint) -> String {
     let ds = num::pow(_10.clone(), precision - 1);
 
     let shift   = 4 * precision; // log_2 10 = 3.3... < 4
-    let _1_2    = _1 << (2 * shift);
-    let mut x_1 = (_1 << shift) / _10;
-    let mut delta_2 = _1_2 - (x_1 * x_1 * n);
+    let _1_2    = &_1 << (2 * shift);
+    let mut x_1 = (&_1 << shift) / _10;
+    let mut delta_2 = &_1_2 - (&x_1 * &x_1 * &n);
 
     loop {
-        x_1 = ((x_1 << (2 * shift)) + ((x_1 * delta_2) >> 1)) >> (2 * shift);
-        delta_2 = _1_2 - (x_1 * x_1 * n);
-        if ((ds * delta_2) >> (2 * shift)).is_zero() { break; }
+        x_1 = ((&x_1 << (2 * shift)) + ((&x_1 * delta_2) >> 1)) >> (2 * shift);
+        delta_2 = &_1_2 - (&x_1 * &x_1 * &n);
+        if ((&ds * &delta_2) >> (2 * shift)).is_zero() { break; }
     }
 
     ((n * x_1 * ds) >> shift).to_string()

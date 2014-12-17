@@ -29,10 +29,10 @@ pub fn mod_pow(base: uint, mut exp: uint, modulo: uint) -> uint {
 
     while exp > 0 {
         if exp.is_odd() {
-            result = (result * base) % modulo;
+            result = (result * &base) % &modulo;
         }
         exp >>= 1;
-        base = (base * base) % modulo;
+        base = (&base * &base) % &modulo;
     }
     result.to_uint().unwrap()
 }

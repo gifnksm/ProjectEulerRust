@@ -22,14 +22,14 @@ impl<T: Clone + Zero> Poly<T> {
     }
 }
 
-impl<T: Zero + One> Poly<T> {
+impl<T: Zero + One + Clone> Poly<T> {
     #[inline]
     pub fn eval(&self, x: T) -> T {
         let mut sum = num::zero::<T>();
         let mut x_n = num::one::<T>();
         for n in self.data.iter() {
-            sum = sum + (*n) * x_n;
-            x_n = x_n * x;
+            sum = sum + n.clone() * x_n.clone();
+            x_n = x_n * x.clone();
         }
         sum
     }
@@ -42,7 +42,7 @@ impl<T> Poly<T> {
     pub fn into_vec(self) -> Vec<T> { self.data }
 }
 
-impl<T: Zero + One + Eq + Neg<T> + Ord + fmt::Show> Poly<T> {
+impl<T: Zero + Clone + One + Eq + Neg<T> + Ord + fmt::Show> Poly<T> {
     pub fn pretty(&self, x: &str) -> String {
         if self.is_zero() { return "0".to_string() }
 
@@ -72,14 +72,14 @@ impl<T: Zero + One + Eq + Neg<T> + Ord + fmt::Show> Poly<T> {
     }
 }
 
-impl<T: Zero> Zero for Poly<T> {
+impl<T: Zero + Clone> Zero for Poly<T> {
     #[inline]
     fn zero() -> Poly<T> { Poly { data: vec![] } }
     #[inline]
     fn is_zero(&self) -> bool { self.data.is_empty() }
 }
 
-impl<T: Zero + One> One for Poly<T> {
+impl<T: Zero + One + Clone> One for Poly<T> {
     #[inline]
     fn one() -> Poly<T> { Poly { data: vec![One::one()] } }
 }
@@ -91,53 +91,92 @@ impl<T: Neg<T> + Zero> Neg<Poly<T>> for Poly<T> {
     }
 }
 
-impl<T: Zero + Add<T, T>> Add<Poly<T>, Poly<T>> for Poly<T> {
-    fn add(&self, other: &Poly<T>) -> Poly<T> {
+impl<T: Clone + Zero + Add<T, T>> Add<Poly<T>, Poly<T>> for Poly<T> {
+    #[inline]
+    fn add(self, other: Poly<T>) -> Poly<T> { (&self) + (&other) }
+}
+impl<'a, T: Clone + Zero + Add<T, T>> Add<Poly<T>, Poly<T>> for &'a Poly<T> {
+    #[inline]
+    fn add(self, other: Poly<T>) -> Poly<T> { (self) + (&other) }
+}
+impl<'a, T: Clone + Zero + Add<T, T>> Add<&'a Poly<T>, Poly<T>> for Poly<T> {
+    #[inline]
+    fn add(self, other: &Poly<T>) -> Poly<T> { (&self) + (other) }
+}
+
+impl<'a, 'b, T: Clone + Zero + Add<T, T>> Add<&'b Poly<T>, Poly<T>> for &'a Poly<T> {
+    fn add(self, other: &Poly<T>) -> Poly<T> {
         let bigger = if self.data.len() <= other.data.len() { other } else { self };
         let min_len = cmp::min(self.data.len(), other.data.len());
         let max_len = cmp::max(self.data.len(), other.data.len());
 
         let mut sum = Vec::with_capacity(max_len);
         for i in range(0, min_len) {
-            sum.push(self.data[i] + other.data[i]);
+            sum.push(self.data[i].clone() + other.data[i].clone());
         }
         for i in range(min_len, max_len) {
-            sum.push(bigger.data[i] + Zero::zero())
+            sum.push(bigger.data[i].clone() + Zero::zero())
         }
         Poly::new(sum)
     }
 }
 
-impl<T: Zero + Sub<T, T>> Sub<Poly<T>, Poly<T>> for Poly<T> {
-    fn sub(&self, other: &Poly<T>) -> Poly<T> {
+impl<T: Clone + Zero + Sub<T, T>> Sub<Poly<T>, Poly<T>> for Poly<T> {
+    #[inline]
+    fn sub(self, other: Poly<T>) -> Poly<T> { (&self) - (&other) }
+}
+impl<'a, T: Clone + Zero + Sub<T, T>> Sub<Poly<T>, Poly<T>> for &'a Poly<T> {
+    #[inline]
+    fn sub(self, other: Poly<T>) -> Poly<T> { (self) - (&other) }
+}
+impl<'a, T: Clone + Zero + Sub<T, T>> Sub<&'a Poly<T>, Poly<T>> for Poly<T> {
+    #[inline]
+    fn sub(self, other: &Poly<T>) -> Poly<T> { (&self) - (other) }
+}
+
+impl<'a, 'b, T: Clone + Zero + Sub<T, T>> Sub<&'b Poly<T>, Poly<T>> for &'a Poly<T> {
+    fn sub(self, other: &Poly<T>) -> Poly<T> {
         let min_len = cmp::min(self.data.len(), other.data.len());
         let max_len = cmp::max(self.data.len(), other.data.len());
 
         let mut sub = Vec::with_capacity(max_len);
         for i in range(0, min_len) {
-            sub.push(self.data[i] - other.data[i]);
+            sub.push(self.data[i].clone() - other.data[i].clone());
         }
         if self.data.len() <= other.data.len() {
             for i in range(min_len, max_len) {
-                sub.push(num::zero::<T>() - other.data[i])
+                sub.push(num::zero::<T>() - other.data[i].clone())
             }
         } else {
             for i in range(min_len, max_len) {
-                sub.push(self.data[i] + Zero::zero())
+                sub.push(self.data[i].clone() + Zero::zero())
             }
         }
         Poly::new(sub)
     }
 }
 
-impl<T: Zero + Mul<T, T>> Mul<Poly<T>, Poly<T>> for Poly<T> {
-    fn mul(&self, other: &Poly<T>) -> Poly<T> {
+impl<T: Clone + Zero + Mul<T, T>> Mul<Poly<T>, Poly<T>> for Poly<T> {
+    #[inline]
+    fn mul(self, other: Poly<T>) -> Poly<T> { (&self) * (&other) }
+}
+impl<'a, T: Clone + Zero + Mul<T, T>> Mul<Poly<T>, Poly<T>> for &'a Poly<T> {
+    #[inline]
+    fn mul(self, other: Poly<T>) -> Poly<T> { (self) * (&other) }
+}
+impl<'a, T: Clone + Zero + Mul<T, T>> Mul<&'a Poly<T>, Poly<T>> for Poly<T> {
+    #[inline]
+    fn mul(self, other: &Poly<T>) -> Poly<T> { (&self) * (other) }
+}
+
+impl<'a, 'b, T: Clone + Zero + Mul<T, T>> Mul<&'b Poly<T>, Poly<T>> for &'a Poly<T> {
+    fn mul(self, other: &Poly<T>) -> Poly<T> {
         if self.is_zero() || other.is_zero() { return Zero::zero() }
 
         let mut prod: Vec<T> = Vec::from_fn(self.data.len() + other.data.len() - 1, |_| Zero::zero());
         for (i, n) in self.data.iter().enumerate() {
             for (j, m) in other.data.iter().enumerate() {
-                prod[i + j] = prod[i + j] + (*n) * (*m);
+                prod[i + j] = prod[i + j].clone() + n.clone() * m.clone();
             }
         }
         Poly::new(prod)
@@ -149,14 +188,14 @@ fn omit_zeros<'a, T: Zero>(v: &'a [T]) -> &'a [T] {
     return v.slice(0, len);
 }
 
-impl<A: Zero + Add<A, A>, T: Iterator<Poly<A>>> AdditiveIterator<Poly<A>> for T {
+impl<A: Clone + Zero + Add<A, A>, T: Iterator<Poly<A>>> AdditiveIterator<Poly<A>> for T {
     fn sum(self) -> Poly<A> {
         let init: Poly<A> = Zero::zero();
         self.fold(init, |acc, x| acc + x)
     }
 }
 
-impl<A: Zero + One + Mul<A, A>, T: Iterator<Poly<A>>> MultiplicativeIterator<Poly<A>> for T {
+impl<A: Clone + Zero + One + Mul<A, A>, T: Iterator<Poly<A>>> MultiplicativeIterator<Poly<A>> for T {
     fn product(self) -> Poly<A> {
         let init: Poly<A> = One::one();
         self.fold(init, |acc, x| acc * x)
@@ -185,12 +224,12 @@ mod tests {
                 assert_eq!(-(*a), -(*b));
             }
             fn check_add(sum: &Poly<int>, a: &Poly<int>, b: &Poly<int>) {
-                check_eq(sum, &((*a) + (*b)));
-                check_eq(sum, &((*b) + (*a)));
+                check_eq(sum, &(a + b));
+                check_eq(sum, &(b + a));
             }
             fn check_sub(sum: &Poly<int>, a: &Poly<int>, b: &Poly<int>) {
-                check_eq(a, &((*sum) - (*b)));
-                check_eq(b, &((*sum) - (*a)));
+                check_eq(a, &(sum - b));
+                check_eq(b, &(sum - a));
             }
 
             let a = Poly::from_slice(a);
@@ -214,8 +253,8 @@ mod tests {
             let a = Poly::from_slice(a);
             let b = Poly::from_slice(b);
             let c = Poly::from_slice(c);
-            assert_eq!(c, a * b);
-            assert_eq!(c, b * a);
+            assert_eq!(c, &a * &b);
+            assert_eq!(c, &b * &a);
         }
         check(&[], &[], &[]);
         check(&[0, 0], &[], &[]);

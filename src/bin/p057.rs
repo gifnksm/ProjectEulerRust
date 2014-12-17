@@ -36,7 +36,7 @@ impl Iterator<(BigUint, BigUint)> for Frac {
     fn next(&mut self) -> Option<(BigUint, BigUint)> {
         let next = {
             let (ref n, ref d) = self.nd;
-            (((*d) << 1) + (*n), (*n) + (*d))
+            ((d << 1) + n, n + d)
         };
         Some(mem::replace(&mut self.nd, next))
     }

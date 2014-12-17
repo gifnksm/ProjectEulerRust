@@ -36,7 +36,7 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: uint) ->
     iter::range_inclusive(1, turns)
         .map(|t| FromPrimitive::from_uint(t).unwrap())
         .map(|t: T| {
-            let denom = t + One::one();
+            let denom = t.clone() + One::one();
             let blue = Ratio::new(One::one(), denom.clone());
             let red  = Ratio::new(t, denom);
             Poly::new(vec![blue, red])

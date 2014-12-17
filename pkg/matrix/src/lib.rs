@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(macro_rules)]
+
 extern crate num;
 
 use num::{One, Zero};
@@ -83,33 +85,99 @@ impl<T> Index<(uint, uint), T> for Matrix<T> {
     }
 }
 
-impl<Lhs, Rhs, Result> Add<Matrix<Rhs>, Matrix<Result>> for Matrix<Lhs>
-    where Lhs: Add<Rhs, Result> {
-    #[inline]
-    fn add(&self, other: &Matrix<Rhs>) -> Matrix<Result> {
-        assert_eq!(self.size(), other.size());
-        Matrix::from_fn(self.row(), self.column(), |i, j| self[(i, j)] + other[(i, j)])
+macro_rules! forward_val_val_binop {
+    (impl $imp:ident, $method:ident) => {
+        impl<Lhs, Rhs, Result> $imp<Matrix<Rhs>, Matrix<Result>> for Matrix<Lhs>
+            where Lhs: $imp<Rhs, Result> + Clone, Rhs: Clone {
+            #[inline]
+            fn $method(self, other: Matrix<Rhs>) -> Matrix<Result> {
+                (&self).$method(&other)
+            }
+        }
     }
 }
 
-impl<Lhs, Rhs, Result> Sub<Matrix<Rhs>, Matrix<Result>> for Matrix<Lhs>
-    where Lhs: Sub<Rhs, Result> {
+macro_rules! forward_ref_val_binop {
+    (impl $imp:ident, $method:ident) => {
+        impl<'a, Lhs, Rhs, Result> $imp<Matrix<Rhs>, Matrix<Result>> for &'a Matrix<Lhs>
+            where Lhs: $imp<Rhs, Result> + Clone, Rhs: Clone {
+            #[inline]
+            fn $method(self, other: Matrix<Rhs>) -> Matrix<Result> {
+                self.$method(&other)
+            }
+        }
+    }
+}
+
+macro_rules! forward_val_ref_binop {
+    (impl $imp:ident, $method:ident) => {
+        impl<'a, Lhs, Rhs, Result> $imp<&'a Matrix<Rhs>, Matrix<Result>> for Matrix<Lhs>
+            where Lhs: $imp<Rhs, Result> + Clone, Rhs: Clone {
+            #[inline]
+            fn $method(self, other: &Matrix<Rhs>) -> Matrix<Result> {
+                (&self).$method(other)
+            }
+        }
+    }
+}
+
+macro_rules! forward_all_binop {
+    (impl $imp:ident, $method:ident) => {
+        forward_val_val_binop!(impl $imp, $method)
+        forward_ref_val_binop!(impl $imp, $method)
+        forward_val_ref_binop!(impl $imp, $method)
+    };
+}
+
+forward_all_binop!(impl Add, add)
+
+impl<'a, 'b, Lhs, Rhs, Result> Add<&'b Matrix<Rhs>, Matrix<Result>> for &'a Matrix<Lhs>
+    where Lhs: Add<Rhs, Result> + Clone, Rhs: Clone {
     #[inline]
-    fn sub(&self, other: &Matrix<Rhs>) -> Matrix<Result> {
+    fn add(self, other: &Matrix<Rhs>) -> Matrix<Result> {
         assert_eq!(self.size(), other.size());
-        Matrix::from_fn(self.row(), self.column(), |i, j| self[(i, j)] - other[(i, j)])
+        Matrix::from_fn(self.row(), self.column(), |i, j| self[(i, j)].clone() + other[(i, j)].clone())
+    }
+}
+
+forward_all_binop!(impl Sub, sub)
+
+impl<'a, 'b, Lhs, Rhs, Result> Sub<&'b Matrix<Rhs>, Matrix<Result>> for &'a Matrix<Lhs>
+    where Lhs: Sub<Rhs, Result> + Clone, Rhs: Clone {
+    #[inline]
+    fn sub(self, other: &Matrix<Rhs>) -> Matrix<Result> {
+        assert_eq!(self.size(), other.size());
+        Matrix::from_fn(self.row(), self.column(), |i, j| self[(i, j)].clone() - other[(i, j)].clone())
     }
 }
 
 impl<Lhs, Rhs, Result> Mul<Matrix<Rhs>, Matrix<Result>> for Matrix<Lhs>
-    where Lhs: Mul<Rhs, Result>, Result: Add<Result, Result> {
+    where Lhs: Mul<Rhs, Result> + Clone, Rhs: Clone, Result: Add<Result, Result> {
     #[inline]
-    fn mul(&self, other: &Matrix<Rhs>) -> Matrix<Result> {
+    fn mul(self, other: Matrix<Rhs>) -> Matrix<Result> { (&self).mul(&other) }
+}
+
+impl<'a, Lhs, Rhs, Result> Mul<Matrix<Rhs>, Matrix<Result>> for &'a Matrix<Lhs>
+    where Lhs: Mul<Rhs, Result> + Clone, Rhs: Clone, Result: Add<Result, Result> {
+    #[inline]
+    fn mul(self, other: Matrix<Rhs>) -> Matrix<Result> { self.mul(&other) }
+}
+
+impl<'a, Lhs, Rhs, Result> Mul<&'a Matrix<Rhs>, Matrix<Result>> for Matrix<Lhs>
+    where Lhs: Mul<Rhs, Result> + Clone, Rhs: Clone, Result: Add<Result, Result> {
+    #[inline]
+    fn mul(self, other: &Matrix<Rhs>) -> Matrix<Result> { self.mul(other) }
+}
+
+impl<'a, 'b, Lhs, Rhs, Result> Mul<&'b Matrix<Rhs>, Matrix<Result>> for &'a Matrix<Lhs>
+    where Lhs: Mul<Rhs, Result> + Clone, Rhs: Clone, Result: Add<Result, Result> {
+    #[inline]
+    fn mul(self, other: &Matrix<Rhs>) -> Matrix<Result> {
         assert_eq!(self.column(), other.row());
         Matrix::from_fn(self.row(), other.column(), |i, j| {
-            let mut sum = self[(i, 0)] * other[(0, j)];
+            let mut sum = self[(i, 0)].clone() * other[(0, j)].clone();
             for k in range(1, self.column()) {
-                sum = sum + self[(i, k)] * other[(k, j)];
+                sum = sum + self[(i, k)].clone() * other[(k, j)].clone();
             }
             sum
         })

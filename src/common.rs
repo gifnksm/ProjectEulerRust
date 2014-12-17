@@ -230,10 +230,10 @@ impl<'a> Solver<'a> {
 
     fn solve(&self) -> Result<SolverResult<String>, SolverError> {
         let (time, answer) = match self.solver {
-            SolverFn::FnOnly(fun) => bench(proc() fun()),
+            SolverFn::FnOnly(fun) => bench(move || fun()),
             SolverFn::FnWithFile(file_name, fun) => {
                 let file = try!(setup_file(file_name));
-                let (time, answer) = bench(proc() fun(file));
+                let (time, answer) = bench(move || fun(file));
                 (time, try!(answer))
             }
         };
@@ -247,7 +247,7 @@ impl<'a> Solver<'a> {
     }
 }
 
-fn bench<T>(f: proc() -> T) -> (u64, T) {
+fn bench<T, F: FnOnce() -> T>(f: F) -> (u64, T) {
     let start_time = time::precise_time_ns();
     let result     = f();
     let end_time   = time::precise_time_ns();

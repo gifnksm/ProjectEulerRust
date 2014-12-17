@@ -97,7 +97,8 @@ pub fn sqrt(n: uint) -> (uint, Vec<uint>) {
 }
 
 /// Calculates convergent of an input iterator.
-pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T>, I: Iterator<uint> + DoubleEndedIterator<uint>>
+pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone,
+            I: Iterator<uint> + DoubleEndedIterator<uint>>
     (an: I) -> (T, T) {
     let mut numer: T = FromPrimitive::from_int(1).unwrap();
     let mut denom: T = FromPrimitive::from_int(0).unwrap();
@@ -105,14 +106,14 @@ pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T>, I: Iterator<uint> + Double
     for a in an.rev() {
         mem::swap(&mut numer, &mut denom);
         let num: T = FromPrimitive::from_uint(a).unwrap();
-        numer = numer + num * denom;
+        numer = numer + num * denom.clone();
     }
 
     (numer, denom)
 }
 
 /// solve pel equation x^2 - d y^2 = 1
-pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
+pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     if an.is_empty() {
         panic!("{} is square", d)
@@ -128,7 +129,7 @@ pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
 }
 
 /// solve pel equation x^2 - d y^2 = -1
-pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T>>(d: uint) -> (T, T) {
+pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone>(d: uint) -> (T, T) {
     let (a0, an) = sqrt(d);
     let mut v = vec![a0];
     if an.len() % 2 == 0 {
@@ -160,7 +161,7 @@ impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelRoots<T> {
     }
 }
 
-impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelRoots<T> {
+impl<T: Add<T, T> + Mul<T, T> + Clone> Iterator<(T, T)> for PelRoots<T> {
     // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
     // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
     //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
@@ -170,8 +171,8 @@ impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelRoots<T> {
             let ref d = self.d;
             let (ref x1, ref y1) = self.x1y1;
             let (ref xk, ref yk) = self.xy;
-            ((*xk) * (*x1) + (*d) * (*yk) * (*y1),
-             (*yk) * (*x1) +        (*xk) * (*y1))
+            (xk.clone() * x1.clone() + d.clone() * yk.clone() * y1.clone(),
+             yk.clone() * x1.clone() +             xk.clone() * y1.clone())
         };
 
         Some(mem::replace(&mut self.xy, next))
@@ -198,17 +199,17 @@ impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelNegRoots<T> {
     }
 }
 
-impl<T: Add<T, T> + Mul<T, T>> Iterator<(T, T)> for PelNegRoots<T> {
+impl<T: Add<T, T> + Mul<T, T> + Clone> Iterator<(T, T)> for PelNegRoots<T> {
     #[inline]
     fn next(&mut self) -> Option<(T, T)> {
         let next = {
             let ref d = self.d;
             let (ref x1, ref y1) = self.x1y1;
             let (ref xk, ref yk) = self.xy;
-            let (xk, yk) = ((*xk) * (*x1) + (*d) * (*yk) * (*y1),
-                            (*yk) * (*x1) +        (*xk) * (*y1));
-            (xk * (*x1) + (*d) * yk * (*y1),
-             yk * (*x1) +        xk * (*y1))
+            let (xk, yk) = (xk.clone() * x1.clone() + d.clone() * yk.clone() * y1.clone(),
+                            yk.clone() * x1.clone() +             xk.clone() * y1.clone());
+            (xk.clone() * x1.clone() + d.clone() * yk.clone() * y1.clone(),
+             yk.clone() * x1.clone() +             xk.clone() * y1.clone())
         };
 
         Some(mem::replace(&mut self.xy, next))
@@ -234,7 +235,7 @@ mod tests {
         assert_eq!(super::sqrt(13), (3, vec![1,1,1,1,6]));
     }
 
-    #[deriving(Eq, PartialEq, Show)]
+    #[deriving(Eq, PartialEq, Show, Clone)]
     struct Uint(uint);
 
     impl Uint {
@@ -249,10 +250,10 @@ mod tests {
         fn from_u64(n: u64) -> Option<Uint> { FromPrimitive::from_u64(n).map(Uint) }
     }
     impl Add<Uint, Uint> for Uint {
-        fn add(&self, other: &Uint) -> Uint { Uint(self.unwrap() + other.unwrap()) }
+        fn add(self, other: Uint) -> Uint { Uint(self.unwrap() + other.unwrap()) }
     }
     impl Mul<Uint, Uint> for Uint {
-        fn mul(&self, other: &Uint) -> Uint { Uint(self.unwrap() * other.unwrap()) }
+        fn mul(self, other: Uint) -> Uint { Uint(self.unwrap() * other.unwrap()) }
     }
 
     #[test]

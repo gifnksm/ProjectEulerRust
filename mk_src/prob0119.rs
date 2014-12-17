@@ -4,7 +4,7 @@
 extern crate math;
 
 use std::num::Int;
-use std::iter::{AdditiveIterator, Filter, SkipWhile};
+use std::iter::AdditiveIterator;
 use std::collections::BinaryHeap;
 use math::numconv;
 
@@ -58,21 +58,19 @@ impl Iterator<(uint, uint, uint)> for Powers {
     }
 }
 
-#[inline]
-fn a<'a>() -> Filter<'a, (uint, uint, uint), SkipWhile<'a, (uint, uint, uint), Powers>> {
-    Powers::new()
-        .skip_while(|&(n, _b, _e)| n < 10)
-        .filter(|&(n, b, _e)| numconv::to_digits(n, 10).sum() == b)
-}
-
 pub fn solve() -> String {
-    let (n, _b, _e) = a().nth(29).unwrap();
+    let (n, _b, _e) = Powers::new()
+        .skip_while(|&mut: &(n, _b, _e)| n < 10)
+        .filter(|&(n, b, _e)| numconv::to_digits(n, 10).sum() == b)
+        .nth(29).unwrap();
     n.to_string()
 }
 
 #[cfg(test)]
 mod tests {
     use super::Powers;
+    use std::iter::AdditiveIterator;
+    use math::numconv;
 
     #[test]
     fn powers() {
@@ -97,7 +95,9 @@ mod tests {
 
     #[test]
     fn a() {
-        let mut it = super::a();
+        let mut it = Powers::new()
+            .skip_while(|&mut: &(n, _b, _e)| n < 10)
+            .filter(|&(n, b, _e)| numconv::to_digits(n, 10).sum() == b);
         assert_eq!(Some((512, 8, 3)), it.nth(1));
         assert_eq!(Some((614656, 28, 4)), it.nth(8 - 1));
     }

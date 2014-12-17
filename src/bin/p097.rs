@@ -14,7 +14,7 @@ fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
     let mut itr = exp.clone();
     let mut pow = base.clone();
     while !itr.is_zero() {
-        if itr % two == One::one() {
+        if &itr % &two == One::one() {
             result = mul_unit(&result, &pow, unit);
         }
         itr = itr >> One::one();
@@ -24,11 +24,11 @@ fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
 }
 
 fn mul_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
-    (*a * *b) % *unit
+    (a * b) % unit
 }
 
 fn add_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
-    (*a + *b) % *unit
+    (a + b) % unit
 }
 
 fn solve() -> String {

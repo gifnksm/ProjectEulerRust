@@ -18,7 +18,7 @@ pub fn a(n: uint) -> uint {
             Some((x, k))
         }).find(|&(x, _)| x == 0)
         .unwrap()
-        .val1()
+        .1
 }
 
 pub fn solve() -> String {
@@ -42,10 +42,10 @@ mod tests {
 
         pub fn r(k: uint) -> BigUint {
             let mut r: BigUint = Zero::zero();
-            let ten = FromPrimitive::from_uint(10).unwrap();
-            let one = One::one();
+            let ten: BigUint = FromPrimitive::from_uint(10).unwrap();
+            let one: BigUint = One::one();
             for _ in range(0, k) {
-                r = r * ten + one;
+                r = &r * &ten + &one;
             }
             r
         }

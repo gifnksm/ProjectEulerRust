@@ -19,7 +19,7 @@ fn reverse(n: &BigUint) -> BigUint {
 
 fn is_lychrel(n: uint, limit: uint) -> bool {
     let n: BigUint = FromPrimitive::from_uint(n).unwrap();
-    let mut sum = n + reverse(&n);
+    let mut sum = &n + reverse(&n);
     for _ in range(0u, limit) {
         let rev_sum = reverse(&sum);
         if rev_sum == sum { return false }

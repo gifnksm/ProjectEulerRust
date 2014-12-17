@@ -28,7 +28,7 @@ pub fn solve() -> String {
 
     let phi = (1.0 + (5.0f64).sqrt()) / 2.0;
     let next_fib_first10 = |st: &mut (u64, uint)| {
-        let (n, cnt) = (st.val0(), st.val1());
+        let (n, cnt) = (st.0, st.1);
         let next = match cnt {
             0 => 1,
             1 => 1,
@@ -54,8 +54,8 @@ pub fn solve() -> String {
         Some(n0)
     };
 
-    let first = Unfold::new((0, 0), next_fib_first10);
-    let last  = Unfold::new((0, 1), next_fib_last10);
+    let first = Unfold::new((0, 0), |a| next_fib_first10(a));
+    let last  = Unfold::new((0, 1), |a| next_fib_last10(a));
     let mut it = first.zip(last).enumerate().filter(|&(_, (f, l))| is_pandigit(f) && is_pandigit(l));
     let (k, _) = it.next().unwrap();
     return k.to_string();

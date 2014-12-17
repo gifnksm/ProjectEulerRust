@@ -178,8 +178,8 @@ fn trans_matrix(dice_side: uint) -> Matrix<f64> {
 fn steady_state(dist: &Matrix<f64>, init: Matrix<f64>, epsilon: f64) -> Matrix<f64> {
     let mut state = init;
     loop {
-        let new_state = (*dist) * state;
-        let sub = new_state - state;
+        let new_state = dist * &state;
+        let sub = &new_state - state;
         let err = sub.trans() * sub;
         if err[(0, 0)] <= epsilon { return new_state }
         state = new_state;

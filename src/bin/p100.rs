@@ -24,7 +24,7 @@ fn compute(limit: BigUint) -> BigUint {
     let one = One::one();
     PelNegRoots::<BigUint>::new(2)
         .filter(|&(ref x, ref y)| x.is_odd() && y.is_odd())
-        .map(|(x, y)| ((x + one) >> 1, (y + one) >> 1))
+        .map(|(x, y)| ((x + &one) >> 1, (y + &one) >> 1))
         .find(|&(ref x, ref _y)| ((*x) >= limit))
         .map(|(_x, y)| y)
         .unwrap()

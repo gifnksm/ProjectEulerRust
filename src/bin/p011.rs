@@ -42,31 +42,32 @@ fn compute(prod_len: uint) -> uint {
     let w = grid[0].len();
     let h = grid.len();
 
-    let lines =
+    let lines = [
         // rows
-        Vec::from_fn(h, |y| Vec::from_fn(w, |x| (x, y))) +
+        Vec::from_fn(h, |y| Vec::from_fn(w, |x| (x, y))),
         // cols
-        Vec::from_fn(w, |x| Vec::from_fn(h, |y| (x, y))) +
+        Vec::from_fn(w, |x| Vec::from_fn(h, |y| (x, y))),
         // top 2 right diagonal
         Vec::from_fn(w, |i| {
             let (x0, y0) = (i, 0);
             Vec::from_fn(w - x0, |j| (x0 + j, y0 + j))
-        }) +
+        }),
         // left 2 bottom diagonal
         Vec::from_fn(h - 1, |i| {
             let (x0, y0) = (0, i + 1);
             Vec::from_fn(h - y0, |j| (x0 + j, y0 + j))
-        }) +
+        }),
         // top 2 left diagonal
         Vec::from_fn(w, |i| {
             let (x0, y0) = (i, 0);
             Vec::from_fn(x0 + 1, |j| (x0 - j, y0 + j))
-        }) +
+        }),
         // right 2 bottom diagonal
         Vec::from_fn(h - 1, |i| {
             let (x0, y0) = (w - 1, i + 1);
             Vec::from_fn(h - y0, |j| (x0 - j, y0 + j))
-        });
+        })
+    ].concat_vec();
 
     lines.iter()
         .map(|cells| {

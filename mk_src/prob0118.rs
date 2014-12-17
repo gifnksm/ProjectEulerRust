@@ -184,6 +184,7 @@ mod tests {
     #[test]
     fn groups() {
         let v = [1u, 2, 3];
+        let v = v.as_slice();
         let mut it = v.groups(0);
         assert_eq!(Some((vec![], vec![1, 2, 3])), it.next());
         assert_eq!(None, it.next());

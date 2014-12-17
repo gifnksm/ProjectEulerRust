@@ -187,7 +187,7 @@ impl RandomAccessIterator<u64> for Nums {
 pub type Factor<T> = (T, int);
 
 /// Numbers which can be factorized.
-pub trait Factorize: Integer + FromPrimitive {
+pub trait Factorize: Integer + FromPrimitive + Clone {
     /// An iterator visiting all factors in ascending order.
     fn factorize(&self, ps: &PrimeSet) -> Factors<Self>;
 
@@ -205,19 +205,21 @@ pub trait Factorize: Integer + FromPrimitive {
         let one: Self = One::one();
         self.factorize(ps)
             .map(|(base, exp)| {
-                let denom = base - one;
-                (num::pow(base, (exp as uint) + 1) - one) / denom
+                let denom = base.clone() - one.clone();
+                (num::pow(base.clone(), (exp as uint) + 1) - one.clone()) / denom
             }).fold(num::one::<Self>(), |acc, n| acc * n)
     }
 
     /// Calculates the number of proper positive divisors.
+    #[inline]
     fn num_of_proper_divisor(&self, ps: &PrimeSet) -> uint {
         self.num_of_divisor(ps) - 1
     }
 
     /// Caluculates the sum of all positive divisors.
+    #[inline]
     fn sum_of_proper_divisor(&self, ps: &PrimeSet) -> Self {
-        self.sum_of_divisor(ps) - *self
+        self.sum_of_divisor(ps) - self.clone()
     }
 }
 
@@ -254,24 +256,24 @@ pub struct Factors<T> {
     iter: Nums
 }
 
-impl<T: Integer + FromPrimitive> Iterator<Factor<T>> for Factors<T> {
+impl<T: Integer + FromPrimitive + Clone> Iterator<Factor<T>> for Factors<T> {
     #[inline]
     fn next(&mut self) -> Option<Factor<T>> {
         if self.num <= One::one() { return None }
 
         for p in self.iter {
             let p: T = FromPrimitive::from_u64(p).unwrap();
-            if p * p > self.num {
+            if p.clone() * p.clone() > self.num {
                 let n = mem::replace(&mut self.num, One::one());
                 return Some((n, 1))
             }
 
             if self.num.is_multiple_of(&p) {
                 let mut exp = 1;
-                self.num = self.num / p;
+                self.num = self.num.clone() / p.clone();
                 while self.num.is_multiple_of(&p) {
                     exp += 1;
-                    self.num = self.num / p;
+                    self.num = self.num.clone() / p.clone();
                 }
                 return Some((p, exp))
             }
@@ -323,7 +325,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     pub fn into_integer(self) -> T {
         self.map
             .into_iter()
-            .fold::<T>(One::one(), |prod, (base, exp)| {
+            .fold::<T, _>(One::one(), |prod, (base, exp)| {
                 if exp > 0 {
                     prod * num::pow(base, exp as uint)
                 } else {
