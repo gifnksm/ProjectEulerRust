@@ -58,7 +58,7 @@ impl PrimeInner {
     }
 }
 
-thread_local!(static TASK_PRIME: Prime = Prime::new_empty())
+thread_local! { static TASK_PRIME: Prime = Prime::new_empty() }
 
 #[deriving(Clone)]
 pub struct Prime {

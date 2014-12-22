@@ -15,7 +15,7 @@ fn u(n: BigInt) -> BigInt {
     let mut prod = One::one();
     for _ in range(0u, 11) {
         sum = sum + &prod;
-        prod = &prod * (-n);
+        prod = &prod * (-&n);
     }
     sum
 }
@@ -30,7 +30,7 @@ fn op(ns: &[(BigInt, BigInt)]) -> Poly<Ratio<BigInt>> {
             if i == j { continue }
 
             let (ref xj, ref _yj) = ns[j];
-            term = term * Poly::new(vec![Ratio::new(-*xj, xi - xj),
+            term = term * Poly::new(vec![Ratio::new(-xj, xi - xj),
                                          Ratio::new(One::one(), xi - xj)]);
         }
         poly = poly + term;

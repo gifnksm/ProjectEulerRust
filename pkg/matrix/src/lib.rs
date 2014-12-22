@@ -32,7 +32,7 @@ impl<T> Matrix<T> {
     /// Creates a new `Matrix` from vector.
     #[inline]
     pub fn from_vec(row: uint, column: uint, data: Vec<T>) -> Matrix<T> {
-        assert_eq!(row * column, data.len())
+        assert_eq!(row * column, data.len());
         Matrix { row: row, column: column, data: data }
     }
 
@@ -123,13 +123,13 @@ macro_rules! forward_val_ref_binop {
 
 macro_rules! forward_all_binop {
     (impl $imp:ident, $method:ident) => {
-        forward_val_val_binop!(impl $imp, $method)
-        forward_ref_val_binop!(impl $imp, $method)
-        forward_val_ref_binop!(impl $imp, $method)
+        forward_val_val_binop!(impl $imp, $method);
+        forward_ref_val_binop!(impl $imp, $method);
+        forward_val_ref_binop!(impl $imp, $method);
     };
 }
 
-forward_all_binop!(impl Add, add)
+forward_all_binop!(impl Add, add);
 
 impl<'a, 'b, Lhs, Rhs, Result> Add<&'b Matrix<Rhs>, Matrix<Result>> for &'a Matrix<Lhs>
     where Lhs: Add<Rhs, Result> + Clone, Rhs: Clone {
@@ -140,7 +140,7 @@ impl<'a, 'b, Lhs, Rhs, Result> Add<&'b Matrix<Rhs>, Matrix<Result>> for &'a Matr
     }
 }
 
-forward_all_binop!(impl Sub, sub)
+forward_all_binop!(impl Sub, sub);
 
 impl<'a, 'b, Lhs, Rhs, Result> Sub<&'b Matrix<Rhs>, Matrix<Result>> for &'a Matrix<Lhs>
     where Lhs: Sub<Rhs, Result> + Clone, Rhs: Clone {

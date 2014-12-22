@@ -20,9 +20,9 @@ use common::SolverResult;
 
 const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
 
-macro_rules! try2(
+macro_rules! try2 {
     ($e:expr) => (try!($e.map_err(|e| e.to_program_error())))
-)
+}
 
 type ProgramResult<T> = Result<T, ProgramError>;
 type OutputPair<'a> = (Option<Color>, MaybeOwned<'a>);

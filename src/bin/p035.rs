@@ -49,9 +49,9 @@ mod tests {
     #[test]
     fn is_circular_prime() {
         let ps = PrimeSet::new();
-        assert_eq!(true, super::is_circular_prime(&ps, 197))
-        assert_eq!(false, super::is_circular_prime(&ps, 21))
-        assert_eq!(true, super::is_circular_prime(&ps, 2))
+        assert_eq!(true, super::is_circular_prime(&ps, 197));
+        assert_eq!(false, super::is_circular_prime(&ps, 21));
+        assert_eq!(true, super::is_circular_prime(&ps, 2));
     }
 
     #[test]

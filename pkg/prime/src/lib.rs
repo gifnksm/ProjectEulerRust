@@ -223,7 +223,7 @@ pub trait Factorize: Integer + FromPrimitive + Clone {
     }
 }
 
-macro_rules! trait_impl_unsigned(
+macro_rules! trait_impl_unsigned {
     ($($t:ty)*) => ($(
         impl Factorize for $t {
             #[inline]
@@ -232,8 +232,8 @@ macro_rules! trait_impl_unsigned(
             }
         }
     )*)
-)
-macro_rules! trait_impl_signed(
+}
+macro_rules! trait_impl_signed {
     ($($t:ty)*) => ($(
         impl Factorize for $t {
             #[inline]
@@ -246,9 +246,9 @@ macro_rules! trait_impl_signed(
             }
         }
     )*)
-)
-trait_impl_unsigned!(uint u8 u16 u32 u64)
-trait_impl_signed!(int i8 i16 i32 i64)
+}
+trait_impl_unsigned!(uint u8 u16 u32 u64);
+trait_impl_signed!(int i8 i16 i32 i64);
 
 /// Factors iterator.
 pub struct Factors<T> {

@@ -3,7 +3,7 @@ name = "ProjectEulerRust"
 version = "0.0.1"
 dependencies = [
  "cont_frac 0.0.1",
- "curl 0.1.1 (git+https://github.com/carllerche/curl-rust)",
+ "curl 0.1.2 (git+https://github.com/carllerche/curl-rust)",
  "glob 0.1.1 (git+https://github.com/rust-lang/glob)",
  "integer 0.0.1",
  "iter 0.0.1",
@@ -25,32 +25,32 @@ dependencies = [
 
 [[package]]
 name = "curl"
-version = "0.1.1"
-source = "git+https://github.com/carllerche/curl-rust#ae365ab5c4300eadce0fb9f11eed97af14aa6c22"
+version = "0.1.2"
+source = "git+https://github.com/carllerche/curl-rust#7816dca0d50cba643943eb541dc8149e25dc455a"
 dependencies = [
- "curl-sys 0.1.1 (git+https://github.com/carllerche/curl-rust)",
- "url 0.2.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "curl-sys 0.1.2 (git+https://github.com/carllerche/curl-rust)",
+ "url 0.2.6 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "curl-sys"
-version = "0.1.1"
-source = "git+https://github.com/carllerche/curl-rust#ae365ab5c4300eadce0fb9f11eed97af14aa6c22"
+version = "0.1.2"
+source = "git+https://github.com/carllerche/curl-rust#7816dca0d50cba643943eb541dc8149e25dc455a"
 dependencies = [
  "libz-sys 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "openssl-sys 0.2.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "openssl-sys 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "pkg-config 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "gcc"
-version = "0.1.1"
-source = "git+https://github.com/alexcrichton/gcc-rs#d35c34c871dd75f97fadf04cb0ed85d997a9bc0c"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "glob"
 version = "0.1.1"
-source = "git+https://github.com/rust-lang/glob#ea0eb51d1b852dfddb070febd9d7c82b534e952d"
+source = "git+https://github.com/rust-lang/glob#2f29bbade918b1e15e7bcb41c824aa2386755a18"
 
 [[package]]
 name = "integer"
@@ -80,6 +80,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "log"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "regex 0.1.3 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "matrix"
 version = "0.0.1"
 dependencies = [
@@ -89,11 +97,11 @@ dependencies = [
 [[package]]
 name = "num"
 version = "0.1.0"
-source = "git+https://github.com/rust-lang/num#5f829e7fd3600c3144d340cfc64b0163084cd11d"
+source = "git+https://github.com/rust-lang/num#62f37e35def89b18dc42bba5e66fdcb7f853e5fb"
 
 [[package]]
 name = "openssl-sys"
-version = "0.2.5"
+version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "libressl-pnacl-sys 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -122,6 +130,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "regex"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "seq"
 version = "0.0.1"
 dependencies = [
@@ -131,9 +144,10 @@ dependencies = [
 [[package]]
 name = "time"
 version = "0.1.3"
-source = "git+https://github.com/rust-lang/time#914a48401168169ccd1a822c2d32d87965306141"
+source = "git+https://github.com/rust-lang/time#fd4b53a7db653dd26c83820f871ce21ed2d20269"
 dependencies = [
- "gcc 0.1.1 (git+https://github.com/alexcrichton/gcc-rs)",
+ "gcc 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "log 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -142,6 +156,6 @@ version = "0.0.1"
 
 [[package]]
 name = "url"
-version = "0.2.5"
+version = "0.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 

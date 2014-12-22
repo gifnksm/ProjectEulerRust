@@ -123,7 +123,7 @@ mod tests {
             assert_eq!(true, pd.is_used(2));
             assert_eq!(true, pd.is_used(3));
             assert_eq!(false, pd.is_used(4));
-            assert_eq!([3, 2, 1][], pd.num())
+            assert_eq!([3, 2, 1][], pd.num());
 
             let pd = Pandigimal::from_u64(123, 4).unwrap();
             assert_eq!(true, pd.is_used(0));

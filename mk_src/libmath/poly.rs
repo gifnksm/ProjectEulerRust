@@ -56,11 +56,11 @@ impl<T: Zero + Clone + One + Eq + Neg<T> + Ord + fmt::Show> Poly<T> {
                 n.to_string()
             } else if i == 1 {
                 if (*n) == one { x.to_string() }
-                else if (*n) == -one { format!("-{}", x) }
+                else if (*n) == -one.clone() { format!("-{}", x) }
                 else { format!("{}*{}", n.to_string(), x) }
             } else {
                 if (*n) == one { format!("{}^{}", x, i) }
-                else if (*n) == -one { format!("-{}^{}", x, i) }
+                else if (*n) == -one.clone() { format!("-{}^{}", x, i) }
                 else { format!("{}*{}^{}", n.to_string(), x, i) }
             };
 
@@ -84,10 +84,15 @@ impl<T: Zero + One + Clone> One for Poly<T> {
     fn one() -> Poly<T> { Poly { data: vec![One::one()] } }
 }
 
-impl<T: Neg<T> + Zero> Neg<Poly<T>> for Poly<T> {
+impl<T: Neg<T> + Zero + Clone> Neg<Poly<T>> for Poly<T> {
     #[inline]
-    fn neg(&self) -> Poly<T> {
-        Poly::new(self.data.iter().map(|x| -(*x)).collect())
+    fn neg(self) -> Poly<T> { -&self }
+}
+
+impl<'a, T: Neg<T> + Zero + Clone> Neg<Poly<T>> for &'a Poly<T> {
+    #[inline]
+    fn neg(self) -> Poly<T> {
+        Poly::new(self.data.iter().map(|x| -x.clone()).collect())
     }
 }
 
@@ -221,7 +226,7 @@ mod tests {
         fn check(a: &[int], b: &[int], c: &[int]) {
             fn check_eq(a: &Poly<int>, b: &Poly<int>) {
                 assert_eq!(*a, *b);
-                assert_eq!(-(*a), -(*b));
+                assert_eq!(-a, -b);
             }
             fn check_add(sum: &Poly<int>, a: &Poly<int>, b: &Poly<int>) {
                 check_eq(sum, &(a + b));
@@ -236,9 +241,9 @@ mod tests {
             let b = Poly::from_slice(b);
             let c = Poly::from_slice(c);
             check_add(&c, &a, &b);
-            check_add(&(-c), &(-a), &(-b));
+            check_add(&(-&c), &(-&a), &(-&b));
             check_sub(&c, &a, &b);
-            check_sub(&(-c), &(-a), &(-b));
+            check_sub(&(-&c), &(-&a), &(-&b));
         }
         check(&[], &[], &[]);
         check(&[], &[1], &[1]);
