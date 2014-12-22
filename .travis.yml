@@ -20,6 +20,7 @@ script:
   - cargo test -p iter         --verbose
   - cargo test -p matrix       --verbose
   - cargo test -p playing_card --verbose
+  - cargo test -p polynomial   --verbose
   - cargo test -p prime        --verbose
   - cargo test -p seq          --verbose
   - cargo test -p tsort        --verbose
@@ -29,6 +30,7 @@ script:
   - cargo bench -p iter         --verbose
   - cargo bench -p matrix       --verbose
   - cargo bench -p playing_card --verbose
+  - cargo bench -p polynomial   --verbose
   - cargo bench -p prime        --verbose
   - cargo bench -p seq          --verbose
   - cargo bench -p tsort        --verbose

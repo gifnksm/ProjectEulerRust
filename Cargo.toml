@@ -30,11 +30,14 @@ path = "./pkg/iter"
 [dependencies.matrix]
 path = "./pkg/matrix"
 
-[dependencies.prime]
-path = "./pkg/prime"
-
 [dependencies.playing_card]
 path = "./pkg/playing_card"
+
+[dependencies.polynomial]
+path = "./pkg/polynomial"
+
+[dependencies.prime]
+path = "./pkg/prime"
 
 [dependencies.seq]
 path = "./pkg/seq"
