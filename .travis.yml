@@ -2,7 +2,6 @@ language: rust
 install:
   - sudo apt-get install python3
 before_script:
-  - wget --no-check-certificate -i ./etc/files.txt -P ./files
   - make depend
 script:
   - make debug -s
@@ -23,6 +22,7 @@ script:
   - cargo test -p prime
   - cargo test -p seq
   - cargo test -p tsort
+  - cargo test -p union_find
   - cargo bench
   - cargo bench -p cont_frac
   - cargo bench -p integer
@@ -33,5 +33,6 @@ script:
   - cargo bench -p prime
   - cargo bench -p seq
   - cargo bench -p tsort
+  - cargo bench -p union_find
   - cargo doc
 

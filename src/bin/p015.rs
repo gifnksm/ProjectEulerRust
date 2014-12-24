@@ -7,23 +7,10 @@
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
 
-use std::iter;
-use prime::{Factorized, PrimeSet};
-
-fn combination(n: u64, r: u64) -> u64 {
-    let ps = PrimeSet::new();
-    let mut fac = Factorized::<u64>::new(&ps);
-    for n in iter::range_inclusive(r + 1, n) {
-        fac.mul_assign(n);
-    }
-    for n in iter::range_inclusive(1, n - r) {
-        fac.div_assign(n);
-    }
-    fac.into_integer()
-}
+use prime::PrimeSet;
 
 fn compute(w: u64, h: u64) -> u64 {
-    combination(w + h, w)
+    PrimeSet::new().combination(w + h, w)
 }
 
 fn solve() -> String { compute(20, 20).to_string() }

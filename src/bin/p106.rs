@@ -1,13 +1,15 @@
-#![crate_name = "prob0106"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate math;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
+extern crate prime;
 
 use std::iter::AdditiveIterator;
 use std::collections::HashMap;
-use math::prime::Prime;
-
-pub const EXPECTED_ANSWER: &'static str = "21384";
+use prime::PrimeSet;
 
 // n = 4
 // (i, j): i: size of B, j: size of C
@@ -76,7 +78,7 @@ pub const EXPECTED_ANSWER: &'static str = "21384";
 // => nC2k * (2kCk/2 - f(k,k)) pairs
 // answer: \sum_{k=1}^{n/2} (nC2k * (2kCk/2 - f(k,k)))
 
-fn f(i: uint, j: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
+fn f(i: u64, j: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 {
     match (i, j) {
         (0, 0) => return 0,
         (_, 0) => return 0,
@@ -86,31 +88,32 @@ fn f(i: uint, j: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
         _ => {}
     }
 
-    match map.get(&(i, j)) {
-        Some(n) => return *n,
-        None => {}
+    if let Some(n) = map.get(&(i, j)) {
+        return *n
     }
 
     let val = f(i, j - 1, map) + f(i - 1, j, map);
-    map.insert((i, j), val);
+    let _ = map.insert((i, j), val);
     val
 }
 
-fn get_num_pairs(prime: &Prime, n: uint) -> uint {
+fn get_num_pairs(ps: &PrimeSet, n: u64) -> u64{
     let mut map = HashMap::new();
     range(1, n / 2 + 1).map(|k| {
-            prime.comb(n, 2*k) * (prime.comb(2 * k, k) / 2 - f(k, k, &mut map))
-        }).sum()
+        ps.combination(n, 2 * k) * (ps.combination(2 * k, k) / 2 - f(k, k, &mut map))
+    }).sum()
 }
 
-pub fn solve() -> String {
-    get_num_pairs(&Prime::new(), 12).to_string()
+fn solve() -> String {
+    get_num_pairs(&PrimeSet::new(), 12).to_string()
 }
+
+problem!("21384", solve);
 
 #[cfg(test)]
 mod tests {
     use std::collections::HashMap;
-    use math::prime::Prime;
+    use prime::PrimeSet;
 
     #[test]
     fn test_f() {
@@ -137,8 +140,9 @@ mod tests {
 
     #[test]
     fn test_get_num_pairs() {
-        let prime = Prime::new();
+        let prime = PrimeSet::new();
         assert_eq!(1, super::get_num_pairs(&prime, 4));
         assert_eq!(70, super::get_num_pairs(&prime, 7));
     }
 }
+

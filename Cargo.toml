@@ -47,3 +47,6 @@ path = "./pkg/seq"
 
 [dependencies.tsort]
 path = "./pkg/tsort"
+
+[dependencies.union_find]
+path = "./pkg/union_find"

@@ -153,6 +153,19 @@ impl PrimeSet {
     #[inline]
     pub fn contains(&self, n: u64) -> bool { self.data.borrow_mut().contains(n) }
 
+    /// Calculates the combination of the number
+    #[inline]
+    pub fn combination(&self, n: u64, r: u64) -> u64 {
+        let mut fac = Factorized::<u64>::new(self);
+        for n in iter::range_inclusive(r + 1, n) {
+            fac.mul_assign(n);
+        }
+        for n in iter::range_inclusive(1, n - r) {
+            fac.div_assign(n);
+        }
+        fac.into_integer()
+    }
+
     fn from_inner(inner: PrimeInner) -> PrimeSet {
         PrimeSet { data: Rc::new(RefCell::new(inner)) }
     }
@@ -358,7 +371,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
         }
     }
 
-    /// DIvides the factorized number by given number.
+    /// Divides the factorized number by given number.
     pub fn div_assign(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
             match self.map.entry(b) {
@@ -471,6 +484,17 @@ mod tests {
             assert_eq!(sum_div, n.sum_of_divisor(&ps));
             assert_eq!(sum_div, (-n).sum_of_divisor(&ps));
         }
+    }
+
+    #[test]
+    fn combination() {
+        let ps = PrimeSet::new();
+        assert_eq!(1, ps.combination(2, 2));
+        assert_eq!(3, ps.combination(3, 2));
+        assert_eq!(6, ps.combination(4, 2));
+        assert_eq!(10, ps.combination(5, 2));
+
+        assert_eq!(137846528820, ps.combination(40, 20));
     }
 }
 

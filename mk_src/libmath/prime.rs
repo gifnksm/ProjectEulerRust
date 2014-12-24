@@ -1,8 +1,6 @@
 use std::{iter, uint};
 use std::cell::RefCell;
 use std::rc::Rc;
-use std::collections::HashMap;
-use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::num::Int;
 
 use num::Integer;
@@ -80,25 +78,6 @@ impl Prime {
     #[inline]
     pub fn factorize(&self, n: uint) -> FactorizeIterator {
         FactorizeIterator { num: n, iter: self.iter() }
-    }
-
-    #[inline]
-    pub fn comb(&self, n: uint, r: uint) -> uint {
-        let mut map = HashMap::new();
-        for n in range(r + 1, n + 1) {
-            for (b, e) in self.factorize(n) {
-                match map.entry(b) {
-                    Vacant(entry)   => { entry.set(e); }
-                    Occupied(entry) => { *entry.into_mut() += e; }
-                }
-            }
-        }
-        for n in range(1, n - r + 1) {
-            for (b, e) in self.factorize(n) {
-                map[b] -= e;
-            }
-        }
-        map.into_iter().to_uint()
     }
 }
 
@@ -279,17 +258,6 @@ mod tests {
         check(8 * 27, &[(2, 3), (3, 3)]);
         check(97, &[(97, 1)]);
         check(97 * 41, &[(41, 1), (97, 1)]);
-    }
-
-    #[test]
-    fn comb() {
-        let prime = Prime::new();
-        assert_eq!(1, prime.comb(2, 2));
-        assert_eq!(3, prime.comb(3, 2));
-        assert_eq!(6, prime.comb(4, 2));
-        assert_eq!(10, prime.comb(5, 2));
-
-        assert_eq!(137846528820, prime.comb(40, 20));
     }
 }
 

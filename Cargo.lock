@@ -16,6 +16,7 @@ dependencies = [
  "seq 0.0.1",
  "time 0.1.4 (git+https://github.com/rust-lang/time)",
  "tsort 0.0.1",
+ "union_find 0.0.1",
 ]
 
 [[package]]
@@ -170,6 +171,10 @@ dependencies = [
 
 [[package]]
 name = "tsort"
+version = "0.0.1"
+
+[[package]]
+name = "union_find"
 version = "0.0.1"
 
 [[package]]

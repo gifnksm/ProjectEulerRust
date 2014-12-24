@@ -5,4 +5,3 @@
 extern crate test;
 
 pub mod extiter;
-pub mod union_find;
