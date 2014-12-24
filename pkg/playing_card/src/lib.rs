@@ -12,7 +12,7 @@ use std::str::FromStr;
 use Suit::{Spade, Heart, Dia, Club};
 
 /// Playing card's suite.
-#[allow(missing_docs)]
+#[allow(missing_docs, unused_qualifications)] // FIXME rust-lang/rust#19102
 #[deriving(Eq, PartialEq, Copy, Clone)]
 pub enum Suit {
     Spade,
