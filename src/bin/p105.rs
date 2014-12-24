@@ -49,7 +49,7 @@ fn solve(file: File) -> IoResult<String> {
         let mut nums = try!(line)
             .trim()
             .split(',')
-            .filter_map(from_str::<uint>)
+            .filter_map(StrExt::parse::<uint>)
             .collect::<Vec<_>>();
 
         if is_sss(nums.as_mut_slice()) {

@@ -14,7 +14,7 @@ fn solve(file: File) -> IoResult<String> {
     let mut triangle = input.lines()
         .filter_map(|line| line.ok())
         .filter(|line| !line.is_empty())
-        .map(|line| line.words().filter_map(from_str).collect::<Vec<uint>>())
+        .map(|line| line.words().filter_map(StrExt::parse).collect::<Vec<uint>>())
         .collect::<Vec<_>>();
 
     let last = triangle.pop().unwrap();

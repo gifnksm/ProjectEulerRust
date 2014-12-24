@@ -15,7 +15,7 @@ fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<uint>>> {
     let mut mat = vec![];
 
     for line in br.lines() {
-        let row = try!(line).trim().split(',').filter_map(from_str::<uint>).collect();
+        let row = try!(line).trim().split(',').filter_map(StrExt::parse::<uint>).collect();
         mat.push(row);
     }
 

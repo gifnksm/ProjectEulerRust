@@ -5,7 +5,7 @@
 #![feature(macro_rules, slicing_syntax)]
 
 extern crate glob;
-extern crate serialize;
+extern crate "rustc-serialize" as rustc_serialize;
 extern crate term;
 extern crate common;
 
@@ -14,7 +14,7 @@ use std::io::{Command, MemReader};
 use std::io::process::ExitStatus;
 use std::str::{MaybeOwned, SendStr};
 use glob::Paths;
-use serialize::{json, Decodable};
+use rustc_serialize::{json, Decodable};
 use term::color::Color;
 use common::SolverResult;
 

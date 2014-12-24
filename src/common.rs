@@ -7,7 +7,7 @@
 extern crate curl;
 extern crate getopts;
 extern crate num;
-extern crate serialize;
+extern crate "rustc-serialize" as rustc_serialize;
 extern crate term;
 extern crate time;
 
@@ -18,7 +18,7 @@ use std::io::fs::{mod, PathExtensions};
 use std::str::CowString;
 use curl::http;
 use num::Integer;
-use serialize::{json, Encodable};
+use rustc_serialize::{json, Encodable};
 use term::{color, Terminal};
 use term::color::Color;
 
@@ -76,7 +76,7 @@ impl fmt::Show for SolverError {
     }
 }
 
-#[deriving(Show, Encodable, Decodable)]
+#[deriving(Show, RustcEncodable, RustcDecodable)]
 pub struct SolverResult<T> {
     pub time: u64,
     pub answer: T,

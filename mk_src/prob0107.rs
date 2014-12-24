@@ -16,7 +16,7 @@ pub fn solve() -> String {
     let mut verts = Vec::new();
     for (i, line) in br.lines().filter_map(|line| line.ok()).enumerate() {
         for (j, s) in line.as_slice().trim().split(',').enumerate() {
-            let n = from_str::<uint>(s);
+            let n = s.parse::<uint>();
             if i < j && n.is_some() {
                 verts.push(((i, j), n.unwrap()));
             }

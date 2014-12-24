@@ -12,6 +12,7 @@ dependencies = [
  "playing_card 0.0.1",
  "polynomial 0.0.1",
  "prime 0.0.1",
+ "rustc-serialize 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "seq 0.0.1",
  "time 0.1.4 (git+https://github.com/rust-lang/time)",
  "tsort 0.0.1",

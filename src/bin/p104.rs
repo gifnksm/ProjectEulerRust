@@ -121,8 +121,8 @@ mod tests {
                 assert_eq!(bus, fst.to_string());
                 assert_eq!(bus, lst.to_string());
             } else {
-                assert_eq!(from_str::<u64>(bus[.. len]).unwrap(), fst);
-                assert_eq!(from_str::<u64>(bus[bus.len() - len ..]).unwrap(), lst);
+                assert_eq!(bus[.. len].parse::<u64>().unwrap(), fst);
+                assert_eq!(bus[bus.len() - len ..].parse::<u64>().unwrap(), lst);
             }
         }
     }

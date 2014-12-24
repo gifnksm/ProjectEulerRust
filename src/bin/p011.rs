@@ -36,7 +36,7 @@ fn compute(prod_len: uint) -> uint {
     let grid: Vec<Vec<uint>> = INPUT
         .trim()
         .lines()
-        .map(|line| line.words().filter_map(from_str::<uint>).collect())
+        .map(|line| line.words().filter_map(StrExt::parse::<uint>).collect())
         .collect();
 
     let w = grid[0].len();

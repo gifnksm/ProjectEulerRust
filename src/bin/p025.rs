@@ -9,12 +9,13 @@ extern crate num;
 extern crate common;
 extern crate seq;
 
+use std::iter;
 use num::BigUint;
 use common::Solver;
 use seq::Fibonacci;
 
 fn compute(limit_len: uint) -> uint {
-    let limit = from_str("9".repeat(limit_len - 1)[]).unwrap();
+    let limit = iter::repeat("9").take(limit_len - 1).collect::<String>().parse::<BigUint>().unwrap();
     Fibonacci::<BigUint>::new()
         .take_while(|n| *n <= limit)
         .count() + 1

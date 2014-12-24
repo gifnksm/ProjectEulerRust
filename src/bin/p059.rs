@@ -95,7 +95,7 @@ fn read_file(file: File) -> IoResult<Vec<u8>> {
             false
         };
 
-        code_list.push(from_str::<u8>(word).unwrap())
+        code_list.push(word.parse::<u8>().unwrap())
     }
 
     Ok(code_list)

@@ -6,6 +6,9 @@ authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
 [lib]
 name = "common"
 
+[dependencies]
+rustc-serialize = "*"
+
 [dependencies.curl]
 git = "https://github.com/carllerche/curl-rust"
 

@@ -20,8 +20,8 @@ fn solve(file: File) -> IoResult<String> {
         let line = try!(line);
         let line = line.trim();
         let i = line.find(',').unwrap();
-        let base = from_str::<f64>(line[.. i]).unwrap();
-        let exp  = from_str::<f64>(line[i + 1 ..]).unwrap();
+        let base = line[.. i].parse::<f64>().unwrap();
+        let exp  = line[i + 1 ..].parse::<f64>().unwrap();
         let val = exp * base.ln();
         if val > max_val {
             max_val = val;

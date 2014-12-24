@@ -74,7 +74,7 @@ fn solve(file: File) -> IoResult<String> {
         let ns = try!(line)
             .trim()
             .split(',')
-            .filter_map(from_str::<int>)
+            .filter_map(StrExt::parse::<int>)
             .collect::<Vec<_>>();
         let t = Triangle(Point(ns[0], ns[1]), Point(ns[2], ns[3]), Point(ns[4], ns[5]));
         if t.contains(origin) { cnt += 1 }

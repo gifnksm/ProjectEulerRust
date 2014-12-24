@@ -42,11 +42,11 @@ impl<T: Iterator<&'static Problem<'static>>> ProblemIterator for T {
 
 fn parse_range(s: &str) -> Option<(uint, uint)> {
     if !s.contains_char('-') {
-        from_str::<uint>(s).map(|n| (n, n))
+        s.parse::<uint>().map(|n| (n, n))
     } else {
         let mut ss = s.splitn(1,'-');
-        let opt_a = ss.next().and_then(|sa| from_str(sa));
-        let opt_b = ss.next().and_then(|sb| from_str(sb));
+        let opt_a = ss.next().and_then(StrExt::parse);
+        let opt_b = ss.next().and_then(StrExt::parse);
         opt_a.and_then(|a| opt_b.map(|b| (a, b)))
     }
 }

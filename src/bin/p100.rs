@@ -31,7 +31,7 @@ fn compute(limit: BigUint) -> BigUint {
 }
 
 fn solve() -> String {
-    let limit = FromStr::from_str("1000000000000").unwrap();
+    let limit = "1000000000000".parse().unwrap();
     compute(limit).to_string()
 }
 
