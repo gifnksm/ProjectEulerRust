@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate matrix;
 
 use std::iter::{mod, AdditiveIterator};
-use common::Solver;
 use matrix::Matrix;
 
 #[deriving(FromPrimitive, Show, Eq, PartialEq, Copy)]
@@ -202,7 +203,7 @@ fn solve() -> String {
     format!("{:02}{:02}{:02}", square[0].0 as uint, square[1].0 as uint, square[2].0 as uint)
 }
 
-fn main() { Solver::new("101524", solve).run(); }
+problem!("101524", solve);
 
 #[cfg(test)]
 mod tests {

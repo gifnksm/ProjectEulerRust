@@ -2,13 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate num;
 extern crate cont_frac;
 
-use std::str::FromStr;
 use num::{One, Integer, BigUint};
-use common::Solver;
 use cont_frac::PelNegRoots;
 
 // b/s * (b-1)/(s-1) = 1/2
@@ -35,9 +35,7 @@ fn solve() -> String {
     compute(limit).to_string()
 }
 
-fn main() {
-    Solver::new("756872327473", solve).run();
-}
+problem!("756872327473", solve);
 
 #[cfg(test)]
 mod tests {

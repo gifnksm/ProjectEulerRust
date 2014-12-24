@@ -2,13 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 
 use std::iter::{mod, AdditiveIterator, MultiplicativeIterator};
-use common::Solver;
 use integer::Integer;
 
 const RADIX: uint = 10;
@@ -107,7 +106,7 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() { Solver::new("16695334890", solve).run(); }
+problem!("16695334890", solve);
 
 #[cfg(test)]
 mod tests {

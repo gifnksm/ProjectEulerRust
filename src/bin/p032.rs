@@ -2,15 +2,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 extern crate iter;
 
 use std::collections::HashSet;
 use std::iter::AdditiveIterator;
-use common::Solver;
 use integer::Integer;
 use iter::Permutations;
 
@@ -69,4 +68,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-fn main() { Solver::new("45228", solve).run(); }
+problem!("45228", solve);

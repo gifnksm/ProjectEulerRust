@@ -2,9 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
 
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 
 // nCr-1 = r/(n-r+1) nCr
 // nCr = n/(n-r) n-1Cr
@@ -42,4 +42,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-fn main() { Solver::new("4075", solve).run(); }
+problem!("4075", solve);

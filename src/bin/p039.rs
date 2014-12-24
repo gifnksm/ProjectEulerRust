@@ -2,12 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 extern crate seq;
 
 use std::collections::HashMap;
-use common::Solver;
 use integer::Integer;
 use seq::PrimitivePythagoreans;
 
@@ -37,13 +38,13 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-fn main() { Solver::new("840", solve).run(); }
+problem!("840", solve);
 
 #[cfg(test)]
 mod tests {
     #[test]
     fn limit_120() {
         let map = super::num_sum_pythagorean(120);
-        assert_eq!(3, *map.find(&120).unwrap());
+        assert_eq!(3, *map.get(&120).unwrap());
     }
 }

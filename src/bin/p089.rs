@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::uint;
 use std::io::{BufferedReader, File, IoResult};
-use common::Solver;
 
 const ROMAN_PAIRS: &'static [(&'static str, uint)] = &[
     ("IV", 4),
@@ -72,7 +73,7 @@ fn solve(file: File) -> IoResult<String> {
     Ok(sum.to_string())
 }
 
-fn main() { Solver::new_with_file("743", "p089_roman.txt", solve).run(); }
+problem!("743", "p089_roman.txt", solve);
 
 #[cfg(test)]
 mod tests {

@@ -2,12 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate prime;
 
-use common::Solver;
 use prime::{Factorize, PrimeSet};
 
 fn compute(max: uint) -> uint {
@@ -40,4 +39,4 @@ fn solve() -> String {
     compute(28123).to_string()
 }
 
-fn main() { Solver::new("4179871", solve).run(); }
+problem!("4179871", solve);

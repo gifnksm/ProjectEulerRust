@@ -2,12 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(phase)]
+
 extern crate num;
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 
 use num::Integer as NumInteger;
-use common::Solver;
 use integer::Integer;
 
 fn compute(min: uint, max: uint) -> uint {
@@ -31,7 +32,7 @@ fn compute(min: uint, max: uint) -> uint {
 
 fn solve() -> String { compute(100, 999).to_string() }
 
-fn main() { Solver::new("906609", solve).run(); }
+problem!("906609", solve);
 
 #[cfg(test)]
 mod tests {

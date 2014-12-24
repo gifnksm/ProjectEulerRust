@@ -2,9 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
 
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 
 fn compute() -> uint {
     let mut facts: [uint, ..10] = [ 0, ..10 ];
@@ -32,4 +32,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-fn main() { Solver::new("40730", solve).run(); }
+problem!("40730", solve);

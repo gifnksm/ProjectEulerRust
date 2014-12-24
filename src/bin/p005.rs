@@ -2,10 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate prime;
 
-use common::Solver;
 use prime::{PrimeSet, Factorized};
 
 fn compute(n: uint) -> uint {
@@ -19,7 +20,7 @@ fn compute(n: uint) -> uint {
 
 fn solve() -> String { compute(20).to_string() }
 
-fn main() { Solver::new("232792560", solve).run(); }
+problem!("232792560", solve);
 
 #[cfg(test)]
 mod tests {

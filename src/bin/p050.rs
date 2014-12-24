@@ -2,13 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate prime;
 
 use std::iter::AdditiveIterator;
-use common::Solver;
 use prime::PrimeSet;
 
 fn get_longer(ps: &[u64], p: u64, min_len: uint) -> Option<uint> {
@@ -62,7 +61,7 @@ fn solve() -> String {
     compute(1000000).0.to_string()
 }
 
-fn main() { Solver::new("997651", solve).run(); }
+problem!("997651", solve);
 
 #[cfg(test)]
 mod tests {

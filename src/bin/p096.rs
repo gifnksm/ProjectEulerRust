@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::io::{BufferedReader, File, IoErrorKind, IoResult};
 use std::iter;
 use std::num::Int;
-use common::Solver;
 
 const BOARD_WIDTH: uint = 9;
 const BOARD_HEIGHT: uint = 9;
@@ -181,6 +180,4 @@ fn solve(file: File) -> IoResult<String> {
     Ok(sum.to_string())
 }
 
-fn main() {
-    Solver::new_with_file("24702", "p096_sudoku.txt", solve).run();
-}
+problem!("24702", "p096_sudoku.txt", solve);

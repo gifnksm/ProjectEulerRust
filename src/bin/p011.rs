@@ -2,12 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::iter::MultiplicativeIterator;
-use common::Solver;
 
 const INPUT: &'static str = "
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -81,4 +80,4 @@ fn compute(prod_len: uint) -> uint {
 
 fn solve() -> String { compute(4).to_string() }
 
-fn main() { Solver::new("70600674", solve).run(); }
+problem!("70600674", solve);

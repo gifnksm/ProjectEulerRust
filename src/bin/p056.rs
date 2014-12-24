@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate num;
 
 use std::iter::{AdditiveIterator, Unfold};
-use common::Solver;
 use num::{One, BigUint};
 
 fn compute(a: uint, b: uint) -> uint {
@@ -25,4 +26,4 @@ fn solve() -> String {
     compute(100, 100).to_string()
 }
 
-fn main() { Solver::new("972", solve).run(); }
+problem!("972", solve);

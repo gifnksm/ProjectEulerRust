@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate prime;
 
 use std::collections::HashSet;
-use common::Solver;
 use prime::{Factorize, PrimeSet};
 
 fn compute(a_max: uint, b_max: uint) -> uint {
@@ -30,7 +31,7 @@ fn solve() -> String {
     compute(100, 100).to_string()
 }
 
-fn main() { Solver::new("9183", solve).run(); }
+problem!("9183", solve);
 
 #[cfg(test)]
 mod tests {

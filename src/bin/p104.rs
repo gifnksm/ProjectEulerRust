@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate num;
 #[cfg(test)] extern crate seq;
 
 use std::num::{Int, Float};
-use common::Solver;
 use num::Integer;
 
 fn is_pandigit(n: u64) -> bool {
@@ -101,9 +100,7 @@ fn solve() -> String {
     (k + 1).to_string()
 }
 
-fn main() {
-    Solver::new("329468", solve).run();
-}
+problem!("329468", solve);
 
 #[cfg(test)]
 mod tests {

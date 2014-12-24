@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::cmp;
 use std::io::{File, IoResult, BufferedReader};
-use common::Solver;
 
 fn solve(file: File) -> IoResult<String> {
     let mut input = BufferedReader::new(file);
@@ -27,5 +28,5 @@ fn solve(file: File) -> IoResult<String> {
     Ok(ans.to_string())
 }
 
-fn main() { Solver::new_with_file("7273", "p067_triangle.txt", solve).run(); }
+problem!("7273", "p067_triangle.txt", solve);
 

@@ -2,10 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 
-use common::Solver;
 use integer::Integer;
 
 fn compute() -> uint {
@@ -48,4 +49,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-fn main() { Solver::new("142857", solve).run(); }
+problem!("142857", solve);

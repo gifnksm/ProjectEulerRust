@@ -2,12 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate num;
 
 use std::{cmp, iter};
 use num::Integer;
-use common::Solver;
 
 fn count_right_at_o(x_max: uint, y_max: uint) -> uint {
     x_max * y_max
@@ -35,7 +36,7 @@ fn solve() -> String {
     compute(50, 50).to_string()
 }
 
-fn main() { Solver::new("14234", solve).run(); }
+problem!("14234", solve);
 
 #[cfg(test)]
 mod tests {

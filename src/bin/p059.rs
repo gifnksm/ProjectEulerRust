@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::f64;
 use std::iter::{mod, AdditiveIterator};
 use std::io::{File, IoResult, BufferedReader};
-use common::Solver;
 
 const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
     ('a', 0.08167),
@@ -127,4 +126,4 @@ fn solve(file: File) -> IoResult<String> {
     Ok(sum.to_string())
 }
 
-fn main() { Solver::new_with_file("107359", "p059_cipher.txt", solve).run(); }
+problem!("107359", "p059_cipher.txt", solve);

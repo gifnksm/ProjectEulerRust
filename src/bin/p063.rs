@@ -2,10 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate num;
 
-use common::Solver;
 use num::BigUint;
 
 fn solve() -> String {
@@ -26,5 +27,5 @@ fn solve() -> String {
     cnt.to_string()
 }
 
-fn main() { Solver::new("49", solve).run(); }
+problem!("49", solve);
 

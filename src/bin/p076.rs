@@ -2,10 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::collections::HashMap;
-use common::Solver;
 
 fn count_way(sum: uint) -> uint {
     let mut map = HashMap::new();
@@ -31,7 +32,7 @@ fn solve() -> String {
     count_way(100).to_string()
 }
 
-fn main() { Solver::new("190569291", solve).run(); }
+problem!("190569291", solve);
 
 #[cfg(test)]
 mod tests {

@@ -2,12 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate num;
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
+extern crate num;
 
 use std::iter::MultiplicativeIterator;
-use common::Solver;
 use num::Integer as NumInteger;
 use integer::Integer;
 
@@ -66,7 +67,7 @@ fn solve() -> String {
     compute(idxs, 10).to_string()
 }
 
-fn main() { Solver::new("210", solve).run(); }
+problem!("210", solve);
 
 #[cfg(test)]
 mod tests {

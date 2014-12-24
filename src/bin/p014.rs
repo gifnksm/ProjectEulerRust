@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate seq;
 
 use std::collections::HashMap;
-use common::Solver;
 use seq::Collatz;
 
 fn compute_len(map: &mut HashMap<uint, uint>, n: uint) -> uint {
@@ -32,4 +33,4 @@ fn compute(limit: uint) -> uint {
 
 fn solve() -> String { compute(1000000).to_string() }
 
-fn main() { Solver::new("837799", solve).run(); }
+problem!("837799", solve);

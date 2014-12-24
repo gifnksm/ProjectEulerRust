@@ -2,11 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
-
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 
 fn count_ways(sum: uint, coins: &[uint]) -> uint {
     if coins.len() == 1 { return 1 }
@@ -28,7 +26,7 @@ fn solve() -> String {
     compute(200).to_string()
 }
 
-fn main() { Solver::new("73682", solve).run(); }
+problem!("73682", solve);
 
 #[cfg(test)]
 mod tests {

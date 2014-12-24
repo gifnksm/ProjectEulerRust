@@ -2,10 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
 
-use common::Solver;
-
+#[phase(plugin, link)] extern crate common;
 
 // x by y => C = (1 + 2 + .. + x) * (1 + 2 + .. + y) recutangulars
 //             = (x (1 + x) / 2) * (y (1 + y)) / 2
@@ -49,4 +48,4 @@ fn solve() -> String {
     (x * y).to_string()
 }
 
-fn main() { Solver::new("2772", solve).run(); }
+problem!("2772", solve);

@@ -2,13 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::io::{BufferedReader, IoResult, File};
 use std::iter::AdditiveIterator;
-use common::Solver;
 
 fn get_score(n: uint, s: &str) -> uint {
     n * s.bytes().map(|c| (c - ('A' as u8) + 1) as uint).sum()
@@ -47,7 +46,7 @@ fn solve(file: File) -> IoResult<String> {
     Ok(compute(words[]).to_string())
 }
 
-fn main() { Solver::new_with_file("871198282", "p022_names.txt", solve).run(); }
+problem!("871198282", "p022_names.txt", solve);
 
 #[cfg(test)]
 mod tests {

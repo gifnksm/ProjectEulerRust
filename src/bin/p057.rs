@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate num;
 
 use std::mem;
-use common::Solver;
 use num::bigint::BigUint;
 
 // FIXME: Use cont_frac?
@@ -50,7 +51,7 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() { Solver::new("153", solve).run(); }
+problem!("153", solve);
 
 #[cfg(test)]
 mod tests {

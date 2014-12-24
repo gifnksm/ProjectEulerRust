@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 
 use std::uint;
 use std::iter::AdditiveIterator;
-use common::Solver;
 use integer::Integer;
 
 fn each_sum_product(prod_start: uint, prod_end: uint, f: &mut |uint, uint, uint|) {
@@ -67,7 +66,7 @@ fn solve() -> String {
     compute(12000).to_string()
 }
 
-fn main() { Solver::new("7587457", solve).run(); }
+problem!("7587457", solve);
 
 #[cfg(test)]
 mod tests {

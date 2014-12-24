@@ -2,12 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate iter;
 
-use common::Solver;
 use iter::BitCombination;
 
 fn solve() -> String {
@@ -40,4 +39,4 @@ fn solve() -> String {
     cnt.to_string()
 }
 
-fn main() { Solver::new("1217", solve).run(); }
+problem!("1217", solve);

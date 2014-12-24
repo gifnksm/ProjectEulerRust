@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 extern crate iter;
 
-use common::Solver;
 use integer::Integer;
 use iter::Permutations;
 
@@ -32,4 +33,4 @@ fn solve() -> String {
     compute()
 }
 
-fn main() { Solver::new("932718654", solve).run(); }
+problem!("932718654", solve);

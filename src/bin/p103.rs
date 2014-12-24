@@ -2,13 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::collections::BinaryHeap;
 use std::iter;
-use common::Solver;
 
 /// Special sum set
 #[deriving(Show)]
@@ -131,9 +130,7 @@ fn solve() -> String {
     sss.nums.iter().map(|&n| n.to_string()).collect::<Vec<_>>().concat()
 }
 
-fn main() {
-    Solver::new("20313839404245", solve).run();
-}
+problem!("20313839404245", solve);
 
 #[cfg(test)]
 mod tests {

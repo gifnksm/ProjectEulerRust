@@ -2,12 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate cont_frac;
 extern crate num;
 
 use std::iter::AdditiveIterator;
-use common::Solver;
 use num::BigUint;
 use cont_frac::PelRoots;
 
@@ -73,6 +74,4 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() {
-    Solver::new("518408346", solve).run();
-}
+problem!("518408346", solve);

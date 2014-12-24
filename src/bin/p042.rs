@@ -2,13 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate seq;
 
 use std::io::{BufferedReader, IoResult, File};
-use common::Solver;
 use seq::TriangularNums;
 
 fn word_to_value(word: &str) -> uint {
@@ -50,7 +49,7 @@ fn solve(file: File) -> IoResult<String> {
     Ok(values.iter().filter(|&&v| is_tri[v]).count().to_string())
 }
 
-fn main() { Solver::new_with_file("162", "p042_words.txt", solve).run(); }
+problem!("162", "p042_words.txt", solve);
 
 #[cfg(test)]
 mod tests {

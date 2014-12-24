@@ -2,11 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
-
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 
 const INPUT: &'static str = "
 73167176531330624919225119674426574742355349194934
@@ -44,7 +42,7 @@ fn compute(prod_len: uint) -> u64 {
 
 fn solve() -> String { compute(13).to_string() }
 
-fn main() { Solver::new("23514624000", solve).run(); }
+problem!("23514624000", solve);
 
 #[cfg(test)]
 mod tests {

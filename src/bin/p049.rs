@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 extern crate prime;
 
-use common::Solver;
 use integer::Integer;
 use prime::PrimeSet;
 
@@ -27,4 +28,4 @@ fn solve() -> String {
     format!("{}{}{}", p1, p2, p3)
 }
 
-fn main() { Solver::new("296962999629", solve).run(); }
+problem!("296962999629", solve);

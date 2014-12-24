@@ -2,16 +2,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
+#[phase(plugin, link)] extern crate common;
 extern crate num;
-
-extern crate common;
 extern crate seq;
 
 use std::iter;
 use num::BigUint;
-use common::Solver;
 use seq::Fibonacci;
 
 fn compute(limit_len: uint) -> uint {
@@ -25,7 +23,7 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-fn main() { Solver::new("4782", solve).run(); }
+problem!("4782", solve);
 
 #[cfg(test)]
 mod tests {

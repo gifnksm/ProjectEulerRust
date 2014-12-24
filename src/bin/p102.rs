@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::io::{BufferedReader, File, IoResult};
 use std::num::SignedInt;
-use common::Solver;
 
 #[deriving(Copy)]
 struct Point(int, int);
@@ -83,9 +84,7 @@ fn solve(file: File) -> IoResult<String> {
     Ok(cnt.to_string())
 }
 
-fn main() {
-    Solver::new_with_file("228", "p102_triangles.txt", solve).run();
-}
+problem!("228", "p102_triangles.txt", solve);
 
 #[cfg(test)]
 mod test {

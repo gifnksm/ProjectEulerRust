@@ -2,10 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::cmp;
-use common::Solver;
 
 const TRIANGLE: &'static [&'static [uint]] = &[
     &[75],
@@ -38,7 +39,7 @@ fn compute(input: &[&[uint]]) -> uint {
 
 fn solve() -> String { compute(TRIANGLE).to_string() }
 
-fn main() { Solver::new("1074", solve).run(); }
+problem!("1074", solve);
 
 #[cfg(test)]
 mod tests {

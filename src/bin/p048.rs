@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 extern crate num;
 
-use common::Solver;
 use num::BigUint;
 use integer::Integer;
 
@@ -26,7 +27,7 @@ fn solve() -> String {
     compute(1000, 100_0000_0000).to_string()
 }
 
-fn main() { Solver::new("9110846700", solve).run(); }
+problem!("9110846700", solve);
 
 #[cfg(test)]
 mod tests {

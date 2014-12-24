@@ -2,12 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::iter::{mod, AdditiveIterator};
-use common::Solver;
 
 fn triangle(n: uint) -> uint { n * (n + 1) / 2 }
 fn square(n: uint) -> uint { n * n }
@@ -86,7 +85,7 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() { Solver::new("28684", solve).run(); }
+problem!("28684", solve);
 
 #[cfg(test)]
 mod tests {

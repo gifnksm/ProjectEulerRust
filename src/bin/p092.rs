@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 
 use std::iter::AdditiveIterator;
 use integer::Integer;
-use common::Solver;
 
 fn square_digit_sum(n: uint) -> uint {
     n.into_digits(10).map(|x| x * x).sum()
@@ -46,7 +45,7 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() { Solver::new("8581146", solve).run(); }
+problem!("8581146", solve);
 
 
 #[cfg(test)]

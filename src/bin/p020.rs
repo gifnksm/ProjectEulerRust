@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
 extern crate num;
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::iter::{AdditiveIterator, MultiplicativeIterator};
 use num::bigint::BigUint;
-use common::Solver;
 
 fn compute(max: uint) -> uint {
     num::range::<BigUint>(FromPrimitive::from_uint(1).unwrap(),
@@ -23,7 +22,7 @@ fn compute(max: uint) -> uint {
 
 fn solve() -> String { compute(100).to_string() }
 
-fn main() { Solver::new("648", solve).run(); }
+problem!("648", solve);
 
 #[cfg(test)]
 mod tests {

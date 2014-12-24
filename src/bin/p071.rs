@@ -2,9 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
 
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 
 fn compute(limit: uint) -> uint {
     let mut max_n = 0;
@@ -23,7 +23,7 @@ fn solve() -> String {
     compute(1000000).to_string()
 }
 
-fn main() { Solver::new("428570", solve).run(); }
+problem!("428570", solve);
 
 #[cfg(test)]
 mod tests {

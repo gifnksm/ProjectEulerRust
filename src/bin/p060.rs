@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate prime;
 
 use std::collections::HashMap;
 use std::iter::AdditiveIterator;
-use common::Solver;
 use prime::PrimeSet;
 
 fn concat_num(n: u64, m: u64) -> u64 {
@@ -104,7 +103,7 @@ fn solve() -> String {
     compute(5).into_iter().sum().to_string()
 }
 
-fn main() { Solver::new("26033", solve).run(); }
+problem!("26033", solve);
 
 #[cfg(test)]
 mod tests {

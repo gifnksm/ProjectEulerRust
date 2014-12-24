@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
 extern crate num;
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::iter::AdditiveIterator;
 use num::bigint::BigInt;
-use common::Solver;
 
 fn compute(base: uint, exp: uint) -> uint {
     let base: BigInt = FromPrimitive::from_uint(base).unwrap();
@@ -22,7 +21,7 @@ fn compute(base: uint, exp: uint) -> uint {
 
 fn solve() -> String { compute(2, 1000).to_string() }
 
-fn main() { Solver::new("1366", solve).run(); }
+problem!("1366", solve);
 
 #[cfg(test)]
 mod tests {

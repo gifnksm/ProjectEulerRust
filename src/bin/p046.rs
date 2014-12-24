@@ -2,12 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 extern crate prime;
 
 use std::iter;
-use common::Solver;
 use integer::Integer;
 use prime::PrimeSet;
 
@@ -30,4 +31,4 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() { Solver::new("5777", solve).run(); }
+problem!("5777", solve);

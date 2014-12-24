@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate prime;
 
 use std::iter;
-use common::Solver;
 use prime::{Factorized, PrimeSet};
 
 fn combination(n: u64, r: u64) -> u64 {
@@ -27,7 +28,7 @@ fn compute(w: u64, h: u64) -> u64 {
 
 fn solve() -> String { compute(20, 20).to_string() }
 
-fn main() { Solver::new("137846528820", solve).run(); }
+problem!("137846528820", solve);
 
 #[cfg(test)]
 mod tests {

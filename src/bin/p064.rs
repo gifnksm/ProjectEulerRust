@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate cont_frac;
 extern crate num;
 
-use common::Solver;
 use num::Integer;
 
 fn solve() -> String {
@@ -18,5 +19,5 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() { Solver::new("1322", solve).run(); }
+problem!("1322", solve);
 

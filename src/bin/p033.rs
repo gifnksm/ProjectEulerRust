@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate num;
-extern crate common;
 
 use num::Integer;
-use common::Solver;
 
 // AB / AC => NG (10A+B : 10A+C = B : C => 10AC+BC = 10AB+BC => 10A(C-B) = 0 -> trivial)
 // BA / CA => NG
@@ -52,4 +53,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-fn main() { Solver::new("100", solve).run(); }
+problem!("100", solve);

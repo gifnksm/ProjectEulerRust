@@ -2,12 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::iter::AdditiveIterator;
-use common::Solver;
 
 fn to_word_under10(n: uint) -> String {
     return match n {
@@ -96,7 +95,7 @@ fn compute(max: uint) -> uint {
 
 fn solve() -> String { compute(1000).to_string() }
 
-fn main() { Solver::new("21124", solve).run(); }
+problem!("21124", solve);
 
 #[cfg(test)]
 mod tests {

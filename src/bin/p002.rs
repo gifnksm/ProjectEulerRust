@@ -2,13 +2,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(phase)]
+
 extern crate num;
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate seq;
 
 use std::iter::AdditiveIterator;
 use num::Integer;
-use common::Solver;
 use seq::Fibonacci;
 
 fn compute(bound: uint) -> uint {
@@ -19,7 +20,7 @@ fn compute(bound: uint) -> uint {
 }
 
 fn solve() -> String { compute(4000000).to_string() }
-fn main() { Solver::new("4613732", solve).run(); }
+problem!("4613732", solve);
 
 #[cfg(test)]
 mod tests {

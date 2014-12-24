@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate "iter" as itercrate;
 extern crate num;
 
 use std::iter;
-use common::Solver;
 use itercrate::{BitCombination, CombinationOverlap};
 use num::{Signed, Zero};
 use num::rational::Ratio;
@@ -143,9 +142,7 @@ fn solve() -> String {
     format!("{}{}{}{}", seq[0], seq[1], seq[2], seq[3])
 }
 
-fn main() {
-    Solver::new("1258", solve).run();
-}
+problem!("1258", solve);
 
 #[cfg(test)]
 mod tests {

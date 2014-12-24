@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
 extern crate num;
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate polynomial;
 
 use std::iter::AdditiveIterator;
-use common::Solver;
 use num::rational::Ratio;
 use num::{BigInt, Zero, One};
 use polynomial::Polynomial;
@@ -63,9 +62,7 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() {
-    Solver::new("37076114526", solve).run();
-}
+problem!("37076114526", solve);
 
 #[cfg(test)]
 mod tests {

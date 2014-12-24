@@ -2,15 +2,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate iter;
 extern crate integer;
 
 use std::iter::AdditiveIterator;
 use std::num::Int;
-use common::Solver;
 use iter::CombinationOverlap;
 use integer::Integer;
 
@@ -42,7 +41,7 @@ fn solve() -> String {
     compute(6, 5).to_string()
 }
 
-fn main() { Solver::new("443839", solve).run(); }
+problem!("443839", solve);
 
 #[cfg(test)]
 mod tests {

@@ -2,9 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
 
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 
 fn solve() -> String {
     // solve by hand...
@@ -26,5 +26,5 @@ fn solve() -> String {
     "6531031914842725".to_string()
 }
 
-fn main() { Solver::new("6531031914842725", solve).run(); }
+problem!("6531031914842725", solve);
 

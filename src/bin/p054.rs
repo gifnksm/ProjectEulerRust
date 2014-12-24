@@ -2,15 +2,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate playing_card;
 
 use std::fmt;
 use std::str::FromStr;
 use std::io::{BufferedReader, File, IoResult};
-use common::Solver;
 use playing_card::SuitCard as Card;
 
 fn cmp_card(c0: &Card, c1: &Card) -> Ordering {
@@ -302,7 +301,7 @@ fn solve(file: File) -> IoResult<String> {
     Ok(p1_win.to_string())
 }
 
-fn main() { Solver::new_with_file("376", "p054_poker.txt", solve).run(); }
+problem!("376", "p054_poker.txt", solve);
 
 #[cfg(test)]
 mod tests {

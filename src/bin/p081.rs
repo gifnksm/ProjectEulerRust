@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::cmp;
 use std::io::{BufferedReader, File, IoResult};
-use common::Solver;
 
 fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<uint>>> {
     let mut br = BufferedReader::new(reader);
@@ -41,7 +42,7 @@ fn solve(file: File) -> IoResult<String> {
     Ok(minimal_path_sum(mat).to_string())
 }
 
-fn main() { Solver::new_with_file("427337", "p081_matrix.txt", solve).run(); }
+problem!("427337", "p081_matrix.txt", solve);
 
 #[cfg(test)]
 mod tests {

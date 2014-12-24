@@ -2,12 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::iter::AdditiveIterator;
-use common::Solver;
 
 const INPUT: &'static str = "
 37107287533902102798797998220837590246510135740250
@@ -124,4 +123,4 @@ fn compute() -> String {
 
 fn solve() -> String { compute() }
 
-fn main() { Solver::new("5537376230", solve).run(); }
+problem!("5537376230", solve);

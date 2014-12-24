@@ -2,9 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
 
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 
 fn triangle(i: uint) -> uint {
     let n = i + 1;
@@ -60,7 +60,7 @@ fn solve() -> String {
     compute(40755 + 1).to_string()
 }
 
-fn main() { Solver::new("1533776805", solve).run(); }
+problem!("1533776805", solve);
 
 #[cfg(test)]
 mod tests {

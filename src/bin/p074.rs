@@ -2,11 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
-
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 use std::collections::HashMap;
 
 #[deriving(Clone)]
@@ -81,7 +79,7 @@ fn solve() -> String {
     cnt.to_string()
 }
 
-fn main() { Solver::new("402", solve).run(); }
+problem!("402", solve);
 
 #[cfg(test)]
 mod tests {

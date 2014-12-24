@@ -2,12 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::iter;
-use common::Solver;
 
 fn nth_pentagonal(i: uint) -> uint {
     let n = i + 1;
@@ -45,4 +44,4 @@ fn solve() -> String {
     unreachable!()
 }
 
-fn main() { Solver::new("5482660", solve).run(); }
+problem!("5482660", solve);

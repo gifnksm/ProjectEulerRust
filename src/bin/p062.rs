@@ -2,15 +2,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(default_type_params)]
+#![feature(default_type_params, phase)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 
 use std::collections::{HashSet, HashMap};
 use std::collections::hash_map::Entry;
 use std::iter;
-use common::Solver;
 use integer::Integer;
 
 fn perm_exact(cnt: uint) -> HashSet<uint> {
@@ -57,7 +56,7 @@ fn solve() -> String {
     perm_exact(5).iter().min().unwrap().to_string()
 }
 
-fn main() { Solver::new("127035954683", solve).run(); }
+problem!("127035954683", solve);
 
 #[cfg(test)]
 mod tests {

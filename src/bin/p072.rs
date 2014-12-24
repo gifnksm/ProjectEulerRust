@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate prime;
 
 use std::iter::{mod, AdditiveIterator};
-use common::Solver;
 use prime::PrimeSet;
 
 fn compute(limit: u64) -> u64 {
@@ -29,7 +30,7 @@ fn solve() -> String {
     compute(1000000).to_string()
 }
 
-fn main() { Solver::new("303963552391", solve).run(); }
+problem!("303963552391", solve);
 
 #[cfg(test)]
 mod tests {

@@ -2,10 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::iter;
-use common::Solver;
 
 const MILLION: int = 1000000;
 
@@ -42,4 +43,4 @@ fn solve() -> String {
     unreachable!()
 }
 
-fn main() { Solver::new("55374", solve).run(); }
+problem!("55374", solve);

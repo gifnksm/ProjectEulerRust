@@ -2,13 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
+extern crate integer;
 extern crate num;
 
-extern crate common;
-extern crate integer;
-
 use num::Integer as NumInteger;
-use common::Solver;
 use integer::Integer;
 
 fn compute(mut idx: uint, mut set: Vec<uint>) -> uint {
@@ -26,7 +26,7 @@ fn solve() -> String {
     compute(1000000 - 1, vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 9]).to_string()
 }
 
-fn main() { Solver::new("2783915460", solve).run(); }
+problem!("2783915460", solve);
 
 #[cfg(test)]
 mod tests {

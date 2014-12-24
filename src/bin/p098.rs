@@ -2,9 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate integer;
 
 use std::{cmp, iter, mem, uint};
@@ -12,7 +12,6 @@ use std::collections::HashMap;
 use std::collections::hash_map::Entry;
 use std::io::{BufferedReader, File, IoResult};
 use std::num::Int;
-use common::Solver;
 use integer::Integer;
 
 fn read_words(file: File) -> IoResult<Vec<String>> {
@@ -176,6 +175,4 @@ fn solve(file: File) -> IoResult<String> {
     Ok(max.to_string())
 }
 
-fn main() {
-    Solver::new_with_file("18769", "p098_words.txt", solve).run();
-}
+problem!("18769", "p098_words.txt", solve);

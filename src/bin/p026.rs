@@ -2,9 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
 
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 
 fn get_cycle_len(n: uint) -> uint {
     if n == 1 { return 1 }
@@ -32,7 +32,7 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-fn main() { Solver::new("983", solve).run(); }
+problem!("983", solve);
 
 #[cfg(test)]
 mod tests {

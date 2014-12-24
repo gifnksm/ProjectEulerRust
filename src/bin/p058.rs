@@ -2,10 +2,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate prime;
 
-use common::Solver;
 use prime::PrimeSet;
 
 fn compute(numer: uint, denom: uint) -> uint {
@@ -34,4 +35,4 @@ fn solve() -> String {
     compute(1, 10).to_string()
 }
 
-fn main() { Solver::new("26241", solve).run(); }
+problem!("26241", solve);

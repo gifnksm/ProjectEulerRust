@@ -2,13 +2,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate cont_frac;
 extern crate "iter" as iter_crate;
 extern crate num;
 
 use std::iter;
-use common::Solver;
 use iter_crate::Difference;
 use num::BigUint;
 
@@ -23,5 +24,5 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() { Solver::new("661", solve).run(); }
+problem!("661", solve);
 

@@ -2,12 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate prime;
 
 use std::collections::HashMap;
 use std::iter;
-use common::Solver;
 use prime::PrimeSet;
 
 fn count_way(ps: &PrimeSet, sum: u64, map: &mut HashMap<(u64, uint), uint>) -> uint {
@@ -55,7 +56,7 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() { Solver::new("71", solve).run(); }
+problem!("71", solve);
 
 #[cfg(test)]
 mod tests {

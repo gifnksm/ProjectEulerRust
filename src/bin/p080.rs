@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(phase)]
+
 extern crate num;
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 extern crate iter;
 
-use common::Solver;
 use std::iter::AdditiveIterator;
 use num::{BigInt, Zero};
 use iter::Difference;
@@ -51,7 +52,7 @@ fn solve() -> String {
         .to_string()
 }
 
-fn main() { Solver::new("40886", solve).run(); }
+problem!("40886", solve);
 
 #[cfg(test)]
 mod test {

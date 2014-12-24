@@ -2,9 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
 
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 
 fn is_leap_year(y: uint) -> bool {
     if y % 400 == 0 { return true; }
@@ -56,4 +56,4 @@ fn compute() -> uint {
 
 fn solve() -> String { compute().to_string() }
 
-fn main() { Solver::new("171", solve).run(); }
+problem!("171", solve);

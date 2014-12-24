@@ -32,7 +32,7 @@ const COLOR_OK:   Color = color::GREEN;
 const COLOR_NG:   Color = color::RED;
 const COLOR_WARN: Color = color::YELLOW;
 
-enum SolverError {
+pub enum SolverError {
     Io(io::IoError),
     Http(curl::ErrCode)
 }
@@ -228,7 +228,7 @@ impl<'a> Solver<'a> {
         }
     }
 
-    fn solve(&self) -> Result<SolverResult<String>, SolverError> {
+    pub fn solve(&self) -> Result<SolverResult<String>, SolverError> {
         let (time, answer) = match self.solver {
             SolverFn::FnOnly(fun) => bench(move || fun()),
             SolverFn::FnWithFile(file_name, fun) => {
@@ -276,4 +276,32 @@ fn download(file_name: &str) -> Result<Vec<u8>, curl::ErrCode> {
                     .get(url)
                     .exec());
     Ok(resp.move_body())
+}
+
+#[macro_escape]
+
+#[macro_export]
+macro_rules! problem {
+    ($answer:expr, $solver:expr) => (
+        #[cfg(not(test))]
+        fn main() {
+            ::common::Solver::new($answer, $solver).run();
+        }
+
+        #[test]
+        fn test_solve() {
+            assert!(::common::Solver::new($answer, $solver).solve().is_ok());
+        }
+    );
+    ($answer:expr, $file:expr, $solver:expr) => (
+        #[cfg(not(test))]
+        fn main() {
+            ::common::Solver::new_with_file($answer, $file, $solver).run();
+        }
+
+        #[test]
+        fn test_solve() {
+            assert!(::common::Solver::new_with_file($answer, $file, $solver).solve().is_ok());
+        }
+     );
 }

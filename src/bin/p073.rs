@@ -2,9 +2,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
 
-use common::Solver;
+#[phase(plugin, link)] extern crate common;
 
 fn count_between(
     (na, da): (uint, uint), (nb, db): (uint, uint), max_d: uint
@@ -18,7 +18,7 @@ fn solve() -> String {
     count_between((1, 3), (1, 2), 12000).to_string()
 }
 
-fn main() { Solver::new("7295372", solve).run(); }
+problem!("7295372", solve);
 
 #[cfg(test)]
 mod tests {

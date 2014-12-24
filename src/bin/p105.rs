@@ -2,13 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::iter::AdditiveIterator;
 use std::io::{BufferedReader, File, IoResult};
-use common::Solver;
 
 fn is_sss(nums: &mut [uint]) -> bool {
     nums.sort();
@@ -60,6 +59,4 @@ fn solve(file: File) -> IoResult<String> {
     Ok(sum.to_string())
 }
 
-fn main() {
-    Solver::new_with_file("73702", "p105_sets.txt", solve).run();
-}
+problem!("73702", "p105_sets.txt", solve);

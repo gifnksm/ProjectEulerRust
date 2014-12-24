@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(phase, slicing_syntax)]
 
-extern crate common;
+#[phase(plugin, link)] extern crate common;
 
 use std::num::Float;
 use std::io::{BufferedReader, File, IoResult};
 use std::iter;
-use common::Solver;
 
 fn solve(file: File) -> IoResult<String> {
     let mut br = BufferedReader::new(file);
@@ -31,6 +30,4 @@ fn solve(file: File) -> IoResult<String> {
     Ok(max_idx.to_string())
 }
 
-fn main() {
-    Solver::new_with_file("709", "p099_base_exp.txt", solve).run();
-}
+problem!("709", "p099_base_exp.txt", solve);

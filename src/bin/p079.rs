@@ -2,11 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate common;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate tsort;
 
 use std::io::{BufferedReader, File, IoResult};
-use common::Solver;
 use tsort::TopologicalSort;
 
 fn solve(file: File) -> IoResult<String> {
@@ -24,4 +25,4 @@ fn solve(file: File) -> IoResult<String> {
     Ok(s)
 }
 
-fn main() { Solver::new_with_file("73162890", "p079_keylog.txt", solve).run(); }
+problem!("73162890", "p079_keylog.txt", solve);
