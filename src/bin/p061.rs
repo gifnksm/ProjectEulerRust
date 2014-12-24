@@ -78,7 +78,7 @@ fn cycle_to_nums(map: &[uint]) -> Vec<uint> {
 }
 
 fn solve() -> String {
-    let map = &[triangle, square, pentagonal, hexagonal, heptagonal, octagonal];
+    let map: &[fn(uint) -> uint] = &[triangle, square, pentagonal, hexagonal, heptagonal, octagonal];
     find_cycle(create_map(map).as_mut_slice())
         .iter()
         .map(|vs| cycle_to_nums(vs[]).into_iter().sum())
@@ -92,7 +92,7 @@ fn main() { Solver::new("28684", solve).run(); }
 mod tests {
     #[test]
     fn three() {
-        let map = &[super::triangle, super::square, super::pentagonal];
+        let map: &[fn(uint) -> uint] = &[super::triangle, super::square, super::pentagonal];
         let cycle = super::find_cycle(super::create_map(map).as_mut_slice())
             .iter()
             .map(|vs| super::cycle_to_nums(vs[]))

@@ -12,7 +12,7 @@ extern crate num;
 use std::{cmp, mem, uint};
 use std::cell::RefCell;
 use std::collections::HashMap;
-use std::collections::hash_map::{Occupied, Vacant};
+use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
 use std::iter::{mod, MultiplicativeIterator};
 use std::rc::Rc;

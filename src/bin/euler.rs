@@ -101,8 +101,8 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
 
     if !proc_out.error.is_empty() {
         let _ = match str::from_utf8(proc_out.error[]) {
-            Some(s) => writeln!(&mut io::stderr(), "{}", s.trim()),
-            None    => writeln!(&mut io::stderr(), "{}", proc_out.error)
+            Ok(s)  => writeln!(&mut io::stderr(), "{}", s.trim()),
+            Err(e) => writeln!(&mut io::stderr(), "{}: {}", proc_out.error, e)
         };
     }
 

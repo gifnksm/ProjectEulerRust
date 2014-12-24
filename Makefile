@@ -21,6 +21,9 @@ RUSTC_FLAGS = \
 DEBUG_RUSTC_FLAGS   = $(RUSTC_FLAGS) -L $(DEBUG_RLIB_DIR) #-g
 RELEASE_RUSTC_FLAGS = $(RUSTC_FLAGS) -L $(RELEASE_RLIB_DIR) --opt-level 3
 
+DEBUG_rustc-serialize = $(DEBUG_RLIB_DIR)/librustc-serialize.rlib
+RELEASE_rustc-serialize = $(RELEASE_RLIB_DIR)/librustc-serialize.rlib
+
 DEBUG_num = $(DEBUG_RLIB_DIR)/libnum.rlib
 RELEASE_num = $(RELEASE_RLIB_DIR)/libnum.rlib
 
@@ -64,6 +67,18 @@ DOC=rustdoc -L $(DEBUG_RLIB_DIR) $(1) -o $(DOC_DIR)
 
 RUN_TEST=$(1) --test
 RUN_BENCH=$(1) --bench
+
+$(DEBUG_rustc-serialize):
+	cargo build -p rustc-serialize
+	cp target/deps/librustc-serialize-*.rlib $@
+
+$(RELEASE_rustc-serialize):
+	cargo build -p rustc-serialize --release
+	cp target/deps/librustc-serialize-*.rlib $@
+
+
+$(DEBUG_num): $(DEBUG_rustc-serialize)
+$(RELEASE_num): $(RELEASE_rustc-serialize)
 
 $(DEBUG_num):
 	cargo build -p num

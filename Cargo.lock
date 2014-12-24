@@ -3,17 +3,17 @@ name = "ProjectEulerRust"
 version = "0.0.1"
 dependencies = [
  "cont_frac 0.0.1",
- "curl 0.1.2 (git+https://github.com/carllerche/curl-rust)",
+ "curl 0.1.3 (git+https://github.com/carllerche/curl-rust)",
  "glob 0.1.1 (git+https://github.com/rust-lang/glob)",
  "integer 0.0.1",
  "iter 0.0.1",
  "matrix 0.0.1",
- "num 0.1.0 (git+https://github.com/rust-lang/num)",
+ "num 0.1.3 (git+https://github.com/rust-lang/num)",
  "playing_card 0.0.1",
  "polynomial 0.0.1",
  "prime 0.0.1",
  "seq 0.0.1",
- "time 0.1.3 (git+https://github.com/rust-lang/time)",
+ "time 0.1.4 (git+https://github.com/rust-lang/time)",
  "tsort 0.0.1",
 ]
 
@@ -26,20 +26,20 @@ dependencies = [
 
 [[package]]
 name = "curl"
-version = "0.1.2"
-source = "git+https://github.com/carllerche/curl-rust#7816dca0d50cba643943eb541dc8149e25dc455a"
+version = "0.1.3"
+source = "git+https://github.com/carllerche/curl-rust#4517ee606c65bbe03e4ad4f661725eb80e667a69"
 dependencies = [
  "curl-sys 0.1.2 (git+https://github.com/carllerche/curl-rust)",
- "url 0.2.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "url 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "curl-sys"
 version = "0.1.2"
-source = "git+https://github.com/carllerche/curl-rust#7816dca0d50cba643943eb541dc8149e25dc455a"
+source = "git+https://github.com/carllerche/curl-rust#4517ee606c65bbe03e4ad4f661725eb80e667a69"
 dependencies = [
  "libz-sys 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "openssl-sys 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "openssl-sys 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "pkg-config 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -57,7 +57,7 @@ source = "git+https://github.com/rust-lang/glob#2f29bbade918b1e15e7bcb41c824aa23
 name = "integer"
 version = "0.0.1"
 dependencies = [
- "num 0.1.0 (git+https://github.com/rust-lang/num)",
+ "num 0.1.3 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
@@ -82,27 +82,30 @@ dependencies = [
 
 [[package]]
 name = "log"
-version = "0.1.2"
+version = "0.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "regex 0.1.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "regex 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "matrix"
 version = "0.0.1"
 dependencies = [
- "num 0.1.0 (git+https://github.com/rust-lang/num)",
+ "num 0.1.3 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
 name = "num"
-version = "0.1.0"
-source = "git+https://github.com/rust-lang/num#62f37e35def89b18dc42bba5e66fdcb7f853e5fb"
+version = "0.1.3"
+source = "git+https://github.com/rust-lang/num#82d44da2d7e75d4325a4687e8225bf91e0523505"
+dependencies = [
+ "rustc-serialize 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "openssl-sys"
-version = "0.2.7"
+version = "0.2.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "libressl-pnacl-sys 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -127,35 +130,41 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "polynomial"
 version = "0.0.1"
 dependencies = [
- "num 0.1.0 (git+https://github.com/rust-lang/num)",
+ "num 0.1.3 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
 name = "prime"
 version = "0.0.1"
 dependencies = [
- "num 0.1.0 (git+https://github.com/rust-lang/num)",
+ "num 0.1.3 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
 name = "regex"
-version = "0.1.3"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "rustc-serialize"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "seq"
 version = "0.0.1"
 dependencies = [
- "num 0.1.0 (git+https://github.com/rust-lang/num)",
+ "num 0.1.3 (git+https://github.com/rust-lang/num)",
 ]
 
 [[package]]
 name = "time"
-version = "0.1.3"
-source = "git+https://github.com/rust-lang/time#fd4b53a7db653dd26c83820f871ce21ed2d20269"
+version = "0.1.4"
+source = "git+https://github.com/rust-lang/time#11636ff02b44f73dc32cc10edb27af19051291fc"
 dependencies = [
  "gcc 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "log 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "log 0.1.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rustc-serialize 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -164,6 +173,6 @@ version = "0.0.1"
 
 [[package]]
 name = "url"
-version = "0.2.6"
+version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
