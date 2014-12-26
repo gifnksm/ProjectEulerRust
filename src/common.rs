@@ -290,7 +290,7 @@ macro_rules! problem {
 
         #[test]
         fn test_solve() {
-            assert!(::common::Solver::new($answer, $solver).solve().is_ok());
+            assert!(::common::Solver::new($answer, $solver).solve().unwrap().is_ok);
         }
     );
     ($answer:expr, $file:expr, $solver:expr) => (
@@ -301,7 +301,7 @@ macro_rules! problem {
 
         #[test]
         fn test_solve() {
-            assert!(::common::Solver::new_with_file($answer, $file, $solver).solve().is_ok());
+            assert!(::common::Solver::new_with_file($answer, $file, $solver).solve().unwrap().is_ok);
         }
      );
 }
