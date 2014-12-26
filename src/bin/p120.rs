@@ -1,13 +1,15 @@
-#![crate_name = "prob0120"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate num;
 
 use std::iter;
 use std::iter::AdditiveIterator;
 use num::Integer;
-
-pub const EXPECTED_ANSWER: &'static str = "333082500";
 
 // f(a, n) := (a-1)^n + (a+1)^n
 //
@@ -42,9 +44,23 @@ pub const EXPECTED_ANSWER: &'static str = "333082500";
 //   else:
 //     a (a - 1)
 
-pub fn solve() -> String {
+fn rmax(a: uint) -> uint {
+    if a.is_even() { a * (a - 2) } else { a * (a - 1) }
+}
+
+fn solve() -> String {
     iter::range_inclusive(3, 1000u)
-        .map(|a| if a.is_even() { a * (a - 2) } else { a * (a - 1) })
+        .map(rmax)
         .sum()
         .to_string()
+}
+
+problem!("333082500", solve);
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn rmax() {
+        assert_eq!(42, super::rmax(7));
+    }
 }

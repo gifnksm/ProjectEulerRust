@@ -1,25 +1,27 @@
-#![crate_name = "prob0116"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
+
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::iter;
 use std::collections::HashMap;
 
-pub const EXPECTED_ANSWER: &'static str = "20492570929";
-
 fn count(len: uint, unit: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
-    match map.get(&(len, unit)) {
-        Some(&x) => return x,
-        None => {}
+    if let Some(&x) = map.get(&(len, unit)) {
+        return x
     }
 
-    if len < unit { map.insert((len, unit), 1); return 1; }
+    if len < unit { let _ = map.insert((len, unit), 1); return 1; }
 
     let mut sum = 0;
     for i in iter::range_inclusive(0, len - unit) { // most left block position
         sum += count(len - (unit + i), unit, map);
     }
     sum += 1;
-    map.insert((len, unit), sum);
+    let _ = map.insert((len, unit), sum);
     sum
 }
 
@@ -30,10 +32,12 @@ fn count_all(len: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     count_red(len, map) + count_green(len, map) + count_blue(len, map)
 }
 
-pub fn solve() -> String {
+fn solve() -> String {
     let mut map = HashMap::new();
     count_all(50, &mut map).to_string()
 }
+
+problem!("20492570929", solve);
 
 #[cfg(test)]
 mod tests {

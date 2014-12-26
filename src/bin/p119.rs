@@ -1,19 +1,20 @@
-#![crate_name = "prob0119"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate math;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
+extern crate integer;
 
 use std::num::Int;
 use std::iter::AdditiveIterator;
 use std::collections::BinaryHeap;
-use math::numconv;
-
-pub const EXPECTED_ANSWER: &'static str = "248155780267521";
+use integer::Integer;
 
 struct Power(uint, uint, uint);
 
 impl PartialEq for Power {
-    #[inline]
     fn eq(&self, other: &Power) -> bool {
         let Power(sn, sb, _) = *self;
         let Power(on, ob, _) = *other;
@@ -40,7 +41,6 @@ struct Powers {
 }
 
 impl Powers {
-    #[inline]
     fn new() -> Powers {
         let mut heap = BinaryHeap::new();
         heap.push(Power(4, 2, 2));
@@ -49,28 +49,31 @@ impl Powers {
 }
 
 impl Iterator<(uint, uint, uint)> for Powers {
-    #[inline]
     fn next(&mut self) -> Option<(uint, uint, uint)> {
         let Power(n, b, e) = self.heap.pop().unwrap();
         if b == 2 { self.heap.push(Power(n * b, b, e + 1)); }
-        self.heap.push(Power((b + 1).pow(e), b + 1, e));
+        if b < 99 { self.heap.push(Power((b + 1).pow(e), b + 1, e)); } // assume base is smaller than 100
         Some((n, b, e))
     }
 }
 
-pub fn solve() -> String {
-    let (n, _b, _e) = Powers::new()
+fn compute_a(n: uint) -> (uint, uint, uint) {
+    Powers::new()
         .skip_while(|&mut: &(n, _b, _e)| n < 10)
-        .filter(|&(n, b, _e)| numconv::to_digits(n, 10).sum() == b)
-        .nth(29).unwrap();
+        .filter(|&(n, b, _e)| n.into_digits(10).sum() == b)
+        .nth(n - 1).unwrap()
+}
+
+fn solve() -> String {
+    let (n, _b, _e) = compute_a(30);
     n.to_string()
 }
+
+problem!("248155780267521", solve);
 
 #[cfg(test)]
 mod tests {
     use super::Powers;
-    use std::iter::AdditiveIterator;
-    use math::numconv;
 
     #[test]
     fn powers() {
@@ -94,11 +97,8 @@ mod tests {
     }
 
     #[test]
-    fn a() {
-        let mut it = Powers::new()
-            .skip_while(|&mut: &(n, _b, _e)| n < 10)
-            .filter(|&(n, b, _e)| numconv::to_digits(n, 10).sum() == b);
-        assert_eq!(Some((512, 8, 3)), it.nth(1));
-        assert_eq!(Some((614656, 28, 4)), it.nth(8 - 1));
+    fn compute_a() {
+        assert_eq!((512, 8, 3), super::compute_a(2));
+        assert_eq!((614656, 28, 4), super::compute_a(10));
     }
 }

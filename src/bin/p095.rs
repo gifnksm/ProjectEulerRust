@@ -9,9 +9,8 @@
 use std::iter;
 
 fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) -> uint {
-    match len_map[n] {
-        Some(x) => { return x; }
-        None => {}
+    if let Some(x) = len_map[n] {
+        return x
     }
 
     let mut itr_map = vec![n];

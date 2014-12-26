@@ -1,16 +1,17 @@
-#![crate_name = "prob0117"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::iter;
 use std::collections::HashMap;
 
-pub const EXPECTED_ANSWER: &'static str = "100808458960497";
-
 fn count(len: uint, map: &mut HashMap<uint, uint>) -> uint {
-    match map.get(&len) {
-        Some(&x) => return x,
-        None => {}
+    if let Some(&x) = map.get(&len) {
+        return x
     }
 
     let mut sum = 0;
@@ -20,14 +21,16 @@ fn count(len: uint, map: &mut HashMap<uint, uint>) -> uint {
         if len - i >= 4 { sum += count(len - i - 4, map); } // blue
     }
     sum += 1; // all black
-    map.insert(len, sum);
+    let _ = map.insert(len, sum);
     sum
 }
 
-pub fn solve() -> String {
+fn solve() -> String {
     let mut map = HashMap::new();
     count(50, &mut map).to_string()
 }
+
+problem!("100808458960497", solve);
 
 #[cfg(test)]
 mod tests {

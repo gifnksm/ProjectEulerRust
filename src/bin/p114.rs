@@ -10,13 +10,13 @@ use std::iter;
 use std::collections::HashMap;
 
 fn get_cnt(n: uint, m: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
-    let mut sum = 0;
-    match map.get(&(n, m)) {
-        Some(&x) => return x,
-        None     => {}
+    if let Some(&x) = map.get(&(n, m)) {
+        return x
     }
 
     if n < m { let _ = map.insert((n, m), 1); return 1; }
+
+    let mut sum = 0;
 
     for len in iter::range_inclusive(m, n) { // most left red block length
         for i in iter::range_inclusive(0, n - len) { // most left red block position
