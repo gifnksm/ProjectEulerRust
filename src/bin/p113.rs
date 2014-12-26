@@ -1,9 +1,12 @@
-#![crate_name = "prob0113"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
+
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::iter::AdditiveIterator;
-
-pub const EXPECTED_ANSWER: &'static str = "51161058134250";
 
 fn num_increasing(len: uint) -> uint {
     let mut buf = Vec::from_fn(len, |_| [0u, ..10]);
@@ -54,17 +57,18 @@ fn num_nonbouncy(len: uint) -> uint {
     num_incr + num_decr - num_incr_and_decr
 }
 
-pub fn solve() -> String {
+fn solve() -> String {
     num_nonbouncy(100).to_string()
 }
 
+problem!("51161058134250", solve);
+
+
 #[cfg(test)]
 mod tests {
-    use super::num_nonbouncy;
-
     #[test]
     fn test_nonbouncy() {
-        assert_eq!(12951,  num_nonbouncy(6));
-        assert_eq!(277032, num_nonbouncy(10));
+        assert_eq!(12951,  super::num_nonbouncy(6));
+        assert_eq!(277032, super::num_nonbouncy(10));
     }
 }

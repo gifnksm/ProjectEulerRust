@@ -1,14 +1,14 @@
-#![crate_name = "prob0112"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-#[cfg(test)]
-extern crate test;
-extern crate math;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
+extern crate integer;
 
 use std::iter;
-use math::numconv;
-
-pub const EXPECTED_ANSWER: &'static str = "1587000";
+use integer::Integer;
 
 fn is_increasing_with<T: Iterator<uint>>(mut ds: T, mut prev: uint) -> bool {
     for n in ds {
@@ -39,20 +39,26 @@ fn is_bouncy<T: Iterator<uint>>(mut ds: T) -> bool {
     }
 }
 
-pub fn solve() -> String {
+fn compute(percent: uint) -> uint {
+    assert!(percent < 100);
     let mut num_bouncy = 0;
     for n in iter::count(1u, 1) {
-        if is_bouncy(numconv::to_digits(n, 10)) { num_bouncy += 1; }
-        if n * 99 == 100 * num_bouncy {
-            return n.to_string();
+        if is_bouncy(n.into_digits(10)) { num_bouncy += 1; }
+        if n * percent == 100 * num_bouncy {
+            return n
         }
     }
     unreachable!()
 }
 
+fn solve() -> String {
+    compute(99).to_string()
+}
+
+problem!("1587000", solve);
+
 #[cfg(test)]
 mod tests {
-
     mod is_increasing {
         use super::super::is_increasing;
 
@@ -95,40 +101,10 @@ mod tests {
         #[test] fn bouncy_number()           { check(true, vec![4, 5, 3]) }
         #[test] fn bouncy_with_same_digit()  { check(true, vec![1, 5, 5, 3, 4, 9]) }
     }
-}
 
-#[cfg(test)]
-mod bench {
-    use test::Bencher;
-    use std::iter;
-    use math::numconv;
-    use super::is_bouncy;
-
-    #[bench]
-    fn bouncy_50percent(bh: &mut Bencher) {
-        bh.iter(|| {
-            let mut num_bouncy = 0;
-            for n in iter::count(1u, 1) {
-                if is_bouncy(numconv::to_digits(n, 10)) { num_bouncy += 1; }
-                if n * 50 == 100 * num_bouncy {
-                    assert_eq!(538, n);
-                    break;
-                }
-            }
-        })
-    }
-
-    #[bench]
-    fn bouncy_90percent(bh: &mut Bencher) {
-        bh.iter(|| {
-            let mut num_bouncy = 0;
-            for n in iter::count(1u, 1) {
-                if is_bouncy(numconv::to_digits(n, 10)) { num_bouncy += 1; }
-                if n * 90 == 100 * num_bouncy {
-                    assert_eq!(21780, n);
-                    break;
-                }
-            }
-        })
+    #[test]
+    fn example() {
+        assert_eq!(538, super::compute(50));
+        assert_eq!(21780, super::compute(90));
     }
 }

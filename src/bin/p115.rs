@@ -1,20 +1,22 @@
-#![crate_name = "prob0114"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::iter;
 use std::collections::HashMap;
 
-pub const EXPECTED_ANSWER: &'static str = "16475640049";
-
-pub fn get_cnt(n: uint, m: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
+fn get_cnt(n: uint, m: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     let mut sum = 0;
     match map.get(&(n, m)) {
         Some(&x) => return x,
         None     => {}
     }
 
-    if n < m { map.insert((n, m), 1); return 1; }
+    if n < m { let _ = map.insert((n, m), 1); return 1; }
 
     for len in iter::range_inclusive(m, n) { // most left red block length
         for i in iter::range_inclusive(0, n - len) { // most left red block position
@@ -26,15 +28,21 @@ pub fn get_cnt(n: uint, m: uint, map: &mut HashMap<(uint, uint), uint>) -> uint 
         }
     }
     sum += 1; // all black block
-    map.insert((n, m), sum);
+    let _ = map.insert((n, m), sum);
 
     sum
 }
 
-pub fn solve() -> String {
+fn solve() -> String {
     let mut map = HashMap::new();
-    get_cnt(50, 3, &mut map).to_string()
+    iter::count(1u, 1)
+        .filter(|&n| get_cnt(n, 50, &mut map) > 1000000)
+        .next()
+        .unwrap()
+        .to_string()
 }
+
+problem!("168", solve);
 
 #[cfg(test)]
 mod tests {
@@ -46,8 +54,12 @@ mod tests {
         let mut map = HashMap::new();
         assert_eq!(1, get_cnt(1, 3, &mut map));
         assert_eq!(1, get_cnt(2, 3, &mut map));
-        assert_eq!(2, get_cnt(3, 3, &mut map));
+        assert_eq!(2, get_cnt(3, 3 , &mut map));
         assert_eq!(4, get_cnt(4, 3, &mut map));
         assert_eq!(17, get_cnt(7, 3, &mut map));
+        assert_eq!(673135, get_cnt(29, 3, &mut map));
+        assert_eq!(1089155, get_cnt(30, 3, &mut map));
+        assert_eq!(880711, get_cnt(56, 10, &mut map));
+        assert_eq!(1148904, get_cnt(57, 10, &mut map));
     }
 }
