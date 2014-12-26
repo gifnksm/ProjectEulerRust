@@ -74,7 +74,7 @@ $(DEBUG_rustc-serialize):
 
 $(RELEASE_rustc-serialize):
 	cargo build -p rustc-serialize --release
-	cp target/deps/librustc-serialize-*.rlib $@
+	cp target/release/deps/librustc-serialize-*.rlib $@
 
 
 $(DEBUG_num): $(DEBUG_rustc-serialize)
