@@ -2,6 +2,11 @@
 name = "ProjectEulerRust"
 version = "0.0.1"
 authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
+license-file="LICENSE"
+readme = "README.md"
+repository = "https://github.com/gifnksm/ProjectEulerRust"
+keywords = ["algebra", "algorithms", "computation", "mathematics", "numerics"]
+description = "Solving Project Euler with Rust lang."
 
 [lib]
 name = "common"
