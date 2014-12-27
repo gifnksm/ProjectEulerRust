@@ -1,4 +1,7 @@
 language: rust
+env:
+  global:
+    - secure: Q2eKqrd1GpzTaLTXQHSDGCK0qP36fp1hixTy2oX01djusd7pjKsgo/sj+e0Vxb+T32rvigIW3JX9JEUsUTLOBXe+9WiWutATjnkAvyuow2ldSVvLnKq3qyTsFMnjvTtU01gEkHb2MxWMUg+PHKuRY7hbXJq/yxOiSAO2gE2IxmI=
 script:
   - cargo run --bin euler --release
   - cargo test
@@ -24,4 +27,6 @@ script:
   - cargo bench -p tsort
   - cargo bench -p union_find
   - cargo doc
-
+after_success:
+  - cd target
+  - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN | sh
