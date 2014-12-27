@@ -1,16 +1,18 @@
-#![crate_name = "prob0121"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate num;
-extern crate math;
+extern crate polynomial;
 
 use std::iter;
-use std::iter::{AdditiveIterator, MultiplicativeIterator};
+use std::iter::MultiplicativeIterator;
 use num::{One, Integer, BigUint};
 use num::rational::Ratio;
-use math::poly::Poly;
-
-pub const EXPECTED_ANSWER: &'static str = "2269";
+use polynomial::Polynomial;
 
 // turn  blue    red
 // 1     1/2     1/2
@@ -39,20 +41,22 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: uint) ->
             let denom = t.clone() + One::one();
             let blue = Ratio::new(One::one(), denom.clone());
             let red  = Ratio::new(t, denom);
-            Poly::new(vec![blue, red])
+            Polynomial::new(vec![blue, red])
         }).product()
-        .into_vec()
-        .into_iter()
+        .data()
+        .iter()
         .take((turns + 1) / 2)
-        .sum()
+        .fold(num::zero::<Ratio<T>>(), |acc, elt| acc + elt)
 }
 
 fn max_prize<T: Integer + Clone>(p: Ratio<T>) -> T { p.denom().div_floor(p.numer()) }
 
-pub fn solve() -> String {
+fn solve() -> String {
     let prob = probability_of_player_win::<BigUint>(15);
     max_prize(prob).to_string()
 }
+
+problem!("2269", solve);
 
 #[cfg(test)]
 mod tests {

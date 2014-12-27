@@ -1,14 +1,16 @@
-#![crate_name = "prob0125"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate math;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
+extern crate integer;
 
 use std::iter;
 use std::num::Int;
 use std::collections::HashSet;
-use math::numconv;
-
-pub const EXPECTED_ANSWER: &'static str = "2906969179";
+use integer::Integer;
 
 fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
     let mut set = HashSet::new();
@@ -23,7 +25,7 @@ fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
             let s = sq_sums[j] + pow;
             if s >= limit { break; }
 
-            if numconv::is_palindromic(s, 10) { set.insert(s); }
+            if s.is_palindromic(10) { set.insert(s); }
             sq_sums[j] = s;
         }
         sq_sums.push(pow);
@@ -32,11 +34,13 @@ fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
     set
 }
 
-pub fn solve() -> String {
+fn solve() -> String {
     let limit = 10u.pow(8);
     let set = palindromic_sum_set(limit);
     set.iter().fold(0, |x, &y| x + y).to_string()
 }
+
+problem!("2906969179", solve);
 
 #[cfg(test)]
 mod tests {

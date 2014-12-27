@@ -1,22 +1,20 @@
-#![crate_name = "prob0124"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate math;
-#[cfg(test)]
-extern crate test;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
+extern crate prime;
 
 use std::collections::BinaryHeap;
-use math::prime::Prime;
+use prime::PrimeSet;
 
-pub const EXPECTED_ANSWER: &'static str = "21417";
-
-struct Multiple(uint, uint);
+struct Multiple(u64, u64);
 
 impl PartialEq for Multiple {
     fn eq(&self, other: &Multiple) -> bool {
-        let Multiple(ref sn, _) = *self;
-        let Multiple(ref on, _) = *other;
-        on.eq(sn)
+        self.0.eq(&other.0)
     }
 }
 
@@ -28,52 +26,48 @@ impl PartialOrd for Multiple {
 impl Ord for Multiple {
     #[inline]
     fn cmp(&self, other: &Multiple) -> Ordering {
-        let Multiple(ref sn, _) = *self;
-        let Multiple(ref on, _) = *other;
-        on.cmp(sn)
+        other.0.cmp(&self.0)
     }
 }
 
 struct Multiples {
-    facts: Vec<uint>,
+    facts: Vec<u64>,
     heap: BinaryHeap<Multiple>
 }
 
 impl Multiples {
     #[inline]
-    fn new(base: uint, facts: Vec<uint>) -> Multiples {
+    fn new(base: u64, facts: Vec<u64>) -> Multiples {
         let mut heap = BinaryHeap::new();
         heap.push(Multiple(base, 0));
         Multiples { facts: facts, heap: heap }
     }
 }
 
-impl Iterator<uint> for Multiples {
+impl Iterator<u64> for Multiples {
     #[inline]
-    fn next(&mut self) -> Option<uint> {
+    fn next(&mut self) -> Option<u64> {
         self.heap.pop().map(|Multiple(n, i)| {
-            if i < self.facts.len() {
+            if i < self.facts.len() as u64 {
                 // n = ... * f[i]^k => ... * f[i]^(k+1)
-                self.heap.push(Multiple(n * self.facts[i], i));
+                self.heap.push(Multiple(n * self.facts[i as uint], i));
             }
 
-            for j in range(i + 1, self.facts.len()) {
+            for j in range(i + 1, self.facts.len() as u64) {
                 // n = ... * f[i]^k => ... * f[i]^k * f[j]
-                self.heap.push(Multiple(n * self.facts[j], j));
+                self.heap.push(Multiple(n * self.facts[j as uint], j));
             }
             n
         })
     }
 }
 
-struct RadValue(uint, Vec<uint>, uint);
+struct RadValue(u64, Vec<u64>, u64);
 
 impl PartialEq for RadValue {
     #[inline]
     fn eq(&self, other: &RadValue) -> bool {
-        let RadValue(ref sn, _, _) = *self;
-        let RadValue(ref on, _, _) = *other;
-        on.eq(sn)
+        self.0.eq(&other.0)
     }
 }
 
@@ -86,14 +80,12 @@ impl PartialOrd for RadValue {
 impl Ord for RadValue {
     #[inline]
     fn cmp(&self, other: &RadValue) -> Ordering {
-        let RadValue(ref sn, _, _) = *self;
-        let RadValue(ref on, _, _) = *other;
-        on.cmp(sn)
+        other.0.cmp(&self.0)
     }
 }
 
 struct RadValues {
-    prime: Prime,
+    ps: PrimeSet,
     heap: BinaryHeap<RadValue>
 }
 
@@ -102,15 +94,15 @@ impl RadValues {
     fn new() -> RadValues {
         let mut heap = BinaryHeap::new();
         heap.push(RadValue(1, vec![], 0));
-        RadValues { prime: Prime::new(), heap: heap }
+        RadValues { ps: PrimeSet::new(), heap: heap }
     }
 }
 
-impl Iterator<(uint, Vec<uint>)> for RadValues {
+impl Iterator<(u64, Vec<u64>)> for RadValues {
     #[inline]
-    fn next(&mut self) -> Option<(uint, Vec<uint>)> {
+    fn next(&mut self) -> Option<(u64, Vec<u64>)> {
         self.heap.pop().map(|RadValue(n, facts, i)| {
-            let p = self.prime.nth(i);
+            let p = self.ps.nth(i as uint);
 
             // n = ... * p[i-1] => ... * p[i-1] * p[i] (append p[i])
             {
@@ -133,8 +125,8 @@ impl Iterator<(uint, Vec<uint>)> for RadValues {
     }
 }
 
-pub fn solve() -> String {
-    const LIMIT: uint = 100000;
+fn solve() -> String {
+    const LIMIT: u64 = 100000;
     let index = 10000;
 
     RadValues::new()
@@ -144,6 +136,8 @@ pub fn solve() -> String {
         .unwrap()
         .to_string()
 }
+
+problem!("21417", solve);
 
 #[cfg(test)]
 mod tests {
@@ -235,16 +229,5 @@ mod tests {
         assert_eq!(Some(7), it.next());
         assert_eq!(Some(10), it.next());
         assert_eq!(None, it.next());
-    }
-}
-
-#[cfg(test)]
-mod bench {
-    use test::Bencher;
-    use super::RadValues;
-
-    #[bench]
-    fn rad_value_below_10000(bh: &mut Bencher) {
-        bh.iter(|| for _n in RadValues::new().take_while(|&(n, _)| n < 10000) {})
     }
 }

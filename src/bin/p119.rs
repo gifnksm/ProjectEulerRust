@@ -16,9 +16,7 @@ struct Power(uint, uint, uint);
 
 impl PartialEq for Power {
     fn eq(&self, other: &Power) -> bool {
-        let Power(sn, sb, _) = *self;
-        let Power(on, ob, _) = *other;
-        sn == on && sb == ob
+        self.0 == other.0 && self.1 == other.1
     }
 }
 
@@ -30,9 +28,7 @@ impl PartialOrd for Power {
 
 impl Ord for Power {
     fn cmp(&self, other: &Power) -> Ordering {
-        let Power(sn, sb, _) = *self;
-        let Power(on, ob, _) = *other;
-        (sn, sb).cmp(&(on, ob)).reverse()
+        (self.0, self.1).cmp(&(other.0, other.1)).reverse()
     }
 }
 

@@ -9,6 +9,4 @@ extern crate num;
 extern crate test;
 
 pub mod arith;
-pub mod numconv;
-pub mod poly;
 pub mod prime;
