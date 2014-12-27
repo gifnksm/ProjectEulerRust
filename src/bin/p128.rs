@@ -1,4 +1,4 @@
-//! Problem 128 (https://projecteuler.net/problem=128)
+//! [Problem 128](https://projecteuler.net/problem=128) solver.
 //!
 //! # 定義
 //!

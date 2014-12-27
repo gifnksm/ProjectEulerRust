@@ -1,4 +1,4 @@
-//! Problem 134 (https://projecteuler.net/problem=134)
+//! [Problem 134](https://projecteuler.net/problem=134) solver.
 //!
 //! # 解析
 //!

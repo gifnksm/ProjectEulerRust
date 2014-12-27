@@ -1,4 +1,4 @@
-//! Problem 131 (https://projecteuler.net/problem=131)
+//! [Problem 131](https://projecteuler.net/problem=131) solver.
 //! # 解析
 //!
 //! ```notrust math

@@ -1,3 +1,5 @@
+//! [Problem 63](https://projecteuler.net/problem=63) solver.
+
 #![warn(bad_style,
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
