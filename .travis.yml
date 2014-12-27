@@ -1,16 +1,5 @@
 language: rust
-install:
-  - sudo apt-get install python3
-before_script:
-  - make depend
 script:
-  - make debug -s
-  - make release -s
-  - make test -s
-  - make bench -s
-  - make doc -s
-  - ./bin/debug/euler
-  - ./bin/release/euler
   - cargo run --bin euler --release
   - cargo test
   - cargo test -p cont_frac

@@ -1,20 +1,3 @@
-# ignore executable files
-bin/debug/*
-bin/release/*
-
-# ignore library files
-lib/debug/*
-lib/release/*
-
-# ignore auto generated module files
-mk_src/euler/problem_list.rs
-
-# ignore dependency files
-depend/*.mk
-
-# ignore document files
-doc/*
-
 /target
 pkg/*/target
 pkg/*/Cargo.lock
