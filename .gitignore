@@ -9,9 +9,6 @@ lib/release/*
 # ignore auto generated module files
 mk_src/euler/problem_list.rs
 
-# ignore attachment files
-files/*.txt
-
 # ignore dependency files
 depend/*.mk
 
