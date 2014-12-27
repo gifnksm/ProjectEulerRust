@@ -129,25 +129,27 @@
 //!
 //! `r=0` から順番にこれらを満たす数をカウントする。
 
-#![crate_name = "prob0128"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate math;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
+extern crate prime;
 
 use std::mem;
-use math::prime::Prime;
-
-pub const EXPECTED_ANSWER: &'static str = "14516824220";
+use prime::PrimeSet;
 
 #[deriving(Eq, PartialEq, Show)]
 struct PdTriple {
-    n: uint,
-    r: uint,
-    triple: (uint, uint, uint)
+    n: u64,
+    r: u64,
+    triple: (u64, u64, u64)
 }
 
 struct PdTriples {
-    r: uint,
+    r: u64,
     next: Option<PdTriple>
 }
 
@@ -178,17 +180,17 @@ impl Iterator<PdTriple> for PdTriples {
 
 struct Pd3Nums {
     iter: PdTriples,
-    ps: Prime
+    ps: PrimeSet
 }
 
 impl Pd3Nums {
     #[inline]
-    fn new() -> Pd3Nums { Pd3Nums { iter: PdTriples::new(), ps: Prime::new() } }
+    fn new() -> Pd3Nums { Pd3Nums { iter: PdTriples::new(), ps: PrimeSet::new() } }
 }
 
-impl Iterator<uint> for Pd3Nums {
+impl Iterator<u64> for Pd3Nums {
     #[inline]
-    fn next(&mut self) -> Option<uint> {
+    fn next(&mut self) -> Option<u64> {
         loop {
             let PdTriple { n, triple: (a, b, c), ..} = self.iter.next().unwrap();
             if self.ps.contains(a) && self.ps.contains(b) && self.ps.contains(c) {
@@ -198,17 +200,19 @@ impl Iterator<uint> for Pd3Nums {
     }
 }
 
-pub fn solve() -> String {
+fn solve() -> String {
     Pd3Nums::new().nth(2000 - 1).unwrap().to_string()
 }
+
+problem!("14516824220", solve);
 
 #[cfg(test)]
 mod tests {
     use super::{PdTriple, PdTriples, Pd3Nums};
     use std::iter::AdditiveIterator;
 
-    fn a(r: uint) -> uint { if r == 0 { 1 } else { 6 * r } }
-    fn b(r: uint, m: uint) -> uint {
+    fn a(r: u64) -> u64 { if r == 0 { 1 } else { 6 * r } }
+    fn b(r: u64, m: u64) -> u64 {
         if r == 0 {
             assert_eq!(0, m);
             return 1
@@ -228,8 +232,8 @@ mod tests {
     fn test_b() {
         assert_eq!(1, b(0, 0));
         let mut n = 2;
-        for r in range(1u, 10) {
-            for m in range(0u, a(r)) {
+        for r in range(1, 10) {
+            for m in range(0, a(r)) {
                 assert_eq!(n, b(r, m));
                 n += 1;
             }
@@ -239,14 +243,14 @@ mod tests {
     #[test]
     fn pd_triples() {
         let mut it = PdTriples::new();
-        assert_eq!(Some(PdTriple { n: b(0, 0), r: 0, triple: (2u, 3u, 5u)}), it.next());
+        assert_eq!(Some(PdTriple { n: b(0, 0), r: 0, triple: (2, 3, 5)}), it.next());
         let n = b(1, 0);
         assert_eq!(Some(PdTriple { n: n, r: 1, triple: (b(2, 11) - n,
                                                         b(2, 1)  - n,
                                                         b(1, 5)  - n)}),
                    it.next());
 
-        for r in range(2u, 100) {
+        for r in range(2, 100) {
             let n = b(r, 0);
             assert_eq!(Some(PdTriple { n: n, r: r, triple: (b(r+1, 6*r+5) - n,
                                                             b(r+1, 1)     - n,

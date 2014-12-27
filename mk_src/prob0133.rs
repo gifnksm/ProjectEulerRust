@@ -50,12 +50,23 @@
 #![crate_type = "rlib"]
 
 extern crate math;
-extern crate prob0129;
 
-use std::iter::AdditiveIterator;
+use std::iter::{mod, AdditiveIterator};
 use math::prime::Prime;
 
 pub const EXPECTED_ANSWER: &'static str = "453647705";
+
+fn a(n: uint) -> uint {
+    if n == 1 { return 1 }
+
+    iter::Unfold::new((1, 1), |st| {
+            let (x, k) = *st;
+            *st = ((x * 10 + 1) % n, k + 1);
+            Some((x, k))
+        }).find(|&(x, _)| x == 0)
+        .unwrap()
+        .1
+}
 
 pub fn solve() -> String {
     let ps = Prime::new();
@@ -64,7 +75,7 @@ pub fn solve() -> String {
         .skip_while(|&p| p <= 5)
         .take_while(|&p| p < 100000)
         .filter(|&p| {
-            ps.factorize(prob0129::a(p))
+            ps.factorize(a(p))
                 .any(|(b, _e)| b != 2 && b != 5)
         }).sum();
 

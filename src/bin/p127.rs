@@ -1,9 +1,12 @@
-#![crate_name = "prob0127"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
+
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 
 use std::iter;
-
-pub const EXPECTED_ANSWER: &'static str = "18407904";
 
 // [定理]
 // a + b = c のとき、
@@ -13,7 +16,7 @@ pub const EXPECTED_ANSWER: &'static str = "18407904";
 // まず、GCD(a, b) = 1 => GCD(a, c) = 1 を示す。
 // GCD(a, b) のとき、GCD(a, c) = k > 1 であると仮定すると、
 // 整数 n, m を用いて a = kn, c = km と表すことができる。
-// b = c - a = km - kn = k(m, n) より、GCD(a, b) >= k となり矛盾。
+// b = c - a = km - kn = k(m - n) より、GCD(a, b) >= k となり矛盾。
 // よって、GCD(a, c) = 1 である。
 //
 // 次に、GCD(a, b) = 1 => GCD(b, c) = 1 を示す。
@@ -71,7 +74,7 @@ fn abc_hits_c_sum(c_limit: uint) -> uint {
 
             let Rad(rad_b, _, _) = rad_vec[c - a];
             let rad_abc = rad_a * rad_b * rad_c;
-            if rad_abc >= c || (a != 1 && rad_has_union(c_facts.as_slice(), a_facts.as_slice())) { continue; }
+            if rad_abc >= c || (a != 1 && rad_has_union(c_facts.as_slice(), a_facts.as_slice())) { continue }
             c_sum += c;
         }
     }
@@ -79,7 +82,11 @@ fn abc_hits_c_sum(c_limit: uint) -> uint {
     c_sum
 }
 
-pub fn solve() -> String { abc_hits_c_sum(120000).to_string() }
+fn solve() -> String {
+    abc_hits_c_sum(120000).to_string()
+}
+
+problem!("18407904", solve);
 
 #[cfg(test)]
 mod tests {
