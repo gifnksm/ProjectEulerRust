@@ -18,23 +18,27 @@
 //!
 //! 冪剰余 (Modular exponation) を求める。
 
-#![crate_name = "prob0132"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate math;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
+extern crate integer;
+extern crate prime;
 
 use std::num::Int;
 use std::iter::AdditiveIterator;
-use math::arith;
-use math::prime::Prime;
-
-pub const EXPECTED_ANSWER: &'static str = "843296";
+use integer::Integer;
+use prime::PrimeSet;
 
 pub fn solve() -> String {
-    Prime::new().iter()
-        .filter(|&p| arith::mod_pow(10, 10u.pow(9), 9 * p) == 1)
+    PrimeSet::new().iter()
+        .filter(|&p| 10.mod_pow(&10.pow(9), &(9 * p)) == 1)
         .take(40)
         .sum()
         .to_string()
 }
 
+problem!("843296", solve);

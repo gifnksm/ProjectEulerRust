@@ -53,6 +53,7 @@
 //!
 //! 右辺は合成数ではないため、`s1^(3e''1+1) * s2(3e''2+2) = 1` である。
 //! すなわち、`n = s0^(3e0)` と書け、立方数である■
+//!
 //! ## 定理3
 //!
 //! `p` は任意の数 `q` を用いて以下のように表される。
@@ -81,26 +82,39 @@
 //! # 解法
 //!
 //! `3q^2 + 3q + 1` を `q` について計算し、素数のものを列挙する。
-//! `q` が
 
-#![crate_name = "prob0131"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate math;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
+extern crate prime;
 
 use std::iter;
-use math::prime::Prime;
+use prime::PrimeSet;
 
-pub const EXPECTED_ANSWER: &'static str = "173";
+fn compute(limit: u64) -> uint {
+    let ps = PrimeSet::new();
 
-pub fn solve() -> String {
-    let limit = 1000000;
-    let ps = Prime::new();
-
-    iter::count(1u, 1)
+    iter::count(1, 1)
         .map(|q| 3*q*q + 3*q + 1)
         .take_while(|&p| p <= limit)
         .filter(|&p| ps.contains(p) )
         .count()
-        .to_string()
+}
+
+fn solve() -> String {
+    compute(1000000).to_string()
+}
+
+problem!("173", solve);
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn hundred() {
+        assert_eq!(4, super::compute(100));
+    }
 }

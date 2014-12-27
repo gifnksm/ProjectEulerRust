@@ -46,17 +46,19 @@
 //! problem 129 で求めた `A(n)` の素因数が 2 または 5 のみの場合に、
 //! `R(n)` は `R(10^k)` を割り切る。
 
-#![crate_name = "prob0133"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
-extern crate math;
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
+extern crate prime;
 
 use std::iter::{mod, AdditiveIterator};
-use math::prime::Prime;
+use prime::{Factorize, PrimeSet};
 
-pub const EXPECTED_ANSWER: &'static str = "453647705";
-
-fn a(n: uint) -> uint {
+fn a(n: u64) -> u64 {
     if n == 1 { return 1 }
 
     iter::Unfold::new((1, 1), |st| {
@@ -68,16 +70,18 @@ fn a(n: uint) -> uint {
         .1
 }
 
-pub fn solve() -> String {
-    let ps = Prime::new();
+fn solve() -> String {
+    let ps = PrimeSet::new();
 
     let sum = ps.iter()
         .skip_while(|&p| p <= 5)
         .take_while(|&p| p < 100000)
         .filter(|&p| {
-            ps.factorize(a(p))
+            a(p).factorize(&ps)
                 .any(|(b, _e)| b != 2 && b != 5)
         }).sum();
 
     (sum + 2 + 3 + 5).to_string()
 }
+
+problem!("453647705", solve);

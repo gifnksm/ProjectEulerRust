@@ -84,30 +84,32 @@
 //! S = b[3] = 48101
 //! ```
 
-#![crate_name = "prob0134"]
-#![crate_type = "rlib"]
+#![warn(bad_style,
+        unused, unused_extern_crates, unused_import_braces,
+        unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(phase)]
+
+#[phase(plugin, link)] extern crate common;
 extern crate num;
-extern crate math;
+extern crate prime;
 
 use num::Integer;
-use math::prime::Prime;
+use prime::PrimeSet;
 
-pub const EXPECTED_ANSWER: &'static str = "18613426663617118";
-
-pub fn solve() -> String {
+fn solve() -> String {
     let min_limit = 5;
     let max_limit = 1000000;
 
-    let mut mod_map = Vec::from_fn(10, |_| Vec::from_elem(10, 0u));
-    for &b in [1u, 3, 7, 9].iter() {
-        for n in range(1u, 10) {
-            mod_map[b][(b * n) % 10] = n;
+    let mut mod_map = Vec::from_fn(10, |_| Vec::from_elem(10, 0));
+    for &b in [1, 3, 7, 9].iter() {
+        for n in range(1, 10) {
+            mod_map[b as uint][((b * n) % 10) as uint] = n;
         }
     }
 
     let mut sum = 0;
-    let ps = Prime::new();
+    let ps = PrimeSet::new();
     let mut pairs = ps.iter()
         .zip(ps.iter().skip(1))
         .skip_while(|&(p1, _p2)| p1 < min_limit)
@@ -115,15 +117,15 @@ pub fn solve() -> String {
 
     for (p1, p2) in pairs {
         if p1 == 3 { continue }
-        let xmap = &mod_map[p2 % 10];
+        let xmap = &mod_map[(p2 % 10) as uint];
         let mut a;
         let mut b = 0;
         let mut p1_digit = p1;
         let mut coef = 1;
-        for _ in range(0, p1.to_string().len()) {
+        for _ in range(0, p1.to_string().len() as u64) {
             let (d, m) = p1_digit.div_rem(&10);
             p1_digit = d;
-            a = xmap[(10 + m - (b / coef) % 10) % 10];
+            a = xmap[((10 + m - (b / coef) % 10) % 10) as uint];
             b += a * p2 * coef;
             coef *= 10;
         }
@@ -131,3 +133,5 @@ pub fn solve() -> String {
     }
     sum.to_string()
 }
+
+problem!("18613426663617118", solve);
