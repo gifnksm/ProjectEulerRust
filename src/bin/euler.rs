@@ -165,11 +165,8 @@ fn run() -> ProgramResult<()> {
 }
 
 fn main() {
-    match run() {
-        Ok(()) => {}
-        Err(e) => {
-            let _ = writeln!(&mut io::stderr(), "{}", e);
-            os::set_exit_status(255);
-        }
+    if let Err(e) = run() {
+        let _ = writeln!(&mut io::stderr(), "{}", e);
+        os::set_exit_status(255);
     }
 }
