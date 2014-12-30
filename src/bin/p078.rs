@@ -10,18 +10,18 @@
 
 use std::iter;
 
-const MILLION: int = 1000000;
+const MILLION: i32 = 1000000;
 
-fn penta(n: int) -> int { n * (3 * n - 1) / 2 }
+fn penta(n: i32) -> i32 { n * (3 * n - 1) / 2 }
 
 fn solve() -> String {
     let mut v = [0, ..65536];
     v[0] = 1;
 
-    for n in iter::count(1i, 1) {
+    for n in iter::count(1, 1) {
         let mut way = 0;
 
-        for i in iter::count(0i, 1) {
+        for i in iter::count(0, 1) {
             let k = i % 4;
             let p = if k == 0 || k == 2 {
                 penta(i / 2 + 1)
