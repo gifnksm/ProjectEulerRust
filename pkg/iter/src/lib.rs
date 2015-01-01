@@ -185,7 +185,7 @@ impl<'a, T: Clone> Iterator<(Vec<T>, Vec<T>)> for Permutations<'a, T> {
             for i in range(0, n).rev() {
                 self.cycles[i] -= 1;
                 if self.cycles[i] == 0 {
-                    let p = self.idxs.remove(i).unwrap();
+                    let p = self.idxs.remove(i);
                     self.idxs.push(p);
                     self.cycles[i] = self.elems.len() - i;
                     if i == 0 {

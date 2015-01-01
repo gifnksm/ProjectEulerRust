@@ -67,7 +67,7 @@ impl PrimeInner {
     #[inline]
     fn contains(&mut self, n: u64) -> bool {
         if n < self.max_prime() {
-            return self.data[].binary_search_elem(&n).found().is_some()
+            return self.data[].binary_search_elem(&n).is_ok()
         }
 
         if !self.is_coprime(n) { return false }

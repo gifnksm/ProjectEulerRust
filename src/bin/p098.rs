@@ -69,7 +69,7 @@ fn flatten_groups(groups: Vec<Vec<String>>) -> Vec<(String, String)> {
 
     for mut group in groups.into_iter() {
         if group.len() == 2 {
-            pairs.push((group.remove(0).unwrap(), group.remove(0).unwrap()));
+            pairs.push((group.remove(0), group.remove(0)));
             continue
         }
 

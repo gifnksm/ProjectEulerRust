@@ -19,7 +19,7 @@ fn compute(mut idx: uint, mut set: Vec<uint>) -> uint {
         let perm = (set.len() - 1).factorial();
         let (rm_idx, rest) = idx.div_rem(&perm);
         idx = rest;
-        result.push(set.remove(rm_idx).unwrap());
+        result.push(set.remove(rm_idx));
     }
     Integer::from_digits(result.into_iter().rev(), 10)
 }

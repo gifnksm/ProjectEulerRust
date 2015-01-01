@@ -17,7 +17,7 @@ fn nth_pentagonal(i: uint) -> uint {
 
 fn is_pentagonal(n: uint, table: &[uint]) -> bool {
     if *table.last().unwrap() < n { panic!() }
-    table.binary_search_elem(&n).found().is_some()
+    table.binary_search_elem(&n).is_ok()
 }
 
 // P[k] + P[j] = P[m]
