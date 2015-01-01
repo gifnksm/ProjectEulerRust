@@ -141,7 +141,7 @@ mod test {
 
     #[test]
     fn iter() {
-        let mut ts = TopologicalSort::<uint>::new();
+        let mut ts = TopologicalSort::<i32>::new();
         ts.add_dependency(1, 2);
         ts.add_dependency(2, 3);
         ts.add_dependency(3, 4);
@@ -154,7 +154,7 @@ mod test {
 
     #[test]
     fn pop_all() {
-        fn check(result: &[uint], ts: &mut TopologicalSort<uint>) {
+        fn check(result: &[i32], ts: &mut TopologicalSort<i32>) {
             let l = ts.len();
             let mut v = ts.pop_all();
             v.sort();
@@ -162,7 +162,7 @@ mod test {
             assert_eq!(l - result.len(), ts.len());
         }
 
-        let mut ts = TopologicalSort::<uint>::new();
+        let mut ts = TopologicalSort::new();
         ts.add_dependency(7, 11);
         assert_eq!(2, ts.len());
         ts.add_dependency(7, 8);
