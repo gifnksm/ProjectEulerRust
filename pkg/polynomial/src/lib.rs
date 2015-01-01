@@ -215,14 +215,14 @@ impl<'a, 'b, Lhs, Rhs, Result> Mul<&'b Polynomial<Rhs>, Polynomial<Result>> for 
 
         let slen = self.data.len();
         let olen = other.data.len();
-        let prod = Vec::from_fn(slen + olen - 1, |i| {
+        let prod = range(0, slen + olen - 1).map(|i| {
             let mut p = num::zero::<Result>();
             for k in range(0, slen) {
-                if i - k >= olen { continue; }
+                if i - k >= olen { continue }
                 p = p + self.data[k].clone() * other.data[i - k].clone();
             }
             p
-        });
+        }).collect();
         Polynomial::new(prod)
     }
 }

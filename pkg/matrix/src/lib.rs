@@ -25,7 +25,7 @@ impl<T> Matrix<T> {
         Matrix {
             row: row,
             column: column,
-            data: Vec::from_fn(row * column, |i| f(i / column, i % column))
+            data: range(0, row * column).map(|i| f(i / column, i % column)).collect()
         }
     }
 

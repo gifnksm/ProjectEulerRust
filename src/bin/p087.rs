@@ -9,12 +9,13 @@
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
 
+use std::iter;
 use prime::PrimeSet;
 
 fn compute(limit: u64) -> uint {
     let prime = PrimeSet::new();
     let mut cnt = 0u;
-    let mut set = Vec::from_elem(limit as uint, false);
+    let mut set = iter::repeat(false).take(limit as uint).collect::<Vec<_>>();
 
     for p in prime.iter() {
         let p4 = p * p * p * p;

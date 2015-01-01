@@ -37,7 +37,7 @@ fn get_chain_len(mut n: uint, len_map: &mut [Option<uint>], div_map: &[uint]) ->
 }
 
 fn create_proper_divisor_map(limit: uint) -> Vec<uint> {
-    let mut map = Vec::from_elem(limit + 1, 1);
+    let mut map = iter::repeat(1).take(limit + 1).collect::<Vec<_>>();
     map[0] = 0;
     map[1] = 1;
     for f in range(2, limit / 2) {
@@ -49,7 +49,7 @@ fn create_proper_divisor_map(limit: uint) -> Vec<uint> {
 }
 
 fn compute(limit: uint) -> uint {
-    let mut len_map = Vec::from_elem(limit + 1, None);
+    let mut len_map = iter::repeat(None).take(limit + 1).collect::<Vec<_>>();
     let div_map = create_proper_divisor_map(limit);
 
     let (n, _) = range(1, len_map.len())

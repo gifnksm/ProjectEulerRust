@@ -71,7 +71,7 @@
 use std::iter;
 
 fn num_solutions(limit: uint) -> Vec<u32> {
-    let mut cnt = Vec::from_elem(limit, 0);
+    let mut cnt = iter::repeat(0).take(limit).collect::<Vec<_>>();
     for q in range(1, limit) {
         let r = (4 - (q % 4)) % 4;
         if q * r >= limit { continue }

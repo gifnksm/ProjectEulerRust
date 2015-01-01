@@ -50,10 +50,10 @@ fn bop(ns: &[(BigInt, BigInt)]) -> BigInt {
 }
 
 fn u_to_vec(dim: uint, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
-    Vec::from_fn(dim + 1, |i| {
+    range(0, dim + 1).map(|i| {
         let n: BigInt = FromPrimitive::from_uint(i + 1).unwrap();
         (n.clone(), f(n))
-    })
+    }).collect()
 }
 
 fn solve() -> String {

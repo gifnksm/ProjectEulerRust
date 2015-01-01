@@ -9,7 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate integer;
 
-use std::iter::AdditiveIterator;
+use std::iter::{mod, AdditiveIterator};
 use integer::Integer;
 
 fn square_digit_sum(n: uint) -> uint {
@@ -31,7 +31,7 @@ fn is_reach_89(n: uint, map: &mut [Option<bool>]) -> bool {
 }
 
 fn create_map(limit: uint) -> Vec<Option<bool>> {
-    let mut map = Vec::from_elem((limit - 1).to_string().len() * 81 + 1, None);
+    let mut map = iter::repeat(None).take((limit - 1).to_string().len() * 81 + 1).collect::<Vec<_>>();
     map[0]  = Some(false);
     map[1]  = Some(false);
     map[89] = Some(true);

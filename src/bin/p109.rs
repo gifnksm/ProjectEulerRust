@@ -9,13 +9,14 @@
 #[phase(plugin, link)] extern crate common;
 extern crate polynomial;
 
+use std::iter;
 use polynomial::Polynomial;
 
 fn count_way(score: uint) -> uint {
-    let mut single = Vec::from_elem(26, 0u);
-    let mut double = Vec::from_elem(51, 0u);
-    let mut triple = Vec::from_elem(61, 0u);
-    let mut dup    = Vec::from_elem(121, 0u);
+    let mut single = iter::repeat(0u).take(26).collect::<Vec<_>>();
+    let mut double = iter::repeat(0u).take(51).collect::<Vec<_>>();
+    let mut triple = iter::repeat(0u).take(61).collect::<Vec<_>>();
+    let mut dup    = iter::repeat(0u).take(121).collect::<Vec<_>>();
     for i in range(1u, 21) {
         single[1 * i] = 1;
         double[2 * i] = 1;

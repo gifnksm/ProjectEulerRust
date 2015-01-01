@@ -8,7 +8,7 @@
 
 #[phase(plugin, link)] extern crate common;
 
-use std::{cmp, uint};
+use std::{cmp, iter, uint};
 use std::collections::HashSet;
 use std::io::{BufferedReader, File, IoResult};
 
@@ -36,8 +36,12 @@ fn minimal_path_sum(mat: Vec<Vec<uint>>) -> uint {
 
     let mut closed = HashSet::new();
     let mut open   = HashSet::new();
-    let mut dist   = Vec::from_fn(h, |_y| Vec::from_elem(w, uint::MAX));
-    let mut parent = Vec::from_fn(h, |_y| Vec::from_elem(w, Point { x: w, y: h }));
+    let mut dist   = range(0, h).map(|_| {
+        iter::repeat(uint::MAX).take(w).collect::<Vec<_>>()
+    }).collect::<Vec<_>>();
+    let mut parent = range(0, h).map(|_| {
+        iter::repeat(Point { x: w, y: h }).take(w).collect::<Vec<_>>()
+    }).collect::<Vec<_>>();
 
     dist[start.y][start.x] = mat[start.y][start.x];
     open.insert(start);

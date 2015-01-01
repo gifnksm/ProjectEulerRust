@@ -19,7 +19,7 @@ fn octagonal(n: uint) -> uint { n * (3 * n - 2) }
 
 fn create_map(fs: &[fn(uint) -> uint]) -> Vec<Vec<Vec<uint>>> {
     fs.iter().map(|&f| {
-        let mut result = Vec::from_fn(100, |_| Vec::with_capacity(100));
+        let mut result = range(0u, 100).map(|_| Vec::with_capacity(100)).collect::<Vec<_>>();
         for i in iter::count(1, 1) {
             let n = f(i);
             if n > 9999 { break }

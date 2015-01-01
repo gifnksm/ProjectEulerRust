@@ -31,7 +31,7 @@ use std::iter;
 struct Rad(uint, uint, Vec<uint>); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: uint) -> Vec<Rad> {
-    let mut rad_vec = Vec::from_fn(n_limit, |i| (1, i, Vec::new()));
+    let mut rad_vec = range(0, n_limit).map(|i| (1, i, Vec::new())).collect::<Vec<_>>();
     for p in range(2, rad_vec.len()) {
         let (rad_p, _, _) = rad_vec[p];
         if rad_p != 1 { continue }

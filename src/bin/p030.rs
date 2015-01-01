@@ -22,7 +22,7 @@ use integer::Integer;
 // 9999999 => 9^5 * 7 = 413343
 
 fn compute(len: uint, pow: uint) -> uint {
-    let pows = Vec::from_fn(10, |i| i.pow(pow));
+    let pows = range(0, 10).map(|i| i.pow(pow)).collect::<Vec<uint>>();
     let digits = &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     let mut sum = 0;

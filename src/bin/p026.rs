@@ -8,9 +8,11 @@
 
 #[phase(plugin, link)] extern crate common;
 
+use std::iter;
+
 fn get_cycle_len(n: uint) -> uint {
     if n == 1 { return 1 }
-    let mut buf = Vec::from_elem(n, None);
+    let mut buf = iter::repeat(None).take(n).collect::<Vec<_>>();
     let mut rem = 1;
     let mut idx = 1;
     loop {

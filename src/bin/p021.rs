@@ -15,11 +15,11 @@ use prime::{PrimeSet, Factorize};
 fn compute(limit: uint) -> uint {
     let ps = PrimeSet::new();
 
-    let sum_of_div = Vec::from_fn(limit, |n| n.sum_of_proper_divisor(&ps));
+    let sum_of_div = range(0, limit).map(|n| n.sum_of_proper_divisor(&ps)).collect::<Vec<_>>();
 
     sum_of_div
         .iter()
-        .map(|&n| n)
+        .cloned()
         .enumerate()
         .filter(|&(n, div)| div < n)
         .filter(|&(n, div)| sum_of_div[div] == n)

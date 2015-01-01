@@ -7,7 +7,9 @@
 #![feature(phase)]
 
 #[phase(plugin, link)] extern crate common;
+
 use std::collections::HashMap;
+use std::iter;
 
 #[deriving(Clone)]
 enum Length { Loop(uint), Chain(uint), Unknown }
@@ -71,7 +73,7 @@ fn solve() -> String {
         val
     };
 
-    let mut map = Vec::from_elem(factorial[9] * 6 + 1, Length::Unknown);
+    let mut map = iter::repeat(Length::Unknown).take(factorial[9] * 6 + 1).collect::<Vec<_>>();
     let mut cnt = 0u;
     for n in range(1u, limit + 1) {
         let len = get_chain_len(n, map.as_mut_slice(), &factorial);
@@ -85,6 +87,8 @@ problem!("402", solve);
 
 #[cfg(test)]
 mod tests {
+    use std::iter;
+
     #[test]
     fn len() {
         let factorial = {
@@ -94,7 +98,7 @@ mod tests {
             }
             val
         };
-        let mut map = Vec::from_elem(factorial[9] * 6 + 1, super::Length::Unknown);
+        let mut map = iter::repeat(super::Length::Unknown).take(factorial[9] * 6 + 1).collect::<Vec<_>>();
 
         assert_eq!(3, super::get_chain_len(169, map.as_mut_slice(), &factorial));
         assert_eq!(2, super::get_chain_len(871, map.as_mut_slice(), &factorial));

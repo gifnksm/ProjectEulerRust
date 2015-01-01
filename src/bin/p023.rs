@@ -9,6 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
 
+use std::iter;
 use prime::{Factorize, PrimeSet};
 
 fn compute(max: uint) -> uint {
@@ -20,7 +21,7 @@ fn compute(max: uint) -> uint {
 
     let mut sum_of_sum_abundant = 0;
 
-    let mut is_sum_abundant = Vec::from_elem(max + 1, false);
+    let mut is_sum_abundant = iter::repeat(false).take(max + 1).collect::<Vec<_>>();
 
     for (i, &a) in abundant.iter().enumerate() {
         for &b in abundant[i..].iter() {

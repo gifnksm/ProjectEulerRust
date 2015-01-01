@@ -158,8 +158,8 @@ impl Hand {
     fn from_cards(cards: &[Card]) -> Hand {
         assert_eq!(5, cards.len());
 
-        let mut num_count  = Vec::from_fn(13, |_i| vec![]);
-        let mut suit_count = Vec::from_fn(4,  |_i| vec![]);
+        let mut num_count  = range(0u32, 13).map(|_| vec![]).collect::<Vec<_>>();
+        let mut suit_count = range(0u32, 4).map(|_| vec![]).collect::<Vec<_>>();
 
         for &c in cards.iter() {
             let val = if c.num == 1 { 12 } else { c.num - 2 };

@@ -17,7 +17,7 @@ fn nth_pentagonal(i: uint) -> uint {
 
 fn is_pentagonal(n: uint, table: &[uint]) -> bool {
     if *table.last().unwrap() < n { panic!() }
-    table.binary_search_elem(&n).is_ok()
+    table.binary_search(&n).is_ok()
 }
 
 // P[k] + P[j] = P[m]
@@ -29,7 +29,7 @@ fn is_pentagonal(n: uint, table: &[uint]) -> bool {
 // find minimum n, where n < m
 fn solve() -> String {
     let limit = 10000;
-    let pentagonals = Vec::from_fn(limit, nth_pentagonal);
+    let pentagonals = range(0, limit).map(nth_pentagonal).collect::<Vec<_>>();
 
     for m in iter::count(0, 1) {
         let pm = pentagonals[m];

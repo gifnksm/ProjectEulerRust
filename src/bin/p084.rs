@@ -26,7 +26,7 @@ const G2J_DOUBLES_COUNT: uint = 3;
 const NUM_STATE: uint = G2J_DOUBLES_COUNT * NUM_SQUARE;
 
 fn create_roll_distribution(dice_side: uint) -> Vec<(f64, f64)> {
-    let mut dist = Vec::from_elem(dice_side * 2 + 1, (0.0, 0.0));
+    let mut dist = iter::repeat((0.0, 0.0)).take(dice_side * 2 + 1).collect::<Vec<_>>();
     for i in range(1, dice_side + 1) {
         for j in range(1, dice_side + 1) {
             let sum = i + j;
@@ -190,11 +190,11 @@ fn steady_state(dist: &Matrix<f64>, init: Matrix<f64>, epsilon: f64) -> Matrix<f
 }
 
 fn state_to_square(state: Matrix<f64>) -> Vec<(Square, f64)> {
-    Vec::from_fn(NUM_SQUARE, |s| {
+    range(0, NUM_SQUARE).map(|s| {
         let prob = iter::range_step(s, NUM_STATE, NUM_SQUARE).map(|i| state[(i, 0)]).sum();
         let sq: Square = FromPrimitive::from_uint(s).unwrap();
         (sq, prob)
-    })
+    }).collect()
 }
 
 fn solve() -> String {

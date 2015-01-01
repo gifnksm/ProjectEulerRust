@@ -22,15 +22,16 @@ fn solve() -> String {
             set
         }).collect::<Vec<_>>();
 
-    let nums = Vec::from_fn(9, |i| {
+    let nums = range(0, 9).map(|i| {
         let n = (i + 1) * (i + 1);
         (n / 10, n % 10)
-    });
+    }).collect::<Vec<_>>();
 
     let mut cnt = 0u;
     for (i, set1) in all_combs.iter().enumerate() {
         for set2 in  all_combs[i + 1 ..].iter() {
-            let cond = nums.iter()
+            let cond = nums
+                .iter()
                 .all(|&(a, b)| {
                     (set1.contains(&a) && set2.contains(&b)) ||
                         (set1.contains(&b) && set2.contains(&a))

@@ -15,7 +15,7 @@ use prime::PrimeSet;
 fn compute(limit: u64) -> u64 {
     let prime = PrimeSet::new();
 
-    let mut v = Vec::from_fn((limit as uint) + 1, |n| n as u64);
+    let mut v = range(0, limit + 1).collect::<Vec<_>>();
     v[1] = 0;
 
     for p in prime.iter() {

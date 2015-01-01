@@ -9,7 +9,7 @@
 #[cfg(test)]
 extern crate test;
 
-use std::iter::Peekable;
+use std::iter::{mod, Peekable};
 use std::collections::BitvSet;
 
 /// An iterator that enumerates all combinations of bits.
@@ -111,7 +111,7 @@ impl<'a, T> CombinationOverlap<'a, T> {
     pub fn new(elems: &'a [T], len: uint) -> CombinationOverlap<'a, T> {
         CombinationOverlap {
             elems: elems,
-            idxs: Vec::from_elem(len, 0),
+            idxs: iter::repeat(0).take(len).collect(),
             consumed: false
         }
     }
@@ -161,8 +161,8 @@ impl<'a, T: 'a> Permutations<'a, T> {
     pub fn new(elems: &'a [T], n: uint) -> Permutations<'a, T> {
         Permutations {
             elems: elems,
-            idxs: Vec::from_fn(elems.len(), |x| x),
-            cycles: Vec::from_fn(n, |x| elems.len() - x),
+            idxs: range(0, elems.len()).collect(),
+            cycles: range(0, n).map(|x| elems.len() - x).collect(),
             consumed: n > elems.len()
         }
     }

@@ -10,7 +10,7 @@
 extern crate integer;
 
 use std::uint;
-use std::iter::AdditiveIterator;
+use std::iter::{mod, AdditiveIterator};
 use integer::Integer;
 
 fn each_sum_product(prod_start: uint, prod_end: uint, f: &mut |uint, uint, uint|) {
@@ -43,7 +43,7 @@ fn each_product_sum_number(start: uint, end: uint, f: &mut |uint, uint|) {
 fn compute(limit: uint) -> uint {
     let mut start = 2;
     let mut cnt   = limit - 1;
-    let mut nums  = Vec::from_elem(limit + 1, uint::MAX);
+    let mut nums  = iter::repeat(uint::MAX).take(limit + 1).collect::<Vec<_>>();
 
     while cnt > 0 {
         let end = start * 2;

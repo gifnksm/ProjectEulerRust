@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-use std::mem;
+use std::{iter, mem};
 
 #[deriving(Clone)]
 enum UFNode {
@@ -20,7 +20,9 @@ pub struct UnionFind {
 impl UnionFind {
     /// Creates empty `UnionFind` struct.
     #[inline]
-    pub fn new(len: uint) -> UnionFind { UnionFind { data: Vec::from_elem(len, UFNode::Size(1)) } }
+    pub fn new(len: uint) -> UnionFind {
+        UnionFind { data: iter::repeat(UFNode::Size(1)).take(len).collect() }
+    }
 
     /// Join two sets that contains given keys (Union operation).
     ///

@@ -8,7 +8,7 @@
 
 #[phase(plugin, link)] extern crate common;
 
-use std::cmp;
+use std::{cmp, iter};
 use std::io::{BufferedReader, File, IoResult};
 
 fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<uint>>> {
@@ -27,7 +27,9 @@ fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<uint>>> {
 fn minimal_path_sum(mat: Vec<Vec<uint>>) -> uint {
     let (w, h) = (mat[0].len(), mat.len());
 
-    let mut sum = Vec::from_fn(h, |_y| Vec::from_elem(w, 0u));
+    let mut sum = range(0, h).map(|_| {
+        iter::repeat(0).take(w).collect::<Vec<_>>()
+    }).collect::<Vec<_>>();
 
     for y in range(0, h) { sum[y][0] = mat[y][0]; }
     for x in range(1, w) {

@@ -24,7 +24,7 @@ fn solve(file: File) -> IoResult<String> {
     let ans = triangle.iter()
         .rev()
         .fold(last, |prev, elem| {
-            Vec::from_fn(elem.len(), |i| elem[i] + cmp::max(prev[i], prev[i + 1]))
+            range(0, elem.len()).map(|i| elem[i] + cmp::max(prev[i], prev[i + 1])).collect()
         })[0];
 
     Ok(ans.to_string())

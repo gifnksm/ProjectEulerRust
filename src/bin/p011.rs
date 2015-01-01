@@ -34,7 +34,7 @@ const INPUT: &'static str = "
 ";
 
 fn compute(prod_len: uint) -> uint {
-    let grid: Vec<Vec<uint>> = INPUT
+    let grid: Vec<Vec<_>> = INPUT
         .trim()
         .lines()
         .map(|line| line.words().filter_map(StrExt::parse::<uint>).collect())
@@ -43,32 +43,31 @@ fn compute(prod_len: uint) -> uint {
     let w = grid[0].len();
     let h = grid.len();
 
-    let lines = [
-        // rows
-        Vec::from_fn(h, |y| Vec::from_fn(w, |x| (x, y))),
-        // cols
-        Vec::from_fn(w, |x| Vec::from_fn(h, |y| (x, y))),
-        // top 2 right diagonal
-        Vec::from_fn(w, |i| {
-            let (x0, y0) = (i, 0);
-            Vec::from_fn(w - x0, |j| (x0 + j, y0 + j))
-        }),
-        // left 2 bottom diagonal
-        Vec::from_fn(h - 1, |i| {
-            let (x0, y0) = (0, i + 1);
-            Vec::from_fn(h - y0, |j| (x0 + j, y0 + j))
-        }),
-        // top 2 left diagonal
-        Vec::from_fn(w, |i| {
-            let (x0, y0) = (i, 0);
-            Vec::from_fn(x0 + 1, |j| (x0 - j, y0 + j))
-        }),
-        // right 2 bottom diagonal
-        Vec::from_fn(h - 1, |i| {
-            let (x0, y0) = (w - 1, i + 1);
-            Vec::from_fn(h - y0, |j| (x0 - j, y0 + j))
-        })
-    ].concat_vec();
+    let mut lines: Vec<Vec<_>> = vec![];
+    // rows
+    lines.extend(range(0, h).map(|y| range(0, w).map(|x| (x, y)).collect()));
+    // cols
+    lines.extend(range(0, w).map(|x| range(0, h).map(|y| (x, y)).collect()));
+    // top 2 right diagonal
+    lines.extend(range(0, w).map(|i| {
+        let (x0, y0) = (i, 0);
+        range(0, w - x0).map(|j| (x0 + j, y0 + j)).collect()
+    }));
+    // left 2 bottom diagonal
+    lines.extend(range(0, h - 1).map(|i| {
+        let (x0, y0) = (0, i + 1);
+        range(0, h - y0).map(|j| (x0 + j, y0 + j)).collect()
+    }));
+    // top 2 left diagonal
+    lines.extend(range(0, w).map(|i| {
+        let (x0, y0) = (i, 0);
+        range(0, x0 + 1).map(|j| (x0 - j, y0 + j)).collect()
+    }));
+    // right 2 bottom diagonal
+    lines.extend(range(0, h - 1).map(|i| {
+        let (x0, y0) = (w - 1, i + 1);
+        range(0, h - y0).map(|j| (x0 - j, y0 + j)).collect()
+    }));
 
     lines.iter()
         .map(|cells| {
