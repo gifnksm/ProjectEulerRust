@@ -45,9 +45,9 @@ mod tests {
 
     #[test]
     fn twenty_one() {
-        fn check(result: uint, total: uint) {
-            let result: BigUint = FromPrimitive::from_uint(result).unwrap();
-            let total: BigUint = FromPrimitive::from_uint(total).unwrap();
+        fn check(result: u32, total: u32) {
+            let result: BigUint = FromPrimitive::from_u32(result).unwrap();
+            let total: BigUint = FromPrimitive::from_u32(total).unwrap();
             assert_eq!(result, super::compute(total));
         }
         check(15, 21);

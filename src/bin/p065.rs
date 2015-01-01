@@ -13,7 +13,7 @@ extern crate num;
 use std::iter::AdditiveIterator;
 use num::BigUint;
 
-fn napier_seq(i: uint) -> uint {
+fn napier_seq(i: u32) -> u32 {
     match i {
         0 => 2,
         i if i % 3 == 2 => 2 * (i + 1) / 3,

@@ -20,7 +20,7 @@ use integer::Integer;
 /// assert_eq!((1, vec![1, 2]), cont_frac::sqrt(3));
 /// assert_eq!((2, vec![]), cont_frac::sqrt(4));
 /// ```
-pub fn sqrt(n: uint) -> (uint, Vec<uint>) {
+pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
     let mut a0 = 0;
     let mut an = Vec::new();
     let mut set = HashSet::new();
@@ -40,22 +40,22 @@ pub fn sqrt(n: uint) -> (uint, Vec<uint>) {
     return (a0, an);
 
     struct A {
-        n: uint,
-        sqn: uint,
-        pqr: (uint, uint, uint)
+        n: u32,
+        sqn: u32,
+        pqr: (u32, u32, u32)
     }
     impl A {
-        fn new(n: uint) -> A {
+        fn new(n: u32) -> A {
             A { n: n, sqn: n.sqrt(), pqr: (1, 0, 1) }
         }
 
         // a <= f_n(p, q, r) < a + 1
         // r a - q <= p sqrt(n) < r (a + 1) - pq
         // (ar - q)^2 <= np^2 < ((a+1)r - q)^2
-        fn calc_a(&self) -> uint {
+        fn calc_a(&self) -> u32 {
             // g(a, r, q) := (ar - q)^2
             #[inline]
-            fn g(a: uint, r: uint, q: uint) -> uint {
+            fn g(a: u32, r: u32, q: u32) -> u32 {
                 let s = a * r - q;
                 return s * s;
             }
@@ -71,14 +71,14 @@ pub fn sqrt(n: uint) -> (uint, Vec<uint>) {
         }
     }
 
-    impl Iterator<(uint, (uint, uint, uint))> for A {
+    impl Iterator<(u32, (u32, u32, u32))> for A {
         // f_n (p, q, r) := (p sqrt(n) + q)/ r
         //                = a + (1 / (rp sqrt(n) + rb) / (np^2 - b^2))
         // a := |f_n(p, q, r)|
         // b := ar - q
         // (p, q, r) := (rp / m, rb / m, (np^2 - b^2) / m)
         #[inline]
-        fn next(&mut self) -> Option<(uint, (uint, uint, uint))> {
+        fn next(&mut self) -> Option<(u32, (u32, u32, u32))> {
             let a = self.calc_a();
             let &A { n, pqr: (p, q, r), ..} = self;
 
@@ -98,14 +98,14 @@ pub fn sqrt(n: uint) -> (uint, Vec<uint>) {
 
 /// Calculates convergent of an input iterator.
 pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone,
-            I: Iterator<uint> + DoubleEndedIterator<uint>>
+            I: Iterator<u32> + DoubleEndedIterator<u32>>
     (an: I) -> (T, T) {
     let mut numer: T = FromPrimitive::from_int(1).unwrap();
     let mut denom: T = FromPrimitive::from_int(0).unwrap();
 
     for a in an.rev() {
         mem::swap(&mut numer, &mut denom);
-        let num: T = FromPrimitive::from_uint(a).unwrap();
+        let num: T = FromPrimitive::from_u32(a).unwrap();
         numer = numer + num * denom.clone();
     }
 
@@ -113,7 +113,7 @@ pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone,
 }
 
 /// solve pel equation x^2 - d y^2 = 1
-pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone>(d: uint) -> (T, T) {
+pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone>(d: u32) -> (T, T) {
     let (a0, an) = sqrt(d);
     if an.is_empty() {
         panic!("{} is square", d)
@@ -129,7 +129,7 @@ pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone>(d: uint) -> (
 }
 
 /// solve pel equation x^2 - d y^2 = -1
-pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone>(d: uint) -> (T, T) {
+pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone>(d: u32) -> (T, T) {
     let (a0, an) = sqrt(d);
     let mut v = vec![a0];
     if an.len() % 2 == 0 {
@@ -151,11 +151,11 @@ pub struct PelRoots<T> {
 impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelRoots<T> {
     /// Creates a new `PelRoots` iterator
     #[inline]
-    pub fn new(d: uint) -> PelRoots<T> {
+    pub fn new(d: u32) -> PelRoots<T> {
         let x1y1 = solve_pel(d);
         let xy   = x1y1.clone();
         PelRoots {
-            d: FromPrimitive::from_uint(d).unwrap(),
+            d: FromPrimitive::from_u32(d).unwrap(),
             x1y1: x1y1, xy: xy
         }
     }
@@ -189,11 +189,11 @@ pub struct PelNegRoots<T> {
 impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelNegRoots<T> {
     /// Creates a new `PelNegRoots` iterator
     #[inline]
-    pub fn new(d: uint) -> PelNegRoots<T> {
+    pub fn new(d: u32) -> PelNegRoots<T> {
         let x1y1 = solve_pel_neg(d);
         let xy   = x1y1.clone();
         PelNegRoots {
-            d: FromPrimitive::from_uint(d).unwrap(),
+            d: FromPrimitive::from_u32(d).unwrap(),
             x1y1: x1y1, xy: xy
         }
     }
@@ -236,30 +236,30 @@ mod tests {
     }
 
     #[deriving(Eq, PartialEq, Show, Clone)]
-    struct Uint(uint);
+    struct U32(u32);
 
-    impl Uint {
-        fn unwrap(&self) -> uint {
-            let Uint(n) = *self;
+    impl U32 {
+        fn unwrap(&self) -> u32 {
+            let U32(n) = *self;
             n
         }
     }
 
-    impl FromPrimitive for Uint {
-        fn from_i64(n: i64) -> Option<Uint> { FromPrimitive::from_i64(n).map(Uint) }
-        fn from_u64(n: u64) -> Option<Uint> { FromPrimitive::from_u64(n).map(Uint) }
+    impl FromPrimitive for U32 {
+        fn from_i64(n: i64) -> Option<U32> { FromPrimitive::from_i64(n).map(U32) }
+        fn from_u64(n: u64) -> Option<U32> { FromPrimitive::from_u64(n).map(U32) }
     }
-    impl Add<Uint, Uint> for Uint {
-        fn add(self, other: Uint) -> Uint { Uint(self.unwrap() + other.unwrap()) }
+    impl Add<U32, U32> for U32 {
+        fn add(self, other: U32) -> U32 { U32(self.unwrap() + other.unwrap()) }
     }
-    impl Mul<Uint, Uint> for Uint {
-        fn mul(self, other: Uint) -> Uint { Uint(self.unwrap() * other.unwrap()) }
+    impl Mul<U32, U32> for U32 {
+        fn mul(self, other: U32) -> U32 { U32(self.unwrap() * other.unwrap()) }
     }
 
     #[test]
     fn fold() {
-        fn check(an: &[uint], (n, d): (uint, uint)) {
-            assert_eq!(super::fold(an.iter().map(|&x| x)), (Uint(n), Uint(d)));
+        fn check(an: &[u32], (n, d): (u32, u32)) {
+            assert_eq!(super::fold(an.iter().map(|&x| x)), (U32(n), U32(d)));
         }
 
         check(&[1, 2], (3, 2));
@@ -288,8 +288,8 @@ mod tests {
         assert_eq!(super::solve_pel(7), (8i, 3));
     }
     #[test] #[should_fail]
-    fn solve_pel_1() { let _ = super::solve_pel::<uint>(1); }
+    fn solve_pel_1() { let _ = super::solve_pel::<u32>(1); }
     #[test] #[should_fail]
-    fn solve_pel_4() { let _ = super::solve_pel::<uint>(4); }
+    fn solve_pel_4() { let _ = super::solve_pel::<u32>(4); }
 
 }

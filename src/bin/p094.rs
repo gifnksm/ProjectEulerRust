@@ -54,7 +54,7 @@ fn solve() -> String {
     let limit = 1000000000;
 
     PelRoots::<BigUint>::new(3)
-        .map(|(x, _y)| x.to_uint().unwrap())
+        .map(|(x, _y)| x.to_u32().unwrap())
         .map(|x| match x % 3 {
             1 => {
                 let k = (x - 1) / 3;

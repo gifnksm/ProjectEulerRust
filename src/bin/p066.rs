@@ -16,8 +16,8 @@ use iter_crate::Difference;
 use num::BigUint;
 
 fn solve() -> String {
-    let ns = iter::count(1u, 1);
-    let sq = iter::count(1u, 1).map(|x| x*x);
+    let ns = iter::count(1, 1);
+    let sq = iter::count(1, 1).map(|x| x * x);
 
     Difference::new(ns, sq)
         .take_while(|&d| d <= 1000)
