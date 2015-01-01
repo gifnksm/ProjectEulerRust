@@ -197,6 +197,7 @@ impl RandomAccessIterator<u64> for Nums {
     }
 }
 
+/// The base and exponent that represents factor.
 pub type Factor<T> = (T, i32);
 
 /// Numbers which can be factorized.
