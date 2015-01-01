@@ -13,10 +13,10 @@ extern crate seq;
 use prime::{PrimeSet, Factorize};
 use seq::TriangularNums;
 
-fn compute(limit: uint) -> uint {
+fn compute(limit: u64) -> u64 {
     let ps = PrimeSet::new();
 
-    TriangularNums::<uint>::new()
+    TriangularNums::<u64>::new()
         .skip_while(|&t| t.num_of_divisor(&ps) <= limit)
         .next()
         .unwrap()

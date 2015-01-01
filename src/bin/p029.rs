@@ -12,21 +12,21 @@ extern crate prime;
 use std::collections::HashSet;
 use prime::{Factorize, PrimeSet};
 
-fn compute(a_max: uint, b_max: uint) -> uint {
+fn compute(a_max: u32, b_max: u32) -> u32 {
     let mut set = HashSet::new();
     let ps = PrimeSet::new();
 
-    for a in range(2u, a_max + 1) {
-        let a_factor = a.factorize(&ps).collect::<Vec<(uint, int)>>();
-        for b in range(2u, b_max + 1) {
+    for a in range(2, a_max + 1) {
+        let a_factor = a.factorize(&ps).collect::<Vec<_>>();
+        for b in range(2, b_max + 1) {
             let ab_factor = a_factor
                 .iter()
-                .map(|&(base, exp)| (base, (exp) as uint * b))
-                .collect::<Vec<(uint, uint)>>();
+                .map(|&(base, exp)| (base, (exp) as u32 * b))
+                .collect::<Vec<_>>();
             set.insert(ab_factor);
         }
     }
-    set.len()
+    set.len() as u32
 }
 
 fn solve() -> String {

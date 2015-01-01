@@ -197,7 +197,7 @@ impl RandomAccessIterator<u64> for Nums {
     }
 }
 
-pub type Factor<T> = (T, int);
+pub type Factor<T> = (T, i32);
 
 /// Numbers which can be factorized.
 pub trait Factorize: Integer + FromPrimitive + Clone {
@@ -205,10 +205,10 @@ pub trait Factorize: Integer + FromPrimitive + Clone {
     fn factorize(&self, ps: &PrimeSet) -> Factors<Self>;
 
     /// Calculates the number of all positive divisors.
-    fn num_of_divisor(&self, ps: &PrimeSet) -> uint {
+    fn num_of_divisor(&self, ps: &PrimeSet) -> u64 {
         if self.is_zero() { return Zero::zero() }
         self.factorize(ps)
-            .map(|(_base, exp)| (exp as uint) + 1)
+            .map(|(_base, exp)| (exp as u64) + 1)
             .product()
     }
 
@@ -225,7 +225,7 @@ pub trait Factorize: Integer + FromPrimitive + Clone {
 
     /// Calculates the number of proper positive divisors.
     #[inline]
-    fn num_of_proper_divisor(&self, ps: &PrimeSet) -> uint {
+    fn num_of_proper_divisor(&self, ps: &PrimeSet) -> u64 {
         self.num_of_divisor(ps) - 1
     }
 
@@ -307,7 +307,7 @@ impl<T: Integer + FromPrimitive + Clone> Iterator<Factor<T>> for Factors<T> {
 ///
 /// // Calculates 40C20
 /// let ps = PrimeSet::new();
-/// let mut fac = Factorized::<uint>::new(&ps);
+/// let mut fac = Factorized::<u64>::new(&ps);
 /// for n in iter::range_inclusive(21, 40) {
 ///     fac.mul_assign(n);
 /// }
@@ -318,7 +318,7 @@ impl<T: Integer + FromPrimitive + Clone> Iterator<Factor<T>> for Factors<T> {
 /// ```
 pub struct Factorized<'a, T> {
     ps: &'a PrimeSet,
-    map: HashMap<T, int>
+    map: HashMap<T, i32>
 }
 
 impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
@@ -430,7 +430,7 @@ mod tests {
 
     #[test]
     fn factorize() {
-        fn check(n: uint, fs: &[Factor<uint>]) {
+        fn check(n: u32, fs: &[Factor<u32>]) {
             let ps = PrimeSet::new();
             assert_eq!(fs, n.factorize(&ps).collect::<Vec<_>>()[]);
         }
@@ -455,7 +455,7 @@ mod tests {
     #[test]
     fn num_of_divisor() {
         let pairs = &[
-            (0i, 0u),
+            (0i32, 0),
             (1, 1), (2, 2), (3, 2), (4, 3), (5, 2), (6, 4),
             (7, 2), (8, 4), (9, 3), (10, 4), (11, 2), (12, 6),
             (24, 8), (36, 9), (48, 10), (60, 12),
