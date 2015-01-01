@@ -13,7 +13,6 @@ name = "common"
 
 [dependencies]
 curl = "*"
-getopts = "*"
 glob = "*"
 num = "*"
 rustc-serialize = "*"
