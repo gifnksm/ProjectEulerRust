@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
+#![feature(phase)]
 
 #[phase(plugin, link)] extern crate common;
 extern crate integer;
@@ -42,7 +42,7 @@ fn solve() -> String {
     let limit = 10000000;
     let mut map = create_map(limit);
     range(1, limit)
-        .filter(|&n| is_reach_89(n, map[mut]))
+        .filter(|&n| is_reach_89(n, map.as_mut_slice()))
         .count()
         .to_string()
 }
@@ -55,7 +55,7 @@ mod tests {
     #[test]
     fn is_reach_89() {
         let mut map = super::create_map(100);
-        assert!(!super::is_reach_89(44, map[mut]));
-        assert!(super::is_reach_89(85, map[mut]));
+        assert!(!super::is_reach_89(44, map.as_mut_slice()));
+        assert!(super::is_reach_89(85, map.as_mut_slice()));
     }
 }

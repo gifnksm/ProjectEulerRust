@@ -325,7 +325,7 @@ mod tests {
             let ihand = Hand::from_cards(cs[]);
             assert_eq!(output, ihand.to_string()[]);
 
-            let mut rng = rand::task_rng();
+            let mut rng = rand::thread_rng();
             for _ in range(0i, 10) {
                 rng.shuffle(cs.as_mut_slice());
                 let hand = Hand::from_cards(cs[]);

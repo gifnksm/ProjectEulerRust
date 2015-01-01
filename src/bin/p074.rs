@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
+#![feature(phase)]
 
 #[phase(plugin, link)] extern crate common;
 use std::collections::HashMap;
@@ -74,7 +74,7 @@ fn solve() -> String {
     let mut map = Vec::from_elem(factorial[9] * 6 + 1, Length::Unknown);
     let mut cnt = 0u;
     for n in range(1u, limit + 1) {
-        let len = get_chain_len(n, map[mut], &factorial);
+        let len = get_chain_len(n, map.as_mut_slice(), &factorial);
         if len == 60 { cnt += 1; }
     }
 
@@ -96,12 +96,12 @@ mod tests {
         };
         let mut map = Vec::from_elem(factorial[9] * 6 + 1, super::Length::Unknown);
 
-        assert_eq!(3, super::get_chain_len(169, map[mut], &factorial));
-        assert_eq!(2, super::get_chain_len(871, map[mut], &factorial));
-        assert_eq!(2, super::get_chain_len(872, map[mut], &factorial));
-        assert_eq!(5, super::get_chain_len(69, map[mut], &factorial));
-        assert_eq!(4, super::get_chain_len(78, map[mut], &factorial));
-        assert_eq!(2, super::get_chain_len(540, map[mut], &factorial));
+        assert_eq!(3, super::get_chain_len(169, map.as_mut_slice(), &factorial));
+        assert_eq!(2, super::get_chain_len(871, map.as_mut_slice(), &factorial));
+        assert_eq!(2, super::get_chain_len(872, map.as_mut_slice(), &factorial));
+        assert_eq!(5, super::get_chain_len(69, map.as_mut_slice(), &factorial));
+        assert_eq!(4, super::get_chain_len(78, map.as_mut_slice(), &factorial));
+        assert_eq!(2, super::get_chain_len(540, map.as_mut_slice(), &factorial));
     }
 
 }
