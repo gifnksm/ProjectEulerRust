@@ -261,7 +261,7 @@ mod tests {
 
     #[test]
     fn new() {
-        fn check(dst: Vec<int>, src: Vec<int>) {
+        fn check(dst: Vec<i32>, src: Vec<i32>) {
             assert_eq!(dst, Polynomial::new(src).data);
         }
         check(vec![1, 2, 3], vec![1, 2, 3]);
@@ -271,16 +271,16 @@ mod tests {
 
     #[test]
     fn neg_add_sub() {
-        fn check(a: &[int], b: &[int], c: &[int]) {
-            fn check_eq(a: &Polynomial<int>, b: &Polynomial<int>) {
+        fn check(a: &[i32], b: &[i32], c: &[i32]) {
+            fn check_eq(a: &Polynomial<i32>, b: &Polynomial<i32>) {
                 assert_eq!(*a, *b);
                 assert_eq!(-a, -b);
             }
-            fn check_add(sum: &Polynomial<int>, a: &Polynomial<int>, b: &Polynomial<int>) {
+            fn check_add(sum: &Polynomial<i32>, a: &Polynomial<i32>, b: &Polynomial<i32>) {
                 check_eq(sum, &(a + b));
                 check_eq(sum, &(b + a));
             }
-            fn check_sub(sum: &Polynomial<int>, a: &Polynomial<int>, b: &Polynomial<int>) {
+            fn check_sub(sum: &Polynomial<i32>, a: &Polynomial<i32>, b: &Polynomial<i32>) {
                 check_eq(a, &(sum - b));
                 check_eq(b, &(sum - a));
             }
@@ -302,7 +302,7 @@ mod tests {
 
     #[test]
     fn mul() {
-        fn check(a: &[int], b: &[int], c: &[int]) {
+        fn check(a: &[i32], b: &[i32], c: &[i32]) {
             let a = Polynomial::new(a.to_vec());
             let b = Polynomial::new(b.to_vec());
             let c = Polynomial::new(c.to_vec());
@@ -321,8 +321,8 @@ mod tests {
 
     #[test]
     fn eval() {
-        fn check(pol: &[int], f: |int| -> int) {
-            for n in range(-10i, 10) {
+        fn check(pol: &[i32], f: |i32| -> i32) {
+            for n in range(-10, 10) {
                 assert_eq!(f(n), Polynomial::new(pol.to_vec()).eval(n));
             }
         }
@@ -335,7 +335,7 @@ mod tests {
 
     #[test]
     fn pretty() {
-        fn check(slice: &[int], s: &str) {
+        fn check(slice: &[i32], s: &str) {
             assert_eq!(s.to_string(), Polynomial::new(slice.to_vec()).pretty("x"));
         }
         check(&[0], "0");
