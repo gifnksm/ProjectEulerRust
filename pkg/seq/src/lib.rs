@@ -139,7 +139,7 @@ impl<T: One + Add<T, T> + Clone> TriangularNums<T> {
     /// ```
     /// use seq::TriangularNums;
     ///
-    /// let mut it = TriangularNums::<uint>::new();
+    /// let mut it = TriangularNums::<u32>::new();
     /// assert_eq!(Some(1), it.next());
     /// assert_eq!(Some(3), it.next());
     /// assert_eq!(Some(6), it.next());
@@ -182,7 +182,7 @@ impl<T: Integer + Clone> PrimitivePythagoreans<T> {
     /// ```
     /// use seq::PrimitivePythagoreans;
     ///
-    /// let mut it = PrimitivePythagoreans::<uint>::new(5);
+    /// let mut it = PrimitivePythagoreans::<u32>::new(5);
     /// assert_eq!(Some((20, 21, 29)), it.next()); // n == 2
     /// assert_eq!(Some(( 9, 40, 41)), it.next()); // n == 4
     /// assert_eq!(None, it.next());
@@ -243,8 +243,8 @@ mod tests {
             check(fib, Fibonacci::with_init(a0, a1).take(fib.len()));
         }
 
-        let fib = &[ 1u, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
-        check(fib, Fibonacci::<uint>::new().take(fib.len()));
+        let fib = &[ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
+        check(fib, Fibonacci::<u32>::new().take(fib.len()));
 
         check_with_init(&[ 0u, 0, 0, 0, 0, 0, 0]);
         check_with_init(&[ 1u, 5, 6, 11, 17, 28, 45, 73, 118, 191, 309, 500]);
@@ -260,7 +260,7 @@ mod tests {
     fn prim_pythagorean() {
         use super::PrimitivePythagoreans;
 
-        fn check(m: uint, v: &[(uint, uint, uint)]) {
+        fn check(m: u32, v: &[(u32, u32, u32)]) {
             assert_eq!(PrimitivePythagoreans::new(m).collect::<Vec<_>>()[], v);
         }
 
