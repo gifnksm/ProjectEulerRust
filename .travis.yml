@@ -2,27 +2,7 @@ language: rust
 sudo: false
 
 script:
-  - cargo run --bin euler --release
-  - cargo test
-  - cargo test -p cont_frac
-  - cargo test -p integer
-  - cargo test -p iter
-  - cargo test -p matrix
-  - cargo test -p playing_card
-  - cargo test -p polynomial
-  - cargo test -p prime
-  - cargo test -p seq
-  - cargo test -p tsort
-  - cargo test -p union_find
-  - cargo bench
-  - cargo bench -p cont_frac
-  - cargo bench -p integer
-  - cargo bench -p iter
-  - cargo bench -p matrix
-  - cargo bench -p playing_card
-  - cargo bench -p polynomial
-  - cargo bench -p prime
-  - cargo bench -p seq
-  - cargo bench -p tsort
-  - cargo bench -p union_find
-  - cargo doc
+  - make run-release
+  - make test
+  - make bench
+  - make doc
