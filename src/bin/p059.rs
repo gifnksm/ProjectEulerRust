@@ -90,7 +90,7 @@ fn read_file(file: File) -> IoResult<Vec<u8>> {
         if word.is_empty() { break; }
 
         cont = if word.ends_with(",") {
-            word = word.trim_right_chars(',');
+            word = word.trim_right_matches(',');
             true
         } else {
             false

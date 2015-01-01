@@ -17,7 +17,7 @@ fn get_score(n: uint, s: &str) -> uint {
 
 fn compute(words: &[String]) -> uint {
     let mut words = words.iter()
-        .map(|word| word[].trim().trim_chars('\"'))
+        .map(|word| word[].trim().trim_matches('\"'))
         .filter(|word| !word.is_empty())
         .collect::<Vec<_>>();
     words.sort();

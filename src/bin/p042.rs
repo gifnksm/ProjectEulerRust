@@ -33,13 +33,13 @@ fn solve(file: File) -> IoResult<String> {
         if word.is_empty() { break; }
 
         cont = if word.ends_with(",") {
-            word = word.trim_right_chars(',');
+            word = word.trim_right_matches(',');
             true
         } else {
             false
         };
 
-        word = word.trim_chars('\"');
+        word = word.trim_matches('\"');
         values.push(word_to_value(word));
     }
 

@@ -14,7 +14,7 @@ use num::bigint::BigUint;
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_string();
-    let rev = String::from_chars(s.chars().rev().collect::<Vec<char>>()[]);
+    let rev = s.chars().rev().collect::<String>();
     FromStr::from_str(rev[]).unwrap()
 }
 
