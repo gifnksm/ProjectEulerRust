@@ -82,9 +82,9 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     /// assert!([0, 0, 0, 0, 0, 0, 0, 0, 0, 0] == 0u.into_digit_histogram());
     /// ```
     #[inline]
-    fn into_digit_histogram(self) -> [uint, .. 10] {
+    fn into_digit_histogram(self) -> [u32, .. 10] {
         let mut hist = [0, .. 10];
-        let ten = FromPrimitive::from_uint(10).unwrap();
+        let ten = FromPrimitive::from_u32(10).unwrap();
         for d in self.into_digits(ten) {
             hist[d.to_uint().unwrap()] += 1;
         }
@@ -317,7 +317,7 @@ mod tests {
 
     #[test]
     fn digits() {
-        fn check(n: uint, v: &[uint], radix: uint) {
+        fn check(n: u32, v: &[u32], radix: u32) {
             assert_eq!(v, n.into_digits(radix).collect::<Vec<_>>()[]);
             let mut rev = n.into_digits(radix).rev().collect::<Vec<_>>();
             rev.reverse();
