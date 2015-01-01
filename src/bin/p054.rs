@@ -163,7 +163,7 @@ impl Hand {
 
         for &c in cards.iter() {
             let val = if c.num == 1 { 12 } else { c.num - 2 };
-            num_count[12 - val].push(c);
+            num_count[(12 - val) as uint].push(c);
             suit_count[c.suit as uint].push(c);
         }
 

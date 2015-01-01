@@ -51,7 +51,7 @@ impl FromStr for Suit {
 #[allow(missing_docs)]
 #[deriving(Eq, PartialEq, Copy, Clone)]
 pub struct SuitCard {
-    pub num: uint,
+    pub num: u8,
     pub suit: Suit
 }
 
@@ -79,7 +79,7 @@ impl FromStr for SuitCard {
                     'J' => Some(11),
                     'Q' => Some(12),
                     'K' => Some(13),
-                    d => d.to_digit(10)
+                    d => d.to_digit(10).map(|x| x as u8)
                 };
         if let (Some(n), Some(s)) = (num, suit) {
             Some(SuitCard { num: n, suit: s })
@@ -120,7 +120,7 @@ impl FromStr for Card {
 
 impl Card {
     /// Creates new `SuitCard`.
-    pub fn new(n: uint, s: Suit) -> Card {
+    pub fn new(n: u8, s: Suit) -> Card {
         Card::Suit(SuitCard { num: n, suit: s })
     }
 }
