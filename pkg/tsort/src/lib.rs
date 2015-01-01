@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![cfg_attr(test, feature(slicing_syntax))]
-
 use std::collections::{HashMap, HashSet};
 use std::collections::hash_map::Entry;
 use std::hash::Hash;
@@ -160,7 +158,7 @@ mod test {
             let l = ts.len();
             let mut v = ts.pop_all();
             v.sort();
-            assert_eq!(result, v[]);
+            assert_eq!(result, v);
             assert_eq!(l - result.len(), ts.len());
         }
 
