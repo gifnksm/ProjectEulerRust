@@ -48,12 +48,12 @@ fn get_anagram_groups(words: Vec<String>) -> Vec<Vec<String>> {
     for word in words.into_iter() {
         let mut cs = word.chars().collect::<Vec<_>>();
         cs.sort();
-        match map.entry(cs) {
+        match map.entry(&cs) {
             Entry::Vacant(e) => {
-                let _ = e.set(vec![word]);
+                let _ = e.insert(vec![word]);
             }
-            Entry::Occupied(mut e) => {
-                let _ = e.get_mut().push(word);
+            Entry::Occupied(e) => {
+                let _ = e.into_mut().push(word);
             }
         }
     }

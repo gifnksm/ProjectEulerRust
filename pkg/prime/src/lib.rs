@@ -357,8 +357,8 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// number.
     pub fn lcm_with(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
-            match self.map.entry(b) {
-                Vacant(entry)   => { let _ = entry.set(e); }
+            match self.map.entry(&b) {
+                Vacant(entry)   => { let _ = entry.insert(e); }
                 Occupied(entry) => {
                     let p = entry.into_mut();
                     *p = cmp::max(e, *p);
@@ -370,8 +370,8 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// Multiples the factorized number and given number.
     pub fn mul_assign(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
-            match self.map.entry(b) {
-                Vacant(entry)   => { let _ = entry.set(e); }
+            match self.map.entry(&b) {
+                Vacant(entry)   => { let _ = entry.insert(e); }
                 Occupied(entry) => { *entry.into_mut() += e; }
             }
         }
@@ -380,8 +380,8 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// Divides the factorized number by given number.
     pub fn div_assign(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
-            match self.map.entry(b) {
-                Vacant(entry)   => { let _ = entry.set(-e); }
+            match self.map.entry(&b) {
+                Vacant(entry)   => { let _ = entry.insert(-e); }
                 Occupied(entry) => { *entry.into_mut() -= e; }
             }
         }

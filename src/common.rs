@@ -16,7 +16,7 @@ use std::error::{Error, FromError};
 use std::{fmt, os};
 use std::io::{self, IoResult, File};
 use std::io::fs::{self, PathExtensions};
-use std::str::CowString;
+use std::string::CowString;
 use curl::http;
 use num::Integer;
 use rustc_serialize::{json, Encodable};

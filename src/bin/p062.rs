@@ -32,14 +32,14 @@ fn perm_exact(cnt: uint) -> HashSet<uint> {
 
         let ds = cube.into_digit_histogram().to_vec();
 
-        let (n, c) = match map.entry(ds) {
+        let (n, c) = match map.entry(&ds) {
             Entry::Occupied(e) => {
                 let &(n, ref mut c) = e.into_mut();
                 *c += 1;
                 (n, *c)
             }
             Entry::Vacant(e) => {
-                let _ = e.set((cube, 1));
+                let _ = e.insert((cube, 1));
                 (cube, 1)
             }
         };

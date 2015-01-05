@@ -13,7 +13,8 @@ use std::borrow::IntoCow;
 use std::io::{self, Command, MemReader};
 use std::io::process::ExitStatus;
 use std::os;
-use std::str::{self, MaybeOwned, SendStr};
+use std::str;
+use std::string::CowString;
 use glob::Paths;
 use rustc_serialize::Decodable;
 use rustc_serialize::json::{self, Json};
@@ -27,7 +28,7 @@ macro_rules! try2 {
 }
 
 type ProgramResult<T> = Result<T, ProgramError>;
-type OutputPair<'a> = (Option<Color>, MaybeOwned<'a>);
+type OutputPair<'a> = (Option<Color>, CowString<'a>);
 
 #[derive(Show)]
 enum ProgramErrorKind {
@@ -40,7 +41,7 @@ enum ProgramErrorKind {
 #[derive(Show)]
 struct ProgramError {
     kind: ProgramErrorKind,
-    message: SendStr
+    message: CowString<'static>
 }
 
 impl ProgramError {
