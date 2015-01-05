@@ -4,12 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(macro_rules)]
+#![feature(associated_types, default_type_params, old_orphan_check, macro_rules)]
 
 extern crate num;
 
 use std::{cmp, fmt};
 use std::iter::{AdditiveIterator, MultiplicativeIterator};
+use std::ops::{Add, Mul, Neg, Sub};
 use num::{Zero, One};
 
 /// Polynomial expression
@@ -61,7 +62,9 @@ impl<T> Polynomial<T> {
     pub fn data(&self) -> &[T] { self.data.as_slice() }
 }
 
-impl<T: Zero + One + Eq + Neg<T> + Ord + fmt::Show + Clone> Polynomial<T> {
+impl<T> Polynomial<T>
+    where T: Zero + One + Eq + Neg<Output = T> + Ord + fmt::Show + Clone
+{
     /// Pretty prints the polynomial.
     pub fn pretty(&self, x: &str) -> String {
         if self.is_zero() { return "0".to_string() }
@@ -92,25 +95,36 @@ impl<T: Zero + One + Eq + Neg<T> + Ord + fmt::Show + Clone> Polynomial<T> {
     }
 }
 
-impl<'a, T: Neg<T> + Zero + Clone> Neg<Polynomial<T>> for Polynomial<T> {
+impl<'a, T> Neg for Polynomial<T>
+    where T: Neg + Zero + Clone, <T as Neg>::Output: Zero
+{
+    type Output = Polynomial<<T as Neg>::Output>;
+
     #[inline]
-    fn neg(self) -> Polynomial<T> { -&self }
+    fn neg(self) -> Polynomial<<T as Neg>::Output> { -&self }
 }
 
-impl<'a, T: Neg<T> + Zero + Clone> Neg<Polynomial<T>> for &'a Polynomial<T> {
+impl<'a, T> Neg for &'a Polynomial<T>
+    where T: Neg + Zero + Clone, <T as Neg>::Output: Zero
+{
+    type Output = Polynomial<<T as Neg>::Output>;
+
     #[inline]
-    fn neg(self) -> Polynomial<T> {
+    fn neg(self) -> Polynomial<<T as Neg>::Output> {
         Polynomial::new(self.data.iter().map(|x| -x.clone()).collect())
     }
 }
 
 macro_rules! forward_val_val_binop {
     (impl $imp:ident, $method:ident) => {
-        impl<Lhs, Rhs, Result> $imp<Polynomial<Rhs>, Polynomial<Result>> for Polynomial<Lhs>
-            where Lhs: Zero + $imp<Rhs, Result> + Clone, Rhs: Zero + Clone, Result: Zero
+        impl<Lhs, Rhs> $imp<Polynomial<Rhs>> for Polynomial<Lhs>
+            where Lhs: Zero + $imp<Rhs> + Clone, Rhs: Zero + Clone,
+                  <Lhs as $imp<Rhs>>::Output: Zero
         {
+            type Output = Polynomial<<Lhs as $imp<Rhs>>::Output>;
+
             #[inline]
-            fn $method(self, other: Polynomial<Rhs>) -> Polynomial<Result> {
+            fn $method(self, other: Polynomial<Rhs>) -> Polynomial<<Lhs as $imp<Rhs>>::Output> {
                 (&self).$method(&other)
             }
         }
@@ -119,11 +133,14 @@ macro_rules! forward_val_val_binop {
 
 macro_rules! forward_ref_val_binop {
     (impl $imp:ident, $method:ident) => {
-        impl<'a, Lhs, Rhs, Result> $imp<Polynomial<Rhs>, Polynomial<Result>> for &'a Polynomial<Lhs>
-            where Lhs: Zero + $imp<Rhs, Result> + Clone, Rhs: Zero + Clone, Result: Zero
+        impl<'a, Lhs, Rhs> $imp<Polynomial<Rhs>> for &'a Polynomial<Lhs>
+            where Lhs: Zero + $imp<Rhs> + Clone, Rhs: Zero + Clone,
+                  <Lhs as $imp<Rhs>>::Output: Zero
         {
+            type Output = Polynomial<<Lhs as $imp<Rhs>>::Output>;
+
             #[inline]
-            fn $method(self, other: Polynomial<Rhs>) -> Polynomial<Result> {
+            fn $method(self, other: Polynomial<Rhs>) -> Polynomial<<Lhs as $imp<Rhs>>::Output> {
                 self.$method(&other)
             }
         }
@@ -132,11 +149,14 @@ macro_rules! forward_ref_val_binop {
 
 macro_rules! forward_val_ref_binop {
     (impl $imp:ident, $method:ident) => {
-        impl<'a, Lhs, Rhs, Result> $imp<&'a Polynomial<Rhs>, Polynomial<Result>> for Polynomial<Lhs>
-            where Lhs: Zero + $imp<Rhs, Result> + Clone, Rhs: Zero + Clone, Result: Zero
+        impl<'a, Lhs, Rhs> $imp<&'a Polynomial<Rhs>> for Polynomial<Lhs>
+            where Lhs: Zero + $imp<Rhs> + Clone, Rhs: Zero + Clone,
+                  <Lhs as $imp<Rhs>>::Output: Zero
         {
+            type Output = Polynomial<<Lhs as $imp<Rhs>>::Output>;
+
             #[inline]
-            fn $method(self, other: &Polynomial<Rhs>) -> Polynomial<Result> {
+            fn $method(self, other: &Polynomial<Rhs>) -> Polynomial<<Lhs as $imp<Rhs>>::Output> {
                 (&self).$method(other)
             }
         }
@@ -153,10 +173,13 @@ macro_rules! forward_all_binop {
 
 forward_all_binop!(impl Add, add);
 
-impl<'a, 'b, Lhs, Rhs, Result> Add<&'b Polynomial<Rhs>, Polynomial<Result>> for &'a Polynomial<Lhs>
-    where Lhs: Zero + Add<Rhs, Result> + Clone, Rhs: Zero + Clone, Result: Zero
+impl<'a, 'b, Lhs, Rhs> Add<&'b Polynomial<Rhs>> for &'a Polynomial<Lhs>
+    where Lhs: Zero + Add<Rhs> + Clone, Rhs: Zero + Clone,
+          <Lhs as Add<Rhs>>::Output: Zero
 {
-    fn add(self, other: &Polynomial<Rhs>) -> Polynomial<Result> {
+    type Output = Polynomial<<Lhs as Add<Rhs>>::Output>;
+
+    fn add(self, other: &Polynomial<Rhs>) -> Polynomial<<Lhs as Add<Rhs>>::Output> {
         let max_len = cmp::max(self.data.len(), other.data.len());
         let min_len = cmp::min(self.data.len(), other.data.len());
 
@@ -181,10 +204,13 @@ impl<'a, 'b, Lhs, Rhs, Result> Add<&'b Polynomial<Rhs>, Polynomial<Result>> for 
 
 forward_all_binop!(impl Sub, sub);
 
-impl<'a, 'b, Lhs, Rhs, Result> Sub<&'b Polynomial<Rhs>, Polynomial<Result>> for &'a Polynomial<Lhs>
-    where Lhs: Zero + Sub<Rhs, Result> + Clone, Rhs: Zero + Clone, Result: Zero
+impl<'a, 'b, Lhs, Rhs> Sub<&'b Polynomial<Rhs>> for &'a Polynomial<Lhs>
+    where Lhs: Zero + Sub<Rhs> + Clone, Rhs: Zero + Clone,
+          <Lhs as Sub<Rhs>>::Output: Zero
 {
-    fn sub(self, other: &Polynomial<Rhs>) -> Polynomial<Result> {
+    type Output = Polynomial<<Lhs as Sub<Rhs>>::Output>;
+
+    fn sub(self, other: &Polynomial<Rhs>) -> Polynomial<<Lhs as Sub<Rhs>>::Output> {
         let min_len = cmp::min(self.data.len(), other.data.len());
         let max_len = cmp::max(self.data.len(), other.data.len());
 
@@ -207,16 +233,19 @@ impl<'a, 'b, Lhs, Rhs, Result> Sub<&'b Polynomial<Rhs>, Polynomial<Result>> for 
 
 forward_all_binop!(impl Mul, mul);
 
-impl<'a, 'b, Lhs, Rhs, Result> Mul<&'b Polynomial<Rhs>, Polynomial<Result>> for &'a Polynomial<Lhs>
-    where Lhs: Zero + Mul<Rhs, Result> + Clone, Rhs: Zero + Clone, Result: Zero
+impl<'a, 'b, Lhs, Rhs> Mul<&'b Polynomial<Rhs>> for &'a Polynomial<Lhs>
+    where Lhs: Zero + Mul<Rhs> + Clone, Rhs: Zero + Clone,
+          <Lhs as Mul<Rhs>>::Output: Zero
 {
-    fn mul(self, other: &Polynomial<Rhs>) -> Polynomial<Result> {
+    type Output = Polynomial<<Lhs as Mul<Rhs>>::Output>;
+
+    fn mul(self, other: &Polynomial<Rhs>) -> Polynomial<<Lhs as Mul<Rhs>>::Output> {
         if self.is_zero() || other.is_zero() { return Polynomial::new(vec![]) }
 
         let slen = self.data.len();
         let olen = other.data.len();
         let prod = range(0, slen + olen - 1).map(|i| {
-            let mut p = num::zero::<Result>();
+            let mut p = num::zero::<<Lhs as Mul<Rhs>>::Output>();
             for k in range(0, slen) {
                 if i - k >= olen { continue }
                 p = p + self.data[k].clone() * other.data[i - k].clone();
@@ -239,7 +268,9 @@ impl<T: Zero + One + Clone> One for Polynomial<T> {
     fn one() -> Polynomial<T> { Polynomial { data: vec![One::one()] } }
 }
 
-impl<A: Zero + Add<A, A> + Clone, T: Iterator<Polynomial<A>>> AdditiveIterator<Polynomial<A>> for T {
+impl<A, T> AdditiveIterator<Polynomial<A>> for T
+    where A: Zero + Add<A, Output = A> + Clone, T: Iterator<Item = Polynomial<A>>
+{
     #[inline]
     fn sum(self) -> Polynomial<A> {
         let init: Polynomial<A> = Zero::zero();
@@ -247,7 +278,9 @@ impl<A: Zero + Add<A, A> + Clone, T: Iterator<Polynomial<A>>> AdditiveIterator<P
     }
 }
 
-impl<A: Zero + One + Mul<A, A> + Clone, T: Iterator<Polynomial<A>>> MultiplicativeIterator<Polynomial<A>> for T {
+impl<A, T> MultiplicativeIterator<Polynomial<A>> for T
+    where A: Zero + One + Mul<A, Output = A> + Clone, T: Iterator<Item = Polynomial<A>>
+{
     #[inline]
     fn product(self) -> Polynomial<A> {
         let init: Polynomial<A> = One::one();

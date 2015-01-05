@@ -4,11 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(associated_types, slicing_syntax)]
 
 #[cfg(test)]
 extern crate test;
 
+use std::cmp::Ordering;
 use std::iter::{mod, Peekable};
 use std::collections::BitvSet;
 
@@ -19,7 +20,9 @@ pub struct BitCombination {
     set: BitvSet
 }
 
-impl Iterator<BitvSet> for BitCombination {
+impl Iterator for BitCombination {
+    type Item = BitvSet;
+
     fn next(&mut self) -> Option<BitvSet> {
         if self.consumed { return None }
 
@@ -117,7 +120,9 @@ impl<'a, T> CombinationOverlap<'a, T> {
     }
 }
 
-impl<'a, T: Clone> Iterator<Vec<T>> for CombinationOverlap<'a, T> {
+impl<'a, T: Clone> Iterator for CombinationOverlap<'a, T> {
+    type Item = Vec<T>;
+
     fn next(&mut self) -> Option<Vec<T>> {
         if self.consumed {
             return None
@@ -168,7 +173,9 @@ impl<'a, T: 'a> Permutations<'a, T> {
     }
 }
 
-impl<'a, T: Clone> Iterator<(Vec<T>, Vec<T>)> for Permutations<'a, T> {
+impl<'a, T: Clone> Iterator for Permutations<'a, T> {
+    type Item = (Vec<T>, Vec<T>);
+
     fn next(&mut self) -> Option<(Vec<T>, Vec<T>)> {
         if self.consumed { return None }
 
@@ -206,12 +213,12 @@ impl<'a, T: Clone> Iterator<(Vec<T>, Vec<T>)> for Permutations<'a, T> {
 }
 
 /// An iterator that enumerates elemnts that is contained in the first iterator.
-pub struct Difference<E, M, S> {
+pub struct Difference<E, M, S> where S: Iterator<Item = E> {
     minuend: M,
     subtrahend: Peekable<E, S>
 }
 
-impl<E, M, S: Iterator<E>> Difference<E, M, S> {
+impl<E, M, S: Iterator<Item = E>> Difference<E, M, S> {
     /// Creates a new `Difference` iterator.
     ///
     /// ```rust
@@ -234,7 +241,11 @@ impl<E, M, S: Iterator<E>> Difference<E, M, S> {
     }
 }
 
-impl<E: Eq + Ord, M: Iterator<E>, S: Iterator<E>> Iterator<E> for Difference<E, M, S> {
+impl<E, M, S> Iterator for Difference<E, M, S>
+    where E: Eq + Ord, M: Iterator<Item = E>, S: Iterator<Item = E>
+{
+    type Item = E;
+
     fn next(&mut self) -> Option<E> {
         'minuend: loop {
             let n = match self.minuend.next() {
@@ -247,9 +258,9 @@ impl<E: Eq + Ord, M: Iterator<E>, S: Iterator<E>> Iterator<E> for Difference<E, 
                     Some(p) => n.cmp(p)
                 };
                 match cmp {
-                    Less    => return Some(n),
-                    Equal   => continue 'minuend,
-                    Greater => {
+                    Ordering::Less    => return Some(n),
+                    Ordering::Equal   => continue 'minuend,
+                    Ordering::Greater => {
                         let _ = self.subtrahend.next();
                         continue 'subtrahend
                     }

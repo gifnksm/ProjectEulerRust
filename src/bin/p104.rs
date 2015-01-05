@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
+#![feature(associated_types, phase, slicing_syntax)]
 
 #[phase(plugin, link)] extern crate common;
 extern crate num;
@@ -14,7 +14,7 @@ use std::num::{Int, Float};
 use num::Integer;
 
 fn is_pandigit(n: u64) -> bool {
-    let mut hist = [false, .. 10];
+    let mut hist = [false; 10];
     let mut cnt = 0u;
     let mut itr = n;
     while itr > 0 {
@@ -45,7 +45,9 @@ impl FibFirst {
     }
 }
 
-impl Iterator<u64> for FibFirst {
+impl Iterator for FibFirst {
+    type Item = u64;
+
     fn next(&mut self) -> Option<u64> {
         let next = match self.cnt {
             0 => 1,
@@ -81,7 +83,9 @@ impl FibLast {
     }
 }
 
-impl Iterator<u64> for FibLast {
+impl Iterator for FibLast {
+    type Item = u64;
+
     fn next(&mut self) -> Option<u64> {
         let next = (self.curr + self.next) % self.base;
         let curr = self.curr;

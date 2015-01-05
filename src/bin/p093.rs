@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
+#![feature(associated_types, phase, slicing_syntax)]
 
 #[phase(plugin, link)] extern crate common;
 extern crate "iter" as itercrate;
@@ -28,10 +28,12 @@ impl Nums {
     }
 }
 
-impl Iterator<[uint, .. 4]> for Nums {
-    fn next(&mut self) -> Option<[uint, .. 4]> {
+impl Iterator for Nums {
+    type Item = [uint; 4];
+
+    fn next(&mut self) -> Option<[uint; 4]> {
         self.comb.next().map(|bits| {
-            let mut result = [0, .. 4];
+            let mut result = [0; 4];
             for (i, n) in bits.iter().enumerate() {
                 result[i] = n + 1;
             }
@@ -120,8 +122,8 @@ fn evaluate(num: &[uint], op: &[Op], f: &mut |Ratio<int>|) {
     }
 }
 
-fn count_seqlen(num_set: &[uint, .. 4]) -> uint {
-    let mut set = [false, .. 3025];
+fn count_seqlen(num_set: &[uint; 4]) -> uint {
+    let mut set = [false; 3025];
 
     for op_set in CombinationOverlap::new(&[Op::Add, Op::Sub, Op::Mul, Op::Div], num_set.len() - 1) {
         for ops in op_set.permutations() {

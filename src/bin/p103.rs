@@ -4,10 +4,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
+#![feature(associated_types, phase, slicing_syntax)]
 
 #[phase(plugin, link)] extern crate common;
 
+use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 use std::iter;
 
@@ -61,9 +62,9 @@ impl SSS {
             assert!(j <= i);
 
             match self.sums[i].cmp(&(self.sums[j] + n)) {
-                Equal   => { return None; }
-                Less    => { sums.push(self.sums[i]);     i += 1; }
-                Greater => { sums.push(self.sums[j] + n); j += 1; }
+                Ordering::Equal   => { return None; }
+                Ordering::Less    => { sums.push(self.sums[i]);     i += 1; }
+                Ordering::Greater => { sums.push(self.sums[j] + n); j += 1; }
             }
         }
         while j < len {
@@ -118,7 +119,9 @@ impl SSSIterator {
     }
 }
 
-impl Iterator<SSS> for SSSIterator {
+impl Iterator for SSSIterator {
+    type Item = SSS;
+
     fn next(&mut self) -> Option<SSS> {
         self.heap.pop().map(|sss| {
             sss.each_next(|next| self.heap.push(next));

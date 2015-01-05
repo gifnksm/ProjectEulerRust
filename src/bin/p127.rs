@@ -8,6 +8,7 @@
 
 #[phase(plugin, link)] extern crate common;
 
+use std::cmp::Ordering;
 use std::iter;
 
 // [定理]
@@ -52,9 +53,9 @@ fn rad_has_union(a: &[uint], b: &[uint]) -> bool {
     loop {
         if i_a >= a.len() || i_b >= b.len() { return false }
         match a[i_a].cmp(&b[i_b]) {
-            Equal   => return true,
-            Less    => i_a += 1,
-            Greater => i_b += 1
+            Ordering::Equal   => return true,
+            Ordering::Less    => i_a += 1,
+            Ordering::Greater => i_b += 1
         }
     }
 }

@@ -16,16 +16,16 @@ const RADIX: uint = 10;
 
 #[deriving(Copy)]
 struct Pandigimal {
-    used: [ bool, .. RADIX ],
-    num:  [ uint, .. RADIX ],
+    used: [ bool; RADIX ],
+    num:  [ uint; RADIX ],
     len:  uint
 }
 
 impl Pandigimal {
     fn new() -> Pandigimal {
         Pandigimal {
-            used: [ false, .. RADIX ],
-            num:  [ 0, .. RADIX ],
+            used: [ false; RADIX ],
+            num:  [ 0; RADIX ],
             len:  0
         }
     }
@@ -57,7 +57,7 @@ impl Pandigimal {
         Some(new_pd)
     }
 
-    fn join_all<T: Iterator<uint>>(&self, mut ds: T) -> Option<Pandigimal> {
+    fn join_all<T: Iterator<Item = uint>>(&self, mut ds: T) -> Option<Pandigimal> {
         let mut pd = *self;
         for d in ds {
             match pd.join(d) {

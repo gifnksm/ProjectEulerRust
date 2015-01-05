@@ -4,12 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
+#![feature(associated_types, phase)]
 
 #[phase(plugin, link)] extern crate common;
 extern crate num;
 
 use std::mem;
+use std::num::FromPrimitive;
 use num::bigint::BigUint;
 
 // FIXME: Use cont_frac?
@@ -34,7 +35,9 @@ impl Frac {
     }
 }
 
-impl Iterator<(BigUint, BigUint)> for Frac {
+impl Iterator for Frac {
+    type Item = (BigUint, BigUint);
+
     #[inline]
     fn next(&mut self) -> Option<(BigUint, BigUint)> {
         let next = {
@@ -57,6 +60,7 @@ problem!("153", solve);
 
 #[cfg(test)]
 mod tests {
+    use std::num::FromPrimitive;
     use num::bigint::BigUint;
     use super::Frac;
 

@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
+#![feature(associated_types, phase)]
 
 #[phase(plugin, link)] extern crate common;
 extern crate integer;
@@ -39,7 +39,9 @@ impl<T: Clone> Groups<T> {
     }
 }
 
-impl<T: Clone> Iterator<(Vec<T>, Vec<T>)> for Groups<T> {
+impl<T: Clone> Iterator for Groups<T> {
+    type Item = (Vec<T>, Vec<T>);
+
     #[inline]
     fn next(&mut self) -> Option<(Vec<T>, Vec<T>)> {
         if let Some(idx) = self.idx.next() {

@@ -9,12 +9,14 @@ extern crate "rustc-serialize" as rustc_serialize;
 extern crate term;
 extern crate common;
 
-use std::{io, os, str};
-use std::io::{Command, MemReader};
+use std::borrow::IntoCow;
+use std::io::{self, Command, MemReader};
 use std::io::process::ExitStatus;
-use std::str::{MaybeOwned, SendStr};
+use std::os;
+use std::str::{self, MaybeOwned, SendStr};
 use glob::Paths;
-use rustc_serialize::{json, Decodable};
+use rustc_serialize::Decodable;
+use rustc_serialize::json::{self, Json};
 use term::color::Color;
 use common::SolverResult;
 
@@ -113,7 +115,7 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
         }
     }
 
-    let json = try2!(json::from_reader(&mut MemReader::new(proc_out.output)));
+    let json = try2!(Json::from_reader(&mut MemReader::new(proc_out.output)));
     Ok(try2!(Decodable::decode(&mut json::Decoder::new(json))))
 }
 

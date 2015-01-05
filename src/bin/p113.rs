@@ -11,7 +11,7 @@
 use std::iter::{mod, AdditiveIterator};
 
 fn num_increasing(len: uint) -> uint {
-    let mut buf = iter::repeat([0u, ..10]).take(len).collect::<Vec<_>>();
+    let mut buf = iter::repeat([0u; 10]).take(len).collect::<Vec<_>>();
 
     for d in range(0, buf[0].len()) {
         buf[0][d] = 1;
@@ -31,7 +31,7 @@ fn num_increasing(len: uint) -> uint {
 }
 
 fn num_decreasing(len: uint) -> uint {
-    let mut buf = iter::repeat([0u, ..11]).take(len).collect::<Vec<_>>(); // 0, 1, 2, .., 9, A
+    let mut buf = iter::repeat([0u; 11]).take(len).collect::<Vec<_>>(); // 0, 1, 2, .., 9, A
 
     for d in range(0, buf[0].len()) {
         buf[0][d] = 1;

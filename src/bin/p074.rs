@@ -14,7 +14,7 @@ use std::iter;
 #[deriving(Clone)]
 enum Length { Loop(uint), Chain(uint), Unknown }
 
-fn fact_sum(mut n: uint, fs: &[uint, ..10]) -> uint {
+fn fact_sum(mut n: uint, fs: &[uint; 10]) -> uint {
     if n == 0 { return 1; }
 
     let mut sum = 0;
@@ -25,7 +25,7 @@ fn fact_sum(mut n: uint, fs: &[uint, ..10]) -> uint {
     sum
 }
 
-fn get_chain_len(n: uint, map: &mut[Length], fs: &[uint, ..10]) -> uint {
+fn get_chain_len(n: uint, map: &mut[Length], fs: &[uint; 10]) -> uint {
     let mut chain_map = HashMap::new();
     let mut idx = n;
     let mut chain_len = 0;
@@ -66,7 +66,7 @@ fn get_chain_len(n: uint, map: &mut[Length], fs: &[uint, ..10]) -> uint {
 fn solve() -> String {
     let limit = 1000000;
     let factorial = {
-        let mut val = [1, ..10];
+        let mut val = [1; 10];
         for i in range(1u, 10) {
             val[i] = val[i - 1] * i;
         }
@@ -92,7 +92,7 @@ mod tests {
     #[test]
     fn len() {
         let factorial = {
-            let mut val = [1, ..10];
+            let mut val = [1; 10];
             for i in range(1u, 10) {
                 val[i] = val[i - 1] * i;
             }

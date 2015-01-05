@@ -9,7 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate seq;
 
-use std::cmp;
+use std::cmp::{self, Ordering};
 use seq::PrimitivePythagoreans;
 
 fn get_count(m: uint) -> uint {
@@ -45,12 +45,12 @@ fn get_min_m(limit: uint) -> uint {
         let ix = m + (lim / 2);
         let cnt = get_count(ix);
         match cnt.cmp(&limit) {
-            Equal => break,
-            Less  => {
+            Ordering::Equal => break,
+            Ordering::Less  => {
                 m = ix + 1;
                 lim -= 1;
             }
-            Greater => {}
+            Ordering::Greater => {}
         }
         lim /= 2;
     }

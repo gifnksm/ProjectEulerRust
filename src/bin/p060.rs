@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
+#![feature(associated_types, phase, slicing_syntax)]
 
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
@@ -33,7 +33,9 @@ impl ConcatPrimeNums {
     }
 }
 
-impl Iterator<(u64, Vec<u64>)> for ConcatPrimeNums {
+impl Iterator for ConcatPrimeNums {
+    type Item = (u64, Vec<u64>);
+
     fn next(&mut self) -> Option<(u64, Vec<u64>)> {
         let n = self.iter.next().unwrap();
         let pairs = self.ps.iter()

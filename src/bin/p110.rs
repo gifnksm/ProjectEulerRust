@@ -9,6 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
 
+use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 use prime::PrimeSet;
 

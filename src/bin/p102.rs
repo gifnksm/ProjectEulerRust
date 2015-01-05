@@ -4,11 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
+#![feature(associated_types, default_type_params, phase)]
 
 #[phase(plugin, link)] extern crate common;
 
 use std::io::{BufferedReader, File, IoResult};
+use std::ops::{Mul, Sub};
 use std::num::SignedInt;
 
 #[deriving(Copy)]
@@ -22,13 +23,17 @@ struct Triangle(Point, Point, Point);
 
 enum Side { L, R, C }
 
-impl Sub<Point, Point> for Point {
+impl Sub<Point> for Point {
+    type Output = Point;
+
     fn sub(self, other: Point) -> Point {
         Point(self.0 - other.0, self.1 - other.1)
     }
 }
 
-impl Mul<Point, int> for Point {
+impl Mul<Point> for Point {
+    type Output = int;
+
     fn mul(self, other: Point) -> int {
         self.0 * other.0 + self.1 * other.1
     }

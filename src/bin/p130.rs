@@ -42,11 +42,13 @@ problem!("149253", solve);
 #[cfg(test)]
 mod tests {
     use std::iter;
+    use std::num::FromPrimitive;
     use num::Integer;
     use prime::PrimeSet;
 
     mod naive {
         use std::iter;
+        use std::num::FromPrimitive;
         use num::{One, Zero, Integer, BigUint};
 
         pub fn r(k: u64) -> BigUint {

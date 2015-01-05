@@ -11,6 +11,7 @@ extern crate num;
 extern crate iter;
 
 use std::iter::AdditiveIterator;
+use std::num::FromPrimitive;
 use num::{BigInt, Zero};
 use iter::Difference;
 

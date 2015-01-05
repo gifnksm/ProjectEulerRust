@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(macro_rules, slicing_syntax)]
+#![feature(old_orphan_check, macro_rules, slicing_syntax)]
 
 extern crate curl;
 extern crate getopts;
@@ -11,6 +11,7 @@ extern crate "rustc-serialize" as rustc_serialize;
 extern crate term;
 extern crate time;
 
+use std::borrow::IntoCow;
 use std::error::{Error, FromError};
 use std::{fmt, os};
 use std::io::{mod, IoResult, File};
@@ -83,7 +84,7 @@ pub struct SolverResult<T> {
     pub is_ok: bool
 }
 
-impl<'a, T: Encodable<json::Encoder<'a>, io::IoError>> SolverResult<T> {
+impl<T: for<'a> Encodable<json::Encoder<'a>, fmt::Error>> SolverResult<T> {
     pub fn print_json<W: Writer>(&self, out: &mut W) -> IoResult<()> {
         out.write_line(json::encode(self)[])
     }

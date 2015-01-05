@@ -9,6 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
 
+use std::cmp::Ordering;
 use std::iter::AdditiveIterator;
 use prime::PrimeSet;
 
@@ -24,17 +25,17 @@ fn get_longer(ps: &[u64], p: u64, min_len: uint) -> Option<uint> {
         if sum > max_avg * (len as u64) { return None; }
 
         match sum.cmp(&p) {
-            Equal => {
+            Ordering::Equal => {
                 if len <= min_len {
                     return None
                 }
                 return Some(len)
             }
-            Less => {
+            Ordering::Less => {
                 sum += ps[end];
                 end += 1;
             }
-            Greater => {
+            Ordering::Greater => {
                 sum -= ps[start];
                 start += 1;
             }

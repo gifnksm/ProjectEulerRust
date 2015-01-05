@@ -9,6 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate num;
 
+use std::num::FromPrimitive;
 use num::{One, Zero, BigUint};
 
 fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {

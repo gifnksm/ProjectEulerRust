@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(associated_types)]
+
 use std::collections::{HashMap, HashSet};
 use std::collections::hash_map::Entry;
 use std::hash::Hash;
@@ -130,7 +132,9 @@ impl<T: Hash + Eq + Clone> TopologicalSort<T> {
     }
 }
 
-impl<T: Hash + Eq + Clone> Iterator<T> for TopologicalSort<T> {
+impl<T: Hash + Eq + Clone> Iterator for TopologicalSort<T> {
+    type Item = T;
+
     fn next(&mut self) -> Option<T> { self.pop() }
 }
 

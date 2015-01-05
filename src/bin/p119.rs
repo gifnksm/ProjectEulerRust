@@ -4,11 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
+#![feature(associated_types, phase)]
 
 #[phase(plugin, link)] extern crate common;
 extern crate integer;
 
+use std::cmp::Ordering;
 use std::num::Int;
 use std::iter::AdditiveIterator;
 use std::collections::BinaryHeap;
@@ -46,7 +47,9 @@ impl Powers {
     }
 }
 
-impl Iterator<(uint, uint, uint)> for Powers {
+impl Iterator for Powers {
+    type Item = (uint, uint, uint);
+
     fn next(&mut self) -> Option<(uint, uint, uint)> {
         let Power(n, b, e) = self.heap.pop().unwrap();
         if b == 2 { self.heap.push(Power(n * b, b, e + 1)); }

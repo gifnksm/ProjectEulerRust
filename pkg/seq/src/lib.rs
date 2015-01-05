@@ -4,11 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
+#![feature(associated_types, default_type_params, slicing_syntax)]
 
 extern crate num;
 
 use std::mem;
+use std::ops::Add;
 use num::{Integer, One};
 
 /// Fibonacci sequence iterator.
@@ -62,7 +63,9 @@ impl<T: One> Fibonacci<T> {
     }
 }
 
-impl<T: Add<T, T> + Clone> Iterator<T> for Fibonacci<T> {
+impl<T: Add<T, Output = T> + Clone> Iterator for Fibonacci<T> {
+    type Item = T;
+
     #[inline]
     fn next(&mut self) -> Option<T> {
         let new_next    = self.current.clone() + self.next.clone();
@@ -106,7 +109,9 @@ impl<T> Collatz<T> {
     pub fn new(init: T) -> Collatz<T> { Collatz { next: init } }
 }
 
-impl <T: Integer + Clone> Iterator<T> for Collatz<T> {
+impl <T: Integer + Clone> Iterator for Collatz<T> {
+    type Item = T;
+
     #[inline]
     fn next(&mut self) -> Option<T> {
         let one: T   = One::one();
@@ -124,7 +129,7 @@ impl <T: Integer + Clone> Iterator<T> for Collatz<T> {
 /// Triangular numbers sequence iterator.
 pub struct TriangularNums<T> { diff: T, next: T }
 
-impl<T: One + Add<T, T> + Clone> TriangularNums<T> {
+impl<T: One + Add<T, Output = T> + Clone> TriangularNums<T> {
     /// Creates a new Triangular number sequence iterator that enumerates each
     /// triangular number.
     ///
@@ -154,7 +159,9 @@ impl<T: One + Add<T, T> + Clone> TriangularNums<T> {
     }
 }
 
-impl<T: Add<T, T> + One + Clone> Iterator<T> for TriangularNums<T> {
+impl<T: Add<T, Output = T> + One + Clone> Iterator for TriangularNums<T> {
+    type Item = T;
+
     #[inline]
     fn next(&mut self) -> Option<T> {
         let new_next = self.next.clone() + self.diff.clone();
@@ -194,7 +201,9 @@ impl<T: Integer + Clone> PrimitivePythagoreans<T> {
     }
 }
 
-impl<T: Integer + Clone> Iterator<(T, T, T)> for PrimitivePythagoreans<T> {
+impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
+    type Item = (T, T, T);
+
     fn next(&mut self) -> Option<(T, T, T)> {
         let one: T = One::one();
         let two = one.clone() + one.clone();
@@ -226,10 +235,11 @@ impl<T: Integer + Clone> Iterator<(T, T, T)> for PrimitivePythagoreans<T> {
 #[cfg(test)]
 mod tests {
     use std::fmt::Show;
+    use std::ops::Add;
     use num::One;
     use num::bigint::ToBigInt;
 
-    fn check<T: Eq + Show, I: Iterator<T>>(expected: &[T], it: I) {
+    fn check<T: Eq + Show, I: Iterator<Item = T>>(expected: &[T], it: I) {
         assert_eq!(expected, it.collect::<Vec<_>>()[]);
     }
 
@@ -237,7 +247,7 @@ mod tests {
     fn fibonacci() {
         use super::Fibonacci;
 
-        fn check_with_init<T: Clone + Eq + Show + One + Add<T, T>>(fib: &[T]) {
+        fn check_with_init<T: Clone + Eq + Show + One + Add<T, Output = T>>(fib: &[T]) {
             let a0 = fib[0].clone();
             let a1 = fib[1].clone();
             check(fib, Fibonacci::with_init(a0, a1).take(fib.len()));

@@ -10,6 +10,7 @@
 extern crate num;
 
 use std::iter::{AdditiveIterator, Unfold};
+use std::num::FromPrimitive;
 use num::{One, BigUint};
 
 fn compute(a: uint, b: uint) -> uint {

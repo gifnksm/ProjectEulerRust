@@ -41,6 +41,7 @@ problem!("756872327473", solve);
 
 #[cfg(test)]
 mod tests {
+    use std::num::FromPrimitive;
     use num::BigUint;
 
     #[test]

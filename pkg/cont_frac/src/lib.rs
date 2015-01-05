@@ -4,11 +4,15 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(associated_types, default_type_params)]
+
 extern crate integer;
 extern crate num;
 
 use std::collections::HashSet;
 use std::mem;
+use std::num::FromPrimitive;
+use std::ops::{Add, Mul};
 use num::Integer as NumInteger;
 use integer::Integer;
 
@@ -71,7 +75,9 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
         }
     }
 
-    impl Iterator<(u32, (u32, u32, u32))> for A {
+    impl Iterator for A {
+        type Item = (u32, (u32, u32, u32));
+
         // f_n (p, q, r) := (p sqrt(n) + q)/ r
         //                = a + (1 / (rp sqrt(n) + rb) / (np^2 - b^2))
         // a := |f_n(p, q, r)|
@@ -97,9 +103,10 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
 }
 
 /// Calculates convergent of an input iterator.
-pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone,
-            I: Iterator<u32> + DoubleEndedIterator<u32>>
-    (an: I) -> (T, T) {
+pub fn fold<T, I>(an: I) -> (T, T)
+    where T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone,
+          I: Iterator<Item = u32> + DoubleEndedIterator
+{
     let mut numer: T = FromPrimitive::from_int(1).unwrap();
     let mut denom: T = FromPrimitive::from_int(0).unwrap();
 
@@ -113,7 +120,9 @@ pub fn fold<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone,
 }
 
 /// solve pel equation x^2 - d y^2 = 1
-pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone>(d: u32) -> (T, T) {
+pub fn solve_pel<T>(d: u32) -> (T, T)
+    where T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone
+{
     let (a0, an) = sqrt(d);
     if an.is_empty() {
         panic!("{} is square", d)
@@ -129,7 +138,9 @@ pub fn solve_pel<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone>(d: u32) -> (T
 }
 
 /// solve pel equation x^2 - d y^2 = -1
-pub fn solve_pel_neg<T: FromPrimitive + Add<T, T> + Mul<T, T> + Clone>(d: u32) -> (T, T) {
+pub fn solve_pel_neg<T>(d: u32) -> (T, T)
+    where T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone
+{
     let (a0, an) = sqrt(d);
     let mut v = vec![a0];
     if an.len() % 2 == 0 {
@@ -148,7 +159,9 @@ pub struct PelRoots<T> {
     xy: (T, T)
 }
 
-impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelRoots<T> {
+impl<T> PelRoots<T>
+    where T: Clone + FromPrimitive + Add<T, Output = T> + Mul<T, Output = T>
+{
     /// Creates a new `PelRoots` iterator
     #[inline]
     pub fn new(d: u32) -> PelRoots<T> {
@@ -161,7 +174,11 @@ impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelRoots<T> {
     }
 }
 
-impl<T: Add<T, T> + Mul<T, T> + Clone> Iterator<(T, T)> for PelRoots<T> {
+impl<T> Iterator for PelRoots<T>
+    where T: Add<T, Output = T> + Mul<T, Output = T> + Clone
+{
+    type Item = (T, T);
+
     // x[k] + y[k]sqrt(n) = (x[1] + y[1]*sqrt(n))^k
     // x[k+1] + y[k+1]sqrt(n) = (x[k] + y[k]sqrt(n)) * (x[1] + y[1]*sqrt(n))
     //                        = (x[k]x[1] + n*y[k]y[1]) + (x[1]y[k] + x[k]y[1])sqrt(n)
@@ -186,7 +203,9 @@ pub struct PelNegRoots<T> {
     xy: (T, T)
 }
 
-impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelNegRoots<T> {
+impl<T> PelNegRoots<T>
+    where T: Clone + FromPrimitive + Add<T, Output = T> + Mul<T, Output = T>
+{
     /// Creates a new `PelNegRoots` iterator
     #[inline]
     pub fn new(d: u32) -> PelNegRoots<T> {
@@ -199,7 +218,11 @@ impl<T: Clone + FromPrimitive + Add<T, T> + Mul<T, T>> PelNegRoots<T> {
     }
 }
 
-impl<T: Add<T, T> + Mul<T, T> + Clone> Iterator<(T, T)> for PelNegRoots<T> {
+impl<T> Iterator for PelNegRoots<T>
+    where T: Add<T, Output = T> + Mul<T, Output = T> + Clone
+{
+    type Item = (T, T);
+
     #[inline]
     fn next(&mut self) -> Option<(T, T)> {
         let next = {
@@ -218,6 +241,9 @@ impl<T: Add<T, T> + Mul<T, T> + Clone> Iterator<(T, T)> for PelNegRoots<T> {
 
 #[cfg(test)]
 mod tests {
+    use std::num::FromPrimitive;
+    use std::ops::{Add, Mul};
+
     #[test]
     fn sqrt() {
         assert_eq!(super::sqrt(1), (1, vec![]));
@@ -249,10 +275,14 @@ mod tests {
         fn from_i64(n: i64) -> Option<U32> { FromPrimitive::from_i64(n).map(U32) }
         fn from_u64(n: u64) -> Option<U32> { FromPrimitive::from_u64(n).map(U32) }
     }
-    impl Add<U32, U32> for U32 {
+    impl Add<U32> for U32 {
+        type Output = U32;
+
         fn add(self, other: U32) -> U32 { U32(self.unwrap() + other.unwrap()) }
     }
-    impl Mul<U32, U32> for U32 {
+    impl Mul<U32> for U32 {
+        type Output = U32;
+
         fn mul(self, other: U32) -> U32 { U32(self.unwrap() * other.unwrap()) }
     }
 

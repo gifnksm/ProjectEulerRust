@@ -11,6 +11,7 @@ extern crate cont_frac;
 extern crate num;
 
 use std::iter::AdditiveIterator;
+use std::num::ToPrimitive;
 use num::BigUint;
 use cont_frac::PelRoots;
 

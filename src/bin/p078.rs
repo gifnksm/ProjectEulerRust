@@ -15,7 +15,7 @@ const MILLION: i32 = 1000000;
 fn penta(n: i32) -> i32 { n * (3 * n - 1) / 2 }
 
 fn solve() -> String {
-    let mut v = [0, ..65536];
+    let mut v = [0; 65536];
     v[0] = 1;
 
     for n in iter::count(1, 1) {

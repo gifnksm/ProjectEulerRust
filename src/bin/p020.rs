@@ -10,6 +10,7 @@ extern crate num;
 #[phase(plugin, link)] extern crate common;
 
 use std::iter::{AdditiveIterator, MultiplicativeIterator};
+use std::num::FromPrimitive;
 use num::bigint::BigUint;
 
 fn compute(max: uint) -> uint {

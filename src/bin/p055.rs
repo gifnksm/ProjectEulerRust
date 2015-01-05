@@ -9,6 +9,7 @@
 extern crate num;
 #[phase(plugin, link)] extern crate common;
 
+use std::num::FromPrimitive;
 use std::str::FromStr;
 use num::bigint::BigUint;
 

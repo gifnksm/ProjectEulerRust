@@ -4,8 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(associated_types)]
+
 extern crate num;
 
+use std::cmp::Ordering;
+use std::num::{FromPrimitive, ToPrimitive};
 use num::{One, Zero};
 
 /// Extension methods for num::Integer trait.
@@ -82,8 +86,8 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     /// assert!([0, 0, 0, 0, 0, 0, 0, 0, 0, 0] == 0u.into_digit_histogram());
     /// ```
     #[inline]
-    fn into_digit_histogram(self) -> [u32, .. 10] {
-        let mut hist = [0, .. 10];
+    fn into_digit_histogram(self) -> [u32; 10] {
+        let mut hist = [0; 10];
         let ten = FromPrimitive::from_u32(10).unwrap();
         for d in self.into_digits(ten) {
             hist[d.to_uint().unwrap()] += 1;
@@ -103,7 +107,7 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     /// assert_eq!(0, Integer::from_digits(vec![].into_iter(), 10i));
     /// ```
     #[inline]
-    fn from_digits<T: Iterator<Self>>(mut digits: T, radix: Self) -> Self {
+    fn from_digits<T: Iterator<Item = Self>>(mut digits: T, radix: Self) -> Self {
         let mut result: Self = Zero::zero();
         let mut order: Self = One::one();
         for d in digits {
@@ -167,9 +171,9 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
             let mid = (min.clone() + max.clone() + one.clone()) / two.clone();
             let mid2 = mid.clone() * mid.clone();
             match mid2.partial_cmp(self).unwrap() {
-                Equal => return mid,
-                Greater => { max = mid - one.clone() }
-                Less    => { min = mid }
+                Ordering::Equal => return mid,
+                Ordering::Greater => { max = mid - one.clone() }
+                Ordering::Less    => { min = mid }
             }
         }
 
@@ -258,7 +262,9 @@ impl<T: num::Integer + Clone> Digits<T> {
     }
 }
 
-impl<T: num::Integer + Clone> Iterator<T> for Digits<T> {
+impl<T: num::Integer + Clone> Iterator for Digits<T> {
+    type Item = T;
+
     #[inline]
     fn next(&mut self) -> Option<T> {
         if self.order.is_zero() { return None; }
@@ -269,7 +275,7 @@ impl<T: num::Integer + Clone> Iterator<T> for Digits<T> {
     }
 }
 
-impl<T: num::Integer + Clone> DoubleEndedIterator<T> for Digits<T> {
+impl<T: num::Integer + Clone> DoubleEndedIterator for Digits<T> {
     #[inline]
     fn next_back(&mut self) -> Option<T> {
         if self.order.is_zero() { return None; }

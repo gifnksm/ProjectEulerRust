@@ -12,7 +12,7 @@ extern crate integer;
 use std::iter;
 use integer::Integer;
 
-fn is_increasing_with<T: Iterator<uint>>(mut ds: T, mut prev: uint) -> bool {
+fn is_increasing_with<T: Iterator<Item = uint>>(mut ds: T, mut prev: uint) -> bool {
     for n in ds {
         if n < prev { return false }
         prev = n;
@@ -20,7 +20,7 @@ fn is_increasing_with<T: Iterator<uint>>(mut ds: T, mut prev: uint) -> bool {
     true
 }
 
-fn is_decreasing_with<T: Iterator<uint>>(mut ds: T, mut prev: uint) -> bool {
+fn is_decreasing_with<T: Iterator<Item = uint>>(mut ds: T, mut prev: uint) -> bool {
     for n in ds {
         if n > prev { return false }
         prev = n;
@@ -28,11 +28,11 @@ fn is_decreasing_with<T: Iterator<uint>>(mut ds: T, mut prev: uint) -> bool {
     true
 }
 #[cfg(test)]
-fn is_increasing<T: Iterator<uint>>(ds: T) -> bool { is_increasing_with(ds, 0) }
+fn is_increasing<T: Iterator<Item = uint>>(ds: T) -> bool { is_increasing_with(ds, 0) }
 #[cfg(test)]
-fn is_decreasing<T: Iterator<uint>>(ds: T) -> bool { is_decreasing_with(ds, std::uint::MAX) }
+fn is_decreasing<T: Iterator<Item = uint>>(ds: T) -> bool { is_decreasing_with(ds, std::uint::MAX) }
 
-fn is_bouncy<T: Iterator<uint>>(mut ds: T) -> bool {
+fn is_bouncy<T: Iterator<Item = uint>>(mut ds: T) -> bool {
     let prev = match ds.next() { Some(x) => x, None => return false };
     loop {
         let n = match ds.next() { Some(x) => x, None => return false };

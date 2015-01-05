@@ -11,6 +11,7 @@ extern crate num;
 extern crate polynomial;
 
 use std::iter::AdditiveIterator;
+use std::num::FromPrimitive;
 use num::rational::Ratio;
 use num::{BigInt, Zero, One};
 use polynomial::Polynomial;
@@ -68,6 +69,7 @@ problem!("37076114526", solve);
 
 #[cfg(test)]
 mod tests {
+    use std::num::ToPrimitive;
     use num::BigInt;
 
     #[test]

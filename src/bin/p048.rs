@@ -10,6 +10,7 @@
 extern crate integer;
 extern crate num;
 
+use std::num::{FromPrimitive, ToPrimitive};
 use num::BigUint;
 use integer::Integer;
 

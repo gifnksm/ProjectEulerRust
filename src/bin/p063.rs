@@ -9,6 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate num;
 
+use std::num::FromPrimitive;
 use num::BigUint;
 
 fn solve() -> String {

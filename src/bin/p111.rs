@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
+#![feature(associated_types, phase)]
 
 #[phase(plugin, link)] extern crate common;
 extern crate integer;
@@ -33,7 +33,9 @@ impl<T: Int> Digits<T> {
     }
 }
 
-impl<T: Int + Integer> Iterator<Vec<T>> for Digits<T> {
+impl<T: Int + Integer> Iterator for Digits<T> {
+    type Item = Vec<T>;
+
     fn next(&mut self) -> Option<Vec<T>> {
         self.range.next().map(|num| {
             let mut ds = num.into_digits(self.radix).rev().collect::<Vec<_>>();
@@ -61,7 +63,9 @@ impl RunDigits {
     }
 }
 
-impl Iterator<u64> for RunDigits {
+impl Iterator for RunDigits {
+    type Item = u64;
+
     fn next(&mut self) -> Option<u64> {
         for set in self.iter {
             let first = if set.contains(&0) { self.other_ds[0] } else { self.d };

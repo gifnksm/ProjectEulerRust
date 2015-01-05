@@ -10,8 +10,8 @@
 extern crate num;
 extern crate polynomial;
 
-use std::iter;
-use std::iter::MultiplicativeIterator;
+use std::iter::{self, MultiplicativeIterator};
+use std::num::FromPrimitive;
 use num::{One, Integer, BigUint};
 use num::rational::Ratio;
 use polynomial::Polynomial;

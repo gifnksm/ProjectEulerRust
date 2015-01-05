@@ -133,7 +133,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
+#![feature(associated_types, phase)]
 
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
@@ -158,7 +158,9 @@ impl PdTriples {
     fn new() -> PdTriples { PdTriples { r: 0, next: None } }
 }
 
-impl Iterator<PdTriple> for PdTriples {
+impl Iterator for PdTriples {
+    type Item = PdTriple;
+
     #[inline]
     fn next(&mut self) -> Option<PdTriple> {
         if self.next.is_some() {
@@ -188,7 +190,9 @@ impl Pd3Nums {
     fn new() -> Pd3Nums { Pd3Nums { iter: PdTriples::new(), ps: PrimeSet::new() } }
 }
 
-impl Iterator<u64> for Pd3Nums {
+impl Iterator for Pd3Nums {
+    type Item = u64;
+
     #[inline]
     fn next(&mut self) -> Option<u64> {
         loop {

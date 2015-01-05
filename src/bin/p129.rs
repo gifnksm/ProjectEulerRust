@@ -43,6 +43,7 @@ mod tests {
 
     mod naive {
         use std::iter;
+        use std::num::FromPrimitive;
         use num::{One, Zero, Integer, BigUint};
 
         pub fn r(k: u64) -> BigUint {

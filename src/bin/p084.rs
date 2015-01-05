@@ -10,6 +10,7 @@
 extern crate matrix;
 
 use std::iter::{mod, AdditiveIterator};
+use std::num::FromPrimitive;
 use matrix::Matrix;
 
 #[deriving(FromPrimitive, Show, Eq, PartialEq, Copy)]

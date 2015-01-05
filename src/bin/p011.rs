@@ -33,11 +33,11 @@ const INPUT: &'static str = "
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 ";
 
-fn compute(prod_len: uint) -> uint {
-    let grid: Vec<Vec<_>> = INPUT
+fn compute(prod_len: uint) -> u32 {
+    let grid: Vec<Vec<u32>> = INPUT
         .trim()
         .lines()
-        .map(|line| line.words().filter_map(StrExt::parse::<uint>).collect())
+        .map(|line| line.words().filter_map(StrExt::parse).collect())
         .collect();
 
     let w = grid[0].len();

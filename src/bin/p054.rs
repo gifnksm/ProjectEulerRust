@@ -9,15 +9,16 @@
 #[phase(plugin, link)] extern crate common;
 extern crate playing_card;
 
+use std::cmp::Ordering;
 use std::fmt;
 use std::str::FromStr;
 use std::io::{BufferedReader, File, IoResult};
 use playing_card::SuitCard as Card;
 
 fn cmp_card(c0: &Card, c1: &Card) -> Ordering {
-    if c0.num == c1.num { return Equal }
-    if c0.num == 1 { return Greater }
-    if c1.num == 1 { return Less }
+    if c0.num == c1.num { return Ordering::Equal }
+    if c0.num == 1 { return Ordering::Greater }
+    if c1.num == 1 { return Ordering::Less }
     c0.num.cmp(&c1.num)
 }
 
@@ -25,35 +26,35 @@ fn cmp_card_array(a0: &[Card], a1: &[Card]) -> Ordering {
     assert_eq!(a0.len(), a1.len());
     for (c0, c1) in a0.iter().zip(a1.iter()) {
         let ord = cmp_card(c0, c1);
-        if ord != Equal { return ord }
+        if ord != Ordering::Equal { return ord }
     }
-    return Equal
+    return Ordering::Equal
 }
 
 fn cmp_card_2darray(as0: &[&[Card]], as1: &[&[Card]]) -> Ordering {
     assert_eq!(as0.len(), as1.len());
     for (&a0, &a1) in as0.iter().zip(as1.iter()) {
         let ord = cmp_card_array(a0, a1);
-        if ord != Equal { return ord }
+        if ord != Ordering::Equal { return ord }
     }
-    return Equal
+    return Ordering::Equal
 }
 
 fn sort_cards(cs: &mut [Card]) {
     cs.sort_by(|c0, c1| {
         match cmp_card(c0, c1) {
-            Equal   => (c0.suit as uint).cmp(&(c1.suit as uint)),
-            Less    => Greater,
-            Greater => Less
+            Ordering::Equal   => (c0.suit as uint).cmp(&(c1.suit as uint)),
+            Ordering::Less    => Ordering::Greater,
+            Ordering::Greater => Ordering::Less
         }
     })
 }
 
-type C1 = [Card, .. 1];
-type C2 = [Card, .. 2];
-type C3 = [Card, .. 3];
-type C4 = [Card, .. 4];
-type C5 = [Card, .. 5];
+type C1 = [Card; 1];
+type C2 = [Card; 2];
+type C3 = [Card; 3];
+type C4 = [Card; 4];
+type C5 = [Card; 5];
 
 #[deriving(Eq)]
 enum Hand {
@@ -111,10 +112,10 @@ impl PartialOrd for Hand {
 impl Ord for Hand {
     fn cmp(&self, other: &Hand) -> Ordering {
         match self.rank().cmp(&other.rank()) {
-            Less    => Less,
-            Greater => Greater,
-            Equal   => cmp_card_2darray(self.to_vec_of_array()[],
-                                        other.to_vec_of_array()[])
+            Ordering::Less    => Ordering::Less,
+            Ordering::Greater => Ordering::Greater,
+            Ordering::Equal   => cmp_card_2darray(self.to_vec_of_array()[],
+                                                  other.to_vec_of_array()[])
         }
     }
 }
@@ -131,9 +132,9 @@ impl Hand {
         sort_cards(&mut p0);
         sort_cards(&mut p1);
         match cmp_card(&p0[0], &p1[0]) {
-            Less    => Hand::TwoPairs(p1, p0, [s0]),
-            Greater => Hand::TwoPairs(p0, p1, [s0]),
-            Equal   => panic!()
+            Ordering::Less    => Hand::TwoPairs(p1, p0, [s0]),
+            Ordering::Greater => Hand::TwoPairs(p0, p1, [s0]),
+            Ordering::Equal   => panic!()
         }
     }
 
@@ -294,9 +295,9 @@ fn solve(file: File) -> IoResult<String> {
         let p1_hand = Hand::from_cards(cards[.. 5]);
         let p2_hand = Hand::from_cards(cards[5 ..]);
         match p1_hand.cmp(&p2_hand) {
-            Greater => { p1_win  += 1 }
-            Less    => { _p2_win += 1 }
-            Equal   => { _draw   += 1 }
+            Ordering::Greater => { p1_win  += 1 }
+            Ordering::Less    => { _p2_win += 1 }
+            Ordering::Equal   => { _draw   += 1 }
         }
     }
 
@@ -308,6 +309,7 @@ problem!("376", "p054_poker.txt", solve);
 #[cfg(test)]
 mod tests {
     use super::Hand;
+    use std::cmp::Ordering;
     use std::str::FromStr;
     use std::rand::{mod, Rng};
     use playing_card::SuitCard as Card;
@@ -370,40 +372,40 @@ mod tests {
             assert_eq!(order.reverse(), rh.cmp(&lh));
         }
 
-        check(Greater, "5D 8C 9S JS AC", "2C 5C 7D 8S QH");
-        check(Greater, "AD TD 9S 5C 4C", "KS QD JC 8H 7H");
-        check(Greater, "AC QC 7D 5H 2C", "AD TD 9S 5C 4C");
+        check(Ordering::Greater, "5D 8C 9S JS AC", "2C 5C 7D 8S QH");
+        check(Ordering::Greater, "AD TD 9S 5C 4C", "KS QD JC 8H 7H");
+        check(Ordering::Greater, "AC QC 7D 5H 2C", "AD TD 9S 5C 4C");
 
-        check(Less,    "5H 5C 6S 7S KD", "2C 3S 8S 8D TD");
-        check(Greater, "4D 6S 9H QH QC", "3D 6D 7H QD QS");
-        check(Greater, "TC TS 6S 4H 2H", "9H 9C AH QD TD");
-        check(Greater, "2D 2H 8S 5C 4C", "2C 2S 8C 5H 3H");
+        check(Ordering::Less,    "5H 5C 6S 7S KD", "2C 3S 8S 8D TD");
+        check(Ordering::Greater, "4D 6S 9H QH QC", "3D 6D 7H QD QS");
+        check(Ordering::Greater, "TC TS 6S 4H 2H", "9H 9C AH QD TD");
+        check(Ordering::Greater, "2D 2H 8S 5C 4C", "2C 2S 8C 5H 3H");
 
-        check(Greater, "KH KD 2C 2D JH", "JD JS TS TC 9S");
-        check(Greater, "9C 9D 7D 7S 6H", "9H 9S 5H 5D KC");
-        check(Greater, "4S 4C 3S 3H KD", "4H 4D 3D 3C TS");
+        check(Ordering::Greater, "KH KD 2C 2D JH", "JD JS TS TC 9S");
+        check(Ordering::Greater, "9C 9D 7D 7S 6H", "9H 9S 5H 5D KC");
+        check(Ordering::Greater, "4S 4C 3S 3H KD", "4H 4D 3D 3C TS");
 
-        check(Greater, "QS QC QD 5S 3C", "5C 5H 5D QD TC");
-        check(Greater, "8C 8H 8C AC 2D", "8S 8H 8D 5S 3C");
+        check(Ordering::Greater, "QS QC QD 5S 3C", "5C 5H 5D QD TC");
+        check(Ordering::Greater, "8C 8H 8C AC 2D", "8S 8H 8D 5S 3C");
 
-        check(Greater, "8S 7S 6H 5H 4S", "6D 5S 4D 3H 2C");
-        check(Equal,   "8S 7S 6H 5H 4S", "8H 7D 6C 5C 4H");
+        check(Ordering::Greater, "8S 7S 6H 5H 4S", "6D 5S 4D 3H 2C");
+        check(Ordering::Equal,   "8S 7S 6H 5H 4S", "8H 7D 6C 5C 4H");
 
-        check(Greater, "AH QH TH 5H 3H", "KS QS JS 9S 6S");
-        check(Greater, "AD KD 7D 6D 2D", "AH QH TH 5H 3H");
+        check(Ordering::Greater, "AH QH TH 5H 3H", "KS QS JS 9S 6S");
+        check(Ordering::Greater, "AD KD 7D 6D 2D", "AH QH TH 5H 3H");
 
-        check(Greater, "2H 2D 4C 4D 4S", "3C 3D 3S 9S 9D");
-        check(Greater, "TS TH TD 4S 4D", "9H 9C 9S AH AC");
-        check(Greater, "AS AC AH 4D 4C", "AS AH AD 3S 3D");
+        check(Ordering::Greater, "2H 2D 4C 4D 4S", "3C 3D 3S 9S 9D");
+        check(Ordering::Greater, "TS TH TD 4S 4D", "9H 9C 9S AH AC");
+        check(Ordering::Greater, "AS AC AH 4D 4C", "AS AH AD 3S 3D");
 
-        check(Greater, "TC TD TH TS 5D", "6D 6H 6S 6C KS");
-        check(Greater, "TC TD TH TS QC", "TC TD TH TS 5D");
+        check(Ordering::Greater, "TC TD TH TS 5D", "6D 6H 6S 6C KS");
+        check(Ordering::Greater, "TC TD TH TS QC", "TC TD TH TS 5D");
 
-        check(Less,    "7C 6C 5C 4C 3C", "AH KH QH JH TH");
-        check(Greater, "7H 6H 5H 4H 3H", "5S 4S 3S 2S 1S");
-        check(Equal,   "JC TC 9C 8C 7C", "JD TD 9D 8D 7D");
+        check(Ordering::Less,    "7C 6C 5C 4C 3C", "AH KH QH JH TH");
+        check(Ordering::Greater, "7H 6H 5H 4H 3H", "5S 4S 3S 2S 1S");
+        check(Ordering::Equal,   "JC TC 9C 8C 7C", "JD TD 9D 8D 7D");
 
-        check(Less,    "2D 9C AS AH AC", "3D 6D 7D TD QD");
-        check(Greater, "5S 4S 3S 2S 1S", "TC TH TD TS 3H");
+        check(Ordering::Less,    "2D 9C AS AH AC", "3D 6D 7D TD QD");
+        check(Ordering::Greater, "5S 4S 3S 2S 1S", "TC TH TD TS 3H");
     }
 }

@@ -4,12 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
+#![feature(associated_types, phase)]
 
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
 
 use std::collections::BinaryHeap;
+use std::cmp::Ordering;
 use prime::PrimeSet;
 
 struct Multiple(u64, u64);
@@ -46,7 +47,9 @@ impl Multiples {
     }
 }
 
-impl Iterator<u64> for Multiples {
+impl Iterator for Multiples {
+    type Item = u64;
+
     #[inline]
     fn next(&mut self) -> Option<u64> {
         self.heap.pop().map(|Multiple(n, i)| {
@@ -100,7 +103,9 @@ impl RadValues {
     }
 }
 
-impl Iterator<(u64, Vec<u64>)> for RadValues {
+impl Iterator for RadValues {
+    type Item = (u64, Vec<u64>);
+
     #[inline]
     fn next(&mut self) -> Option<(u64, Vec<u64>)> {
         self.heap.pop().map(|RadValue(n, facts, i)| {

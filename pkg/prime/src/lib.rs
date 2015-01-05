@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(macro_rules, slicing_syntax)]
+#![feature(associated_types, macro_rules, slicing_syntax)]
 
 extern crate num;
 #[cfg(test)] extern crate test;
@@ -14,7 +14,8 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
-use std::iter::{mod, MultiplicativeIterator};
+use std::iter::{mod, MultiplicativeIterator, RandomAccessIterator};
+use std::num::FromPrimitive;
 use std::rc::Rc;
 use num::{One, Zero, Integer};
 
@@ -178,7 +179,9 @@ pub struct Nums {
     data: Rc<RefCell<PrimeInner>>
 }
 
-impl Iterator<u64> for Nums {
+impl Iterator for Nums {
+    type Item = u64;
+
     #[inline]
     fn next(&mut self) -> Option<u64> {
         let p = self.data.borrow_mut().nth(self.idx);
@@ -187,7 +190,7 @@ impl Iterator<u64> for Nums {
     }
 }
 
-impl RandomAccessIterator<u64> for Nums {
+impl RandomAccessIterator for Nums {
     #[inline]
     fn indexable(&self) -> uint { uint::MAX }
 
@@ -270,7 +273,9 @@ pub struct Factors<T> {
     iter: Nums
 }
 
-impl<T: Integer + FromPrimitive + Clone> Iterator<Factor<T>> for Factors<T> {
+impl<T: Integer + FromPrimitive + Clone> Iterator for Factors<T> {
+    type Item = Factor<T>;
+
     #[inline]
     fn next(&mut self) -> Option<Factor<T>> {
         if self.num <= One::one() { return None }

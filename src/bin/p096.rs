@@ -23,7 +23,7 @@ const MASK_ALL: BITS = 0x1ff;
 #[deriving(Eq, PartialEq, Clone, Show)]
 struct SuDoku {
     name: String,
-    map: [[BITS, .. BOARD_WIDTH], .. BOARD_HEIGHT]
+    map: [[BITS; BOARD_WIDTH]; BOARD_HEIGHT]
 }
 
 impl SuDoku {
@@ -52,7 +52,7 @@ fn read_sudoku<T: Reader>(br: &mut BufferedReader<T>) -> IoResult<Option<SuDoku>
     };
     let mut sudoku = SuDoku {
         name: name,
-        map: [[MASK_ALL, .. BOARD_WIDTH], .. BOARD_HEIGHT]
+        map: [[MASK_ALL; BOARD_WIDTH]; BOARD_HEIGHT]
     };
 
     for y in range(0, BOARD_HEIGHT) {

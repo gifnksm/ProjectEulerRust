@@ -9,7 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 
 fn compute() -> uint {
-    let mut facts: [uint, ..10] = [ 0, ..10 ];
+    let mut facts: [uint; 10] = [ 0; 10 ];
     facts[0] = 1;
     for i in range(1, facts.len()) {
         facts[i] = facts[i - 1] * i;

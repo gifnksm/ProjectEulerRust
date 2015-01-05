@@ -8,6 +8,7 @@
 
 #[phase(plugin, link)] extern crate common;
 
+use std::cmp::Ordering;
 use std::iter::AdditiveIterator;
 use std::io::{BufferedReader, File, IoResult};
 
@@ -30,9 +31,9 @@ fn is_sss(nums: &mut [uint]) -> bool {
         while i < len {
             assert!(j <= i);
             match sums[i].cmp(&(sums[j] + n)) {
-                Equal   => {  return false }
-                Less    => { new_sums.push(sums[i]);     i += 1; }
-                Greater => { new_sums.push(sums[j] + n); j += 1; }
+                Ordering::Equal   => {  return false }
+                Ordering::Less    => { new_sums.push(sums[i]);     i += 1; }
+                Ordering::Greater => { new_sums.push(sums[j] + n); j += 1; }
             }
         }
         while j < len { new_sums.push(sums[j] + n); j += 1; }
