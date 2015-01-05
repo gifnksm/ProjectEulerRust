@@ -20,7 +20,7 @@ const MAX_NUMBER: uint = 9;
 type BITS = u16;
 const MASK_ALL: BITS = 0x1ff;
 
-#[deriving(Eq, PartialEq, Clone, Show)]
+#[derive(Eq, PartialEq, Clone, Show)]
 struct SuDoku {
     name: String,
     map: [[BITS; BOARD_WIDTH]; BOARD_HEIGHT]

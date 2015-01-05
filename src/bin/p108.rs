@@ -9,7 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
 
-use std::iter::{mod, MultiplicativeIterator};
+use std::iter::{self, MultiplicativeIterator};
 use prime::{Factorize, PrimeSet};
 
 // 1/x + 1/y = 1/n

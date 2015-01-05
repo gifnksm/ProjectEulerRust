@@ -12,7 +12,7 @@ use std::ops::{Add, Index, Mul, Sub};
 use num::{One, Zero};
 
 /// 2D matrix.
-#[deriving(PartialEq, Eq, Clone, Show)]
+#[derive(PartialEq, Eq, Clone, Show)]
 pub struct Matrix<T> {
     row: uint,
     column: uint,

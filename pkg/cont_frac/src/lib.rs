@@ -261,7 +261,7 @@ mod tests {
         assert_eq!(super::sqrt(13), (3, vec![1,1,1,1,6]));
     }
 
-    #[deriving(Eq, PartialEq, Show, Clone)]
+    #[derive(Eq, PartialEq, Show, Clone)]
     struct U32(u32);
 
     impl U32 {

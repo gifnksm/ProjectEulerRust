@@ -242,7 +242,7 @@ impl Integer for u64 {}
 impl Integer for uint {}
 
 /// An iterator that enumerates each digit of a number.
-#[deriving(Clone)]
+#[derive(Clone)]
 pub struct Digits<T> { num: T, radix: T, order: T }
 
 impl<T: num::Integer + Clone> Digits<T> {

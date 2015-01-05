@@ -6,7 +6,7 @@
 
 use std::{iter, mem};
 
-#[deriving(Clone)]
+#[derive(Clone)]
 enum UFNode {
     Key(uint),
     Size(uint)

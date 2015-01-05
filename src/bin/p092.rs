@@ -9,7 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate integer;
 
-use std::iter::{mod, AdditiveIterator};
+use std::iter::{self, AdditiveIterator};
 use integer::Integer;
 
 fn square_digit_sum(n: uint) -> uint {

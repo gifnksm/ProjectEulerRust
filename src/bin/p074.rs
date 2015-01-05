@@ -11,7 +11,7 @@
 use std::collections::HashMap;
 use std::iter;
 
-#[deriving(Clone)]
+#[derive(Clone)]
 enum Length { Loop(uint), Chain(uint), Unknown }
 
 fn fact_sum(mut n: uint, fs: &[uint; 10]) -> uint {

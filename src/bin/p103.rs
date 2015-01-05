@@ -13,7 +13,7 @@ use std::collections::BinaryHeap;
 use std::iter;
 
 /// Special sum set
-#[deriving(Show)]
+#[derive(Show)]
 struct SSS {
     avg: f64,
     nums: Vec<uint>,

@@ -10,7 +10,7 @@
 extern crate num;
 extern crate prime;
 
-use std::iter::{mod, AdditiveIterator};
+use std::iter::{self, AdditiveIterator};
 use num::Integer;
 use prime::PrimeSet;
 

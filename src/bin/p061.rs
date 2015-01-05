@@ -8,7 +8,7 @@
 
 #[phase(plugin, link)] extern crate common;
 
-use std::iter::{mod, AdditiveIterator};
+use std::iter::{self, AdditiveIterator};
 
 fn triangle(n: uint) -> uint { n * (n + 1) / 2 }
 fn square(n: uint) -> uint { n * n }

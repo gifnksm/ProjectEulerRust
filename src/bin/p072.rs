@@ -9,7 +9,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
 
-use std::iter::{mod, AdditiveIterator};
+use std::iter::{self, AdditiveIterator};
 use prime::PrimeSet;
 
 fn compute(limit: u64) -> u64 {

@@ -141,7 +141,7 @@ extern crate prime;
 use std::mem;
 use prime::PrimeSet;
 
-#[deriving(Eq, PartialEq, Show)]
+#[derive(Eq, PartialEq, Show)]
 struct PdTriple {
     n: u64,
     r: u64,

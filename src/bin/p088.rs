@@ -10,7 +10,7 @@
 extern crate integer;
 
 use std::uint;
-use std::iter::{mod, AdditiveIterator};
+use std::iter::{self, AdditiveIterator};
 use integer::Integer;
 
 fn each_sum_product(prod_start: uint, prod_end: uint, f: &mut |uint, uint, uint|) {

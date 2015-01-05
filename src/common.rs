@@ -14,8 +14,8 @@ extern crate time;
 use std::borrow::IntoCow;
 use std::error::{Error, FromError};
 use std::{fmt, os};
-use std::io::{mod, IoResult, File};
-use std::io::fs::{mod, PathExtensions};
+use std::io::{self, IoResult, File};
+use std::io::fs::{self, PathExtensions};
 use std::str::CowString;
 use curl::http;
 use num::Integer;
@@ -77,7 +77,7 @@ impl fmt::Show for SolverError {
     }
 }
 
-#[deriving(Show, RustcEncodable, RustcDecodable)]
+#[derive(Show, RustcEncodable, RustcDecodable)]
 pub struct SolverResult<T> {
     pub time: u64,
     pub answer: T,

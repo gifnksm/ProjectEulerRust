@@ -25,7 +25,7 @@ fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<uint>>> {
     Ok(mat)
 }
 
-#[deriving(Eq, PartialEq, Hash, Copy, Clone)]
+#[derive(Eq, PartialEq, Hash, Copy, Clone)]
 struct Point { x: uint, y: uint }
 
 fn minimal_path_sum(mat: Vec<Vec<uint>>) -> uint {

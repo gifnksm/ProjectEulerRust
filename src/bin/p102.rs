@@ -12,13 +12,13 @@ use std::io::{BufferedReader, File, IoResult};
 use std::ops::{Mul, Sub};
 use std::num::SignedInt;
 
-#[deriving(Copy)]
+#[derive(Copy)]
 struct Point(int, int);
 
-#[deriving(Copy)]
+#[derive(Copy)]
 struct Line(Point, Point);
 
-#[deriving(Copy)]
+#[derive(Copy)]
 struct Triangle(Point, Point, Point);
 
 enum Side { L, R, C }

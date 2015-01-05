@@ -14,7 +14,7 @@ use std::ops::{Add, Mul, Neg, Sub};
 use num::{Zero, One};
 
 /// Polynomial expression
-#[deriving(Eq, PartialEq, Clone, Show)]
+#[derive(Eq, PartialEq, Clone, Show)]
 pub struct Polynomial<T> { data: Vec<T> }
 
 impl<T: Zero> Polynomial<T> {

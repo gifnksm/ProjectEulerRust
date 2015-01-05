@@ -55,7 +55,7 @@
 #[phase(plugin, link)] extern crate common;
 extern crate prime;
 
-use std::iter::{mod, AdditiveIterator};
+use std::iter::{self, AdditiveIterator};
 use prime::{Factorize, PrimeSet};
 
 fn a(n: u64) -> u64 {

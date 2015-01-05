@@ -10,7 +10,7 @@
 extern crate test;
 
 use std::cmp::Ordering;
-use std::iter::{mod, Peekable};
+use std::iter::{self, Peekable};
 use std::collections::BitvSet;
 
 /// An iterator that enumerates all combinations of bits.
@@ -419,7 +419,7 @@ mod tests {
 #[cfg(test)]
 mod bench {
     use super::BitCombination;
-    use test::{mod, Bencher};
+    use test::{self, Bencher};
 
     #[bench]
     fn comb(bh: &mut Bencher) {

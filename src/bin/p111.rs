@@ -11,7 +11,7 @@ extern crate integer;
 extern crate "iter" as itercrate;
 extern crate prime;
 
-use std::iter::{mod, AdditiveIterator, Range, Rev};
+use std::iter::{self, AdditiveIterator, Range, Rev};
 use std::num::Int;
 use integer::Integer;
 use itercrate::BitCombination;

@@ -29,7 +29,7 @@ macro_rules! try2 {
 type ProgramResult<T> = Result<T, ProgramError>;
 type OutputPair<'a> = (Option<Color>, MaybeOwned<'a>);
 
-#[deriving(Show)]
+#[derive(Show)]
 enum ProgramErrorKind {
     IoError(io::IoError),
     JsonSyntaxError(json::ErrorCode, uint, uint),
@@ -37,7 +37,7 @@ enum ProgramErrorKind {
     Unknown
 }
 
-#[deriving(Show)]
+#[derive(Show)]
 struct ProgramError {
     kind: ProgramErrorKind,
     message: SendStr

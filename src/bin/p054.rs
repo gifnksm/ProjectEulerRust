@@ -56,7 +56,7 @@ type C3 = [Card; 3];
 type C4 = [Card; 4];
 type C5 = [Card; 5];
 
-#[deriving(Eq)]
+#[derive(Eq)]
 enum Hand {
     HighCard      (C1, C1, C1, C1, C1),
     Pair          (C2, C1, C1, C1),
@@ -311,7 +311,7 @@ mod tests {
     use super::Hand;
     use std::cmp::Ordering;
     use std::str::FromStr;
-    use std::rand::{mod, Rng};
+    use std::rand::{self, Rng};
     use playing_card::SuitCard as Card;
 
     fn str_to_cards(s: &str) -> Vec<Card> {

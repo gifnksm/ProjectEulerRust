@@ -14,7 +14,7 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
-use std::iter::{mod, MultiplicativeIterator, RandomAccessIterator};
+use std::iter::{self, MultiplicativeIterator, RandomAccessIterator};
 use std::num::FromPrimitive;
 use std::rc::Rc;
 use num::{One, Zero, Integer};
@@ -98,7 +98,7 @@ impl PrimeInner {
 }
 
 /// Prime number set
-#[deriving(Clone)]
+#[derive(Clone)]
 pub struct PrimeSet {
     data: Rc<RefCell<PrimeInner>>
 }

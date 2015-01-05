@@ -9,12 +9,12 @@
 #[phase(plugin, link)] extern crate common;
 extern crate integer;
 
-use std::iter::{mod, AdditiveIterator, MultiplicativeIterator};
+use std::iter::{self, AdditiveIterator, MultiplicativeIterator};
 use integer::Integer;
 
 const RADIX: uint = 10;
 
-#[deriving(Copy)]
+#[derive(Copy)]
 struct Pandigimal {
     used: [ bool; RADIX ],
     num:  [ uint; RADIX ],

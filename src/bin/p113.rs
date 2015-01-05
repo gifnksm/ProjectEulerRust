@@ -8,7 +8,7 @@
 
 #[phase(plugin, link)] extern crate common;
 
-use std::iter::{mod, AdditiveIterator};
+use std::iter::{self, AdditiveIterator};
 
 fn num_increasing(len: uint) -> uint {
     let mut buf = iter::repeat([0u; 10]).take(len).collect::<Vec<_>>();
