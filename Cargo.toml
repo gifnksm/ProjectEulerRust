@@ -14,6 +14,7 @@ name = "common"
 [dependencies]
 curl = "*"
 glob = "*"
+generic-matrix = "*"
 num = "*"
 polynomial = "*"
 rustc-serialize = "*"
@@ -29,9 +30,6 @@ path = "./pkg/integer"
 
 [dependencies.iter]
 path = "./pkg/iter"
-
-[dependencies.matrix]
-path = "./pkg/matrix"
 
 [dependencies.playing_card]
 path = "./pkg/playing_card"

@@ -7,7 +7,7 @@
 #![feature(phase)]
 
 #[phase(plugin, link)] extern crate common;
-extern crate matrix;
+extern crate "generic-matrix" as matrix;
 
 use std::iter::{self, AdditiveIterator};
 use std::num::FromPrimitive;
