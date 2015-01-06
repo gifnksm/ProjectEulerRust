@@ -10,13 +10,13 @@ dependencies = [
  "matrix 0.0.1",
  "num 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "playing_card 0.0.1",
- "polynomial 0.0.1",
+ "polynomial 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "prime 0.0.1",
  "rustc-serialize 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "seq 0.0.1",
  "time 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
- "tsort 0.0.1",
- "union_find 0.0.1",
+ "topological-sort 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "union-find 0.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -123,6 +123,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "polynomial"
 version = "0.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "num 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -155,12 +156,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "tsort"
+name = "topological-sort"
 version = "0.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
-name = "union_find"
+name = "union-find"
 version = "0.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "url"

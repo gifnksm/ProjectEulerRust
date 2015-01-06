@@ -7,7 +7,7 @@
 #![feature(phase)]
 
 #[phase(plugin, link)] extern crate common;
-extern crate union_find;
+extern crate "union-find" as union_find;
 
 use std::io::{BufferedReader, File, IoResult};
 use union_find::UnionFind;

@@ -7,7 +7,7 @@
 #![feature(phase)]
 
 #[phase(plugin, link)] extern crate common;
-extern crate tsort;
+extern crate "topological-sort" as tsort;
 
 use std::io::{BufferedReader, File, IoResult};
 use tsort::TopologicalSort;
