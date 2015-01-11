@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 use std::iter::AdditiveIterator;
 
@@ -116,7 +114,7 @@ const INPUT: &'static str = "
 fn compute() -> String {
     INPUT.trim()
         .lines()
-        .map(|line| line[0 .. 12])
+        .map(|line| &line[0 .. 12])
         .filter_map(StrExt::parse::<u64>)
         .sum()
         .to_string()[0 .. 10]

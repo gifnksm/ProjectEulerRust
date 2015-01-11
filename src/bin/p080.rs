@@ -4,10 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
-
 extern crate num;
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate iter;
 
 use std::iter::AdditiveIterator;
@@ -15,12 +13,12 @@ use std::num::FromPrimitive;
 use num::{BigInt, Zero};
 use iter::Difference;
 
-fn sqrt_newton_raphson(n: uint, precision: uint) -> String {
+fn sqrt_newton_raphson(n: u32, precision: usize) -> String {
     assert!(precision >= 1);
 
-    let _1:  BigInt = FromPrimitive::from_uint(1).unwrap();
-    let _10: BigInt = FromPrimitive::from_uint(10).unwrap();
-    let n:   BigInt = FromPrimitive::from_uint(n).unwrap();
+    let _1:  BigInt = FromPrimitive::from_u32(1).unwrap();
+    let _10: BigInt = FromPrimitive::from_u32(10).unwrap();
+    let n:   BigInt = FromPrimitive::from_u32(n).unwrap();
 
     let ds = num::pow(_10.clone(), precision - 1);
 
@@ -38,7 +36,7 @@ fn sqrt_newton_raphson(n: uint, precision: uint) -> String {
     ((n * x_1 * ds) >> shift).to_string()
 }
 
-fn sqrt_digit_sum(n: uint, precision: uint) -> uint {
+fn sqrt_digit_sum(n: u32, precision: usize) -> usize {
     sqrt_newton_raphson(n, precision)
         .chars()
         .filter_map(|c| c.to_digit(10))
@@ -46,8 +44,8 @@ fn sqrt_digit_sum(n: uint, precision: uint) -> uint {
 }
 
 fn solve() -> String {
-    let ns = range(2u, 101);
-    let sq = range(2u, 101).map(|x| x*x);
+    let ns = 2 .. 101;
+    let sq = (2 ..101).map(|x| x*x);
 
     Difference::new(ns, sq)
         .map(|n| sqrt_digit_sum(n, 100))
@@ -61,7 +59,7 @@ problem!("40886", solve);
 mod test {
     #[test]
     fn sqrt2() {
-        assert_eq!("141421356237309504880", super::sqrt_newton_raphson(2, 21)[]);
+        assert_eq!("141421356237309504880", super::sqrt_newton_raphson(2, 21));
         assert_eq!(475, super::sqrt_digit_sum(2, 100));
     }
 }

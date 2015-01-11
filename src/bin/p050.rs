@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate prime;
 
 use std::cmp::Ordering;
@@ -52,7 +50,7 @@ fn compute(limit: u64) -> (u64, uint) {
     let mut len = 0;
     let mut num = 0;
     for &p in ps.iter() {
-        if let Some(l) = get_longer(ps[], p, len) {
+        if let Some(l) = get_longer(&ps[], p, len) {
             len = l;
             num = p;
         }

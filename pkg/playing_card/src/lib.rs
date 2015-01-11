@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(slicing_syntax)]
-
 use std::fmt;
 use std::str::FromStr;
 
@@ -13,7 +11,7 @@ use Suit::{Spade, Heart, Dia, Club};
 
 /// Playing card's suite.
 #[allow(missing_docs, unused_qualifications)] // FIXME rust-lang/rust#19102
-#[derive(Eq, PartialEq, Copy, Clone)]
+#[derive(Eq, PartialEq, Copy, Clone, Show)]
 pub enum Suit {
     Spade,
     Heart,
@@ -21,7 +19,7 @@ pub enum Suit {
     Club
 }
 
-impl fmt::Show for Suit {
+impl fmt::String for Suit {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let s = match self {
             &Spade => "S",
@@ -49,13 +47,13 @@ impl FromStr for Suit {
 
 /// Playing card that only contains suit cards.
 #[allow(missing_docs)]
-#[derive(Eq, PartialEq, Copy, Clone)]
+#[derive(Eq, PartialEq, Copy, Clone, Show)]
 pub struct SuitCard {
     pub num: u8,
     pub suit: Suit
 }
 
-impl fmt::Show for SuitCard {
+impl fmt::String for SuitCard {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             SuitCard { num: 1,  suit: s } => write!(f, "A{}", s),
@@ -91,14 +89,14 @@ impl FromStr for SuitCard {
 
 /// Playing card that also contaiins jokers.
 #[allow(missing_docs)]
-#[derive(Eq, PartialEq, Copy, Clone)]
+#[derive(Eq, PartialEq, Copy, Clone, Show)]
 pub enum Card {
     Suit(SuitCard),
     BlackJoker,
     WhiteJoker
 }
 
-impl fmt::Show for Card {
+impl fmt::String for Card {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             Card::BlackJoker => write!(f, "BJ"),

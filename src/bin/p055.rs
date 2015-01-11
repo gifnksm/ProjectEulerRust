@@ -4,10 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
 extern crate num;
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 use std::num::FromPrimitive;
 use std::str::FromStr;
@@ -16,13 +14,13 @@ use num::bigint::BigUint;
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_string();
     let rev = s.chars().rev().collect::<String>();
-    FromStr::from_str(rev[]).unwrap()
+    FromStr::from_str(&rev[]).unwrap()
 }
 
-fn is_lychrel(n: uint, limit: uint) -> bool {
-    let n: BigUint = FromPrimitive::from_uint(n).unwrap();
+fn is_lychrel(n: u32, limit: usize) -> bool {
+    let n: BigUint = FromPrimitive::from_u32(n).unwrap();
     let mut sum = &n + reverse(&n);
-    for _ in range(0u, limit) {
+    for _ in (0 .. limit) {
         let rev_sum = reverse(&sum);
         if rev_sum == sum { return false }
         sum = sum + rev_sum;
@@ -30,8 +28,8 @@ fn is_lychrel(n: uint, limit: uint) -> bool {
     true
 }
 
-fn compute(max: uint, limit: uint) -> uint {
-    range(1, max + 1)
+fn compute(max: u32, limit: usize) -> usize {
+    (1 .. max + 1)
         .filter(|&n| is_lychrel(n, limit))
         .count()
 }

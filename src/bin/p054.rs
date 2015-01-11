@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate playing_card;
 
 use std::cmp::Ordering;
@@ -43,7 +41,7 @@ fn cmp_card_2darray(as0: &[&[Card]], as1: &[&[Card]]) -> Ordering {
 fn sort_cards(cs: &mut [Card]) {
     cs.sort_by(|c0, c1| {
         match cmp_card(c0, c1) {
-            Ordering::Equal   => (c0.suit as uint).cmp(&(c1.suit as uint)),
+            Ordering::Equal   => (c0.suit as u32).cmp(&(c1.suit as u32)),
             Ordering::Less    => Ordering::Greater,
             Ordering::Greater => Ordering::Less
         }
@@ -56,7 +54,7 @@ type C3 = [Card; 3];
 type C4 = [Card; 4];
 type C5 = [Card; 5];
 
-#[derive(Eq)]
+#[derive(Eq, Show)]
 enum Hand {
     HighCard      (C1, C1, C1, C1, C1),
     Pair          (C2, C1, C1, C1),
@@ -70,29 +68,39 @@ enum Hand {
     RoyalFlush    (C5)
 }
 
-impl fmt::Show for Hand {
+impl fmt::String for Hand {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Hand::HighCard(s0, s1, s2, s3, s4) =>
-                write!(f, "HighCard({}, {}, {}, {}, {})", s0[], s1[], s2[], s3[], s4[]),
-            Hand::Pair(p0, s0, s1, s2) =>
-                write!(f, "Pair{} + HighCard({}, {}, {})", p0[], s0[], s1[], s2[]),
-            Hand::TwoPairs(p0, p1, s0) =>
-                write!(f, "TwoPairs({}, {}) + HighCard({})", p0[], p1[], s0[]),
-            Hand::ThreeOfAKind(t0, s0, s1) =>
-                write!(f, "ThreeOfAKind{} + HighCard({}, {})", t0[], s0[], s1[]),
-            Hand::Straight(c) =>
-                write!(f, "Straight{}", c[]),
-            Hand::Flush(c) =>
-                write!(f, "Flush{}", c[]),
-            Hand::FullHouse(c0, c1) =>
-                write!(f, "FullHouse({}, {})", c0[], c1[]),
-            Hand::FourOfAKind(c0, c1) =>
-                write!(f, "FourOfAKind{} + HighCard{}", c0[], c1[]),
-            Hand::StraightFlush(c) =>
-                write!(f, "StraightFlush{}", c[]),
-            Hand::RoyalFlush(c) =>
-                write!(f, "RoyalFlush{}", c[])
+            Hand::HighCard([c0], [c1], [c2], [c3], [c4]) =>
+                write!(f, "HighCard({}, {}, {}, {}, {})",
+                       c0, c1, c2, c3, c4),
+            Hand::Pair([c0, c1], [c2], [c3], [c4]) =>
+                write!(f, "Pair({}, {}) + HighCard({}, {}, {})",
+                       c0, c1, c2, c3, c4),
+            Hand::TwoPairs([c0, c1], [c2, c3], [c4]) =>
+                write!(f, "TwoPairs(({}, {}), ({}, {})) + HighCard({})",
+                       c0, c1, c2, c3, c4),
+            Hand::ThreeOfAKind([c0, c1, c2], [c3], [c4]) =>
+                write!(f, "ThreeOfAKind({}, {}, {}) + HighCard({}, {})",
+                       c0, c1, c2, c3, c4),
+            Hand::Straight([c0, c1, c2, c3, c4]) =>
+                write!(f, "Straight({}, {}, {}, {}, {})",
+                       c0, c1, c2, c3, c4),
+            Hand::Flush([c0, c1, c2, c3, c4]) =>
+                write!(f, "Flush({}, {}, {}, {}, {})",
+                       c0, c1, c2, c3, c4),
+            Hand::FullHouse([c0, c1, c2], [c3, c4]) =>
+                write!(f, "FullHouse(({}, {}, {}), ({}, {}))",
+                       c0, c1, c2, c3, c4),
+            Hand::FourOfAKind([c0, c1, c2, c3], [c4]) =>
+                write!(f, "FourOfAKind({}, {}, {}, {}) + HighCard({})",
+                       c0, c1, c2, c3, c4),
+            Hand::StraightFlush([c0, c1, c2, c3, c4]) =>
+                write!(f, "StraightFlush({}, {}, {}, {}, {})",
+                       c0, c1, c2, c3, c4),
+            Hand::RoyalFlush([c0, c1, c2, c3, c4]) =>
+                write!(f, "RoyalFlush({}, {}, {}, {}, {})",
+                       c0, c1, c2, c3, c4),
         }
     }
 }
@@ -114,8 +122,8 @@ impl Ord for Hand {
         match self.rank().cmp(&other.rank()) {
             Ordering::Less    => Ordering::Less,
             Ordering::Greater => Ordering::Greater,
-            Ordering::Equal   => cmp_card_2darray(self.to_vec_of_array()[],
-                                                  other.to_vec_of_array()[])
+            Ordering::Equal   => cmp_card_2darray(&self.to_vec_of_array()[],
+                                                  &other.to_vec_of_array()[])
         }
     }
 }
@@ -159,13 +167,13 @@ impl Hand {
     fn from_cards(cards: &[Card]) -> Hand {
         assert_eq!(5, cards.len());
 
-        let mut num_count  = range(0u32, 13).map(|_| vec![]).collect::<Vec<_>>();
-        let mut suit_count = range(0u32, 4).map(|_| vec![]).collect::<Vec<_>>();
+        let mut num_count  = (0u32 .. 13).map(|_| vec![]).collect::<Vec<_>>();
+        let mut suit_count = (0u32 .. 4).map(|_| vec![]).collect::<Vec<_>>();
 
         for &c in cards.iter() {
             let val = if c.num == 1 { 12 } else { c.num - 2 };
-            num_count[(12 - val) as uint].push(c);
-            suit_count[c.suit as uint].push(c);
+            num_count[(12 - val) as usize].push(c);
+            suit_count[c.suit as usize].push(c);
         }
 
         let num_count  = num_count;
@@ -222,7 +230,7 @@ impl Hand {
         }
     }
 
-    fn rank(&self) -> uint {
+    fn rank(&self) -> u32 {
         match *self {
             Hand::HighCard     (..) => 0,
             Hand::Pair         (..) => 1,
@@ -256,25 +264,25 @@ impl Hand {
     fn to_vec_of_array<'a>(&'a self) -> Vec<&'a [Card]> {
         match *self {
             Hand::HighCard(ref s0, ref s1, ref s2, ref s3, ref s4) =>
-                vec![s0[], s1[], s2[], s3[], s4[]],
+                vec![&s0[], &s1[], &s2[], &s3[], &s4[]],
             Hand::Pair(ref p0, ref s0, ref s1, ref s2) =>
-                vec![p0[], s0[], s1[], s2[]],
+                vec![&p0[], &s0[], &s1[], &s2[]],
             Hand::TwoPairs(ref p0, ref p1, ref s0) =>
-                vec![p0[], p1[], s0[]],
+                vec![&p0[], &p1[], &s0[]],
             Hand::ThreeOfAKind(ref t0, ref s0, ref s1) =>
-                vec![t0[], s0[], s1[]],
+                vec![&t0[], &s0[], &s1[]],
             Hand::Straight(ref cs) =>
-                vec![cs[]],
+                vec![&cs[]],
             Hand::Flush(ref cs) =>
-                vec![cs[]],
+                vec![&cs[]],
             Hand::FullHouse(ref t0, ref p0) =>
-                vec![t0[], p0[]],
+                vec![&t0[], &p0[]],
             Hand::FourOfAKind(ref q0, ref s0) =>
-                vec![q0[], s0[]],
+                vec![&q0[], &s0[]],
             Hand::StraightFlush(ref cs) =>
-                vec![cs[]],
+                vec![&cs[]],
             Hand::RoyalFlush(ref cs) =>
-                vec![cs[]]
+                vec![&cs[]]
         }
     }
 }
@@ -282,9 +290,9 @@ impl Hand {
 fn solve(file: File) -> IoResult<String> {
     let mut input = BufferedReader::new(file);
 
-    let mut p1_win  = 0u;
-    let mut _p2_win = 0u;
-    let mut _draw   = 0u;
+    let mut p1_win  = 0;
+    let mut _p2_win = 0;
+    let mut _draw   = 0;
     for line in input.lines() {
         let line = try!(line);
         let cards = line
@@ -292,8 +300,8 @@ fn solve(file: File) -> IoResult<String> {
             .split(' ')
             .map(|c| FromStr::from_str(c).unwrap())
             .collect::<Vec<_>>();
-        let p1_hand = Hand::from_cards(cards[.. 5]);
-        let p2_hand = Hand::from_cards(cards[5 ..]);
+        let p1_hand = Hand::from_cards(&cards[.. 5]);
+        let p2_hand = Hand::from_cards(&cards[5 ..]);
         match p1_hand.cmp(&p2_hand) {
             Ordering::Greater => { p1_win  += 1 }
             Ordering::Less    => { _p2_win += 1 }
@@ -324,50 +332,49 @@ mod tests {
     fn from_cards() {
         fn check(input: &str, output: &str) {
             let mut cs = str_to_cards(input);
-            let ihand = Hand::from_cards(cs[]);
-            assert_eq!(output, ihand.to_string()[]);
+            let ihand = Hand::from_cards(&cs[]);
+            assert_eq!(output, &ihand.to_string()[]);
 
             let mut rng = rand::thread_rng();
-            for _ in range(0i, 10) {
+            for _ in (0 .. 10) {
                 rng.shuffle(cs.as_mut_slice());
-                let hand = Hand::from_cards(cs[]);
+                let hand = Hand::from_cards(&cs[]);
                 assert_eq!(ihand, hand);
-                assert_eq!(output, hand.to_string()[]);
+                assert_eq!(output, &hand.to_string()[]);
             }
         }
 
-        check("AC JS 9S 8C 5D", "HighCard([AC], [JS], [9S], [8C], [5D])");
-        check("QH 8S 7D 5C 2C", "HighCard([QH], [8S], [7D], [5C], [2C])");
+        check("AC JS 9S 8C 5D", "HighCard(AC, JS, 9S, 8C, 5D)");
+        check("QH 8S 7D 5C 2C", "HighCard(QH, 8S, 7D, 5C, 2C)");
 
-        check("3D 3C AD JS 4H", "Pair[3D, 3C] + HighCard([AD], [JS], [4H])");
-        check("5H 5C KD 7S 6S", "Pair[5H, 5C] + HighCard([KD], [7S], [6S])");
-        check("QH QC 9H 6S 4D", "Pair[QH, QC] + HighCard([9H], [6S], [4D])");
-        check("QS QD 7H 6D 3D", "Pair[QS, QD] + HighCard([7H], [6D], [3D])");
+        check("3D 3C AD JS 4H", "Pair(3D, 3C) + HighCard(AD, JS, 4H)");
+        check("5H 5C KD 7S 6S", "Pair(5H, 5C) + HighCard(KD, 7S, 6S)");
+        check("QH QC 9H 6S 4D", "Pair(QH, QC) + HighCard(9H, 6S, 4D)");
+        check("QS QD 7H 6D 3D", "Pair(QS, QD) + HighCard(7H, 6D, 3D)");
 
-        check("QH QC 2H 2D 7C", "TwoPairs([QH, QC], [2H, 2D]) + HighCard([7C])");
+        check("QH QC 2H 2D 7C", "TwoPairs((QH, QC), (2H, 2D)) + HighCard(7C)");
 
-        check("9S 9H 9D QS 7C", "ThreeOfAKind[9S, 9H, 9D] + HighCard([QS], [7C])");
+        check("9S 9H 9D QS 7C", "ThreeOfAKind(9S, 9H, 9D) + HighCard(QS, 7C)");
 
-        check("9C 8H 7D 6D 5S", "Straight[9C, 8H, 7D, 6D, 5S]");
+        check("9C 8H 7D 6D 5S", "Straight(9C, 8H, 7D, 6D, 5S)");
 
-        check("KC TC 8C 5C 2C", "Flush[KC, TC, 8C, 5C, 2C]");
+        check("KC TC 8C 5C 2C", "Flush(KC, TC, 8C, 5C, 2C)");
 
-        check("6S 6H 6C 3D 3C", "FullHouse([6S, 6H, 6C], [3D, 3C])");
-        check("4S 4D 4C 2H 2D", "FullHouse([4S, 4D, 4C], [2H, 2D])");
-        check("3S 3D 3C 9S 9D", "FullHouse([3S, 3D, 3C], [9S, 9D])");
+        check("6S 6H 6C 3D 3C", "FullHouse((6S, 6H, 6C), (3D, 3C))");
+        check("4S 4D 4C 2H 2D", "FullHouse((4S, 4D, 4C), (2H, 2D))");
+        check("3S 3D 3C 9S 9D", "FullHouse((3S, 3D, 3C), (9S, 9D))");
 
-        check("8S 8H 8D 8C 2D", "FourOfAKind[8S, 8H, 8D, 8C] + HighCard[2D]");
+        check("8S 8H 8D 8C 2D", "FourOfAKind(8S, 8H, 8D, 8C) + HighCard(2D)");
+        check("7H 6H 5H 4H 3H", "StraightFlush(7H, 6H, 5H, 4H, 3H)");
 
-        check("7H 6H 5H 4H 3H", "StraightFlush[7H, 6H, 5H, 4H, 3H]");
-
-        check("AS KS QS JS TS", "RoyalFlush[AS, KS, QS, JS, TS]");
+        check("AS KS QS JS TS", "RoyalFlush(AS, KS, QS, JS, TS)");
     }
 
     #[test]
     fn cmp() {
         fn check(order: Ordering, left: &str, right: &str) {
-            let lh = Hand::from_cards(str_to_cards(left)[]);
-            let rh = Hand::from_cards(str_to_cards(right)[]);
+            let lh = Hand::from_cards(&str_to_cards(left)[]);
+            let rh = Hand::from_cards(&str_to_cards(right)[]);
             assert_eq!(order, lh.cmp(&rh));
             assert_eq!(order.reverse(), rh.cmp(&lh));
         }

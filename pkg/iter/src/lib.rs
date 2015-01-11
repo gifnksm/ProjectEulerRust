@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(associated_types, slicing_syntax)]
-
 #[cfg(test)]
 extern crate test;
 
@@ -16,7 +14,7 @@ use std::collections::BitvSet;
 /// An iterator that enumerates all combinations of bits.
 pub struct BitCombination {
     consumed: bool,
-    size: uint,
+    size: usize,
     set: BitvSet
 }
 
@@ -34,7 +32,7 @@ impl Iterator for BitCombination {
                 self.set.insert(n + 1);
 
                 let mut j = n + 2;
-                for i in range(n + 2, self.size) {
+                for i in (n + 2 .. self.size) {
                     if self.set.contains(&i) {
                         if i != j {
                             self.set.remove(&i);
@@ -64,19 +62,19 @@ impl BitCombination {
     /// assert_eq!(None, it.next());
     /// ```
     #[inline]
-    pub fn new(cnt: uint, size: uint) -> BitCombination {
+    pub fn new(cnt: usize, size: usize) -> BitCombination {
         assert!(cnt <= size);
         let mut set = BitvSet::new();
-        for i in range(0, cnt) {
+        for i in (0 .. cnt) {
             set.insert(i);
         }
         BitCombination { consumed: false, size: size, set: set }
     }
 
-    fn find_change_bit(&self) -> Option<uint> {
+    fn find_change_bit(&self) -> Option<usize> {
         if self.size == 0 { return None }
 
-        for n in range(0, self.size - 1).rev() {
+        for n in (0 .. self.size - 1).rev() {
             if self.set.contains(&n) && !self.set.contains(&(n + 1)) {
                 return Some(n)
             }
@@ -90,7 +88,7 @@ impl BitCombination {
 /// The iteratee vector may contain the same elements multiple times.
 pub struct CombinationOverlap<'a, T: 'a> {
     elems: &'a [T],
-    idxs: Vec<uint>,
+    idxs: Vec<usize>,
     consumed: bool
 }
 
@@ -111,7 +109,7 @@ impl<'a, T> CombinationOverlap<'a, T> {
     /// assert_eq!(Some(vec![3, 3]), it.next());
     /// assert_eq!(None, it.next());
     /// ```
-    pub fn new(elems: &'a [T], len: uint) -> CombinationOverlap<'a, T> {
+    pub fn new(elems: &'a [T], len: usize) -> CombinationOverlap<'a, T> {
         CombinationOverlap {
             elems: elems,
             idxs: iter::repeat(0).take(len).collect(),
@@ -147,8 +145,8 @@ impl<'a, T: Clone> Iterator for CombinationOverlap<'a, T> {
 /// An iterator that enumerates all permutations of elemnts.
 pub struct Permutations<'a, T: 'a> {
     elems: &'a [T],
-    idxs: Vec<uint>,
-    cycles: Vec<uint>,
+    idxs: Vec<usize>,
+    cycles: Vec<usize>,
     consumed: bool
 }
 
@@ -163,11 +161,11 @@ impl<'a, T: 'a> Permutations<'a, T> {
     /// let mut it = Permutations::new(nums, 2);
     /// assert_eq!(Some((vec![1, 2], vec![3])), it.next());
     /// ```
-    pub fn new(elems: &'a [T], n: uint) -> Permutations<'a, T> {
+    pub fn new(elems: &'a [T], n: usize) -> Permutations<'a, T> {
         Permutations {
             elems: elems,
-            idxs: range(0, elems.len()).collect(),
-            cycles: range(0, n).map(|x| elems.len() - x).collect(),
+            idxs: (0 .. elems.len()).collect(),
+            cycles: (0 .. n).map(|x| elems.len() - x).collect(),
             consumed: n > elems.len()
         }
     }
@@ -189,7 +187,7 @@ impl<'a, T: Clone> Iterator for Permutations<'a, T> {
         }
 
         loop {
-            for i in range(0, n).rev() {
+            for i in (0 .. n).rev() {
                 self.cycles[i] -= 1;
                 if self.cycles[i] == 0 {
                     let p = self.idxs.remove(i);
@@ -276,7 +274,7 @@ mod tests {
 
     #[test]
     fn bit_combination() {
-        fn check(cnt: uint, size: uint, expected: Vec<Vec<uint>>) {
+        fn check(cnt: usize, size: usize, expected: Vec<Vec<usize>>) {
             let actual = BitCombination::new(cnt, size)
                 .map(|set| set.iter().collect())
                 .collect::<Vec<Vec<_>>>();
@@ -400,16 +398,16 @@ mod tests {
 
         #[test]
         fn minuend_is_empty() {
-            let a: Vec<uint> = vec![];
+            let a: Vec<usize> = vec![];
             let b = vec![1u, 2, 3];
             let diff = Difference::new(a.iter(), b.iter());
-            assert!(diff.collect::<Vec<&uint>>().is_empty());
+            assert!(diff.collect::<Vec<&usize>>().is_empty());
         }
 
         #[test]
         fn subtrahend_is_empty() {
             let a = vec![1u, 2, 3];
-            let b: Vec<uint> = vec![];
+            let b: Vec<usize> = vec![];
             let diff = Difference::new(a.into_iter(), b.into_iter());
             assert_eq!(vec![1u, 2, 3], diff.collect::<Vec<_>>());
         }

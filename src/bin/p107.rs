@@ -4,13 +4,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate "union-find" as union_find;
 
 use std::io::{BufferedReader, File, IoResult};
-use union_find::UnionFind;
+use union_find::{UnionFind, Size};
 
 fn compute<R: Reader>(r: R, size: uint) -> IoResult<uint> {
     let mut br = BufferedReader::new(r);
@@ -27,7 +25,7 @@ fn compute<R: Reader>(r: R, size: uint) -> IoResult<uint> {
     }
     verts.sort_by(|a, b| a.1.cmp(&b.1));
 
-    let mut uf = UnionFind::new(size);
+    let mut uf = UnionFind::<Size>::new(size);
 
     let mut saving = 0;
     for &((i, j), n) in verts.iter() {

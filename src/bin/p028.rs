@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 // 43 44 45 46 47 48 49
 // 42 21 22 23 24 25 26

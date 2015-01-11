@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(associated_types, default_type_params, phase)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 use std::io::{BufferedReader, File, IoResult};
 use std::ops::{Mul, Sub};

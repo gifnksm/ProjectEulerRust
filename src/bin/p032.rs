@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate integer;
 extern crate iter;
 
@@ -24,7 +22,7 @@ use iter::Permutations;
 // 2 x 3 = 4 : OK
 // 3 x 3 = 3 : NG
 
-fn compute() -> uint {
+fn compute() -> u32 {
     let radix = 10;
     let digits = &[1, 2, 3, 4, 5, 6, 7, 8, 9];
     let mut products = HashSet::new();
@@ -36,10 +34,10 @@ fn compute() -> uint {
     // 1000 < c = ab < 10000 => 1000 / a < b < 10000 / a
     //  => 1000 < b < 10000 / a
     for (p1, r1) in Permutations::new(digits, 1) {
-        for (p2, r2) in Permutations::new(r1[], 4) {
+        for (p2, r2) in Permutations::new(&r1[], 4) {
             let a = Integer::from_digits(p1.iter().map(|&x| x), radix);
             let b = Integer::from_digits(p2.iter().map(|&x| x), radix);
-            let c: uint = a * b;
+            let c: u32 = a * b;
             let mut c_digits = c.into_digits(radix).collect::<Vec<_>>();
             c_digits.sort();
             if r2 == c_digits { products.insert(c); }
@@ -53,10 +51,10 @@ fn compute() -> uint {
     // 1000 < c = ab < 10000 => 1000 / a < b < 10000 / a
     // => 100 < b < 10000 / a
     for (p1, r1) in Permutations::new(digits, 2) {
-        for (p2, r2) in Permutations::new(r1[], 3) {
+        for (p2, r2) in Permutations::new(&r1[], 3) {
             let a = Integer::from_digits(p1.iter().map(|&x| x), radix);
             let b = Integer::from_digits(p2.iter().map(|&x| x), radix);
-            let c: uint = a * b;
+            let c: u32 = a * b;
             let mut c_digits = c.into_digits(radix).collect::<Vec<_>>();
             c_digits.sort();
             if r2 == c_digits { products.insert(c); }

@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(associated_types)]
-
 extern crate num;
 
 use std::cmp::Ordering;
@@ -234,12 +232,12 @@ impl Integer for i8 {}
 impl Integer for i16 {}
 impl Integer for i32 {}
 impl Integer for i64 {}
-impl Integer for int {}
+impl Integer for isize {}
 impl Integer for u8 {}
 impl Integer for u16 {}
 impl Integer for u32 {}
 impl Integer for u64 {}
-impl Integer for uint {}
+impl Integer for usize {}
 
 /// An iterator that enumerates each digit of a number.
 #[derive(Clone)]
@@ -294,40 +292,40 @@ mod tests {
 
     #[test]
     fn div() {
-        assert_eq!(0u, 0u.div_floor(&3));
-        assert_eq!(0u, 0u.div_round(&3));
-        assert_eq!(0u, 0u.div_ceil(&3));
+        assert_eq!(0, 0.div_floor(&3));
+        assert_eq!(0, 0.div_round(&3));
+        assert_eq!(0, 0.div_ceil(&3));
 
-        assert_eq!(0u, 1u.div_floor(&3));
-        assert_eq!(0u, 1u.div_round(&3));
-        assert_eq!(1u, 1u.div_ceil(&3));
+        assert_eq!(0, 1.div_floor(&3));
+        assert_eq!(0, 1.div_round(&3));
+        assert_eq!(1, 1.div_ceil(&3));
 
-        assert_eq!(0u, 2u.div_floor(&3));
-        assert_eq!(1u, 2u.div_round(&3));
-        assert_eq!(1u, 2u.div_ceil(&3));
+        assert_eq!(0, 2.div_floor(&3));
+        assert_eq!(1, 2.div_round(&3));
+        assert_eq!(1, 2.div_ceil(&3));
 
-        assert_eq!(1u, 3u.div_floor(&3));
-        assert_eq!(1u, 3u.div_round(&3));
-        assert_eq!(1u, 3u.div_ceil(&3));
+        assert_eq!(1, 3.div_floor(&3));
+        assert_eq!(1, 3.div_round(&3));
+        assert_eq!(1, 3.div_ceil(&3));
 
-        assert_eq!(1u, 4u.div_floor(&3));
-        assert_eq!(1u, 4u.div_round(&3));
-        assert_eq!(2u, 4u.div_ceil(&3));
+        assert_eq!(1, 4.div_floor(&3));
+        assert_eq!(1, 4.div_round(&3));
+        assert_eq!(2, 4.div_ceil(&3));
 
-        assert_eq!(1u, 5u.div_floor(&3));
-        assert_eq!(2u, 5u.div_round(&3));
-        assert_eq!(2u, 5u.div_ceil(&3));
+        assert_eq!(1, 5.div_floor(&3));
+        assert_eq!(2, 5.div_round(&3));
+        assert_eq!(2, 5.div_ceil(&3));
 
-        assert_eq!(3u, 5u.div_round(&2));
+        assert_eq!(3, 5.div_round(&2));
     }
 
     #[test]
     fn digits() {
         fn check(n: u32, v: &[u32], radix: u32) {
-            assert_eq!(v, n.into_digits(radix).collect::<Vec<_>>()[]);
+            assert_eq!(v, n.into_digits(radix).collect::<Vec<_>>());
             let mut rev = n.into_digits(radix).rev().collect::<Vec<_>>();
             rev.reverse();
-            assert_eq!(v, rev[])
+            assert_eq!(v, &rev[])
         }
 
         check(0, &[], 10);
@@ -341,39 +339,39 @@ mod tests {
 
     #[test]
     fn to_palindromic() {
-        assert_eq!(101, 10i.into_palindromic(10, false));
-        assert_eq!(1001, 10i.into_palindromic(10, true));
+        assert_eq!(101, 10.into_palindromic(10, false));
+        assert_eq!(1001, 10.into_palindromic(10, true));
 
-        assert_eq!(99999, 999i.into_palindromic(10, false));
-        assert_eq!(999999, 999i.into_palindromic(10, true));
+        assert_eq!(99999, 999.into_palindromic(10, false));
+        assert_eq!(999999, 999.into_palindromic(10, true));
 
-        assert_eq!(99099, 990i.into_palindromic(10, false));
-        assert_eq!(990099, 990i.into_palindromic(10, true));
+        assert_eq!(99099, 990.into_palindromic(10, false));
+        assert_eq!(990099, 990.into_palindromic(10, true));
 
-        assert_eq!(1100011, 1100i.into_palindromic(10, false));
-        assert_eq!(11000011, 1100i.into_palindromic(10, true));
+        assert_eq!(1100011, 1100.into_palindromic(10, false));
+        assert_eq!(11000011, 1100.into_palindromic(10, true));
 
-        assert_eq!(0xabcba, 0xabci.into_palindromic(16, false));
-        assert_eq!(0xabccba, 0xabci.into_palindromic(16, true));
+        assert_eq!(0xabcba, 0xabc.into_palindromic(16, false));
+        assert_eq!(0xabccba, 0xabc.into_palindromic(16, true));
     }
 
     #[test]
     fn is_palindromic() {
-        assert!(0i.is_palindromic(10));
-        assert!(1i.is_palindromic(10));
-        assert!(9i.is_palindromic(10));
-        assert!(11i.is_palindromic(10));
-        assert!(121i.is_palindromic(10));
-        assert!(!123i.is_palindromic(10));
-        assert!(1221i.is_palindromic(10));
-        assert!(12321i.is_palindromic(10));
+        assert!(0.is_palindromic(10));
+        assert!(1.is_palindromic(10));
+        assert!(9.is_palindromic(10));
+        assert!(11.is_palindromic(10));
+        assert!(121.is_palindromic(10));
+        assert!(!123.is_palindromic(10));
+        assert!(1221.is_palindromic(10));
+        assert!(12321.is_palindromic(10));
     }
 
     #[test]
     fn mod_pow() {
-        for b in range(1u, 10) {
-            for e in range(0u, 5) {
-                for r in range(10u, 100) {
+        for b in (1 .. 10) {
+            for e in (0 .. 5) {
+                for r in (10 .. 100) {
                     assert_eq!(num::pow(b, e) % r, b.mod_pow(&e, &r));
                 }
             }

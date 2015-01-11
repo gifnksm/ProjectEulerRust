@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 fn count_between(a: (u32, u32), b: (u32, u32), max_denom: u32) -> u32 {
     if a.1 + b.1 > max_denom { return 0 }

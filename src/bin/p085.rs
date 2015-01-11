@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 // x by y => C = (1 + 2 + .. + x) * (1 + 2 + .. + y) recutangulars
 //             = (x (1 + x) / 2) * (y (1 + y)) / 2

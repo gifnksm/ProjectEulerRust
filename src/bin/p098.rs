@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate integer;
 
 use std::{cmp, iter, mem, uint};
@@ -25,7 +23,7 @@ fn read_words(file: File) -> IoResult<Vec<String>> {
     let mut cont = true;
     while cont {
         let word_str = String::from_utf8(try!(input.read_until(b','))).ok().unwrap();
-        let mut word = word_str[];
+        let mut word = &word_str[];
         if word.is_empty() { break; }
 
         cont = if word.ends_with(",") {
@@ -48,7 +46,7 @@ fn get_anagram_groups(words: Vec<String>) -> Vec<Vec<String>> {
     for word in words.into_iter() {
         let mut cs = word.chars().collect::<Vec<_>>();
         cs.sort();
-        match map.entry(&cs) {
+        match map.entry(cs) {
             Entry::Vacant(e) => {
                 let _ = e.insert(vec![word]);
             }
@@ -73,8 +71,8 @@ fn flatten_groups(groups: Vec<Vec<String>>) -> Vec<(String, String)> {
             continue
         }
 
-        for i in range(0, group.len()) {
-            for j in range(i + 1, group.len()) {
+        for i in (0 .. group.len()) {
+            for j in (i + 1 .. group.len()) {
                 pairs.push((group[i].clone(), group[j].clone()))
             }
         }
@@ -89,7 +87,7 @@ fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(uint, Vec<uint>, Vec<
         .map(|(w1, w2)| {
             let cs1 = w1.as_bytes();
             let cs2 = w2.as_bytes();
-            let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap();
+            let get_pos = |&: &c: &u8| cs1.position_elem(&c).unwrap();
             (w1.len(),
              cs1.iter().map(|c| get_pos(c)).collect(),
              cs2.iter().map(|c| get_pos(c)).collect())
@@ -118,7 +116,7 @@ fn group_by_len(mut indices: Vec<(uint, Vec<uint>, Vec<uint>)>) -> Vec<(uint, Ve
 }
 
 fn check_digit(idx: &[uint], ds: &[uint]) -> bool {
-    for i in range(0, idx.len()) {
+    for i in (0 .. idx.len()) {
         if ds[i] != ds[idx[i]] { return false; }
         if ds.position_elem(&ds[idx[i]]).unwrap() != idx[i] { return false; }
     }
@@ -150,8 +148,8 @@ fn max_square(groups: Vec<(uint, Vec<(Vec<uint>, Vec<uint>)>)>) -> uint {
             let ds = (n * n).into_digits(10).rev().collect::<Vec<_>>();
             for &(ref v1, ref v2) in pairs.iter() {
                 if ds[v2[0]] == 0 { continue }
-                if !check_digit(v1[], ds[]) { continue }
-                let num2 = idx_to_num(v2[], ds[]);
+                if !check_digit(&v1[], &ds[]) { continue }
+                let num2 = idx_to_num(&v2[], &ds[]);
                 if !is_square(num2) { continue }
                 nums.push(n * n);
             if n * n != num2 { nums.push(num2); }

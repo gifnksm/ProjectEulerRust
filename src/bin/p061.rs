@@ -4,22 +4,20 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 use std::iter::{self, AdditiveIterator};
 
-fn triangle(n: uint) -> uint { n * (n + 1) / 2 }
-fn square(n: uint) -> uint { n * n }
-fn pentagonal(n: uint) -> uint { n * (3 * n - 1) / 2 }
-fn hexagonal(n: uint) -> uint { n * (2 * n - 1) }
-fn heptagonal(n: uint) -> uint { n * (5 * n - 3) / 2 }
-fn octagonal(n: uint) -> uint { n * (3 * n - 2) }
+fn triangle(n: u32) -> u32 { n * (n + 1) / 2 }
+fn square(n: u32) -> u32 { n * n }
+fn pentagonal(n: u32) -> u32 { n * (3 * n - 1) / 2 }
+fn hexagonal(n: u32) -> u32 { n * (2 * n - 1) }
+fn heptagonal(n: u32) -> u32 { n * (5 * n - 3) / 2 }
+fn octagonal(n: u32) -> u32 { n * (3 * n - 2) }
 
-fn create_map(fs: &[fn(uint) -> uint]) -> Vec<Vec<Vec<uint>>> {
+fn create_map(fs: &[fn(u32) -> u32]) -> Vec<Vec<Vec<u32>>> {
     fs.iter().map(|&f| {
-        let mut result = range(0u, 100).map(|_| Vec::with_capacity(100)).collect::<Vec<_>>();
+        let mut result = (0 .. 100).map(|_| Vec::with_capacity(100)).collect::<Vec<_>>();
         for i in iter::count(1, 1) {
             let n = f(i);
             if n > 9999 { break }
@@ -28,20 +26,20 @@ fn create_map(fs: &[fn(uint) -> uint]) -> Vec<Vec<Vec<uint>>> {
             let (hi, lo) = (n / 100, n % 100);
             if lo < 10 { continue }
 
-            result[hi].push(lo);
+            result[hi as usize].push(lo);
         }
         result
     }).collect()
 }
 
-fn find_cycle(map: &mut [Vec<Vec<uint>>]) -> Vec<Vec<uint>> {
+fn find_cycle(map: &mut [Vec<Vec<u32>>]) -> Vec<Vec<u32>> {
     let head = &map[map.len() - 1];
 
     let mut result = vec![];
     for maps in map[ .. map.len() - 1].permutations() {
         for (lst, fsts) in head.iter().enumerate() {
             for &fst in fsts.iter() {
-                for mut v in find_chain(fst, lst, maps[]).into_iter() {
+                for mut v in find_chain(fst, lst as u32, &maps[]).into_iter() {
                     v.push(fst);
                     result.push(v)
                 }
@@ -51,7 +49,7 @@ fn find_cycle(map: &mut [Vec<Vec<uint>>]) -> Vec<Vec<uint>> {
     result
 }
 
-fn find_chain(fst: uint, lst: uint, maps: &[Vec<Vec<uint>>]) -> Vec<Vec<uint>> {
+fn find_chain(fst: u32, lst: u32, maps: &[Vec<Vec<u32>>]) -> Vec<Vec<u32>> {
     if maps.is_empty() {
         if fst == lst {
             return vec![vec![]]
@@ -60,8 +58,8 @@ fn find_chain(fst: uint, lst: uint, maps: &[Vec<Vec<uint>>]) -> Vec<Vec<uint>> {
     }
 
     let mut result = vec![];
-    for &n in maps[0][fst].iter() {
-        for mut v in find_chain(n, lst, maps[1 ..]).into_iter() {
+    for &n in maps[0][fst as usize].iter() {
+        for mut v in find_chain(n, lst, &maps[1 ..]).into_iter() {
             v.push(n);
             result.push(v)
         }
@@ -69,7 +67,7 @@ fn find_chain(fst: uint, lst: uint, maps: &[Vec<Vec<uint>>]) -> Vec<Vec<uint>> {
     result
 }
 
-fn cycle_to_nums(map: &[uint]) -> Vec<uint> {
+fn cycle_to_nums(map: &[u32]) -> Vec<u32> {
     let mut result = map.to_vec();
     for (i, &n) in map[1 ..].iter().enumerate() {
         result[i] += 100 * n
@@ -79,10 +77,10 @@ fn cycle_to_nums(map: &[uint]) -> Vec<uint> {
 }
 
 fn solve() -> String {
-    let map: &[fn(uint) -> uint] = &[triangle, square, pentagonal, hexagonal, heptagonal, octagonal];
+    let map: &[fn(u32) -> u32] = &[triangle, square, pentagonal, hexagonal, heptagonal, octagonal];
     find_cycle(create_map(map).as_mut_slice())
         .iter()
-        .map(|vs| cycle_to_nums(vs[]).into_iter().sum())
+        .map(|vs| cycle_to_nums(&vs[]).into_iter().sum())
         .sum()
         .to_string()
 }
@@ -93,12 +91,12 @@ problem!("28684", solve);
 mod tests {
     #[test]
     fn three() {
-        let map: &[fn(uint) -> uint] = &[super::triangle, super::square, super::pentagonal];
+        let map: &[fn(u32) -> u32] = &[super::triangle, super::square, super::pentagonal];
         let cycle = super::find_cycle(super::create_map(map).as_mut_slice())
             .iter()
-            .map(|vs| super::cycle_to_nums(vs[]))
+            .map(|vs| super::cycle_to_nums(&vs[]))
             .map(|mut vs| { vs.sort(); vs })
             .collect::<Vec<_>>();
-        assert_eq!([vec![2882, 8128, 8281]][], cycle[]);
+        assert_eq!(&[vec![2882, 8128, 8281]][], &cycle[]);
     }
 }

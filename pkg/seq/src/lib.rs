@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(associated_types, default_type_params, slicing_syntax)]
-
 extern crate num;
 
 use std::mem;
@@ -240,7 +238,7 @@ mod tests {
     use num::bigint::ToBigInt;
 
     fn check<T: Eq + Show, I: Iterator<Item = T>>(expected: &[T], it: I) {
-        assert_eq!(expected, it.collect::<Vec<_>>()[]);
+        assert_eq!(expected, it.collect::<Vec<_>>());
     }
 
     #[test]
@@ -256,14 +254,14 @@ mod tests {
         let fib = &[ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
         check(fib, Fibonacci::<u32>::new().take(fib.len()));
 
-        check_with_init(&[ 0u, 0, 0, 0, 0, 0, 0]);
-        check_with_init(&[ 1u, 5, 6, 11, 17, 28, 45, 73, 118, 191, 309, 500]);
-        check_with_init(&[ -1i, -1, -2, -3, -5, -8, -13, -21, -34, -55, -89, -144, -233 ]);
-        check_with_init(&[ -10i.to_bigint().unwrap(),  8i.to_bigint().unwrap(),
-                            -2i.to_bigint().unwrap(), 6i.to_bigint().unwrap(),
-                            4i.to_bigint().unwrap(), 10i.to_bigint().unwrap(),
-                            14i.to_bigint().unwrap(), 24i.to_bigint().unwrap(),
-                            38i.to_bigint().unwrap(), 62i.to_bigint().unwrap() ]);
+        check_with_init(&[ 0, 0, 0, 0, 0, 0, 0]);
+        check_with_init(&[ 1, 5, 6, 11, 17, 28, 45, 73, 118, 191, 309, 500]);
+        check_with_init(&[ -1, -1, -2, -3, -5, -8, -13, -21, -34, -55, -89, -144, -233 ]);
+        check_with_init(&[ -10.to_bigint().unwrap(),  8.to_bigint().unwrap(),
+                            -2.to_bigint().unwrap(), 6.to_bigint().unwrap(),
+                            4.to_bigint().unwrap(), 10.to_bigint().unwrap(),
+                            14.to_bigint().unwrap(), 24.to_bigint().unwrap(),
+                            38.to_bigint().unwrap(), 62.to_bigint().unwrap() ]);
     }
 
     #[test]
@@ -271,7 +269,7 @@ mod tests {
         use super::PrimitivePythagoreans;
 
         fn check(m: u32, v: &[(u32, u32, u32)]) {
-            assert_eq!(PrimitivePythagoreans::new(m).collect::<Vec<_>>()[], v);
+            assert_eq!(PrimitivePythagoreans::new(m).collect::<Vec<_>>(), v);
         }
 
         check(2, &[(3, 4, 5)]);

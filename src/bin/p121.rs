@@ -4,13 +4,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate num;
 extern crate polynomial;
 
-use std::iter::{self, MultiplicativeIterator};
+use std::iter;
 use std::num::FromPrimitive;
 use num::{One, Integer, BigUint};
 use num::rational::Ratio;
@@ -36,7 +34,7 @@ use polynomial::Polynomial;
 // b := x, r := 1
 // => (x^4 + 10x^3 + 35x^2 + 50x + 24) / (2 * 3 * 4 * 5)
 
-fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: uint) -> Ratio<T> {
+fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: usize) -> Ratio<T> {
     iter::range_inclusive(1, turns)
         .map(|t| FromPrimitive::from_uint(t).unwrap())
         .map(|t: T| {
@@ -44,7 +42,7 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: uint) ->
             let blue = Ratio::new(One::one(), denom.clone());
             let red  = Ratio::new(t, denom);
             Polynomial::new(vec![blue, red])
-        }).product()
+        }).fold(num::one::<Polynomial<_>>(), |acc, elt| acc * elt)
         .data()
         .iter()
         .take((turns + 1) / 2)
@@ -66,11 +64,11 @@ mod tests {
 
     #[test]
     fn probability_of_player_win() {
-        assert_eq!(Ratio::new(11u, 120), super::probability_of_player_win(4));
+        assert_eq!(Ratio::new(11, 120), super::probability_of_player_win(4));
     }
 
     #[test]
     fn max_prize() {
-        assert_eq!(10, super::max_prize(Ratio::new(11u, 120)));
+        assert_eq!(10, super::max_prize(Ratio::new(11, 120)));
     }
 }

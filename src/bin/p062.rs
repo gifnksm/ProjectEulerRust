@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(default_type_params, phase)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate integer;
 
 use std::collections::{HashSet, HashMap};
@@ -32,9 +30,9 @@ fn perm_exact(cnt: uint) -> HashSet<uint> {
 
         let ds = cube.into_digit_histogram().to_vec();
 
-        let (n, c) = match map.entry(&ds) {
+        let (n, c) = match map.entry(ds) {
             Entry::Occupied(e) => {
-                let &(n, ref mut c) = e.into_mut();
+                let &mut (n, ref mut c) = e.into_mut();
                 *c += 1;
                 (n, *c)
             }

@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(associated_types, phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate "iter" as itercrate;
 extern crate num;
 
@@ -29,20 +27,21 @@ impl Nums {
 }
 
 impl Iterator for Nums {
-    type Item = [uint; 4];
+    type Item = [u32; 4];
 
-    fn next(&mut self) -> Option<[uint; 4]> {
+    fn next(&mut self) -> Option<[u32; 4]> {
         self.comb.next().map(|bits| {
             let mut result = [0; 4];
             for (i, n) in bits.iter().enumerate() {
-                result[i] = n + 1;
+                result[i] = (n + 1) as u32;
             }
             result
         })
     }
 }
 
-fn apply(a: Ratio<int>, b: Ratio<int>, op: Op, f: &mut |Ratio<int>|) {
+fn apply(a: Ratio<i32>, b: Ratio<i32>, op: Op, f: &mut FnMut(Ratio<i32>))
+{
     match op {
         Op::Add => { (*f)(a + b) }
         Op::Mul => { (*f)(a * b) }
@@ -54,7 +53,7 @@ fn apply(a: Ratio<int>, b: Ratio<int>, op: Op, f: &mut |Ratio<int>|) {
     }
 }
 
-fn evaluate(num: &[uint], op: &[Op], f: &mut |Ratio<int>|) {
+fn evaluate(num: &[u32], op: &[Op], f: &mut FnMut(Ratio<i32>)) {
     // 4ops:
     //   n op 3ops
     //   3ops op n (if op = Sub/Div)
@@ -67,34 +66,34 @@ fn evaluate(num: &[uint], op: &[Op], f: &mut |Ratio<int>|) {
     //   n op n
     assert_eq!(num.len() - 1, op.len());
     match num.len() {
-        1 => { (*f)(Ratio::from_integer(num[0] as int)) }
+        1 => { (*f)(Ratio::from_integer(num[0] as i32)) }
         2 => {
-            let a = Ratio::from_integer(num[0] as int);
-            let b = Ratio::from_integer(num[1] as int);
+            let a = Ratio::from_integer(num[0] as i32);
+            let b = Ratio::from_integer(num[1] as i32);
             apply(a, b, op[0], f);
         }
         3 => {
-            let a = Ratio::from_integer(num[0] as int);
-            evaluate(&[num[1], num[2]], op[1 ..], &mut |b| apply(a, b, op[0], f));
+            let a = Ratio::from_integer(num[0] as i32);
+            evaluate(&[num[1], num[2]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
 
-            let a = Ratio::from_integer(num[1] as int);
-            evaluate(&[num[2], num[0]], op[1 ..], &mut |b| apply(a, b, op[0], f));
+            let a = Ratio::from_integer(num[1] as i32);
+            evaluate(&[num[2], num[0]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
 
-            let a = Ratio::from_integer(num[2] as int);
-            evaluate(&[num[0], num[1]], op[1 ..], &mut |b| apply(a, b, op[0], f));
+            let a = Ratio::from_integer(num[2] as i32);
+            evaluate(&[num[0], num[1]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
         }
         4 => {
-            let a = Ratio::from_integer(num[0] as int);
-            evaluate(&[num[1], num[2], num[3]], op[1 ..], &mut |b| apply(a, b, op[0], f));
+            let a = Ratio::from_integer(num[0] as i32);
+            evaluate(&[num[1], num[2], num[3]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
 
-            let a = Ratio::from_integer(num[1] as int);
-            evaluate(&[num[0], num[2], num[3]], op[1 ..], &mut |b| apply(a, b, op[0], f));
+            let a = Ratio::from_integer(num[1] as i32);
+            evaluate(&[num[0], num[2], num[3]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
 
-            let a = Ratio::from_integer(num[2] as int);
-            evaluate(&[num[0], num[1], num[3]], op[1 ..], &mut |b| apply(a, b, op[0], f));
+            let a = Ratio::from_integer(num[2] as i32);
+            evaluate(&[num[0], num[1], num[3]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
 
-            let a = Ratio::from_integer(num[3] as int);
-            evaluate(&[num[0], num[1], num[2]], op[1 ..], &mut |b| apply(a, b, op[0], f));
+            let a = Ratio::from_integer(num[3] as i32);
+            evaluate(&[num[0], num[1], num[2]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
 
             evaluate(&[num[0], num[1]], &[op[1]], &mut |a| {
                 evaluate(&[num[2], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
@@ -122,21 +121,21 @@ fn evaluate(num: &[uint], op: &[Op], f: &mut |Ratio<int>|) {
     }
 }
 
-fn count_seqlen(num_set: &[uint; 4]) -> uint {
+fn count_seqlen(num_set: &[u32; 4]) -> u32 {
     let mut set = [false; 3025];
 
     for op_set in CombinationOverlap::new(&[Op::Add, Op::Sub, Op::Mul, Op::Div], num_set.len() - 1) {
         for ops in op_set.permutations() {
-            evaluate(num_set[], ops[], &mut |n| {
+            evaluate(&num_set[], &ops[], &mut |n| {
                 if n.is_integer() && n.numer().is_positive() {
-                    set[n.to_integer() as uint] = true;
+                    set[n.to_integer() as usize] = true;
                 }
             })
         }
     }
 
     iter::count(1, 1)
-        .take_while(|&i| set[i])
+        .take_while(|&i| set[i as usize])
         .last()
         .unwrap_or(0)
 }

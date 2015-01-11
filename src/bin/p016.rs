@@ -4,10 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
 extern crate num;
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 use std::iter::AdditiveIterator;
 use std::num::FromPrimitive;

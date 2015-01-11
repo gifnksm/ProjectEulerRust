@@ -4,14 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(associated_types, macro_rules, slicing_syntax)]
-
 extern crate num;
 #[cfg(test)] extern crate test;
 
-use std::{cmp, mem, uint};
+use std::{cmp, mem, usize};
 use std::cell::RefCell;
 use std::collections::HashMap;
+use std::collections::hash_map::Hasher;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
 use std::iter::{self, MultiplicativeIterator, RandomAccessIterator};
@@ -34,7 +33,7 @@ const SMALL_PRIMES: &'static [u64] = &[
     983, 991, 997
 ];
 
-const INITIAL_CAPACITY: uint = 10000;
+const INITIAL_CAPACITY: usize = 10000;
 
 struct PrimeInner {
     data: Vec<u64>
@@ -53,9 +52,9 @@ impl PrimeInner {
     }
 
     #[inline]
-    fn with_capacity(capacity: uint) -> PrimeInner {
+    fn with_capacity(capacity: usize) -> PrimeInner {
         let mut data = Vec::with_capacity(capacity + SMALL_PRIMES.len());
-        data.push_all(SMALL_PRIMES);
+        data.extend(SMALL_PRIMES.iter().cloned());
         PrimeInner { data: data }
     }
 
@@ -63,7 +62,7 @@ impl PrimeInner {
     fn max_prime(&self) -> u64 { *self.data.last().unwrap() }
 
     #[inline]
-    fn nth(&mut self, n: uint) -> u64 { self.grow(n + 1); self.data[n] }
+    fn nth(&mut self, n: usize) -> u64 { self.grow(n + 1); self.data[n] }
 
     #[inline]
     fn contains(&mut self, n: u64) -> bool {
@@ -87,7 +86,7 @@ impl PrimeInner {
     }
 
     #[inline]
-    fn grow(&mut self, len: uint) {
+    fn grow(&mut self, len: usize) {
         if self.data.len() >= len { return }
 
         for n in iter::count(self.max_prime() + 2, 2) {
@@ -114,7 +113,7 @@ impl PrimeSet {
 
     /// Create a new prime number generator with specifying buffer capacity.
     #[inline]
-    pub fn with_capacity(capacity: uint) -> PrimeSet {
+    pub fn with_capacity(capacity: usize) -> PrimeSet {
         PrimeSet::from_inner(PrimeInner::with_capacity(capacity))
     }
 
@@ -131,7 +130,7 @@ impl PrimeSet {
     /// assert_eq!(743, ps.nth(131));
     /// ```
     #[inline]
-    pub fn nth(&self, n: uint) -> u64 { self.data.borrow_mut().nth(n) }
+    pub fn nth(&self, n: usize) -> u64 { self.data.borrow_mut().nth(n) }
 
     /// An iterator visiting all prime numbers in ascending order.
     ///
@@ -175,7 +174,7 @@ impl PrimeSet {
 
 /// Prime number iterator
 pub struct Nums {
-    idx: uint,
+    idx: usize,
     data: Rc<RefCell<PrimeInner>>
 }
 
@@ -192,10 +191,10 @@ impl Iterator for Nums {
 
 impl RandomAccessIterator for Nums {
     #[inline]
-    fn indexable(&self) -> uint { uint::MAX }
+    fn indexable(&self) -> usize { usize::MAX }
 
     #[inline]
-    fn idx(&mut self, index: uint) -> Option<u64> {
+    fn idx(&mut self, index: usize) -> Option<u64> {
         Some(self.data.borrow_mut().nth(index))
     }
 }
@@ -223,7 +222,7 @@ pub trait Factorize: Integer + FromPrimitive + Clone {
         self.factorize(ps)
             .map(|(base, exp)| {
                 let denom = base.clone() - one.clone();
-                (num::pow(base.clone(), (exp as uint) + 1) - one.clone()) / denom
+                (num::pow(base.clone(), (exp as usize) + 1) - one.clone()) / denom
             }).fold(num::one::<Self>(), |acc, n| acc * n)
     }
 
@@ -264,8 +263,8 @@ macro_rules! trait_impl_signed {
         }
     )*)
 }
-trait_impl_unsigned!(uint u8 u16 u32 u64);
-trait_impl_signed!(int i8 i16 i32 i64);
+trait_impl_unsigned!(usize u8 u16 u32 u64);
+trait_impl_signed!(isize i8 i16 i32 i64);
 
 /// Factors iterator.
 pub struct Factors<T> {
@@ -327,7 +326,7 @@ pub struct Factorized<'a, T> {
     map: HashMap<T, i32>
 }
 
-impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
+impl<'a, T: Factorize + Eq + Hash<Hasher>> Factorized<'a, T> {
     /// Creates new empty factorized number.
     ///
     /// The empty factorized number represents `1`.
@@ -346,9 +345,9 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
             .into_iter()
             .fold::<T, _>(One::one(), |prod, (base, exp)| {
                 if exp > 0 {
-                    prod * num::pow(base, exp as uint)
+                    prod * num::pow(base, exp as usize)
                 } else {
-                    prod / num::pow(base, (-exp) as uint)
+                    prod / num::pow(base, (-exp) as usize)
                 }
             })
     }
@@ -357,7 +356,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// number.
     pub fn lcm_with(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
-            match self.map.entry(&b) {
+            match self.map.entry(b) {
                 Vacant(entry)   => { let _ = entry.insert(e); }
                 Occupied(entry) => {
                     let p = entry.into_mut();
@@ -370,7 +369,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// Multiples the factorized number and given number.
     pub fn mul_assign(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
-            match self.map.entry(&b) {
+            match self.map.entry(b) {
                 Vacant(entry)   => { let _ = entry.insert(e); }
                 Occupied(entry) => { *entry.into_mut() += e; }
             }
@@ -380,7 +379,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// Divides the factorized number by given number.
     pub fn div_assign(&mut self, n: T) {
         for (b, e) in n.factorize(self.ps) {
-            match self.map.entry(&b) {
+            match self.map.entry(b) {
                 Vacant(entry)   => { let _ = entry.insert(-e); }
                 Occupied(entry) => { *entry.into_mut() -= e; }
             }
@@ -396,7 +395,7 @@ mod tests {
     fn iter() {
         let p1 = PrimeSet::new_empty();
         assert_eq!(super::SMALL_PRIMES,
-                   p1.iter().take(super::SMALL_PRIMES.len()).collect::<Vec<_>>()[])
+                   p1.iter().take(super::SMALL_PRIMES.len()).collect::<Vec<_>>())
     }
 
     #[test]
@@ -438,7 +437,7 @@ mod tests {
     fn factorize() {
         fn check(n: u32, fs: &[Factor<u32>]) {
             let ps = PrimeSet::new();
-            assert_eq!(fs, n.factorize(&ps).collect::<Vec<_>>()[]);
+            assert_eq!(fs, n.factorize(&ps).collect::<Vec<_>>());
         }
 
         check(0, &[]);
@@ -461,7 +460,7 @@ mod tests {
     #[test]
     fn num_of_divisor() {
         let pairs = &[
-            (0i32, 0),
+            (0, 0),
             (1, 1), (2, 2), (3, 2), (4, 3), (5, 2), (6, 4),
             (7, 2), (8, 4), (9, 3), (10, 4), (11, 2), (12, 6),
             (24, 8), (36, 9), (48, 10), (60, 12),
@@ -478,7 +477,7 @@ mod tests {
     #[test]
     fn sum_of_divisor() {
         let pairs = &[
-            (0i, 0i),
+            (0, 0),
             (1, 1), (2, 3), (3, 4), (4, 7), (5, 6), (6, 12),
             (7, 8), (8, 15), (9, 13), (10, 18), (11, 12), (12, 28),
             (24, 60), (36, 91), (48, 124), (60, 168),

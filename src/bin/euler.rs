@@ -2,8 +2,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(macro_rules, slicing_syntax)]
-
 extern crate glob;
 extern crate "rustc-serialize" as rustc_serialize;
 extern crate term;
@@ -80,7 +78,7 @@ impl ToProgramError for json::ParserError {
 
 impl ToProgramError for json::DecoderError {
     fn to_program_error(self: json::DecoderError) -> ProgramError {
-        ProgramError::new(format!("{}", self), ProgramErrorKind::JsonDecoderError(self))
+        ProgramError::new(format!("{:?}", self), ProgramErrorKind::JsonDecoderError(self))
     }
 }
 
@@ -103,9 +101,9 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
     let proc_out = try2!(Command::new(path).arg("--json").output());
 
     if !proc_out.error.is_empty() {
-        let _ = match str::from_utf8(proc_out.error[]) {
+        let _ = match str::from_utf8(&proc_out.error[]) {
             Ok(s)  => writeln!(&mut io::stderr(), "{}", s.trim()),
-            Err(e) => writeln!(&mut io::stderr(), "{}: {}", proc_out.error, e)
+            Err(e) => writeln!(&mut io::stderr(), "{:?}: {}", proc_out.error, e)
         };
     }
 
@@ -135,11 +133,11 @@ fn run() -> ProgramResult<()> {
                 num_prob   += 1;
                 total_time += r.time;
                 is_ok &= r.is_ok;
-                let _ = r.print_pretty(program[], true);
+                let _ = r.print_pretty(&program[], true);
             }
             Err(e) => {
                 is_ok = false;
-                let _ = writeln!(&mut out, "{}: {}", program, e);
+                let _ = writeln!(&mut out, "{}: {:?}", program, e);
             }
         }
     }
@@ -169,7 +167,7 @@ fn run() -> ProgramResult<()> {
 
 fn main() {
     if let Err(e) = run() {
-        let _ = writeln!(&mut io::stderr(), "{}", e);
+        let _ = writeln!(&mut io::stderr(), "{:?}", e);
         os::set_exit_status(255);
     }
 }

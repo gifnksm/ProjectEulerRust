@@ -4,19 +4,17 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate seq;
 
 use std::io::{BufferedReader, IoResult, File};
 use std::iter;
 use seq::TriangularNums;
 
-fn word_to_value(word: &str) -> uint {
+fn word_to_value(word: &str) -> u32 {
     let mut value = 0;
     for b in word.bytes() {
-        value += (b - ('A' as u8) + 1) as uint;
+        value += (b - ('A' as u8) + 1) as u32;
     }
     value
 }
@@ -30,7 +28,7 @@ fn solve(file: File) -> IoResult<String> {
     let mut cont = true;
     while cont {
         let word_str = String::from_utf8(try!(input.read_until(b','))).ok().unwrap();
-        let mut word = word_str[];
+        let mut word = &word_str[];
         if word.is_empty() { break; }
 
         cont = if word.ends_with(",") {
@@ -45,11 +43,13 @@ fn solve(file: File) -> IoResult<String> {
     }
 
     let max_value = *values.iter().max().unwrap();
-    let mut is_tri = iter::repeat(false).take(max_value + 1).collect::<Vec<_>>();
-    for t in TriangularNums::<uint>::new().take_while(|&t| t <= max_value) {
-        is_tri[t] = true;
+    let mut is_tri = iter::repeat(false)
+        .take((max_value + 1) as usize)
+        .collect::<Vec<_>>();
+    for t in TriangularNums::<u32>::new().take_while(|&t| t <= max_value) {
+        is_tri[t as usize] = true;
     }
-    Ok(values.iter().filter(|&&v| is_tri[v]).count().to_string())
+    Ok(values.iter().filter(|&&v| is_tri[v as usize]).count().to_string())
 }
 
 problem!("162", "p042_words.txt", solve);

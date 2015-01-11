@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(associated_types, default_type_params)]
-
 extern crate integer;
 extern crate num;
 
@@ -86,7 +84,7 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
         #[inline]
         fn next(&mut self) -> Option<(u32, (u32, u32, u32))> {
             let a = self.calc_a();
-            let &A { n, pqr: (p, q, r), ..} = self;
+            let &mut A { n, pqr: (p, q, r), ..} = self;
 
             self.pqr = if a * a == n || p == 0 {
                 (0, 0, 1)

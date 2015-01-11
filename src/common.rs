@@ -2,8 +2,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(old_orphan_check, macro_rules, slicing_syntax)]
-
 extern crate curl;
 extern crate getopts;
 extern crate num;
@@ -72,7 +70,7 @@ impl fmt::Show for SolverError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             SolverError::Io(ref err) => write!(f, "{}", err),
-            SolverError::Http(ref err) => write!(f, "{}", err)
+            SolverError::Http(ref err) => write!(f, "{:?}", err)
         }
     }
 }
@@ -84,9 +82,9 @@ pub struct SolverResult<T> {
     pub is_ok: bool
 }
 
-impl<T: for<'a> Encodable<json::Encoder<'a>, fmt::Error>> SolverResult<T> {
+impl<T: Encodable> SolverResult<T> {
     pub fn print_json<W: Writer>(&self, out: &mut W) -> IoResult<()> {
-        out.write_line(json::encode(self)[])
+        out.write_line(&json::encode(self)[])
     }
 }
 
@@ -95,7 +93,7 @@ fn print_items(items: &[OutputPair]) {
         None => {
             let mut out = io::stdout();
             for &(_, ref s) in items.iter() {
-                let _ = out.write_str(s.as_slice());
+                let _ = out.write_str(&s[]);
             }
             let _ = out.flush();
         }
@@ -104,11 +102,11 @@ fn print_items(items: &[OutputPair]) {
                 match c {
                     Some(c) => {
                         let _ = t.fg(c);
-                        let _ = t.write_str(s.as_slice());
+                        let _ = t.write_str(&s[]);
                         let _ = t.reset();
                     }
                     None => {
-                        let _ = t.write_str(s.as_slice());
+                        let _ = t.write_str(&s[]);
                     }
                 }
             }
@@ -117,7 +115,7 @@ fn print_items(items: &[OutputPair]) {
     }
 }
 
-impl<T: fmt::Show> SolverResult<T> {
+impl<T: fmt::String> SolverResult<T> {
     pub fn print_pretty(&self, name: &str, enable_time_color: bool) -> IoResult<()> {
         let mut items = vec![];
         if self.is_ok {
@@ -147,7 +145,7 @@ impl<T: fmt::Show> SolverResult<T> {
         items.push(normal(format!("{} ", self.answer)));
 
         items.push(normal("\n"));
-        print_items(items[]);
+        print_items(&items[]);
 
         fn normal<'a, T: IntoCow<'a, String, str>>(s: T) -> OutputPair<'a> {
             (None, s.into_cow())
@@ -196,7 +194,7 @@ impl<'a> Solver<'a> {
             getopts::optflag("h", "help", "Display this message")
         ];
 
-        let matches = match getopts::getopts(args[1 ..], opts) {
+        let matches = match getopts::getopts(args.tail(), opts) {
             Ok(m) => m,
             Err(f) => {
                 let _ = writeln!(&mut io::stderr(), "{}: {}", program, f);
@@ -206,14 +204,14 @@ impl<'a> Solver<'a> {
         };
 
         if matches.opt_present("h") {
-            let short = getopts::short_usage(program[], opts);
-            println!("{}", getopts::usage(short[], opts));
+            let short = getopts::short_usage(&program[], opts);
+            println!("{}", getopts::usage(&short[], opts));
             return
         }
 
         match self.solve() {
             Err(err) => {
-                let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
+                let _ = writeln!(&mut io::stderr(), "{}: {:?}", program, err);
                 os::set_exit_status(255);
             }
             Ok(result) => {
@@ -223,7 +221,7 @@ impl<'a> Solver<'a> {
                 if matches.opt_present("json") {
                     let _ = result.print_json(&mut io::stdout());
                 } else {
-                    let _ = result.print_pretty(program[], true);
+                    let _ = result.print_pretty(&program[], true);
                 }
             }
         }
@@ -240,7 +238,7 @@ impl<'a> Solver<'a> {
         };
 
         let result = SolverResult {
-            is_ok:  answer[] == self.answer,
+            is_ok:  answer == self.answer,
             time:   time,
             answer: answer
         };
@@ -263,7 +261,7 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
         try!(fs::mkdir_recursive(&dir_path, io::USER_RWX));
         let mut file = try!(File::create(&path));
         let content = try!(download(file_name));
-        try!(file.write(content[]));
+        try!(file.write(&content[]));
     }
 
     let file = try!(File::open(&path));
@@ -279,30 +277,28 @@ fn download(file_name: &str) -> Result<Vec<u8>, curl::ErrCode> {
     Ok(resp.move_body())
 }
 
-#[macro_escape]
-
 #[macro_export]
 macro_rules! problem {
     ($answer:expr, $solver:expr) => (
         #[cfg(not(test))]
         fn main() {
-            ::common::Solver::new($answer, $solver).run();
+            $crate::Solver::new($answer, $solver).run();
         }
 
         #[test]
         fn test_solve() {
-            assert!(::common::Solver::new($answer, $solver).solve().unwrap().is_ok);
+            assert!($crate::Solver::new($answer, $solver).solve().unwrap().is_ok);
         }
     );
     ($answer:expr, $file:expr, $solver:expr) => (
         #[cfg(not(test))]
         fn main() {
-            ::common::Solver::new_with_file($answer, $file, $solver).run();
+            $crate::Solver::new_with_file($answer, $file, $solver).run();
         }
 
         #[test]
         fn test_solve() {
-            assert!(::common::Solver::new_with_file($answer, $file, $solver).solve().unwrap().is_ok);
+            assert!($crate::Solver::new_with_file($answer, $file, $solver).solve().unwrap().is_ok);
         }
      );
 }

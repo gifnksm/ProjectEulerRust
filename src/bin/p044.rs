@@ -4,18 +4,16 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 use std::iter;
 
-fn nth_pentagonal(i: uint) -> uint {
+fn nth_pentagonal(i: u32) -> u32 {
     let n = i + 1;
     n * (3 * n - 1) / 2
 }
 
-fn is_pentagonal(n: uint, table: &[uint]) -> bool {
+fn is_pentagonal(n: u32, table: &[u32]) -> bool {
     if *table.last().unwrap() < n { panic!() }
     table.binary_search(&n).is_ok()
 }
@@ -29,15 +27,15 @@ fn is_pentagonal(n: uint, table: &[uint]) -> bool {
 // find minimum n, where n < m
 fn solve() -> String {
     let limit = 10000;
-    let pentagonals = range(0, limit).map(nth_pentagonal).collect::<Vec<_>>();
+    let pentagonals = (0 .. limit).map(nth_pentagonal).collect::<Vec<_>>();
 
     for m in iter::count(0, 1) {
         let pm = pentagonals[m];
-        for n in range(0, m) {
+        for n in (0 .. m) {
             let pn = pentagonals[n];
             if (pm - pn) % 2 != 0 { continue }
-            if is_pentagonal(pm - pn, pentagonals[]) {
-                if is_pentagonal(pm + pn, pentagonals[]) {
+            if is_pentagonal(pm - pn, &pentagonals[]) {
+                if is_pentagonal(pm + pn, &pentagonals[]) {
                     return (pm - pn).to_string()
                 }
             }

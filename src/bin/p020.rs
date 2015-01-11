@@ -4,19 +4,17 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
 extern crate num;
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
-use std::iter::{AdditiveIterator, MultiplicativeIterator};
+use std::iter::AdditiveIterator;
 use std::num::FromPrimitive;
 use num::bigint::BigUint;
 
-fn compute(max: uint) -> uint {
-    num::range::<BigUint>(FromPrimitive::from_uint(1).unwrap(),
-                          FromPrimitive::from_uint(max + 1).unwrap())
-        .product()
+fn compute(max: u32) -> usize {
+    num::range::<BigUint>(FromPrimitive::from_u32(1).unwrap(),
+                          FromPrimitive::from_u32(max + 1).unwrap())
+        .fold(num::one::<BigUint>(), |acc, elt| acc * elt)
         .to_string()
         .chars()
         .filter_map(|c| c.to_digit(10))

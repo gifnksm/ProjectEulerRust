@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 use std::cmp::Ordering;
 use std::iter;
@@ -32,13 +30,13 @@ use std::iter;
 struct Rad(uint, uint, Vec<uint>); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: uint) -> Vec<Rad> {
-    let mut rad_vec = range(0, n_limit).map(|i| (1, i, Vec::new())).collect::<Vec<_>>();
-    for p in range(2, rad_vec.len()) {
+    let mut rad_vec = (0 .. n_limit).map(|i| (1, i, Vec::new())).collect::<Vec<_>>();
+    for p in (2 .. rad_vec.len()) {
         let (rad_p, _, _) = rad_vec[p];
         if rad_p != 1 { continue }
 
         for kp in iter::count(p, p).take_while(|&kp| kp < n_limit) {
-            let &(ref mut rad_kp, _, ref mut facts) = &mut rad_vec[kp];
+            let &mut (ref mut rad_kp, _, ref mut facts) = &mut rad_vec[kp];
             (*rad_kp) *= p;
             facts.push(p);
         }
@@ -67,7 +65,7 @@ fn abc_hits_c_sum(c_limit: uint) -> uint {
 
     let mut c_sum = 0;
 
-    for c in range(3, c_limit) {
+    for c in (3 .. c_limit) {
         let Rad(rad_c, _, ref c_facts) = rad_vec[c];
         if rad_c == c { continue } // if rad(c) == c, rad(ab) must be 1. this doesn't satisfy condition 2.
 
@@ -77,7 +75,7 @@ fn abc_hits_c_sum(c_limit: uint) -> uint {
 
             let Rad(rad_b, _, _) = rad_vec[c - a];
             let rad_abc = rad_a * rad_b * rad_c;
-            if rad_abc >= c || (a != 1 && rad_has_union(c_facts.as_slice(), a_facts.as_slice())) { continue }
+            if rad_abc >= c || (a != 1 && rad_has_union(&c_facts[], &a_facts[])) { continue }
             c_sum += c;
         }
     }

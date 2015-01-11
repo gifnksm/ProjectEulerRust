@@ -4,18 +4,16 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 use std::io::{BufferedReader, IoResult, File};
 use std::iter::AdditiveIterator;
 
-fn get_score(n: uint, s: &str) -> uint {
-    n * s.bytes().map(|c| (c - ('A' as u8) + 1) as uint).sum()
+fn get_score(n: u32, s: &str) -> u32 {
+    n * s.bytes().map(|c| (c - ('A' as u8) + 1) as u32).sum()
 }
 
-fn compute(words: &[String]) -> uint {
+fn compute(words: &[String]) -> u32 {
     let mut words = words.iter()
         .map(|word| word[].trim().trim_matches('\"'))
         .filter(|word| !word.is_empty())
@@ -23,7 +21,7 @@ fn compute(words: &[String]) -> uint {
     words.sort();
     words.into_iter()
         .enumerate()
-        .map(|(i, s)| get_score(i + 1, s))
+        .map(|(i, s)| get_score((i + 1) as u32, s))
         .sum()
 }
 
@@ -45,7 +43,7 @@ fn solve(file: File) -> IoResult<String> {
         }
     }
 
-    Ok(compute(words[]).to_string())
+    Ok(compute(&words[]).to_string())
 }
 
 problem!("871198282", "p022_names.txt", solve);

@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(associated_types, phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate prime;
 
 use std::collections::HashMap;
@@ -69,7 +67,7 @@ fn find_chain(pairs: &[u64], set: &[u64], map: &HashMap<u64, Vec<u64>>) -> Vec<V
     let mut result = Vec::new();
 
     for (i, &p) in pairs.iter().enumerate() {
-        let union_pairs = union_vec(pairs[.. i], map.get(&p).unwrap()[]);
+        let union_pairs = union_vec(&pairs[.. i], &map.get(&p).unwrap()[]);
         let pset = {
             let mut v = vec![p];
             v.extend(set.iter().map(|&x| x));
@@ -78,20 +76,20 @@ fn find_chain(pairs: &[u64], set: &[u64], map: &HashMap<u64, Vec<u64>>) -> Vec<V
         if union_pairs.is_empty() {
             result.push(pset);
         } else {
-            result.push_all(find_chain(union_pairs[], pset[], map)[]);
+            result.push_all(&find_chain(&union_pairs[], &pset[], map)[]);
         }
     }
 
     result
 }
 
-fn compute(len: uint) -> Vec<u64> {
+fn compute(len: usize) -> Vec<u64> {
     let prime = PrimeSet::new();
     let mut map = HashMap::new();
 
     for (n, pairs) in ConcatPrimeNums::new(&prime) {
         if pairs.len() >= len {
-            for set in find_chain(pairs[], &[n], &map).into_iter() {
+            for set in find_chain(&pairs[], &[n], &map).into_iter() {
                 if set.len() >= len {
                     return set
                 }
@@ -120,6 +118,6 @@ mod tests {
 
     #[test]
     fn four() {
-        assert_eq!([3, 7, 109, 673][], super::compute(4)[]);
+        assert_eq!(&[3, 7, 109, 673][], &super::compute(4)[]);
     }
 }

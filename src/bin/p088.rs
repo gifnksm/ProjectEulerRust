@@ -4,23 +4,25 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase, slicing_syntax)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 extern crate integer;
 
-use std::uint;
+use std::u32;
 use std::iter::{self, AdditiveIterator};
 use integer::Integer;
 
-fn each_sum_product(prod_start: uint, prod_end: uint, f: &mut |uint, uint, uint|) {
+fn each_sum_product<F>(prod_start: u32, prod_end: u32, f: &mut F)
+    where F: FnMut(u32, u32, usize)
+{
     sub(2, prod_start, prod_end, 0, 1, 0, f);
 
-    fn sub(min_n: uint, prod_start: uint, prod_end: uint,
-           sum_base: uint, prod_base: uint, len_base: uint,
-           f: &mut |uint, uint, uint|) {
+    fn sub<F>(min_n: u32, prod_start: u32, prod_end: u32,
+           sum_base: u32, prod_base: u32, len_base: usize,
+           f: &mut F)
+        where F: FnMut(u32, u32, usize)
+    {
 
-        for n in range(min_n, prod_end.div_ceil(&prod_base)) {
+        for n in (min_n .. prod_end.div_ceil(&prod_base)) {
             let prod = prod_base * n;
             let sum  = sum_base  + n;
             let len  = len_base  + 1;
@@ -33,23 +35,25 @@ fn each_sum_product(prod_start: uint, prod_end: uint, f: &mut |uint, uint, uint|
     }
 }
 
-fn each_product_sum_number(start: uint, end: uint, f: &mut |uint, uint|) {
+fn each_product_sum_number<F>(start: u32, end: u32, f: &mut F)
+    where F: FnMut(u32, usize)
+{
     each_sum_product(start, end, &mut |sum, prod, len| {
-        let len = prod - sum + len;
+        let len = (prod - sum) as usize + len;
         (*f)(prod, len)
     })
 }
 
-fn compute(limit: uint) -> uint {
+fn compute(limit: usize) -> u32 {
     let mut start = 2;
     let mut cnt   = limit - 1;
-    let mut nums  = iter::repeat(uint::MAX).take(limit + 1).collect::<Vec<_>>();
+    let mut nums  = iter::repeat(u32::MAX).take(limit + 1).collect::<Vec<_>>();
 
     while cnt > 0 {
         let end = start * 2;
         each_product_sum_number(start, end, &mut |n, len| {
             if len <= limit && n < nums[len] {
-                if nums[len] == uint::MAX { cnt -= 1; }
+                if nums[len] == u32::MAX { cnt -= 1; }
                 nums[len] = n;
             }
         });
@@ -58,7 +62,7 @@ fn compute(limit: uint) -> uint {
 
     nums.sort();
     nums.dedup();
-    if *nums.last().unwrap() == uint::MAX {
+    if *nums.last().unwrap() == u32::MAX {
         let _ = nums.pop();
     }
     nums.into_iter().sum()

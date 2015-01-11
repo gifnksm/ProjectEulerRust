@@ -4,9 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(phase)]
-
-#[phase(plugin, link)] extern crate common;
+#[macro_use(problem)] extern crate common;
 
 fn sum_of_square(n: uint) -> uint { n * (n + 1) * (2 * n + 1) / 6 }
 fn sum_of_seq(n: uint) -> uint { n * (n + 1) / 2 }
