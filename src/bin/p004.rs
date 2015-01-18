@@ -11,13 +11,13 @@ extern crate integer;
 use num::Integer as NumInteger;
 use integer::Integer;
 
-fn compute(min: uint, max: uint) -> uint {
-    let r = range(min, max + 1);
+fn compute(min: u32, max: u32) -> u32 {
+    let r = min .. max + 1;
     let it1 = r.rev().map(|seed| seed.into_palindromic(10, true));
     let it2 = r.rev().map(|seed| seed.into_palindromic(10, false));
 
     for p in it1.chain(it2) {
-        for n in r.clone() {
+        for n in (min .. max + 1) {
             if n * n > p { break; }
 
             let (d, r) = p.div_rem(&n);

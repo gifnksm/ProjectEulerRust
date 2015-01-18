@@ -6,19 +6,19 @@
 
 #[macro_use(problem)] extern crate common;
 
-fn compute() -> uint {
-    let mut facts: [uint; 10] = [ 0; 10 ];
+fn compute() -> u32 {
+    let mut facts: [u32; 10] = [ 0; 10 ];
     facts[0] = 1;
-    for i in range(1, facts.len()) {
-        facts[i] = facts[i - 1] * i;
+    for i in (1 .. facts.len()) {
+        facts[i] = facts[i - 1] * (i as u32);
     }
 
     let mut answer = 0;
-    for n in range(0, facts[9].to_string().len() * facts[9]) {
+    for n in (0 .. (facts[9].to_string().len() as u32) * facts[9]) {
         let mut itr = n;
         let mut sum = 0;
         while itr > 0 {
-            sum += facts[itr % 10];
+            sum += facts[(itr % 10) as usize];
             itr /= 10;
         }
         if sum == n {

@@ -10,17 +10,18 @@ extern crate prime;
 use std::iter::AdditiveIterator;
 use prime::{PrimeSet, Factorize};
 
-fn compute(limit: uint) -> uint {
+fn compute(limit: u32) -> u32 {
     let ps = PrimeSet::new();
 
-    let sum_of_div = range(0, limit).map(|n| n.sum_of_proper_divisor(&ps)).collect::<Vec<_>>();
+    let sum_of_div = (0 .. limit).map(|n| n.sum_of_proper_divisor(&ps)).collect::<Vec<_>>();
 
     sum_of_div
         .iter()
         .cloned()
         .enumerate()
+        .map(|(n, div)| (n as u32, div))
         .filter(|&(n, div)| div < n)
-        .filter(|&(n, div)| sum_of_div[div] == n)
+        .filter(|&(n, div)| sum_of_div[div as usize] == n)
         .map(|(a, b)| a + b)
         .sum()
 }

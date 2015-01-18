@@ -10,12 +10,12 @@ extern crate polynomial;
 use std::iter;
 use polynomial::Polynomial;
 
-fn count_way(score: uint) -> uint {
-    let mut single = iter::repeat(0u).take(26).collect::<Vec<_>>();
-    let mut double = iter::repeat(0u).take(51).collect::<Vec<_>>();
-    let mut triple = iter::repeat(0u).take(61).collect::<Vec<_>>();
-    let mut dup    = iter::repeat(0u).take(121).collect::<Vec<_>>();
-    for i in range(1u, 21) {
+fn count_way(score: u32) -> u32 {
+    let mut single = iter::repeat(0u32).take(26).collect::<Vec<_>>();
+    let mut double = iter::repeat(0u32).take(51).collect::<Vec<_>>();
+    let mut triple = iter::repeat(0u32).take(61).collect::<Vec<_>>();
+    let mut dup    = iter::repeat(0u32).take(121).collect::<Vec<_>>();
+    for i in (1 .. 21) {
         single[1 * i] = 1;
         double[2 * i] = 1;
         triple[3 * i] = 1;
@@ -42,7 +42,7 @@ fn count_way(score: uint) -> uint {
                                           .map(|&n| n / 2)
                                           .collect());
     let total = p1 + p2 + p3;
-    total.data().iter().take(score).fold(0, |i, &a| i + a)
+    total.data().iter().take(score as usize).fold(0, |i, &a| i + a)
 }
 
 fn solve() -> String {

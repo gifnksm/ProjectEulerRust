@@ -15,21 +15,21 @@ use prime::PrimeSet;
 // p(0) = b         => b must be prime
 // p(1) = 1 + a + b => a > -(1+b)
 // p(2) = 4 + 2a + b
-fn get_limit_n(ps: &PrimeSet, a: int, b: int) -> uint {
-    iter::count(0i, 1)
+fn get_limit_n(ps: &PrimeSet, a: i32, b: i32) -> u32 {
+    iter::count(0, 1)
         .take_while(|&n| {
             let val = n * n + a * n + b;
             (val >= 0 && ps.contains(val as u64))
-        }).last().unwrap() as uint
+        }).last().unwrap() as u32
 }
 
-fn compute(limit: u64) -> int {
+fn compute(limit: u64) -> i32 {
     let ps = PrimeSet::new();
     let (a, b, _len) = ps.iter()
         .take_while(|&p| p < limit)
         .filter_map(|p| {
-            let b = p as int;
-            range(-b, 1000)
+            let b = p as i32;
+            (-b .. 1000)
                 .map(|a| (a, b, get_limit_n(&ps, a, b)))
                 .max_by(|&(_a, _b, len)| len)
         }).max_by(|&(_a, _b, len)| len)

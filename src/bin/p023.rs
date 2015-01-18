@@ -10,24 +10,26 @@ extern crate prime;
 use std::iter;
 use prime::{Factorize, PrimeSet};
 
-fn compute(max: uint) -> uint {
+fn compute(max: u32) -> u32 {
     let ps = PrimeSet::new();
 
-    let abundant = range(2, max + 1)
+    let abundant = (2 .. max + 1)
         .filter(|&n| n.sum_of_proper_divisor(&ps) > n)
         .collect::<Vec<_>>();
 
     let mut sum_of_sum_abundant = 0;
 
-    let mut is_sum_abundant = iter::repeat(false).take(max + 1).collect::<Vec<_>>();
+    let mut is_sum_abundant = iter::repeat(false)
+        .take((max + 1) as usize)
+        .collect::<Vec<_>>();
 
     for (i, &a) in abundant.iter().enumerate() {
         for &b in abundant[i..].iter() {
             let s = a + b;
             if s > max { break; }
-            if !is_sum_abundant[s] {
+            if !is_sum_abundant[s as usize] {
                 sum_of_sum_abundant += s;
-                is_sum_abundant[s] = true;
+                is_sum_abundant[s as usize] = true;
             }
         }
     }

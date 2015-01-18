@@ -19,8 +19,8 @@ use integer::Integer;
 // 999999  => 9^5 * 6 = 354294
 // 9999999 => 9^5 * 7 = 413343
 
-fn compute(len: uint, pow: uint) -> uint {
-    let pows = range(0, 10).map(|i| i.pow(pow)).collect::<Vec<uint>>();
+fn compute(len: usize, pow: usize) -> usize {
+    let pows = (0 .. 10).map(|i| i.pow(pow)).collect::<Vec<usize>>();
     let digits = &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     let mut sum = 0;

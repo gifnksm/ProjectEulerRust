@@ -12,7 +12,7 @@ use prime::{PrimeSet, Factorized};
 fn compute(n: uint) -> uint {
     let ps = PrimeSet::new();
     let mut fac = Factorized::new(&ps);
-    for i in range(1u, n) {
+    for i in (1 .. n) {
         fac.lcm_with(i);
     }
     fac.into_integer()

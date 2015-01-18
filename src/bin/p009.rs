@@ -10,11 +10,11 @@ extern crate integer;
 use std::{cmp, iter};
 use integer::Integer;
 
-fn compute(sum: uint) -> uint {
-    range(2, sum - 1)
+fn compute(sum: u32) -> u32 {
+    (2 .. sum - 1)
         .flat_map(|c| {
             let a_max = cmp::min((sum - c) / 2, (c * c / 2).sqrt());
-            range(1, a_max).zip(iter::repeat(c))
+            (1 .. a_max).zip(iter::repeat(c))
         }).map(|(a, c)| (a, sum - c - a, c))
         .find(|&(a, b, c)| a * a + b * b == c * c)
         .map(|(a, b, c)| a * b * c)

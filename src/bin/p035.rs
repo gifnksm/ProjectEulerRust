@@ -16,8 +16,8 @@ fn is_circular_prime(ps: &PrimeSet, n: u64) -> bool {
     let ds = n.into_digits(radix).collect::<Vec<_>>();
 
     let mut buf = ds.clone();
-    for i in range(1, ds.len()) {
-        for j in range(0, buf.len()) {
+    for i in (1 .. ds.len()) {
+        for j in (0 .. buf.len()) {
             buf[j] = ds[(i + j) % ds.len()];
         }
         let circ = Integer::from_digits(buf.iter().map(|&x| x), radix);
@@ -29,10 +29,10 @@ fn is_circular_prime(ps: &PrimeSet, n: u64) -> bool {
     true
 }
 
-fn compute(limit: uint) -> uint {
+fn compute(limit: u64) -> usize {
     let ps = PrimeSet::new();
     ps.iter()
-        .take_while(|&p| p < limit as u64)
+        .take_while(|&p| p < limit)
         .filter(|&n| is_circular_prime(&ps, n))
         .count()
 }

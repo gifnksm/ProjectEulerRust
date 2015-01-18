@@ -31,7 +31,7 @@ const INPUT: &'static str = "
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 ";
 
-fn compute(prod_len: uint) -> u32 {
+fn compute(prod_len: usize) -> u32 {
     let grid: Vec<Vec<u32>> = INPUT
         .trim()
         .lines()
@@ -43,28 +43,28 @@ fn compute(prod_len: uint) -> u32 {
 
     let mut lines: Vec<Vec<_>> = vec![];
     // rows
-    lines.extend(range(0, h).map(|y| range(0, w).map(|x| (x, y)).collect()));
+    lines.extend((0 .. h).map(|y| (0 .. w).map(|x| (x, y)).collect()));
     // cols
-    lines.extend(range(0, w).map(|x| range(0, h).map(|y| (x, y)).collect()));
+    lines.extend((0 .. w).map(|x| (0 .. h).map(|y| (x, y)).collect()));
     // top 2 right diagonal
-    lines.extend(range(0, w).map(|i| {
+    lines.extend((0 .. w).map(|i| {
         let (x0, y0) = (i, 0);
-        range(0, w - x0).map(|j| (x0 + j, y0 + j)).collect()
+        (0 .. w - x0).map(|j| (x0 + j, y0 + j)).collect()
     }));
     // left 2 bottom diagonal
-    lines.extend(range(0, h - 1).map(|i| {
+    lines.extend((0 .. h - 1).map(|i| {
         let (x0, y0) = (0, i + 1);
-        range(0, h - y0).map(|j| (x0 + j, y0 + j)).collect()
+        (0 .. h - y0).map(|j| (x0 + j, y0 + j)).collect()
     }));
     // top 2 left diagonal
-    lines.extend(range(0, w).map(|i| {
+    lines.extend((0 .. w).map(|i| {
         let (x0, y0) = (i, 0);
-        range(0, x0 + 1).map(|j| (x0 - j, y0 + j)).collect()
+        (0 .. x0 + 1).map(|j| (x0 - j, y0 + j)).collect()
     }));
     // right 2 bottom diagonal
-    lines.extend(range(0, h - 1).map(|i| {
+    lines.extend((0 .. h - 1).map(|i| {
         let (x0, y0) = (w - 1, i + 1);
-        range(0, h - y0).map(|j| (x0 - j, y0 + j)).collect()
+        (0 .. h - y0).map(|j| (x0 - j, y0 + j)).collect()
     }));
 
     lines.iter()

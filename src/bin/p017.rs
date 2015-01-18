@@ -8,7 +8,7 @@
 
 use std::iter::AdditiveIterator;
 
-fn to_word_under10(n: uint) -> String {
+fn to_word_under10(n: u32) -> String {
     return match n {
         0 => "zero".to_string(),
         1 => "one".to_string(),
@@ -24,7 +24,7 @@ fn to_word_under10(n: uint) -> String {
     };
 }
 
-fn to_word_under20(n: uint) -> String {
+fn to_word_under20(n: u32) -> String {
     assert!(n < 20);
     if n < 10 { return to_word_under10(n); }
     return match n {
@@ -42,7 +42,7 @@ fn to_word_under20(n: uint) -> String {
     };
 }
 
-fn to_word_under100(n: uint) -> String {
+fn to_word_under100(n: u32) -> String {
     assert!(n < 100);
     if n < 20 { return to_word_under20(n); }
 
@@ -65,7 +65,7 @@ fn to_word_under100(n: uint) -> String {
     }
 }
 
-fn to_word_under1000(n: uint) -> String {
+fn to_word_under1000(n: u32) -> String {
     assert!(n < 1000);
     if n < 100 { return to_word_under100(n); }
 
@@ -77,19 +77,19 @@ fn to_word_under1000(n: uint) -> String {
     }
 }
 
-fn to_word(n: uint) -> String {
+fn to_word(n: u32) -> String {
     assert!(n <= 1000);
     if n < 1000 { return to_word_under1000(n); }
     return "one thousand".to_string();
 }
 
-fn compute(max: uint) -> uint {
-    range(1, max + 1)
+fn compute(max: u32) -> u32 {
+    (1 .. max + 1)
         .map(to_word)
         .map(|w| {
             w.chars()
                 .filter(|&c| c != '-' && c != ' ')
-                .count()
+                .count() as u32
         }).sum()
 }
 

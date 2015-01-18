@@ -9,7 +9,7 @@
 use std::iter::AdditiveIterator;
 
 fn compute(bound: uint) -> uint {
-    range(1, bound)
+    (1 .. bound)
         .filter(|&n| n % 3 == 0 || n % 5 == 0)
         .sum()
 }

@@ -22,12 +22,12 @@ use num::Integer;
 // A = 9BC / (10B - C)
 // C > B
 
-fn compute() -> uint {
+fn compute() -> u32 {
     let mut prod_numer = 1;
     let mut prod_denom = 1;
 
-    for b in range(1u, 10) {
-        for c in range(b + 1, 10) {
+    for b in (1 .. 10) {
+        for c in (b + 1 .. 10) {
             // Pattern 1
             let a_numer = 9 * b * c;
             let a_denom = 10 * c - b;
