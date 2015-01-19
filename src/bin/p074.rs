@@ -92,11 +92,11 @@ mod tests {
         let factorial = {
             let mut val = [1; 10];
             for i in (1 .. 10) {
-                val[i] = val[i - 1] * i;
+                val[i] = val[i - 1] * (i as u32);
             }
             val
         };
-        let mut map = iter::repeat(super::Length::Unknown).take(factorial[9] * 6 + 1).collect::<Vec<_>>();
+        let mut map = iter::repeat(super::Length::Unknown).take((factorial[9] * 6 + 1) as usize).collect::<Vec<_>>();
 
         assert_eq!(3, super::get_chain_len(169, map.as_mut_slice(), &factorial));
         assert_eq!(2, super::get_chain_len(871, map.as_mut_slice(), &factorial));
