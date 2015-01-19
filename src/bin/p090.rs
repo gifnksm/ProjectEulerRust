@@ -20,12 +20,12 @@ fn solve() -> String {
             set
         }).collect::<Vec<_>>();
 
-    let nums = range(0, 9).map(|i| {
+    let nums = (0 .. 9).map(|i| {
         let n = (i + 1) * (i + 1);
         (n / 10, n % 10)
     }).collect::<Vec<_>>();
 
-    let mut cnt = 0u;
+    let mut cnt = 0;
     for (i, set1) in all_combs.iter().enumerate() {
         for set2 in  all_combs[i + 1 ..].iter() {
             let cond = nums

@@ -20,14 +20,14 @@ enum Square {
     Num
 }
 
-const NUM_SQUARE: uint = Square::Num as uint;
-const G2J_DOUBLES_COUNT: uint = 3;
-const NUM_STATE: uint = G2J_DOUBLES_COUNT * NUM_SQUARE;
+const NUM_SQUARE: usize = Square::Num as usize;
+const G2J_DOUBLES_COUNT: usize = 3;
+const NUM_STATE: usize = G2J_DOUBLES_COUNT * NUM_SQUARE;
 
-fn create_roll_distribution(dice_side: uint) -> Vec<(f64, f64)> {
+fn create_roll_distribution(dice_side: usize) -> Vec<(f64, f64)> {
     let mut dist = iter::repeat((0.0, 0.0)).take(dice_side * 2 + 1).collect::<Vec<_>>();
-    for i in range(1, dice_side + 1) {
-        for j in range(1, dice_side + 1) {
+    for i in (1 .. dice_side + 1) {
+        for j in (1 .. dice_side + 1) {
             let sum = i + j;
             if i != j {
                 dist[sum].0 += 1.0;
@@ -44,7 +44,7 @@ fn create_roll_distribution(dice_side: uint) -> Vec<(f64, f64)> {
     dist
 }
 
-fn roll_trans_matrix(dice_side: uint) -> Matrix<f64> {
+fn roll_trans_matrix(dice_side: usize) -> Matrix<f64> {
     let roll_dist = create_roll_distribution(dice_side);
     let consec_prob = roll_dist.iter().map(|x| x.1).sum();
 
@@ -66,7 +66,7 @@ fn roll_trans_matrix(dice_side: uint) -> Matrix<f64> {
         } else {
             0.0
         };
-        if src_seq == G2J_DOUBLES_COUNT - 1 && dst_pos == Square::JAIL as uint {
+        if src_seq == G2J_DOUBLES_COUNT - 1 && dst_pos == Square::JAIL as usize {
             prob + consec_prob
         } else {
             prob
@@ -173,7 +173,7 @@ fn g2j_trans_matrix() -> Matrix<f64> {
     })
 }
 
-fn trans_matrix(dice_side: uint) -> Matrix<f64> {
+fn trans_matrix(dice_side: usize) -> Matrix<f64> {
     g2j_trans_matrix() * cc_trans_matrix() * ch_trans_matrix() * roll_trans_matrix(dice_side)
 }
 
@@ -189,7 +189,7 @@ fn steady_state(dist: &Matrix<f64>, init: Matrix<f64>, epsilon: f64) -> Matrix<f
 }
 
 fn state_to_square(state: Matrix<f64>) -> Vec<(Square, f64)> {
-    range(0, NUM_SQUARE).map(|s| {
+    (0 .. NUM_SQUARE).map(|s| {
         let prob = iter::range_step(s, NUM_STATE, NUM_SQUARE).map(|i| state[(i, 0)]).sum();
         let sq: Square = FromPrimitive::from_uint(s).unwrap();
         (sq, prob)
@@ -201,7 +201,7 @@ fn solve() -> String {
     let state = steady_state(&trans_matrix(4), Matrix::one(NUM_STATE, 1), 1e-10);
     let mut square = state_to_square(state);
     square.sort_by(|&(_, p0), &(_,p1)| p1.partial_cmp(&p0).unwrap());
-    format!("{:02}{:02}{:02}", square[0].0 as uint, square[1].0 as uint, square[2].0 as uint)
+    format!("{:02}{:02}{:02}", square[0].0 as usize, square[1].0 as usize, square[2].0 as usize)
 }
 
 problem!("101524", solve);

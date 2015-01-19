@@ -53,12 +53,12 @@ impl Iterator for Multiples {
         self.heap.pop().map(|Multiple(n, i)| {
             if i < self.facts.len() as u64 {
                 // n = ... * f[i]^k => ... * f[i]^(k+1)
-                self.heap.push(Multiple(n * self.facts[i as uint], i));
+                self.heap.push(Multiple(n * self.facts[i as usize], i));
             }
 
-            for j in range(i + 1, self.facts.len() as u64) {
+            for j in (i + 1 .. self.facts.len() as u64) {
                 // n = ... * f[i]^k => ... * f[i]^k * f[j]
-                self.heap.push(Multiple(n * self.facts[j as uint], j));
+                self.heap.push(Multiple(n * self.facts[j as usize], j));
             }
             n
         })
@@ -107,7 +107,7 @@ impl Iterator for RadValues {
     #[inline]
     fn next(&mut self) -> Option<(u64, Vec<u64>)> {
         self.heap.pop().map(|RadValue(n, facts, i)| {
-            let p = self.ps.nth(i as uint);
+            let p = self.ps.nth(i as usize);
 
             // n = ... * p[i-1] => ... * p[i-1] * p[i] (append p[i])
             {

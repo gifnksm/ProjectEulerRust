@@ -10,9 +10,9 @@
 
 use std::iter;
 
-fn num_solutions(limit: uint) -> Vec<u32> {
+fn num_solutions(limit: usize) -> Vec<u32> {
     let mut cnt = iter::repeat(0).take(limit).collect::<Vec<_>>();
-    for q in range(1, limit) {
+    for q in (1 .. limit) {
         let r = (4 - (q % 4)) % 4;
         if q * r >= limit { continue }
         for p in iter::range_step(r, q * 3, 4) {

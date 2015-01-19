@@ -10,15 +10,15 @@ extern crate seq;
 use std::cmp::{self, Ordering};
 use seq::PrimitivePythagoreans;
 
-fn get_count(m: uint) -> uint {
-    let mut cnt = 0u;
-    for max_a in range(0, m) {
+fn get_count(m: u32) -> u32 {
+    let mut cnt = 0;
+    for max_a in (0 .. m) {
         for (p, q, _) in PrimitivePythagoreans::new(max_a) {
-            for k in range(1, m / q + 1) {
+            for k in (1 .. m / q + 1) {
                 cnt += k * p / 2;
             }
 
-            for k in range(1, m / p + 1) {
+            for k in (1 .. m / p + 1) {
                 let end = cmp::min(k * p, k * q / 2) + 1;
                 let start = k * q - k * p;
                 if end > start { cnt += end - start; }
@@ -30,7 +30,7 @@ fn get_count(m: uint) -> uint {
 
 // cuboid: (a, b, c),  a <= b <= c <= M
 // => S = sqrt(c^2 + (a + b)^2)
-fn get_min_m(limit: uint) -> uint {
+fn get_min_m(limit: u32) -> u32 {
     let mut lim = 1;
     let mut cnt = get_count(lim);
     while cnt < limit {

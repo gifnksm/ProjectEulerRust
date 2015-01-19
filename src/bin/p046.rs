@@ -13,7 +13,7 @@ use integer::Integer;
 use prime::PrimeSet;
 
 fn is_goldbach(ps: &PrimeSet, n: u64) -> bool {
-    for s in range(1, (n / 2).sqrt() + 1) {
+    for s in (1 .. (n / 2).sqrt() + 1) {
         let sq = s * s * 2;
         if sq > n { return false }
         if ps.contains(n - sq) { return true }

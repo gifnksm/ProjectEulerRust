@@ -11,12 +11,12 @@ use std::iter::{AdditiveIterator, Unfold};
 use std::num::FromPrimitive;
 use num::{One, BigUint};
 
-fn compute(a: uint, b: uint) -> uint {
-    num::range(One::one(), FromPrimitive::from_uint(a).unwrap())
+fn compute(a: u32, b: u32) -> usize {
+    num::range(One::one(), FromPrimitive::from_u32(a).unwrap())
         .map(|a: BigUint| {
             Unfold::new(One::one(), |n| { (*n) = &a * (&*n); Some(n.to_string()) })
                 .map(|s| s.chars().filter_map(|c| c.to_digit(10)).sum())
-                .take(b)
+                .take(b as usize)
                 .max()
                 .unwrap()
         }).max()

@@ -9,28 +9,28 @@
 use std::cmp;
 use std::io::{BufferedReader, File, IoResult};
 
-fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<uint>>> {
+fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<u32>>> {
     let mut br = BufferedReader::new(reader);
 
     let mut mat = vec![];
 
     for line in br.lines() {
-        let row = try!(line).trim().split(',').filter_map(StrExt::parse::<uint>).collect();
+        let row = try!(line).trim().split(',').filter_map(StrExt::parse::<u32>).collect();
         mat.push(row);
     }
 
     Ok(mat)
 }
 
-fn minimal_path_sum(mut mat: Vec<Vec<uint>>) -> uint {
+fn minimal_path_sum(mut mat: Vec<Vec<u32>>) -> u32 {
     let (w, h) = (mat[0].len(), mat.len());
 
-    for y in range(1, h) {
+    for y in (1 .. h) {
         mat[y][0] += mat[y - 1][0];
     }
-    for x in range(1, w) {
+    for x in (1 .. w) {
         mat[0][x] += mat[0][x - 1];
-        for y in range(1, h) {
+        for y in (1 .. h) {
             mat[y][x] += cmp::min(mat[y - 1][x], mat[y][x - 1]);
         }
     }

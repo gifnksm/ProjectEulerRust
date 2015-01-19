@@ -6,17 +6,17 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::{cmp, iter, uint};
+use std::{cmp, iter, u32};
 use std::collections::HashSet;
 use std::io::{BufferedReader, File, IoResult};
 
-fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<uint>>> {
+fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<u32>>> {
     let mut br = BufferedReader::new(reader);
 
     let mut mat = vec![];
 
     for line in br.lines() {
-        let row = try!(line).trim().split(',').filter_map(StrExt::parse::<uint>).collect();
+        let row = try!(line).trim().split(',').filter_map(StrExt::parse::<u32>).collect();
         mat.push(row);
     }
 
@@ -24,9 +24,9 @@ fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<uint>>> {
 }
 
 #[derive(Eq, PartialEq, Hash, Copy, Clone)]
-struct Point { x: uint, y: uint }
+struct Point { x: usize, y: usize }
 
-fn minimal_path_sum(mat: Vec<Vec<uint>>) -> uint {
+fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
     let (w, h) = (mat[0].len(), mat.len());
 
     let start = Point { x: 0,     y: 0 };
@@ -34,10 +34,10 @@ fn minimal_path_sum(mat: Vec<Vec<uint>>) -> uint {
 
     let mut closed = HashSet::new();
     let mut open   = HashSet::new();
-    let mut dist   = range(0, h).map(|_| {
-        iter::repeat(uint::MAX).take(w).collect::<Vec<_>>()
+    let mut dist   = (0 .. h).map(|_| {
+        iter::repeat(u32::MAX).take(w).collect::<Vec<_>>()
     }).collect::<Vec<_>>();
-    let mut parent = range(0, h).map(|_| {
+    let mut parent = (0 .. h).map(|_| {
         iter::repeat(Point { x: w, y: h }).take(w).collect::<Vec<_>>()
     }).collect::<Vec<_>>();
 
@@ -48,7 +48,9 @@ fn minimal_path_sum(mat: Vec<Vec<uint>>) -> uint {
         if open.is_empty() { panic!(); }
 
         let &min_pt = open.iter()
-            .min_by(|&pt| dist[pt.y][pt.x] + (h - pt.y - 1) + (w - pt.x - 1))
+            .min_by(|&pt| {
+                dist[pt.y][pt.x] + ((h - pt.y - 1) + (w - pt.x - 1)) as u32
+            })
             .unwrap();
 
         if min_pt == goal { break }

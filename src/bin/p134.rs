@@ -100,12 +100,12 @@ fn solve() -> String {
     let min_limit = 5;
     let max_limit = 1000000;
 
-    let mut mod_map = range(0u32, 10).map(|_| {
+    let mut mod_map = (0u32 .. 10).map(|_| {
         iter::repeat(0).take(10).collect::<Vec<_>>()
     }).collect::<Vec<_>>();
     for &b in [1, 3, 7, 9].iter() {
-        for n in range(1, 10) {
-            mod_map[b as uint][((b * n) % 10) as uint] = n;
+        for n in (1 .. 10) {
+            mod_map[b as usize][((b * n) % 10) as usize] = n;
         }
     }
 
@@ -118,15 +118,15 @@ fn solve() -> String {
 
     for (p1, p2) in pairs {
         if p1 == 3 { continue }
-        let xmap = &mod_map[(p2 % 10) as uint];
+        let xmap = &mod_map[(p2 % 10) as usize];
         let mut a;
         let mut b = 0;
         let mut p1_digit = p1;
         let mut coef = 1;
-        for _ in range(0, p1.to_string().len() as u64) {
+        for _ in (0 .. p1.to_string().len() as u64) {
             let (d, m) = p1_digit.div_rem(&10);
             p1_digit = d;
-            a = xmap[((10 + m - (b / coef) % 10) % 10) as uint];
+            a = xmap[((10 + m - (b / coef) % 10) % 10) as usize];
             b += a * p2 * coef;
             coef *= 10;
         }

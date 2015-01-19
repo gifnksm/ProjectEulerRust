@@ -10,25 +10,25 @@ extern crate integer;
 use std::iter::{self, AdditiveIterator};
 use integer::Integer;
 
-fn square_digit_sum(n: uint) -> uint {
+fn square_digit_sum(n: u32) -> u32 {
     n.into_digits(10).map(|x| x * x).sum()
 }
 
-fn is_reach_89(n: uint, map: &mut [Option<bool>]) -> bool {
-    if n >= map.len() {
+fn is_reach_89(n: u32, map: &mut [Option<bool>]) -> bool {
+    if (n as usize) >= map.len() {
         return is_reach_89(square_digit_sum(n), map)
     }
 
-    if let Some(b) = map[n] {
+    if let Some(b) = map[n as usize] {
         return b
     }
 
     let result = is_reach_89(square_digit_sum(n), map);
-    map[n] = Some(result);
+    map[n as usize] = Some(result);
     result
 }
 
-fn create_map(limit: uint) -> Vec<Option<bool>> {
+fn create_map(limit: u32) -> Vec<Option<bool>> {
     let mut map = iter::repeat(None).take((limit - 1).to_string().len() * 81 + 1).collect::<Vec<_>>();
     map[0]  = Some(false);
     map[1]  = Some(false);
@@ -39,7 +39,7 @@ fn create_map(limit: uint) -> Vec<Option<bool>> {
 fn solve() -> String {
     let limit = 10000000;
     let mut map = create_map(limit);
-    range(1, limit)
+    (1 .. limit)
         .filter(|&n| is_reach_89(n, map.as_mut_slice()))
         .count()
         .to_string()

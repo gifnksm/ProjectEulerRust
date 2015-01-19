@@ -8,15 +8,15 @@
 
 use std::collections::HashMap;
 
-fn count_way(sum: uint) -> uint {
+fn count_way(sum: u32) -> u32 {
     let mut map = HashMap::new();
     return count_sub(sum, 1, &mut map) - 1;
 
-    fn count_sub(
-        sum: uint, min_n: uint, map: &mut HashMap<(uint, uint), uint>
-    ) -> uint {
+    fn count_sub(sum: u32, min_n: u32,
+                 map: &mut HashMap<(u32, u32), u32>) -> u32
+    {
         let mut cnt = 1; // only sum
-        for k in range(min_n, sum / 2 + 1) {
+        for k in (min_n .. sum / 2 + 1) {
             let n = match map.get(&(sum - k, k)) {
                 Some(&n) => n,
                 None     => count_sub(sum - k, k, map)

@@ -6,10 +6,10 @@
 
 #[macro_use(problem)] extern crate common;
 
-fn compute(limit: uint) -> uint {
+fn compute(limit: u32) -> u32 {
     let mut max_n = 0;
     let mut max_d = 1;
-    for d in range(limit - 7, limit).rev() {
+    for d in (limit - 7 .. limit).rev() {
         let n = if 3 * d % 7 == 0 { 3 * d / 7 - 1 } else { 3 * d / 7 };
         if n * max_d > max_n * d {
             max_n = n;

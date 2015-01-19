@@ -8,41 +8,41 @@
 
 use std::iter::{self, AdditiveIterator};
 
-fn num_increasing(len: uint) -> uint {
-    let mut buf = iter::repeat([0u; 10]).take(len).collect::<Vec<_>>();
+fn num_increasing(len: usize) -> usize {
+    let mut buf = iter::repeat([0us; 10]).take(len).collect::<Vec<_>>();
 
-    for d in range(0, buf[0].len()) {
+    for d in (0 .. buf[0].len()) {
         buf[0][d] = 1;
     }
-    for i in range(1, len) {
+    for i in (1 .. len) {
         let mut s = 0;
-        for d in range(0, buf[i].len()).rev() {
+        for d in (0 .. buf[i].len()).rev() {
             s += buf[i - 1][d];
             buf[i][d] = s;
         }
     }
 
-    let sum = range(0, buf[len - 1].len())
+    let sum = (0 .. buf[len - 1].len())
         .map(|d| buf[len - 1][d])
         .sum();
     sum - 1 // all zero
 }
 
-fn num_decreasing(len: uint) -> uint {
-    let mut buf = iter::repeat([0u; 11]).take(len).collect::<Vec<_>>(); // 0, 1, 2, .., 9, A
+fn num_decreasing(len: usize) -> usize {
+    let mut buf = iter::repeat([0us; 11]).take(len).collect::<Vec<_>>(); // 0, 1, 2, .., 9, A
 
-    for d in range(0, buf[0].len()) {
+    for d in (0 .. buf[0].len()) {
         buf[0][d] = 1;
     }
-    for i in range(1, len) {
+    for i in (1 .. len) {
         let mut s = 0;
-        for d in range(0, buf[i].len()) {
+        for d in (0 .. buf[i].len()) {
             s += buf[i - 1][d];
             buf[i][d] = s;
         }
     }
 
-    let sum = range(0, buf[len - 1].len())
+    let sum = (0 .. buf[len - 1].len())
         .map(|d| buf[len - 1][d])
         .sum();
 
@@ -50,7 +50,7 @@ fn num_decreasing(len: uint) -> uint {
         - 1   // all zero
 }
 
-fn num_nonbouncy(len: uint) -> uint {
+fn num_nonbouncy(len: usize) -> usize {
     let num_incr = num_increasing(len);
     let num_decr = num_decreasing(len);
     let num_incr_and_decr = 9 * len;

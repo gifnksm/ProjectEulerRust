@@ -41,7 +41,7 @@ const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
 
 fn trans_map<T: Clone>(key: u8, src: &[T], dst: &mut [T]) {
     for (i, f) in src.iter().enumerate() {
-        dst[((i as u8) ^ key) as uint] = f.clone();
+        dst[((i as u8) ^ key) as usize] = f.clone();
     }
 }
 
@@ -53,7 +53,7 @@ fn get_dist(a: &[f64], b: &[f64]) -> f64 {
     sum
 }
 
-fn find_key(count: &[uint], ref_freq: &[f64]) -> u8 {
+fn find_key(count: &[usize], ref_freq: &[f64]) -> u8 {
     let total = count.iter().map(|&x| x).sum();
 
     let mut freq = &mut [0.0f64; 256];
@@ -101,17 +101,17 @@ fn read_file(file: File) -> IoResult<Vec<u8>> {
 }
 
 fn solve(file: File) -> IoResult<String> {
-    const KEY_LEN: uint = 3;
+    const KEY_LEN: usize = 3;
     let code_list = try!(read_file(file));
 
     let freq_dict = &mut [0.0; 256];
     for &(c, f) in ENGLISH_FREQUENCY.iter() {
-        freq_dict[(c as u8) as uint] = f;
+        freq_dict[(c as u8) as usize] = f;
     }
 
-    let mut freq = [[0u; 256]; KEY_LEN];
-    for (&n, i) in code_list.iter().zip(range(0, KEY_LEN).cycle()) {
-        freq[i][n as uint] += 1;
+    let mut freq = [[0; 256]; KEY_LEN];
+    for (i, &n) in code_list.iter().enumerate() {
+        freq[i % KEY_LEN][n as usize] += 1;
     }
 
     let key = freq
@@ -120,7 +120,7 @@ fn solve(file: File) -> IoResult<String> {
         .collect::<Vec<u8>>();
 
     let sum = code_list.iter().zip(key.iter().cycle())
-        .map(|(&n, &key)| (n ^ key) as uint)
+        .map(|(&n, &key)| (n ^ key) as usize)
         .sum();
 
     Ok(sum.to_string())

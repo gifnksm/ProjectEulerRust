@@ -12,16 +12,16 @@ use std::num::Int;
 use std::collections::HashSet;
 use integer::Integer;
 
-fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
+fn palindromic_sum_set(limit: u32) -> HashSet<u32> {
     let mut set = HashSet::new();
-    let mut sq_sums = Vec::<uint>::new();
+    let mut sq_sums: Vec<u32> = vec![];
 
-    let mut it = iter::count(1u, 1)
+    let mut it = iter::count(1, 1)
         .map(|n| n * n)
         .take_while(|&pow| pow < limit);
 
     for pow in it {
-        for j in range(0, sq_sums.len()).rev() {
+        for j in (0 .. sq_sums.len()).rev() {
             let s = sq_sums[j] + pow;
             if s >= limit { break; }
 
@@ -35,7 +35,7 @@ fn palindromic_sum_set(limit: uint) -> HashSet<uint> {
 }
 
 fn solve() -> String {
-    let limit = 10u.pow(8);
+    let limit = 10.pow(8);
     let set = palindromic_sum_set(limit);
     set.iter().fold(0, |x, &y| x + y).to_string()
 }

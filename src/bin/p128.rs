@@ -220,7 +220,7 @@ mod tests {
             return 1
         }
         assert!(m < 6 * r);
-        range(0, r).map(a).sum() + 1 + m
+        (0 .. r).map(a).sum() + 1 + m
     }
 
     #[test]
@@ -234,8 +234,8 @@ mod tests {
     fn test_b() {
         assert_eq!(1, b(0, 0));
         let mut n = 2;
-        for r in range(1, 10) {
-            for m in range(0, a(r)) {
+        for r in (1 .. 10) {
+            for m in (0 .. a(r)) {
                 assert_eq!(n, b(r, m));
                 n += 1;
             }
@@ -252,7 +252,7 @@ mod tests {
                                                         b(1, 5)  - n)}),
                    it.next());
 
-        for r in range(2, 100) {
+        for r in (2 .. 100) {
             let n = b(r, 0);
             assert_eq!(Some(PdTriple { n: n, r: r, triple: (b(r+1, 6*r+5) - n,
                                                             b(r+1, 1)     - n,

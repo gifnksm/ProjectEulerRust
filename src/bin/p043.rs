@@ -10,52 +10,52 @@ extern crate integer;
 use std::iter::{self, AdditiveIterator, MultiplicativeIterator};
 use integer::Integer;
 
-const RADIX: uint = 10;
+const RADIX: u32 = 10;
 
 #[derive(Copy)]
 struct Pandigimal {
-    used: [ bool; RADIX ],
-    num:  [ uint; RADIX ],
-    len:  uint
+    used: [ bool; RADIX as usize ],
+    num:  [ u32; RADIX as usize ],
+    len:  usize
 }
 
 impl Pandigimal {
     fn new() -> Pandigimal {
         Pandigimal {
-            used: [ false; RADIX ],
-            num:  [ 0; RADIX ],
+            used: [ false; RADIX as usize ],
+            num:  [ 0; RADIX as usize ],
             len:  0
         }
     }
 
-    fn from_u64(n: u64, len: uint) -> Option<Pandigimal> {
-        let it = n.into_digits(RADIX as u64).chain(iter::repeat(0));
-        Pandigimal::new().join_all(it.map(|x| x as uint).take(len))
+    fn from_u64(n: u32, len: usize) -> Option<Pandigimal> {
+        let it = n.into_digits(RADIX).chain(iter::repeat(0));
+        Pandigimal::new().join_all(it.map(|x| x).take(len))
     }
 
     fn to_u64(&self) -> u64 {
         Integer::from_digits(self.num().iter().map(|&x| x as u64), RADIX as u64)
     }
 
-    fn is_used(&self, n: uint) -> bool {
+    fn is_used(&self, n: u32) -> bool {
         assert!(n < RADIX);
-        self.used[n]
+        self.used[n as usize]
     }
 
-    fn num<'a>(&'a self) -> &'a [uint] { &self.num[.. self.len] }
+    fn num<'a>(&'a self) -> &'a [u32] { &self.num[.. self.len] }
 
-    fn join(&self, d: uint) -> Option<Pandigimal> {
+    fn join(&self, d: u32) -> Option<Pandigimal> {
         assert!(d < RADIX);
         if self.is_used(d) { return None }
 
         let mut new_pd = *self;
-        new_pd.used[d] = true;
+        new_pd.used[d as usize] = true;
         new_pd.num[new_pd.len] = d;
         new_pd.len += 1;
         Some(new_pd)
     }
 
-    fn join_all<T: Iterator<Item = uint>>(&self, mut ds: T) -> Option<Pandigimal> {
+    fn join_all<T: Iterator<Item = u32>>(&self, mut ds: T) -> Option<Pandigimal> {
         let mut pd = *self;
         for d in ds {
             match pd.join(d) {
@@ -67,15 +67,15 @@ impl Pandigimal {
     }
 }
 
-fn create_pandigimal_list(base: u64, len: uint) -> Vec<Pandigimal> {
+fn create_pandigimal_list(base: u32, len: usize) -> Vec<Pandigimal> {
     assert!(len > 0);
-    let max = iter::repeat(RADIX as u64).take(len).product() - 1;
+    let max = iter::repeat(RADIX).take(len).product() - 1;
     iter::range_inclusive(0, max / base)
         .filter_map(|n| Pandigimal::from_u64(base * n, len))
         .collect()
 }
 
-fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: uint) -> Vec<Pandigimal> {
+fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: usize) -> Vec<Pandigimal> {
     assert!(len > 0);
     let ord = iter::repeat(RADIX as u64).take(len - 1).product();
 

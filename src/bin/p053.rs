@@ -9,13 +9,13 @@
 // nCr-1 = r/(n-r+1) nCr
 // nCr = n/(n-r) n-1Cr
 // nC(r+1) = (n-r)/(r+1) nCr
-fn compute() -> uint {
+fn compute() -> u32 {
     let limit = 1000000;
 
     let mut r = 0;
     let mut c = 1;
     let mut cnt = 0;
-    for n in range(1u, 101) {
+    for n in (1 .. 101) {
         c = c * n / (n - r); // nCr
 
         if c < limit {

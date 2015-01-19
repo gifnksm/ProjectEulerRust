@@ -10,27 +10,27 @@ use std::collections::HashMap;
 use std::iter;
 
 #[derive(Clone)]
-enum Length { Loop(uint), Chain(uint), Unknown }
+enum Length { Loop(usize), Chain(usize), Unknown }
 
-fn fact_sum(mut n: uint, fs: &[uint; 10]) -> uint {
+fn fact_sum(mut n: u32, fs: &[u32; 10]) -> u32 {
     if n == 0 { return 1; }
 
     let mut sum = 0;
     while n > 0 {
-        sum += fs[n % 10];
+        sum += fs[(n % 10) as usize];
         n /= 10;
     }
     sum
 }
 
-fn get_chain_len(n: uint, map: &mut[Length], fs: &[uint; 10]) -> uint {
+fn get_chain_len(n: u32, map: &mut[Length], fs: &[u32; 10]) -> usize {
     let mut chain_map = HashMap::new();
     let mut idx = n;
     let mut chain_len = 0;
     let mut loop_len  = 0;
 
     loop {
-        match map[idx] {
+        match map[idx as usize] {
             Length::Loop(c)  => { loop_len += c;  break; }
             Length::Chain(c) => { chain_len += c; break; }
             Length::Unknown  => {
@@ -52,9 +52,9 @@ fn get_chain_len(n: uint, map: &mut[Length], fs: &[uint; 10]) -> uint {
 
     for (&key, &idx) in chain_map.iter() {
         if idx >= chain_len {
-            map[key] = Length::Loop(loop_len);
+            map[key as usize] = Length::Loop(loop_len);
         } else {
-            map[key] = Length::Chain(loop_len + chain_len - idx);
+            map[key as usize] = Length::Chain(loop_len + chain_len - idx);
         }
     }
 
@@ -65,15 +65,15 @@ fn solve() -> String {
     let limit = 1000000;
     let factorial = {
         let mut val = [1; 10];
-        for i in range(1u, 10) {
-            val[i] = val[i - 1] * i;
+        for i in (1 .. 10) {
+            val[i] = val[i - 1] * (i as u32);
         }
         val
     };
 
-    let mut map = iter::repeat(Length::Unknown).take(factorial[9] * 6 + 1).collect::<Vec<_>>();
-    let mut cnt = 0u;
-    for n in range(1u, limit + 1) {
+    let mut map = iter::repeat(Length::Unknown).take((factorial[9] * 6 + 1) as usize).collect::<Vec<_>>();
+    let mut cnt = 0;
+    for n in (1 .. limit + 1) {
         let len = get_chain_len(n, map.as_mut_slice(), &factorial);
         if len == 60 { cnt += 1; }
     }
@@ -91,7 +91,7 @@ mod tests {
     fn len() {
         let factorial = {
             let mut val = [1; 10];
-            for i in range(1u, 10) {
+            for i in (1 .. 10) {
                 val[i] = val[i - 1] * i;
             }
             val

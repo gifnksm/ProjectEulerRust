@@ -9,7 +9,8 @@ extern crate integer;
 extern crate "iter" as itercrate;
 extern crate prime;
 
-use std::iter::{self, AdditiveIterator, Range, Rev};
+use std::iter::{self, AdditiveIterator, Rev, Step};
+use std::ops::Range;
 use std::num::Int;
 use integer::Integer;
 use itercrate::BitCombination;
@@ -17,21 +18,21 @@ use prime::PrimeSet;
 
 struct Digits<T> {
     radix: T,
-    num_digits: uint,
+    num_digits: usize,
     range: Rev<Range<T>>
 }
 
-impl<T: Int> Digits<T> {
-    fn new(radix: T, num_digits: uint) -> Digits<T> {
+impl<T: Int + Step> Digits<T> {
+    fn new(radix: T, num_digits: usize) -> Digits<T> {
         Digits {
             radix: radix,
             num_digits: num_digits,
-            range: range(Int::zero(), radix.pow(num_digits)).rev()
+            range: (Int::zero() .. radix.pow(num_digits)).rev()
         }
     }
 }
 
-impl<T: Int + Integer> Iterator for Digits<T> {
+impl<T: Int + Integer + Step + Clone> Iterator for Digits<T> {
     type Item = Vec<T>;
 
     fn next(&mut self) -> Option<Vec<T>> {
@@ -45,13 +46,13 @@ impl<T: Int + Integer> Iterator for Digits<T> {
 
 struct RunDigits {
     d: u64,
-    run_len: uint,
+    run_len: usize,
     other_ds: Vec<u64>,
     iter: BitCombination
 }
 
 impl RunDigits {
-    fn new(run_len: uint, d: u64, other_ds: Vec<u64>) -> RunDigits {
+    fn new(run_len: usize, d: u64, other_ds: Vec<u64>) -> RunDigits {
         RunDigits {
             d: d,
             run_len: run_len,
@@ -71,7 +72,7 @@ impl Iterator for RunDigits {
 
             let mut j = 0;
             let mut num = 0;
-            for i in range(0, self.other_ds.len() + self.run_len) {
+            for i in (0 .. self.other_ds.len() + self.run_len) {
                 num = num * 10 + if set.contains(&i) {
                     j += 1;
                     self.other_ds[j - 1]
@@ -86,7 +87,7 @@ impl Iterator for RunDigits {
     }
 }
 
-fn compute_s(ps: &PrimeSet, n: uint, d: u64) -> (uint, uint, u64) {
+fn compute_s(ps: &PrimeSet, n: usize, d: u64) -> (usize, usize, u64) {
     for m in iter::range_inclusive(0, n).rev() {
         let mut sum = 0;
         let mut cnt = 0;
@@ -112,7 +113,7 @@ fn solve() -> String {
     let n = 10;
     let ps = PrimeSet::new();
 
-    range(0, 10)
+    (0 .. 10)
         .map(|d| compute_s(&ps, n, d).2)
         .sum()
         .to_string()
@@ -140,7 +141,7 @@ mod tests {
         assert_eq!((3, 1, 8887), super::compute_s(&ps, 4, 8));
         assert_eq!((3, 7, 48073), super::compute_s(&ps, 4, 9));
 
-        let total = range(0, 10)
+        let total = (0 .. 10)
             .map(|d| super::compute_s(&ps, 4, d).2)
             .sum();
         assert_eq!(273700, total);

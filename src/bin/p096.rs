@@ -10,11 +10,11 @@ use std::io::{BufferedReader, File, IoErrorKind, IoResult};
 use std::iter;
 use std::num::Int;
 
-const BOARD_WIDTH: uint = 9;
-const BOARD_HEIGHT: uint = 9;
-const GROUP_WIDTH: uint = 3;
-const GROUP_HEIGHT: uint = 3;
-const MAX_NUMBER: uint = 9;
+const BOARD_WIDTH: usize = 9;
+const BOARD_HEIGHT: usize = 9;
+const GROUP_WIDTH: usize = 3;
+const GROUP_HEIGHT: usize = 3;
+const MAX_NUMBER: usize = 9;
 type BITS = u16;
 const MASK_ALL: BITS = 0x1ff;
 
@@ -25,7 +25,7 @@ struct SuDoku {
 }
 
 impl SuDoku {
-    fn get_at(&self, x: uint, y: uint) -> uint {
+    fn get_at(&self, x: usize, y: usize) -> usize {
         match self.map[y][x].count_ones() {
             0 => -1,
             1 => self.map[y][x].trailing_zeros() + 1,
@@ -33,7 +33,7 @@ impl SuDoku {
         }
     }
 
-    fn set_at(&mut self, x: uint, y: uint, n: uint) {
+    fn set_at(&mut self, x: usize, y: usize, n: usize) {
         self.map[y][x] = 1 << (n - 1);
     }
 }
@@ -53,9 +53,9 @@ fn read_sudoku<T: Reader>(br: &mut BufferedReader<T>) -> IoResult<Option<SuDoku>
         map: [[MASK_ALL; BOARD_WIDTH]; BOARD_HEIGHT]
     };
 
-    for y in range(0, BOARD_HEIGHT) {
+    for y in (0 .. BOARD_HEIGHT) {
         let line = try!(br.read_line());
-        for x in range(0, BOARD_WIDTH) {
+        for x in (0 .. BOARD_WIDTH) {
             let n = line.char_at(x).to_digit(10).unwrap();
             if n != 0 { sudoku.set_at(x, y, n); }
         }
@@ -65,7 +65,7 @@ fn read_sudoku<T: Reader>(br: &mut BufferedReader<T>) -> IoResult<Option<SuDoku>
 }
 
 fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
-    let group_it = range(0, GROUP_WIDTH * GROUP_HEIGHT)
+    let group_it = (0 .. GROUP_WIDTH * GROUP_HEIGHT)
         .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
         .collect::<Vec<_>>();
 
@@ -73,18 +73,18 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
         let bkup = puzzle.clone();
 
         // if the number on (x, y) is uniquely determined, off the number bit on the other cells.
-        for y in range(0, BOARD_HEIGHT) {
-            for x in range(0, BOARD_WIDTH) {
+        for y in (0 .. BOARD_HEIGHT) {
+            for x in (0 .. BOARD_WIDTH) {
                 if puzzle.map[y][x].count_ones() != 1 { continue }
 
                 let (x0, y0) = ((x / GROUP_WIDTH) * GROUP_WIDTH,
                                 (y / GROUP_HEIGHT) * GROUP_HEIGHT);
-                let row = range(0, BOARD_WIDTH).map(|x| (x, y));
-                let col = range(0, BOARD_HEIGHT).map(|y| (x, y));
+                let row = (0 .. BOARD_WIDTH).map(|x| (x, y));
+                let col = (0 .. BOARD_HEIGHT).map(|y| (x, y));
                 let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
 
                 let mut it = row.chain(col).chain(grp)
-                    .filter(|&pos: &(uint, uint)| pos != (x, y));
+                    .filter(|&pos: &(usize, usize)| pos != (x, y));
                 let mask = !puzzle.map[y][x] & MASK_ALL;
                 for (x, y) in it { puzzle.map[y][x] &= mask; }
             }
@@ -92,12 +92,12 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
 
         // if the number n can be appears on only one cell in the row or col or group,
         // the number of the cell is n.
-        for n in range(0, MAX_NUMBER) {
+        for n in (0 .. MAX_NUMBER) {
             let bit = 1 << n;
 
-            for y in range(0, BOARD_HEIGHT) {
+            for y in (0 .. BOARD_HEIGHT) {
                 let next = {
-                    let mut it = range(0, BOARD_WIDTH)
+                    let mut it = (0 .. BOARD_WIDTH)
                         .filter(|&x| puzzle.map[y][x] & bit != 0);
                     let next = it.next();
                     if next.is_none() || it.next().is_some() { continue }
@@ -106,9 +106,9 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                 puzzle.map[y][next.unwrap()] = bit;
             }
 
-            for x in range(0, BOARD_WIDTH) {
+            for x in (0 .. BOARD_WIDTH) {
                 let next = {
-                    let mut it = range(0, BOARD_HEIGHT)
+                    let mut it = (0 .. BOARD_HEIGHT)
                         .filter(|&y| puzzle.map[y][x] & bit != 0);
                     let next = it.next();
                     if next.is_none() || it.next().is_some() { continue }
@@ -137,10 +137,10 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
         if puzzle == bkup { break }
     }
 
-    let it = range(0, BOARD_HEIGHT * BOARD_WIDTH)
+    let it = (0 .. BOARD_HEIGHT * BOARD_WIDTH)
         .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
         .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones() as BITS))
-        .collect::<Vec<(uint, uint, BITS)>>();
+        .collect::<Vec<(usize, usize, BITS)>>();
 
     if it.iter().any(|&(_x, _y, cnt)| cnt == 0) { return vec![]; }
     if it.iter().all(|&(_x, _y, cnt)| cnt == 1) { return vec![puzzle]; }
@@ -151,7 +151,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
         .unwrap();
 
     let mut answers = vec![];
-    for n in range(0, MAX_NUMBER) {
+    for n in (0 .. MAX_NUMBER) {
         let bit = 1 << n;
         if puzzle.map[y][x] & bit == 0 { continue }
 
