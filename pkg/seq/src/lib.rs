@@ -232,12 +232,12 @@ impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
 
 #[cfg(test)]
 mod tests {
-    use std::fmt::Show;
+    use std::fmt::Debug;
     use std::ops::Add;
     use num::One;
     use num::bigint::ToBigInt;
 
-    fn check<T: Eq + Show, I: Iterator<Item = T>>(expected: &[T], it: I) {
+    fn check<T: Eq + Debug, I: Iterator<Item = T>>(expected: &[T], it: I) {
         assert_eq!(expected, it.collect::<Vec<_>>());
     }
 
@@ -245,7 +245,7 @@ mod tests {
     fn fibonacci() {
         use super::Fibonacci;
 
-        fn check_with_init<T: Clone + Eq + Show + One + Add<T, Output = T>>(fib: &[T]) {
+        fn check_with_init<T: Clone + Eq + Debug + One + Add<T, Output = T>>(fib: &[T]) {
             let a0 = fib[0].clone();
             let a1 = fib[1].clone();
             check(fib, Fibonacci::with_init(a0, a1).take(fib.len()));

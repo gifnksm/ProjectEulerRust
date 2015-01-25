@@ -44,8 +44,8 @@ fn sqrt_digit_sum(n: u32, precision: usize) -> usize {
 }
 
 fn solve() -> String {
-    let ns = 2 .. 101;
-    let sq = (2 ..101).map(|x| x*x);
+    let ns = 2u32 .. 101;
+    let sq = (2u32 ..101).map(|x| x*x);
 
     Difference::new(ns, sq)
         .map(|n| sqrt_digit_sum(n, 100))

@@ -10,7 +10,7 @@ extern crate integer;
 use integer::Integer;
 
 fn compute(limit: u32) -> u32 {
-    let order_array = &[ 1, 10, 100, 1000, 1000, 10000 ];
+    let order_array = &[ 1u32, 10, 100, 1000, 1000, 10000 ];
     let mut sum = 0;
     for i in (0 .. order_array.len() - 1) {
         let tf = [true, false];

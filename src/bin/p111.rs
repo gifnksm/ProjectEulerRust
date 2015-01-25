@@ -9,21 +9,21 @@ extern crate integer;
 extern crate "iter" as itercrate;
 extern crate prime;
 
-use std::iter::{self, AdditiveIterator, Rev, Step};
+use std::iter::{self, AdditiveIterator, Rev};
 use std::ops::Range;
 use std::num::Int;
 use integer::Integer;
 use itercrate::BitCombination;
 use prime::PrimeSet;
 
-struct Digits<T> {
-    radix: T,
+struct Digits {
+    radix: u64,
     num_digits: usize,
-    range: Rev<Range<T>>
+    range: Rev<Range<u64>>
 }
 
-impl<T: Int + Step> Digits<T> {
-    fn new(radix: T, num_digits: usize) -> Digits<T> {
+impl Digits {
+    fn new(radix: u64, num_digits: usize) -> Digits {
         Digits {
             radix: radix,
             num_digits: num_digits,
@@ -32,10 +32,10 @@ impl<T: Int + Step> Digits<T> {
     }
 }
 
-impl<T: Int + Integer + Step + Clone> Iterator for Digits<T> {
-    type Item = Vec<T>;
+impl Iterator for Digits {
+    type Item = Vec<u64>;
 
-    fn next(&mut self) -> Option<Vec<T>> {
+    fn next(&mut self) -> Option<Vec<u64>> {
         self.range.next().map(|num| {
             let mut ds = num.into_digits(self.radix).rev().collect::<Vec<_>>();
             while ds.len() < self.num_digits { ds.insert(0, Int::zero()); }
@@ -113,7 +113,7 @@ fn solve() -> String {
     let n = 10;
     let ps = PrimeSet::new();
 
-    (0 .. 10)
+    (0u64 .. 10)
         .map(|d| compute_s(&ps, n, d).2)
         .sum()
         .to_string()
@@ -141,7 +141,7 @@ mod tests {
         assert_eq!((3, 1, 8887), super::compute_s(&ps, 4, 8));
         assert_eq!((3, 7, 48073), super::compute_s(&ps, 4, 9));
 
-        let total = (0 .. 10)
+        let total = (0u64 .. 10)
             .map(|d| super::compute_s(&ps, 4, d).2)
             .sum();
         assert_eq!(273700, total);

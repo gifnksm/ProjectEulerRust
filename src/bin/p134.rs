@@ -104,7 +104,7 @@ fn solve() -> String {
         iter::repeat(0).take(10).collect::<Vec<_>>()
     }).collect::<Vec<_>>();
     for &b in [1, 3, 7, 9].iter() {
-        for n in (1 .. 10) {
+        for n in (1 .. 10u64) {
             mod_map[b as usize][((b * n) % 10) as usize] = n;
         }
     }

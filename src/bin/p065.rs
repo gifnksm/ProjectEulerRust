@@ -21,7 +21,7 @@ fn napier_seq(i: u32) -> u32 {
 
 fn solve() -> String {
     let len = 100;
-    let napier = (0 .. len).map(napier_seq);
+    let napier = (0u32 .. len).map(napier_seq);
     let (n, _d) = cont_frac::fold::<BigUint, _>(napier);
     n.to_string()
         .chars()

@@ -369,10 +369,10 @@ mod tests {
 
     #[test]
     fn mod_pow() {
-        for b in (1 .. 10) {
-            for e in (0 .. 5) {
-                for r in (10 .. 100) {
-                    assert_eq!(num::pow(b, e) % r, b.mod_pow(&e, &r));
+        for b in (1u32 .. 10) {
+            for e in (0u32 .. 5) {
+                for r in (10u32 .. 100) {
+                    assert_eq!(num::pow(b, e as usize) % r, b.mod_pow(&e, &r));
                 }
             }
         }

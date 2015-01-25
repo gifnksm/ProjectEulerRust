@@ -51,13 +51,6 @@ impl Error for SolverError {
         }
     }
 
-    fn detail(&self) -> Option<String> {
-        match *self {
-            SolverError::Io(ref err) => err.detail(),
-            SolverError::Http(ref err) => err.detail()
-        }
-    }
-
     fn cause(&self) -> Option<&Error> {
         match *self {
             SolverError::Io(ref err) => Some(err as &Error),
@@ -66,11 +59,11 @@ impl Error for SolverError {
     }
 }
 
-impl fmt::Show for SolverError {
+impl fmt::Display for SolverError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             SolverError::Io(ref err) => write!(f, "{}", err),
-            SolverError::Http(ref err) => write!(f, "{:?}", err)
+            SolverError::Http(ref err) => write!(f, "{}", err)
         }
     }
 }
@@ -84,7 +77,7 @@ pub struct SolverResult<T> {
 
 impl<T: Encodable> SolverResult<T> {
     pub fn print_json<W: Writer>(&self, out: &mut W) -> IoResult<()> {
-        out.write_line(&json::encode(self)[])
+        out.write_line(&json::encode(self).unwrap()[])
     }
 }
 
@@ -115,7 +108,7 @@ fn print_items(items: &[OutputPair]) {
     }
 }
 
-impl<T: fmt::String> SolverResult<T> {
+impl<T: fmt::Display> SolverResult<T> {
     pub fn print_pretty(&self, name: &str, enable_time_color: bool) -> IoResult<()> {
         let mut items = vec![];
         if self.is_ok {
@@ -211,7 +204,7 @@ impl<'a> Solver<'a> {
 
         match self.solve() {
             Err(err) => {
-                let _ = writeln!(&mut io::stderr(), "{}: {:?}", program, err);
+                let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
                 os::set_exit_status(255);
             }
             Ok(result) => {

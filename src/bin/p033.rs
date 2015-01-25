@@ -26,7 +26,7 @@ fn compute() -> u32 {
     let mut prod_numer = 1;
     let mut prod_denom = 1;
 
-    for b in (1 .. 10) {
+    for b in (1u32 .. 10) {
         for c in (b + 1 .. 10) {
             // Pattern 1
             let a_numer = 9 * b * c;

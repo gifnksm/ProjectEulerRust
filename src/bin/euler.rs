@@ -92,7 +92,7 @@ fn exe_path() -> ProgramResult<Path> {
 fn problem_paths(dir_path: Path) -> ProgramResult<Paths> {
     let pat = dir_path.join(PROBLEM_EXE_PAT);
     match pat.as_str() {
-        Some(x) => Ok(glob::glob(x)),
+        Some(x) => Ok(glob::glob(x).unwrap()),
         None    => Err(ProgramError::new("path contains non-utf8 character", ProgramErrorKind::Unknown))
     }
 }
@@ -126,6 +126,7 @@ fn run() -> ProgramResult<()> {
     let mut num_prob = 0;
     let mut total_time = 0;
     for path in try!(problem_paths(dir_path)) {
+        let path = path.unwrap();
         let program = format!("{}", path.filename_display());
 
         match run_problem(&path) {

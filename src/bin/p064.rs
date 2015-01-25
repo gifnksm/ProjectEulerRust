@@ -11,7 +11,7 @@ extern crate num;
 use num::Integer;
 
 fn solve() -> String {
-    (1 .. 10001)
+    (1u32 .. 10001)
         .map(cont_frac::sqrt)
         .map(|(_a0, an)| an.len())
         .filter(|an| an.is_odd())

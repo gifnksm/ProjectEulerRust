@@ -56,7 +56,7 @@ fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
 
 fn solve() -> String {
     let un = u_to_vec(10, u);
-    (0 .. 10)
+    (0us .. 10)
         .map(|i| bop(&un[.. i + 1]))
         .fold(num::zero::<BigInt>(), |acc, elt| acc + elt)
         .to_string()

@@ -154,7 +154,7 @@ mod tests {
     #[test]
     fn nums() {
         let mut nums = Nums::new();
-        for a in (1 .. 10) {
+        for a in (1u32 .. 10) {
             for b in (a + 1 .. 10) {
                 for c in (b + 1 .. 10) {
                     for d in (c + 1 .. 10) {
