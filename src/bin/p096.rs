@@ -6,7 +6,7 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::io::{BufferedReader, File, IoErrorKind, IoResult};
+use std::old_io::{BufferedReader, File, IoErrorKind, IoResult};
 use std::iter;
 use std::num::Int;
 

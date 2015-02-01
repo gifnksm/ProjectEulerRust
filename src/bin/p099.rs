@@ -7,7 +7,7 @@
 #[macro_use(problem)] extern crate common;
 
 use std::num::Float;
-use std::io::{BufferedReader, File, IoResult};
+use std::old_io::{BufferedReader, File, IoResult};
 use std::iter;
 
 fn solve(file: File) -> IoResult<String> {

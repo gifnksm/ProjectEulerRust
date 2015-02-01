@@ -7,7 +7,7 @@
 #[macro_use(problem)] extern crate common;
 extern crate "topological-sort" as tsort;
 
-use std::io::{BufferedReader, File, IoResult};
+use std::old_io::{BufferedReader, File, IoResult};
 use tsort::TopologicalSort;
 
 fn solve(file: File) -> IoResult<String> {

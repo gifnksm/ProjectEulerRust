@@ -8,7 +8,7 @@
 
 use std::f64;
 use std::iter::{self, AdditiveIterator};
-use std::io::{File, IoResult, BufferedReader};
+use std::old_io::{File, IoResult, BufferedReader};
 
 const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
     ('a', 0.08167),

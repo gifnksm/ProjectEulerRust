@@ -10,7 +10,7 @@ extern crate playing_card;
 use std::cmp::Ordering;
 use std::fmt;
 use std::str::FromStr;
-use std::io::{BufferedReader, File, IoResult};
+use std::old_io::{BufferedReader, File, IoResult};
 use playing_card::SuitCard as Card;
 
 fn cmp_card(c0: &Card, c1: &Card) -> Ordering {

@@ -7,7 +7,7 @@
 #[macro_use(problem)] extern crate common;
 extern crate seq;
 
-use std::io::{BufferedReader, IoResult, File};
+use std::old_io::{BufferedReader, IoResult, File};
 use std::iter;
 use seq::TriangularNums;
 

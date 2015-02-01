@@ -6,7 +6,7 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::io::{BufferedReader, IoResult, File};
+use std::old_io::{BufferedReader, IoResult, File};
 use std::iter::AdditiveIterator;
 
 fn get_score(n: u32, s: &str) -> u32 {

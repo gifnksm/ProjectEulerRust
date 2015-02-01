@@ -6,7 +6,7 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::io::{BufferedReader, File, IoResult};
+use std::old_io::{BufferedReader, File, IoResult};
 use std::ops::{Mul, Sub};
 use std::num::SignedInt;
 

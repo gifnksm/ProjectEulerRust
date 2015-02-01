@@ -7,7 +7,7 @@
 #[macro_use(problem)] extern crate common;
 extern crate "union-find" as union_find;
 
-use std::io::{BufferedReader, File, IoResult};
+use std::old_io::{BufferedReader, File, IoResult};
 use union_find::{UnionFind, Size};
 
 fn compute<R: Reader>(r: R, size: uint) -> IoResult<uint> {

@@ -8,8 +8,9 @@ extern crate term;
 extern crate common;
 
 use std::borrow::IntoCow;
-use std::io::{self, Command, MemReader};
-use std::io::process::ExitStatus;
+use std::old_io as io;
+use std::old_io::{Command, MemReader};
+use std::old_io::process::ExitStatus;
 use std::os;
 use std::str;
 use std::string::CowString;

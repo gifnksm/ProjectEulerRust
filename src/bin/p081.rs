@@ -7,7 +7,7 @@
 #[macro_use(problem)] extern crate common;
 
 use std::cmp;
-use std::io::{BufferedReader, File, IoResult};
+use std::old_io::{BufferedReader, File, IoResult};
 
 fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<u32>>> {
     let mut br = BufferedReader::new(reader);

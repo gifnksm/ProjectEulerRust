@@ -12,10 +12,12 @@ extern crate time;
 use std::borrow::IntoCow;
 use std::error::{Error, FromError};
 use std::{fmt, os};
-use std::io::{self, IoResult, File};
-use std::io::fs::{self, PathExtensions};
+use std::old_io as io;
+use std::old_io::{IoResult, File};
+use std::old_io::fs::{self, PathExtensions};
 use std::string::CowString;
 use curl::http;
+use getopts::Options;
 use num::Integer;
 use rustc_serialize::{json, Encodable};
 use term::{color, Terminal};
@@ -31,6 +33,7 @@ const COLOR_OK:   Color = color::GREEN;
 const COLOR_NG:   Color = color::RED;
 const COLOR_WARN: Color = color::YELLOW;
 
+#[derive(Debug)]
 pub enum SolverError {
     Io(io::IoError),
     Http(curl::ErrCode)
@@ -68,7 +71,7 @@ impl fmt::Display for SolverError {
     }
 }
 
-#[derive(Show, RustcEncodable, RustcDecodable)]
+#[derive(Debug, RustcEncodable, RustcDecodable)]
 pub struct SolverResult<T> {
     pub time: u64,
     pub answer: T,
@@ -182,12 +185,11 @@ impl<'a> Solver<'a> {
         let args = os::args();
         let program = &args[0];
 
-        let opts = &[
-            getopts::optflag("", "json", "Output JSON format"),
-            getopts::optflag("h", "help", "Display this message")
-        ];
+        let mut opts = Options::new();
+        opts.optflag("", "json", "Output JSON format");
+        opts.optflag("h", "help", "Display this message");
 
-        let matches = match getopts::getopts(args.tail(), opts) {
+        let matches = match opts.parse(args.tail()) {
             Ok(m) => m,
             Err(f) => {
                 let _ = writeln!(&mut io::stderr(), "{}: {}", program, f);
@@ -197,8 +199,8 @@ impl<'a> Solver<'a> {
         };
 
         if matches.opt_present("h") {
-            let short = getopts::short_usage(&program[], opts);
-            println!("{}", getopts::usage(&short[], opts));
+            let short = opts.short_usage(&program[]);
+            println!("{}", opts.usage(&short[]));
             return
         }
 

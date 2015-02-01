@@ -7,7 +7,7 @@
 #[macro_use(problem)] extern crate common;
 
 use std::cmp;
-use std::io::{File, IoResult, BufferedReader};
+use std::old_io::{File, IoResult, BufferedReader};
 
 fn solve(file: File) -> IoResult<String> {
     let mut input = BufferedReader::new(file);

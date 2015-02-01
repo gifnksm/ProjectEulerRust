@@ -8,7 +8,7 @@
 
 use std::cmp::Ordering;
 use std::iter::AdditiveIterator;
-use std::io::{BufferedReader, File, IoResult};
+use std::old_io::{BufferedReader, File, IoResult};
 
 fn is_sss(nums: &mut [uint]) -> bool {
     nums.sort();

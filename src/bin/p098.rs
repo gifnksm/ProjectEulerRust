@@ -10,7 +10,7 @@ extern crate integer;
 use std::{cmp, iter, mem, uint};
 use std::collections::HashMap;
 use std::collections::hash_map::Entry;
-use std::io::{BufferedReader, File, IoResult};
+use std::old_io::{BufferedReader, File, IoResult};
 use std::num::Int;
 use integer::Integer;
 
