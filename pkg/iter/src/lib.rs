@@ -4,6 +4,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core)]
+#![cfg_attr(test, feature(test))]
+
 #[cfg(test)]
 extern crate test;
 
@@ -296,7 +299,7 @@ mod tests {
 
     #[test]
     fn combinate_overlap() {
-        let nums = &[1u, 2, 3, 4, 5];
+        let nums = &[1, 2, 3, 4, 5];
         let mut it = CombinationOverlap::new(nums, 3);
         assert_eq!(Some(vec![1, 1, 1]), it.next());
         assert_eq!(Some(vec![1, 1, 2]), it.next());
@@ -350,7 +353,7 @@ mod tests {
 
     #[test]
     fn permutation() {
-        let nums = &[1u, 2, 3, 4, 5];
+        let nums = &[1, 2, 3, 4, 5];
 
         let mut it = Permutations::new(nums, 2);
         assert_eq!(Some((vec![1, 2], vec![3, 4, 5])), it.next());
@@ -389,27 +392,27 @@ mod tests {
 
         #[test]
         fn no_square_nums() {
-            let ns = iter::count(1u, 1);
-            let sq = iter::count(1u, 1).map(|x| x*x);
+            let ns = iter::count(1, 1);
+            let sq = iter::count(1, 1).map(|x| x*x);
             let diff = Difference::new(ns, sq);
-            assert_eq!(vec![2u, 3, 5, 6, 7, 8, 10, 11],
+            assert_eq!(vec![2, 3, 5, 6, 7, 8, 10, 11],
                        diff.take(8).collect::<Vec<_>>());
         }
 
         #[test]
         fn minuend_is_empty() {
             let a: Vec<usize> = vec![];
-            let b = vec![1u, 2, 3];
+            let b = vec![1, 2, 3];
             let diff = Difference::new(a.iter(), b.iter());
             assert!(diff.collect::<Vec<&usize>>().is_empty());
         }
 
         #[test]
         fn subtrahend_is_empty() {
-            let a = vec![1u, 2, 3];
+            let a = vec![1, 2, 3];
             let b: Vec<usize> = vec![];
             let diff = Difference::new(a.into_iter(), b.into_iter());
-            assert_eq!(vec![1u, 2, 3], diff.collect::<Vec<_>>());
+            assert_eq!(vec![1, 2, 3], diff.collect::<Vec<_>>());
         }
     }
 }
@@ -421,6 +424,8 @@ mod bench {
 
     #[bench]
     fn comb(bh: &mut Bencher) {
-        bh.iter(|| { test::black_box(BitCombination::new(5, 10).last()); });
+        bh.iter(|| {
+            let _ = test::black_box(BitCombination::new(5, 10).last());
+        });
     }
 }

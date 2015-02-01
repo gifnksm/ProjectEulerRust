@@ -3,6 +3,7 @@
 #![warn(bad_style, missing_docs,
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
+#![feature(core, collections)]
 
 extern crate integer;
 extern crate num;
@@ -259,7 +260,7 @@ mod tests {
         assert_eq!(super::sqrt(13), (3, vec![1,1,1,1,6]));
     }
 
-    #[derive(Eq, PartialEq, Show, Clone)]
+    #[derive(Eq, PartialEq, Debug, Clone)]
     struct U32(u32);
 
     impl U32 {
@@ -309,11 +310,11 @@ mod tests {
 
     #[test]
     fn solve_pel() {
-        assert_eq!(super::solve_pel(2), (3i, 2));
-        assert_eq!(super::solve_pel(3), (2i, 1));
-        assert_eq!(super::solve_pel(5), (9i, 4));
-        assert_eq!(super::solve_pel(6), (5i, 2));
-        assert_eq!(super::solve_pel(7), (8i, 3));
+        assert_eq!(super::solve_pel(2), (3, 2));
+        assert_eq!(super::solve_pel(3), (2, 1));
+        assert_eq!(super::solve_pel(5), (9, 4));
+        assert_eq!(super::solve_pel(6), (5, 2));
+        assert_eq!(super::solve_pel(7), (8, 3));
     }
     #[test] #[should_fail]
     fn solve_pel_1() { let _ = super::solve_pel::<u32>(1); }

@@ -4,6 +4,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, std_misc)]
+#![cfg_attr(test, feature(test))]
+
 extern crate num;
 #[cfg(test)] extern crate test;
 

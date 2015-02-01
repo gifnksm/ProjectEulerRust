@@ -2,6 +2,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, collections, io, os, path)]
+
 extern crate curl;
 extern crate getopts;
 extern crate num;
@@ -186,8 +188,8 @@ impl<'a> Solver<'a> {
         let program = &args[0];
 
         let mut opts = Options::new();
-        opts.optflag("", "json", "Output JSON format");
-        opts.optflag("h", "help", "Display this message");
+        let _ = opts.optflag("", "json", "Output JSON format");
+        let _ = opts.optflag("h", "help", "Display this message");
 
         let matches = match opts.parse(args.tail()) {
             Ok(m) => m,
@@ -256,7 +258,7 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
         try!(fs::mkdir_recursive(&dir_path, io::USER_RWX));
         let mut file = try!(File::create(&path));
         let content = try!(download(file_name));
-        try!(file.write(&content[]));
+        try!(file.write_all(&content[]));
     }
 
     let file = try!(File::open(&path));
