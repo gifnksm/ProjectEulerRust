@@ -4,11 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::cmp;
 
-const TRIANGLE: &'static [&'static [uint]] = &[
+const TRIANGLE: &'static [&'static [u32]] = &[
     &[75],
     &[95, 64],
     &[17, 47, 82],
@@ -26,7 +28,7 @@ const TRIANGLE: &'static [&'static [uint]] = &[
     &[04, 62, 98, 27, 23, 09, 70, 98, 73, 93, 38, 53, 60, 04, 23]
 ];
 
-fn compute(input: &[&[uint]]) -> uint {
+fn compute(input: &[&[u32]]) -> u32 {
     let init = input.init();
     let last = input.last().unwrap();
     init.iter().rev().fold(last.to_vec(), |mut total, elm| {
@@ -43,7 +45,7 @@ problem!("1074", solve);
 
 #[cfg(test)]
 mod tests {
-    const TRIANGLE: &'static [&'static [uint]] = &[
+    const TRIANGLE: &'static [&'static [u32]] = &[
         &[3],
         &[7, 4],
         &[2, 4, 6],

@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate num;
 
@@ -44,12 +46,12 @@ use num::Integer;
 //   else:
 //     a (a - 1)
 
-fn rmax(a: uint) -> uint {
+fn rmax(a: u32) -> u32 {
     if a.is_even() { a * (a - 2) } else { a * (a - 1) }
 }
 
 fn solve() -> String {
-    iter::range_inclusive(3, 1000u)
+    iter::range_inclusive(3, 1000)
         .map(rmax)
         .sum()
         .to_string()

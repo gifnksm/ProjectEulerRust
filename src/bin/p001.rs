@@ -4,11 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::iter::AdditiveIterator;
 
-fn compute(bound: uint) -> uint {
+fn compute(bound: u32) -> u32 {
     (1 .. bound)
         .filter(|&n| n % 3 == 0 || n % 5 == 0)
         .sum()

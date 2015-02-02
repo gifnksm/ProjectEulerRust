@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 extern crate num;
@@ -13,21 +15,21 @@ use num::Integer as NumInteger;
 use integer::Integer;
 
 struct Group {
-    num_len: uint,
-    radix: uint,
-    idx: (uint, uint),
-    num: (uint, uint)
+    num_len: usize,
+    radix: usize,
+    idx: (usize, usize),
+    num: (usize, usize)
 }
 
 // Group 0: num: [1, 10),     idx: [0, 1 * 9)
 // Group 1: num: [10, 100),   idx: [9 + 0, 9 + 1 * 90)
 // Group 2: num: [100, 1000), idx: [189 + 0, 189 + 3 * 900)
 impl Group {
-    fn new(radix: uint) -> Group {
+    fn new(radix: usize) -> Group {
         Group::new_with_init(1, radix, 0, 1)
     }
 
-    fn new_with_init(num_len: uint, radix: uint, min_idx: uint, min_num: uint) -> Group {
+    fn new_with_init(num_len: usize, radix: usize, min_idx: usize, min_num: usize) -> Group {
         let num_elem = min_num * (radix - 1);
         Group {
             num_len: num_len,
@@ -41,14 +43,14 @@ impl Group {
         Group::new_with_init(self.num_len + 1, self.radix, self.idx.1, self.num.1)
     }
 
-    fn get_nth_digit(&self, idx: uint) -> Option<uint> {
+    fn get_nth_digit(&self, idx: usize) -> Option<usize> {
         if idx < self.idx.0 || self.idx.1 <= idx { return None }
         let (d, r) = (idx - self.idx.0).div_rem(&self.num_len);
         (self.num.0 + d).into_digits(self.radix).rev().nth(r)
     }
 }
 
-fn nth_digit(n: uint, radix: uint) -> uint {
+fn nth_digit(n: usize, radix: usize) -> usize {
     let mut g = Group::new(radix);
     loop {
         if let Some(d) = g.get_nth_digit(n) {
@@ -58,7 +60,7 @@ fn nth_digit(n: uint, radix: uint) -> uint {
     }
 }
 
-fn compute(idxs: &[uint], radix: uint) -> uint {
+fn compute(idxs: &[usize], radix: usize) -> usize {
     idxs.iter().map(|&i| nth_digit(i, radix)).product()
 }
 

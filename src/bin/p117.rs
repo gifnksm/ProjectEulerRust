@@ -4,12 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::iter;
 use std::collections::HashMap;
 
-fn count(len: uint, map: &mut HashMap<uint, uint>) -> uint {
+fn count(len: usize, map: &mut HashMap<usize, usize>) -> usize {
     if let Some(&x) = map.get(&len) {
         return x
     }

@@ -4,12 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections)]
+
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
 use prime::PrimeSet;
 
-fn compute(numer: uint, denom: uint) -> uint {
+fn compute(numer: u32, denom: u32) -> u64 {
     let ps = PrimeSet::new();
     let mut side = 1;
     let mut num_prime = 0;
@@ -26,7 +28,7 @@ fn compute(numer: uint, denom: uint) -> uint {
         if ps.contains(rt) { num_prime += 1; }
         num_total += 4;
         if num_prime * denom < numer * num_total {
-            return side as uint
+            return side
         }
     }
 }

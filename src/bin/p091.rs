@@ -4,17 +4,19 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate num;
 
 use std::{cmp, iter};
 use num::Integer;
 
-fn count_right_at_o(x_max: uint, y_max: uint) -> uint {
+fn count_right_at_o(x_max: u32, y_max: u32) -> u32 {
     x_max * y_max
 }
 
-fn count_right_at_p(x_max: uint, y_max: uint) -> uint {
+fn count_right_at_p(x_max: u32, y_max: u32) -> u32 {
     let mut cnt = x_max * y_max; // p: (0, y0) q: (xi, y0) => xi: [1, x_max], y0: [0, y_max]
 
     for x in iter::range_inclusive(1, x_max) {
@@ -28,7 +30,7 @@ fn count_right_at_p(x_max: uint, y_max: uint) -> uint {
     cnt
 }
 
-fn compute(x_max: uint, y_max: uint) -> uint {
+fn compute(x_max: u32, y_max: u32) -> u32 {
     count_right_at_o(x_max, y_max) + count_right_at_p(x_max, y_max) * 2
 }
 

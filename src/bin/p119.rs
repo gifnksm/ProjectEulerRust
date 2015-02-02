@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
@@ -13,7 +15,7 @@ use std::iter::AdditiveIterator;
 use std::collections::BinaryHeap;
 use integer::Integer;
 
-struct Power(uint, uint, uint);
+struct Power(u64, u64, u64);
 
 impl PartialEq for Power {
     fn eq(&self, other: &Power) -> bool {
@@ -46,17 +48,17 @@ impl Powers {
 }
 
 impl Iterator for Powers {
-    type Item = (uint, uint, uint);
+    type Item = (u64, u64, u64);
 
-    fn next(&mut self) -> Option<(uint, uint, uint)> {
+    fn next(&mut self) -> Option<(u64, u64, u64)> {
         let Power(n, b, e) = self.heap.pop().unwrap();
         if b == 2 { self.heap.push(Power(n * b, b, e + 1)); }
-        if b < 99 { self.heap.push(Power((b + 1).pow(e), b + 1, e)); } // assume base is smaller than 100
+        if b < 99 { self.heap.push(Power((b + 1).pow(e as usize), b + 1, e)); } // assume base is smaller than 100
         Some((n, b, e))
     }
 }
 
-fn compute_a(n: uint) -> (uint, uint, uint) {
+fn compute_a(n: usize) -> (u64, u64, u64) {
     Powers::new()
         .skip_while(|&mut: &(n, _b, _e)| n < 10)
         .filter(|&(n, b, _e)| n.into_digits(10).sum() == b)

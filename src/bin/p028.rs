@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections)]
+
 #[macro_use(problem)] extern crate common;
 
 // 43 44 45 46 47 48 49
@@ -32,7 +34,7 @@
 // N := (n + 1) / 2
 // ans[n] = \sum_{k=1}^{N} sum[k] - 3
 //        = 1/6 (4n^3 + 3n^2 + 8n - 9)
-fn compute(n: uint) -> uint {
+fn compute(n: u32) -> u32 {
     (4 * n*n*n + 3 * n*n + 8 * n - 9) / 6
 }
 

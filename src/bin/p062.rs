@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core, std_misc)]
+
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
@@ -12,8 +14,8 @@ use std::collections::hash_map::Entry;
 use std::iter;
 use integer::Integer;
 
-fn perm_exact(cnt: uint) -> HashSet<uint> {
-    let mut map = HashMap::<_, (uint, uint)>::new();
+fn perm_exact(cnt: usize) -> HashSet<u64> {
+    let mut map = HashMap::<_, (u64, usize)>::new();
     let mut set = HashSet::new();
 
     let mut limit = 10;

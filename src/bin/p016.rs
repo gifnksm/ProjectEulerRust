@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core, unicode)]
+
 extern crate num;
 #[macro_use(problem)] extern crate common;
 
@@ -11,9 +13,9 @@ use std::iter::AdditiveIterator;
 use std::num::FromPrimitive;
 use num::bigint::BigInt;
 
-fn compute(base: uint, exp: uint) -> uint {
-    let base: BigInt = FromPrimitive::from_uint(base).unwrap();
-    num::pow(base, exp)
+fn compute(base: u32, exp: u32) -> usize {
+    let base: BigInt = FromPrimitive::from_u32(base).unwrap();
+    num::pow(base, exp as usize)
         .to_string()
         .chars()
         .filter_map(|c| c.to_digit(10))

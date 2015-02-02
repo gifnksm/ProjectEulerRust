@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 extern crate "iter" as itercrate;
@@ -18,12 +20,12 @@ use prime::PrimeSet;
 
 
 trait ImmutableCloneableVector<T> {
-    fn groups(&self, n: uint) -> Groups<T>;
+    fn groups(&self, n: usize) -> Groups<T>;
 }
 
 impl<'a, T: Clone> ImmutableCloneableVector<T> for &'a [T] {
     #[inline]
-    fn groups(&self, n: uint) -> Groups<T> { Groups::new(n, self.to_vec()) }
+    fn groups(&self, n: usize) -> Groups<T> { Groups::new(n, self.to_vec()) }
 }
 
 struct Groups<T> {
@@ -32,7 +34,7 @@ struct Groups<T> {
 }
 
 impl<T: Clone> Groups<T> {
-    fn new(num_select_elem: uint, v: Vec<T>) -> Groups<T> {
+    fn new(num_select_elem: usize, v: Vec<T>) -> Groups<T> {
         Groups { idx: BitCombination::new(num_select_elem, v.len()), vec: v }
     }
 }
@@ -58,7 +60,7 @@ impl<T: Clone> Iterator for Groups<T> {
     }
 }
 
-fn count_primes(ps: &PrimeSet, digits: &[u64]) -> uint {
+fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
     if digits.len() == 0 { return 1 }
 
     let mut cnt = 0;
@@ -71,7 +73,7 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> uint {
                 if ps.contains(ds[0]) { 1 } else { 0 }
             } else {
                 if ds.iter().fold(0, |x, &y| x + y) % 3 != 0 {
-                    ds.as_slice().permutations()
+                    ds.permutations()
                         .filter(|perm| perm[0].is_odd() && perm[0] != 5)
                         .filter(|perm| ps.contains(Integer::from_digits(perm.iter().map(|&x| x), 10)))
                         .count()
@@ -81,7 +83,7 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> uint {
             };
 
             if num_prime != 0 {
-                let rest_primes = count_primes(ps, rest.as_slice());
+                let rest_primes = count_primes(ps, &rest[]);
                 cnt += num_prime * rest_primes;
             }
         }
@@ -92,7 +94,7 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> uint {
 fn solve() -> String {
     let digits = iter::range_inclusive(1, 9).collect::<Vec<_>>();
     let ps = PrimeSet::new();
-    count_primes(&ps, digits.as_slice()).to_string()
+    count_primes(&ps, &digits[]).to_string()
 }
 
 problem!("44680", solve);
@@ -103,8 +105,7 @@ mod tests {
 
     #[test]
     fn groups() {
-        let v = [1u, 2, 3];
-        let v = v.as_slice();
+        let v: &[_] = &[1, 2, 3];
         let mut it = v.groups(0);
         assert_eq!(Some((vec![], vec![1, 2, 3])), it.next());
         assert_eq!(None, it.next());

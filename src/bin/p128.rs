@@ -133,13 +133,15 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
 use std::mem;
 use prime::PrimeSet;
 
-#[derive(Eq, PartialEq, Show)]
+#[derive(Eq, PartialEq, Debug)]
 struct PdTriple {
     n: u64,
     r: u64,

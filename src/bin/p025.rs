@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections)]
+
 #[macro_use(problem)] extern crate common;
 extern crate num;
 extern crate seq;
@@ -12,7 +14,7 @@ use std::iter;
 use num::BigUint;
 use seq::Fibonacci;
 
-fn compute(limit_len: uint) -> uint {
+fn compute(limit_len: usize) -> usize {
     let limit = iter::repeat("9").take(limit_len - 1).collect::<String>().parse::<BigUint>().unwrap();
     Fibonacci::<BigUint>::new()
         .take_while(|n| *n <= limit)

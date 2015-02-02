@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
@@ -11,7 +13,7 @@ use std::cmp::Ordering;
 use std::iter::AdditiveIterator;
 use prime::PrimeSet;
 
-fn get_longer(ps: &[u64], p: u64, min_len: uint) -> Option<uint> {
+fn get_longer(ps: &[u64], p: u64, min_len: usize) -> Option<usize> {
     let max_avg = if min_len == 0 { p } else { p / (min_len as u64) };
 
     let mut start = 0;
@@ -41,7 +43,7 @@ fn get_longer(ps: &[u64], p: u64, min_len: uint) -> Option<uint> {
     }
 }
 
-fn compute(limit: u64) -> (u64, uint) {
+fn compute(limit: u64) -> (u64, usize) {
     let ps = PrimeSet::new()
         .iter()
         .take_while(|&p| p <= limit)
