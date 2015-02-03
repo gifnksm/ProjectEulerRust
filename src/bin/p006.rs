@@ -8,14 +8,14 @@
 
 #[macro_use(problem)] extern crate common;
 
-fn sum_of_square(n: uint) -> uint { n * (n + 1) * (2 * n + 1) / 6 }
-fn sum_of_seq(n: uint) -> uint { n * (n + 1) / 2 }
-fn square_of_sum(n: uint) -> uint {
+fn sum_of_square(n: u32) -> u32 { n * (n + 1) * (2 * n + 1) / 6 }
+fn sum_of_seq(n: u32) -> u32 { n * (n + 1) / 2 }
+fn square_of_sum(n: u32) -> u32 {
     let s = sum_of_seq(n);
     s * s
 }
 
-fn compute(n: uint) -> uint { square_of_sum(n) - sum_of_square(n) }
+fn compute(n: u32) -> u32 { square_of_sum(n) - sum_of_square(n) }
 
 fn solve() -> String { compute(100).to_string() }
 

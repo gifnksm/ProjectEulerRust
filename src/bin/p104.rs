@@ -15,12 +15,12 @@ use num::Integer;
 
 fn is_pandigit(n: u64) -> bool {
     let mut hist = [false; 10];
-    let mut cnt = 0u;
+    let mut cnt = 0;
     let mut itr = n;
     while itr > 0 {
         let (d, r) = itr.div_rem(&10);
-        if r == 0 || hist[r as uint] { return false; }
-        hist[r as uint] = true;
+        if r == 0 || hist[r as usize] { return false; }
+        hist[r as usize] = true;
         itr = d;
         cnt += 1;
     }
@@ -31,11 +31,11 @@ struct FibFirst {
     base: u64,
     phi: f64,
     curr: u64,
-    cnt: uint
+    cnt: usize
 }
 
 impl FibFirst {
-    fn new(len: uint) -> FibFirst {
+    fn new(len: usize) -> FibFirst {
         assert!(len > 0);
         FibFirst {
             base: 10.pow(len),
@@ -77,7 +77,7 @@ struct FibLast {
 }
 
 impl FibLast {
-    fn new(len: uint) -> FibLast {
+    fn new(len: usize) -> FibLast {
         assert!(len > 0);
         FibLast { base: 10.pow(len), curr: 1, next: 1 }
     }

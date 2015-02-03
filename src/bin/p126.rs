@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections)]
+#![feature(collections, core)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -16,7 +16,7 @@ fn f0(a: u32, b: u32, c: u32) -> u32 { 2 * (a*b + b*c + c*a) }
 
 fn compute(sum: u32) -> u32 {
     let limit = sum * 20;
-    let mut cnt = iter::repeat(0).take(limit as uint).collect::<Vec<_>>();
+    let mut cnt = iter::repeat(0).take(limit as usize).collect::<Vec<_>>();
 
     for a in iter::count(1, 1) {
         if f0(a, 1, 1) > limit { break }
@@ -31,8 +31,8 @@ fn compute(sum: u32) -> u32 {
 
                 for n in iter::count(1, 1) {
                     let f = 4*(n-1)*(n+q) + p;
-                    if f as uint >= cnt.len() { break }
-                    cnt[f as uint] += 1;
+                    if f as usize >= cnt.len() { break }
+                    cnt[f as usize] += 1;
                 }
             }
         }

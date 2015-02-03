@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, io)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::old_io::{BufferedReader, File, IoResult};
@@ -11,7 +13,7 @@ use std::ops::{Mul, Sub};
 use std::num::SignedInt;
 
 #[derive(Copy)]
-struct Point(int, int);
+struct Point(i32, i32);
 
 #[derive(Copy)]
 struct Line(Point, Point);
@@ -30,9 +32,9 @@ impl Sub<Point> for Point {
 }
 
 impl Mul<Point> for Point {
-    type Output = int;
+    type Output = i32;
 
-    fn mul(self, other: Point) -> int {
+    fn mul(self, other: Point) -> i32 {
         self.0 * other.0 + self.1 * other.1
     }
 }
@@ -75,12 +77,12 @@ fn solve(file: File) -> IoResult<String> {
 
     let origin = Point(0,0);
 
-    let mut cnt = 0u;
+    let mut cnt = 0;
     for line in br.lines() {
         let ns = try!(line)
             .trim()
             .split(',')
-            .filter_map(StrExt::parse::<int>)
+            .filter_map(StrExt::parse::<i32>)
             .collect::<Vec<_>>();
         let t = Triangle(Point(ns[0], ns[1]), Point(ns[2], ns[3]), Point(ns[4], ns[5]));
         if t.contains(origin) { cnt += 1 }

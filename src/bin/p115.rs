@@ -4,12 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::iter;
 use std::collections::HashMap;
 
-fn get_cnt(n: uint, m: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
+fn get_cnt(n: usize, m: usize, map: &mut HashMap<(usize, usize), usize>) -> usize {
     if let Some(&x) = map.get(&(n, m)) {
         return x
     }
@@ -35,7 +37,7 @@ fn get_cnt(n: uint, m: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
 
 fn solve() -> String {
     let mut map = HashMap::new();
-    iter::count(1u, 1)
+    iter::count(1, 1)
         .filter(|&n| get_cnt(n, 50, &mut map) > 1000000)
         .next()
         .unwrap()
