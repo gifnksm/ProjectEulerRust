@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections)]
-
 #[macro_use(problem)] extern crate common;
 
 fn count_between(a: (u32, u32), b: (u32, u32), max_denom: u32) -> u32 {

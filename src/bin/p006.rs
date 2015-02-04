@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections)]
-
 #[macro_use(problem)] extern crate common;
 
 fn sum_of_square(n: u32) -> u32 { n * (n + 1) * (2 * n + 1) / 6 }

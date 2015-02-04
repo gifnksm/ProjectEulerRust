@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, int_uint)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::cmp::Ordering;
@@ -11,7 +13,7 @@ use std::collections::BinaryHeap;
 use std::iter;
 
 /// Special sum set
-#[derive(Show)]
+#[derive(Debug)]
 struct SSS {
     avg: f64,
     nums: Vec<uint>,

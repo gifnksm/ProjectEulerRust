@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, collections, int_uint)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::cmp::Ordering;
@@ -26,7 +28,7 @@ use std::iter;
 // ここで、a = c - b = km - kn = k(m - n) より、 GCD(a, b) >= k となり矛盾。
 // よって、GCD(b, c) = 1 である。
 
-#[derive(Eq, PartialEq, Ord, PartialOrd, Clone, Show)]
+#[derive(Eq, PartialEq, Ord, PartialOrd, Clone, Debug)]
 struct Rad(uint, uint, Vec<uint>); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: uint) -> Vec<Rad> {

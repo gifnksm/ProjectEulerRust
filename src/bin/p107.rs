@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, int_uint, io)]
+
 #[macro_use(problem)] extern crate common;
 extern crate "union-find" as union_find;
 
@@ -18,7 +20,7 @@ fn compute<R: Reader>(r: R, size: uint) -> IoResult<uint> {
         let line = try!(line);
         for (j, s) in line.trim().split(',').enumerate() {
             if j <= i { continue }
-            if let Some(n) = s.parse::<uint>() {
+            if let Ok(n) = s.parse::<uint>() {
                 verts.push(((i, j), n));
             }
         }

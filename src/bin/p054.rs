@@ -4,6 +4,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, io)]
+#![cfg_attr(test, feature(rand))]
+
 #[macro_use(problem)] extern crate common;
 extern crate playing_card;
 
@@ -54,7 +57,7 @@ type C3 = [Card; 3];
 type C4 = [Card; 4];
 type C5 = [Card; 5];
 
-#[derive(Eq, Show)]
+#[derive(Eq, Debug)]
 enum Hand {
     HighCard      (C1, C1, C1, C1, C1),
     Pair          (C2, C1, C1, C1),
@@ -68,7 +71,7 @@ enum Hand {
     RoyalFlush    (C5)
 }
 
-impl fmt::String for Hand {
+impl fmt::Display for Hand {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             Hand::HighCard([c0], [c1], [c2], [c3], [c4]) =>

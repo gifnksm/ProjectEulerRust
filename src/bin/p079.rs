@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, io)]
+
 #[macro_use(problem)] extern crate common;
 extern crate "topological-sort" as tsort;
 
@@ -17,7 +19,7 @@ fn solve(file: File) -> IoResult<String> {
     for line in br.lines() {
         let line = try!(line);
         let ds = line.trim().chars();
-        for (prec, succ) in ds.zip(ds.skip(1)) {
+        for (prec, succ) in ds.clone().zip(ds.skip(1)) {
             ts.add_dependency(prec, succ);
         }
     }

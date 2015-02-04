@@ -107,7 +107,7 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     /// assert_eq!(0, Integer::from_digits(vec![].into_iter(), 10i));
     /// ```
     #[inline]
-    fn from_digits<T: Iterator<Item = Self>>(mut digits: T, radix: Self) -> Self {
+    fn from_digits<T: Iterator<Item = Self>>(digits: T, radix: Self) -> Self {
         let mut result: Self = Zero::zero();
         let mut order: Self = One::one();
         for d in digits {

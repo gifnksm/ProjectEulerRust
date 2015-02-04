@@ -88,6 +88,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate num;
 extern crate prime;
@@ -111,7 +113,7 @@ fn solve() -> String {
 
     let mut sum = 0;
     let ps = PrimeSet::new();
-    let mut pairs = ps.iter()
+    let pairs = ps.iter()
         .zip(ps.iter().skip(1))
         .skip_while(|&(p1, _p2)| p1 < min_limit)
         .take_while(|&(p1, _p2)| p1 <= max_limit);

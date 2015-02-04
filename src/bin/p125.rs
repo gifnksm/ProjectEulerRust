@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
@@ -16,7 +18,7 @@ fn palindromic_sum_set(limit: u32) -> HashSet<u32> {
     let mut set = HashSet::new();
     let mut sq_sums: Vec<u32> = vec![];
 
-    let mut it = iter::count(1, 1)
+    let it = iter::count(1, 1)
         .map(|n| n * n)
         .take_while(|&pow| pow < limit);
 

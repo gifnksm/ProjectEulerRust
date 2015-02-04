@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 extern crate "iter" as itercrate;
@@ -66,7 +68,7 @@ impl Iterator for RunDigits {
     type Item = u64;
 
     fn next(&mut self) -> Option<u64> {
-        for set in self.iter {
+        while let Some(set) = self.iter.next() {
             let first = if set.contains(&0) { self.other_ds[0] } else { self.d };
             if first == 0 { continue }
 

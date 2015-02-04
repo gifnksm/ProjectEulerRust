@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(collections, core, io, unicode)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::old_io::{BufferedReader, File, IoErrorKind, IoResult};
@@ -18,7 +20,7 @@ const MAX_NUMBER: usize = 9;
 type BITS = u16;
 const MASK_ALL: BITS = 0x1ff;
 
-#[derive(Eq, PartialEq, Clone, Show)]
+#[derive(Eq, PartialEq, Clone, Debug)]
 struct SuDoku {
     name: String,
     map: [[BITS; BOARD_WIDTH]; BOARD_HEIGHT]
@@ -83,7 +85,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                 let col = (0 .. BOARD_HEIGHT).map(|y| (x, y));
                 let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
 
-                let mut it = row.chain(col).chain(grp)
+                let it = row.chain(col).chain(grp)
                     .filter(|&pos: &(usize, usize)| pos != (x, y));
                 let mask = !puzzle.map[y][x] & MASK_ALL;
                 for (x, y) in it { puzzle.map[y][x] &= mask; }

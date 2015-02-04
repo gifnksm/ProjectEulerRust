@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
@@ -55,7 +57,7 @@ impl Pandigimal {
         Some(new_pd)
     }
 
-    fn join_all<T: Iterator<Item = u32>>(&self, mut ds: T) -> Option<Pandigimal> {
+    fn join_all<T: Iterator<Item = u32>>(&self, ds: T) -> Option<Pandigimal> {
         let mut pd = *self;
         for d in ds {
             match pd.join(d) {

@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(int_uint)]
+
 #[macro_use(problem)] extern crate common;
 
 // x by y => C = (1 + 2 + .. + x) * (1 + 2 + .. + y) recutangulars

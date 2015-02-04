@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, core)]
+#![feature(core)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -117,7 +117,7 @@ fn compute() -> String {
     INPUT.trim()
         .lines()
         .map(|line| &line[0 .. 12])
-        .filter_map(StrExt::parse::<u64>)
+        .filter_map(|s| StrExt::parse::<u64>(s).ok())
         .sum()
         .to_string()[0 .. 10]
         .to_string()

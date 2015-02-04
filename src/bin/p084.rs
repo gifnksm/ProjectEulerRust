@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate "generic-matrix" as matrix;
 
@@ -11,7 +13,7 @@ use std::iter::{self, AdditiveIterator};
 use std::num::FromPrimitive;
 use matrix::Matrix;
 
-#[derive(FromPrimitive, Show, Eq, PartialEq, Copy)]
+#[derive(FromPrimitive, Debug, Eq, PartialEq, Copy)]
 enum Square {
     GO, A1, CC1, A2, T1, R1, B1, CH1, B2, B3, JAIL,
     C1, U1, C2, C3, R2, D1, CC2, D2, D3, FP,

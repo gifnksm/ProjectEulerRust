@@ -4,13 +4,15 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, int_uint)]
+
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
 use std::iter;
 use integer::Integer;
 
-fn is_increasing_with<T: Iterator<Item = uint>>(mut ds: T, mut prev: uint) -> bool {
+fn is_increasing_with<T: Iterator<Item = uint>>(ds: T, mut prev: uint) -> bool {
     for n in ds {
         if n < prev { return false }
         prev = n;
@@ -18,7 +20,7 @@ fn is_increasing_with<T: Iterator<Item = uint>>(mut ds: T, mut prev: uint) -> bo
     true
 }
 
-fn is_decreasing_with<T: Iterator<Item = uint>>(mut ds: T, mut prev: uint) -> bool {
+fn is_decreasing_with<T: Iterator<Item = uint>>(ds: T, mut prev: uint) -> bool {
     for n in ds {
         if n > prev { return false }
         prev = n;

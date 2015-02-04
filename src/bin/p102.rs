@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, io)]
+#![feature(core, io)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -82,7 +82,7 @@ fn solve(file: File) -> IoResult<String> {
         let ns = try!(line)
             .trim()
             .split(',')
-            .filter_map(StrExt::parse::<i32>)
+            .filter_map(|s| StrExt::parse::<i32>(s).ok())
             .collect::<Vec<_>>();
         let t = Triangle(Point(ns[0], ns[1]), Point(ns[2], ns[3]), Point(ns[4], ns[5]));
         if t.contains(origin) { cnt += 1 }

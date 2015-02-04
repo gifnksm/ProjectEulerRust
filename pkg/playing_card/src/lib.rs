@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, collections, unicode)]
+#![feature(collections, unicode)]
 
 use std::fmt;
 use std::str::FromStr;
@@ -35,14 +35,16 @@ impl fmt::Display for Suit {
 }
 
 impl FromStr for Suit {
-    fn from_str(s: &str) -> Option<Suit> {
-        if s.len() != 1 { return None; }
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Suit, ()> {
+        if s.len() != 1 { return Err(()) }
         return match s {
-            "S" => Some(Spade),
-            "H" => Some(Heart),
-            "D" => Some(Dia),
-            "C" => Some(Club),
-            _   => None
+            "S" => Ok(Spade),
+            "H" => Ok(Heart),
+            "D" => Ok(Dia),
+            "C" => Ok(Club),
+            _   => Err(())
         };
     }
 }
@@ -69,8 +71,10 @@ impl fmt::Display for SuitCard {
 }
 
 impl FromStr for SuitCard {
-    fn from_str(s: &str) -> Option<SuitCard> {
-        if s.len() != 2 { return None }
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<SuitCard, ()> {
+        if s.len() != 2 { return Err(()) }
         let (c0, c1) = s.slice_shift_char().unwrap();
         let suit = FromStr::from_str(c1);
                 let num = match c0 {
@@ -81,10 +85,10 @@ impl FromStr for SuitCard {
                     'K' => Some(13),
                     d => d.to_digit(10).map(|x| x as u8)
                 };
-        if let (Some(n), Some(s)) = (num, suit) {
-            Some(SuitCard { num: n, suit: s })
+        if let (Some(n), Ok(s)) = (num, suit) {
+            Ok(SuitCard { num: n, suit: s })
         } else {
-            None
+            Err(())
         }
     }
 }
@@ -109,10 +113,12 @@ impl fmt::Display for Card {
 }
 
 impl FromStr for Card {
-    fn from_str(s: &str) -> Option<Card> {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Card, ()> {
         match s {
-            "BJ" => Some(Card::BlackJoker),
-            "WJ" => Some(Card::WhiteJoker),
+            "BJ" => Ok(Card::BlackJoker),
+            "WJ" => Ok(Card::WhiteJoker),
             _    => FromStr::from_str(s).map(|sc| Card::Suit(sc))
         }
     }
@@ -134,7 +140,7 @@ mod tests {
     fn show_suit() {
         fn check_pair(s: String, suite: Suit) {
             assert_eq!(s, format!("{}", suite));
-            assert_eq!(Some(suite), s.parse());
+            assert_eq!(Ok(suite), s.parse());
         }
         check_pair("S".to_string(), Spade);
         check_pair("H".to_string(), Heart);
@@ -146,7 +152,7 @@ mod tests {
     fn show_card() {
         fn check_pair(s: String, card: Card) {
             assert_eq!(s, format!("{}", card));
-            assert_eq!(Some(card), s.parse());
+            assert_eq!(Ok(card), s.parse());
         }
         check_pair("BJ".to_string(), Card::BlackJoker);
         check_pair("WJ".to_string(), Card::WhiteJoker);

@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, io)]
+#![feature(core, io)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -17,7 +17,11 @@ fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<u32>>> {
     let mut mat = vec![];
 
     for line in br.lines() {
-        let row = try!(line).trim().split(',').filter_map(StrExt::parse::<u32>).collect();
+        let row = try!(line)
+            .trim()
+            .split(',')
+            .filter_map(|s| StrExt::parse::<u32>(s).ok())
+            .collect();
         mat.push(row);
     }
 

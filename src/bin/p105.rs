@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, int_uint, io)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::cmp::Ordering;
@@ -49,7 +51,7 @@ fn solve(file: File) -> IoResult<String> {
         let mut nums = try!(line)
             .trim()
             .split(',')
-            .filter_map(StrExt::parse::<uint>)
+            .filter_map(|s| StrExt::parse::<uint>(s).ok())
             .collect::<Vec<_>>();
 
         if is_sss(nums.as_mut_slice()) {

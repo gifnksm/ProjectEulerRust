@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate num;
 
@@ -64,9 +66,9 @@ mod tests {
 
     #[test]
     fn frac() {
-        fn gen(n: uint, d: uint) -> (BigUint, BigUint) {
-            (FromPrimitive::from_uint(n).unwrap(),
-             FromPrimitive::from_uint(d).unwrap())
+        fn gen(n: u32, d: u32) -> (BigUint, BigUint) {
+            (FromPrimitive::from_u32(n).unwrap(),
+             FromPrimitive::from_u32(d).unwrap())
         }
         let mut it = Frac::new();
         assert_eq!(Some(gen(3, 2)), it.next());

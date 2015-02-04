@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core)]
+
 #[macro_use(problem)] extern crate common;
 extern crate num;
 extern crate prime;
@@ -40,7 +42,6 @@ problem!("149253", solve);
 #[cfg(test)]
 mod tests {
     use std::iter;
-    use std::num::FromPrimitive;
     use num::Integer;
     use prime::PrimeSet;
 

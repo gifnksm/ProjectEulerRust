@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::iter::MultiplicativeIterator;
@@ -35,7 +37,7 @@ fn compute(prod_len: usize) -> u32 {
     let grid: Vec<Vec<u32>> = INPUT
         .trim()
         .lines()
-        .map(|line| line.words().filter_map(StrExt::parse).collect())
+        .map(|line| line.words().filter_map(|s| StrExt::parse(s).ok()).collect())
         .collect();
 
     let w = grid[0].len();

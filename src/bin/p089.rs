@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, int_uint, io)]
+
 #[macro_use(problem)] extern crate common;
 
 use std::uint;
@@ -34,7 +36,7 @@ fn from_roman(mut s: &str) -> Option<uint> {
             Some(&(ds, d)) => {
                 if d > last_d { return None; }
                 n += d;
-                s = s.slice(ds.len(), s.len());
+                s = &s[ds.len() ..];
                 last_d = d;
             }
             None => { return None; }

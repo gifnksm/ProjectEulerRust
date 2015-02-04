@@ -2,6 +2,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
+#![feature(core, int_uint, io, os, path)]
+
 extern crate glob;
 extern crate "rustc-serialize" as rustc_serialize;
 extern crate term;
@@ -29,7 +31,7 @@ macro_rules! try2 {
 type ProgramResult<T> = Result<T, ProgramError>;
 type OutputPair<'a> = (Option<Color>, CowString<'a>);
 
-#[derive(Show)]
+#[derive(Debug)]
 enum ProgramErrorKind {
     IoError(io::IoError),
     JsonSyntaxError(json::ErrorCode, uint, uint),
@@ -37,7 +39,7 @@ enum ProgramErrorKind {
     Unknown
 }
 
-#[derive(Show)]
+#[derive(Debug)]
 struct ProgramError {
     kind: ProgramErrorKind,
     message: CowString<'static>
