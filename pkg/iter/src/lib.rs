@@ -214,12 +214,16 @@ impl<'a, T: Clone> Iterator for Permutations<'a, T> {
 }
 
 /// An iterator that enumerates elemnts that is contained in the first iterator.
-pub struct Difference<E, M, S> where S: Iterator<Item = E> {
+pub struct Difference<M, S>
+    where M: Iterator, S: Iterator
+{
     minuend: M,
-    subtrahend: Peekable<E, S>
+    subtrahend: Peekable<S>
 }
 
-impl<E, M, S: Iterator<Item = E>> Difference<E, M, S> {
+impl<E, M, S> Difference<M, S>
+    where M: Iterator<Item = E>, S: Iterator<Item = E>
+{
     /// Creates a new `Difference` iterator.
     ///
     /// ```rust
@@ -237,12 +241,12 @@ impl<E, M, S: Iterator<Item = E>> Difference<E, M, S> {
     /// assert_eq!(Some(8), it.next());
     /// assert_eq!(Some(10), it.next());
     /// ```
-    pub fn new(m: M, s: S) -> Difference<E, M, S> {
+    pub fn new(m: M, s: S) -> Difference<M, S> {
         Difference { minuend: m, subtrahend: s.peekable() }
     }
 }
 
-impl<E, M, S> Iterator for Difference<E, M, S>
+impl<E, M, S> Iterator for Difference<M, S>
     where E: Eq + Ord, M: Iterator<Item = E>, S: Iterator<Item = E>
 {
     type Item = E;
