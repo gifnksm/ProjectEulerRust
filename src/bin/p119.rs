@@ -60,7 +60,7 @@ impl Iterator for Powers {
 
 fn compute_a(n: usize) -> (u64, u64, u64) {
     Powers::new()
-        .skip_while(|&mut: &(n, _b, _e)| n < 10)
+        .skip_while(|&(n, _b, _e)| n < 10)
         .filter(|&(n, b, _e)| n.into_digits(10).sum() == b)
         .nth(n - 1).unwrap()
 }

@@ -5,10 +5,10 @@
         unused_qualifications, unused_results, unused_typecasts)]
 
 #![feature(core, io)]
-#![cfg_attr(test, feature(rand))]
 
 #[macro_use(problem)] extern crate common;
 extern crate playing_card;
+#[cfg(test)] extern crate rand;
 
 use std::cmp::Ordering;
 use std::fmt;
@@ -322,7 +322,7 @@ mod tests {
     use super::Hand;
     use std::cmp::Ordering;
     use std::str::FromStr;
-    use std::rand::{self, Rng};
+    use rand::{self, Rng};
     use playing_card::SuitCard as Card;
 
     fn str_to_cards(s: &str) -> Vec<Card> {

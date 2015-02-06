@@ -24,6 +24,9 @@ time = "*"
 union-find = "*"
 topological-sort = "*"
 
+[dev-dependencies]
+rand = "*"
+
 [dependencies.cont_frac]
 path = "./pkg/cont_frac"
 
