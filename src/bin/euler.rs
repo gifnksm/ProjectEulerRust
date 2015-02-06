@@ -11,6 +11,7 @@ extern crate common;
 
 use std::borrow::IntoCow;
 use std::env;
+use std::error::FromError;
 use std::old_io as io;
 use std::old_io::{Command, MemReader};
 use std::old_io::process::ExitStatus;
@@ -23,10 +24,6 @@ use term::color::Color;
 use common::SolverResult;
 
 const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
-
-macro_rules! try2 {
-    ($e:expr) => (try!($e.map_err(|e| e.to_program_error())))
-}
 
 type ProgramResult<T> = Result<T, ProgramError>;
 type OutputPair<'a> = (Option<Color>, CowString<'a>);
@@ -54,39 +51,30 @@ impl ProgramError {
     }
 }
 
-trait ToProgramError {
-    fn to_program_error(self) -> ProgramError;
-}
-
-impl ToProgramError for io::IoError {
-    fn to_program_error(self) -> ProgramError {
-        ProgramError::new(self.desc.into_cow(), ProgramErrorKind::IoError(self))
+impl FromError<io::IoError> for ProgramError {
+    fn from_error(err: io::IoError) -> ProgramError {
+        ProgramError::new(err.desc.into_cow(), ProgramErrorKind::IoError(err))
     }
 }
 
-impl ToProgramError for json::ParserError {
-    fn to_program_error(self) -> ProgramError {
-        match self {
+impl FromError<json::ParserError> for ProgramError {
+    fn from_error(err: json::ParserError) -> ProgramError {
+        match err {
             json::ParserError::SyntaxError(code, line, col) => {
                 ProgramError::new(format!("{}:{}:{}", line, col, json::error_str(code)),
                                   ProgramErrorKind::JsonSyntaxError(code, line, col))
-            },
+            }
             json::ParserError::IoError(kind, desc) => {
-                (io::IoError {kind: kind, desc: desc, detail: None })
-                    .to_program_error()
+                FromError::from_error(io::IoError {kind: kind, desc: desc, detail: None })
             }
         }
     }
 }
 
-impl ToProgramError for json::DecoderError {
-    fn to_program_error(self: json::DecoderError) -> ProgramError {
-        ProgramError::new(format!("{:?}", self), ProgramErrorKind::JsonDecoderError(self))
+impl FromError<json::DecoderError> for ProgramError {
+    fn from_error(err: json::DecoderError) -> ProgramError {
+        ProgramError::new(format!("{:?}", err), ProgramErrorKind::JsonDecoderError(err))
     }
-}
-
-fn exe_path() -> ProgramResult<Path> {
-    Ok(try2!(env::current_exe()))
 }
 
 fn problem_paths(dir_path: Path) -> ProgramResult<Paths> {
@@ -98,7 +86,7 @@ fn problem_paths(dir_path: Path) -> ProgramResult<Paths> {
 }
 
 fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
-    let proc_out = try2!(Command::new(path).arg("--json").output());
+    let proc_out = try!(Command::new(path).arg("--json").output());
 
     if !proc_out.error.is_empty() {
         let _ = match str::from_utf8(&proc_out.error[]) {
@@ -114,12 +102,12 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
         }
     }
 
-    let json = try2!(Json::from_reader(&mut MemReader::new(proc_out.output)));
-    Ok(try2!(Decodable::decode(&mut json::Decoder::new(json))))
+    let json = try!(Json::from_reader(&mut MemReader::new(proc_out.output)));
+    Ok(try!(Decodable::decode(&mut json::Decoder::new(json))))
 }
 
 fn run() -> ProgramResult<()> {
-    let dir_path = try!(exe_path()).dir_path();
+    let dir_path = try!(env::current_exe()).dir_path();
     let mut out = io::stdout();
 
     let mut is_ok = true;
