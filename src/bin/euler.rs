@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint, io, os, path)]
+#![feature(core, env, int_uint, io, path)]
 
 extern crate glob;
 extern crate "rustc-serialize" as rustc_serialize;
@@ -10,10 +10,10 @@ extern crate term;
 extern crate common;
 
 use std::borrow::IntoCow;
+use std::env;
 use std::old_io as io;
 use std::old_io::{Command, MemReader};
 use std::old_io::process::ExitStatus;
-use std::os;
 use std::str;
 use std::string::CowString;
 use glob::Paths;
@@ -86,10 +86,7 @@ impl ToProgramError for json::DecoderError {
 }
 
 fn exe_path() -> ProgramResult<Path> {
-    match os::self_exe_name() {
-        Some(x) => Ok(x),
-        None    => Err(ProgramError::new("cannot get self exe name", ProgramErrorKind::Unknown))
-    }
+    Ok(try2!(env::current_exe()))
 }
 
 fn problem_paths(dir_path: Path) -> ProgramResult<Paths> {
@@ -163,7 +160,7 @@ fn run() -> ProgramResult<()> {
     }
 
     if !is_ok {
-        os::set_exit_status(1);
+        env::set_exit_status(1);
     }
 
     Ok(())
@@ -172,6 +169,6 @@ fn run() -> ProgramResult<()> {
 fn main() {
     if let Err(e) = run() {
         let _ = writeln!(&mut io::stderr(), "{:?}", e);
-        os::set_exit_status(255);
+        env::set_exit_status(255);
     }
 }

@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, collections, io, os, path)]
+#![feature(core, collections, io, env, os, path)]
 
 extern crate curl;
 extern crate getopts;
@@ -13,7 +13,7 @@ extern crate time;
 
 use std::borrow::IntoCow;
 use std::error::{Error, FromError};
-use std::{fmt, os};
+use std::{env, fmt};
 use std::old_io as io;
 use std::old_io::{IoResult, File};
 use std::old_io::fs::{self, PathExtensions};
@@ -184,7 +184,7 @@ impl<'a> Solver<'a> {
     }
 
     pub fn run(self) {
-        let args = os::args();
+        let args = env::args().map(|oss| oss.into_string().unwrap()).collect::<Vec<_>>();
         let program = &args[0];
 
         let mut opts = Options::new();
@@ -195,7 +195,7 @@ impl<'a> Solver<'a> {
             Ok(m) => m,
             Err(f) => {
                 let _ = writeln!(&mut io::stderr(), "{}: {}", program, f);
-                os::set_exit_status(255);
+                env::set_exit_status(255);
                 return
             }
         };
@@ -209,11 +209,11 @@ impl<'a> Solver<'a> {
         match self.solve() {
             Err(err) => {
                 let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
-                os::set_exit_status(255);
+                env::set_exit_status(255);
             }
             Ok(result) => {
                 if !result.is_ok {
-                    os::set_exit_status(1);
+                    env::set_exit_status(1);
                 }
                 if matches.opt_present("json") {
                     let _ = result.print_json(&mut io::stdout());
