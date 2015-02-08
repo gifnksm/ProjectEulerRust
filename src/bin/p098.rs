@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, core, io, std_misc)]
+#![feature(collections, core, io)]
 
 #[macro_use(problem)] extern crate common;
 extern crate integer;
