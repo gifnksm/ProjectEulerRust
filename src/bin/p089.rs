@@ -4,11 +4,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint, io)]
+#![feature(int_uint, io)]
 
 #[macro_use(problem)] extern crate common;
 
-use std::uint;
+use std::usize;
 use std::old_io::{BufferedReader, File, IoResult};
 
 const ROMAN_PAIRS: &'static [(&'static str, uint)] = &[
@@ -28,7 +28,7 @@ const ROMAN_PAIRS: &'static [(&'static str, uint)] = &[
 ];
 
 fn from_roman(mut s: &str) -> Option<uint> {
-    let mut last_d = uint::MAX;
+    let mut last_d = usize::MAX;
 
     let mut n = 0;
     while !s.is_empty() {

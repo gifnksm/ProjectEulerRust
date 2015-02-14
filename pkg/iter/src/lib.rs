@@ -4,8 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
-#![cfg_attr(test, feature(test))]
+#![feature(collections)]
+#![cfg_attr(test, feature(core, test))]
 
 #[cfg(test)]
 extern crate test;

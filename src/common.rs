@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, collections, io, env, os, path)]
+#![feature(core, collections, io, env, path)]
 
 extern crate curl;
 extern crate getopts;
@@ -184,7 +184,7 @@ impl<'a> Solver<'a> {
     }
 
     pub fn run(self) {
-        let args = env::args().map(|oss| oss.into_string().unwrap()).collect::<Vec<_>>();
+        let args = env::args().collect::<Vec<_>>();
         let program = &args[0];
 
         let mut opts = Options::new();
