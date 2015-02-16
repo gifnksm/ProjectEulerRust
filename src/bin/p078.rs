@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint)]
+#![feature(core)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -30,14 +30,16 @@ fn solve() -> String {
             };
             if p > n { break; }
 
+            let idx = (n - p) as usize;
+
             way = match k {
-                0 => way + v[(n - p) as uint],
-                1 => way + v[(n - p) as uint],
-                2 => way - v[(n - p) as uint],
-                _ => way - v[(n - p) as uint]
+                0 => way + v[idx],
+                1 => way + v[idx],
+                2 => way - v[idx],
+                _ => way - v[idx]
             } % MILLION
         }
-        v[n as uint] = way;
+        v[n as usize] = way;
 
         if way == 0 { return n.to_string() }
     }

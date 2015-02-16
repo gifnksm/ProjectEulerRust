@@ -4,18 +4,16 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(int_uint)]
-
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
 use std::iter;
 use prime::PrimeSet;
 
-fn compute(limit: u64) -> uint {
+fn compute(limit: u64) -> u32 {
     let prime = PrimeSet::new();
-    let mut cnt = 0u;
-    let mut set = iter::repeat(false).take(limit as uint).collect::<Vec<_>>();
+    let mut cnt = 0;
+    let mut set = iter::repeat(false).take(limit as usize).collect::<Vec<_>>();
 
     for p in prime.iter() {
         let p4 = p * p * p * p;
@@ -30,8 +28,8 @@ fn compute(limit: u64) -> uint {
                 let s = p4 + q3 + r2;
                 if s >= limit { break }
 
-                if set[s as uint] { continue }
-                set[s as uint] = true;
+                if set[s as usize] { continue }
+                set[s as usize] = true;
                 cnt += 1;
             }
         }

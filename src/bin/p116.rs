@@ -4,14 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint)]
+#![feature(core)]
 
 #[macro_use(problem)] extern crate common;
 
 use std::iter;
 use std::collections::HashMap;
 
-fn count(len: uint, unit: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
+fn count(len: u64, unit: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 {
     if let Some(&x) = map.get(&(len, unit)) {
         return x
     }
@@ -27,10 +27,10 @@ fn count(len: uint, unit: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
     sum
 }
 
-fn count_red(len: uint, map: &mut HashMap<(uint, uint), uint>) -> uint { count(len, 2, map) - 1 }
-fn count_green(len: uint, map: &mut HashMap<(uint, uint), uint>) -> uint { count(len, 3, map) - 1 }
-fn count_blue(len: uint, map: &mut HashMap<(uint, uint), uint>) -> uint { count(len, 4, map) - 1 }
-fn count_all(len: uint, map: &mut HashMap<(uint, uint), uint>) -> uint {
+fn count_red(len: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 { count(len, 2, map) - 1 }
+fn count_green(len: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 { count(len, 3, map) - 1 }
+fn count_blue(len: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 { count(len, 4, map) - 1 }
+fn count_all(len: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 {
     count_red(len, map) + count_green(len, map) + count_blue(len, map)
 }
 

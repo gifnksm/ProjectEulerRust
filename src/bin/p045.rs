@@ -4,26 +4,24 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(int_uint)]
-
 #[macro_use(problem)] extern crate common;
 
-fn triangle(i: uint) -> uint {
+fn triangle(i: u32) -> u32 {
     let n = i + 1;
     n * (n + 1) / 2
 }
 
-fn pentagonal(i: uint) -> uint {
+fn pentagonal(i: u32) -> u32 {
     let n = i + 1;
     n * (3 * n - 1) / 2
 }
 
-fn hexagonal(i: uint) -> uint {
+fn hexagonal(i: u32) -> u32 {
     let n = i + 1;
     n * (2 * n - 1)
 }
 
-fn compute(start: uint) -> uint {
+fn compute(start: u32) -> u32 {
     let mut n = start;
 
     let mut t_i = 0;

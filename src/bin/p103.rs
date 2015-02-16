@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint)]
+#![feature(core)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -16,8 +16,8 @@ use std::iter;
 #[derive(Debug)]
 struct SSS {
     avg: f64,
-    nums: Vec<uint>,
-    sums: Vec<uint>
+    nums: Vec<u32>,
+    sums: Vec<u32>
 }
 
 impl PartialEq for SSS {
@@ -43,7 +43,7 @@ impl SSS {
         SSS { avg: 0.0, nums: vec![], sums: vec![0] }
     }
 
-    fn new_with_pair(a: uint, b: uint) -> SSS {
+    fn new_with_pair(a: u32, b: u32) -> SSS {
         assert!(a < b);
         SSS {
             avg: ((a + b) as f64) / 2.0,
@@ -52,7 +52,7 @@ impl SSS {
         }
     }
 
-    fn append_num(&self, n: uint) -> Option<SSS> {
+    fn append_num(&self, n: u32) -> Option<SSS> {
         let mut i = 0;
         let mut j = 0;
         let len = self.sums.len();
@@ -79,7 +79,7 @@ impl SSS {
         Some(SSS { avg: avg, nums: nums, sums: sums })
     }
 
-    fn max_addable(&self) -> uint {
+    fn max_addable(&self) -> u32 {
         // 6: [a, b, c, d, e, f] => (a + b + c + d) - (e + f) - 1
         // 5: [a, b, c, d, e]    => (a + b + c)     - e       - 1
         // 4: [a, b, c, d]       => (a + b + c)     - d       - 1

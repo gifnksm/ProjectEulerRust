@@ -4,14 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(int_uint)]
-
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
 use prime::PrimeSet;
 
-fn compute(n: uint) -> u64 { PrimeSet::new().nth(n) }
+fn compute(n: usize) -> u64 { PrimeSet::new().nth(n) }
 
 fn solve() -> String { compute(10001 - 1).to_string() }
 

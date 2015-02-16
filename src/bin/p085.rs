@@ -4,22 +4,20 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(int_uint)]
-
 #[macro_use(problem)] extern crate common;
 
 // x by y => C = (1 + 2 + .. + x) * (1 + 2 + .. + y) recutangulars
 //             = (x (1 + x) / 2) * (y (1 + y)) / 2
 //             = xy (1 + x)(1 + y) / 4
-fn count_rect((x, y): (uint, uint)) -> uint {
+fn count_rect((x, y): (u32, u32)) -> u32 {
     x * y * (1 + x) * (1 + y) / 4
 }
 
-fn distance(a: uint, target: uint) -> uint {
+fn distance(a: u32, target: u32) -> u32 {
     if a > target { a - target } else { target - a }
 }
 
-fn check_distance(min_dist: &mut uint, min_pos: &mut (uint, uint), pos: (uint, uint), target: uint) {
+fn check_distance(min_dist: &mut u32, min_pos: &mut (u32, u32), pos: (u32, u32), target: u32) {
     let dist = distance(count_rect(pos), target);
     if dist < *min_dist {
         *min_dist = dist;

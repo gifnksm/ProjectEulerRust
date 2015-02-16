@@ -87,7 +87,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint)]
+#![feature(core)]
 
 #[macro_use(problem)] extern crate common;
 extern crate prime;
@@ -95,7 +95,7 @@ extern crate prime;
 use std::iter;
 use prime::PrimeSet;
 
-fn compute(limit: u64) -> uint {
+fn compute(limit: u64) -> usize {
     let ps = PrimeSet::new();
 
     iter::count(1, 1)

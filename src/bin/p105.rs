@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint, io)]
+#![feature(core, io)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -12,7 +12,7 @@ use std::cmp::Ordering;
 use std::iter::AdditiveIterator;
 use std::old_io::{BufferedReader, File, IoResult};
 
-fn is_sss(nums: &mut [uint]) -> bool {
+fn is_sss(nums: &mut [u32]) -> bool {
     nums.sort();
 
     let len = nums.len();
@@ -22,7 +22,7 @@ fn is_sss(nums: &mut [uint]) -> bool {
     let tl = nums[len - len_tl ..].iter().map(|&x| x).sum();
     if hd <= tl { return false }
 
-    let mut sums = vec![0u];
+    let mut sums = vec![0];
     for &n in nums.iter() {
         let mut i = 0;
         let mut j = 0;
@@ -51,7 +51,7 @@ fn solve(file: File) -> IoResult<String> {
         let mut nums = try!(line)
             .trim()
             .split(',')
-            .filter_map(|s| StrExt::parse::<uint>(s).ok())
+            .filter_map(|s| StrExt::parse::<u32>(s).ok())
             .collect::<Vec<_>>();
 
         if is_sss(nums.as_mut_slice()) {

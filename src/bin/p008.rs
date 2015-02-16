@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(int_uint, unicode)]
+#![feature(unicode)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -31,7 +31,7 @@ const INPUT: &'static str = "
 71636269561882670428252483600823257530420752963450
 ";
 
-fn compute(prod_len: uint) -> u64 {
+fn compute(prod_len: usize) -> u64 {
     INPUT.chars()
         .filter_map(|c| c.to_digit(10))
         .map(|n| n as u64)

@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint)]
+#![feature(core)]
 
 #[macro_use(problem)] extern crate common;
 extern crate prime;
@@ -12,7 +12,7 @@ extern crate prime;
 use std::iter;
 use prime::{Factorize, PrimeSet};
 
-fn compute(len: uint, num_factor: uint) -> uint {
+fn compute(len: usize, num_factor: usize) -> usize {
     let ps = PrimeSet::new();
     let mut cnt = 0;
 

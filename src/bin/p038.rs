@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(int_uint)]
-
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 extern crate iter;
@@ -19,7 +17,7 @@ fn compute() -> String {
 
     let mut ans = 0;
     for (ds, rest) in Permutations::new(nums, 4) {
-        let n: uint = Integer::from_digits(ds.iter().rev().map(|&x| x), radix);
+        let n: u32 = Integer::from_digits(ds.iter().rev().map(|&x| x), radix);
         let mut ds2 = (n * 2).into_digits(radix).collect::<Vec<_>>();
         ds2.sort_by(|a, b| b.cmp(a));
 

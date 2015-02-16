@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(int_uint)]
-
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 extern crate num;
@@ -13,7 +11,7 @@ extern crate num;
 use num::Integer as NumInteger;
 use integer::Integer;
 
-fn compute(mut idx: uint, mut set: Vec<uint>) -> uint {
+fn compute(mut idx: usize, mut set: Vec<usize>) -> usize {
     let mut result = vec![];
     while set.len() > 0 {
         let perm = (set.len() - 1).factorial();

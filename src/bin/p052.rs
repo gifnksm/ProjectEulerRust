@@ -4,14 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(int_uint)]
-
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
 use integer::Integer;
 
-fn compute() -> uint {
+fn compute() -> u32 {
     let radix  = 10;
     let repeat = 6;
     let mut n     = 0;

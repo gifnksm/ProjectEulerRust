@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint)]
+#![feature(core)]
 
 extern crate num;
 #[macro_use(problem)] extern crate common;
@@ -14,8 +14,8 @@ use std::iter::AdditiveIterator;
 use num::Integer;
 use seq::Fibonacci;
 
-fn compute(bound: uint) -> uint {
-    Fibonacci::<uint>::new()
+fn compute(bound: u32) -> u32 {
+    Fibonacci::new()
         .take_while(|&f| f < bound)
         .filter(|&f| f.is_even())
         .sum()

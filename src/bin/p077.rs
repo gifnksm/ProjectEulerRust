@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint)]
+#![feature(core)]
 
 #[macro_use(problem)] extern crate common;
 extern crate prime;
@@ -13,7 +13,7 @@ use std::collections::HashMap;
 use std::iter;
 use prime::PrimeSet;
 
-fn count_way(ps: &PrimeSet, sum: u64, map: &mut HashMap<(u64, uint), uint>) -> uint {
+fn count_way(ps: &PrimeSet, sum: u64, map: &mut HashMap<(u64, usize), u32>) -> u32 {
     let cnt = count_sub(ps, sum, 0, map);
 
     if ps.contains(sum) {
@@ -23,8 +23,8 @@ fn count_way(ps: &PrimeSet, sum: u64, map: &mut HashMap<(u64, uint), uint>) -> u
     }
 
     fn count_sub(
-        ps: &PrimeSet, sum: u64, min_idx: uint, map: &mut HashMap<(u64, uint), uint>
-    ) -> uint {
+        ps: &PrimeSet, sum: u64, min_idx: usize, map: &mut HashMap<(u64, usize), u32>
+    ) -> u32 {
         let mut cnt = 0;
         for i in iter::count(min_idx, 1) {
             let p = ps.nth(i);
@@ -51,7 +51,7 @@ fn count_way(ps: &PrimeSet, sum: u64, map: &mut HashMap<(u64, uint), uint>) -> u
 fn solve() -> String {
     let ps = PrimeSet::new();
     let mut map = HashMap::new();
-    iter::count(1u64, 1)
+    iter::count(1, 1)
         .skip_while(|&n| count_way(&ps, n, &mut map) <= 5000)
         .next()
         .unwrap()

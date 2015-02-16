@@ -4,14 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(int_uint, io)]
+#![feature(io)]
 
 #[macro_use(problem)] extern crate common;
 
-use std::usize;
+use std::u32;
 use std::old_io::{BufferedReader, File, IoResult};
 
-const ROMAN_PAIRS: &'static [(&'static str, uint)] = &[
+const ROMAN_PAIRS: &'static [(&'static str, u32)] = &[
     ("IV", 4),
     ("IX", 9),
     ("XL", 40),
@@ -27,8 +27,8 @@ const ROMAN_PAIRS: &'static [(&'static str, uint)] = &[
     ("M", 1000)
 ];
 
-fn from_roman(mut s: &str) -> Option<uint> {
-    let mut last_d = usize::MAX;
+fn from_roman(mut s: &str) -> Option<u32> {
+    let mut last_d = u32::MAX;
 
     let mut n = 0;
     while !s.is_empty() {
@@ -46,7 +46,7 @@ fn from_roman(mut s: &str) -> Option<uint> {
     Some(n)
 }
 
-fn to_roman(mut n: uint) -> String {
+fn to_roman(mut n: u32) -> String {
     let mut s = String::new();
     while n >= 1000 { n -= 1000; s.push_str("M");  }
     if n >= 900     { n -= 900;  s.push_str("CM"); }

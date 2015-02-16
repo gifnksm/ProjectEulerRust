@@ -4,26 +4,26 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, int_uint)]
+#![feature(core)]
 
 #[macro_use(problem)] extern crate common;
 
-use std::{iter, uint};
+use std::{iter, u32};
 
-fn backtrack(power: uint, depth: uint, limit: uint, cost: &mut [uint], path: &mut [uint]) {
-    if power > limit || depth > cost[power] { return }
+fn backtrack(power: u32, depth: u32, limit: u32, cost: &mut [u32], path: &mut [u32]) {
+    if power > limit || depth > cost[power as usize] { return }
 
-    cost[power] = depth;
-    path[depth] = power;
+    cost[power as usize] = depth;
+    path[depth as usize] = power;
 
     for i in iter::range_inclusive(0, depth).rev() {
-        backtrack(power + path[i], depth + 1, limit, cost, path);
+        backtrack(power + path[i as usize], depth + 1, limit, cost, path);
     }
 }
 
-fn compute_cost(limit: uint) -> Vec<uint> {
-    let mut cost = iter::repeat(uint::MAX).take(limit + 1).collect::<Vec<_>>();
-    let mut path = iter::repeat(0).take(limit + 1).collect::<Vec<_>>();
+fn compute_cost(limit: u32) -> Vec<u32> {
+    let mut cost = iter::repeat(u32::MAX).take((limit + 1) as usize).collect::<Vec<_>>();
+    let mut path = iter::repeat(0).take((limit + 1) as usize).collect::<Vec<_>>();
 
     backtrack(1, 0, limit, cost.as_mut_slice(), path.as_mut_slice());
 
@@ -32,7 +32,7 @@ fn compute_cost(limit: uint) -> Vec<uint> {
 
 fn solve() -> String {
     let limit = 200;
-    compute_cost(200)[1 .. limit + 1]
+    compute_cost(limit)[1 .. (limit as usize) + 1]
         .iter()
         .fold(0, |x, &y| x + y)
         .to_string()
@@ -46,6 +46,6 @@ mod tests {
     fn m15() {
         let limit = 15;
         let cost = super::compute_cost(limit);
-        assert_eq!(5, cost[limit]);
+        assert_eq!(5, cost[limit as usize]);
     }
 }

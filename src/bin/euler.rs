@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, env, int_uint, io, path)]
+#![feature(core, env, io, path)]
 
 extern crate glob;
 extern crate "rustc-serialize" as rustc_serialize;
@@ -31,7 +31,7 @@ type OutputPair<'a> = (Option<Color>, CowString<'a>);
 #[derive(Debug)]
 enum ProgramErrorKind {
     IoError(io::IoError),
-    JsonSyntaxError(json::ErrorCode, uint, uint),
+    JsonSyntaxError(json::ErrorCode, usize, usize),
     JsonDecoderError(json::DecoderError),
     Unknown
 }
