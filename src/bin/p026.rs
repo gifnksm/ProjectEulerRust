@@ -8,11 +8,9 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::iter;
-
 fn get_cycle_len(n: u32) -> u32 {
     if n == 1 { return 1 }
-    let mut buf = iter::repeat(None).take(n as usize).collect::<Vec<_>>();
+    let mut buf = vec![None; n as usize];
     let mut rem = 1;
     let mut idx = 1;
     loop {

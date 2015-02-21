@@ -7,7 +7,6 @@
 #[macro_use(problem)] extern crate common;
 
 use std::collections::HashMap;
-use std::iter;
 
 #[derive(Clone)]
 enum Length { Loop(usize), Chain(usize), Unknown }
@@ -71,9 +70,7 @@ fn solve() -> String {
         val
     };
 
-    let mut map = iter::repeat(Length::Unknown)
-        .take((factorial[9] * 6 + 1) as usize)
-.collect::<Vec<_>>();
+    let mut map = vec![Length::Unknown; (factorial[9] * 6 + 1) as usize];
     let mut cnt = 0;
     for n in (1u32 .. limit + 1) {
         let len = get_chain_len(n, map.as_mut_slice(), &factorial);

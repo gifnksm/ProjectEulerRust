@@ -7,7 +7,6 @@
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter;
 use prime::{Factorize, PrimeSet};
 
 fn compute(max: u32) -> u32 {
@@ -19,9 +18,7 @@ fn compute(max: u32) -> u32 {
 
     let mut sum_of_sum_abundant = 0;
 
-    let mut is_sum_abundant = iter::repeat(false)
-        .take((max + 1) as usize)
-        .collect::<Vec<_>>();
+    let mut is_sum_abundant = vec![false; (max + 1) as usize];
 
     for (i, &a) in abundant.iter().enumerate() {
         for &b in abundant[i..].iter() {

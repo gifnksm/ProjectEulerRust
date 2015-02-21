@@ -27,7 +27,7 @@ const G2J_DOUBLES_COUNT: usize = 3;
 const NUM_STATE: usize = G2J_DOUBLES_COUNT * NUM_SQUARE;
 
 fn create_roll_distribution(dice_side: usize) -> Vec<(f64, f64)> {
-    let mut dist = iter::repeat((0.0, 0.0)).take(dice_side * 2 + 1).collect::<Vec<_>>();
+    let mut dist = vec![(0.0, 0.0); dice_side * 2 + 1];
     for i in (1 .. dice_side + 1) {
         for j in (1 .. dice_side + 1) {
             let sum = i + j;

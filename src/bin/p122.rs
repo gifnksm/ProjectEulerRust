@@ -22,8 +22,8 @@ fn backtrack(power: u32, depth: u32, limit: u32, cost: &mut [u32], path: &mut [u
 }
 
 fn compute_cost(limit: u32) -> Vec<u32> {
-    let mut cost = iter::repeat(u32::MAX).take((limit + 1) as usize).collect::<Vec<_>>();
-    let mut path = iter::repeat(0).take((limit + 1) as usize).collect::<Vec<_>>();
+    let mut cost = vec![u32::MAX; (limit + 1) as usize];
+    let mut path = vec![0; (limit + 1) as usize];
 
     backtrack(1, 0, limit, cost.as_mut_slice(), path.as_mut_slice());
 

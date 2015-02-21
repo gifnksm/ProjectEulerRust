@@ -92,7 +92,6 @@
 extern crate num;
 extern crate prime;
 
-use std::iter;
 use num::Integer;
 use prime::PrimeSet;
 
@@ -100,9 +99,7 @@ fn solve() -> String {
     let min_limit = 5;
     let max_limit = 1000000;
 
-    let mut mod_map = (0u32 .. 10).map(|_| {
-        iter::repeat(0).take(10).collect::<Vec<_>>()
-    }).collect::<Vec<_>>();
+    let mut mod_map = vec![vec![0; 10]; 10];
     for &b in [1, 3, 7, 9].iter() {
         for n in (1 .. 10u64) {
             mod_map[b as usize][((b * n) % 10) as usize] = n;

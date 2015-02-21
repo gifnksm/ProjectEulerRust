@@ -10,7 +10,6 @@
 extern crate seq;
 
 use std::old_io::{BufferedReader, IoResult, File};
-use std::iter;
 use seq::TriangularNums;
 
 fn word_to_value(word: &str) -> u32 {
@@ -45,9 +44,7 @@ fn solve(file: File) -> IoResult<String> {
     }
 
     let max_value = *values.iter().max().unwrap();
-    let mut is_tri = iter::repeat(false)
-        .take((max_value + 1) as usize)
-        .collect::<Vec<_>>();
+    let mut is_tri = vec![false; (max_value + 1) as usize];
     for t in TriangularNums::<u32>::new().take_while(|&t| t <= max_value) {
         is_tri[t as usize] = true;
     }

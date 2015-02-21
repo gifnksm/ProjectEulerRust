@@ -7,13 +7,12 @@
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter;
 use prime::PrimeSet;
 
 fn compute(limit: u64) -> u32 {
     let prime = PrimeSet::new();
     let mut cnt = 0;
-    let mut set = iter::repeat(false).take(limit as usize).collect::<Vec<_>>();
+    let mut set = vec![false; limit as usize];
 
     for p in prime.iter() {
         let p4 = p * p * p * p;

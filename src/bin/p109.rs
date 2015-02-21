@@ -7,14 +7,13 @@
 #[macro_use(problem)] extern crate common;
 extern crate polynomial;
 
-use std::iter;
 use polynomial::Polynomial;
 
 fn count_way(score: u32) -> u32 {
-    let mut single = iter::repeat(0u32).take(26).collect::<Vec<_>>();
-    let mut double = iter::repeat(0u32).take(51).collect::<Vec<_>>();
-    let mut triple = iter::repeat(0u32).take(61).collect::<Vec<_>>();
-    let mut dup    = iter::repeat(0u32).take(121).collect::<Vec<_>>();
+    let mut single = vec![0u32; 26];
+    let mut double = vec![0; 51];
+    let mut triple = vec![0; 61];
+    let mut dup    = vec![0; 121];
     for i in (1usize .. 21) {
         single[1 * i] = 1;
         double[2 * i] = 1;

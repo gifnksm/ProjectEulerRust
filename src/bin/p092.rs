@@ -9,7 +9,7 @@
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
-use std::iter::{self, AdditiveIterator};
+use std::iter::AdditiveIterator;
 use integer::Integer;
 
 fn square_digit_sum(n: u32) -> u32 {
@@ -31,7 +31,7 @@ fn is_reach_89(n: u32, map: &mut [Option<bool>]) -> bool {
 }
 
 fn create_map(limit: u32) -> Vec<Option<bool>> {
-    let mut map = iter::repeat(None).take((limit - 1).to_string().len() * 81 + 1).collect::<Vec<_>>();
+    let mut map = vec![None; (limit - 1).to_string().len() * 81 + 1];
     map[0]  = Some(false);
     map[1]  = Some(false);
     map[89] = Some(true);

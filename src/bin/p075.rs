@@ -16,7 +16,7 @@ use seq::PrimitivePythagoreans;
 
 fn solve() -> String {
     let limit = 1500000;
-    let mut v = iter::repeat(0).take(limit + 1).collect::<Vec<_>>();
+    let mut v = vec![0; limit + 1];
 
     for m in (2 .. (limit / 2).sqrt()) {
         for (a, b, c) in PrimitivePythagoreans::new(m) {

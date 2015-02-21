@@ -8,7 +8,7 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::{cmp, iter};
+use std::cmp;
 use std::old_io::{BufferedReader, File, IoResult};
 
 fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<u32>>> {
@@ -31,9 +31,7 @@ fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<u32>>> {
 fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
     let (w, h) = (mat[0].len(), mat.len());
 
-    let mut sum = (0 .. h).map(|_| {
-        iter::repeat(0).take(w).collect::<Vec<_>>()
-    }).collect::<Vec<_>>();
+    let mut sum = vec![vec![0; w]; h];
 
     for y in (0 .. h) { sum[y][0] = mat[y][0]; }
     for x in (1 .. w) {

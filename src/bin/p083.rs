@@ -8,7 +8,7 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::{cmp, iter, u32};
+use std::{cmp, u32};
 use std::collections::HashSet;
 use std::old_io::{BufferedReader, File, IoResult};
 
@@ -40,12 +40,8 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
 
     let mut closed = HashSet::new();
     let mut open   = HashSet::new();
-    let mut dist   = (0 .. h).map(|_| {
-        iter::repeat(u32::MAX).take(w).collect::<Vec<_>>()
-    }).collect::<Vec<_>>();
-    let mut parent = (0 .. h).map(|_| {
-        iter::repeat(Point { x: w, y: h }).take(w).collect::<Vec<_>>()
-    }).collect::<Vec<_>>();
+    let mut dist   = vec![vec![u32::MAX; w]; h];
+    let mut parent = vec![vec![Point { x: w, y: h }; w]; h];
 
     dist[start.y][start.x] = mat[start.y][start.x];
     open.insert(start);

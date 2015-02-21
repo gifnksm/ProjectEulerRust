@@ -16,7 +16,7 @@ fn f0(a: u32, b: u32, c: u32) -> u32 { 2 * (a*b + b*c + c*a) }
 
 fn compute(sum: u32) -> u32 {
     let limit = sum * 20;
-    let mut cnt = iter::repeat(0).take(limit as usize).collect::<Vec<_>>();
+    let mut cnt = vec![0; limit as usize];
 
     for a in iter::count(1, 1) {
         if f0(a, 1, 1) > limit { break }

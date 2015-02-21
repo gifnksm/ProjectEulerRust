@@ -10,7 +10,7 @@
 extern crate integer;
 
 use std::u32;
-use std::iter::{self, AdditiveIterator};
+use std::iter::AdditiveIterator;
 use integer::Integer;
 
 fn each_sum_product<F>(prod_start: u32, prod_end: u32, f: &mut F)
@@ -49,7 +49,7 @@ fn each_product_sum_number<F>(start: u32, end: u32, f: &mut F)
 fn compute(limit: usize) -> u32 {
     let mut start = 2;
     let mut cnt   = limit - 1;
-    let mut nums  = iter::repeat(u32::MAX).take(limit + 1).collect::<Vec<_>>();
+    let mut nums  = vec![u32::MAX; limit + 1];
 
     while cnt > 0 {
         let end = start * 2;
