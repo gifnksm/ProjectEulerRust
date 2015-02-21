@@ -53,7 +53,7 @@ fn compute(limit: usize) -> usize {
     let div_map = create_proper_divisor_map(limit);
 
     let (n, _) = (1 .. len_map.len())
-        .map(|n| (n, get_chain_len(n, len_map.as_mut_slice(), &div_map[])))
+        .map(|n| (n, get_chain_len(n, len_map.as_mut_slice(), &div_map[..])))
         .max_by(|&(_, div)| div)
         .unwrap();
 

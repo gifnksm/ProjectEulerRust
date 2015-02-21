@@ -128,7 +128,7 @@ fn count_seqlen(num_set: &[u32; 4]) -> u32 {
 
     for op_set in CombinationOverlap::new(&[Op::Add, Op::Sub, Op::Mul, Op::Div], num_set.len() - 1) {
         for ops in op_set.permutations() {
-            evaluate(&num_set[], &ops[], &mut |n| {
+            evaluate(&num_set[..], &ops[..], &mut |n| {
                 if n.is_integer() && n.numer().is_positive() {
                     set[n.to_integer() as usize] = true;
                 }

@@ -58,7 +58,7 @@ fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
 
 fn solve() -> String {
     let un = u_to_vec(10, u);
-    (0us .. 10)
+    (0usize .. 10)
         .map(|i| bop(&un[.. i + 1]))
         .fold(num::zero::<BigInt>(), |acc, elt| acc + elt)
         .to_string()
@@ -78,7 +78,7 @@ mod tests {
         assert_eq!("1", super::op(&un[..1]).pretty("n"));
         assert_eq!("-6+7*n", super::op(&un[..2]).pretty("n"));
         assert_eq!("6-11*n+6*n^2", super::op(&un[..3]).pretty("n"));
-        assert_eq!("n^3", super::op(&un[]).pretty("n"));
+        assert_eq!("n^3", super::op(&un[..]).pretty("n"));
     }
 
     #[test]

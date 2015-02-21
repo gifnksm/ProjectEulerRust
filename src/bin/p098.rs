@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, core, io, std_misc)]
+#![feature(collections, core, old_io, std_misc)]
 
 #[macro_use(problem)] extern crate common;
 extern crate integer;
@@ -25,7 +25,7 @@ fn read_words(file: File) -> IoResult<Vec<String>> {
     let mut cont = true;
     while cont {
         let word_str = String::from_utf8(try!(input.read_until(b','))).ok().unwrap();
-        let mut word = &word_str[];
+        let mut word = &word_str[..];
         if word.is_empty() { break; }
 
         cont = if word.ends_with(",") {
@@ -150,8 +150,8 @@ fn max_square(groups: Vec<(usize, Vec<(Vec<usize>, Vec<usize>)>)>) -> usize {
             let ds = (n * n).into_digits(10).rev().collect::<Vec<_>>();
             for &(ref v1, ref v2) in pairs.iter() {
                 if ds[v2[0]] == 0 { continue }
-                if !check_digit(&v1[], &ds[]) { continue }
-                let num2 = idx_to_num(&v2[], &ds[]);
+                if !check_digit(&v1[..], &ds[..]) { continue }
+                let num2 = idx_to_num(&v2[..], &ds[..]);
                 if !is_square(num2) { continue }
                 nums.push(n * n);
             if n * n != num2 { nums.push(num2); }

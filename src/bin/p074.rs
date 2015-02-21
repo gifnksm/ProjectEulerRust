@@ -65,7 +65,7 @@ fn solve() -> String {
     let limit = 1000000;
     let factorial = {
         let mut val = [1; 10];
-        for i in (1us .. 10) {
+        for i in (1usize .. 10) {
             val[i] = val[i - 1] * (i as u32);
         }
         val
@@ -93,7 +93,7 @@ mod tests {
     fn len() {
         let factorial = {
             let mut val = [1; 10];
-            for i in (1us .. 10) {
+            for i in (1usize .. 10) {
                 val[i] = val[i - 1] * (i as u32);
             }
             val

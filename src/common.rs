@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, collections, io, env, path)]
+#![feature(core, collections, old_io, env, old_path)]
 
 extern crate curl;
 extern crate getopts;
@@ -11,13 +11,12 @@ extern crate "rustc-serialize" as rustc_serialize;
 extern crate term;
 extern crate time;
 
-use std::borrow::IntoCow;
+use std::borrow::{Cow, IntoCow};
 use std::error::{Error, FromError};
 use std::{env, fmt};
 use std::old_io as io;
 use std::old_io::{IoResult, File};
 use std::old_io::fs::{self, PathExtensions};
-use std::string::CowString;
 use curl::http;
 use getopts::Options;
 use num::Integer;
@@ -25,7 +24,7 @@ use rustc_serialize::{json, Encodable};
 use term::{color, Terminal};
 use term::color::Color;
 
-type OutputPair<'a> = (Option<Color>, CowString<'a>);
+type OutputPair<'a> = (Option<Color>, Cow<'a, str>);
 
 const NSEC_PER_SEC:    u64 = 1000000000;
 const NSEC_WARN_LIMIT: u64 = 1  * NSEC_PER_SEC;
@@ -82,7 +81,7 @@ pub struct SolverResult<T> {
 
 impl<T: Encodable> SolverResult<T> {
     pub fn print_json<W: Writer>(&self, out: &mut W) -> IoResult<()> {
-        out.write_line(&json::encode(self).unwrap()[])
+        out.write_line(&json::encode(self).unwrap()[..])
     }
 }
 
@@ -91,7 +90,7 @@ fn print_items(items: &[OutputPair]) {
         None => {
             let mut out = io::stdout();
             for &(_, ref s) in items.iter() {
-                let _ = out.write_str(&s[]);
+                let _ = out.write_str(&s[..]);
             }
             let _ = out.flush();
         }
@@ -100,11 +99,11 @@ fn print_items(items: &[OutputPair]) {
                 match c {
                     Some(c) => {
                         let _ = t.fg(c);
-                        let _ = t.write_str(&s[]);
+                        let _ = t.write_str(&s[..]);
                         let _ = t.reset();
                     }
                     None => {
-                        let _ = t.write_str(&s[]);
+                        let _ = t.write_str(&s[..]);
                     }
                 }
             }
@@ -143,18 +142,18 @@ impl<T: fmt::Display> SolverResult<T> {
         items.push(normal(format!("{} ", self.answer)));
 
         items.push(normal("\n"));
-        print_items(&items[]);
+        print_items(&items[..]);
 
-        fn normal<'a, T: IntoCow<'a, String, str>>(s: T) -> OutputPair<'a> {
+        fn normal<'a, T: IntoCow<'a, str>>(s: T) -> OutputPair<'a> {
             (None, s.into_cow())
         }
-        fn ok<'a, T: IntoCow<'a, String, str>>(s: T) -> OutputPair<'a> {
+        fn ok<'a, T: IntoCow<'a, str>>(s: T) -> OutputPair<'a> {
             (Some(COLOR_OK), s.into_cow())
         }
-        fn warn<'a, T: IntoCow<'a, String, str>>(s: T) -> OutputPair<'a> {
+        fn warn<'a, T: IntoCow<'a, str>>(s: T) -> OutputPair<'a> {
             (Some(COLOR_WARN), s.into_cow())
         }
-        fn ng<'a, T: IntoCow<'a, String, str>>(s: T) -> OutputPair<'a> {
+        fn ng<'a, T: IntoCow<'a, str>>(s: T) -> OutputPair<'a> {
             (Some(COLOR_NG), s.into_cow())
         }
 
@@ -201,8 +200,8 @@ impl<'a> Solver<'a> {
         };
 
         if matches.opt_present("h") {
-            let short = opts.short_usage(&program[]);
-            println!("{}", opts.usage(&short[]));
+            let short = opts.short_usage(&program[..]);
+            println!("{}", opts.usage(&short[..]));
             return
         }
 
@@ -218,7 +217,7 @@ impl<'a> Solver<'a> {
                 if matches.opt_present("json") {
                     let _ = result.print_json(&mut io::stdout());
                 } else {
-                    let _ = result.print_pretty(&program[], true);
+                    let _ = result.print_pretty(&program[..], true);
                 }
             }
         }
@@ -258,7 +257,7 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
         try!(fs::mkdir_recursive(&dir_path, io::USER_RWX));
         let mut file = try!(File::create(&path));
         let content = try!(download(file_name));
-        try!(file.write_all(&content[]));
+        try!(file.write_all(&content[..]));
     }
 
     let file = try!(File::open(&path));

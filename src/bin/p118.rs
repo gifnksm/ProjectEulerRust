@@ -83,7 +83,7 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
             };
 
             if num_prime != 0 {
-                let rest_primes = count_primes(ps, &rest[]);
+                let rest_primes = count_primes(ps, &rest[..]);
                 cnt += num_prime * rest_primes;
             }
         }
@@ -94,7 +94,7 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
 fn solve() -> String {
     let digits = iter::range_inclusive(1, 9).collect::<Vec<_>>();
     let ps = PrimeSet::new();
-    count_primes(&ps, &digits[]).to_string()
+    count_primes(&ps, &digits[..]).to_string()
 }
 
 problem!("44680", solve);

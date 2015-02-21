@@ -12,19 +12,19 @@ extern crate test;
 
 use std::cmp::Ordering;
 use std::iter::{self, Peekable};
-use std::collections::BitvSet;
+use std::collections::BitSet;
 
 /// An iterator that enumerates all combinations of bits.
 pub struct BitCombination {
     consumed: bool,
     size: usize,
-    set: BitvSet
+    set: BitSet
 }
 
 impl Iterator for BitCombination {
-    type Item = BitvSet;
+    type Item = BitSet;
 
-    fn next(&mut self) -> Option<BitvSet> {
+    fn next(&mut self) -> Option<BitSet> {
         if self.consumed { return None }
 
         let result = self.set.clone();
@@ -67,7 +67,7 @@ impl BitCombination {
     #[inline]
     pub fn new(cnt: usize, size: usize) -> BitCombination {
         assert!(cnt <= size);
-        let mut set = BitvSet::new();
+        let mut set = BitSet::new();
         for i in (0 .. cnt) {
             set.insert(i);
         }

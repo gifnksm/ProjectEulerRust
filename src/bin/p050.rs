@@ -52,7 +52,7 @@ fn compute(limit: u64) -> (u64, usize) {
     let mut len = 0;
     let mut num = 0;
     for &p in ps.iter() {
-        if let Some(l) = get_longer(&ps[], p, len) {
+        if let Some(l) = get_longer(&ps[..], p, len) {
             len = l;
             num = p;
         }

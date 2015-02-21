@@ -20,7 +20,7 @@ fn solve() -> String {
             set
         }).collect::<Vec<_>>();
 
-    let nums = (0us .. 9).map(|i| {
+    let nums = (0usize .. 9).map(|i| {
         let n = (i + 1) * (i + 1);
         (n / 10, n % 10)
     }).collect::<Vec<_>>();

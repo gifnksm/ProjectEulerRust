@@ -38,7 +38,7 @@ fn sqrt_newton_raphson(n: u32, precision: usize) -> String {
     ((n * x_1 * ds) >> shift).to_string()
 }
 
-fn sqrt_digit_sum(n: u32, precision: usize) -> usize {
+fn sqrt_digit_sum(n: u32, precision: usize) -> u32 {
     sqrt_newton_raphson(n, precision)
         .chars()
         .filter_map(|c| c.to_digit(10))

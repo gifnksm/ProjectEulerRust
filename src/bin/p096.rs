@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, core, io, unicode)]
+#![feature(collections, core, old_io, unicode)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -59,7 +59,7 @@ fn read_sudoku<T: Reader>(br: &mut BufferedReader<T>) -> IoResult<Option<SuDoku>
         let line = try!(br.read_line());
         for x in (0 .. BOARD_WIDTH) {
             let n = line.char_at(x).to_digit(10).unwrap();
-            if n != 0 { sudoku.set_at(x, y, n); }
+            if n != 0 { sudoku.set_at(x, y, n as usize); }
         }
     }
 

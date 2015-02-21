@@ -13,7 +13,7 @@ use std::iter::AdditiveIterator;
 use std::num::FromPrimitive;
 use num::bigint::BigInt;
 
-fn compute(base: u32, exp: u32) -> usize {
+fn compute(base: u32, exp: u32) -> u32 {
     let base: BigInt = FromPrimitive::from_u32(base).unwrap();
     num::pow(base, exp as usize)
         .to_string()

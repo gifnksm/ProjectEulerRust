@@ -36,8 +36,8 @@ fn solve() -> String {
         for n in (0 .. m) {
             let pn = pentagonals[n];
             if (pm - pn) % 2 != 0 { continue }
-            if is_pentagonal(pm - pn, &pentagonals[]) {
-                if is_pentagonal(pm + pn, &pentagonals[]) {
+            if is_pentagonal(pm - pn, &pentagonals[..]) {
+                if is_pentagonal(pm + pn, &pentagonals[..]) {
                     return (pm - pn).to_string()
                 }
             }

@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(io)]
+#![feature(old_io)]
 
 #[macro_use(problem)] extern crate common;
 extern crate seq;
@@ -30,7 +30,7 @@ fn solve(file: File) -> IoResult<String> {
     let mut cont = true;
     while cont {
         let word_str = String::from_utf8(try!(input.read_until(b','))).ok().unwrap();
-        let mut word = &word_str[];
+        let mut word = &word_str[..];
         if word.is_empty() { break; }
 
         cont = if word.ends_with(",") {

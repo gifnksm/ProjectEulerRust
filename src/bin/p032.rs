@@ -36,7 +36,7 @@ fn compute() -> u32 {
     // 1000 < c = ab < 10000 => 1000 / a < b < 10000 / a
     //  => 1000 < b < 10000 / a
     for (p1, r1) in Permutations::new(digits, 1) {
-        for (p2, r2) in Permutations::new(&r1[], 4) {
+        for (p2, r2) in Permutations::new(&r1[..], 4) {
             let a = Integer::from_digits(p1.iter().map(|&x| x), radix);
             let b = Integer::from_digits(p2.iter().map(|&x| x), radix);
             let c: u32 = a * b;
@@ -53,7 +53,7 @@ fn compute() -> u32 {
     // 1000 < c = ab < 10000 => 1000 / a < b < 10000 / a
     // => 100 < b < 10000 / a
     for (p1, r1) in Permutations::new(digits, 2) {
-        for (p2, r2) in Permutations::new(&r1[], 3) {
+        for (p2, r2) in Permutations::new(&r1[..], 3) {
             let a = Integer::from_digits(p1.iter().map(|&x| x), radix);
             let b = Integer::from_digits(p2.iter().map(|&x| x), radix);
             let c: u32 = a * b;

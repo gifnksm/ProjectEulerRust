@@ -14,7 +14,7 @@ use num::BigUint;
 
 fn solve() -> String {
     let mut cnt = 1; // a == 1
-    for a in (2us .. 10).filter_map::<BigUint, _>(|a| FromPrimitive::from_uint(a)) {
+    for a in (2usize .. 10).filter_map::<BigUint, _>(|a| FromPrimitive::from_uint(a)) {
         let mut n = 0;
         let mut an: BigUint = FromPrimitive::from_u32(1).unwrap();
         loop {

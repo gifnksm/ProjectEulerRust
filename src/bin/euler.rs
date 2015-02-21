@@ -2,21 +2,20 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, env, io, path)]
+#![feature(env, old_io, old_path)]
 
 extern crate glob;
 extern crate "rustc-serialize" as rustc_serialize;
 extern crate term;
 extern crate common;
 
-use std::borrow::IntoCow;
+use std::borrow::{Cow, IntoCow};
 use std::env;
 use std::error::FromError;
 use std::old_io as io;
 use std::old_io::{Command, MemReader};
 use std::old_io::process::ExitStatus;
 use std::str;
-use std::string::CowString;
 use glob::Paths;
 use rustc_serialize::Decodable;
 use rustc_serialize::json::{self, Json};
@@ -26,7 +25,7 @@ use common::SolverResult;
 const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
 
 type ProgramResult<T> = Result<T, ProgramError>;
-type OutputPair<'a> = (Option<Color>, CowString<'a>);
+type OutputPair<'a> = (Option<Color>, Cow<'a, str>);
 
 #[derive(Debug)]
 enum ProgramErrorKind {
@@ -39,11 +38,11 @@ enum ProgramErrorKind {
 #[derive(Debug)]
 struct ProgramError {
     kind: ProgramErrorKind,
-    message: CowString<'static>
+    message: Cow<'static, str>
 }
 
 impl ProgramError {
-    pub fn new<T: IntoCow<'static, String, str>>(msg: T, kind: ProgramErrorKind) -> ProgramError {
+    pub fn new<T: IntoCow<'static, str>>(msg: T, kind: ProgramErrorKind) -> ProgramError {
         ProgramError {
             kind: kind,
             message: msg.into_cow()
@@ -89,7 +88,7 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
     let proc_out = try!(Command::new(path).arg("--json").output());
 
     if !proc_out.error.is_empty() {
-        let _ = match str::from_utf8(&proc_out.error[]) {
+        let _ = match str::from_utf8(&proc_out.error[..]) {
             Ok(s)  => writeln!(&mut io::stderr(), "{}", s.trim()),
             Err(e) => writeln!(&mut io::stderr(), "{:?}: {}", proc_out.error, e)
         };
@@ -122,7 +121,7 @@ fn run() -> ProgramResult<()> {
                 num_prob   += 1;
                 total_time += r.time;
                 is_ok &= r.is_ok;
-                let _ = r.print_pretty(&program[], true);
+                let _ = r.print_pretty(&program[..], true);
             }
             Err(e) => {
                 is_ok = false;

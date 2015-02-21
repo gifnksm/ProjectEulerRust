@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, hash, std_misc)]
+#![feature(core, std_misc)]
 #![cfg_attr(test, feature(test))]
 
 extern crate num;
@@ -13,7 +13,6 @@ extern crate num;
 use std::{cmp, mem, usize};
 use std::cell::RefCell;
 use std::collections::HashMap;
-use std::collections::hash_map::Hasher;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
 use std::iter::{self, MultiplicativeIterator, RandomAccessIterator};
@@ -329,7 +328,7 @@ pub struct Factorized<'a, T> {
     map: HashMap<T, i32>
 }
 
-impl<'a, T: Factorize + Eq + Hash<Hasher>> Factorized<'a, T> {
+impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// Creates new empty factorized number.
     ///
     /// The empty factorized number represents `1`.
