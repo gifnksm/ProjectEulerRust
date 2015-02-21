@@ -36,7 +36,7 @@ fn add_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
 }
 
 fn solve() -> String {
-    let unit: BigUint = FromPrimitive::from_uint(100_0000_0000).unwrap();
+    let unit: BigUint = FromPrimitive::from_u64(100_0000_0000).unwrap();
     add_unit(
         &mul_unit(&FromPrimitive::from_uint(28433).unwrap(),
                   &pow_unit(&FromPrimitive::from_uint(2).unwrap(),

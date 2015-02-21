@@ -10,13 +10,11 @@
 
 use std::iter::AdditiveIterator;
 
-fn num_increasing(len: usize) -> usize {
-    let mut buf = vec![[0usize; 10]; len];
+fn num_increasing(len: usize) -> u64 {
+    let mut buf = vec![[0; 10]; len];
+    for b in &mut buf[0] { *b = 1; }
 
-    for d in (0 .. buf[0].len()) {
-        buf[0][d] = 1;
-    }
-    for i in (1 .. len) {
+    for i in 1 .. len {
         let mut s = 0;
         for d in (0 .. buf[i].len()).rev() {
             s += buf[i - 1][d];
@@ -30,13 +28,11 @@ fn num_increasing(len: usize) -> usize {
     sum - 1 // all zero
 }
 
-fn num_decreasing(len: usize) -> usize {
-    let mut buf = vec![[0usize; 11]; len];
+fn num_decreasing(len: usize) -> u64 {
+    let mut buf = vec![[0; 11]; len];
+    for b in &mut buf[0] { *b = 1; }
 
-    for d in (0 .. buf[0].len()) {
-        buf[0][d] = 1;
-    }
-    for i in (1 .. len) {
+    for i in 1 .. len {
         let mut s = 0;
         for d in (0 .. buf[i].len()) {
             s += buf[i - 1][d];
@@ -48,14 +44,14 @@ fn num_decreasing(len: usize) -> usize {
         .map(|d| buf[len - 1][d])
         .sum();
 
-    sum - len // A のみからなるものを取り除く
-        - 1   // all zero
+    sum - (len as u64) // A のみからなるものを取り除く
+        - 1            // all zero
 }
 
-fn num_nonbouncy(len: usize) -> usize {
+fn num_nonbouncy(len: usize) -> u64 {
     let num_incr = num_increasing(len);
     let num_decr = num_decreasing(len);
-    let num_incr_and_decr = 9 * len;
+    let num_incr_and_decr = 9 * len as u64;
     num_incr + num_decr - num_incr_and_decr
 }
 

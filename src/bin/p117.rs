@@ -11,7 +11,7 @@
 use std::iter;
 use std::collections::HashMap;
 
-fn count(len: usize, map: &mut HashMap<usize, usize>) -> usize {
+fn count(len: u32, map: &mut HashMap<u32, u64>) -> u64 {
     if let Some(&x) = map.get(&len) {
         return x
     }
