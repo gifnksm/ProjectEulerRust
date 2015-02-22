@@ -23,7 +23,7 @@ fn is_sss(nums: &mut [u32]) -> bool {
     if hd <= tl { return false }
 
     let mut sums = vec![0];
-    for &n in nums.iter() {
+    for &n in &*nums {
         let mut i = 0;
         let mut j = 0;
         let len = sums.len();

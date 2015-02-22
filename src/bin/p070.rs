@@ -24,9 +24,9 @@ fn compute(limit: u64) -> u64 {
     let ps = PrimeSet::new();
     let mut min_n   = 0;
     let mut min_n_phi = f64::INFINITY;
-    for p1 in ps.iter() {
+    for p1 in &ps {
         if p1 * p1 > limit { break }
-        for p2 in ps.iter() {
+        for p2 in &ps {
             if p2 < p1 { continue }
 
             let n = p1 * p2;

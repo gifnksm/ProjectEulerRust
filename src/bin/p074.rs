@@ -49,7 +49,7 @@ fn get_chain_len(n: u32, map: &mut[Length], fs: &[u32; 10]) -> usize {
         }
     }
 
-    for (&key, &idx) in chain_map.iter() {
+    for (&key, &idx) in &chain_map {
         if idx >= chain_len {
             map[key as usize] = Length::Loop(loop_len);
         } else {

@@ -30,7 +30,7 @@ fn compute<R: Reader>(r: R, size: usize) -> IoResult<usize> {
     let mut uf = UnionFind::<Size>::new(size);
 
     let mut saving = 0;
-    for &((i, j), n) in verts.iter() {
+    for &((i, j), n) in &verts {
         if uf.find(i, j) {
             saving += n;
         } else {

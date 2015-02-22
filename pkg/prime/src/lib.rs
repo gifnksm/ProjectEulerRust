@@ -15,7 +15,7 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
-use std::iter::{self, MultiplicativeIterator, RandomAccessIterator};
+use std::iter::{self, IntoIterator, MultiplicativeIterator, RandomAccessIterator};
 use std::num::FromPrimitive;
 use std::rc::Rc;
 use num::{One, Zero, Integer};
@@ -172,6 +172,15 @@ impl PrimeSet {
         PrimeSet { data: Rc::new(RefCell::new(inner)) }
     }
 
+}
+
+impl<'a> IntoIterator for &'a PrimeSet {
+    type Item = u64;
+    type IntoIter = Nums;
+
+    fn into_iter(self) -> Nums {
+        self.iter()
+    }
 }
 
 /// Prime number iterator
@@ -417,8 +426,8 @@ mod tests {
     #[test]
     fn multi_iter() {
         let ps = PrimeSet::new();
-        for _p1 in ps.iter() {
-            for _p2 in ps.iter() {
+        for _p1 in &ps{
+            for _p2 in &ps {
                 break;
             }
             break;
@@ -470,7 +479,7 @@ mod tests {
             ];
 
         let ps = PrimeSet::new();
-        for &(n, num_div) in pairs.iter() {
+        for &(n, num_div) in pairs {
             assert_eq!(num_div, n.num_of_divisor(&ps));
             assert_eq!(num_div, (-n).num_of_divisor(&ps));
         }
@@ -487,7 +496,7 @@ mod tests {
             ];
 
         let ps = PrimeSet::new();
-        for &(n, sum_div) in pairs.iter() {
+        for &(n, sum_div) in pairs {
             assert_eq!(sum_div, n.sum_of_divisor(&ps));
             assert_eq!(sum_div, (-n).sum_of_divisor(&ps));
         }

@@ -173,7 +173,7 @@ impl Hand {
         let mut num_count  = (0u32 .. 13).map(|_| vec![]).collect::<Vec<_>>();
         let mut suit_count = (0u32 .. 4).map(|_| vec![]).collect::<Vec<_>>();
 
-        for &c in cards.iter() {
+        for &c in cards {
             let val = if c.num == 1 { 12 } else { c.num - 2 };
             num_count[(12 - val) as usize].push(c);
             suit_count[c.suit as usize].push(c);
@@ -186,7 +186,7 @@ impl Hand {
         let mut pairs  = vec![];
         let mut three  = vec![];
         let mut four   = vec![];
-        for v in num_count.iter() {
+        for v in &num_count {
             match v.len() {
                 0 => { /* Do nothing */ },
                 1 => single.push(v[0]),

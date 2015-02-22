@@ -21,7 +21,7 @@ fn compute(max: u32) -> u32 {
     let mut is_sum_abundant = vec![false; (max + 1) as usize];
 
     for (i, &a) in abundant.iter().enumerate() {
-        for &b in abundant[i..].iter() {
+        for &b in &abundant[i..] {
             let s = a + b;
             if s > max { break; }
             if !is_sum_abundant[s as usize] {

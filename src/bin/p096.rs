@@ -175,7 +175,7 @@ fn solve(file: File) -> IoResult<String> {
     }
 
     let mut sum = 0;
-    for ans in answers.iter() {
+    for ans in &answers {
         sum += 100 * ans.get_at(0, 0) + 10 * ans.get_at(1, 0) + ans.get_at(2, 0);
     }
 

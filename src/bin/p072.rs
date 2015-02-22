@@ -18,7 +18,7 @@ fn compute(limit: u64) -> u64 {
     let mut v = (0 .. limit + 1).collect::<Vec<_>>();
     v[1] = 0;
 
-    for p in prime.iter() {
+    for p in &prime {
         if p > limit { break; }
         for n in iter::range_step(p, limit + 1, p) {
             v[n as usize] = (v[n as usize] * (p - 1)) / p;

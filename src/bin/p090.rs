@@ -27,7 +27,7 @@ fn solve() -> String {
 
     let mut cnt = 0;
     for (i, set1) in all_combs.iter().enumerate() {
-        for set2 in  all_combs[i + 1 ..].iter() {
+        for set2 in &all_combs[i + 1 ..] {
             let cond = nums
                 .iter()
                 .all(|&(a, b)| {

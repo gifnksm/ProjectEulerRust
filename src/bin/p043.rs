@@ -82,7 +82,7 @@ fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: usize) -> Vec<P
     let ord = iter::repeat(RADIX as u64).take(len - 1).product();
 
     let mut result = vec![];
-    for pd in list.iter() {
+    for pd in &list {
         let num = pd.num();
         let ds = &num[num.len() - (len - 1) ..];
         let lower = Integer::from_digits(ds.iter().map(|&x| x as u64), RADIX as u64);
@@ -97,7 +97,7 @@ fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: usize) -> Vec<P
 
 fn solve() -> String {
     let mut result = create_pandigimal_list(17, 3);
-    for &base in [13, 11, 7, 5, 3, 2, 1].iter() {
+    for &base in &[13, 11, 7, 5, 3, 2, 1] {
         result = update_pandigimal_list(result, base, 3);
     }
 

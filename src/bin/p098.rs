@@ -45,7 +45,7 @@ fn read_words(file: File) -> IoResult<Vec<String>> {
 fn get_anagram_groups(words: Vec<String>) -> Vec<Vec<String>> {
     let mut map = HashMap::new();
 
-    for word in words.into_iter() {
+    for word in words {
         let mut cs = word.chars().collect::<Vec<_>>();
         cs.sort();
         match map.entry(cs) {
@@ -67,7 +67,7 @@ fn get_anagram_groups(words: Vec<String>) -> Vec<Vec<String>> {
 fn flatten_groups(groups: Vec<Vec<String>>) -> Vec<(String, String)> {
     let mut pairs = Vec::with_capacity(groups.len());
 
-    for mut group in groups.into_iter() {
+    for mut group in groups {
         if group.len() == 2 {
             pairs.push((group.remove(0), group.remove(0)));
             continue
@@ -103,7 +103,7 @@ fn group_by_len(mut indices: Vec<(usize, Vec<usize>, Vec<usize>)>) -> Vec<(usize
 
     indices.sort_by(|&(l1, _, _), &(l2, _, _)| l2.cmp(&l1));
 
-    for (len, v1, v2) in indices.into_iter() {
+    for (len, v1, v2) in indices {
         if !cur_group.is_empty() && cur_len != len {
             groups.push((cur_len, mem::replace(&mut cur_group, vec![(v1, v2)])));
         } else {
@@ -137,7 +137,7 @@ fn is_square(n: usize) -> bool {
 fn max_square(groups: Vec<(usize, Vec<(Vec<usize>, Vec<usize>)>)>) -> usize {
     let mut max = 0;
 
-    for (len, pairs) in groups.into_iter() {
+    for (len, pairs) in groups {
         let mut nums = vec![];
 
         let start = 10.pow(len - 1);
@@ -148,7 +148,7 @@ fn max_square(groups: Vec<(usize, Vec<(Vec<usize>, Vec<usize>)>)>) -> usize {
 
         for n in iter::count(nmin, 1).take_while(|&n| n * n < end) {
             let ds = (n * n).into_digits(10).rev().collect::<Vec<_>>();
-            for &(ref v1, ref v2) in pairs.iter() {
+            for &(ref v1, ref v2) in &pairs {
                 if ds[v2[0]] == 0 { continue }
                 if !check_digit(&v1[..], &ds[..]) { continue }
                 let num2 = idx_to_num(&v2[..], &ds[..]);

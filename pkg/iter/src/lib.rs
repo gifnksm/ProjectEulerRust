@@ -135,7 +135,7 @@ impl<'a, T: Clone> Iterator for CombinationOverlap<'a, T> {
             Some(i) => {
                 self.idxs[i] += 1;
                 let v = self.idxs[i];
-                for x in self.idxs[i + 1 ..].iter_mut() {
+                for x in &mut self.idxs[i + 1 ..] {
                     *x = v
                 }
             }

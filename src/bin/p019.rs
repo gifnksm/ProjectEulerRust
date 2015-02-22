@@ -37,7 +37,7 @@ fn day_of_month(y: u32) -> [u32; 12] {
 fn append_day(y: u32, offset: u32, result: &mut [u32; 7]) -> u32 {
     let mut day = offset;
     let dom = day_of_month(y);
-    for n in dom.iter() {
+    for n in &dom {
         result[day as usize] += 1;
         day = (day + *n) % 7;
     }

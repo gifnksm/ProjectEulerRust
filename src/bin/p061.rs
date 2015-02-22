@@ -40,8 +40,8 @@ fn find_cycle(map: &mut [Vec<Vec<u32>>]) -> Vec<Vec<u32>> {
     let mut result = vec![];
     for maps in map[ .. map.len() - 1].permutations() {
         for (lst, fsts) in head.iter().enumerate() {
-            for &fst in fsts.iter() {
-                for mut v in find_chain(fst, lst as u32, &maps[..]).into_iter() {
+            for &fst in fsts {
+                for mut v in find_chain(fst, lst as u32, &maps[..]) {
                     v.push(fst);
                     result.push(v)
                 }
@@ -60,8 +60,8 @@ fn find_chain(fst: u32, lst: u32, maps: &[Vec<Vec<u32>>]) -> Vec<Vec<u32>> {
     }
 
     let mut result = vec![];
-    for &n in maps[0][fst as usize].iter() {
-        for mut v in find_chain(n, lst, &maps[1 ..]).into_iter() {
+    for &n in &maps[0][fst as usize] {
+        for mut v in find_chain(n, lst, &maps[1 ..]) {
             v.push(n);
             result.push(v)
         }

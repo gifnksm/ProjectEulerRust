@@ -89,13 +89,13 @@ fn print_items(items: &[OutputPair]) {
     match term::stdout() {
         None => {
             let mut out = io::stdout();
-            for &(_, ref s) in items.iter() {
+            for &(_, ref s) in items {
                 let _ = out.write_str(&s[..]);
             }
             let _ = out.flush();
         }
         Some(mut t) => {
-            for &(c, ref s) in items.iter() {
+            for &(c, ref s) in items {
                 match c {
                     Some(c) => {
                         let _ = t.fg(c);

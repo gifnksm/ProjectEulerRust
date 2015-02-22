@@ -20,15 +20,15 @@ fn get_chain_len(mut n: usize, len_map: &mut [Option<usize>], div_map: &[usize])
         n = div_map[n];
 
         if n >= len_map.len() {
-            for &n in itr_map.iter() { len_map[n] = Some(0); }
+            for &n in &itr_map { len_map[n] = Some(0); }
             return 0;
         }
 
         match itr_map.position_elem(&n) {
             Some(idx) => {
                 let len = itr_map.len() - idx;
-                for &m in itr_map[.. idx].iter() { len_map[m] = Some(0); }
-                for &m in itr_map[idx ..].iter() { len_map[m] = Some(len); }
+                for &m in &itr_map[.. idx] { len_map[m] = Some(0); }
+                for &m in &itr_map[idx ..] { len_map[m] = Some(len); }
                 return len_map[itr_map[0]].unwrap()
             }
             None => { itr_map.push(n); }

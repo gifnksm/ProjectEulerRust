@@ -14,15 +14,15 @@ fn compute(limit: u64) -> u32 {
     let mut cnt = 0;
     let mut set = vec![false; limit as usize];
 
-    for p in prime.iter() {
+    for p in &prime {
         let p4 = p * p * p * p;
         if p4 >= limit { break }
 
-        for q in prime.iter() {
+        for q in &prime {
             let q3 = q * q * q;
             if p4 + q3 >= limit { break }
 
-            for r in prime.iter() {
+            for r in &prime {
                 let r2 = r * r;
                 let s = p4 + q3 + r2;
                 if s >= limit { break }

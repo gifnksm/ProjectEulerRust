@@ -12,7 +12,7 @@ use prime::PrimeSet;
 fn compute(limit: u64) -> u64 {
     let ps = PrimeSet::new();
     let mut n = 1;
-    for p in ps.iter() {
+    for p in &ps {
         if n * p > limit { break }
         n *= p
     }

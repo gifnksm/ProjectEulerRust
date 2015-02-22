@@ -15,7 +15,7 @@ fn compute(num_value: usize) -> u64 {
     let radix = 10;
     let ps = PrimeSet::new();
 
-    for p in ps.iter() {
+    for p in &ps {
         let ds = p.into_digits(radix as u64);
         let hs = p.into_digit_histogram();
 

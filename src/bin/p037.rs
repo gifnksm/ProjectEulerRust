@@ -30,12 +30,12 @@ fn compute() -> u64 {
 
     loop {
         let mut result = vec![];
-        for &p in l2r_mat.last().unwrap().iter() {
+        for &p in l2r_mat.last().unwrap() {
             // 2 can only be appeared as the most left digits
             if p.into_digits(10).next_back() == Some(2) { continue; }
 
             let ds = [ 1, 2, 3, 5, 7, 9 ];
-            for &d in ds.iter() {
+            for &d in &ds {
                 let n = order * d + p;
                 if ps.contains(n) { result.push(n); }
             }

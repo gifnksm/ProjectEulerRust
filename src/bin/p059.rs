@@ -107,7 +107,7 @@ fn solve(file: File) -> IoResult<String> {
     let code_list = try!(read_file(file));
 
     let freq_dict = &mut [0.0; 256];
-    for &(c, f) in ENGLISH_FREQUENCY.iter() {
+    for &(c, f) in ENGLISH_FREQUENCY {
         freq_dict[(c as u8) as usize] = f;
     }
 

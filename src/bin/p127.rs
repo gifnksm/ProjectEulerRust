@@ -73,7 +73,7 @@ fn abc_hits_c_sum(c_limit: u64) -> u64 {
         let Rad(rad_c, _, ref c_facts) = rad_vec[c as usize];
         if rad_c == c { continue } // if rad(c) == c, rad(ab) must be 1. this doesn't satisfy condition 2.
 
-        for &Rad(rad_a, a, ref a_facts) in sorted_rad_vec.iter() {
+        for &Rad(rad_a, a, ref a_facts) in &sorted_rad_vec {
             if rad_a >= c / rad_c { break }
             if a >= (c + 1) / 2 { continue }
 

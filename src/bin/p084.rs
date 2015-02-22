@@ -39,7 +39,7 @@ fn create_roll_distribution(dice_side: usize) -> Vec<(f64, f64)> {
         }
     }
     let cases = (dice_side * dice_side) as f64;
-    for tp in dist.iter_mut() {
+    for tp in &mut dist {
         tp.0 /= cases;
         tp.1 /= cases;
     }

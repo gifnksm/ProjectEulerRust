@@ -91,7 +91,7 @@ fn compute(len: usize) -> Vec<u64> {
 
     for (n, pairs) in ConcatPrimeNums::new(&prime) {
         if pairs.len() >= len {
-            for set in find_chain(&pairs[..], &[n], &map).into_iter() {
+            for set in find_chain(&pairs[..], &[n], &map) {
                 if set.len() >= len {
                     return set
                 }
