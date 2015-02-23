@@ -81,7 +81,7 @@ pub struct SolverResult<T> {
 
 impl<T: Encodable> SolverResult<T> {
     pub fn print_json<W: Writer>(&self, out: &mut W) -> IoResult<()> {
-        out.write_line(&json::encode(self).unwrap()[..])
+        out.write_line(&json::encode(self).unwrap())
     }
 }
 
@@ -90,7 +90,7 @@ fn print_items(items: &[OutputPair]) {
         None => {
             let mut out = io::stdout();
             for &(_, ref s) in items {
-                let _ = out.write_str(&s[..]);
+                let _ = out.write_str(&s);
             }
             let _ = out.flush();
         }
@@ -99,11 +99,11 @@ fn print_items(items: &[OutputPair]) {
                 match c {
                     Some(c) => {
                         let _ = t.fg(c);
-                        let _ = t.write_str(&s[..]);
+                        let _ = t.write_str(&s);
                         let _ = t.reset();
                     }
                     None => {
-                        let _ = t.write_str(&s[..]);
+                        let _ = t.write_str(&s);
                     }
                 }
             }
@@ -142,7 +142,7 @@ impl<T: fmt::Display> SolverResult<T> {
         items.push(normal(format!("{} ", self.answer)));
 
         items.push(normal("\n"));
-        print_items(&items[..]);
+        print_items(&items);
 
         fn normal<'a, T: IntoCow<'a, str>>(s: T) -> OutputPair<'a> {
             (None, s.into_cow())
@@ -200,8 +200,8 @@ impl<'a> Solver<'a> {
         };
 
         if matches.opt_present("h") {
-            let short = opts.short_usage(&program[..]);
-            println!("{}", opts.usage(&short[..]));
+            let short = opts.short_usage(&program);
+            println!("{}", opts.usage(&short));
             return
         }
 
@@ -217,7 +217,7 @@ impl<'a> Solver<'a> {
                 if matches.opt_present("json") {
                     let _ = result.print_json(&mut io::stdout());
                 } else {
-                    let _ = result.print_pretty(&program[..], true);
+                    let _ = result.print_pretty(&program, true);
                 }
             }
         }
@@ -257,7 +257,7 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
         try!(fs::mkdir_recursive(&dir_path, io::USER_RWX));
         let mut file = try!(File::create(&path));
         let content = try!(download(file_name));
-        try!(file.write_all(&content[..]));
+        try!(file.write_all(&content));
     }
 
     let file = try!(File::open(&path));

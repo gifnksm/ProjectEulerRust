@@ -41,7 +41,7 @@ fn find_cycle(map: &mut [Vec<Vec<u32>>]) -> Vec<Vec<u32>> {
     for maps in map[ .. map.len() - 1].permutations() {
         for (lst, fsts) in head.iter().enumerate() {
             for &fst in fsts {
-                for mut v in find_chain(fst, lst as u32, &maps[..]) {
+                for mut v in find_chain(fst, lst as u32, &maps) {
                     v.push(fst);
                     result.push(v)
                 }
@@ -82,7 +82,7 @@ fn solve() -> String {
     let map: &[fn(u32) -> u32] = &[triangle, square, pentagonal, hexagonal, heptagonal, octagonal];
     find_cycle(create_map(map).as_mut_slice())
         .iter()
-        .map(|vs| cycle_to_nums(&vs[..]).into_iter().sum())
+        .map(|vs| cycle_to_nums(&vs).into_iter().sum())
         .sum()
         .to_string()
 }
@@ -96,9 +96,9 @@ mod tests {
         let map: &[fn(u32) -> u32] = &[super::triangle, super::square, super::pentagonal];
         let cycle = super::find_cycle(super::create_map(map).as_mut_slice())
             .iter()
-            .map(|vs| super::cycle_to_nums(&vs[..]))
+            .map(|vs| super::cycle_to_nums(&vs))
             .map(|mut vs| { vs.sort(); vs })
             .collect::<Vec<_>>();
-        assert_eq!(&[vec![2882, 8128, 8281]][..], &cycle[..]);
+        assert_eq!(&[vec![2882, 8128, 8281]], &cycle);
     }
 }

@@ -17,7 +17,7 @@ fn get_score(n: u32, s: &str) -> u32 {
 
 fn compute(words: &[String]) -> u32 {
     let mut words = words.iter()
-        .map(|word| word[..].trim().trim_matches('\"'))
+        .map(|word| word.trim().trim_matches('\"'))
         .filter(|word| !word.is_empty())
         .collect::<Vec<_>>();
     words.sort();
@@ -45,7 +45,7 @@ fn solve(file: File) -> IoResult<String> {
         }
     }
 
-    Ok(compute(&words[..]).to_string())
+    Ok(compute(&words).to_string())
 }
 
 problem!("871198282", "p022_names.txt", solve);

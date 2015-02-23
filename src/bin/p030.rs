@@ -32,7 +32,9 @@ fn compute(len: usize, pow: usize) -> usize {
         ds.sort_by(|a, b| a.cmp(b));
 
         let zero_len = len - ds.len();
-        if comb[zero_len ..] == ds[..] && comb[.. zero_len].iter().all(|&x| x == 0) {
+        if comb[zero_len ..] == ds[..] &&
+            comb[.. zero_len].iter().all(|&x| x == 0)
+        {
             sum += num
         }
     }

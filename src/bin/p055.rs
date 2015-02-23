@@ -16,7 +16,7 @@ use num::bigint::BigUint;
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_string();
     let rev = s.chars().rev().collect::<String>();
-    FromStr::from_str(&rev[..]).unwrap()
+    FromStr::from_str(&rev).unwrap()
 }
 
 fn is_lychrel(n: u32, limit: usize) -> bool {

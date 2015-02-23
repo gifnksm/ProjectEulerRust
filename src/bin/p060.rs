@@ -69,7 +69,7 @@ fn find_chain(pairs: &[u64], set: &[u64], map: &HashMap<u64, Vec<u64>>) -> Vec<V
     let mut result = Vec::new();
 
     for (i, &p) in pairs.iter().enumerate() {
-        let union_pairs = union_vec(&pairs[.. i], &map.get(&p).unwrap()[..]);
+        let union_pairs = union_vec(&pairs[.. i], &map.get(&p).unwrap());
         let pset = {
             let mut v = vec![p];
             v.extend(set.iter().map(|&x| x));
@@ -78,7 +78,7 @@ fn find_chain(pairs: &[u64], set: &[u64], map: &HashMap<u64, Vec<u64>>) -> Vec<V
         if union_pairs.is_empty() {
             result.push(pset);
         } else {
-            result.push_all(&find_chain(&union_pairs[..], &pset[..], map)[..]);
+            result.push_all(&find_chain(&union_pairs, &pset, map));
         }
     }
 
@@ -91,7 +91,7 @@ fn compute(len: usize) -> Vec<u64> {
 
     for (n, pairs) in ConcatPrimeNums::new(&prime) {
         if pairs.len() >= len {
-            for set in find_chain(&pairs[..], &[n], &map) {
+            for set in find_chain(&pairs, &[n], &map) {
                 if set.len() >= len {
                     return set
                 }
@@ -120,6 +120,6 @@ mod tests {
 
     #[test]
     fn four() {
-        assert_eq!(&[3, 7, 109, 673][..], &super::compute(4)[..]);
+        assert_eq!(&[3, 7, 109, 673], &super::compute(4));
     }
 }

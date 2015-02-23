@@ -150,8 +150,8 @@ fn max_square(groups: Vec<(usize, Vec<(Vec<usize>, Vec<usize>)>)>) -> usize {
             let ds = (n * n).into_digits(10).rev().collect::<Vec<_>>();
             for &(ref v1, ref v2) in &pairs {
                 if ds[v2[0]] == 0 { continue }
-                if !check_digit(&v1[..], &ds[..]) { continue }
-                let num2 = idx_to_num(&v2[..], &ds[..]);
+                if !check_digit(&v1, &ds) { continue }
+                let num2 = idx_to_num(&v2, &ds);
                 if !is_square(num2) { continue }
                 nums.push(n * n);
             if n * n != num2 { nums.push(num2); }

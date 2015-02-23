@@ -125,8 +125,8 @@ impl Ord for Hand {
         match self.rank().cmp(&other.rank()) {
             Ordering::Less    => Ordering::Less,
             Ordering::Greater => Ordering::Greater,
-            Ordering::Equal   => cmp_card_2darray(&self.to_vec_of_array()[..],
-                                                  &other.to_vec_of_array()[..])
+            Ordering::Equal   => cmp_card_2darray(&self.to_vec_of_array(),
+                                                  &other.to_vec_of_array())
         }
     }
 }
@@ -267,25 +267,25 @@ impl Hand {
     fn to_vec_of_array<'a>(&'a self) -> Vec<&'a [Card]> {
         match *self {
             Hand::HighCard(ref s0, ref s1, ref s2, ref s3, ref s4) =>
-                vec![&s0[..], &s1[..], &s2[..], &s3[..], &s4[..]],
+                vec![s0, s1, s2, s3, s4],
             Hand::Pair(ref p0, ref s0, ref s1, ref s2) =>
-                vec![&p0[..], &s0[..], &s1[..], &s2[..]],
+                vec![p0, s0, s1, s2],
             Hand::TwoPairs(ref p0, ref p1, ref s0) =>
-                vec![&p0[..], &p1[..], &s0[..]],
+                vec![p0, p1, s0],
             Hand::ThreeOfAKind(ref t0, ref s0, ref s1) =>
-                vec![&t0[..], &s0[..], &s1[..]],
+                vec![t0, s0, s1],
             Hand::Straight(ref cs) =>
-                vec![&cs[..]],
+                vec![cs],
             Hand::Flush(ref cs) =>
-                vec![&cs[..]],
+                vec![cs],
             Hand::FullHouse(ref t0, ref p0) =>
-                vec![&t0[..], &p0[..]],
+                vec![t0, p0],
             Hand::FourOfAKind(ref q0, ref s0) =>
-                vec![&q0[..], &s0[..]],
+                vec![q0, s0],
             Hand::StraightFlush(ref cs) =>
-                vec![&cs[..]],
+                vec![cs],
             Hand::RoyalFlush(ref cs) =>
-                vec![&cs[..]]
+                vec![cs]
         }
     }
 }
@@ -335,13 +335,13 @@ mod tests {
     fn from_cards() {
         fn check(input: &str, output: &str) {
             let mut cs = str_to_cards(input);
-            let ihand = Hand::from_cards(&cs[..]);
+            let ihand = Hand::from_cards(&cs);
             assert_eq!(output, &ihand.to_string()[..]);
 
             let mut rng = rand::thread_rng();
             for _ in (0 .. 10) {
                 rng.shuffle(cs.as_mut_slice());
-                let hand = Hand::from_cards(&cs[..]);
+                let hand = Hand::from_cards(&cs);
                 assert_eq!(ihand, hand);
                 assert_eq!(output, &hand.to_string()[..]);
             }
@@ -376,8 +376,8 @@ mod tests {
     #[test]
     fn cmp() {
         fn check(order: Ordering, left: &str, right: &str) {
-            let lh = Hand::from_cards(&str_to_cards(left)[..]);
-            let rh = Hand::from_cards(&str_to_cards(right)[..]);
+            let lh = Hand::from_cards(&str_to_cards(left));
+            let rh = Hand::from_cards(&str_to_cards(right));
             assert_eq!(order, lh.cmp(&rh));
             assert_eq!(order.reverse(), rh.cmp(&lh));
         }

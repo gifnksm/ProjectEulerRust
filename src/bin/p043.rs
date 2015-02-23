@@ -124,7 +124,7 @@ mod tests {
             assert_eq!(true, pd.is_used(2));
             assert_eq!(true, pd.is_used(3));
             assert_eq!(false, pd.is_used(4));
-            assert_eq!(&[3, 2, 1][..], pd.num());
+            assert_eq!(&[3, 2, 1], &pd.num());
 
             let pd = Pandigimal::from_u64(123, 4).unwrap();
             assert_eq!(true, pd.is_used(0));
@@ -132,7 +132,7 @@ mod tests {
             assert_eq!(true, pd.is_used(2));
             assert_eq!(true, pd.is_used(3));
             assert_eq!(false, pd.is_used(4));
-            assert_eq!(&[3, 2, 1, 0][..], pd.num());
+            assert_eq!(&[3, 2, 1, 0], &pd.num());
 
             let pd = Pandigimal::from_u64(123, 2).unwrap();
             assert_eq!(false, pd.is_used(0));
@@ -140,7 +140,7 @@ mod tests {
             assert_eq!(true, pd.is_used(2));
             assert_eq!(true, pd.is_used(3));
             assert_eq!(false, pd.is_used(4));
-            assert_eq!(&[3, 2][..], pd.num());
+            assert_eq!(&[3, 2], &pd.num());
 
             assert!(Pandigimal::from_u64(11, 2).is_none());
         }
@@ -156,7 +156,7 @@ mod tests {
             assert_eq!(true, pd2.is_used(3));
             assert_eq!(false, pd2.is_used(4));
             assert_eq!(true, pd2.is_used(5));
-            assert_eq!(&[3, 2, 1, 5][..], pd2.num());
+            assert_eq!(&[3, 2, 1, 5], &pd2.num());
 
             assert!(pd.join(1).is_none());
         }
@@ -167,28 +167,28 @@ mod tests {
         assert_eq!(0, super::create_pandigimal_list(11, 2).len());
 
         let pds = super::create_pandigimal_list(11, 3);
-        assert_eq!(&[2, 3, 1][..], pds[0].num());
-        assert_eq!(&[3, 4, 1][..], pds[1].num());
-        assert_eq!(&[4, 5, 1][..], pds[2].num());
-        assert_eq!(&[5, 6, 1][..], pds[3].num());
-        assert_eq!(&[6, 7, 1][..], pds[4].num());
-        assert_eq!(&[7, 8, 1][..], pds[5].num());
-        assert_eq!(&[8, 9, 1][..], pds[6].num());
-        assert_eq!(&[9, 0, 2][..], pds[7].num());
-        assert_eq!(&[1, 3, 2][..], pds[8].num());
+        assert_eq!(&[2, 3, 1], &pds[0].num());
+        assert_eq!(&[3, 4, 1], &pds[1].num());
+        assert_eq!(&[4, 5, 1], &pds[2].num());
+        assert_eq!(&[5, 6, 1], &pds[3].num());
+        assert_eq!(&[6, 7, 1], &pds[4].num());
+        assert_eq!(&[7, 8, 1], &pds[5].num());
+        assert_eq!(&[8, 9, 1], &pds[6].num());
+        assert_eq!(&[9, 0, 2], &pds[7].num());
+        assert_eq!(&[1, 3, 2], &pds[8].num());
 
         let pds = super::create_pandigimal_list(9, 2);
         assert_eq!(10, pds.len());
-        assert_eq!(&[9, 0][..], pds[0].num());
-        assert_eq!(&[8, 1][..], pds[1].num());
-        assert_eq!(&[7, 2][..], pds[2].num());
-        assert_eq!(&[6, 3][..], pds[3].num());
-        assert_eq!(&[5, 4][..], pds[4].num());
-        assert_eq!(&[4, 5][..], pds[5].num());
-        assert_eq!(&[3, 6][..], pds[6].num());
-        assert_eq!(&[2, 7][..], pds[7].num());
-        assert_eq!(&[1, 8][..], pds[8].num());
-        assert_eq!(&[0, 9][..], pds[9].num());
+        assert_eq!(&[9, 0], &pds[0].num());
+        assert_eq!(&[8, 1], &pds[1].num());
+        assert_eq!(&[7, 2], &pds[2].num());
+        assert_eq!(&[6, 3], &pds[3].num());
+        assert_eq!(&[5, 4], &pds[4].num());
+        assert_eq!(&[4, 5], &pds[5].num());
+        assert_eq!(&[3, 6], &pds[6].num());
+        assert_eq!(&[2, 7], &pds[7].num());
+        assert_eq!(&[1, 8], &pds[8].num());
+        assert_eq!(&[0, 9], &pds[9].num());
     }
 
     #[test]
@@ -196,17 +196,17 @@ mod tests {
         let pd = super::create_pandigimal_list(9, 2);
         let pd = super::update_pandigimal_list(pd, 5, 2);
         assert_eq!(16, pd.len());
-        assert_eq!(&[9, 0, 1][..], pd[0].num());
-        assert_eq!(&[9, 0, 2][..], pd[1].num());
+        assert_eq!(&[9, 0, 1], &pd[0].num());
+        assert_eq!(&[9, 0, 2], &pd[1].num());
         // snip
-        assert_eq!(&[9, 0, 8][..], pd[7].num());
-        assert_eq!(&[4, 5, 0][..], pd[8].num());
-        assert_eq!(&[4, 5, 1][..], pd[9].num());
-        assert_eq!(&[4, 5, 2][..], pd[10].num());
-        assert_eq!(&[4, 5, 3][..], pd[11].num());
-        assert_eq!(&[4, 5, 6][..], pd[12].num());
-        assert_eq!(&[4, 5, 7][..], pd[13].num());
-        assert_eq!(&[4, 5, 8][..], pd[14].num());
-        assert_eq!(&[4, 5, 9][..], pd[15].num());
+        assert_eq!(&[9, 0, 8], &pd[7].num());
+        assert_eq!(&[4, 5, 0], &pd[8].num());
+        assert_eq!(&[4, 5, 1], &pd[9].num());
+        assert_eq!(&[4, 5, 2], &pd[10].num());
+        assert_eq!(&[4, 5, 3], &pd[11].num());
+        assert_eq!(&[4, 5, 6], &pd[12].num());
+        assert_eq!(&[4, 5, 7], &pd[13].num());
+        assert_eq!(&[4, 5, 8], &pd[14].num());
+        assert_eq!(&[4, 5, 9], &pd[15].num());
     }
 }
