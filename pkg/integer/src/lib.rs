@@ -327,7 +327,7 @@ mod tests {
             assert_eq!(v, n.into_digits(radix).collect::<Vec<_>>());
             let mut rev = n.into_digits(radix).rev().collect::<Vec<_>>();
             rev.reverse();
-            assert_eq!(v, &rev)
+            assert_eq!(v, rev)
         }
 
         check(0, &[], 10);
