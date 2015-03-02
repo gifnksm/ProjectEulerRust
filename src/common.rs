@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, collections, old_io, env, old_path)]
+#![feature(core, collections, old_io, old_path, exit_status)]
 
 extern crate curl;
 extern crate getopts;

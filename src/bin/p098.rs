@@ -89,7 +89,7 @@ fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(usize, Vec<usize>, Ve
         .map(|(w1, w2)| {
             let cs1 = w1.as_bytes();
             let cs2 = w2.as_bytes();
-            let get_pos = |&: &c: &u8| cs1.position_elem(&c).unwrap();
+            let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap();
             (w1.len(),
              cs1.iter().map(|c| get_pos(c)).collect(),
              cs2.iter().map(|c| get_pos(c)).collect())
