@@ -35,7 +35,7 @@ struct FibFirst {
 }
 
 impl FibFirst {
-    fn new(len: usize) -> FibFirst {
+    fn new(len: u32) -> FibFirst {
         assert!(len > 0);
         FibFirst {
             base: 10.pow(len),
@@ -77,7 +77,7 @@ struct FibLast {
 }
 
 impl FibLast {
-    fn new(len: usize) -> FibLast {
+    fn new(len: u32) -> FibLast {
         assert!(len > 0);
         FibLast { base: 10.pow(len), curr: 1, next: 1 }
     }
@@ -117,7 +117,7 @@ mod tests {
     #[test]
     fn fib() {
         let len = 9;
-        let it = Fibonacci::<BigUint>::new().zip(FibFirst::new(len).zip(FibLast::new(len)));
+        let it = Fibonacci::<BigUint>::new().zip(FibFirst::new(len as u32).zip(FibLast::new(len as u32)));
         for (bu, (fst, lst)) in it.take(100) {
             let bus = bu.to_string();
             if bus.len() < len {

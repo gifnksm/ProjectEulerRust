@@ -15,7 +15,7 @@ use std::iter::AdditiveIterator;
 use std::collections::BinaryHeap;
 use integer::Integer;
 
-struct Power(u64, u64, u64);
+struct Power(u64, u64, u32);
 
 impl PartialEq for Power {
     fn eq(&self, other: &Power) -> bool {
@@ -48,17 +48,17 @@ impl Powers {
 }
 
 impl Iterator for Powers {
-    type Item = (u64, u64, u64);
+    type Item = (u64, u64, u32);
 
-    fn next(&mut self) -> Option<(u64, u64, u64)> {
+    fn next(&mut self) -> Option<(u64, u64, u32)> {
         let Power(n, b, e) = self.heap.pop().unwrap();
         if b == 2 { self.heap.push(Power(n * b, b, e + 1)); }
-        if b < 99 { self.heap.push(Power((b + 1).pow(e as usize), b + 1, e)); } // assume base is smaller than 100
+        if b < 99 { self.heap.push(Power((b + 1).pow(e), b + 1, e)); } // assume base is smaller than 100
         Some((n, b, e))
     }
 }
 
-fn compute_a(n: usize) -> (u64, u64, u64) {
+fn compute_a(n: usize) -> (u64, u64, u32) {
     Powers::new()
         .skip_while(|&(n, _b, _e)| n < 10)
         .filter(|&(n, b, _e)| n.into_digits(10).sum() == b)

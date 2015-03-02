@@ -29,7 +29,7 @@ impl Digits {
         Digits {
             radix: radix,
             num_digits: num_digits,
-            range: (Int::zero() .. radix.pow(num_digits)).rev()
+            range: (Int::zero() .. radix.pow(num_digits as u32)).rev()
         }
     }
 }

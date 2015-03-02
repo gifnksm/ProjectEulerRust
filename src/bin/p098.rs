@@ -140,8 +140,8 @@ fn max_square(groups: Vec<(usize, Vec<(Vec<usize>, Vec<usize>)>)>) -> usize {
     for (len, pairs) in groups {
         let mut nums = vec![];
 
-        let start = 10.pow(len - 1);
-        let end   = 10.pow(len);
+        let start = 10.pow((len - 1) as u32);
+        let end   = 10.pow(len as u32);
 
         let mut nmin = start.sqrt();
         while nmin * nmin < start { nmin += 1; }

@@ -21,13 +21,13 @@ use integer::Integer;
 // 999999  => 9^5 * 6 = 354294
 // 9999999 => 9^5 * 7 = 413343
 
-fn compute(len: usize, pow: usize) -> usize {
-    let pows = (0usize .. 10).map(|i| i.pow(pow)).collect::<Vec<_>>();
+fn compute(len: usize, pow: u32) -> u32 {
+    let pows = (0u32 .. 10).map(|i| i.pow(pow)).collect::<Vec<_>>();
     let digits = &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     let mut sum = 0;
     for comb in CombinationOverlap::new(digits, len) {
-        let num = comb.iter().map(|&e| pows[e]).sum();
+        let num = comb.iter().map(|&e| pows[e as usize]).sum();
         let mut ds = num.into_digits(10).collect::<Vec<_>>();
         ds.sort_by(|a, b| a.cmp(b));
 
