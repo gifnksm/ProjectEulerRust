@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(exit_status, io, old_io, os, path, process, std_misc)]
+#![feature(exit_status, io, os, path, std_misc)]
 
 extern crate glob;
 extern crate "rustc-serialize" as rustc_serialize;
@@ -13,7 +13,7 @@ use std::borrow::{Cow, IntoCow};
 use std::env;
 use std::error::FromError;
 use std::io;
-use std::old_io;
+use std::io::prelude::*;
 use std::path::Path;
 use std::process::Command;
 use std::str;
@@ -32,7 +32,6 @@ type OutputPair<'a> = (Option<Color>, Cow<'a, str>);
 #[derive(Debug)]
 enum ProgramError {
     IoError(io::Error),
-    OldIoError(old_io::IoError),
     JsonParserError(json::ParserError),
     JsonDecoderError(json::DecoderError),
     Unknown(Cow<'static, str>)
@@ -47,12 +46,6 @@ impl ProgramError {
 impl FromError<io::Error> for ProgramError {
     fn from_error(err: io::Error) -> ProgramError {
         ProgramError::IoError(err)
-    }
-}
-
-impl FromError<old_io::IoError> for ProgramError {
-    fn from_error(err: old_io::IoError) -> ProgramError {
-        ProgramError::OldIoError(err)
     }
 }
 
@@ -81,8 +74,8 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
 
     if !proc_out.stderr.is_empty() {
         let _ = match str::from_utf8(&proc_out.stderr) {
-            Ok(s)  => writeln!(&mut old_io::stderr(), "{}", s.trim()),
-            Err(e) => writeln!(&mut old_io::stderr(), "{:?}: {}", proc_out.stderr, e)
+            Ok(s)  => writeln!(&mut io::stderr(), "{}", s.trim()),
+            Err(e) => writeln!(&mut io::stderr(), "{:?}: {}", proc_out.stderr, e)
         };
     }
 
@@ -106,7 +99,7 @@ fn run() -> ProgramResult<()> {
         path.pop();
         path
     };
-    let mut out = old_io::stdout();
+    let mut out = io::stdout();
 
     let mut is_ok = true;
     let mut num_prob = 0;
@@ -154,7 +147,7 @@ fn run() -> ProgramResult<()> {
 
 fn main() {
     if let Err(e) = run() {
-        let _ = writeln!(&mut old_io::stderr(), "{:?}", e);
+        let _ = writeln!(&mut io::stderr(), "{:?}", e);
         env::set_exit_status(255);
     }
 }
