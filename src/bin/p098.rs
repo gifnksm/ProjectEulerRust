@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, core, old_io, std_misc)]
+#![feature(collections, core, fs, io, std_misc)]
 
 #[macro_use(problem)] extern crate common;
 extern crate integer;
@@ -12,31 +12,20 @@ extern crate integer;
 use std::{cmp, iter, mem, usize};
 use std::collections::HashMap;
 use std::collections::hash_map::Entry;
-use std::old_io::{BufferedReader, File, IoResult};
+use std::fs::File;
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 use std::num::Int;
 use integer::Integer;
 
-fn read_words(file: File) -> IoResult<Vec<String>> {
-    let mut input = BufferedReader::new(file);
+fn read_words(file: File) -> io::Result<Vec<String>> {
     let mut words = vec![];
 
-    // FIXME: This should be rewritten by using new iterator adapter, such as
-    // `Iterator<char>::split()`.
-    let mut cont = true;
-    while cont {
-        let word_str = String::from_utf8(try!(input.read_until(b','))).ok().unwrap();
-        let mut word = &word_str[..];
-        if word.is_empty() { break; }
-
-        cont = if word.ends_with(",") {
-            word = word.trim_right_matches(',');
-            true
-        } else {
-            false
-        };
-
-        word = word.trim_matches('\"');
-
+    for bytes in BufReader::new(file).split(b',') {
+        let word_str = String::from_utf8(try!(bytes)).ok().unwrap();
+        let word = word_str
+            .trim_right_matches(',')
+            .trim_matches('\"');
         words.push(word.to_string());
     }
     Ok(words)
@@ -166,7 +155,7 @@ fn max_square(groups: Vec<(usize, Vec<(Vec<usize>, Vec<usize>)>)>) -> usize {
     max
 }
 
-fn solve(file: File) -> IoResult<String> {
+fn solve(file: File) -> io::Result<String> {
     let words = try!(read_words(file));
     let groups = get_anagram_groups(words);
     let pairs = flatten_groups(groups);

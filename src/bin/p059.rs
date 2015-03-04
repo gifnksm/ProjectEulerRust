@@ -4,13 +4,15 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, old_io)]
+#![feature(core, fs, io)]
 
 #[macro_use(problem)] extern crate common;
 
 use std::f64;
+use std::fs::File;
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 use std::iter::{self, AdditiveIterator};
-use std::old_io::{File, IoResult, BufferedReader};
 
 const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
     ('a', 0.08167),
@@ -77,32 +79,20 @@ fn find_key(count: &[usize], ref_freq: &[f64]) -> u8 {
     min_key
 }
 
-fn read_file(file: File) -> IoResult<Vec<u8>> {
-    let mut input = BufferedReader::new(file);
+fn read_file(file: File) -> io::Result<Vec<u8>> {
     let mut code_list = vec![];
 
-    // FIXME: This should be rewritten by using new iterator adapter, such as
-    // `Iterator<char>::split()`.
-    let mut cont = true;
-    while cont {
-        let word_str = String::from_utf8(try!(input.read_until(b','))).ok().unwrap();
-        let mut word = word_str.trim();
-        if word.is_empty() { break; }
-
-        cont = if word.ends_with(",") {
-            word = word.trim_right_matches(',');
-            true
-        } else {
-            false
-        };
-
+    for word in BufReader::new(file).split(b',') {
+        let word_str = String::from_utf8(try!(word)).ok().unwrap();
+        let word = word_str.trim();
+        if word.is_empty() { break }
         code_list.push(word.parse::<u8>().unwrap())
     }
 
     Ok(code_list)
 }
 
-fn solve(file: File) -> IoResult<String> {
+fn solve(file: File) -> io::Result<String> {
     const KEY_LEN: usize = 3;
     let code_list = try!(read_file(file));
 

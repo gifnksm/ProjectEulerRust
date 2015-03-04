@@ -4,13 +4,15 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, old_io)]
+#![feature(core, fs, io)]
 
 #[macro_use(problem)] extern crate common;
 
 use std::cmp::Ordering;
+use std::fs::File;
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 use std::iter::AdditiveIterator;
-use std::old_io::{BufferedReader, File, IoResult};
 
 fn is_sss(nums: &mut [u32]) -> bool {
     nums.sort();
@@ -43,11 +45,9 @@ fn is_sss(nums: &mut [u32]) -> bool {
     true
 }
 
-fn solve(file: File) -> IoResult<String> {
-    let mut br = BufferedReader::new(file);
-
+fn solve(file: File) -> io::Result<String> {
     let mut sum = 0;
-    for line in br.lines() {
+    for line in BufReader::new(file).lines() {
         let mut nums = try!(line)
             .trim()
             .split(',')

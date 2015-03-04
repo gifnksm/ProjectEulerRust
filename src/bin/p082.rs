@@ -4,19 +4,19 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(old_io)]
+#![feature(fs, io)]
 
 #[macro_use(problem)] extern crate common;
 
 use std::cmp;
-use std::old_io::{BufferedReader, File, IoResult};
+use std::fs::File;
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 
-fn read_matrix<T: Reader>(reader: T) -> IoResult<Vec<Vec<u32>>> {
-    let mut br = BufferedReader::new(reader);
-
+fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
     let mut mat = vec![];
 
-    for line in br.lines() {
+    for line in BufReader::new(reader).lines() {
         let row = try!(line)
             .trim()
             .split(',')
@@ -60,7 +60,7 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
         .unwrap()
 }
 
-fn solve(file: File) -> IoResult<String> {
+fn solve(file: File) -> io::Result<String> {
     let mat = try!(read_matrix(file));
     Ok(minimal_path_sum(mat).to_string())
 }

@@ -4,12 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(old_io)]
+#![feature(fs, io)]
 
 #[macro_use(problem)] extern crate common;
 
 use std::u32;
-use std::old_io::{BufferedReader, File, IoResult};
+use std::fs::File;
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 
 const ROMAN_PAIRS: &'static [(&'static str, u32)] = &[
     ("IV", 4),
@@ -64,10 +66,9 @@ fn to_roman(mut n: u32) -> String {
     s
 }
 
-fn solve(file: File) -> IoResult<String> {
-    let mut br = BufferedReader::new(file);
+fn solve(file: File) -> io::Result<String> {
     let mut sum = 0;
-    for line in br.lines() {
+    for line in BufReader::new(file).lines() {
         let line = try!(line);
         let line = line.trim();
         sum += line.len() - to_roman(from_roman(line).unwrap()).len();

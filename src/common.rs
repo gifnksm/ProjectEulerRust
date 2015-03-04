@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, collections, old_io, old_path, exit_status)]
+#![feature(core, collections, exit_status, fs, io, old_io, path)]
 
 extern crate curl;
 extern crate getopts;
@@ -13,10 +13,10 @@ extern crate time;
 
 use std::borrow::{Cow, IntoCow};
 use std::error::{Error, FromError};
-use std::{env, fmt};
-use std::old_io as io;
-use std::old_io::{IoResult, File};
-use std::old_io::fs::{self, PathExtensions};
+use std::{env, fmt, io};
+use std::fs::{self, File};
+use std::io::prelude::*;
+use std::path::PathBuf;
 use curl::http;
 use getopts::Options;
 use num::Integer;
@@ -36,12 +36,12 @@ const COLOR_WARN: Color = color::YELLOW;
 
 #[derive(Debug)]
 pub enum SolverError {
-    Io(io::IoError),
+    Io(io::Error),
     Http(curl::ErrCode)
 }
 
-impl FromError<io::IoError> for SolverError {
-    fn from_error(err: io::IoError) -> SolverError { SolverError::Io(err) }
+impl FromError<io::Error> for SolverError {
+    fn from_error(err: io::Error) -> SolverError { SolverError::Io(err) }
 }
 impl FromError<curl::ErrCode> for SolverError {
     fn from_error(err: curl::ErrCode) -> SolverError { SolverError::Http(err) }
@@ -80,8 +80,8 @@ pub struct SolverResult<T> {
 }
 
 impl<T: Encodable> SolverResult<T> {
-    pub fn print_json<W: Writer>(&self, out: &mut W) -> IoResult<()> {
-        out.write_line(&json::encode(self).unwrap())
+    pub fn print_json<W: Write>(&self, out: &mut W) -> io::Result<()> {
+        writeln!(out, "{}", json::encode(self).unwrap())
     }
 }
 
@@ -90,7 +90,7 @@ fn print_items(items: &[OutputPair]) {
         None => {
             let mut out = io::stdout();
             for &(_, ref s) in items {
-                let _ = out.write_str(&s);
+                let _ = write!(&mut out, "{}", s);
             }
             let _ = out.flush();
         }
@@ -113,7 +113,7 @@ fn print_items(items: &[OutputPair]) {
 }
 
 impl<T: fmt::Display> SolverResult<T> {
-    pub fn print_pretty(&self, name: &str, enable_time_color: bool) -> IoResult<()> {
+    pub fn print_pretty(&self, name: &str, enable_time_color: bool) -> io::Result<()> {
         let mut items = vec![];
         if self.is_ok {
             items.push(normal(format!("{} ", name)));
@@ -163,7 +163,7 @@ impl<T: fmt::Display> SolverResult<T> {
 
 enum SolverFn<'a> {
     FnOnly(fn() -> String),
-    FnWithFile(&'a str, fn(File) -> IoResult<String>)
+    FnWithFile(&'a str, fn(File) -> io::Result<String>)
 }
 
 pub struct Solver<'a> {
@@ -177,7 +177,7 @@ impl<'a> Solver<'a> {
     }
 
     pub fn new_with_file(
-        answer: &'a str, file_name: &'a str, solver: fn(File) -> IoResult<String>
+        answer: &'a str, file_name: &'a str, solver: fn(File) -> io::Result<String>
     ) -> Solver<'a> {
         Solver { answer: answer, solver: SolverFn::FnWithFile(file_name, solver) }
     }
@@ -251,10 +251,11 @@ fn bench<T, F: FnOnce() -> T>(f: F) -> (u64, T) {
 }
 
 fn setup_file(file_name: &str) -> Result<File, SolverError> {
-    let path = Path::new(format!(".cache/{}", file_name));
+    let mut path = PathBuf::new(".cache");
+    path.push(file_name);
     if !path.is_file() {
-        let dir_path = path.dir_path();
-        try!(fs::mkdir_recursive(&dir_path, io::USER_RWX));
+        let dir_path = path.parent().unwrap();
+        try!(fs::create_dir_all(&dir_path));
         let mut file = try!(File::create(&path));
         let content = try!(download(file_name));
         try!(file.write_all(&content));

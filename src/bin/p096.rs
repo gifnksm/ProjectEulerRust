@@ -4,12 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, core, old_io, unicode)]
+#![feature(collections, core, fs, io, unicode)]
 
 #[macro_use(problem)] extern crate common;
 
-use std::old_io::{BufferedReader, File, IoErrorKind, IoResult};
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 use std::iter;
+use std::fs::File;
 use std::num::Int;
 
 const BOARD_WIDTH: usize = 9;
@@ -40,23 +42,18 @@ impl SuDoku {
     }
 }
 
-fn read_sudoku<T: Reader>(br: &mut BufferedReader<T>) -> IoResult<Option<SuDoku>> {
-    let name = match br.read_line() {
-        Ok(line) => line,
-        Err(err) => {
-            if err.kind == IoErrorKind::EndOfFile {
-                return Ok(None)
-            }
-            return Err(err)
-        }
-    };
+fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
+    let mut line = String::new();
+    try!(br.read_line(&mut line));
+    if line.is_empty() { return Ok(None) }
+
     let mut sudoku = SuDoku {
-        name: name,
+        name: line.trim().to_string(),
         map: [[MASK_ALL; BOARD_WIDTH]; BOARD_HEIGHT]
     };
 
     for y in (0 .. BOARD_HEIGHT) {
-        let line = try!(br.read_line());
+        try!(br.read_line(&mut line));
         for x in (0 .. BOARD_WIDTH) {
             let n = line.char_at(x).to_digit(10).unwrap();
             if n != 0 { sudoku.set_at(x, y, n as usize); }
@@ -164,8 +161,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     answers
 }
 
-fn solve(file: File) -> IoResult<String> {
-    let mut br = BufferedReader::new(file);
+fn solve(file: File) -> io::Result<String> {
+    let mut br = BufReader::new(file);
 
     let mut answers = Vec::new();
     while let Some(puzzle) = try!(read_sudoku(&mut br)) {

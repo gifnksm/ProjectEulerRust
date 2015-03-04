@@ -4,12 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(old_io)]
+#![feature(fs, io)]
 
 #[macro_use(problem)] extern crate common;
 extern crate seq;
 
-use std::old_io::{BufferedReader, IoResult, File};
+use std::fs::File;
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 use seq::TriangularNums;
 
 fn word_to_value(word: &str) -> u32 {
@@ -20,26 +22,14 @@ fn word_to_value(word: &str) -> u32 {
     value
 }
 
-fn solve(file: File) -> IoResult<String> {
-    let mut input = BufferedReader::new(file);
+fn solve(file: File) -> io::Result<String> {
     let mut values = vec![];
 
-    // FIXME: This should be rewritten by using new iterator adapter, such as
-    // `Iterator<char>::split()`.
-    let mut cont = true;
-    while cont {
-        let word_str = String::from_utf8(try!(input.read_until(b','))).ok().unwrap();
-        let mut word = &word_str[..];
-        if word.is_empty() { break; }
-
-        cont = if word.ends_with(",") {
-            word = word.trim_right_matches(',');
-            true
-        } else {
-            false
-        };
-
-        word = word.trim_matches('\"');
+    for bytes in BufReader::new(file).split(b',') {
+        let word_str = String::from_utf8(try!(bytes)).unwrap();
+        let word = word_str
+            .trim_right_matches(',')
+            .trim_matches('\"');
         values.push(word_to_value(word));
     }
 

@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(old_io)]
+#![feature(fs, io)]
 
 #[macro_use(problem)] extern crate common;
 extern crate playing_card;
@@ -12,8 +12,10 @@ extern crate playing_card;
 
 use std::cmp::Ordering;
 use std::fmt;
+use std::fs::File;
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 use std::str::FromStr;
-use std::old_io::{BufferedReader, File, IoResult};
 use playing_card::SuitCard as Card;
 
 fn cmp_card(c0: &Card, c1: &Card) -> Ordering {
@@ -290,13 +292,11 @@ impl Hand {
     }
 }
 
-fn solve(file: File) -> IoResult<String> {
-    let mut input = BufferedReader::new(file);
-
+fn solve(file: File) -> io::Result<String> {
     let mut p1_win  = 0;
     let mut _p2_win = 0;
     let mut _draw   = 0;
-    for line in input.lines() {
+    for line in BufReader::new(file).lines() {
         let line = try!(line);
         let cards = line
             .trim()

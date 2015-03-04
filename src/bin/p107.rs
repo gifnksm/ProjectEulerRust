@@ -4,19 +4,19 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(old_io)]
+#![feature(fs, io)]
 
 #[macro_use(problem)] extern crate common;
 extern crate "union-find" as union_find;
 
-use std::old_io::{BufferedReader, File, IoResult};
+use std::fs::File;
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 use union_find::{UnionFind, Size};
 
-fn compute<R: Reader>(r: R, size: usize) -> IoResult<usize> {
-    let mut br = BufferedReader::new(r);
-
+fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {
     let mut verts = Vec::new();
-    for (i, line) in br.lines().enumerate() {
+    for (i, line) in BufReader::new(r).lines().enumerate() {
         let line = try!(line);
         for (j, s) in line.trim().split(',').enumerate() {
             if j <= i { continue }
@@ -41,7 +41,7 @@ fn compute<R: Reader>(r: R, size: usize) -> IoResult<usize> {
     Ok(saving)
 }
 
-fn solve(file: File) -> IoResult<String> {
+fn solve(file: File) -> io::Result<String> {
     Ok(try!(compute(file, 40)).to_string())
 }
 

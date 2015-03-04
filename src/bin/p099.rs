@@ -4,20 +4,21 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(old_io, core)]
+#![feature(fs, io, core)]
 
 #[macro_use(problem)] extern crate common;
 
 use std::num::Float;
-use std::old_io::{BufferedReader, File, IoResult};
+use std::fs::File;
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 use std::iter;
 
-fn solve(file: File) -> IoResult<String> {
-    let mut br = BufferedReader::new(file);
+fn solve(file: File) -> io::Result<String> {
     let mut max_val = 0.0;
     let mut max_idx = 0;
 
-    for (line, idx) in br.lines().zip(iter::count(1usize, 1)) {
+    for (line, idx) in BufReader::new(file).lines().zip(iter::count(1usize, 1)) {
         let line = try!(line);
         let line = line.trim();
         let i = line.find(',').unwrap();

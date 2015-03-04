@@ -4,19 +4,19 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(old_io)]
+#![feature(fs, io)]
 
 #[macro_use(problem)] extern crate common;
 extern crate "topological-sort" as tsort;
 
-use std::old_io::{BufferedReader, File, IoResult};
+use std::fs::File;
+use std::io::{self, BufReader};
+use std::io::prelude::*;
 use tsort::TopologicalSort;
 
-fn solve(file: File) -> IoResult<String> {
-    let mut br = BufferedReader::new(file);
-
+fn solve(file: File) -> io::Result<String> {
     let mut ts = TopologicalSort::new();
-    for line in br.lines() {
+    for line in BufReader::new(file).lines() {
         let line = try!(line);
         let ds = line.trim().chars();
         for (prec, succ) in ds.clone().zip(ds.skip(1)) {
