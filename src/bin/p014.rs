@@ -12,7 +12,7 @@ extern crate seq;
 use std::collections::HashMap;
 use seq::Collatz;
 
-fn compute_len(map: &mut HashMap<u32, u32>, n: u32) -> u32 {
+fn compute_len(map: &mut HashMap<u64, u64>, n: u64) -> u64 {
     if let Some(&x) = map.get(&n) {
         return x
     }
@@ -24,7 +24,7 @@ fn compute_len(map: &mut HashMap<u32, u32>, n: u32) -> u32 {
     x
 }
 
-fn compute(limit: u32) -> u32 {
+fn compute(limit: u64) -> u64 {
     let mut map = HashMap::with_capacity(limit as usize);
     let _ = map.insert(1, 1);
 

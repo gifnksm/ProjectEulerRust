@@ -6,7 +6,7 @@
 
 #[macro_use(problem)] extern crate common;
 
-fn compute(limit: u32) -> u32 {
+fn compute(limit: u64) -> u64 {
     let mut max_n = 0;
     let mut max_d = 1;
     for d in (limit - 7 .. limit).rev() {

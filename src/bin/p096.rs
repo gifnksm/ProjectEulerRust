@@ -32,7 +32,7 @@ impl SuDoku {
     fn get_at(&self, x: usize, y: usize) -> usize {
         match self.map[y][x].count_ones() {
             0 => -1,
-            1 => self.map[y][x].trailing_zeros() + 1,
+            1 => (self.map[y][x].trailing_zeros() + 1) as usize,
             _ => 0
         }
     }
@@ -53,6 +53,7 @@ fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
     };
 
     for y in (0 .. BOARD_HEIGHT) {
+        let mut line = String::new();
         try!(br.read_line(&mut line));
         for x in (0 .. BOARD_WIDTH) {
             let n = line.char_at(x).to_digit(10).unwrap();

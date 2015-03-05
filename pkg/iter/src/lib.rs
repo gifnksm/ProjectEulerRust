@@ -165,10 +165,15 @@ impl<'a, T: 'a> Permutations<'a, T> {
     /// assert_eq!(Some((vec![1, 2], vec![3])), it.next());
     /// ```
     pub fn new(elems: &'a [T], n: usize) -> Permutations<'a, T> {
+        let cycles = if n <= elems.len() {
+            (0 .. n).map(|x| elems.len() - x).collect()
+        } else {
+            vec![]
+        };
         Permutations {
             elems: elems,
             idxs: (0 .. elems.len()).collect(),
-            cycles: (0 .. n).map(|x| elems.len() - x).collect(),
+            cycles: cycles,
             consumed: n > elems.len()
         }
     }

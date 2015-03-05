@@ -106,8 +106,8 @@ pub fn fold<T, I>(an: I) -> (T, T)
     where T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone,
           I: Iterator<Item = u32> + DoubleEndedIterator
 {
-    let mut numer: T = FromPrimitive::from_int(1).unwrap();
-    let mut denom: T = FromPrimitive::from_int(0).unwrap();
+    let mut numer: T = FromPrimitive::from_u32(1).unwrap();
+    let mut denom: T = FromPrimitive::from_u32(0).unwrap();
 
     for a in an.rev() {
         mem::swap(&mut numer, &mut denom);

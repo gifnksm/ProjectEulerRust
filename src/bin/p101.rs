@@ -46,7 +46,7 @@ fn op(ns: &[(BigInt, BigInt)]) -> Polynomial<BigInt> {
 }
 
 fn bop(ns: &[(BigInt, BigInt)]) -> BigInt {
-    op(ns).eval(FromPrimitive::from_uint(ns.len() + 1).unwrap())
+    op(ns).eval(FromPrimitive::from_usize(ns.len() + 1).unwrap())
 }
 
 fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {

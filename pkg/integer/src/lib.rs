@@ -90,7 +90,7 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
         let mut hist = [0; 10];
         let ten = FromPrimitive::from_u32(10).unwrap();
         for d in self.into_digits(ten) {
-            hist[d.to_uint().unwrap()] += 1;
+            hist[d.to_usize().unwrap()] += 1;
         }
         hist
     }

@@ -9,7 +9,7 @@ extern crate prime;
 
 use prime::{Factorize, PrimeSet};
 
-fn compute(max: u32) -> u32 {
+fn compute(max: u64) -> u64 {
     let ps = PrimeSet::new();
 
     let abundant = (2 .. max + 1)

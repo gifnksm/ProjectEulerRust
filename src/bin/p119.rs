@@ -11,9 +11,45 @@ extern crate integer;
 
 use std::cmp::Ordering;
 use std::num::Int;
+use std::num::wrapping::OverflowingOps;
 use std::iter::AdditiveIterator;
 use std::collections::BinaryHeap;
 use integer::Integer;
+
+trait IntExt: Int {
+    fn checked_pow(self, mut exp: u32) -> Option<Self> {
+        let mut base = self;
+        let mut acc: Self = Int::one();
+
+        let mut prev_base = self;
+        let mut base_oflo = false;
+        while exp > 0 {
+            if (exp & 1) == 1 {
+                let new_acc;
+                if base_oflo {
+                    // ensure overflow occurs in the same manner it
+                    // would have otherwise (i.e. signal any exception
+                    // it would have otherwise).
+                    new_acc = acc.checked_mul(prev_base * prev_base);
+                } else {
+                    new_acc = acc.checked_mul(base);
+                };
+                match new_acc {
+                    Some(a) => acc = a,
+                    None => return None
+                }
+            }
+            prev_base = base;
+            let (new_base, new_base_oflo) = base.overflowing_mul(base);
+            base = new_base;
+            base_oflo = new_base_oflo;
+            exp /= 2;
+        }
+        Some(acc)
+    }
+}
+
+impl <T: Int> IntExt for T {}
 
 struct Power(u64, u64, u32);
 
@@ -53,7 +89,11 @@ impl Iterator for Powers {
     fn next(&mut self) -> Option<(u64, u64, u32)> {
         let Power(n, b, e) = self.heap.pop().unwrap();
         if b == 2 { self.heap.push(Power(n * b, b, e + 1)); }
-        if b < 99 { self.heap.push(Power((b + 1).pow(e), b + 1, e)); } // assume base is smaller than 100
+        if b < 99 { // assume base is smaller than 100
+            if let Some(new_n) = (b + 1).checked_pow(e) {
+                self.heap.push(Power(new_n, b + 1, e));
+            }
+        }
         Some((n, b, e))
     }
 }

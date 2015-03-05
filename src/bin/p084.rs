@@ -80,8 +80,8 @@ fn ch_trans_matrix() -> Matrix<f64> {
     Matrix::from_fn(NUM_STATE, NUM_STATE, |dst, src| {
         let (dst_seq, dst_pos) = (dst / NUM_SQUARE, dst % NUM_SQUARE);
         let (src_seq, src_pos) = (src / NUM_SQUARE, src % NUM_SQUARE);
-        let src_sq: Square = FromPrimitive::from_uint(src_pos).unwrap();
-        let dst_sq: Square = FromPrimitive::from_uint(dst_pos).unwrap();
+        let src_sq: Square = FromPrimitive::from_usize(src_pos).unwrap();
+        let dst_sq: Square = FromPrimitive::from_usize(dst_pos).unwrap();
         match src_sq {
             Square::CH1 | Square::CH2 | Square::CH3 => {
                 if dst_seq == src_seq && dst_sq == Square::JAIL {
@@ -124,8 +124,8 @@ fn cc_trans_matrix() -> Matrix<f64> {
     Matrix::from_fn(NUM_STATE, NUM_STATE, |dst, src| {
         let (dst_seq, dst_pos) = (dst / NUM_SQUARE, dst % NUM_SQUARE);
         let (src_seq, src_pos) = (src / NUM_SQUARE, src % NUM_SQUARE);
-        let src_sq: Square = FromPrimitive::from_uint(src_pos).unwrap();
-        let dst_sq: Square = FromPrimitive::from_uint(dst_pos).unwrap();
+        let src_sq: Square = FromPrimitive::from_usize(src_pos).unwrap();
+        let dst_sq: Square = FromPrimitive::from_usize(dst_pos).unwrap();
         match src_sq {
             Square::CC1 | Square::CC2 | Square::CC3 => {
                 if dst_seq == src_seq && dst_sq == Square::JAIL {
@@ -155,8 +155,8 @@ fn g2j_trans_matrix() -> Matrix<f64> {
     Matrix::from_fn(NUM_STATE, NUM_STATE, |dst, src| {
         let (dst_seq, dst_pos) = (dst / NUM_SQUARE, dst % NUM_SQUARE);
         let (src_seq, src_pos) = (src / NUM_SQUARE, src % NUM_SQUARE);
-        let src_sq: Square = FromPrimitive::from_uint(src_pos).unwrap();
-        let dst_sq: Square = FromPrimitive::from_uint(dst_pos).unwrap();
+        let src_sq: Square = FromPrimitive::from_usize(src_pos).unwrap();
+        let dst_sq: Square = FromPrimitive::from_usize(dst_pos).unwrap();
 
         if src_sq == Square::G2J {
             if dst_seq == src_seq && dst_sq == Square::JAIL {
@@ -193,7 +193,7 @@ fn steady_state(dist: &Matrix<f64>, init: Matrix<f64>, epsilon: f64) -> Matrix<f
 fn state_to_square(state: Matrix<f64>) -> Vec<(Square, f64)> {
     (0 .. NUM_SQUARE).map(|s| {
         let prob = iter::range_step(s, NUM_STATE, NUM_SQUARE).map(|i| state[(i, 0)]).sum();
-        let sq: Square = FromPrimitive::from_uint(s).unwrap();
+        let sq: Square = FromPrimitive::from_usize(s).unwrap();
         (sq, prob)
     }).collect()
 }

@@ -38,7 +38,7 @@ use polynomial::Polynomial;
 
 fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: usize) -> Ratio<T> {
     iter::range_inclusive(1, turns)
-        .map(|t| FromPrimitive::from_uint(t).unwrap())
+        .map(|t| FromPrimitive::from_usize(t).unwrap())
         .map(|t: T| {
             let denom = t.clone() + One::one();
             let blue = Ratio::new(One::one(), denom.clone());

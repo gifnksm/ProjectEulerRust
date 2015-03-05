@@ -31,7 +31,7 @@ struct Frac { nd: (BigUint, BigUint) }
 
 impl Frac {
     fn new() -> Frac {
-        Frac { nd: (FromPrimitive::from_uint(3).unwrap(), FromPrimitive::from_uint(2).unwrap()) }
+        Frac { nd: (FromPrimitive::from_usize(3).unwrap(), FromPrimitive::from_usize(2).unwrap()) }
     }
 }
 
