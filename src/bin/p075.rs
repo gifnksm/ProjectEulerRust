@@ -15,14 +15,14 @@ use integer::Integer;
 use seq::PrimitivePythagoreans;
 
 fn solve() -> String {
-    let limit = 1500000;
-    let mut v = vec![0; limit + 1];
+    let limit = 1500000u64;
+    let mut v = vec![0; (limit + 1) as usize];
 
     for m in (2 .. (limit / 2).sqrt()) {
         for (a, b, c) in PrimitivePythagoreans::new(m) {
             let sum = a + b + c;
             for s in iter::range_step(sum, limit + 1, sum) {
-                v[s] += 1;
+                v[s as usize] += 1;
             }
         }
     }

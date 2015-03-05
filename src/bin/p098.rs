@@ -9,7 +9,7 @@
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
-use std::{cmp, iter, mem, usize};
+use std::{cmp, iter, mem, u64};
 use std::collections::HashMap;
 use std::collections::hash_map::Entry;
 use std::fs::File;
@@ -72,22 +72,22 @@ fn flatten_groups(groups: Vec<Vec<String>>) -> Vec<(String, String)> {
     pairs
 }
 
-fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(usize, Vec<usize>, Vec<usize>)> {
+fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, Vec<u64>, Vec<u64>)> {
     pairs
         .into_iter()
         .map(|(w1, w2)| {
             let cs1 = w1.as_bytes();
             let cs2 = w2.as_bytes();
-            let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap();
-            (w1.len(),
+            let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap() as u64;
+            (w1.len() as u64,
              cs1.iter().map(|c| get_pos(c)).collect(),
              cs2.iter().map(|c| get_pos(c)).collect())
         }).collect::<Vec<_>>()
 }
 
-fn group_by_len(mut indices: Vec<(usize, Vec<usize>, Vec<usize>)>) -> Vec<(usize, Vec<(Vec<usize>, Vec<usize>)>)> {
+fn group_by_len(mut indices: Vec<(u64, Vec<u64>, Vec<u64>)>) -> Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)> {
     let mut groups = vec![];
-    let mut cur_len = usize::MAX;
+    let mut cur_len = u64::MAX;
     let mut cur_group = vec![];
 
     indices.sort_by(|&(l1, _, _), &(l2, _, _)| l2.cmp(&l1));
@@ -106,24 +106,28 @@ fn group_by_len(mut indices: Vec<(usize, Vec<usize>, Vec<usize>)>) -> Vec<(usize
     groups
 }
 
-fn check_digit(idx: &[usize], ds: &[usize]) -> bool {
+fn check_digit(idx: &[u64], ds: &[u64]) -> bool {
     for i in (0 .. idx.len()) {
-        if ds[i] != ds[idx[i]] { return false; }
-        if ds.position_elem(&ds[idx[i]]).unwrap() != idx[i] { return false; }
+        if ds[i] != ds[idx[i] as usize] {
+            return false;
+        }
+        if ds.position_elem(&ds[idx[i] as usize]).unwrap() as u64 != idx[i] {
+            return false;
+        }
     }
     true
 }
 
-fn idx_to_num(idx: &[usize], ds: &[usize]) -> usize {
-    idx.iter().fold(0, |num, &i| 10 * num + ds[i])
+fn idx_to_num(idx: &[u64], ds: &[u64]) -> u64 {
+    idx.iter().fold(0, |num, &i| 10 * num + ds[i as usize])
 }
 
-fn is_square(n: usize) -> bool {
+fn is_square(n: u64) -> bool {
     let sq = n.sqrt();
     (sq * sq == n)
 }
 
-fn max_square(groups: Vec<(usize, Vec<(Vec<usize>, Vec<usize>)>)>) -> usize {
+fn max_square(groups: Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)>) -> u64 {
     let mut max = 0;
 
     for (len, pairs) in groups {
@@ -138,7 +142,7 @@ fn max_square(groups: Vec<(usize, Vec<(Vec<usize>, Vec<usize>)>)>) -> usize {
         for n in iter::count(nmin, 1).take_while(|&n| n * n < end) {
             let ds = (n * n).into_digits(10).rev().collect::<Vec<_>>();
             for &(ref v1, ref v2) in &pairs {
-                if ds[v2[0]] == 0 { continue }
+                if ds[v2[0] as usize] == 0 { continue }
                 if !check_digit(&v1, &ds) { continue }
                 let num2 = idx_to_num(&v2, &ds);
                 if !is_square(num2) { continue }

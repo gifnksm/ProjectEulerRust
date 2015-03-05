@@ -11,13 +11,13 @@ extern crate num;
 use num::Integer as NumInteger;
 use integer::Integer;
 
-fn compute(mut idx: usize, mut set: Vec<usize>) -> usize {
+fn compute(mut idx: u64, mut set: Vec<u64>) -> u64 {
     let mut result = vec![];
     while set.len() > 0 {
-        let perm = (set.len() - 1).factorial();
+        let perm = (set.len() as u64 - 1).factorial();
         let (rm_idx, rest) = idx.div_rem(&perm);
         idx = rest;
-        result.push(set.remove(rm_idx));
+        result.push(set.remove(rm_idx as usize));
     }
     Integer::from_digits(result.into_iter().rev(), 10)
 }
