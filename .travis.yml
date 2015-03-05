@@ -1,8 +1,12 @@
 language: rust
-sudo: false
-
+install:
+  - sh ./.travis.install.deps.sh
 script:
   - make run-release
   - make test
   - make bench
   - make doc
+env:
+  matrix:
+    - BITS=32 PKG_CONFIG_PATH=/usr/lib/i386-linux-gnu/pkgconfig
+    - BITS=64
