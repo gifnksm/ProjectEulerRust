@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(exit_status, io, os, path, std_misc)]
+#![feature(exit_status, io, path, std_misc)]
 
 extern crate glob;
 extern crate "rustc-serialize" as rustc_serialize;

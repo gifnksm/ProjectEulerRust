@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(fs, io, str_words)]
+#![feature(io, str_words)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -20,8 +20,7 @@ fn solve(file: File) -> io::Result<String> {
         .map(|line| line.words().filter_map(|s| StrExt::parse(s).ok()).collect::<Vec<u32>>())
         .collect::<Vec<_>>();
 
-    let last = triangle.pop().unwrap();
-    let ans = triangle.iter()
+    let last = triangle.pop().unwrap();    let ans = triangle.iter()
         .rev()
         .fold(last, |prev, elem| {
             (0 .. elem.len()).map(|i| elem[i] + cmp::max(prev[i], prev[i + 1])).collect()
