@@ -316,9 +316,9 @@ mod tests {
         assert_eq!(super::solve_pel(6), (5, 2));
         assert_eq!(super::solve_pel(7), (8, 3));
     }
-    #[test] #[should_fail]
+    #[test] #[should_panic]
     fn solve_pel_1() { let _ = super::solve_pel::<u32>(1); }
-    #[test] #[should_fail]
+    #[test] #[should_panic]
     fn solve_pel_4() { let _ = super::solve_pel::<u32>(4); }
 
 }

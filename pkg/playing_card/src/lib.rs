@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, unicode)]
+#![feature(collections)]
 
 use std::fmt;
 use std::str::FromStr;
