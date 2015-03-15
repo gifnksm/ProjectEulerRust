@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, core, io)]
+#![feature(collections, core)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -44,8 +44,7 @@ impl SuDoku {
 
 fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
     let mut line = String::new();
-    try!(br.read_line(&mut line));
-    if line.is_empty() { return Ok(None) }
+    if try!(br.read_line(&mut line)) == 0 { return Ok(None) }
 
     let mut sudoku = SuDoku {
         name: line.trim().to_string(),
@@ -54,7 +53,7 @@ fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
 
     for y in (0 .. BOARD_HEIGHT) {
         let mut line = String::new();
-        try!(br.read_line(&mut line));
+        let _ = try!(br.read_line(&mut line));
         for x in (0 .. BOARD_WIDTH) {
             let n = line.char_at(x).to_digit(10).unwrap();
             if n != 0 { sudoku.set_at(x, y, n as usize); }
