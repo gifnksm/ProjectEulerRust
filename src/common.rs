@@ -251,11 +251,10 @@ fn bench<T, F: FnOnce() -> T>(f: F) -> (u64, T) {
 }
 
 fn setup_file(file_name: &str) -> Result<File, SolverError> {
-    let mut path = PathBuf::new(".cache");
+    let mut path = PathBuf::new("./.cache");
     path.push(file_name);
     if !path.is_file() {
-        let dir_path = path.parent().unwrap();
-        try!(fs::create_dir_all(&dir_path));
+        try!(fs::create_dir_all(&path.parent().unwrap()));
         let mut file = try!(File::create(&path));
         let content = try!(download(file_name));
         try!(file.write_all(&content));
