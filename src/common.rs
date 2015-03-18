@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, collections, exit_status, io, old_io, path_ext)]
+#![feature(core, collections, exit_status, io, path_ext)]
 
 extern crate curl;
 extern crate getopts;
@@ -99,11 +99,11 @@ fn print_items(items: &[OutputPair]) {
                 match c {
                     Some(c) => {
                         let _ = t.fg(c);
-                        let _ = t.write_str(&s);
+                        let _ = write!(&mut t, "{}", s);
                         let _ = t.reset();
                     }
                     None => {
-                        let _ = t.write_str(&s);
+                        let _ = write!(&mut t, "{}", s);
                     }
                 }
             }
