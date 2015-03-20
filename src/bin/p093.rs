@@ -7,11 +7,10 @@
 #![feature(collections, core)]
 
 #[macro_use(problem)] extern crate common;
-extern crate "iter" as itercrate;
+extern crate iter;
 extern crate num;
 
-use std::iter;
-use itercrate::{BitCombination, CombinationOverlap};
+use iter::{BitCombination, CombinationOverlap};
 use num::{Signed, Zero};
 use num::rational::Ratio;
 
@@ -136,8 +135,7 @@ fn count_seqlen(num_set: &[u32; 4]) -> u32 {
         }
     }
 
-    iter::count(1, 1)
-        .take_while(|&i| set[i as usize])
+    (1 ..).take_while(|&i| set[i as usize])
         .last()
         .unwrap_or(0)
 }

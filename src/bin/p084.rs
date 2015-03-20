@@ -4,12 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
+#![feature(core, step_by)]
 
 #[macro_use(problem)] extern crate common;
 extern crate "generic-matrix" as matrix;
 
-use std::iter::{self, AdditiveIterator};
+use std::iter::AdditiveIterator;
 use std::num::FromPrimitive;
 use matrix::Matrix;
 
@@ -192,7 +192,7 @@ fn steady_state(dist: &Matrix<f64>, init: Matrix<f64>, epsilon: f64) -> Matrix<f
 
 fn state_to_square(state: Matrix<f64>) -> Vec<(Square, f64)> {
     (0 .. NUM_SQUARE).map(|s| {
-        let prob = iter::range_step(s, NUM_STATE, NUM_SQUARE).map(|i| state[(i, 0)]).sum();
+        let prob = (s .. NUM_STATE).step_by(NUM_SQUARE).map(|i| state[(i, 0)]).sum();
         let sq: Square = FromPrimitive::from_usize(s).unwrap();
         (sq, prob)
     }).collect()

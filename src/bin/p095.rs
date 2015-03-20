@@ -4,11 +4,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, core)]
+#![feature(collections, core, step_by)]
 
 #[macro_use(problem)] extern crate common;
-
-use std::iter;
 
 fn get_chain_len(mut n: usize, len_map: &mut [Option<usize>], div_map: &[usize]) -> usize {
     if let Some(x) = len_map[n] {
@@ -41,7 +39,7 @@ fn create_proper_divisor_map(limit: usize) -> Vec<usize> {
     map[0] = 0;
     map[1] = 1;
     for f in (2 .. limit / 2) {
-        for n in iter::range_step(2 * f, limit, f) {
+        for n in (2 * f .. limit).step_by(f) {
             map[n] += f;
         }
     }

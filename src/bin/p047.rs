@@ -4,19 +4,16 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter;
 use prime::{Factorize, PrimeSet};
 
 fn compute(len: usize, num_factor: usize) -> usize {
     let ps = PrimeSet::new();
     let mut cnt = 0;
 
-    for n in iter::count(1, 1) {
+    for n in 1.. {
         if n.factorize(&ps).count() != num_factor {
             cnt = 0;
             continue

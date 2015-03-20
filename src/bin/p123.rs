@@ -10,7 +10,6 @@
 extern crate num;
 extern crate prime;
 
-use std::iter;
 use std::num::Int;
 use num::Integer;
 use prime::PrimeSet;
@@ -33,8 +32,7 @@ fn get_mod(n: u64, pn: u64) -> u64 {
 
 fn compute(limit: u64) -> u64 {
     let ps = PrimeSet::new();
-    iter::count(1, 1)
-        .zip(ps.iter())
+    (1..).zip(ps.iter())
         .find(|&(n, pn)| get_mod(n, pn) > limit)
         .unwrap()
         .0

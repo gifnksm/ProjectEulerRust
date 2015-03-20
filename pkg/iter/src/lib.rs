@@ -5,7 +5,7 @@
         unused_qualifications, unused_results, unused_typecasts)]
 
 #![feature(collections)]
-#![cfg_attr(test, feature(core, test))]
+#![cfg_attr(test, feature(test))]
 
 #[cfg(test)]
 extern crate test;
@@ -235,8 +235,8 @@ impl<E, M, S> Difference<M, S>
     /// use std::iter;
     /// use iter::Difference;
     ///
-    /// let ints    = iter::count(1u, 1);
-    /// let squares = iter::count(1u, 1).map(|n| n * n);
+    /// let ints    = (1..);
+    /// let squares = (1..).map(|n| n * n);
     /// let mut it = Difference::new(ints, squares);
     /// assert_eq!(Some(2), it.next()); // iterates non-square numbers
     /// assert_eq!(Some(3), it.next());
@@ -396,13 +396,12 @@ mod tests {
     }
 
     mod difference {
-        use std::iter;
         use super::super::Difference;
 
         #[test]
         fn no_square_nums() {
-            let ns = iter::count(1, 1);
-            let sq = iter::count(1, 1).map(|x| x*x);
+            let ns = 1..;
+            let sq = (1..).map(|x| x*x);
             let diff = Difference::new(ns, sq);
             assert_eq!(vec![2, 3, 5, 6, 7, 8, 10, 11],
                        diff.take(8).collect::<Vec<_>>());

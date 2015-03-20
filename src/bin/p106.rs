@@ -101,7 +101,7 @@ fn f(i: u64, j: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 {
 
 fn get_num_pairs(ps: &PrimeSet, n: u64) -> u64{
     let mut map = HashMap::new();
-    range(1, n / 2 + 1).map(|k| {
+    (1 .. n / 2 + 1).map(|k| {
         ps.combination(n, 2 * k) * (ps.combination(2 * k, k) / 2 - f(k, k, &mut map))
     }).sum()
 }

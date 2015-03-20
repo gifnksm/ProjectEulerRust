@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(exit_status, std_misc)]
+#![feature(exit_status)]
 
 extern crate glob;
 extern crate "rustc-serialize" as rustc_serialize;
@@ -17,7 +17,7 @@ use std::io::prelude::*;
 use std::path::Path;
 use std::process::Command;
 use std::str;
-use std::os::unix::ExitStatusExt;
+use std::os::unix::process::ExitStatusExt;
 use glob::Paths;
 use rustc_serialize::Decodable;
 use rustc_serialize::json::{self, Json};

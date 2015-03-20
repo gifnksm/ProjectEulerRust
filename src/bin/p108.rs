@@ -9,7 +9,7 @@
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter::{self, MultiplicativeIterator};
+use std::iter::MultiplicativeIterator;
 use prime::{Factorize, PrimeSet};
 
 // 1/x + 1/y = 1/n
@@ -31,7 +31,7 @@ fn num_pairs(ps: &PrimeSet, n: u64) -> u64 {
 fn solve() -> String {
     let n = 1000;
     let ps = PrimeSet::new();
-    iter::count(1, 1).find(|&i| num_pairs(&ps, i) > n).unwrap().to_string()
+    (1..).find(|&i| num_pairs(&ps, i) > n).unwrap().to_string()
 }
 
 problem!("180180", solve);

@@ -4,11 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
-
-use std::iter;
 
 const MILLION: i32 = 1000000;
 
@@ -18,10 +14,10 @@ fn solve() -> String {
     let mut v = [0; 65536];
     v[0] = 1;
 
-    for n in iter::count(1, 1) {
+    for n in 1.. {
         let mut way = 0;
 
-        for i in iter::count(0, 1) {
+        for i in 0.. {
             let k = i % 4;
             let p = if k == 0 || k == 2 {
                 penta(i / 2 + 1)

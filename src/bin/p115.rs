@@ -37,8 +37,7 @@ fn get_cnt(n: usize, m: usize, map: &mut HashMap<(usize, usize), usize>) -> usiz
 
 fn solve() -> String {
     let mut map = HashMap::new();
-    iter::count(1, 1)
-        .filter(|&n| get_cnt(n, 50, &mut map) > 1000000)
+    (1..).filter(|&n| get_cnt(n, 50, &mut map) > 1000000)
         .next()
         .unwrap()
         .to_string()

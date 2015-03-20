@@ -4,13 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
+#![feature(step_by)]
 
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 extern crate seq;
 
-use std::iter;
 use integer::Integer;
 use seq::PrimitivePythagoreans;
 
@@ -21,7 +20,7 @@ fn solve() -> String {
     for m in (2 .. (limit / 2).sqrt()) {
         for (a, b, c) in PrimitivePythagoreans::new(m) {
             let sum = a + b + c;
-            for s in iter::range_step(sum, limit + 1, sum) {
+            for s in (sum .. limit + 1).step_by(sum) {
                 v[s as usize] += 1;
             }
         }

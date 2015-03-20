@@ -4,13 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
+#![feature(step_by)]
 
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 extern crate prime;
 
-use std::iter;
 use integer::Integer;
 use prime::PrimeSet;
 
@@ -25,7 +24,7 @@ fn is_goldbach(ps: &PrimeSet, n: u64) -> bool {
 
 fn solve() -> String {
     let ps = PrimeSet::new();
-    iter::count(3, 2)
+    (3..).step_by(2)
         .filter(|&n| !ps.contains(n))
         .skip_while(|&n| is_goldbach(&ps, n))
         .next()

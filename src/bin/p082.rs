@@ -18,7 +18,7 @@ fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
         let row = try!(line)
             .trim()
             .split(',')
-            .filter_map(|s| StrExt::parse::<u32>(s).ok())
+            .filter_map(|s| s.parse::<u32>().ok())
             .collect();
         mat.push(row);
     }

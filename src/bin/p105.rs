@@ -51,7 +51,7 @@ fn solve(file: File) -> io::Result<String> {
         let mut nums = try!(line)
             .trim()
             .split(',')
-            .filter_map(|s| StrExt::parse::<u32>(s).ok())
+            .filter_map(|s| s.parse::<u32>().ok())
             .collect::<Vec<_>>();
 
         if is_sss(nums.as_mut_slice()) {

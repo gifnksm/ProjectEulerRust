@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, std_misc)]
+#![feature(core, std_misc, step_by)]
 #![cfg_attr(test, feature(test))]
 
 extern crate num;
@@ -74,7 +74,7 @@ impl PrimeInner {
 
         if !self.is_coprime(n) { return false }
 
-        iter::count(self.data.len(), 1)
+        (self.data.len() ..)
             .map(|i| self.nth(i))
             .take_while(|&p| p * p <= n)
             .all(|p| !n.is_multiple_of(&p))
@@ -91,7 +91,7 @@ impl PrimeInner {
     fn grow(&mut self, len: usize) {
         if self.data.len() >= len { return }
 
-        for n in iter::count(self.max_prime() + 2, 2) {
+        for n in (self.max_prime() + 2 ..).step_by(2) {
             if self.is_coprime(n) { self.data.push(n); }
             if self.data.len() >= len { return; }
         }

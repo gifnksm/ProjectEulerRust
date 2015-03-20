@@ -9,7 +9,6 @@
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
-use std::iter;
 use std::num::Int;
 use std::collections::HashSet;
 use integer::Integer;
@@ -18,8 +17,7 @@ fn palindromic_sum_set(limit: u32) -> HashSet<u32> {
     let mut set = HashSet::new();
     let mut sq_sums: Vec<u32> = vec![];
 
-    let it = iter::count(1, 1)
-        .map(|n| n * n)
+    let it = (1..).map(|n| n * n)
         .take_while(|&pow| pow < limit);
 
     for pow in it {

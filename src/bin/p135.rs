@@ -64,18 +64,16 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
+#![feature(step_by)]
 
 #[macro_use(problem)] extern crate common;
-
-use std::iter;
 
 fn num_solutions(limit: usize) -> Vec<u32> {
     let mut cnt = vec![0; limit];
     for q in (1 .. limit) {
         let r = (4 - (q % 4)) % 4;
         if q * r >= limit { continue }
-        for p in iter::range_step(r, q * 3, 4) {
+        for p in (r .. q * 3).step_by(4) {
             let n = q * p;
             if n >= limit { break }
             cnt[n] += 1;

@@ -37,7 +37,7 @@ fn compute(prod_len: usize) -> u32 {
     let grid: Vec<Vec<u32>> = INPUT
         .trim()
         .lines()
-        .map(|line| line.words().filter_map(|s| StrExt::parse(s).ok()).collect())
+        .map(|line| line.words().filter_map(|s| s.parse().ok()).collect())
         .collect();
 
     let w = grid[0].len();

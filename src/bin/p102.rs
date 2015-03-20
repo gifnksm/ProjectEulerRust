@@ -80,7 +80,7 @@ fn solve(file: File) -> io::Result<String> {
         let ns = try!(line)
             .trim()
             .split(',')
-            .filter_map(|s| StrExt::parse::<i32>(s).ok())
+            .filter_map(|s| s.parse::<i32>().ok())
             .collect::<Vec<_>>();
         let t = Triangle(Point(ns[0], ns[1]), Point(ns[2], ns[3]), Point(ns[4], ns[5]));
         if t.contains(origin) { cnt += 1 }

@@ -4,13 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, core)]
+#![feature(collections, core, step_by)]
 
 #[macro_use(problem)] extern crate common;
 
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use std::iter;
 use std::fs::File;
 use std::num::Int;
 
@@ -91,10 +90,10 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
 
         // if the number n can be appears on only one cell in the row or col or group,
         // the number of the cell is n.
-        for n in (0 .. MAX_NUMBER) {
+        for n in 0 .. MAX_NUMBER {
             let bit = 1 << n;
 
-            for y in (0 .. BOARD_HEIGHT) {
+            for y in 0 .. BOARD_HEIGHT {
                 let next = {
                     let mut it = (0 .. BOARD_WIDTH)
                         .filter(|&x| puzzle.map[y][x] & bit != 0);
@@ -105,7 +104,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                 puzzle.map[y][next.unwrap()] = bit;
             }
 
-            for x in (0 .. BOARD_WIDTH) {
+            for x in 0 .. BOARD_WIDTH {
                 let next = {
                     let mut it = (0 .. BOARD_HEIGHT)
                         .filter(|&y| puzzle.map[y][x] & bit != 0);
@@ -116,8 +115,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                 puzzle.map[next.unwrap()][x] = bit;
             }
 
-            for y0 in iter::range_step(0, BOARD_HEIGHT, GROUP_WIDTH) {
-                for x0 in iter::range_step(0, BOARD_WIDTH, GROUP_HEIGHT) {
+            for y0 in (0 .. BOARD_HEIGHT).step_by(GROUP_HEIGHT) {
+                for x0 in (0 .. BOARD_WIDTH).step_by(GROUP_WIDTH) {
                     let next = {
                         let mut it = group_it
                             .iter()

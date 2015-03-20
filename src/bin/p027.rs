@@ -9,7 +9,6 @@
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter;
 use prime::PrimeSet;
 
 
@@ -18,8 +17,7 @@ use prime::PrimeSet;
 // p(1) = 1 + a + b => a > -(1+b)
 // p(2) = 4 + 2a + b
 fn get_limit_n(ps: &PrimeSet, a: i32, b: i32) -> u32 {
-    iter::count(0, 1)
-        .take_while(|&n| {
+    (0..).take_while(|&n| {
             let val = n * n + a * n + b;
             (val >= 0 && ps.contains(val as u64))
         }).last().unwrap() as u32

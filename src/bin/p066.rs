@@ -8,16 +8,15 @@
 
 #[macro_use(problem)] extern crate common;
 extern crate cont_frac;
-extern crate "iter" as iter_crate;
+extern crate iter;
 extern crate num;
 
-use std::iter;
-use iter_crate::Difference;
+use iter::Difference;
 use num::BigUint;
 
 fn solve() -> String {
-    let ns = iter::count(1, 1);
-    let sq = iter::count(1, 1).map(|x| x * x);
+    let ns = 1..;
+    let sq = (1..).map(|x| x * x);
 
     Difference::new(ns, sq)
         .take_while(|&d| d <= 1000)

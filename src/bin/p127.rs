@@ -4,12 +4,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, collections)]
+#![feature(collections, step_by)]
 
 #[macro_use(problem)] extern crate common;
 
 use std::cmp::Ordering;
-use std::iter;
 
 // [定理]
 // a + b = c のとき、
@@ -39,7 +38,7 @@ fn create_rad_vec(n_limit: u64) -> Vec<Rad> {
     for p in (2 .. (rad_vec.len() as u64)) {
         if rad_vec[p as usize].0 != 1 { continue }
 
-        for kp in iter::count(p, p).take_while(|&kp| kp < n_limit) {
+        for kp in (p..).step_by(p).take_while(|&kp| kp < n_limit) {
             rad_vec[kp as usize].0 *= p;
             rad_vec[kp as usize].2.push(p);
         }

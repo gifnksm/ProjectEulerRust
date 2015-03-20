@@ -4,12 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
+#![feature(core, step_by)]
 
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter::{self, AdditiveIterator};
+use std::iter::AdditiveIterator;
 use prime::PrimeSet;
 
 fn compute(limit: u64) -> u64 {
@@ -20,7 +20,7 @@ fn compute(limit: u64) -> u64 {
 
     for p in &prime {
         if p > limit { break; }
-        for n in iter::range_step(p, limit + 1, p) {
+        for n in (p..limit+1).step_by(p) {
             v[n as usize] = (v[n as usize] * (p - 1)) / p;
         }
     }

@@ -4,18 +4,18 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
+#![feature(core, step_by)]
 
 #[macro_use(problem)] extern crate common;
 extern crate num;
 
-use std::iter;
+use std::iter::Unfold;
 use num::Integer;
 
 fn a(n: u64) -> u64 {
     if n == 1 { return 1 }
 
-    iter::Unfold::new((1, 1), |st| {
+    Unfold::new((1, 1), |st| {
             let (x, k) = *st;
             *st = ((x * 10 + 1) % n, k + 1);
             Some((x, k))
@@ -27,7 +27,7 @@ fn a(n: u64) -> u64 {
 fn solve() -> String {
     let limit = 1000001;
 
-    iter::count(limit, 2)
+    (limit..).step_by(2)
         .filter(|&n| !n.is_multiple_of(&5))
         .find(|&n| a(n) >= limit)
         .unwrap()
@@ -38,11 +38,9 @@ problem!("1000023", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::iter;
     use num::Integer;
 
     mod naive {
-        use std::iter;
         use std::num::FromPrimitive;
         use num::{One, Zero, Integer, BigUint};
 
@@ -58,8 +56,7 @@ mod tests {
 
         pub fn a(n: u64) -> u64 {
             let n = FromPrimitive::from_u64(n).unwrap();
-            iter::count(1, 1)
-                .find(|&k| r(k).is_multiple_of(&n))
+            (1..).find(|&k| r(k).is_multiple_of(&n))
                 .unwrap()
         }
     }
@@ -79,7 +76,7 @@ mod tests {
 
     #[test]
     fn cmp_with_naive() {
-        for n in iter::range_step(1, 100, 2) {
+        for n in (1..100).step_by(2) {
             if n.is_multiple_of(&5) { continue; }
             assert_eq!(naive::a(n), super::a(n));
         }

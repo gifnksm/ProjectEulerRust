@@ -8,7 +8,7 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::iter::{self, AdditiveIterator};
+use std::iter::AdditiveIterator;
 
 fn triangle(n: u32) -> u32 { n * (n + 1) / 2 }
 fn square(n: u32) -> u32 { n * n }
@@ -20,7 +20,7 @@ fn octagonal(n: u32) -> u32 { n * (3 * n - 2) }
 fn create_map(fs: &[fn(u32) -> u32]) -> Vec<Vec<Vec<u32>>> {
     fs.iter().map(|&f| {
         let mut result = (0 .. 100).map(|_| Vec::with_capacity(100)).collect::<Vec<_>>();
-        for i in iter::count(1, 1) {
+        for i in 1 .. {
             let n = f(i);
             if n > 9999 { break }
 

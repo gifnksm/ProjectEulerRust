@@ -4,14 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, std_misc)]
+#![feature(std_misc)]
 
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
 use std::collections::{HashSet, HashMap};
 use std::collections::hash_map::Entry;
-use std::iter;
 use integer::Integer;
 
 fn perm_exact(cnt: usize) -> HashSet<u64> {
@@ -19,7 +18,7 @@ fn perm_exact(cnt: usize) -> HashSet<u64> {
     let mut set = HashSet::new();
 
     let mut limit = 10;
-    for n in iter::count(1, 1) {
+    for n in 1.. {
         let cube = n * n * n;
         if cube >= limit {
             if !set.is_empty() {

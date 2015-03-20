@@ -117,7 +117,7 @@ fn compute() -> String {
     INPUT.trim()
         .lines()
         .map(|line| &line[0 .. 12])
-        .filter_map(|s| StrExt::parse::<u64>(s).ok())
+        .filter_map(|s| s.parse::<u64>().ok())
         .sum()
         .to_string()[0 .. 10]
         .to_string()

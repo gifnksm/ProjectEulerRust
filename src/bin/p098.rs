@@ -9,7 +9,7 @@
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
-use std::{cmp, iter, mem, u64};
+use std::{cmp, mem, u64};
 use std::collections::HashMap;
 use std::collections::hash_map::Entry;
 use std::fs::File;
@@ -139,7 +139,7 @@ fn max_square(groups: Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)>) -> u64 {
         let mut nmin = start.sqrt();
         while nmin * nmin < start { nmin += 1; }
 
-        for n in iter::count(nmin, 1).take_while(|&n| n * n < end) {
+        for n in (nmin..).take_while(|&n| n * n < end) {
             let ds = (n * n).into_digits(10).rev().collect::<Vec<_>>();
             for &(ref v1, ref v2) in &pairs {
                 if ds[v2[0] as usize] == 0 { continue }

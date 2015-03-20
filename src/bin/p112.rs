@@ -4,12 +4,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
-use std::iter;
 #[cfg(test)] use std::u32;
 use integer::Integer;
 
@@ -49,7 +46,7 @@ fn is_bouncy<T: Iterator<Item = u32>>(mut ds: T) -> bool {
 fn compute(percent: u32) -> u32 {
     assert!(percent < 100);
     let mut num_bouncy = 0;
-    for n in iter::count(1, 1) {
+    for n in 1.. {
         if is_bouncy(n.into_digits(10)) { num_bouncy += 1; }
         if n * percent == 100 * num_bouncy {
             return n

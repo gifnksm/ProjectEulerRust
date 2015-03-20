@@ -18,7 +18,7 @@ fn compute(sum: u32) -> u32 {
     let limit = sum * 20;
     let mut cnt = vec![0; limit as usize];
 
-    for a in iter::count(1, 1) {
+    for a in 1.. {
         if f0(a, 1, 1) > limit { break }
 
         for b in iter::range_inclusive(1, a) {
@@ -29,7 +29,7 @@ fn compute(sum: u32) -> u32 {
                 if p > limit { break; }
                 let q = a + b + c - 2;
 
-                for n in iter::count(1, 1) {
+                for n in 1.. {
                     let f = 4*(n-1)*(n+q) + p;
                     if f as usize >= cnt.len() { break }
                     cnt[f as usize] += 1;

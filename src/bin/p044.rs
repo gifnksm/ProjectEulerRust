@@ -4,11 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
-
-use std::iter;
 
 fn nth_pentagonal(i: u32) -> u32 {
     let n = i + 1;
@@ -31,7 +27,7 @@ fn solve() -> String {
     let limit = 10000;
     let pentagonals = (0u32 .. limit).map(nth_pentagonal).collect::<Vec<_>>();
 
-    for m in iter::count(0, 1) {
+    for m in 0.. {
         let pm = pentagonals[m];
         for n in (0 .. m) {
             let pn = pentagonals[n];
