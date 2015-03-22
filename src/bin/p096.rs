@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(collections, core, step_by)]
+#![feature(core, step_by)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -50,11 +50,10 @@ fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
         map: [[MASK_ALL; BOARD_WIDTH]; BOARD_HEIGHT]
     };
 
-    for y in (0 .. BOARD_HEIGHT) {
-        let mut line = String::new();
-        let _ = try!(br.read_line(&mut line));
-        for x in (0 .. BOARD_WIDTH) {
-            let n = line.char_at(x).to_digit(10).unwrap();
+    for (y, line) in br.lines().enumerate().take(BOARD_HEIGHT) {
+        let line = try!(line);
+        for (x, c) in line.chars().enumerate().take(BOARD_WIDTH) {
+            let n = c.to_digit(10).unwrap();
             if n != 0 { sudoku.set_at(x, y, n as usize); }
         }
     }
