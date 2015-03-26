@@ -318,6 +318,8 @@ impl<T: Integer + FromPrimitive + Clone> Iterator for Factors<T> {
 /// # Example
 ///
 /// ```
+///#![feature(core)]
+///
 /// use prime::{Factorized, PrimeSet};
 /// use std::iter;
 ///
