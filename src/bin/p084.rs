@@ -7,7 +7,7 @@
 #![feature(core, step_by)]
 
 #[macro_use(problem)] extern crate common;
-extern crate "generic-matrix" as matrix;
+extern crate generic_matrix as matrix;
 
 use std::iter::AdditiveIterator;
 use std::num::FromPrimitive;

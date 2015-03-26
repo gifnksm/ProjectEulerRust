@@ -5,7 +5,7 @@
         unused_qualifications, unused_results, unused_typecasts)]
 
 #[macro_use(problem)] extern crate common;
-extern crate "topological-sort" as tsort;
+extern crate topological_sort as tsort;
 
 use std::fs::File;
 use std::io::{self, BufReader};

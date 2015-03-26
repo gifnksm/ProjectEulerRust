@@ -2,12 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, collections, exit_status, io, path_ext)]
+#![feature(collections, convert, exit_status, into_cow, io, path_ext)]
 
 extern crate curl;
 extern crate getopts;
 extern crate num;
-extern crate "rustc-serialize" as rustc_serialize;
+extern crate rustc_serialize;
 extern crate term;
 extern crate time;
 
@@ -251,7 +251,7 @@ fn bench<T, F: FnOnce() -> T>(f: F) -> (u64, T) {
 }
 
 fn setup_file(file_name: &str) -> Result<File, SolverError> {
-    let mut path = PathBuf::new("./.cache");
+    let mut path = PathBuf::from("./.cache");
     path.push(file_name);
     if !path.is_file() {
         try!(fs::create_dir_all(&path.parent().unwrap()));

@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core, std_misc, step_by)]
+#![feature(core, step_by)]
 #![cfg_attr(test, feature(test))]
 
 extern crate num;

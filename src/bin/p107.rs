@@ -5,7 +5,7 @@
         unused_qualifications, unused_results, unused_typecasts)]
 
 #[macro_use(problem)] extern crate common;
-extern crate "union-find" as union_find;
+extern crate union_find;
 
 use std::fs::File;
 use std::io::{self, BufReader};

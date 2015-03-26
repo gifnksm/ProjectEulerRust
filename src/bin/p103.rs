@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(core)]
+#![feature(core, convert)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -92,7 +92,7 @@ impl SSS {
     }
 
     fn each_next<F: FnMut(SSS)>(&self, mut f: F) {
-        if let [a, b] = self.nums.as_slice() {
+        if let [a, b] = self.nums.as_ref() {
             f(SSS::new_with_pair(a, b + 1));
             if a == b - 1 {
                 f(SSS::new_with_pair(a + 1, b + 1));

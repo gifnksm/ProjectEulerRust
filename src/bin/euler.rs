@@ -2,10 +2,10 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results, unused_typecasts)]
 
-#![feature(exit_status)]
+#![feature(into_cow, exit_status)]
 
 extern crate glob;
-extern crate "rustc-serialize" as rustc_serialize;
+extern crate rustc_serialize as rustc_serialize;
 extern crate term;
 extern crate common;
 

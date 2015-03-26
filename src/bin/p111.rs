@@ -8,7 +8,7 @@
 
 #[macro_use(problem)] extern crate common;
 extern crate integer;
-extern crate "iter" as itercrate;
+extern crate iter as itercrate;
 extern crate prime;
 
 use std::iter::{self, AdditiveIterator, Rev};
