@@ -1,5 +1,6 @@
 language: rust
 script:
+  - make release
   - make run-release
   - make test
   - make bench
