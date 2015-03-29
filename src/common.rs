@@ -57,8 +57,8 @@ impl Error for SolverError {
 
     fn cause(&self) -> Option<&Error> {
         match *self {
-            SolverError::Io(ref err) => Some(err as &Error),
-            SolverError::Http(ref err) => Some(err as &Error)
+            SolverError::Io(ref err) => Some(err),
+            SolverError::Http(ref err) => Some(err)
         }
     }
 }
