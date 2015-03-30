@@ -28,12 +28,12 @@ impl<T: One> Fibonacci<T> {
     /// ```
     /// use seq::Fibonacci;
     /// let mut it = Fibonacci::new();
-    /// assert_eq!(Some(1u), it.next());
-    /// assert_eq!(Some(1u), it.next());
-    /// assert_eq!(Some(2u), it.next());
-    /// assert_eq!(Some(3u), it.next());
-    /// assert_eq!(Some(5u), it.next());
-    /// assert_eq!(Some(8u), it.next());
+    /// assert_eq!(Some(1), it.next());
+    /// assert_eq!(Some(1), it.next());
+    /// assert_eq!(Some(2), it.next());
+    /// assert_eq!(Some(3), it.next());
+    /// assert_eq!(Some(5), it.next());
+    /// assert_eq!(Some(8), it.next());
     /// ```
     #[inline]
     pub fn new() -> Fibonacci<T> {
@@ -47,13 +47,13 @@ impl<T: One> Fibonacci<T> {
     ///
     /// ```
     /// use seq::Fibonacci;
-    /// let mut it = Fibonacci::with_init(4u, 2u);
-    /// assert_eq!(Some(4u), it.next());
-    /// assert_eq!(Some(2u), it.next());
-    /// assert_eq!(Some(6u), it.next());
-    /// assert_eq!(Some(8u), it.next());
-    /// assert_eq!(Some(14u), it.next());
-    /// assert_eq!(Some(22u), it.next());
+    /// let mut it = Fibonacci::with_init(4, 2);
+    /// assert_eq!(Some(4), it.next());
+    /// assert_eq!(Some(2), it.next());
+    /// assert_eq!(Some(6), it.next());
+    /// assert_eq!(Some(8), it.next());
+    /// assert_eq!(Some(14), it.next());
+    /// assert_eq!(Some(22), it.next());
     /// ```
     #[inline]
     pub fn with_init(a0: T, a1: T) -> Fibonacci<T> {
@@ -91,7 +91,7 @@ impl<T> Collatz<T> {
     /// ```
     /// use seq::Collatz;
     ///
-    /// let mut it = Collatz::new(13u);
+    /// let mut it = Collatz::new(13);
     /// assert_eq!(Some(13), it.next());
     /// assert_eq!(Some(40), it.next());
     /// assert_eq!(Some(20), it.next());

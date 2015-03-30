@@ -80,7 +80,7 @@ fn cycle_to_nums(map: &[u32]) -> Vec<u32> {
 
 fn solve() -> String {
     let map: &[fn(u32) -> u32] = &[triangle, square, pentagonal, hexagonal, heptagonal, octagonal];
-    find_cycle(create_map(map).as_mut_slice())
+    find_cycle(&mut create_map(map))
         .iter()
         .map(|vs| cycle_to_nums(&vs).into_iter().sum())
         .sum()
@@ -94,7 +94,7 @@ mod tests {
     #[test]
     fn three() {
         let map: &[fn(u32) -> u32] = &[super::triangle, super::square, super::pentagonal];
-        let cycle = super::find_cycle(super::create_map(map).as_mut_slice())
+        let cycle = super::find_cycle(&mut super::create_map(map))
             .iter()
             .map(|vs| super::cycle_to_nums(&vs))
             .map(|mut vs| { vs.sort(); vs })

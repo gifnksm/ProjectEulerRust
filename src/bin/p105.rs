@@ -54,7 +54,7 @@ fn solve(file: File) -> io::Result<String> {
             .filter_map(|s| s.parse::<u32>().ok())
             .collect::<Vec<_>>();
 
-        if is_sss(nums.as_mut_slice()) {
+        if is_sss(&mut nums) {
             sum += nums.iter().map(|&x| x).sum();
         }
     }

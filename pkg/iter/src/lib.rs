@@ -102,7 +102,7 @@ impl<'a, T> CombinationOverlap<'a, T> {
     ///
     /// ```
     /// use iter::CombinationOverlap;
-    /// let nums = &[1u, 2, 3];
+    /// let nums = &[1, 2, 3];
     /// let mut it = CombinationOverlap::new(nums, 2);
     /// assert_eq!(Some(vec![1, 1]), it.next());
     /// assert_eq!(Some(vec![1, 2]), it.next());
@@ -160,7 +160,7 @@ impl<'a, T: 'a> Permutations<'a, T> {
     ///
     /// ```
     /// use iter::Permutations;
-    /// let nums = &[1u, 2, 3];
+    /// let nums = &[1, 2, 3];
     /// let mut it = Permutations::new(nums, 2);
     /// assert_eq!(Some((vec![1, 2], vec![3])), it.next());
     /// ```

@@ -4,6 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
+#![feature(slice_patterns)]
+
 #[macro_use(problem)] extern crate common;
 extern crate playing_card;
 #[cfg(test)] extern crate rand;
@@ -338,7 +340,7 @@ mod tests {
 
             let mut rng = rand::thread_rng();
             for _ in (0 .. 10) {
-                rng.shuffle(cs.as_mut_slice());
+                rng.shuffle(&mut cs);
                 let hand = Hand::from_cards(&cs);
                 assert_eq!(ihand, hand);
                 assert_eq!(output, &hand.to_string()[..]);

@@ -62,7 +62,7 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     /// ```rust
     /// use integer::Integer;
     ///
-    /// let mut it = 12345i.into_digits(10);
+    /// let mut it = 12345.into_digits(10);
     /// assert_eq!(Some(5), it.next());
     /// assert_eq!(Some(4), it.next());
     /// assert_eq!(Some(3), it.next());
@@ -81,9 +81,9 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     ///
     /// ```rust
     /// use integer::Integer;
-    /// assert!([0, 1, 1, 1, 0, 0, 0, 0, 0, 0] == 123u.into_digit_histogram());
-    /// assert!([0, 3, 0, 0, 0, 0, 0, 0, 0, 0] == 111u.into_digit_histogram());
-    /// assert!([0, 0, 0, 0, 0, 0, 0, 0, 0, 0] == 0u.into_digit_histogram());
+    /// assert!([0, 1, 1, 1, 0, 0, 0, 0, 0, 0] == 123.into_digit_histogram());
+    /// assert!([0, 3, 0, 0, 0, 0, 0, 0, 0, 0] == 111.into_digit_histogram());
+    /// assert!([0, 0, 0, 0, 0, 0, 0, 0, 0, 0] == 0.into_digit_histogram());
     /// ```
     #[inline]
     fn into_digit_histogram(self) -> [u32; 10] {
@@ -102,9 +102,9 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     /// ```rust
     /// use integer::Integer;
     ///
-    /// assert_eq!(321, Integer::from_digits(vec![1, 2, 3].into_iter(), 10i));
-    /// assert_eq!(0x321, Integer::from_digits(vec![1, 2, 3].into_iter(), 16i));
-    /// assert_eq!(0, Integer::from_digits(vec![].into_iter(), 10i));
+    /// assert_eq!(321, Integer::from_digits(vec![1, 2, 3].into_iter(), 10));
+    /// assert_eq!(0x321, Integer::from_digits(vec![1, 2, 3].into_iter(), 16));
+    /// assert_eq!(0, Integer::from_digits(vec![].into_iter(), 10));
     /// ```
     #[inline]
     fn from_digits<T: Iterator<Item = Self>>(digits: T, radix: Self) -> Self {
@@ -124,8 +124,8 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     /// ```rust
     /// use integer::Integer;
     ///
-    /// assert_eq!(12321, 123i.into_palindromic(10, false));
-    /// assert_eq!(123321, 123i.into_palindromic(10, true));
+    /// assert_eq!(12321, 123.into_palindromic(10, false));
+    /// assert_eq!(123321, 123.into_palindromic(10, true));
     /// ```
     #[inline]
     fn into_palindromic(self, radix: Self, duplicate_middle: bool) -> Self {
@@ -142,8 +142,8 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     /// ```
     /// use integer::Integer;
     ///
-    /// assert_eq!(true, 12321i.is_palindromic(10));
-    /// assert_eq!(false, 12345i.is_palindromic(10));
+    /// assert_eq!(true, 12321.is_palindromic(10));
+    /// assert_eq!(false, 12345.is_palindromic(10));
     /// ```
     fn is_palindromic(self, radix: Self) -> bool {
         let mut digits = self.into_digits(radix);
@@ -187,11 +187,11 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     /// ```rust
     /// use integer::Integer;
     ///
-    /// assert_eq!(1u, 0u.factorial());
-    /// assert_eq!(1u, 1u.factorial());
-    /// assert_eq!(2u, 2u.factorial());
-    /// assert_eq!(6u, 3u.factorial());
-    /// assert_eq!(24u, 4u.factorial());
+    /// assert_eq!(1, 0.factorial());
+    /// assert_eq!(1, 1.factorial());
+    /// assert_eq!(2, 2.factorial());
+    /// assert_eq!(6, 3.factorial());
+    /// assert_eq!(24, 4.factorial());
     /// ```
     fn factorial(&self) -> Self {
         assert!(*self >= Zero::zero());

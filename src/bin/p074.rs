@@ -73,7 +73,7 @@ fn solve() -> String {
     let mut map = vec![Length::Unknown; (factorial[9] * 6 + 1) as usize];
     let mut cnt = 0;
     for n in (1u32 .. limit + 1) {
-        let len = get_chain_len(n, map.as_mut_slice(), &factorial);
+        let len = get_chain_len(n, &mut map, &factorial);
         if len == 60 { cnt += 1; }
     }
 
@@ -97,12 +97,12 @@ mod tests {
         };
         let mut map = iter::repeat(super::Length::Unknown).take((factorial[9] * 6 + 1) as usize).collect::<Vec<_>>();
 
-        assert_eq!(3, super::get_chain_len(169, map.as_mut_slice(), &factorial));
-        assert_eq!(2, super::get_chain_len(871, map.as_mut_slice(), &factorial));
-        assert_eq!(2, super::get_chain_len(872, map.as_mut_slice(), &factorial));
-        assert_eq!(5, super::get_chain_len(69, map.as_mut_slice(), &factorial));
-        assert_eq!(4, super::get_chain_len(78, map.as_mut_slice(), &factorial));
-        assert_eq!(2, super::get_chain_len(540, map.as_mut_slice(), &factorial));
+        assert_eq!(3, super::get_chain_len(169, &mut map, &factorial));
+        assert_eq!(2, super::get_chain_len(871, &mut map, &factorial));
+        assert_eq!(2, super::get_chain_len(872, &mut map, &factorial));
+        assert_eq!(5, super::get_chain_len(69, &mut map, &factorial));
+        assert_eq!(4, super::get_chain_len(78, &mut map, &factorial));
+        assert_eq!(2, super::get_chain_len(540, &mut map, &factorial));
     }
 
 }

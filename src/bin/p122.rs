@@ -25,7 +25,7 @@ fn compute_cost(limit: u32) -> Vec<u32> {
     let mut cost = vec![u32::MAX; (limit + 1) as usize];
     let mut path = vec![0; (limit + 1) as usize];
 
-    backtrack(1, 0, limit, cost.as_mut_slice(), path.as_mut_slice());
+    backtrack(1, 0, limit, &mut cost, &mut path);
 
     cost
 }
