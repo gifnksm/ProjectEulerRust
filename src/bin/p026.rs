@@ -12,7 +12,7 @@ fn get_cycle_len(n: u32) -> u32 {
     if n == 1 { return 1 }
     let mut buf = vec![None; n as usize];
     let mut rem = 1;
-    let mut idx = 1;
+    let mut idx = 1u32;
     loop {
         let new_rem = rem % n;
         match buf[new_rem as usize] {

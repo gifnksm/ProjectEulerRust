@@ -11,7 +11,6 @@ extern crate iter;
 extern crate integer;
 
 use std::iter::AdditiveIterator;
-use std::num::Int;
 use iter::CombinationOverlap;
 use integer::Integer;
 

@@ -11,7 +11,6 @@
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::fs::File;
-use std::num::Int;
 
 const BOARD_WIDTH: usize = 9;
 const BOARD_HEIGHT: usize = 9;

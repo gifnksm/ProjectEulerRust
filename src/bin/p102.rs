@@ -10,7 +10,6 @@ use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::ops::{Mul, Sub};
-use std::num::SignedInt;
 
 #[derive(Copy)]
 struct Point(i32, i32);

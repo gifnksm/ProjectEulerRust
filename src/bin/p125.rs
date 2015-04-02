@@ -4,12 +4,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
-use std::num::Int;
 use std::collections::HashSet;
 use integer::Integer;
 
@@ -35,7 +32,7 @@ fn palindromic_sum_set(limit: u32) -> HashSet<u32> {
 }
 
 fn solve() -> String {
-    let limit = 10.pow(8);
+    let limit = 10u32.pow(8);
     let set = palindromic_sum_set(limit);
     set.iter().fold(0, |x, &y| x + y).to_string()
 }

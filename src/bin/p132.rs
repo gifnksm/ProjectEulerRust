@@ -28,14 +28,13 @@
 extern crate integer;
 extern crate prime;
 
-use std::num::Int;
 use std::iter::AdditiveIterator;
 use integer::Integer;
 use prime::PrimeSet;
 
 pub fn solve() -> String {
     PrimeSet::new().iter()
-        .filter(|&p| 10.mod_pow(&10.pow(9), &(9 * p)) == 1)
+        .filter(|&p| 10.mod_pow(&10u64.pow(9), &(9 * p)) == 1)
         .take(40)
         .sum()
         .to_string()

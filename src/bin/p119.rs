@@ -10,16 +10,19 @@
 extern crate integer;
 
 use std::cmp::Ordering;
-use std::num::Int;
 use std::num::wrapping::OverflowingOps;
 use std::iter::AdditiveIterator;
 use std::collections::BinaryHeap;
 use integer::Integer;
 
-trait IntExt: Int {
-    fn checked_pow(self, mut exp: u32) -> Option<Self> {
+trait IntExt {
+    fn checked_pow(self, exp: u32) -> Option<Self>;
+}
+
+impl IntExt for u64 {
+     fn checked_pow(self, mut exp: u32) -> Option<Self> {
         let mut base = self;
-        let mut acc: Self = Int::one();
+        let mut acc = 1u64;
 
         let mut prev_base = self;
         let mut base_oflo = false;
@@ -48,8 +51,6 @@ trait IntExt: Int {
         Some(acc)
     }
 }
-
-impl <T: Int> IntExt for T {}
 
 struct Power(u64, u64, u32);
 

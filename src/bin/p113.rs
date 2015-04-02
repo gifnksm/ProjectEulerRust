@@ -22,7 +22,7 @@ fn num_increasing(len: usize) -> u64 {
         }
     }
 
-    let sum = (0 .. buf[len - 1].len())
+    let sum: u64 = (0 .. buf[len - 1].len())
         .map(|d| buf[len - 1][d])
         .sum();
     sum - 1 // all zero
@@ -40,7 +40,7 @@ fn num_decreasing(len: usize) -> u64 {
         }
     }
 
-    let sum = (0 .. buf[len - 1].len())
+    let sum: u64 = (0 .. buf[len - 1].len())
         .map(|d| buf[len - 1][d])
         .sum();
 

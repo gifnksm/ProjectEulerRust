@@ -13,7 +13,6 @@ extern crate prime;
 
 use std::iter::{self, AdditiveIterator, Rev};
 use std::ops::Range;
-use std::num::Int;
 use integer::Integer;
 use itercrate::BitCombination;
 use prime::PrimeSet;
@@ -29,7 +28,7 @@ impl Digits {
         Digits {
             radix: radix,
             num_digits: num_digits,
-            range: (Int::zero() .. radix.pow(num_digits as u32)).rev()
+            range: (0 .. radix.pow(num_digits as u32)).rev()
         }
     }
 }
@@ -40,7 +39,7 @@ impl Iterator for Digits {
     fn next(&mut self) -> Option<Vec<u64>> {
         self.range.next().map(|num| {
             let mut ds = num.into_digits(self.radix).rev().collect::<Vec<_>>();
-            while ds.len() < self.num_digits { ds.insert(0, Int::zero()); }
+            while ds.len() < self.num_digits { ds.insert(0, 0); }
             ds
         })
     }

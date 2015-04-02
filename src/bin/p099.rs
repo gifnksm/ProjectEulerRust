@@ -6,7 +6,6 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::num::Float;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;

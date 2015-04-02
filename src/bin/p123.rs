@@ -4,13 +4,10 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
 extern crate num;
 extern crate prime;
 
-use std::num::Int;
 use num::Integer;
 use prime::PrimeSet;
 
@@ -39,15 +36,13 @@ fn compute(limit: u64) -> u64 {
 }
 
 fn solve() -> String {
-    compute(10.pow(10)).to_string()
+    compute(10u64.pow(10)).to_string()
 }
 
 problem!("21035", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::num::Int;
-
     #[test]
     fn pn() {
         assert_eq!(5, super::get_mod(3, 5));
@@ -55,6 +50,6 @@ mod tests {
 
     #[test]
     fn exceeds_10_9() {
-        assert_eq!(7037, super::compute(10.pow(9)));
+        assert_eq!(7037, super::compute(10u64.pow(9)));
     }
 }

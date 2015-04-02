@@ -15,7 +15,7 @@ use num::Integer;
 use seq::Fibonacci;
 
 fn compute(bound: u32) -> u32 {
-    Fibonacci::new()
+    Fibonacci::<u32>::new()
         .take_while(|&f| f < bound)
         .filter(|&f| f.is_even())
         .sum()

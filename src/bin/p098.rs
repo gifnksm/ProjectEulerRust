@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(collections, core)]
+#![feature(collections)]
 
 #[macro_use(problem)] extern crate common;
 extern crate integer;
@@ -15,7 +15,6 @@ use std::collections::hash_map::Entry;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use std::num::Int;
 use integer::Integer;
 
 fn read_words(file: File) -> io::Result<Vec<String>> {
@@ -133,8 +132,8 @@ fn max_square(groups: Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)>) -> u64 {
     for (len, pairs) in groups {
         let mut nums = vec![];
 
-        let start = 10.pow((len - 1) as u32);
-        let end   = 10.pow(len as u32);
+        let start = 10u64.pow((len - 1) as u32);
+        let end   = 10u64.pow(len as u32);
 
         let mut nmin = start.sqrt();
         while nmin * nmin < start { nmin += 1; }
