@@ -4,13 +4,10 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
 extern crate num;
 
-use std::num::FromPrimitive;
-use num::BigUint;
+use num::{BigUint, FromPrimitive};
 
 fn solve() -> String {
     let mut cnt = 1; // a == 1

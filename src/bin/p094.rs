@@ -11,8 +11,7 @@ extern crate cont_frac;
 extern crate num;
 
 use std::iter::AdditiveIterator;
-use std::num::ToPrimitive;
-use num::BigUint;
+use num::{BigUint, ToPrimitive};
 use cont_frac::PelRoots;
 
 // S(a, b): triangle a-a-b's area

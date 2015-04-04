@@ -11,6 +11,7 @@
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::fs::File;
+use std::usize;
 
 const BOARD_WIDTH: usize = 9;
 const BOARD_HEIGHT: usize = 9;
@@ -29,7 +30,7 @@ struct SuDoku {
 impl SuDoku {
     fn get_at(&self, x: usize, y: usize) -> usize {
         match self.map[y][x].count_ones() {
-            0 => -1,
+            0 => usize::MAX,
             1 => (self.map[y][x].trailing_zeros() + 1) as usize,
             _ => 0
         }

@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(collections, convert, exit_status, into_cow, io, path_ext)]
+#![feature(collections, exit_status, into_cow, path_ext)]
 
 extern crate curl;
 extern crate getopts;
@@ -12,7 +12,7 @@ extern crate term;
 extern crate time;
 
 use std::borrow::{Cow, IntoCow};
-use std::error::{Error, FromError};
+use std::error::Error;
 use std::{env, fmt, io};
 use std::fs::{self, File};
 use std::io::prelude::*;
@@ -40,11 +40,11 @@ pub enum SolverError {
     Http(curl::ErrCode)
 }
 
-impl FromError<io::Error> for SolverError {
-    fn from_error(err: io::Error) -> SolverError { SolverError::Io(err) }
+impl From<io::Error> for SolverError {
+    fn from(err: io::Error) -> SolverError { SolverError::Io(err) }
 }
-impl FromError<curl::ErrCode> for SolverError {
-    fn from_error(err: curl::ErrCode) -> SolverError { SolverError::Http(err) }
+impl From<curl::ErrCode> for SolverError {
+    fn from(err: curl::ErrCode) -> SolverError { SolverError::Http(err) }
 }
 
 impl Error for SolverError {

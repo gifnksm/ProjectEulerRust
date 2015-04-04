@@ -11,13 +11,13 @@ use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::ops::{Mul, Sub};
 
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 struct Point(i32, i32);
 
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 struct Line(Point, Point);
 
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 struct Triangle(Point, Point, Point);
 
 enum Side { L, R, C }

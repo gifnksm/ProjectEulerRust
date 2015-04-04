@@ -10,8 +10,7 @@
 extern crate num;
 
 use std::iter::{AdditiveIterator, Unfold};
-use std::num::FromPrimitive;
-use num::{One, BigUint};
+use num::{One, BigUint, FromPrimitive};
 
 fn compute(a: u32, b: u32) -> u32 {
     num::range(One::one(), FromPrimitive::from_u32(a).unwrap())

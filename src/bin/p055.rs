@@ -4,14 +4,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
-
 extern crate num;
 #[macro_use(problem)] extern crate common;
 
-use std::num::FromPrimitive;
 use std::str::FromStr;
-use num::bigint::BigUint;
+use num::{BigUint, FromPrimitive};
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_string();

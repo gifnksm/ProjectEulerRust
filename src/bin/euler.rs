@@ -11,7 +11,6 @@ extern crate common;
 
 use std::borrow::{Cow, IntoCow};
 use std::env;
-use std::error::FromError;
 use std::io;
 use std::io::prelude::*;
 use std::path::Path;
@@ -43,20 +42,20 @@ impl ProgramError {
     }
 }
 
-impl FromError<io::Error> for ProgramError {
-    fn from_error(err: io::Error) -> ProgramError {
+impl From<io::Error> for ProgramError {
+    fn from(err: io::Error) -> ProgramError {
         ProgramError::IoError(err)
     }
 }
 
-impl FromError<json::ParserError> for ProgramError {
-    fn from_error(err: json::ParserError) -> ProgramError {
+impl From<json::ParserError> for ProgramError {
+    fn from(err: json::ParserError) -> ProgramError {
         ProgramError::JsonParserError(err)
     }
 }
 
-impl FromError<json::DecoderError> for ProgramError {
-    fn from_error(err: json::DecoderError) -> ProgramError {
+impl From<json::DecoderError> for ProgramError {
+    fn from(err: json::DecoderError) -> ProgramError {
         ProgramError::JsonDecoderError(err)
     }
 }

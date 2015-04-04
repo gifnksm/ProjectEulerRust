@@ -11,8 +11,7 @@ extern crate num;
 extern crate iter;
 
 use std::iter::AdditiveIterator;
-use std::num::FromPrimitive;
-use num::{BigInt, Zero};
+use num::{BigInt, Zero, FromPrimitive};
 use iter::Difference;
 
 fn sqrt_newton_raphson(n: u32, precision: usize) -> String {

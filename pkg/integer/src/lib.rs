@@ -4,13 +4,10 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
-
 extern crate num;
 
 use std::cmp::Ordering;
-use std::num::{FromPrimitive, ToPrimitive};
-use num::{One, Zero};
+use num::{One, Zero, FromPrimitive, ToPrimitive};
 
 /// Extension methods for num::Integer trait.
 pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
@@ -324,10 +321,10 @@ mod tests {
     #[test]
     fn digits() {
         fn check(n: u32, v: &[u32], radix: u32) {
-            assert_eq!(v, n.into_digits(radix).collect::<Vec<_>>());
+            assert_eq!(v, &n.into_digits(radix).collect::<Vec<_>>()[..]);
             let mut rev = n.into_digits(radix).rev().collect::<Vec<_>>();
             rev.reverse();
-            assert_eq!(v, rev)
+            assert_eq!(v, &rev[..])
         }
 
         check(0, &[], 10);

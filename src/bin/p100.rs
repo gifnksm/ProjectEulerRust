@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![cfg_attr(test, feature(core))]
-
 #[macro_use(problem)] extern crate common;
 extern crate num;
 extern crate cont_frac;
@@ -41,8 +39,7 @@ problem!("756872327473", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::num::FromPrimitive;
-    use num::BigUint;
+    use num::{BigUint, FromPrimitive};
 
     #[test]
     fn twenty_one() {

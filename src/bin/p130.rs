@@ -45,8 +45,7 @@ mod tests {
     use prime::PrimeSet;
 
     mod naive {
-        use std::num::FromPrimitive;
-        use num::{One, Zero, Integer, BigUint};
+        use num::{One, Zero, Integer, BigUint, FromPrimitive};
 
         pub fn r(k: u64) -> BigUint {
             let mut r: BigUint = Zero::zero();

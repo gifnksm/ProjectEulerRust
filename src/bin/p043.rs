@@ -14,7 +14,7 @@ use integer::Integer;
 
 const RADIX: u32 = 10;
 
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 struct Pandigimal {
     used: [ bool; RADIX as usize ],
     num:  [ u32; RADIX as usize ],

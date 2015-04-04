@@ -120,6 +120,6 @@ mod tests {
 
     #[test]
     fn four() {
-        assert_eq!(&[3, 7, 109, 673], &super::compute(4));
+        assert_eq!(&[3, 7, 109, 673], &super::compute(4)[..]);
     }
 }

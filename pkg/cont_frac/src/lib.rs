@@ -3,15 +3,15 @@
 #![warn(bad_style, missing_docs,
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
-#![feature(core, collections)]
+#![feature(collections)]
 
 extern crate integer;
 extern crate num;
 
 use std::collections::HashSet;
 use std::mem;
-use std::num::FromPrimitive;
 use std::ops::{Add, Mul};
+use num::FromPrimitive;
 use num::Integer as NumInteger;
 use integer::Integer;
 
@@ -240,7 +240,7 @@ impl<T> Iterator for PelNegRoots<T>
 
 #[cfg(test)]
 mod tests {
-    use std::num::FromPrimitive;
+    use num::FromPrimitive;
     use std::ops::{Add, Mul};
 
     #[test]

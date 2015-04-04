@@ -4,14 +4,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 extern crate num;
 
-use std::num::{FromPrimitive, ToPrimitive};
-use num::BigUint;
+use num::{BigUint, FromPrimitive, ToPrimitive};
 use integer::Integer;
 
 fn compute(max: u64, modulo: u64) -> u64 {

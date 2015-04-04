@@ -11,8 +11,7 @@ extern crate num;
 extern crate polynomial;
 
 use std::iter;
-use std::num::FromPrimitive;
-use num::{One, Integer, BigUint};
+use num::{One, Integer, BigUint, FromPrimitive};
 use num::rational::Ratio;
 use polynomial::Polynomial;
 

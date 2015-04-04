@@ -16,9 +16,8 @@ use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
 use std::iter::{self, IntoIterator, MultiplicativeIterator, RandomAccessIterator};
-use std::num::FromPrimitive;
 use std::rc::Rc;
-use num::{One, Zero, Integer};
+use num::{One, Zero, Integer, FromPrimitive};
 
 const SMALL_PRIMES: &'static [u64] = &[
       2,   3,   5,   7,  11,  13,  17,  19,  23,  29,  31,  37,  41,  43,  47,
@@ -408,7 +407,7 @@ mod tests {
     fn iter() {
         let p1 = PrimeSet::new_empty();
         assert_eq!(super::SMALL_PRIMES,
-                   p1.iter().take(super::SMALL_PRIMES.len()).collect::<Vec<_>>())
+                   &p1.iter().take(super::SMALL_PRIMES.len()).collect::<Vec<_>>()[..])
     }
 
     #[test]
@@ -450,7 +449,7 @@ mod tests {
     fn factorize() {
         fn check(n: u32, fs: &[Factor<u32>]) {
             let ps = PrimeSet::new();
-            assert_eq!(fs, n.factorize(&ps).collect::<Vec<_>>());
+            assert_eq!(fs, &n.factorize(&ps).collect::<Vec<_>>()[..]);
         }
 
         check(0, &[]);

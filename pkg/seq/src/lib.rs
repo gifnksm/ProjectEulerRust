@@ -238,7 +238,7 @@ mod tests {
     use num::bigint::ToBigInt;
 
     fn check<T: Eq + Debug, I: Iterator<Item = T>>(expected: &[T], it: I) {
-        assert_eq!(expected, it.collect::<Vec<_>>());
+        assert_eq!(expected, &it.collect::<Vec<_>>()[..]);
     }
 
     #[test]

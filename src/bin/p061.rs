@@ -99,6 +99,6 @@ mod tests {
             .map(|vs| super::cycle_to_nums(&vs))
             .map(|mut vs| { vs.sort(); vs })
             .collect::<Vec<_>>();
-        assert_eq!(&[vec![2882, 8128, 8281]], &cycle);
+        assert_eq!(&[vec![2882, 8128, 8281]], &cycle[..]);
     }
 }

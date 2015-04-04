@@ -4,15 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
-
 extern crate num;
 #[macro_use(problem)] extern crate common;
 extern crate polynomial;
 
-use std::num::FromPrimitive;
 use num::rational::Ratio;
-use num::{BigInt, Zero, One};
+use num::{BigInt, Zero, One, FromPrimitive};
 use polynomial::Polynomial;
 
 fn u(n: BigInt) -> BigInt {
@@ -68,8 +65,7 @@ problem!("37076114526", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::num::ToPrimitive;
-    use num::BigInt;
+    use num::{BigInt, ToPrimitive};
 
     #[test]
     fn op() {

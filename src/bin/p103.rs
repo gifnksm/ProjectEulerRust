@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core, convert, slice_patterns)]
+#![feature(core, slice_patterns)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -143,7 +143,7 @@ mod tests {
     #[test]
     fn append_num() {
         let mut sss = SSS::new();
-        assert_eq!(vec![], sss.nums);
+        assert!(sss.nums.is_empty());
         sss = sss.append_num(1).unwrap();
         assert_eq!(vec![1], sss.nums);
         sss = sss.append_num(2).unwrap();

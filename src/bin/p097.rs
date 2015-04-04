@@ -4,13 +4,10 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
 extern crate num;
 
-use std::num::FromPrimitive;
-use num::{One, Zero, BigUint};
+use num::{One, Zero, BigUint, FromPrimitive};
 
 fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
     let two: BigUint = FromPrimitive::from_u32(2).unwrap();

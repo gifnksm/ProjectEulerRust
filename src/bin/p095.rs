@@ -50,12 +50,11 @@ fn compute(limit: usize) -> usize {
     let mut len_map = vec![None; limit +1];
     let div_map = create_proper_divisor_map(limit);
 
-    let (n, _) = (1 .. len_map.len())
+    (1 .. len_map.len())
         .map(|n| (n, get_chain_len(n, &mut len_map, &div_map)))
-        .max_by(|&(_, div)| div)
-        .unwrap();
-
-    n
+        .max_by(|&(n, div)| (div, -(n as isize)))
+        .unwrap()
+        .0
 }
 
 fn solve() -> String {

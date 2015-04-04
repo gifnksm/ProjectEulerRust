@@ -4,14 +4,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
 extern crate num;
 
 use std::mem;
-use std::num::FromPrimitive;
-use num::bigint::BigUint;
+use num::{BigUint, FromPrimitive};
 
 // FIXME: Use cont_frac?
 
@@ -60,8 +57,7 @@ problem!("153", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::num::FromPrimitive;
-    use num::bigint::BigUint;
+    use num::{BigUint, FromPrimitive};
     use super::Frac;
 
     #[test]
