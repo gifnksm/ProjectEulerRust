@@ -8,8 +8,6 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::iter::AdditiveIterator;
-
 fn to_word_under10(n: u32) -> String {
     return match n {
         0 => "zero".to_string(),

@@ -10,7 +10,6 @@
 extern crate cont_frac;
 extern crate num;
 
-use std::iter::AdditiveIterator;
 use num::BigUint;
 
 fn napier_seq(i: u32) -> u32 {
@@ -28,7 +27,7 @@ fn solve() -> String {
     n.to_string()
         .chars()
         .filter_map(|c| c.to_digit(10))
-        .sum()
+        .sum::<u32>()
         .to_string()
 }
 

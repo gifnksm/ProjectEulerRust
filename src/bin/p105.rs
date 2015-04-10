@@ -12,7 +12,6 @@ use std::cmp::Ordering;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use std::iter::AdditiveIterator;
 
 fn is_sss(nums: &mut [u32]) -> bool {
     nums.sort();
@@ -20,7 +19,7 @@ fn is_sss(nums: &mut [u32]) -> bool {
     let len = nums.len();
     let len_hd = (len + 1) / 2;
     let len_tl = len_hd - 1;
-    let hd = nums[.. len_hd].iter().map(|&x| x).sum();
+    let hd = nums[.. len_hd].iter().map(|&x| x).sum::<u32>();
     let tl = nums[len - len_tl ..].iter().map(|&x| x).sum();
     if hd <= tl { return false }
 
@@ -55,7 +54,7 @@ fn solve(file: File) -> io::Result<String> {
             .collect::<Vec<_>>();
 
         if is_sss(&mut nums) {
-            sum += nums.iter().map(|&x| x).sum();
+            sum += nums.iter().sum::<u32>();
         }
     }
 

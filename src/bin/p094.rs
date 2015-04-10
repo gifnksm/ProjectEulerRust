@@ -10,7 +10,6 @@
 extern crate cont_frac;
 extern crate num;
 
-use std::iter::AdditiveIterator;
 use num::{BigUint, ToPrimitive};
 use cont_frac::PelRoots;
 
@@ -72,7 +71,7 @@ fn solve() -> String {
         }).filter(|&(_a, b)| b != 0)
         .map(|(a, b)| 2 * a + b)
         .take_while(|&side| side <= limit)
-        .sum()
+        .sum::<u32>()
         .to_string()
 }
 

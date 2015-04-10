@@ -10,7 +10,6 @@
 extern crate integer;
 extern crate num;
 
-use std::iter::MultiplicativeIterator;
 use num::Integer as NumInteger;
 use integer::Integer;
 

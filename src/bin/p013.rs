@@ -8,8 +8,6 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::iter::AdditiveIterator;
-
 const INPUT: &'static str = "
 37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538
@@ -118,7 +116,7 @@ fn compute() -> String {
         .lines()
         .map(|line| &line[0 .. 12])
         .filter_map(|s| s.parse::<u64>().ok())
-        .sum()
+        .sum::<u64>()
         .to_string()[0 .. 10]
         .to_string()
 }

@@ -8,7 +8,6 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::iter::AdditiveIterator;
 
 fn num_increasing(len: usize) -> u64 {
     let mut buf = vec![[0; 10]; len];

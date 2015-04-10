@@ -213,7 +213,6 @@ problem!("14516824220", solve);
 #[cfg(test)]
 mod tests {
     use super::{PdTriple, PdTriples, Pd3Nums};
-    use std::iter::AdditiveIterator;
 
     fn a(r: u64) -> u64 { if r == 0 { 1 } else { 6 * r } }
     fn b(r: u64, m: u64) -> u64 {
@@ -222,7 +221,7 @@ mod tests {
             return 1
         }
         assert!(m < 6 * r);
-        (0 .. r).map(a).sum() + 1 + m
+        (0 .. r).map(a).sum::<u64>() + 1 + m
     }
 
     #[test]

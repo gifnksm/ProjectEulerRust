@@ -9,7 +9,6 @@
 #[macro_use(problem)] extern crate common;
 extern crate generic_matrix as matrix;
 
-use std::iter::AdditiveIterator;
 use std::num::FromPrimitive;
 use matrix::Matrix;
 
@@ -48,7 +47,7 @@ fn create_roll_distribution(dice_side: usize) -> Vec<(f64, f64)> {
 
 fn roll_trans_matrix(dice_side: usize) -> Matrix<f64> {
     let roll_dist = create_roll_distribution(dice_side);
-    let consec_prob = roll_dist.iter().map(|x| x.1).sum();
+    let consec_prob = roll_dist.iter().map(|x| x.1).sum::<f64>();
 
     Matrix::from_fn(NUM_STATE, NUM_STATE, |dst, src| {
         let (dst_seq, dst_pos) = (dst / NUM_SQUARE, dst % NUM_SQUARE);

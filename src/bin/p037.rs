@@ -10,7 +10,6 @@
 extern crate integer;
 extern crate prime;
 
-use std::iter::AdditiveIterator;
 use integer::Integer;
 use prime::PrimeSet;
 

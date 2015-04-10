@@ -10,7 +10,6 @@
 extern crate integer;
 
 use std::u32;
-use std::iter::AdditiveIterator;
 use integer::Integer;
 
 fn each_sum_product<F>(prod_start: u32, prod_end: u32, f: &mut F)

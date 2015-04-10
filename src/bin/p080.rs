@@ -10,7 +10,6 @@ extern crate num;
 #[macro_use(problem)] extern crate common;
 extern crate iter;
 
-use std::iter::AdditiveIterator;
 use num::{BigInt, Zero, FromPrimitive};
 use iter::Difference;
 
@@ -50,7 +49,7 @@ fn solve() -> String {
 
     Difference::new(ns, sq)
         .map(|n| sqrt_digit_sum(n, 100))
-        .sum()
+        .sum::<u32>()
         .to_string()
 }
 

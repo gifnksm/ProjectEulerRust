@@ -8,7 +8,6 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::iter::AdditiveIterator;
 
 fn triangle(n: u32) -> u32 { n * (n + 1) / 2 }
 fn square(n: u32) -> u32 { n * n }
@@ -82,8 +81,8 @@ fn solve() -> String {
     let map: &[fn(u32) -> u32] = &[triangle, square, pentagonal, hexagonal, heptagonal, octagonal];
     find_cycle(&mut create_map(map))
         .iter()
-        .map(|vs| cycle_to_nums(&vs).into_iter().sum())
-        .sum()
+        .map(|vs| cycle_to_nums(&vs).into_iter().sum::<u32>())
+        .sum::<u32>()
         .to_string()
 }
 

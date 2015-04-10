@@ -11,7 +11,6 @@ extern crate integer;
 
 use std::cmp::Ordering;
 use std::num::wrapping::OverflowingOps;
-use std::iter::AdditiveIterator;
 use std::collections::BinaryHeap;
 use integer::Integer;
 
@@ -102,8 +101,9 @@ impl Iterator for Powers {
 fn compute_a(n: usize) -> (u64, u64, u32) {
     Powers::new()
         .skip_while(|&(n, _b, _e)| n < 10)
-        .filter(|&(n, b, _e)| n.into_digits(10).sum() == b)
-        .nth(n - 1).unwrap()
+        .filter(|&(n, b, _e)| n.into_digits(10).sum::<u64>() == b)
+        .nth(n - 1)
+        .unwrap()
 }
 
 fn solve() -> String {

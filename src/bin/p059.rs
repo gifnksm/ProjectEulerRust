@@ -12,7 +12,7 @@ use std::f64;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use std::iter::{self, AdditiveIterator};
+use std::iter;
 
 const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
     ('a', 0.08167),
@@ -58,7 +58,7 @@ fn get_dist(a: &[f64], b: &[f64]) -> f64 {
 }
 
 fn find_key(count: &[usize], ref_freq: &[f64]) -> u8 {
-    let total = count.iter().map(|&x| x).sum();
+    let total = count.iter().sum::<usize>();
 
     let mut freq = &mut [0.0f64; 256];
     for (f, &n) in freq.iter_mut().zip(count.iter()) {
@@ -112,8 +112,8 @@ fn solve(file: File) -> io::Result<String> {
         .collect::<Vec<u8>>();
 
     let sum = code_list.iter().zip(key.iter().cycle())
-        .map(|(&n, &key)| (n ^ key) as usize)
-        .sum();
+        .map(|(&n, &key)| (n ^ key) as u32)
+        .sum::<u32>();
 
     Ok(sum.to_string())
 }

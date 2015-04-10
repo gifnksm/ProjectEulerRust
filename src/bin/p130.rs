@@ -10,7 +10,7 @@
 extern crate num;
 extern crate prime;
 
-use std::iter::{AdditiveIterator, Unfold};
+use std::iter::Unfold;
 use num::Integer;
 use prime::PrimeSet;
 
@@ -33,7 +33,7 @@ fn solve() -> String {
         .filter(|&n| !ps.contains(n))
         .filter(|&n| (n - 1).is_multiple_of(&a(n)))
         .take(25)
-        .sum()
+        .sum::<u64>()
         .to_string()
 }
 

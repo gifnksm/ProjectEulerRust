@@ -9,7 +9,7 @@
 #[macro_use(problem)] extern crate common;
 extern crate num;
 
-use std::iter::{AdditiveIterator, Unfold};
+use std::iter::Unfold;
 use num::{One, BigUint, FromPrimitive};
 
 fn compute(a: u32, b: u32) -> u32 {

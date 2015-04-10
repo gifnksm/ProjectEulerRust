@@ -9,7 +9,6 @@
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
-use std::iter::AdditiveIterator;
 use integer::Integer;
 
 fn square_digit_sum(n: u32) -> u32 {

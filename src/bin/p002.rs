@@ -10,7 +10,6 @@ extern crate num;
 #[macro_use(problem)] extern crate common;
 extern crate seq;
 
-use std::iter::AdditiveIterator;
 use num::Integer;
 use seq::Fibonacci;
 

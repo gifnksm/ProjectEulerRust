@@ -9,7 +9,7 @@
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
-use std::iter::{self, AdditiveIterator, MultiplicativeIterator};
+use std::iter;
 use integer::Integer;
 
 const RADIX: u32 = 10;
@@ -71,7 +71,7 @@ impl Pandigimal {
 
 fn create_pandigimal_list(base: u32, len: usize) -> Vec<Pandigimal> {
     assert!(len > 0);
-    let max = iter::repeat(RADIX).take(len).product() - 1;
+    let max = iter::repeat(RADIX).take(len).product::<u32>() - 1;
     iter::range_inclusive(0, max / base)
         .filter_map(|n| Pandigimal::from_u64(base * n, len))
         .collect()
@@ -79,7 +79,7 @@ fn create_pandigimal_list(base: u32, len: usize) -> Vec<Pandigimal> {
 
 fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: usize) -> Vec<Pandigimal> {
     assert!(len > 0);
-    let ord = iter::repeat(RADIX as u64).take(len - 1).product();
+    let ord = iter::repeat(RADIX as u64).take(len - 1).product::<u64>();
 
     let mut result = vec![];
     for pd in &list {
@@ -104,7 +104,7 @@ fn solve() -> String {
     result
         .iter()
         .map(|pd| pd.to_u64())
-        .sum()
+        .sum::<u64>()
         .to_string()
 }
 

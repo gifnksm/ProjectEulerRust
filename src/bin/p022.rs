@@ -11,10 +11,9 @@
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::fs::File;
-use std::iter::AdditiveIterator;
 
 fn get_score(n: u32, s: &str) -> u32 {
-    n * s.bytes().map(|c| (c - ('A' as u8) + 1) as u32).sum()
+    n * s.bytes().map(|c| (c - ('A' as u8) + 1) as u32).sum::<u32>()
 }
 
 fn compute(words: &[String]) -> u32 {

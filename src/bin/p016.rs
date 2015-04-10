@@ -9,7 +9,6 @@
 extern crate num;
 #[macro_use(problem)] extern crate common;
 
-use std::iter::AdditiveIterator;
 use num::{BigInt, FromPrimitive};
 
 fn compute(base: u32, exp: u32) -> u32 {

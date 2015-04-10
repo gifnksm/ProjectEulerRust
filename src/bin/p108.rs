@@ -9,7 +9,6 @@
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter::MultiplicativeIterator;
 use prime::{Factorize, PrimeSet};
 
 // 1/x + 1/y = 1/n
@@ -24,7 +23,7 @@ use prime::{Factorize, PrimeSet};
 fn num_pairs(ps: &PrimeSet, n: u64) -> u64 {
     let prod = n.factorize(ps)
         .map(|(_base, exp)| 2 * (exp as u64) + 1)
-        .product();
+        .product::<u64>();
     (prod - 1) / 2 + 1
 }
 

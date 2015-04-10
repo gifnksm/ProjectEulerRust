@@ -10,7 +10,6 @@
 extern crate prime;
 
 use std::collections::HashMap;
-use std::iter::AdditiveIterator;
 use prime::PrimeSet;
 
 fn concat_num(n: u64, m: u64) -> u64 {
@@ -104,7 +103,7 @@ fn compute(len: usize) -> Vec<u64> {
 }
 
 fn solve() -> String {
-    compute(5).into_iter().sum().to_string()
+    compute(5).into_iter().sum::<u64>().to_string()
 }
 
 problem!("26033", solve);

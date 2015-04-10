@@ -9,7 +9,6 @@
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter::AdditiveIterator;
 use std::collections::HashMap;
 use prime::PrimeSet;
 

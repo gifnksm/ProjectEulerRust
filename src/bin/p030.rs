@@ -10,7 +10,6 @@
 extern crate iter;
 extern crate integer;
 
-use std::iter::AdditiveIterator;
 use iter::CombinationOverlap;
 use integer::Integer;
 
@@ -26,7 +25,7 @@ fn compute(len: usize, pow: u32) -> u32 {
 
     let mut sum = 0;
     for comb in CombinationOverlap::new(digits, len) {
-        let num = comb.iter().map(|&e| pows[e as usize]).sum();
+        let num = comb.iter().map(|&e| pows[e as usize]).sum::<u32>();
         let mut ds = num.into_digits(10).collect::<Vec<_>>();
         ds.sort_by(|a, b| a.cmp(b));
 

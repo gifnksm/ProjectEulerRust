@@ -10,7 +10,6 @@
 extern crate prime;
 
 use std::cmp::Ordering;
-use std::iter::AdditiveIterator;
 use prime::PrimeSet;
 
 fn get_longer(ps: &[u64], p: u64, min_len: usize) -> Option<usize> {
@@ -18,7 +17,7 @@ fn get_longer(ps: &[u64], p: u64, min_len: usize) -> Option<usize> {
 
     let mut start = 0;
     let mut end   = min_len;
-    let mut sum   = ps.iter().take(min_len).map(|&x| x).sum();
+    let mut sum   = ps.iter().take(min_len).sum::<u64>();
 
     loop {
         let len = end - start;

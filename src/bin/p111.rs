@@ -11,7 +11,7 @@ extern crate integer;
 extern crate iter as itercrate;
 extern crate prime;
 
-use std::iter::{self, AdditiveIterator, Rev};
+use std::iter::{self, Rev};
 use std::ops::Range;
 use integer::Integer;
 use itercrate::BitCombination;
@@ -116,7 +116,7 @@ fn solve() -> String {
 
     (0u64 .. 10)
         .map(|d| compute_s(&ps, n, d).2)
-        .sum()
+        .sum::<u64>()
         .to_string()
 }
 
@@ -124,7 +124,6 @@ problem!("612407567715", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::iter::AdditiveIterator;
     use prime::PrimeSet;
 
     #[test]
@@ -144,7 +143,7 @@ mod tests {
 
         let total = (0u64 .. 10)
             .map(|d| super::compute_s(&ps, 4, d).2)
-            .sum();
+            .sum::<u64>();
         assert_eq!(273700, total);
     }
 }

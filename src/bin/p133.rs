@@ -55,7 +55,7 @@
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter::{self, AdditiveIterator};
+use std::iter;
 use prime::{Factorize, PrimeSet};
 
 fn a(n: u64) -> u64 {
@@ -79,7 +79,7 @@ fn solve() -> String {
         .filter(|&p| {
             a(p).factorize(&ps)
                 .any(|(b, _e)| b != 2 && b != 5)
-        }).sum();
+        }).sum::<u64>();
 
     (sum + 2 + 3 + 5).to_string()
 }

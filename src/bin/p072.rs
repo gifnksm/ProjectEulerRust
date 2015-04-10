@@ -9,7 +9,6 @@
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter::AdditiveIterator;
 use prime::PrimeSet;
 
 fn compute(limit: u64) -> u64 {

@@ -8,8 +8,6 @@
 
 #[macro_use(problem)] extern crate common;
 
-use std::iter::AdditiveIterator;
-
 fn compute(bound: u32) -> u32 {
     (1 .. bound)
         .filter(|&n| n % 3 == 0 || n % 5 == 0)

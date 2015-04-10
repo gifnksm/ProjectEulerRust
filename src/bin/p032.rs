@@ -11,7 +11,6 @@ extern crate integer;
 extern crate iter;
 
 use std::collections::HashSet;
-use std::iter::AdditiveIterator;
 use integer::Integer;
 use iter::Permutations;
 
