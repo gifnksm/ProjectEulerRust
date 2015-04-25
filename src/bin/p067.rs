@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature( str_words)]
-
 #[macro_use(problem)] extern crate common;
 
 use std::cmp;
@@ -17,7 +15,11 @@ fn solve(file: File) -> io::Result<String> {
     let mut triangle = BufReader::new(file).lines()
         .filter_map(|line| line.ok())
         .filter(|line| !line.is_empty())
-        .map(|line| line.words().filter_map(|s| s.parse().ok()).collect::<Vec<u32>>())
+        .map(|line| {
+            line.split_whitespace()
+                .filter_map(|s| s.parse().ok())
+                .collect::<Vec<u32>>()
+        })
         .collect::<Vec<_>>();
 
     let last = triangle.pop().unwrap();    let ans = triangle.iter()

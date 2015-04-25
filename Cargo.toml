@@ -23,6 +23,7 @@ term = "*"
 time = "*"
 union-find = "*"
 topological-sort = "*"
+enum_primitive = "*"
 
 [dev-dependencies]
 rand = "*"

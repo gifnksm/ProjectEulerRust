@@ -4,13 +4,10 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
-
 #[macro_use(problem)] extern crate common;
 extern crate num;
 #[cfg(test)] extern crate seq;
 
-use std::num::{Int, Float};
 use num::Integer;
 
 fn is_pandigit(n: u64) -> bool {
@@ -38,7 +35,7 @@ impl FibFirst {
     fn new(len: u32) -> FibFirst {
         assert!(len > 0);
         FibFirst {
-            base: 10.pow(len),
+            base: 10u64.pow(len),
             phi: (1.0 + (5.0f64).sqrt()) / 2.0,
             curr: 1, cnt: 1
         }
@@ -79,7 +76,7 @@ struct FibLast {
 impl FibLast {
     fn new(len: u32) -> FibLast {
         assert!(len > 0);
-        FibLast { base: 10.pow(len), curr: 1, next: 1 }
+        FibLast { base: 10u64.pow(len), curr: 1, next: 1 }
     }
 }
 

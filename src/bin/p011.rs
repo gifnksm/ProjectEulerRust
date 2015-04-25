@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core, str_words)]
+#![feature(core)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -35,7 +35,9 @@ fn compute(prod_len: usize) -> u32 {
     let grid: Vec<Vec<u32>> = INPUT
         .trim()
         .lines()
-        .map(|line| line.words().filter_map(|s| s.parse().ok()).collect())
+        .map(|line| {
+            line.split_whitespace().filter_map(|s| s.parse().ok()).collect()
+        })
         .collect();
 
     let w = grid[0].len();
