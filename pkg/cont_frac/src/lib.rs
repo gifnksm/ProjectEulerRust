@@ -3,7 +3,8 @@
 #![warn(bad_style, missing_docs,
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
-#![feature(collections)]
+
+#![feature(slice_extras)]
 
 extern crate integer;
 extern crate num;
@@ -128,10 +129,10 @@ pub fn solve_pel<T>(d: u32) -> (T, T)
     }
     let mut v = vec![a0];
     if an.len() % 2 == 0 {
-        v.extend(an.init().iter().map(|&x| x))
+        v.extend(an.init().iter().cloned())
     } else {
         v.extend(an.iter().map(|&x| x));
-        v.extend(an.init().iter().map(|&x| x))
+        v.extend(an.init().iter().cloned())
     }
     fold(v.into_iter())
 }
@@ -144,9 +145,9 @@ pub fn solve_pel_neg<T>(d: u32) -> (T, T)
     let mut v = vec![a0];
     if an.len() % 2 == 0 {
         v.extend(an.iter().map(|&x| x));
-        v.extend(an.init().iter().map(|&x| x));
+        v.extend(an.init().iter().cloned());
     } else {
-        v.extend(an.init().iter().map(|&x| x));
+        v.extend(an.init().iter().cloned());
     }
     fold(v.into_iter())
 }

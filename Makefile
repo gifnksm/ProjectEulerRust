@@ -33,9 +33,9 @@ bench-%:
 	cargo bench -p $(patsubst bench-%,%,$@)
 
 
-run-release:
+run-release: release
 	cargo run --release --bin euler
-run-debug:
+run-debug: debug
 	cargo run --bin euler
 doc:
 	cargo doc

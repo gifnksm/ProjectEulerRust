@@ -133,7 +133,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![cfg_attr(test, feature(core))]
+#![cfg_attr(test, feature(iter_arith))]
 
 #[macro_use(problem)] extern crate common;
 extern crate prime;

@@ -50,24 +50,25 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
+#![feature(iter_arith)]
 
 #[macro_use(problem)] extern crate common;
 extern crate prime;
 
-use std::iter;
 use prime::{Factorize, PrimeSet};
 
 fn a(n: u64) -> u64 {
     if n == 1 { return 1 }
 
-    iter::Unfold::new((1, 1), |st| {
-            let (x, k) = *st;
-            *st = ((x * 10 + 1) % n, k + 1);
-            Some((x, k))
-        }).find(|&(x, _)| x == 0)
-        .unwrap()
-        .1
+    let mut x = 1;
+    let mut k = 1;
+    loop {
+        x = (x * 10 + 1) % n;
+        k += 1;
+        if x == 0 {
+            return k;
+        }
+    }
 }
 
 fn solve() -> String {

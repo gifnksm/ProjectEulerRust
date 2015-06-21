@@ -4,13 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core, step_by)]
+#![feature(step_by, range_inclusive, iter_arith)]
 #![cfg_attr(test, feature(test))]
 
 extern crate num;
 #[cfg(test)] extern crate test;
 
-use std::{cmp, mem, usize};
+use std::{cmp, mem};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
@@ -199,16 +199,6 @@ impl Iterator for Nums {
     }
 }
 
-impl RandomAccessIterator for Nums {
-    #[inline]
-    fn indexable(&self) -> usize { usize::MAX }
-
-    #[inline]
-    fn idx(&mut self, index: usize) -> Option<u64> {
-        Some(self.data.borrow_mut().nth(index))
-    }
-}
-
 /// The base and exponent that represents factor.
 pub type Factor<T> = (T, i32);
 
@@ -317,7 +307,7 @@ impl<T: Integer + FromPrimitive + Clone> Iterator for Factors<T> {
 /// # Example
 ///
 /// ```
-///#![feature(core)]
+///#![feature(range_inclusive)]
 ///
 /// use prime::{Factorized, PrimeSet};
 /// use std::iter;

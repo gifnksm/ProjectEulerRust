@@ -4,10 +4,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
+#![feature(iter_arith)]
 
 #[macro_use(problem)] extern crate common;
-
 
 fn num_increasing(len: usize) -> u64 {
     let mut buf = vec![[0; 10]; len];

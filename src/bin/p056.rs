@@ -4,13 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core)]
+#![feature(iter_arith, iter_unfold)]
 
 #[macro_use(problem)] extern crate common;
 extern crate num;
 
-use std::iter::Unfold;
 use num::{One, BigUint, FromPrimitive};
+use std::iter::Unfold;
 
 fn compute(a: u32, b: u32) -> u32 {
     num::range(One::one(), FromPrimitive::from_u32(a).unwrap())

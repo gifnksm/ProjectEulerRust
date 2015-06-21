@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(collections, core, step_by)]
+#![feature(iter_cmp, slice_position_elem, step_by)]
 
 #[macro_use(problem)] extern crate common;
 

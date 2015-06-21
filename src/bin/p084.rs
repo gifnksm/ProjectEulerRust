@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(core, step_by)]
+#![feature(step_by, iter_arith)]
 
 #[macro_use(problem)] extern crate common;
 #[macro_use] extern crate enum_primitive;

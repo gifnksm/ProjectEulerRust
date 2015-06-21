@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(into_cow, exit_status)]
+#![feature(into_cow)]
 
 extern crate glob;
 extern crate rustc_serialize as rustc_serialize;
@@ -17,6 +17,7 @@ use std::path::Path;
 use std::process::Command;
 use std::str;
 use std::os::unix::process::ExitStatusExt;
+use std::process;
 use glob::Paths;
 use rustc_serialize::Decodable;
 use rustc_serialize::json::{self, Json};
@@ -92,7 +93,7 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
     Ok(try!(Decodable::decode(&mut json::Decoder::new(json))))
 }
 
-fn run() -> ProgramResult<()> {
+fn run() -> ProgramResult<bool> {
     let dir_path = {
         let mut path = try!(env::current_exe());
         path.pop();
@@ -137,16 +138,16 @@ fn run() -> ProgramResult<()> {
         let _ = r.print_pretty(" SUM", false);
     }
 
-    if !is_ok {
-        env::set_exit_status(1);
-    }
-
-    Ok(())
+    Ok(is_ok)
 }
 
 fn main() {
-    if let Err(e) = run() {
-        let _ = writeln!(&mut io::stderr(), "{:?}", e);
-        env::set_exit_status(255);
+    match run() {
+        Ok(true) => process::exit(0),
+        Ok(false) => process::exit(1),
+        Err(e) => {
+            let _ = writeln!(&mut io::stderr(), "{:?}", e);
+            process::exit(255);
+        }
     }
 }
