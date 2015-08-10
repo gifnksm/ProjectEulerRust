@@ -1,5 +1,6 @@
 language: rust
 rust: nightly
+sudo: false
 script:
   - make release
   - make run-release
