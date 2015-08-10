@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_cmp, slice_position_elem, step_by)]
+#![feature(iter_cmp, step_by)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -22,7 +22,7 @@ fn get_chain_len(mut n: usize, len_map: &mut [Option<usize>], div_map: &[usize])
             return 0;
         }
 
-        match itr_map.position_elem(&n) {
+        match itr_map.iter().position(|&e| e == n) {
             Some(idx) => {
                 let len = itr_map.len() - idx;
                 for &m in &itr_map[.. idx] { len_map[m] = Some(0); }

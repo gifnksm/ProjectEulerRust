@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(step_by, slice_extras)]
+#![feature(step_by)]
 
 #[macro_use(problem)] extern crate common;
 
@@ -63,7 +63,7 @@ fn rad_has_union(a: &[u64], b: &[u64]) -> bool {
 
 fn abc_hits_c_sum(c_limit: u64) -> u64 {
     let rad_vec = create_rad_vec(c_limit);
-    let mut sorted_rad_vec = rad_vec.tail().to_vec(); // drop a == 0 element
+    let mut sorted_rad_vec = rad_vec[1..].to_vec(); // drop a == 0 element
     sorted_rad_vec.sort();
 
     let mut c_sum = 0;

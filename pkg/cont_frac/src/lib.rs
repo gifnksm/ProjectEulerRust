@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(slice_extras)]
-
 extern crate integer;
 extern crate num;
 
@@ -127,12 +125,14 @@ pub fn solve_pel<T>(d: u32) -> (T, T)
     if an.is_empty() {
         panic!("{} is square", d)
     }
+
+    let len = an.len();
     let mut v = vec![a0];
-    if an.len() % 2 == 0 {
-        v.extend(an.init().iter().cloned())
+    if len % 2 == 0 {
+        v.extend(&an[..len-1])
     } else {
-        v.extend(an.iter().map(|&x| x));
-        v.extend(an.init().iter().cloned())
+        v.extend(&an);
+        v.extend(&an[..len-1])
     }
     fold(v.into_iter())
 }
@@ -142,12 +142,14 @@ pub fn solve_pel_neg<T>(d: u32) -> (T, T)
     where T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone
 {
     let (a0, an) = sqrt(d);
+
+    let len = an.len();
     let mut v = vec![a0];
-    if an.len() % 2 == 0 {
-        v.extend(an.iter().map(|&x| x));
-        v.extend(an.init().iter().cloned());
+    if len % 2 == 0 {
+        v.extend(&an);
+        v.extend(&an[..len-1]);
     } else {
-        v.extend(an.init().iter().cloned());
+        v.extend(&an[..len-1]);
     }
     fold(v.into_iter())
 }

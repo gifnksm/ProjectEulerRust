@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(slice_extras)]
-
 #[macro_use(problem)] extern crate common;
 
 use std::cmp;
@@ -29,7 +27,8 @@ const TRIANGLE: &'static [&'static [u32]] = &[
 ];
 
 fn compute(input: &[&[u32]]) -> u32 {
-    let init = input.init();
+    let len = input.len();
+    let init = &input[..len-1];
     let last = input.last().unwrap();
     init.iter().rev().fold(last.to_vec(), |mut total, elm| {
         for (i, &e) in elm.iter().enumerate() {

@@ -10,6 +10,7 @@ dependencies = [
  "glob 0.2.10 (registry+https://github.com/rust-lang/crates.io-index)",
  "integer 0.0.1",
  "iter 0.0.1",
+ "itertools 0.3.23 (registry+https://github.com/rust-lang/crates.io-index)",
  "num 0.1.24 (registry+https://github.com/rust-lang/crates.io-index)",
  "playing_card 0.0.1",
  "polynomial 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -22,6 +23,19 @@ dependencies = [
  "topological-sort 0.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "union-find 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
+
+[[package]]
+name = "bit-set"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "bit-vec 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "bit-vec"
+version = "0.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "cont_frac"
@@ -97,6 +111,14 @@ dependencies = [
 [[package]]
 name = "iter"
 version = "0.0.1"
+dependencies = [
+ "bit-set 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "itertools"
+version = "0.3.23"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "kernel32-sys"

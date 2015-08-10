@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(slice_position_elem)]
-
 #[macro_use(problem)] extern crate common;
 extern crate integer;
 
@@ -77,7 +75,7 @@ fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, Vec<u64>, Vec<u6
         .map(|(w1, w2)| {
             let cs1 = w1.as_bytes();
             let cs2 = w2.as_bytes();
-            let get_pos = |&c: &u8| cs1.position_elem(&c).unwrap() as u64;
+            let get_pos = |&c: &u8| cs1.iter().position(|&e| e == c).unwrap() as u64;
             (w1.len() as u64,
              cs1.iter().map(|c| get_pos(c)).collect(),
              cs2.iter().map(|c| get_pos(c)).collect())
@@ -110,7 +108,7 @@ fn check_digit(idx: &[u64], ds: &[u64]) -> bool {
         if ds[i] != ds[idx[i] as usize] {
             return false;
         }
-        if ds.position_elem(&ds[idx[i] as usize]).unwrap() as u64 != idx[i] {
+        if ds.iter().position(|&e| e == ds[idx[i] as usize]).unwrap() as u64 != idx[i] {
             return false;
         }
     }

@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(into_cow, path_ext, slice_extras)]
+#![feature(into_cow, path_ext)]
 
 extern crate curl;
 extern crate getopts;
@@ -190,7 +190,7 @@ impl<'a> Solver<'a> {
         let _ = opts.optflag("", "json", "Output JSON format");
         let _ = opts.optflag("h", "help", "Display this message");
 
-        let matches = match opts.parse(args.tail()) {
+        let matches = match opts.parse(&args[1..]) {
             Ok(m) => m,
             Err(f) => {
                 let _ = writeln!(&mut io::stderr(), "{}: {}", program, f);

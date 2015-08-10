@@ -4,15 +4,16 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(bitset)]
 #![cfg_attr(test, feature(test))]
+
+extern crate bit_set;
 
 #[cfg(test)]
 extern crate test;
 
 use std::cmp::Ordering;
 use std::iter::{self, Peekable};
-use std::collections::BitSet;
+use bit_set::BitSet;
 
 /// An iterator that enumerates all combinations of bits.
 pub struct BitCombination {
