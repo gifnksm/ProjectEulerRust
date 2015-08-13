@@ -2,8 +2,8 @@ language: rust
 rust: nightly
 sudo: false
 script:
-  - make release
-  - make run-release
-  - make test
-  - make bench
-  - make doc
+  - cargo build --release
+  - cargo run --release --bin euler
+  - cargo test
+  - cargo bench
+  - cargo doc
