@@ -266,10 +266,24 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
 const BASE_URL: &'static str = "https://projecteuler.net/project/resources/";
 fn download(file_name: &str) -> Result<Vec<u8>, curl::ErrCode> {
     let url = format!("{}{}", BASE_URL, file_name);
-    let resp = try!(http::handle()
-                    .get(url)
-                    .exec());
-    Ok(resp.move_body())
+
+    let mut retry = 0;
+    loop {
+        let result = http::handle().get(&url[..]).exec();
+        match result {
+            Ok(resp) => {
+                return Ok(resp.move_body());
+            }
+            Err(err) => {
+                let program = env::args().next().unwrap();
+                let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
+                retry += 1;
+                if retry >= 3 {
+                    return Err(err);
+                }
+            }
+        }
+    }
 }
 
 #[macro_export]
