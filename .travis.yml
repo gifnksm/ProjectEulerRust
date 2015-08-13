@@ -20,20 +20,37 @@ before_script:
 
 script:
   - |
-      travis-cargo build -- --release &&
-      travis-cargo run -- --release --bin euler &&
-      travis-cargo test &&
-      travis-cargo bench &&
-      travis-cargo --only ${DOC_UPLOAD_VERSION} doc
+      if [ -z "${PKG_DIR}" ]; then
+        travis-cargo build -- --release &&
+        travis-cargo run -- --release --bin euler &&
+        travis-cargo test &&
+        travis-cargo bench &&
+        travis-cargo --only ${DOC_UPLOAD_VERSION} doc
+      else
+        cd "${TRAVIS_BUILD_DIR}/${PKG_DIR}"
+        travis-cargo build &&
+        travis-cargo test &&
+        travis-cargo bench
+      fi
 
 after_success:
-  # upload the documentation from the build with stable (automatically only actually
-  # runs on the master branch, not individual PRs)
-  - travis-cargo --only ${DOC_UPLOAD_VERSION} doc-upload
-  # measure code coverage and upload to coveralls.io
+  - |
+      if [ -z "${PKG_DIR}" ]; then
+         travis-cargo --only ${DOC_UPLOAD_VERSION} doc-upload
+      else
+         cd "${TRAVIS_BUILD_DIR}/${PKG_DIR}"
+      fi
   - travis-cargo coveralls --no-sudo
 
 env:
+  matrix:
+    - PKG_DIR=""
+    - PKG_DIR="pkg/cont_frac"
+    - PKG_DIR="pkg/integer"
+    - PKG_DIR="pkg/iter"
+    - PKG_DIR="pkg/playing_card"
+    - PKG_DIR="pkg/prime"
+    - PKG_DIR="pkg/seq"
   global:
     - TRAVIS_CARGO_NIGHTLY_FEATURE=""
     - DOC_UPLOAD_VERSION=nightly
