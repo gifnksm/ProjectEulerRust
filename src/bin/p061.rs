@@ -4,10 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith, permutations)]
+#![feature(iter_arith)]
 
 #[macro_use(problem)] extern crate common;
+extern crate iter;
 
+use iter::Permutations;
 
 fn triangle(n: u32) -> u32 { n * (n + 1) / 2 }
 fn square(n: u32) -> u32 { n * n }
@@ -37,7 +39,7 @@ fn find_cycle(map: &mut [Vec<Vec<u32>>]) -> Vec<Vec<u32>> {
     let head = &map[map.len() - 1];
 
     let mut result = vec![];
-    for maps in map[ .. map.len() - 1].permutations() {
+    for (maps, _) in Permutations::new(&map[ .. map.len() - 1], map.len() - 1) {
         for (lst, fsts) in head.iter().enumerate() {
             for &fst in fsts {
                 for mut v in find_chain(fst, lst as u32, &maps) {

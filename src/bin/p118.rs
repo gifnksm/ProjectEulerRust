@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(range_inclusive, permutations)]
+#![feature(range_inclusive)]
 
 #[macro_use(problem)] extern crate common;
 extern crate integer;
@@ -14,7 +14,7 @@ extern crate prime;
 
 use std::iter;
 use integer::Integer;
-use itercrate::BitCombination;
+use itercrate::{BitCombination, Permutations};
 use num::Integer as NumInteger;
 use prime::PrimeSet;
 
@@ -73,9 +73,9 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
                 if ps.contains(ds[0]) { 1 } else { 0 }
             } else {
                 if ds.iter().fold(0, |x, &y| x + y) % 3 != 0 {
-                    ds.permutations()
-                        .filter(|perm| perm[0].is_odd() && perm[0] != 5)
-                        .filter(|perm| ps.contains(Integer::from_digits(perm.iter().map(|&x| x), 10)))
+                    Permutations::new(&ds[..], ds.len())
+                        .filter(|&(ref perm, _)| perm[0].is_odd() && perm[0] != 5)
+                        .filter(|&(ref perm, _)| ps.contains(Integer::from_digits(perm.iter().map(|&x| x), 10)))
                         .count()
                 } else {
                     0

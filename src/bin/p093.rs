@@ -4,13 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_cmp, permutations)]
+#![feature(iter_cmp)]
 
 #[macro_use(problem)] extern crate common;
 extern crate iter;
 extern crate num;
 
-use iter::{BitCombination, CombinationOverlap};
+use iter::{BitCombination, CombinationOverlap, Permutations};
 use num::{Signed, Zero};
 use num::rational::Ratio;
 
@@ -41,8 +41,7 @@ impl Iterator for Nums {
     }
 }
 
-fn apply(a: Ratio<i32>, b: Ratio<i32>, op: Op, f: &mut FnMut(Ratio<i32>))
-{
+fn apply(a: Ratio<i32>, b: Ratio<i32>, op: Op, f: &mut FnMut(Ratio<i32>)) {
     match op {
         Op::Add => { (*f)(a + b) }
         Op::Mul => { (*f)(a * b) }
@@ -126,7 +125,7 @@ fn count_seqlen(num_set: &[u32; 4]) -> u32 {
     let mut set = [false; 3025];
 
     for op_set in CombinationOverlap::new(&[Op::Add, Op::Sub, Op::Mul, Op::Div], num_set.len() - 1) {
-        for ops in op_set.permutations() {
+        for (ops, _) in Permutations::new(&op_set[..], op_set.len()) {
             evaluate(num_set, &ops, &mut |n| {
                 if n.is_integer() && n.numer().is_positive() {
                     set[n.to_integer() as usize] = true;
