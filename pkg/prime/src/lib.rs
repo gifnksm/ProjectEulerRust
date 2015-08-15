@@ -15,7 +15,7 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
-use std::iter::{self, IntoIterator, RandomAccessIterator};
+use std::iter::{self, IntoIterator};
 use std::rc::Rc;
 use num::{One, Zero, Integer, FromPrimitive};
 
