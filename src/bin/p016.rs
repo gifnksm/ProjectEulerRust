@@ -7,7 +7,8 @@
 #![feature(iter_arith)]
 
 extern crate num;
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use num::{BigInt, FromPrimitive};
 
@@ -20,7 +21,9 @@ fn compute(base: u32, exp: u32) -> u32 {
         .sum()
 }
 
-fn solve() -> String { compute(2, 1000).to_string() }
+fn solve() -> String {
+    compute(2, 1000).to_string()
+}
 
 problem!("1366", solve);
 

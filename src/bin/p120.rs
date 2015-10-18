@@ -6,7 +6,8 @@
 
 #![feature(iter_arith, range_inclusive)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate num;
 
 use std::iter;
@@ -46,7 +47,11 @@ use num::Integer;
 //     a (a - 1)
 
 fn rmax(a: u32) -> u32 {
-    if a.is_even() { a * (a - 2) } else { a * (a - 1) }
+    if a.is_even() {
+        a * (a - 2)
+    } else {
+        a * (a - 1)
+    }
 }
 
 fn solve() -> String {

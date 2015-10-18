@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 extern crate prime;
 
@@ -22,25 +23,33 @@ fn compute(limit: u64) -> u64 {
     // phi(p1 * p2) = (p1 - 1) * (p2 - 1)
 
     let ps = PrimeSet::new();
-    let mut min_n   = 0;
+    let mut min_n = 0;
     let mut min_n_phi = f64::INFINITY;
     for p1 in &ps {
-        if p1 * p1 > limit { break }
+        if p1 * p1 > limit {
+            break;
+        }
         for p2 in &ps {
-            if p2 < p1 { continue }
+            if p2 < p1 {
+                continue;
+            }
 
             let n = p1 * p2;
-            if n > limit { break }
+            if n > limit {
+                break;
+            }
 
             let phi = (p1 - 1) * (p2 - 1);
             let ds1 = n.into_digit_histogram();
             let ds2 = phi.into_digit_histogram();
-            if ds1 != ds2 { continue }
+            if ds1 != ds2 {
+                continue;
+            }
 
             let n_phi = (n as f64) / (phi as f64);
             if n_phi < min_n_phi {
                 min_n_phi = n_phi;
-                min_n     = n;
+                min_n = n;
             }
         }
     }
@@ -52,4 +61,3 @@ fn solve() -> String {
 }
 
 problem!("8319823", solve);
-

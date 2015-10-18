@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use prime::PrimeSet;
@@ -21,12 +22,18 @@ fn compute(numer: u32, denom: u32) -> u64 {
         let lb = rb - side + 1;
         let lt = lb - side + 1;
         let rt = lt - side + 1;
-        if ps.contains(lb) { num_prime += 1; }
-        if ps.contains(lt) { num_prime += 1; }
-        if ps.contains(rt) { num_prime += 1; }
+        if ps.contains(lb) {
+            num_prime += 1;
+        }
+        if ps.contains(lt) {
+            num_prime += 1;
+        }
+        if ps.contains(rt) {
+            num_prime += 1;
+        }
         num_total += 4;
         if num_prime * denom < numer * num_total {
-            return side
+            return side;
         }
     }
 }

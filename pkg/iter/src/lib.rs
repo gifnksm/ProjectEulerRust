@@ -19,18 +19,22 @@ use bit_set::BitSet;
 pub struct BitCombination {
     consumed: bool,
     size: usize,
-    set: BitSet
+    set: BitSet,
 }
 
 impl Iterator for BitCombination {
     type Item = BitSet;
 
     fn next(&mut self) -> Option<BitSet> {
-        if self.consumed { return None }
+        if self.consumed {
+            return None;
+        }
 
         let result = self.set.clone();
         match self.find_change_bit() {
-            None => { self.consumed = true }
+            None => {
+                self.consumed = true
+            }
             Some(n) => {
                 self.set.remove(&n);
                 self.set.insert(n + 1);
@@ -72,15 +76,21 @@ impl BitCombination {
         for i in 0..cnt {
             set.insert(i);
         }
-        BitCombination { consumed: false, size: size, set: set }
+        BitCombination {
+            consumed: false,
+            size: size,
+            set: set,
+        }
     }
 
     fn find_change_bit(&self) -> Option<usize> {
-        if self.size == 0 { return None }
+        if self.size == 0 {
+            return None;
+        }
 
         for n in (0..self.size - 1).rev() {
             if self.set.contains(&n) && !self.set.contains(&(n + 1)) {
-                return Some(n)
+                return Some(n);
             }
         }
         None
@@ -93,7 +103,7 @@ impl BitCombination {
 pub struct CombinationOverlap<'a, T: 'a> {
     elems: &'a [T],
     idxs: Vec<usize>,
-    consumed: bool
+    consumed: bool,
 }
 
 impl<'a, T> CombinationOverlap<'a, T> {
@@ -117,7 +127,7 @@ impl<'a, T> CombinationOverlap<'a, T> {
         CombinationOverlap {
             elems: elems,
             idxs: iter::repeat(0).take(len).collect(),
-            consumed: false
+            consumed: false,
         }
     }
 }
@@ -127,7 +137,7 @@ impl<'a, T: Clone> Iterator for CombinationOverlap<'a, T> {
 
     fn next(&mut self) -> Option<Vec<T>> {
         if self.consumed {
-            return None
+            return None;
         }
 
         let v = self.idxs.iter().map(|&i| self.elems[i].clone()).collect();
@@ -136,11 +146,13 @@ impl<'a, T: Clone> Iterator for CombinationOverlap<'a, T> {
             Some(i) => {
                 self.idxs[i] += 1;
                 let v = self.idxs[i];
-                for x in &mut self.idxs[i + 1 ..] {
+                for x in &mut self.idxs[i + 1..] {
                     *x = v
                 }
             }
-            None => { self.consumed = true }
+            None => {
+                self.consumed = true
+            }
         }
         Some(v)
     }
@@ -151,7 +163,7 @@ pub struct Permutations<'a, T: 'a> {
     elems: &'a [T],
     idxs: Vec<usize>,
     cycles: Vec<usize>,
-    consumed: bool
+    consumed: bool,
 }
 
 impl<'a, T: 'a> Permutations<'a, T> {
@@ -167,15 +179,15 @@ impl<'a, T: 'a> Permutations<'a, T> {
     /// ```
     pub fn new(elems: &'a [T], n: usize) -> Permutations<'a, T> {
         let cycles = if n <= elems.len() {
-            (0 .. n).map(|x| elems.len() - x).collect()
+            (0..n).map(|x| elems.len() - x).collect()
         } else {
             vec![]
         };
         Permutations {
             elems: elems,
-            idxs: (0 .. elems.len()).collect(),
+            idxs: (0..elems.len()).collect(),
             cycles: cycles,
-            consumed: n > elems.len()
+            consumed: n > elems.len(),
         }
     }
 }
@@ -184,7 +196,9 @@ impl<'a, T: Clone> Iterator for Permutations<'a, T> {
     type Item = (Vec<T>, Vec<T>);
 
     fn next(&mut self) -> Option<(Vec<T>, Vec<T>)> {
-        if self.consumed { return None }
+        if self.consumed {
+            return None;
+        }
 
         let n = self.cycles.len();
         let perm = self.idxs[..n].iter().map(|&i| self.elems[i].clone()).collect();
@@ -196,7 +210,7 @@ impl<'a, T: Clone> Iterator for Permutations<'a, T> {
         }
 
         loop {
-            for i in (0 .. n).rev() {
+            for i in (0..n).rev() {
                 self.cycles[i] -= 1;
                 if self.cycles[i] == 0 {
                     let p = self.idxs.remove(i);
@@ -221,10 +235,11 @@ impl<'a, T: Clone> Iterator for Permutations<'a, T> {
 
 /// An iterator that enumerates elemnts that is contained in the first iterator.
 pub struct Difference<M, S>
-    where M: Iterator, S: Iterator
+    where M: Iterator,
+          S: Iterator
 {
     minuend: M,
-    subtrahend: Peekable<S>
+    subtrahend: Peekable<S>,
 }
 
 impl<E, M, S> Difference<M, S>
@@ -248,7 +263,10 @@ impl<E, M, S> Difference<M, S>
     /// assert_eq!(Some(10), it.next());
     /// ```
     pub fn new(m: M, s: S) -> Difference<M, S> {
-        Difference { minuend: m, subtrahend: s.peekable() }
+        Difference {
+            minuend: m,
+            subtrahend: s.peekable(),
+        }
     }
 }
 
@@ -260,20 +278,20 @@ impl<E, M, S> Iterator for Difference<M, S>
     fn next(&mut self) -> Option<E> {
         'minuend: loop {
             let n = match self.minuend.next() {
-                None    => return None,
-                Some(n) => n
+                None => return None,
+                Some(n) => n,
             };
             'subtrahend: loop {
                 let cmp = match self.subtrahend.peek() {
-                    None    => return Some(n),
-                    Some(p) => n.cmp(p)
+                    None => return Some(n),
+                    Some(p) => n.cmp(p),
                 };
                 match cmp {
-                    Ordering::Less    => return Some(n),
-                    Ordering::Equal   => continue 'minuend,
+                    Ordering::Less => return Some(n),
+                    Ordering::Equal => continue 'minuend,
                     Ordering::Greater => {
                         let _ = self.subtrahend.next();
-                        continue 'subtrahend
+                        continue 'subtrahend;
                     }
                 }
             }
@@ -289,17 +307,19 @@ mod tests {
     fn bit_combination() {
         fn check(cnt: usize, size: usize, expected: Vec<Vec<usize>>) {
             let actual = BitCombination::new(cnt, size)
-                .map(|set| set.iter().collect())
-                .collect::<Vec<Vec<_>>>();
+                             .map(|set| set.iter().collect())
+                             .collect::<Vec<Vec<_>>>();
             assert_eq!(actual, expected);
         }
 
         check(0, 4, vec![vec![]]);
         check(1, 4, vec![vec![0], vec![1], vec![2], vec![3]]);
-        check(2, 4, vec![vec![0, 1], vec![0, 2], vec![0, 3],
-                         vec![1, 2], vec![1, 3],
-                         vec![2, 3]]);
-        check(3, 4, vec![vec![0, 1, 2], vec![0, 1, 3], vec![0, 2, 3], vec![1, 2, 3]]);
+        check(2,
+              4,
+              vec![vec![0, 1], vec![0, 2], vec![0, 3], vec![1, 2], vec![1, 3], vec![2, 3]]);
+        check(3,
+              4,
+              vec![vec![0, 1, 2], vec![0, 1, 3], vec![0, 2, 3], vec![1, 2, 3]]);
         check(4, 4, vec![vec![0, 1, 2, 3]]);
 
         check(0, 0, vec![vec![]]);
@@ -402,7 +422,7 @@ mod tests {
         #[test]
         fn no_square_nums() {
             let ns = 1..;
-            let sq = (1..).map(|x| x*x);
+            let sq = (1..).map(|x| x * x);
             let diff = Difference::new(ns, sq);
             assert_eq!(vec![2, 3, 5, 6, 7, 8, 10, 11],
                        diff.take(8).collect::<Vec<_>>());

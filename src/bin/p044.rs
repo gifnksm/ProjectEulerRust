@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 fn nth_pentagonal(i: u32) -> u32 {
     let n = i + 1;
@@ -12,7 +13,9 @@ fn nth_pentagonal(i: u32) -> u32 {
 }
 
 fn is_pentagonal(n: u32, table: &[u32]) -> bool {
-    if *table.last().unwrap() < n { panic!() }
+    if *table.last().unwrap() < n {
+        panic!()
+    }
     table.binary_search(&n).is_ok()
 }
 
@@ -31,10 +34,12 @@ fn solve() -> String {
         let pm = pentagonals[m];
         for n in 0..m {
             let pn = pentagonals[n];
-            if (pm - pn) % 2 != 0 { continue }
+            if (pm - pn) % 2 != 0 {
+                continue;
+            }
             if is_pentagonal(pm - pn, &pentagonals) {
                 if is_pentagonal(pm + pn, &pentagonals) {
-                    return (pm - pn).to_string()
+                    return (pm - pn).to_string();
                 }
             }
         }

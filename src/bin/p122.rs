@@ -6,12 +6,15 @@
 
 #![feature(range_inclusive)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::{iter, u32};
 
 fn backtrack(power: u32, depth: u32, limit: u32, cost: &mut [u32], path: &mut [u32]) {
-    if power > limit || depth > cost[power as usize] { return }
+    if power > limit || depth > cost[power as usize] {
+        return;
+    }
 
     cost[power as usize] = depth;
     path[depth as usize] = power;
@@ -32,11 +35,11 @@ fn compute_cost(limit: u32) -> Vec<u32> {
 
 fn solve() -> String {
     let limit = 200;
-    compute_cost(limit)[1 .. (limit as usize) + 1]
+    compute_cost(limit)[1..(limit as usize) + 1]
         .iter()
         .fold(0, |x, &y| x + y)
         .to_string()
-    }
+}
 
 problem!("1582", solve);
 

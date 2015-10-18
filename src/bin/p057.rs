@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate num;
 
 use std::mem;
@@ -24,11 +25,16 @@ use num::{BigUint, FromPrimitive};
 //  n[0] = 3, d[0] = 2
 //  n[i+1] = 2d[i] + n[i]
 //  d[i+1] = d[i] + n[i]
-struct Frac { nd: (BigUint, BigUint) }
+struct Frac {
+    nd: (BigUint, BigUint),
+}
 
 impl Frac {
     fn new() -> Frac {
-        Frac { nd: (FromPrimitive::from_usize(3).unwrap(), FromPrimitive::from_usize(2).unwrap()) }
+        Frac {
+            nd: (FromPrimitive::from_usize(3).unwrap(),
+                 FromPrimitive::from_usize(2).unwrap()),
+        }
     }
 }
 

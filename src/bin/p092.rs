@@ -6,7 +6,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 
 use integer::Integer;
@@ -17,11 +18,11 @@ fn square_digit_sum(n: u32) -> u32 {
 
 fn is_reach_89(n: u32, map: &mut [Option<bool>]) -> bool {
     if (n as usize) >= map.len() {
-        return is_reach_89(square_digit_sum(n), map)
+        return is_reach_89(square_digit_sum(n), map);
     }
 
     if let Some(b) = map[n as usize] {
-        return b
+        return b;
     }
 
     let result = is_reach_89(square_digit_sum(n), map);
@@ -31,8 +32,8 @@ fn is_reach_89(n: u32, map: &mut [Option<bool>]) -> bool {
 
 fn create_map(limit: u32) -> Vec<Option<bool>> {
     let mut map = vec![None; (limit - 1).to_string().len() * 81 + 1];
-    map[0]  = Some(false);
-    map[1]  = Some(false);
+    map[0] = Some(false);
+    map[1] = Some(false);
     map[89] = Some(true);
     map
 }
@@ -40,7 +41,7 @@ fn create_map(limit: u32) -> Vec<Option<bool>> {
 fn solve() -> String {
     let limit = 10000000;
     let mut map = create_map(limit);
-    (1 .. limit)
+    (1..limit)
         .filter(|&n| is_reach_89(n, &mut map))
         .count()
         .to_string()

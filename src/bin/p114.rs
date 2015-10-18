@@ -6,17 +6,21 @@
 
 #![feature(range_inclusive)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::iter;
 use std::collections::HashMap;
 
 fn get_cnt((n, m): (u32, u32), map: &mut HashMap<(u32, u32), u64>) -> u64 {
     if let Some(&x) = map.get(&(n, m)) {
-        return x
+        return x;
     }
 
-    if n < m { let _ = map.insert((n, m), 1); return 1; }
+    if n < m {
+        let _ = map.insert((n, m), 1);
+        return 1;
+    }
 
     let mut sum = 0;
 

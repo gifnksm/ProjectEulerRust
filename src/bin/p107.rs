@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate union_find;
 
 use std::fs::File;
@@ -17,7 +18,9 @@ fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {
     for (i, line) in BufReader::new(r).lines().enumerate() {
         let line = try!(line);
         for (j, s) in line.trim().split(',').enumerate() {
-            if j <= i { continue }
+            if j <= i {
+                continue;
+            }
             if let Ok(n) = s.parse::<usize>() {
                 verts.push(((i, j), n));
             }
@@ -49,7 +52,7 @@ problem!("259679", "p107_network.txt", solve);
 mod tests {
     #[test]
     fn sample() {
-        let matrix = "-,16,12,21,-,-,-
+        let matrix = r"-,16,12,21,-,-,-
 16,-,-,17,20,-,-
 12,-,-,28,-,31,-
 21,17,28,-,18,19,23

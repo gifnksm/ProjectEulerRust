@@ -4,34 +4,47 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 fn is_leap_year(y: u32) -> bool {
-    if y % 400 == 0 { return true; }
-    if y % 100 == 0 { return false; }
-    if y % 4   == 0 { return true; }
+    if y % 400 == 0 {
+        return true;
+    }
+    if y % 100 == 0 {
+        return false;
+    }
+    if y % 4 == 0 {
+        return true;
+    }
     false
 }
 
 fn day_of_year(y: u32) -> u32 {
-    if is_leap_year(y) { 366 } else { 365 }
+    if is_leap_year(y) {
+        366
+    } else {
+        365
+    }
 }
 
 fn day_of_month(y: u32) -> [u32; 12] {
-    [
-        31, // Jan
-        if is_leap_year(y) { 29 } else { 28 }, // Feb
-        31, // Mar
-        30, // Apr
-        31, // May
-        30, // Jun
-        31, // Jul
-        31, // Aug
-        30, // Sep
-        31, // Oct
-        30, // Nov
-        31  // Dec
-    ]
+    [31, // Jan
+     if is_leap_year(y) {
+         29
+     } else {
+         28
+     }, // Feb
+     31, // Mar
+     30, // Apr
+     31, // May
+     30, // Jun
+     31, // Jul
+     31, // Aug
+     30, // Sep
+     31, // Oct
+     30, // Nov
+     31 /* Dec */]
 }
 
 fn append_day(y: u32, offset: u32, result: &mut [u32; 7]) -> u32 {
@@ -54,6 +67,8 @@ fn compute() -> u32 {
     result[0]
 }
 
-fn solve() -> String { compute().to_string() }
+fn solve() -> String {
+    compute().to_string()
+}
 
 problem!("171", solve);

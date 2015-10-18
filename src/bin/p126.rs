@@ -6,32 +6,43 @@
 
 #![feature(range_inclusive)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::iter;
 
 // cube size: (a, b, c)
 // nth layer: 4(n-1)(n+a+b+c-2) + 2(ab+bc+ca)
-fn f0(a: u32, b: u32, c: u32) -> u32 { 2 * (a*b + b*c + c*a) }
+fn f0(a: u32, b: u32, c: u32) -> u32 {
+    2 * (a * b + b * c + c * a)
+}
 
 fn compute(sum: u32) -> u32 {
     let limit = sum * 20;
     let mut cnt = vec![0; limit as usize];
 
     for a in 1.. {
-        if f0(a, 1, 1) > limit { break }
+        if f0(a, 1, 1) > limit {
+            break;
+        }
 
         for b in iter::range_inclusive(1, a) {
-            if f0(a, b, 1) > limit { break }
+            if f0(a, b, 1) > limit {
+                break;
+            }
 
             for c in iter::range_inclusive(1, b) {
                 let p = f0(a, b, c);
-                if p > limit { break; }
+                if p > limit {
+                    break;
+                }
                 let q = a + b + c - 2;
 
                 for n in 1.. {
-                    let f = 4*(n-1)*(n+q) + p;
-                    if f as usize >= cnt.len() { break }
+                    let f = 4 * (n - 1) * (n + q) + p;
+                    if f as usize >= cnt.len() {
+                        break;
+                    }
                     cnt[f as usize] += 1;
                 }
             }
@@ -39,8 +50,8 @@ fn compute(sum: u32) -> u32 {
     }
 
     cnt.iter()
-        .position(|&n| n == sum)
-        .unwrap() as u32
+       .position(|&n| n == sum)
+       .unwrap() as u32
 }
 
 fn solve() -> String {

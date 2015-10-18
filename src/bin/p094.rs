@@ -6,7 +6,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate cont_frac;
 extern crate num;
 
@@ -54,21 +55,24 @@ fn solve() -> String {
 
     PelRoots::<BigUint>::new(3)
         .map(|(x, _y)| x.to_u32().unwrap())
-        .map(|x| match x % 3 {
-            1 => {
-                let k = (x - 1) / 3;
-                let a = 2 * k + 1;
-                let b = a + 1;
-                (a, b)
+        .map(|x| {
+            match x % 3 {
+                1 => {
+                    let k = (x - 1) / 3;
+                    let a = 2 * k + 1;
+                    let b = a + 1;
+                    (a, b)
+                }
+                2 => {
+                    let k = (x - 2) / 3;
+                    let a = 2 * k + 1;
+                    let b = a - 1;
+                    (a, b)
+                }
+                _ => panic!(),
             }
-            2 => {
-                let k = (x - 2) / 3;
-                let a = 2 * k + 1;
-                let b = a - 1;
-                (a, b)
-            }
-            _ => panic!()
-        }).filter(|&(_a, b)| b != 0)
+        })
+        .filter(|&(_a, b)| b != 0)
         .map(|(a, b)| 2 * a + b)
         .take_while(|&side| side <= limit)
         .sum::<u32>()

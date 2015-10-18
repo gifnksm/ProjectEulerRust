@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 extern crate seq;
 
@@ -20,7 +21,9 @@ fn compute(limit: u64) -> u64 {
         .unwrap()
 }
 
-fn solve() -> String { compute(500).to_string() }
+fn solve() -> String {
+    compute(500).to_string()
+}
 
 problem!("76576500", solve);
 

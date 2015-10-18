@@ -6,7 +6,8 @@
 
 #![feature(range_inclusive)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate num;
 
 use std::{cmp, iter};

@@ -7,7 +7,8 @@
 #![feature(iter_arith)]
 
 extern crate num;
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate seq;
 
 use num::Integer;
@@ -20,11 +21,15 @@ fn compute(bound: u32) -> u32 {
         .sum()
 }
 
-fn solve() -> String { compute(4000000).to_string() }
+fn solve() -> String {
+    compute(4000000).to_string()
+}
 problem!("4613732", solve);
 
 #[cfg(test)]
 mod tests {
     #[test]
-    fn sum_below_90() { assert_eq!(44, super::compute(90)); }
+    fn sum_below_90() {
+        assert_eq!(44, super::compute(90));
+    }
 }

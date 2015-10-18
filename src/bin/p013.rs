@@ -6,9 +6,10 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
-const INPUT: &'static str = "
+const INPUT: &'static str = r"
 37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538
 74324986199524741059474233309513058123726617309629
@@ -113,14 +114,16 @@ const INPUT: &'static str = "
 
 fn compute() -> String {
     INPUT.trim()
-        .lines()
-        .map(|line| &line[0 .. 12])
-        .filter_map(|s| s.parse::<u64>().ok())
-        .sum::<u64>()
-        .to_string()[0 .. 10]
+         .lines()
+         .map(|line| &line[0..12])
+         .filter_map(|s| s.parse::<u64>().ok())
+         .sum::<u64>()
+         .to_string()[0..10]
         .to_string()
 }
 
-fn solve() -> String { compute() }
+fn solve() -> String {
+    compute()
+}
 
 problem!("5537376230", solve);

@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 extern crate prime;
 
@@ -32,9 +33,9 @@ fn is_circular_prime(ps: &PrimeSet, n: u64) -> bool {
 fn compute(limit: u64) -> usize {
     let ps = PrimeSet::new();
     ps.iter()
-        .take_while(|&p| p < limit)
-        .filter(|&n| is_circular_prime(&ps, n))
-        .count()
+      .take_while(|&p| p < limit)
+      .filter(|&n| is_circular_prime(&ps, n))
+      .count()
 }
 
 fn solve() -> String {

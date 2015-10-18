@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use std::collections::BinaryHeap;
@@ -22,7 +23,9 @@ impl PartialEq for Multiple {
 impl Eq for Multiple {}
 
 impl PartialOrd for Multiple {
-    fn partial_cmp(&self, other: &Multiple) -> Option<Ordering> { Some(self.cmp(other)) }
+    fn partial_cmp(&self, other: &Multiple) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
 }
 impl Ord for Multiple {
     #[inline]
@@ -33,7 +36,7 @@ impl Ord for Multiple {
 
 struct Multiples {
     facts: Vec<u64>,
-    heap: BinaryHeap<Multiple>
+    heap: BinaryHeap<Multiple>,
 }
 
 impl Multiples {
@@ -41,7 +44,10 @@ impl Multiples {
     fn new(base: u64, facts: Vec<u64>) -> Multiples {
         let mut heap = BinaryHeap::new();
         heap.push(Multiple(base, 0));
-        Multiples { facts: facts, heap: heap }
+        Multiples {
+            facts: facts,
+            heap: heap,
+        }
     }
 }
 
@@ -77,7 +83,9 @@ impl PartialEq for RadValue {
 impl Eq for RadValue {}
 
 impl PartialOrd for RadValue {
-    fn partial_cmp(&self, other: &RadValue) -> Option<Ordering> { Some(self.cmp(other)) }
+    fn partial_cmp(&self, other: &RadValue) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
 impl Ord for RadValue {
@@ -89,7 +97,7 @@ impl Ord for RadValue {
 
 struct RadValues {
     ps: PrimeSet,
-    heap: BinaryHeap<RadValue>
+    heap: BinaryHeap<RadValue>,
 }
 
 impl RadValues {
@@ -97,7 +105,10 @@ impl RadValues {
     fn new() -> RadValues {
         let mut heap = BinaryHeap::new();
         heap.push(RadValue(1, vec![], 0));
-        RadValues { ps: PrimeSet::new(), heap: heap }
+        RadValues {
+            ps: PrimeSet::new(),
+            heap: heap,
+        }
     }
 }
 
@@ -220,8 +231,10 @@ mod tests {
     #[test]
     fn rad() {
         let mut it = RadValues::new()
-            .take_while(|&(n, _)| n <= 10)
-            .flat_map(|(base, facts)| Multiples::new(base, facts).take_while(|&n| n <= 10));
+                         .take_while(|&(n, _)| n <= 10)
+                         .flat_map(|(base, facts)| {
+                             Multiples::new(base, facts).take_while(|&n| n <= 10)
+                         });
 
         assert_eq!(Some(1), it.next());
         assert_eq!(Some(2), it.next());

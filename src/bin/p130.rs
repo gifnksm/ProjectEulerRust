@@ -6,7 +6,8 @@
 
 #![feature(iter_arith, step_by)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate num;
 extern crate prime;
 
@@ -14,7 +15,9 @@ use num::Integer;
 use prime::PrimeSet;
 
 fn a(n: u64) -> u64 {
-    if n == 1 { return 1 }
+    if n == 1 {
+        return 1;
+    }
 
     let mut x = 1;
     let mut k = 1;
@@ -29,7 +32,8 @@ fn a(n: u64) -> u64 {
 
 fn solve() -> String {
     let ps = PrimeSet::new();
-    (3..).step_by(2)
+    (3..)
+        .step_by(2)
         .filter(|&n| !n.is_multiple_of(&5))
         .filter(|&n| !ps.contains(n))
         .filter(|&n| (n - 1).is_multiple_of(&a(n)))
@@ -60,8 +64,7 @@ mod tests {
 
         pub fn a(n: u64) -> u64 {
             let n = FromPrimitive::from_u64(n).unwrap();
-            (1..).find(|&k| r(k).is_multiple_of(&n))
-                .unwrap()
+            (1..).find(|&k| r(k).is_multiple_of(&n)).unwrap()
         }
     }
 
@@ -81,7 +84,9 @@ mod tests {
     #[test]
     fn cmp_with_naive() {
         for n in (1..100).step_by(2) {
-            if n.is_multiple_of(&5) { continue; }
+            if n.is_multiple_of(&5) {
+                continue;
+            }
             assert_eq!(naive::a(n), super::a(n));
         }
     }
@@ -95,10 +100,11 @@ mod tests {
     #[test]
     fn first5() {
         let ps = PrimeSet::new();
-        let mut it = (3..).step_by(2)
-            .filter(|&n| !n.is_multiple_of(&5))
-            .filter(|&n| !ps.contains(n))
-            .filter(|&n| (n - 1).is_multiple_of(&super::a(n)));
+        let mut it = (3..)
+                         .step_by(2)
+                         .filter(|&n| !n.is_multiple_of(&5))
+                         .filter(|&n| !ps.contains(n))
+                         .filter(|&n| (n - 1).is_multiple_of(&super::a(n)));
 
         assert_eq!(Some(91), it.next());
         assert_eq!(Some(259), it.next());

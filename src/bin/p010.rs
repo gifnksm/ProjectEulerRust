@@ -6,7 +6,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use prime::PrimeSet;
@@ -14,11 +15,13 @@ use prime::PrimeSet;
 fn compute(limit: u64) -> u64 {
     let ps = PrimeSet::new();
     ps.iter()
-        .take_while(|&p| p < limit)
-        .sum()
+      .take_while(|&p| p < limit)
+      .sum()
 }
 
-fn solve() -> String { compute(2000000).to_string() }
+fn solve() -> String {
+    compute(2000000).to_string()
+}
 
 problem!("142913828922", solve);
 

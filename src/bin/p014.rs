@@ -6,7 +6,8 @@
 
 #![feature(iter_cmp)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate seq;
 
 use std::collections::HashMap;
@@ -14,7 +15,7 @@ use seq::Collatz;
 
 fn compute_len(map: &mut HashMap<u64, u64>, n: u64) -> u64 {
     if let Some(&x) = map.get(&n) {
-        return x
+        return x;
     }
 
     let mut it = Collatz::new(n);
@@ -28,11 +29,13 @@ fn compute(limit: u64) -> u64 {
     let mut map = HashMap::with_capacity(limit as usize);
     let _ = map.insert(1, 1);
 
-    (2 .. limit)
+    (2..limit)
         .max_by(|&n| compute_len(&mut map, n))
         .unwrap()
 }
 
-fn solve() -> String { compute(1000000).to_string() }
+fn solve() -> String {
+    compute(1000000).to_string()
+}
 
 problem!("837799", solve);

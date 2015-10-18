@@ -6,7 +6,8 @@
 
 #![feature(iter_cmp)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::{cmp, u32};
 use std::collections::HashSet;
@@ -19,10 +20,10 @@ fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
 
     for line in BufReader::new(reader).lines() {
         let row = try!(line)
-            .trim()
-            .split(',')
-            .filter_map(|s| s.parse::<u32>().ok())
-            .collect();
+                      .trim()
+                      .split(',')
+                      .filter_map(|s| s.parse::<u32>().ok())
+                      .collect();
         mat.push(row);
     }
 
@@ -30,60 +31,78 @@ fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
 }
 
 #[derive(Eq, PartialEq, Hash, Copy, Clone)]
-struct Point { x: usize, y: usize }
+struct Point {
+    x: usize,
+    y: usize,
+}
 
 fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
     let (w, h) = (mat[0].len(), mat.len());
 
-    let start = Point { x: 0,     y: 0 };
-    let goal  = Point { x: w - 1, y: h - 1 };
+    let start = Point { x: 0, y: 0 };
+    let goal = Point {
+        x: w - 1,
+        y: h - 1,
+    };
 
     let mut closed = HashSet::new();
-    let mut open   = HashSet::new();
-    let mut dist   = vec![vec![u32::MAX; w]; h];
+    let mut open = HashSet::new();
+    let mut dist = vec![vec![u32::MAX; w]; h];
     let mut parent = vec![vec![Point { x: w, y: h }; w]; h];
 
     dist[start.y][start.x] = mat[start.y][start.x];
     open.insert(start);
 
     loop {
-        if open.is_empty() { panic!(); }
+        if open.is_empty() {
+            panic!();
+        }
 
         let &min_pt = open.iter()
-            .min_by(|&pt| {
-                dist[pt.y][pt.x] + ((h - pt.y - 1) + (w - pt.x - 1)) as u32
-            })
-            .unwrap();
+                          .min_by(|&pt| {
+                              dist[pt.y][pt.x] + ((h - pt.y - 1) + (w - pt.x - 1)) as u32
+                          })
+                          .unwrap();
 
-        if min_pt == goal { break }
+        if min_pt == goal {
+            break;
+        }
         open.remove(&min_pt);
         closed.insert(min_pt);
 
         let mut ms = Vec::new();
-        if min_pt.x > 0 { ms.push(Point { x: min_pt.x - 1, .. min_pt }) }
-        if min_pt.y > 0 { ms.push(Point { y: min_pt.y - 1, .. min_pt }) }
-        if min_pt.x < w - 1 { ms.push(Point { x: min_pt.x + 1, .. min_pt }) }
-        if min_pt.y < h - 1 { ms.push(Point { y: min_pt.y + 1, .. min_pt }) }
+        if min_pt.x > 0 {
+            ms.push(Point { x: min_pt.x - 1, ..min_pt })
+        }
+        if min_pt.y > 0 {
+            ms.push(Point { y: min_pt.y - 1, ..min_pt })
+        }
+        if min_pt.x < w - 1 {
+            ms.push(Point { x: min_pt.x + 1, ..min_pt })
+        }
+        if min_pt.y < h - 1 {
+            ms.push(Point { y: min_pt.y + 1, ..min_pt })
+        }
 
         for &pt in &ms {
             let new_dist = dist[min_pt.y][min_pt.x] + mat[pt.y][pt.x];
             if open.contains(&pt) {
                 if new_dist < dist[pt.y][pt.x] {
-                    dist[pt.y][pt.x]   = new_dist;
+                    dist[pt.y][pt.x] = new_dist;
                     parent[pt.y][pt.x] = min_pt;
                 }
-                continue
+                continue;
             }
             if closed.contains(&pt) {
                 if new_dist < dist[pt.y][pt.x] {
                     closed.remove(&pt);
-                    dist[pt.y][pt.x]   = cmp::min(dist[pt.y][pt.x], new_dist);
+                    dist[pt.y][pt.x] = cmp::min(dist[pt.y][pt.x], new_dist);
                     parent[pt.y][pt.x] = min_pt;
                     open.insert(pt);
                 }
-                continue
+                continue;
             }
-            dist[pt.y][pt.x]   = cmp::min(dist[pt.y][pt.x], new_dist);
+            dist[pt.y][pt.x] = cmp::min(dist[pt.y][pt.x], new_dist);
             parent[pt.y][pt.x] = min_pt;
             open.insert(pt);
         }
@@ -103,13 +122,11 @@ problem!("425185", "p083_matrix.txt", solve);
 mod tests {
     #[test]
     fn five_by_five() {
-        let mat = vec![
-            vec![131, 673, 234, 103,  18],
-            vec![201,  96, 342, 965, 150],
-            vec![630, 803, 746, 422, 111],
-            vec![537, 699, 497, 121, 956],
-            vec![805, 732, 524,  37, 331]
-        ];
+        let mat = vec![vec![131, 673, 234, 103, 18],
+                       vec![201, 96, 342, 965, 150],
+                       vec![630, 803, 746, 422, 111],
+                       vec![537, 699, 497, 121, 956],
+                       vec![805, 732, 524, 37, 331]];
         assert_eq!(2297, super::minimal_path_sum(mat));
     }
 }

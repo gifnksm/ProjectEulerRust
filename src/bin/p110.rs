@@ -4,14 +4,15 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 use prime::PrimeSet;
 
-struct Elem (u64, Vec<u64>);
+struct Elem(u64, Vec<u64>);
 
 impl PartialEq for Elem {
     fn eq(&self, other: &Elem) -> bool {
@@ -20,7 +21,9 @@ impl PartialEq for Elem {
 }
 impl Eq for Elem {}
 impl PartialOrd for Elem {
-    fn partial_cmp(&self, other: &Elem) -> Option<Ordering> { Some(self.cmp(other)) }
+    fn partial_cmp(&self, other: &Elem) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
 }
 impl Ord for Elem {
     fn cmp(&self, other: &Elem) -> Ordering {
@@ -37,7 +40,7 @@ fn compute(limit: u64) -> u64 {
         let Elem(n, mut pairs) = heap.pop().unwrap();
         let num_sol = (pairs.iter().fold(1, |n, &i| n * (2 * i + 1)) + 1) / 2;
         if num_sol > limit {
-            return n
+            return n;
         }
 
         if pairs.len() == 1 || pairs[pairs.len() - 1] < pairs[pairs.len() - 2] {

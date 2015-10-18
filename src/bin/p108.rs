@@ -6,7 +6,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use prime::{Factorize, PrimeSet};
@@ -22,8 +23,8 @@ use prime::{Factorize, PrimeSet};
 
 fn num_pairs(ps: &PrimeSet, n: u64) -> u64 {
     let prod = n.factorize(ps)
-        .map(|(_base, exp)| 2 * (exp as u64) + 1)
-        .product::<u64>();
+                .map(|(_base, exp)| 2 * (exp as u64) + 1)
+                .product::<u64>();
     (prod - 1) / 2 + 1
 }
 

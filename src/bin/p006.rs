@@ -4,18 +4,27 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
-fn sum_of_square(n: u32) -> u32 { n * (n + 1) * (2 * n + 1) / 6 }
-fn sum_of_seq(n: u32) -> u32 { n * (n + 1) / 2 }
+fn sum_of_square(n: u32) -> u32 {
+    n * (n + 1) * (2 * n + 1) / 6
+}
+fn sum_of_seq(n: u32) -> u32 {
+    n * (n + 1) / 2
+}
 fn square_of_sum(n: u32) -> u32 {
     let s = sum_of_seq(n);
     s * s
 }
 
-fn compute(n: u32) -> u32 { square_of_sum(n) - sum_of_square(n) }
+fn compute(n: u32) -> u32 {
+    square_of_sum(n) - sum_of_square(n)
+}
 
-fn solve() -> String { compute(100).to_string() }
+fn solve() -> String {
+    compute(100).to_string()
+}
 
 problem!("25164150", solve);
 
@@ -23,6 +32,6 @@ problem!("25164150", solve);
 mod tests {
     #[test]
     fn sofs_ten() {
-        assert_eq!(2640 , super::compute(10));
+        assert_eq!(2640, super::compute(10));
     }
 }

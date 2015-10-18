@@ -24,7 +24,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 extern crate prime;
 
@@ -32,7 +33,8 @@ use integer::Integer;
 use prime::PrimeSet;
 
 pub fn solve() -> String {
-    PrimeSet::new().iter()
+    PrimeSet::new()
+        .iter()
         .filter(|&p| 10.mod_pow(&10u64.pow(9), &(9 * p)) == 1)
         .take(40)
         .sum::<u64>()

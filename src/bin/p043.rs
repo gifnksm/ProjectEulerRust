@@ -6,7 +6,8 @@
 
 #![feature(iter_arith, range_inclusive)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 
 use std::iter;
@@ -16,17 +17,17 @@ const RADIX: u32 = 10;
 
 #[derive(Copy, Clone)]
 struct Pandigimal {
-    used: [ bool; RADIX as usize ],
-    num:  [ u32; RADIX as usize ],
-    len:  usize
+    used: [bool; RADIX as usize],
+    num: [u32; RADIX as usize],
+    len: usize,
 }
 
 impl Pandigimal {
     fn new() -> Pandigimal {
         Pandigimal {
-            used: [ false; RADIX as usize ],
-            num:  [ 0; RADIX as usize ],
-            len:  0
+            used: [false; RADIX as usize],
+            num: [0; RADIX as usize],
+            len: 0,
         }
     }
 
@@ -44,11 +45,15 @@ impl Pandigimal {
         self.used[n as usize]
     }
 
-    fn num<'a>(&'a self) -> &'a [u32] { &self.num[.. self.len] }
+    fn num<'a>(&'a self) -> &'a [u32] {
+        &self.num[..self.len]
+    }
 
     fn join(&self, d: u32) -> Option<Pandigimal> {
         assert!(d < RADIX);
-        if self.is_used(d) { return None }
+        if self.is_used(d) {
+            return None;
+        }
 
         let mut new_pd = *self;
         new_pd.used[d as usize] = true;
@@ -61,8 +66,8 @@ impl Pandigimal {
         let mut pd = *self;
         for d in ds {
             match pd.join(d) {
-                None    => return None,
-                Some(x) => pd = x
+                None => return None,
+                Some(x) => pd = x,
             }
         }
         Some(pd)
@@ -84,12 +89,12 @@ fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: usize) -> Vec<P
     let mut result = vec![];
     for pd in &list {
         let num = pd.num();
-        let ds = &num[num.len() - (len - 1) ..];
+        let ds = &num[num.len() - (len - 1)..];
         let lower = Integer::from_digits(ds.iter().map(|&x| x as u64), RADIX as u64);
-        let it = (0 .. RADIX)
-            .filter(|&d| !pd.is_used(d))
-            .filter(|&d| ((d as u64) * ord + lower) % base == 0)
-            .map(|d| pd.join(d).unwrap());
+        let it = (0..RADIX)
+                     .filter(|&d| !pd.is_used(d))
+                     .filter(|&d| ((d as u64) * ord + lower) % base == 0)
+                     .map(|d| pd.join(d).unwrap());
         result.extend(it);
     }
     result
@@ -101,11 +106,10 @@ fn solve() -> String {
         result = update_pandigimal_list(result, base, 3);
     }
 
-    result
-        .iter()
-        .map(|pd| pd.to_u64())
-        .sum::<u64>()
-        .to_string()
+    result.iter()
+          .map(|pd| pd.to_u64())
+          .sum::<u64>()
+          .to_string()
 }
 
 problem!("16695334890", solve);

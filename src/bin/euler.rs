@@ -34,7 +34,7 @@ enum ProgramError {
     IoError(io::Error),
     JsonParserError(json::ParserError),
     JsonDecoderError(json::DecoderError),
-    Unknown(Cow<'static, str>)
+    Unknown(Cow<'static, str>),
 }
 
 impl ProgramError {
@@ -65,7 +65,7 @@ fn problem_paths(dir_path: &Path) -> ProgramResult<Paths> {
     let pat = dir_path.join(PROBLEM_EXE_PAT);
     match pat.to_str() {
         Some(x) => Ok(glob::glob(x).unwrap()),
-        None    => Err(ProgramError::unknown("path contains non-utf8 character"))
+        None => Err(ProgramError::unknown("path contains non-utf8 character")),
     }
 }
 
@@ -74,18 +74,19 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
 
     if !proc_out.stderr.is_empty() {
         let _ = match str::from_utf8(&proc_out.stderr) {
-            Ok(s)  => writeln!(&mut io::stderr(), "{}", s.trim()),
-            Err(e) => writeln!(&mut io::stderr(), "{:?}: {}", proc_out.stderr, e)
+            Ok(s) => writeln!(&mut io::stderr(), "{}", s.trim()),
+            Err(e) => writeln!(&mut io::stderr(), "{:?}: {}", proc_out.stderr, e),
         };
     }
 
     match proc_out.status.code() {
         Some(0) | Some(1) => {} // expected
         Some(st) => {
-            return Err(ProgramError::unknown(format!("child process exit with {}", st)))
+            return Err(ProgramError::unknown(format!("child process exit with {}", st)));
         }
         None => {
-            return Err(ProgramError::unknown(format!("child process exit with siglan {}", proc_out.status.signal().unwrap())))
+            return Err(ProgramError::unknown(format!("child process exit with siglan {}",
+                                                     proc_out.status.signal().unwrap())));
         }
     }
 
@@ -110,7 +111,7 @@ fn run() -> ProgramResult<bool> {
 
         match run_problem(&path) {
             Ok(ref r) => {
-                num_prob   += 1;
+                num_prob += 1;
                 total_time += r.time;
                 is_ok &= r.is_ok;
                 let _ = r.print_pretty(&program, true);
@@ -126,14 +127,14 @@ fn run() -> ProgramResult<bool> {
         let r = SolverResult {
             time: total_time / num_prob,
             answer: "".to_string(),
-            is_ok: is_ok
+            is_ok: is_ok,
         };
         let _ = r.print_pretty(" AVG", true);
 
         let r = SolverResult {
             time: total_time,
             answer: "".to_string(),
-            is_ok: is_ok
+            is_ok: is_ok,
         };
         let _ = r.print_pretty(" SUM", false);
     }

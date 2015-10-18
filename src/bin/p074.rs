@@ -4,15 +4,22 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::collections::HashMap;
 
 #[derive(Clone)]
-enum Length { Loop(usize), Chain(usize), Unknown }
+enum Length {
+    Loop(usize),
+    Chain(usize),
+    Unknown,
+}
 
 fn fact_sum(mut n: u32, fs: &[u32; 10]) -> u32 {
-    if n == 0 { return 1; }
+    if n == 0 {
+        return 1;
+    }
 
     let mut sum = 0;
     while n > 0 {
@@ -22,20 +29,26 @@ fn fact_sum(mut n: u32, fs: &[u32; 10]) -> u32 {
     sum
 }
 
-fn get_chain_len(n: u32, map: &mut[Length], fs: &[u32; 10]) -> usize {
+fn get_chain_len(n: u32, map: &mut [Length], fs: &[u32; 10]) -> usize {
     let mut chain_map = HashMap::new();
     let mut idx = n;
     let mut chain_len = 0;
-    let mut loop_len  = 0;
+    let mut loop_len = 0;
 
     loop {
         match map[idx as usize] {
-            Length::Loop(c)  => { loop_len += c;  break; }
-            Length::Chain(c) => { chain_len += c; break; }
-            Length::Unknown  => {
+            Length::Loop(c) => {
+                loop_len += c;
+                break;
+            }
+            Length::Chain(c) => {
+                chain_len += c;
+                break;
+            }
+            Length::Unknown => {
                 match chain_map.get(&idx) {
                     Some(&chain_idx) => {
-                        loop_len  = chain_len - chain_idx;
+                        loop_len = chain_len - chain_idx;
                         chain_len = chain_idx;
                         break;
                     }
@@ -74,7 +87,9 @@ fn solve() -> String {
     let mut cnt = 0;
     for n in 1..(limit + 1) {
         let len = get_chain_len(n, &mut map, &factorial);
-        if len == 60 { cnt += 1; }
+        if len == 60 {
+            cnt += 1;
+        }
     }
 
     cnt.to_string()
@@ -95,7 +110,9 @@ mod tests {
             }
             val
         };
-        let mut map = iter::repeat(super::Length::Unknown).take((factorial[9] * 6 + 1) as usize).collect::<Vec<_>>();
+        let mut map = iter::repeat(super::Length::Unknown)
+                          .take((factorial[9] * 6 + 1) as usize)
+                          .collect::<Vec<_>>();
 
         assert_eq!(3, super::get_chain_len(169, &mut map, &factorial));
         assert_eq!(2, super::get_chain_len(871, &mut map, &factorial));

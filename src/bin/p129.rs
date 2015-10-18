@@ -6,13 +6,16 @@
 
 #![feature(step_by)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate num;
 
 use num::Integer;
 
 fn a(n: u64) -> u64 {
-    if n == 1 { return 1 }
+    if n == 1 {
+        return 1;
+    }
 
     let mut x = 1;
     let mut k = 1;
@@ -28,7 +31,8 @@ fn a(n: u64) -> u64 {
 fn solve() -> String {
     let limit = 1000001;
 
-    (limit..).step_by(2)
+    (limit..)
+        .step_by(2)
         .filter(|&n| !n.is_multiple_of(&5))
         .find(|&n| a(n) >= limit)
         .unwrap()
@@ -56,8 +60,7 @@ mod tests {
 
         pub fn a(n: u64) -> u64 {
             let n = FromPrimitive::from_u64(n).unwrap();
-            (1..).find(|&k| r(k).is_multiple_of(&n))
-                .unwrap()
+            (1..).find(|&k| r(k).is_multiple_of(&n)).unwrap()
         }
     }
 
@@ -77,7 +80,9 @@ mod tests {
     #[test]
     fn cmp_with_naive() {
         for n in (1..100).step_by(2) {
-            if n.is_multiple_of(&5) { continue; }
+            if n.is_multiple_of(&5) {
+                continue;
+            }
             assert_eq!(naive::a(n), super::a(n));
         }
     }

@@ -4,15 +4,16 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 
 use integer::Integer;
 
 fn compute() -> u32 {
-    let radix  = 10;
+    let radix = 10;
     let repeat = 6;
-    let mut n     = 0;
+    let mut n = 0;
     let mut order = 1;
     let mut limit = (order - 1) / repeat;
 
@@ -28,20 +29,32 @@ fn compute() -> u32 {
         let ds = n.into_digit_histogram();
 
         // n * 5 must contains 0 or 5.
-        if ds[0] == 0 && ds[5] == 0 { continue }
+        if ds[0] == 0 && ds[5] == 0 {
+            continue;
+        }
 
         // n * 2, n * 4 must contains some evens.
         if ds[0] == 0 && ds[2] == 0 && ds[4] == 0 && ds[6] == 0 && ds[8] == 0 {
-            continue
+            continue;
         }
 
-        if ds != (n * 2).into_digit_histogram() { continue }
-        if ds != (n * 3).into_digit_histogram() { continue }
-        if ds != (n * 4).into_digit_histogram() { continue }
-        if ds != (n * 5).into_digit_histogram() { continue }
-        if ds != (n * 6).into_digit_histogram() { continue }
+        if ds != (n * 2).into_digit_histogram() {
+            continue;
+        }
+        if ds != (n * 3).into_digit_histogram() {
+            continue;
+        }
+        if ds != (n * 4).into_digit_histogram() {
+            continue;
+        }
+        if ds != (n * 5).into_digit_histogram() {
+            continue;
+        }
+        if ds != (n * 6).into_digit_histogram() {
+            continue;
+        }
 
-        return n
+        return n;
     }
 }
 

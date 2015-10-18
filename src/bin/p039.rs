@@ -6,7 +6,8 @@
 
 #![feature(iter_cmp)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 extern crate seq;
 

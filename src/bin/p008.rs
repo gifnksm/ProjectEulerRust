@@ -4,9 +4,10 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
-const INPUT: &'static str = "
+const INPUT: &'static str = r"
 73167176531330624919225119674426574742355349194934
 96983520312774506326239578318016984801869478851843
 85861560789112949495459501737958331952853208805511
@@ -31,16 +32,18 @@ const INPUT: &'static str = "
 
 fn compute(prod_len: usize) -> u64 {
     INPUT.chars()
-        .filter_map(|c| c.to_digit(10))
-        .map(|n| n as u64)
-        .collect::<Vec<_>>()
-        .windows(prod_len)
-        .map(|win| win.iter().fold(1u64, |p, &n| p * n))
-        .max()
-        .unwrap()
+         .filter_map(|c| c.to_digit(10))
+         .map(|n| n as u64)
+         .collect::<Vec<_>>()
+         .windows(prod_len)
+         .map(|win| win.iter().fold(1u64, |p, &n| p * n))
+         .max()
+         .unwrap()
 }
 
-fn solve() -> String { compute(13).to_string() }
+fn solve() -> String {
+    compute(13).to_string()
+}
 
 problem!("23514624000", solve);
 
@@ -48,6 +51,6 @@ problem!("23514624000", solve);
 mod tests {
     #[test]
     fn four_seq() {
-        assert_eq!(5832 , super::compute(4));
+        assert_eq!(5832, super::compute(4));
     }
 }

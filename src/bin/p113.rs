@@ -6,11 +6,14 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 fn num_increasing(len: usize) -> u64 {
     let mut buf = vec![[0; 10]; len];
-    for b in &mut buf[0] { *b = 1; }
+    for b in &mut buf[0] {
+        *b = 1;
+    }
 
     for i in 1..len {
         let mut s = 0;
@@ -21,16 +24,18 @@ fn num_increasing(len: usize) -> u64 {
     }
 
     let sum: u64 = (0..buf[len - 1].len())
-        .map(|d| buf[len - 1][d])
-        .sum();
+                       .map(|d| buf[len - 1][d])
+                       .sum();
     sum - 1 // all zero
 }
 
 fn num_decreasing(len: usize) -> u64 {
     let mut buf = vec![[0; 11]; len];
-    for b in &mut buf[0] { *b = 1; }
+    for b in &mut buf[0] {
+        *b = 1;
+    }
 
-    for i in 1 .. len {
+    for i in 1..len {
         let mut s = 0;
         for d in 0..buf[i].len() {
             s += buf[i - 1][d];
@@ -39,11 +44,10 @@ fn num_decreasing(len: usize) -> u64 {
     }
 
     let sum: u64 = (0..buf[len - 1].len())
-        .map(|d| buf[len - 1][d])
-        .sum();
+                       .map(|d| buf[len - 1][d])
+                       .sum();
 
-    sum - (len as u64) // A のみからなるものを取り除く
-        - 1            // all zero
+    sum - (len as u64) - 1            // all zero
 }
 
 fn num_nonbouncy(len: usize) -> u64 {
@@ -64,7 +68,7 @@ problem!("51161058134250", solve);
 mod tests {
     #[test]
     fn test_nonbouncy() {
-        assert_eq!(12951,  super::num_nonbouncy(6));
+        assert_eq!(12951, super::num_nonbouncy(6));
         assert_eq!(277032, super::num_nonbouncy(10));
     }
 }

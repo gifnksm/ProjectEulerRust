@@ -88,7 +88,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate num;
 extern crate prime;
 
@@ -109,12 +110,14 @@ fn solve() -> String {
     let mut sum = 0;
     let ps = PrimeSet::new();
     let pairs = ps.iter()
-        .zip(ps.iter().skip(1))
-        .skip_while(|&(p1, _p2)| p1 < min_limit)
-        .take_while(|&(p1, _p2)| p1 <= max_limit);
+                  .zip(ps.iter().skip(1))
+                  .skip_while(|&(p1, _p2)| p1 < min_limit)
+                  .take_while(|&(p1, _p2)| p1 <= max_limit);
 
     for (p1, p2) in pairs {
-        if p1 == 3 { continue }
+        if p1 == 3 {
+            continue;
+        }
         let xmap = &mod_map[(p2 % 10) as usize];
         let mut a;
         let mut b = 0;

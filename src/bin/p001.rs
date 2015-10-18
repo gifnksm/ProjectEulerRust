@@ -6,10 +6,11 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 fn compute(bound: u32) -> u32 {
-    (1 .. bound)
+    (1..bound)
         .filter(|&n| n % 3 == 0 || n % 5 == 0)
         .sum()
 }
@@ -23,5 +24,7 @@ problem!("233168", solve);
 #[cfg(test)]
 mod tests {
     #[test]
-    fn sum_below_ten() { assert_eq!(23, super::compute(10)); }
+    fn sum_below_ten() {
+        assert_eq!(23, super::compute(10));
+    }
 }

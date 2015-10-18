@@ -6,29 +6,36 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use std::cmp::Ordering;
 use prime::PrimeSet;
 
 fn get_longer(ps: &[u64], p: u64, min_len: usize) -> Option<usize> {
-    let max_avg = if min_len == 0 { p } else { p / (min_len as u64) };
+    let max_avg = if min_len == 0 {
+        p
+    } else {
+        p / (min_len as u64)
+    };
 
     let mut start = 0;
-    let mut end   = min_len;
-    let mut sum   = ps.iter().take(min_len).sum::<u64>();
+    let mut end = min_len;
+    let mut sum = ps.iter().take(min_len).sum::<u64>();
 
     loop {
         let len = end - start;
-        if sum > max_avg * (len as u64) { return None; }
+        if sum > max_avg * (len as u64) {
+            return None;
+        }
 
         match sum.cmp(&p) {
             Ordering::Equal => {
                 if len <= min_len {
-                    return None
+                    return None;
                 }
-                return Some(len)
+                return Some(len);
             }
             Ordering::Less => {
                 sum += ps[end];
@@ -44,9 +51,9 @@ fn get_longer(ps: &[u64], p: u64, min_len: usize) -> Option<usize> {
 
 fn compute(limit: u64) -> (u64, usize) {
     let ps = PrimeSet::new()
-        .iter()
-        .take_while(|&p| p <= limit)
-        .collect::<Vec<_>>();
+                 .iter()
+                 .take_while(|&p| p <= limit)
+                 .collect::<Vec<_>>();
 
     let mut len = 0;
     let mut num = 0;
@@ -67,6 +74,12 @@ problem!("997651", solve);
 
 #[cfg(test)]
 mod tests {
-    #[test] fn hundred() { assert_eq!((41, 6), super::compute(100)) }
-    #[test] fn thounsand() { assert_eq!((953, 21), super::compute(1000)) }
+    #[test]
+    fn hundred() {
+        assert_eq!((41, 6), super::compute(100))
+    }
+    #[test]
+    fn thounsand() {
+        assert_eq!((953, 21), super::compute(1000))
+    }
 }

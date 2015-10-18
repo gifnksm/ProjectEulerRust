@@ -87,7 +87,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use prime::PrimeSet;
@@ -95,9 +96,10 @@ use prime::PrimeSet;
 fn compute(limit: u64) -> usize {
     let ps = PrimeSet::new();
 
-    (1..).map(|q| 3*q*q + 3*q + 1)
+    (1..)
+        .map(|q| 3 * q * q + 3 * q + 1)
         .take_while(|&p| p <= limit)
-        .filter(|&p| ps.contains(p) )
+        .filter(|&p| ps.contains(p))
         .count()
 }
 

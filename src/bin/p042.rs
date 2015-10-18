@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate seq;
 
 use std::fs::File;
@@ -25,9 +26,7 @@ fn solve(file: File) -> io::Result<String> {
 
     for bytes in BufReader::new(file).split(b',') {
         let word_str = String::from_utf8(try!(bytes)).unwrap();
-        let word = word_str
-            .trim_right_matches(',')
-            .trim_matches('\"');
+        let word = word_str.trim_right_matches(',').trim_matches('\"');
         values.push(word_to_value(word));
     }
 

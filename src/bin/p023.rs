@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use prime::{Factorize, PrimeSet};
@@ -12,9 +13,9 @@ use prime::{Factorize, PrimeSet};
 fn compute(max: u64) -> u64 {
     let ps = PrimeSet::new();
 
-    let abundant = (2 .. max + 1)
-        .filter(|&n| n.sum_of_proper_divisor(&ps) > n)
-        .collect::<Vec<_>>();
+    let abundant = (2..max + 1)
+                       .filter(|&n| n.sum_of_proper_divisor(&ps) > n)
+                       .collect::<Vec<_>>();
 
     let mut sum_of_sum_abundant = 0;
 
@@ -23,7 +24,9 @@ fn compute(max: u64) -> u64 {
     for (i, &a) in abundant.iter().enumerate() {
         for &b in &abundant[i..] {
             let s = a + b;
-            if s > max { break; }
+            if s > max {
+                break;
+            }
             if !is_sum_abundant[s as usize] {
                 sum_of_sum_abundant += s;
                 is_sum_abundant[s as usize] = true;

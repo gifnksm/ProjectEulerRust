@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 fn triangle(i: u32) -> u32 {
     let n = i + 1;
@@ -34,23 +35,31 @@ fn compute(start: u32) -> u32 {
             t_i += 1;
             t = triangle(t_i);
         }
-        if t > n { n = t; }
+        if t > n {
+            n = t;
+        }
 
         let mut p = pentagonal(p_i);
         while p < n {
             p_i += 1;
             p = pentagonal(p_i);
         }
-        if p > n { n = p; continue }
+        if p > n {
+            n = p;
+            continue;
+        }
 
         let mut h = hexagonal(h_i);
         while h < n {
             h_i += 1;
             h = hexagonal(h_i);
         }
-        if h > n { n = h; continue }
+        if h > n {
+            n = h;
+            continue;
+        }
 
-        break
+        break;
     }
 
     triangle(t_i)

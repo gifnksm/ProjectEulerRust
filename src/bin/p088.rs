@@ -6,7 +6,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 
 use std::u32;
@@ -17,16 +18,20 @@ fn each_sum_product<F>(prod_start: u32, prod_end: u32, f: &mut F)
 {
     sub(2, prod_start, prod_end, 0, 1, 0, f);
 
-    fn sub<F>(min_n: u32, prod_start: u32, prod_end: u32,
-           sum_base: u32, prod_base: u32, len_base: usize,
-           f: &mut F)
+    fn sub<F>(min_n: u32,
+              prod_start: u32,
+              prod_end: u32,
+              sum_base: u32,
+              prod_base: u32,
+              len_base: usize,
+              f: &mut F)
         where F: FnMut(u32, u32, usize)
     {
 
         for n in min_n..prod_end.div_ceil(&prod_base) {
             let prod = prod_base * n;
-            let sum  = sum_base  + n;
-            let len  = len_base  + 1;
+            let sum = sum_base + n;
+            let len = len_base + 1;
             if len > 1 && prod >= prod_start {
                 (*f)(sum, prod, len)
             }
@@ -39,25 +44,31 @@ fn each_sum_product<F>(prod_start: u32, prod_end: u32, f: &mut F)
 fn each_product_sum_number<F>(start: u32, end: u32, f: &mut F)
     where F: FnMut(u32, usize)
 {
-    each_sum_product(start, end, &mut |sum, prod, len| {
-        let len = (prod - sum) as usize + len;
-        (*f)(prod, len)
-    })
+    each_sum_product(start,
+                     end,
+                     &mut |sum, prod, len| {
+                         let len = (prod - sum) as usize + len;
+                         (*f)(prod, len)
+                     })
 }
 
 fn compute(limit: usize) -> u32 {
     let mut start = 2;
-    let mut cnt   = limit - 1;
-    let mut nums  = vec![u32::MAX; limit + 1];
+    let mut cnt = limit - 1;
+    let mut nums = vec![u32::MAX; limit + 1];
 
     while cnt > 0 {
         let end = start * 2;
-        each_product_sum_number(start, end, &mut |n, len| {
-            if len <= limit && n < nums[len] {
-                if nums[len] == u32::MAX { cnt -= 1; }
-                nums[len] = n;
-            }
-        });
+        each_product_sum_number(start,
+                                end,
+                                &mut |n, len| {
+                                    if len <= limit && n < nums[len] {
+                                        if nums[len] == u32::MAX {
+                                            cnt -= 1;
+                                        }
+                                        nums[len] = n;
+                                    }
+                                });
         start *= 2;
     }
 
@@ -85,7 +96,8 @@ mod tests {
 
         let mut triples = vec![];
         super::each_sum_product(2, 10, &mut |sum, prod, len| triples.push((sum, prod, len)));
-        assert_eq!(triples, vec![(4, 4, 2), (6, 8, 3), (5, 6, 2), (6, 8, 2), (6, 9, 2)]);
+        assert_eq!(triples,
+                   vec![(4, 4, 2), (6, 8, 3), (5, 6, 2), (6, 8, 2), (6, 9, 2)]);
 
         let mut triples = vec![];
         super::each_sum_product(5, 10, &mut |sum, prod, len| triples.push((sum, prod, len)));

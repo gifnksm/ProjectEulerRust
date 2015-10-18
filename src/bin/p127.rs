@@ -6,7 +6,8 @@
 
 #![feature(step_by)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::cmp::Ordering;
 
@@ -32,11 +33,13 @@ struct Rad(u64, u64, Vec<u64>); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: u64) -> Vec<Rad> {
     let mut rad_vec = (0..n_limit)
-        .map(|i| (1, i, Vec::new()))
-        .collect::<Vec<_>>();
+                          .map(|i| (1, i, Vec::new()))
+                          .collect::<Vec<_>>();
 
     for p in 2..(rad_vec.len() as u64) {
-        if rad_vec[p as usize].0 != 1 { continue }
+        if rad_vec[p as usize].0 != 1 {
+            continue;
+        }
 
         for kp in (p..).step_by(p).take_while(|&kp| kp < n_limit) {
             rad_vec[kp as usize].0 *= p;
@@ -52,11 +55,13 @@ fn rad_has_union(a: &[u64], b: &[u64]) -> bool {
     let mut i_b = 0;
 
     loop {
-        if i_a >= a.len() || i_b >= b.len() { return false }
+        if i_a >= a.len() || i_b >= b.len() {
+            return false;
+        }
         match a[i_a].cmp(&b[i_b]) {
-            Ordering::Equal   => return true,
-            Ordering::Less    => i_a += 1,
-            Ordering::Greater => i_b += 1
+            Ordering::Equal => return true,
+            Ordering::Less => i_a += 1,
+            Ordering::Greater => i_b += 1,
         }
     }
 }
@@ -70,15 +75,23 @@ fn abc_hits_c_sum(c_limit: u64) -> u64 {
 
     for c in 3..c_limit {
         let Rad(rad_c, _, ref c_facts) = rad_vec[c as usize];
-        if rad_c == c { continue } // if rad(c) == c, rad(ab) must be 1. this doesn't satisfy condition 2.
+        if rad_c == c {
+            continue;
+        } // if rad(c) == c, rad(ab) must be 1. this doesn't satisfy condition 2.
 
         for &Rad(rad_a, a, ref a_facts) in &sorted_rad_vec {
-            if rad_a >= c / rad_c { break }
-            if a >= (c + 1) / 2 { continue }
+            if rad_a >= c / rad_c {
+                break;
+            }
+            if a >= (c + 1) / 2 {
+                continue;
+            }
 
             let Rad(rad_b, _, _) = rad_vec[(c - a) as usize];
             let rad_abc = rad_a * rad_b * rad_c;
-            if rad_abc >= c || (a != 1 && rad_has_union(&c_facts, &a_facts)) { continue }
+            if rad_abc >= c || (a != 1 && rad_has_union(&c_facts, &a_facts)) {
+                continue;
+            }
             c_sum += c;
         }
     }
@@ -98,9 +111,16 @@ mod tests {
 
     #[test]
     fn create_rad_vec() {
-        let rad_vec = vec![
-            Rad(1, 0, vec![]), Rad(1, 1, vec![]), Rad(2, 2, vec![2]), Rad(3, 3, vec![3]), Rad(2, 4, vec![2]), Rad(5, 5, vec![5]),
-            Rad(6, 6, vec![2, 3]), Rad(7, 7, vec![7]), Rad(2, 8, vec![2]), Rad(3, 9, vec![3])];
+        let rad_vec = vec![Rad(1, 0, vec![]),
+                           Rad(1, 1, vec![]),
+                           Rad(2, 2, vec![2]),
+                           Rad(3, 3, vec![3]),
+                           Rad(2, 4, vec![2]),
+                           Rad(5, 5, vec![5]),
+                           Rad(6, 6, vec![2, 3]),
+                           Rad(7, 7, vec![7]),
+                           Rad(2, 8, vec![2]),
+                           Rad(3, 9, vec![3])];
         assert_eq!(rad_vec, super::create_rad_vec(10))
     }
 

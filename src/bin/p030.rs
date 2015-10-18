@@ -6,7 +6,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate iter;
 extern crate integer;
 
@@ -20,7 +21,7 @@ use integer::Integer;
 // 9999999 => 9^5 * 7 = 413343
 
 fn compute(len: usize, pow: u32) -> u32 {
-    let pows = (0u32 .. 10).map(|i| i.pow(pow)).collect::<Vec<_>>();
+    let pows = (0u32..10).map(|i| i.pow(pow)).collect::<Vec<_>>();
     let digits = &[0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     let mut sum = 0;
@@ -30,9 +31,7 @@ fn compute(len: usize, pow: u32) -> u32 {
         ds.sort_by(|a, b| a.cmp(b));
 
         let zero_len = len - ds.len();
-        if comb[zero_len ..] == ds[..] &&
-            comb[.. zero_len].iter().all(|&x| x == 0)
-        {
+        if comb[zero_len..] == ds[..] && comb[..zero_len].iter().all(|&x| x == 0) {
             sum += num
         }
     }

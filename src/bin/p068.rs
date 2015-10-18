@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 fn solve() -> String {
     // solve by hand...
@@ -27,4 +28,3 @@ fn solve() -> String {
 }
 
 problem!("6531031914842725", solve);
-

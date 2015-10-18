@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate num;
 extern crate prime;
 
@@ -29,7 +30,8 @@ fn get_mod(n: u64, pn: u64) -> u64 {
 
 fn compute(limit: u64) -> u64 {
     let ps = PrimeSet::new();
-    (1..).zip(ps.iter())
+    (1..)
+        .zip(ps.iter())
         .find(|&(n, pn)| get_mod(n, pn) > limit)
         .unwrap()
         .0

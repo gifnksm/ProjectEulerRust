@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 // nCr-1 = r/(n-r+1) nCr
 // nCr = n/(n-r) n-1Cr
@@ -20,11 +21,15 @@ fn compute() -> u32 {
 
         if c < limit {
             while c < limit {
-                if r == (n + 1) / 2 { break }
+                if r == (n + 1) / 2 {
+                    break;
+                }
                 c = c * (n - r) / (r + 1);
                 r += 1;
             }
-            if c < limit { continue }
+            if c < limit {
+                continue;
+            }
         } else {
             while c * r / (n - r + 1) >= limit {
                 c = c * r / (n - r + 1);

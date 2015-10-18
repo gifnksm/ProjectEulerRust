@@ -11,7 +11,10 @@ use std::ops::Add;
 use num::{Integer, One};
 
 /// Fibonacci sequence iterator.
-pub struct Fibonacci<T> { current: T, next: T }
+pub struct Fibonacci<T> {
+    current: T,
+    next: T,
+}
 
 impl<T: One> Fibonacci<T> {
     /// Creates a new Fibonacci sequence iterator.
@@ -57,7 +60,10 @@ impl<T: One> Fibonacci<T> {
     /// ```
     #[inline]
     pub fn with_init(a0: T, a1: T) -> Fibonacci<T> {
-        Fibonacci { current: a0, next: a1 }
+        Fibonacci {
+            current: a0,
+            next: a1,
+        }
     }
 }
 
@@ -66,15 +72,17 @@ impl<T: Add<T, Output = T> + Clone> Iterator for Fibonacci<T> {
 
     #[inline]
     fn next(&mut self) -> Option<T> {
-        let new_next    = self.current.clone() + self.next.clone();
-        let new_current = mem::replace(&mut self.next,    new_next);
-        let retval      = mem::replace(&mut self.current, new_current);
+        let new_next = self.current.clone() + self.next.clone();
+        let new_current = mem::replace(&mut self.next, new_next);
+        let retval = mem::replace(&mut self.current, new_current);
         Some(retval)
     }
 }
 
 /// Collatz sequence iterator.
-pub struct Collatz<T> { next: T }
+pub struct Collatz<T> {
+    next: T,
+}
 
 impl<T> Collatz<T> {
     /// Creates a new Collatz sequence iterator starting from the `init`.
@@ -104,7 +112,9 @@ impl<T> Collatz<T> {
     /// assert_eq!(Some(1),  it.next());
     /// ```
     #[inline]
-    pub fn new(init: T) -> Collatz<T> { Collatz { next: init } }
+    pub fn new(init: T) -> Collatz<T> {
+        Collatz { next: init }
+    }
 }
 
 impl <T: Integer + Clone> Iterator for Collatz<T> {
@@ -112,8 +122,8 @@ impl <T: Integer + Clone> Iterator for Collatz<T> {
 
     #[inline]
     fn next(&mut self) -> Option<T> {
-        let one: T   = One::one();
-        let two: T   = one.clone() + one.clone();
+        let one: T = One::one();
+        let two: T = one.clone() + one.clone();
         let three: T = two.clone() + one.clone();
         let next = if self.next.is_even() {
             self.next.clone() / two
@@ -125,7 +135,10 @@ impl <T: Integer + Clone> Iterator for Collatz<T> {
 }
 
 /// Triangular numbers sequence iterator.
-pub struct TriangularNums<T> { diff: T, next: T }
+pub struct TriangularNums<T> {
+    diff: T,
+    next: T,
+}
 
 impl<T: One + Add<T, Output = T> + Clone> TriangularNums<T> {
     /// Creates a new Triangular number sequence iterator that enumerates each
@@ -153,7 +166,10 @@ impl<T: One + Add<T, Output = T> + Clone> TriangularNums<T> {
     #[inline]
     pub fn new() -> TriangularNums<T> {
         let one: T = One::one();
-        TriangularNums { diff: one.clone() + one.clone(), next: one }
+        TriangularNums {
+            diff: one.clone() + one.clone(),
+            next: one,
+        }
     }
 }
 
@@ -169,7 +185,10 @@ impl<T: Add<T, Output = T> + One + Clone> Iterator for TriangularNums<T> {
 }
 
 /// Pritmitive Pythagorean numbers iterator.
-pub struct PrimitivePythagoreans<T> { m: T, n: T }
+pub struct PrimitivePythagoreans<T> {
+    m: T,
+    n: T,
+}
 
 impl<T: Integer + Clone> PrimitivePythagoreans<T> {
     /// Creates a new Primitive Pythagorean number iterator that enumerates each
@@ -194,7 +213,11 @@ impl<T: Integer + Clone> PrimitivePythagoreans<T> {
     /// ```
     pub fn new(m: T) -> PrimitivePythagoreans<T> {
         let one: T = One::one();
-        let n = if m.is_even() { one } else { one.clone() + one.clone() };
+        let n = if m.is_even() {
+            one
+        } else {
+            one.clone() + one.clone()
+        };
         PrimitivePythagoreans { m: m, n: n }
     }
 }
@@ -213,16 +236,18 @@ impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
                 mem::replace(&mut self.n, new_n)
             };
 
-            if m.gcd(&n) != one { continue }
+            if m.gcd(&n) != one {
+                continue;
+            }
 
-            let (m2, n2)  = (m.clone() * m.clone(), n.clone() * n.clone());
+            let (m2, n2) = (m.clone() * m.clone(), n.clone() * n.clone());
             let (a, b, c) = (m2.clone() - n2.clone(),
                              two.clone() * m.clone() * n,
                              m2 + n2);
             if a < b {
-                return Some((a, b, c))
+                return Some((a, b, c));
             } else {
-                return Some((b, a, c))
+                return Some((b, a, c));
             }
         }
 
@@ -251,17 +276,22 @@ mod tests {
             check(fib, Fibonacci::with_init(a0, a1).take(fib.len()));
         }
 
-        let fib = &[ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233 ];
+        let fib = &[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233];
         check(fib, Fibonacci::<u32>::new().take(fib.len()));
 
-        check_with_init(&[ 0, 0, 0, 0, 0, 0, 0]);
-        check_with_init(&[ 1, 5, 6, 11, 17, 28, 45, 73, 118, 191, 309, 500]);
-        check_with_init(&[ -1, -1, -2, -3, -5, -8, -13, -21, -34, -55, -89, -144, -233 ]);
-        check_with_init(&[ -10.to_bigint().unwrap(),  8.to_bigint().unwrap(),
-                            -2.to_bigint().unwrap(), 6.to_bigint().unwrap(),
-                            4.to_bigint().unwrap(), 10.to_bigint().unwrap(),
-                            14.to_bigint().unwrap(), 24.to_bigint().unwrap(),
-                            38.to_bigint().unwrap(), 62.to_bigint().unwrap() ]);
+        check_with_init(&[0, 0, 0, 0, 0, 0, 0]);
+        check_with_init(&[1, 5, 6, 11, 17, 28, 45, 73, 118, 191, 309, 500]);
+        check_with_init(&[-1, -1, -2, -3, -5, -8, -13, -21, -34, -55, -89, -144, -233]);
+        check_with_init(&[-10.to_bigint().unwrap(),
+                          8.to_bigint().unwrap(),
+                          -2.to_bigint().unwrap(),
+                          6.to_bigint().unwrap(),
+                          4.to_bigint().unwrap(),
+                          10.to_bigint().unwrap(),
+                          14.to_bigint().unwrap(),
+                          24.to_bigint().unwrap(),
+                          38.to_bigint().unwrap(),
+                          62.to_bigint().unwrap()]);
     }
 
     #[test]

@@ -6,7 +6,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use std::collections::HashMap;
@@ -84,13 +85,13 @@ fn f(i: u64, j: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 {
         (0, 0) => return 0,
         (_, 0) => return 0,
         (0, _) => return 1,
-        _ if i == j => return f(i-1, j, map),
-        _ if i >  j => return 0,
+        _ if i == j => return f(i - 1, j, map),
+        _ if i > j => return 0,
         _ => {}
     }
 
     if let Some(n) = map.get(&(i, j)) {
-        return *n
+        return *n;
     }
 
     let val = f(i, j - 1, map) + f(i - 1, j, map);
@@ -98,11 +99,11 @@ fn f(i: u64, j: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 {
     val
 }
 
-fn get_num_pairs(ps: &PrimeSet, n: u64) -> u64{
+fn get_num_pairs(ps: &PrimeSet, n: u64) -> u64 {
     let mut map = HashMap::new();
-    (1 .. n / 2 + 1).map(|k| {
-        ps.combination(n, 2 * k) * (ps.combination(2 * k, k) / 2 - f(k, k, &mut map))
-    }).sum()
+    (1..n / 2 + 1)
+        .map(|k| ps.combination(n, 2 * k) * (ps.combination(2 * k, k) / 2 - f(k, k, &mut map)))
+        .sum()
 }
 
 fn solve() -> String {
@@ -146,4 +147,3 @@ mod tests {
         assert_eq!(70, super::get_num_pairs(&prime, 7));
     }
 }
-

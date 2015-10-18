@@ -6,7 +6,8 @@
 
 #![feature(step_by)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 extern crate seq;
 
@@ -27,10 +28,9 @@ fn solve() -> String {
     }
 
     v.iter()
-        .filter(|&x| x == &1)
-        .count()
-        .to_string()
+     .filter(|&x| x == &1)
+     .count()
+     .to_string()
 }
 
 problem!("161667", solve);
-

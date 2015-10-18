@@ -6,7 +6,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::cmp::Ordering;
 use std::fs::File;
@@ -19,9 +20,11 @@ fn is_sss(nums: &mut [u32]) -> bool {
     let len = nums.len();
     let len_hd = (len + 1) / 2;
     let len_tl = len_hd - 1;
-    let hd = nums[.. len_hd].iter().map(|&x| x).sum::<u32>();
-    let tl = nums[len - len_tl ..].iter().map(|&x| x).sum();
-    if hd <= tl { return false }
+    let hd = nums[..len_hd].iter().map(|&x| x).sum::<u32>();
+    let tl = nums[len - len_tl..].iter().map(|&x| x).sum();
+    if hd <= tl {
+        return false;
+    }
 
     let mut sums = vec![0];
     for &n in &*nums {
@@ -32,12 +35,23 @@ fn is_sss(nums: &mut [u32]) -> bool {
         while i < len {
             assert!(j <= i);
             match sums[i].cmp(&(sums[j] + n)) {
-                Ordering::Equal   => {  return false }
-                Ordering::Less    => { new_sums.push(sums[i]);     i += 1; }
-                Ordering::Greater => { new_sums.push(sums[j] + n); j += 1; }
+                Ordering::Equal => {
+                    return false;
+                }
+                Ordering::Less => {
+                    new_sums.push(sums[i]);
+                    i += 1;
+                }
+                Ordering::Greater => {
+                    new_sums.push(sums[j] + n);
+                    j += 1;
+                }
             }
         }
-        while j < len { new_sums.push(sums[j] + n); j += 1; }
+        while j < len {
+            new_sums.push(sums[j] + n);
+            j += 1;
+        }
         sums = new_sums;
     }
 
@@ -48,10 +62,10 @@ fn solve(file: File) -> io::Result<String> {
     let mut sum = 0;
     for line in BufReader::new(file).lines() {
         let mut nums = try!(line)
-            .trim()
-            .split(',')
-            .filter_map(|s| s.parse::<u32>().ok())
-            .collect::<Vec<_>>();
+                           .trim()
+                           .split(',')
+                           .filter_map(|s| s.parse::<u32>().ok())
+                           .collect::<Vec<_>>();
 
         if is_sss(&mut nums) {
             sum += nums.iter().sum::<u32>();

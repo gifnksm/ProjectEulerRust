@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 
 use std::collections::HashSet;
@@ -14,15 +15,18 @@ fn palindromic_sum_set(limit: u32) -> HashSet<u32> {
     let mut set = HashSet::new();
     let mut sq_sums: Vec<u32> = vec![];
 
-    let it = (1..).map(|n| n * n)
-        .take_while(|&pow| pow < limit);
+    let it = (1..).map(|n| n * n).take_while(|&pow| pow < limit);
 
     for pow in it {
-        for j in (0 .. sq_sums.len()).rev() {
+        for j in (0..sq_sums.len()).rev() {
             let s = sq_sums[j] + pow;
-            if s >= limit { break; }
+            if s >= limit {
+                break;
+            }
 
-            if s.is_palindromic(10) { set.insert(s); }
+            if s.is_palindromic(10) {
+                set.insert(s);
+            }
             sq_sums[j] = s;
         }
         sq_sums.push(pow);

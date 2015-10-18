@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use std::collections::HashMap;
@@ -19,11 +20,13 @@ fn count_way(ps: &PrimeSet, sum: u64, map: &mut HashMap<(u64, usize), u32>) -> u
         return cnt;
     }
 
-    fn count_sub(
-        ps: &PrimeSet, sum: u64, min_idx: usize, map: &mut HashMap<(u64, usize), u32>
-    ) -> u32 {
+    fn count_sub(ps: &PrimeSet,
+                 sum: u64,
+                 min_idx: usize,
+                 map: &mut HashMap<(u64, usize), u32>)
+                 -> u32 {
         let mut cnt = 0;
-        for i in min_idx .. {
+        for i in min_idx.. {
             let p = ps.nth(i);
             if p >= sum {
                 if p == sum {
@@ -32,12 +35,12 @@ fn count_way(ps: &PrimeSet, sum: u64, map: &mut HashMap<(u64, usize), u32>) -> u
                 }
 
                 let _ = map.insert((sum, i), cnt);
-                break
+                break;
             }
 
             cnt += match map.get(&(sum - p, i)) {
                 Some(&n) => n,
-                None     => count_sub(ps, sum - p, i, map)
+                None => count_sub(ps, sum - p, i, map),
             };
         }
 
@@ -48,7 +51,8 @@ fn count_way(ps: &PrimeSet, sum: u64, map: &mut HashMap<(u64, usize), u32>) -> u
 fn solve() -> String {
     let ps = PrimeSet::new();
     let mut map = HashMap::new();
-    (1 ..).skip_while(|&n| count_way(&ps, n, &mut map) <= 5000)
+    (1..)
+        .skip_while(|&n| count_way(&ps, n, &mut map) <= 5000)
         .next()
         .unwrap()
         .to_string()

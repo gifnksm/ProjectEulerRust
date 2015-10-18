@@ -6,7 +6,8 @@
 
 #![feature(iter_arith, step_by)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use prime::PrimeSet;
@@ -14,12 +15,14 @@ use prime::PrimeSet;
 fn compute(limit: u64) -> u64 {
     let prime = PrimeSet::new();
 
-    let mut v = (0 .. limit + 1).collect::<Vec<_>>();
+    let mut v = (0..limit + 1).collect::<Vec<_>>();
     v[1] = 0;
 
     for p in &prime {
-        if p > limit { break; }
-        for n in (p..limit+1).step_by(p) {
+        if p > limit {
+            break;
+        }
+        for n in (p..limit + 1).step_by(p) {
             v[n as usize] = (v[n as usize] * (p - 1)) / p;
         }
     }
@@ -36,5 +39,7 @@ problem!("303963552391", solve);
 #[cfg(test)]
 mod tests {
     #[test]
-    fn eight() { assert_eq!(21, super::compute(8)); }
+    fn eight() {
+        assert_eq!(21, super::compute(8));
+    }
 }

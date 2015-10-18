@@ -6,8 +6,10 @@
 
 #![feature(step_by, iter_arith)]
 
-#[macro_use(problem)] extern crate common;
-#[macro_use] extern crate enum_primitive;
+#[macro_use(problem)]
+extern crate common;
+#[macro_use]
+extern crate enum_primitive;
 extern crate generic_matrix as matrix;
 extern crate num;
 
@@ -60,9 +62,9 @@ fn roll_trans_matrix(dice_side: usize) -> Matrix<f64> {
 
         if dst_seq > 0 { // consecutive doubles (src_seq times => dst_seq times)
             if src_seq != dst_seq - 1 || pos_diff >= roll_dist.len() {
-                return 0.0
+                return 0.0;
             }
-            return roll_dist[pos_diff].1
+            return roll_dist[pos_diff].1;
         }
 
         // not consecutive doubles or goto jail (reset consecutive doubles).
@@ -88,18 +90,18 @@ fn ch_trans_matrix() -> Matrix<f64> {
         match src_sq {
             Square::CH1 | Square::CH2 | Square::CH3 => {
                 if dst_seq == src_seq && dst_sq == Square::JAIL {
-                    return 1.0 / 16.0
+                    return 1.0 / 16.0;
                 }
                 // Reset consecutive doubles after go to JAIL.
                 // if dst_seq == 0 && dst_sq == Square::JAIL {
                 //     return 1.0 / 16.0
                 // }
                 if dst_seq != src_seq {
-                    return 0.0
+                    return 0.0;
                 }
                 if (src_pos + NUM_SQUARE - dst_pos) % NUM_SQUARE == 3 {
                     // Go back 3 square
-                    return 1.0 / 16.0
+                    return 1.0 / 16.0;
                 }
 
                 match (dst_sq, src_sq) {
@@ -115,10 +117,14 @@ fn ch_trans_matrix() -> Matrix<f64> {
                     (Square::U1, Square::CH3) => 1.0 / 16.0, // Go to next U
                     (Square::U2, Square::CH2) => 1.0 / 16.0, // Go to next U
                     _ if dst == src => 6.0 / 16.0,
-                    _ => 0.0
+                    _ => 0.0,
                 }
             }
-            _ => if src == dst { 1.0 } else { 0.0 }
+            _ => if src == dst {
+                1.0
+            } else {
+                0.0
+            },
         }
     })
 }
@@ -132,7 +138,7 @@ fn cc_trans_matrix() -> Matrix<f64> {
         match src_sq {
             Square::CC1 | Square::CC2 | Square::CC3 => {
                 if dst_seq == src_seq && dst_sq == Square::JAIL {
-                    return 1.0 / 16.0
+                    return 1.0 / 16.0;
                 }
                 // Reset consecutive doubles after go to JAIL.
                 // if dst_seq == 0 && dst_sq == Square::JAIL {
@@ -149,7 +155,13 @@ fn cc_trans_matrix() -> Matrix<f64> {
                 }
                 0.0
             }
-            _ => { if src == dst { 1.0 } else { 0.0 }}
+            _ => {
+                if src == dst {
+                    1.0
+                } else {
+                    0.0
+                }
+            }
         }
     })
 }
@@ -163,7 +175,7 @@ fn g2j_trans_matrix() -> Matrix<f64> {
 
         if src_sq == Square::G2J {
             if dst_seq == src_seq && dst_sq == Square::JAIL {
-                return 1.0
+                return 1.0;
             }
             // Reset consecutive doubles after go to JAIL.
             // if dst_seq == 0 && dst_sq == Square::JAIL {
@@ -172,7 +184,7 @@ fn g2j_trans_matrix() -> Matrix<f64> {
             return 0.0;
         }
         if src == dst {
-            return 1.0
+            return 1.0;
         }
         0.0
     })
@@ -188,25 +200,32 @@ fn steady_state(dist: &Matrix<f64>, init: Matrix<f64>, epsilon: f64) -> Matrix<f
         let new_state = dist * &state;
         let sub = &new_state - state;
         let err = sub.trans() * sub;
-        if err[(0, 0)] <= epsilon { return new_state }
+        if err[(0, 0)] <= epsilon {
+            return new_state;
+        }
         state = new_state;
     }
 }
 
 fn state_to_square(state: Matrix<f64>) -> Vec<(Square, f64)> {
-    (0..NUM_SQUARE).map(|s| {
-        let prob = (s..NUM_STATE).step_by(NUM_SQUARE).map(|i| state[(i, 0)]).sum();
-        let sq: Square = FromPrimitive::from_usize(s).unwrap();
-        (sq, prob)
-    }).collect()
+    (0..NUM_SQUARE)
+        .map(|s| {
+            let prob = (s..NUM_STATE).step_by(NUM_SQUARE).map(|i| state[(i, 0)]).sum();
+            let sq: Square = FromPrimitive::from_usize(s).unwrap();
+            (sq, prob)
+        })
+        .collect()
 }
 
 fn solve() -> String {
     // STATE: Square::Num * 3 (consecutive doubles)
     let state = steady_state(&trans_matrix(4), Matrix::one(NUM_STATE, 1), 1e-10);
     let mut square = state_to_square(state);
-    square.sort_by(|&(_, p0), &(_,p1)| p1.partial_cmp(&p0).unwrap());
-    format!("{:02}{:02}{:02}", square[0].0 as usize, square[1].0 as usize, square[2].0 as usize)
+    square.sort_by(|&(_, p0), &(_, p1)| p1.partial_cmp(&p0).unwrap());
+    format!("{:02}{:02}{:02}",
+            square[0].0 as usize,
+            square[1].0 as usize,
+            square[2].0 as usize)
 }
 
 problem!("101524", solve);
@@ -220,7 +239,7 @@ mod tests {
     fn six() {
         let state = super::steady_state(&super::trans_matrix(6), Matrix::one(NUM_STATE, 1), 1e-10);
         let mut square = super::state_to_square(state);
-        square.sort_by(|&(_, p0), &(_,p1)| p1.partial_cmp(&p0).unwrap());
+        square.sort_by(|&(_, p0), &(_, p1)| p1.partial_cmp(&p0).unwrap());
 
         assert_eq!(Square::JAIL, square[0].0);
         assert!(0.06235 <= square[0].1 && square[0].1 < 0.06245);

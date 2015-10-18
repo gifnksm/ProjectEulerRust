@@ -6,17 +6,21 @@
 
 #![feature(range_inclusive)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::iter;
 use std::collections::HashMap;
 
 fn get_cnt(n: usize, m: usize, map: &mut HashMap<(usize, usize), usize>) -> usize {
     if let Some(&x) = map.get(&(n, m)) {
-        return x
+        return x;
     }
 
-    if n < m { let _ = map.insert((n, m), 1); return 1; }
+    if n < m {
+        let _ = map.insert((n, m), 1);
+        return 1;
+    }
 
     let mut sum = 0;
 
@@ -37,7 +41,8 @@ fn get_cnt(n: usize, m: usize, map: &mut HashMap<(usize, usize), usize>) -> usiz
 
 fn solve() -> String {
     let mut map = HashMap::new();
-    (1..).filter(|&n| get_cnt(n, 50, &mut map) > 1000000)
+    (1..)
+        .filter(|&n| get_cnt(n, 50, &mut map) > 1000000)
         .next()
         .unwrap()
         .to_string()
@@ -55,7 +60,7 @@ mod tests {
         let mut map = HashMap::new();
         assert_eq!(1, get_cnt(1, 3, &mut map));
         assert_eq!(1, get_cnt(2, 3, &mut map));
-        assert_eq!(2, get_cnt(3, 3 , &mut map));
+        assert_eq!(2, get_cnt(3, 3, &mut map));
         assert_eq!(4, get_cnt(4, 3, &mut map));
         assert_eq!(17, get_cnt(7, 3, &mut map));
         assert_eq!(673135, get_cnt(29, 3, &mut map));

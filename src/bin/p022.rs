@@ -6,7 +6,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::io::{self, BufReader};
 use std::io::prelude::*;
@@ -18,14 +19,14 @@ fn get_score(n: u32, s: &str) -> u32 {
 
 fn compute(words: &[String]) -> u32 {
     let mut words = words.iter()
-        .map(|word| word.trim().trim_matches('\"'))
-        .filter(|word| !word.is_empty())
-        .collect::<Vec<_>>();
+                         .map(|word| word.trim().trim_matches('\"'))
+                         .filter(|word| !word.is_empty())
+                         .collect::<Vec<_>>();
     words.sort();
     words.into_iter()
-        .enumerate()
-        .map(|(i, s)| get_score((i + 1) as u32, s))
-        .sum()
+         .enumerate()
+         .map(|(i, s)| get_score((i + 1) as u32, s))
+         .sum()
 }
 
 fn solve(file: File) -> io::Result<String> {

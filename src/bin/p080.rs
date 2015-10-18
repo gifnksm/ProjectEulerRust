@@ -7,7 +7,8 @@
 #![feature(iter_arith)]
 
 extern crate num;
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate iter;
 
 use num::{BigInt, Zero, FromPrimitive};
@@ -16,21 +17,23 @@ use iter::Difference;
 fn sqrt_newton_raphson(n: u32, precision: usize) -> String {
     assert!(precision >= 1);
 
-    let _1:  BigInt = FromPrimitive::from_u32(1).unwrap();
+    let _1: BigInt = FromPrimitive::from_u32(1).unwrap();
     let _10: BigInt = FromPrimitive::from_u32(10).unwrap();
-    let n:   BigInt = FromPrimitive::from_u32(n).unwrap();
+    let n: BigInt = FromPrimitive::from_u32(n).unwrap();
 
     let ds = num::pow(_10.clone(), precision - 1);
 
-    let shift   = 4 * precision; // log_2 10 = 3.3... < 4
-    let _1_2    = &_1 << (2 * shift);
+    let shift = 4 * precision; // log_2 10 = 3.3... < 4
+    let _1_2 = &_1 << (2 * shift);
     let mut x_1 = (&_1 << shift) / _10;
     let mut delta_2 = &_1_2 - (&x_1 * &x_1 * &n);
 
     loop {
         x_1 = ((&x_1 << (2 * shift)) + ((&x_1 * delta_2) >> 1)) >> (2 * shift);
         delta_2 = &_1_2 - (&x_1 * &x_1 * &n);
-        if ((&ds * &delta_2) >> (2 * shift)).is_zero() { break; }
+        if ((&ds * &delta_2) >> (2 * shift)).is_zero() {
+            break;
+        }
     }
 
     ((n * x_1 * ds) >> shift).to_string()
@@ -44,8 +47,8 @@ fn sqrt_digit_sum(n: u32, precision: usize) -> u32 {
 }
 
 fn solve() -> String {
-    let ns = 2u32 .. 101;
-    let sq = (2u32 ..101).map(|x| x*x);
+    let ns = 2u32..101;
+    let sq = (2u32..101).map(|x| x * x);
 
     Difference::new(ns, sq)
         .map(|n| sqrt_digit_sum(n, 100))

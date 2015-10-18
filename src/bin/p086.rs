@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate seq;
 
 use std::cmp::{self, Ordering};
@@ -21,7 +22,9 @@ fn get_count(m: u32) -> u32 {
             for k in 1..(m / p + 1) {
                 let end = cmp::min(k * p, k * q / 2) + 1;
                 let start = k * q - k * p;
-                if end > start { cnt += end - start; }
+                if end > start {
+                    cnt += end - start;
+                }
             }
         }
     }
@@ -44,7 +47,7 @@ fn get_min_m(limit: u32) -> u32 {
         let cnt = get_count(ix);
         match cnt.cmp(&limit) {
             Ordering::Equal => break,
-            Ordering::Less  => {
+            Ordering::Less => {
                 m = ix + 1;
                 lim -= 1;
             }

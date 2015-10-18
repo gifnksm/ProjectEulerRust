@@ -12,13 +12,14 @@ use std::str::FromStr;
 use Suit::{Spade, Heart, Dia, Club};
 
 /// Playing card's suite.
-#[allow(missing_docs, unused_qualifications)] // FIXME rust-lang/rust#19102
+#[allow(missing_docs, unused_qualifications)]
+// FIXME rust-lang/rust#19102
 #[derive(Eq, PartialEq, Copy, Clone, Debug)]
 pub enum Suit {
     Spade,
     Heart,
     Dia,
-    Club
+    Club,
 }
 
 impl fmt::Display for Suit {
@@ -26,8 +27,8 @@ impl fmt::Display for Suit {
         let s = match self {
             &Spade => "S",
             &Heart => "H",
-            &Dia   => "D",
-            &Club  => "C"
+            &Dia => "D",
+            &Club => "C",
         };
 
         write!(f, "{}", s)
@@ -38,13 +39,15 @@ impl FromStr for Suit {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Suit, ()> {
-        if s.len() != 1 { return Err(()) }
+        if s.len() != 1 {
+            return Err(());
+        }
         return match s {
             "S" => Ok(Spade),
             "H" => Ok(Heart),
             "D" => Ok(Dia),
             "C" => Ok(Club),
-            _   => Err(())
+            _ => Err(()),
         };
     }
 }
@@ -54,7 +57,7 @@ impl FromStr for Suit {
 #[derive(Eq, PartialEq, Copy, Clone, Debug)]
 pub struct SuitCard {
     pub num: u8,
-    pub suit: Suit
+    pub suit: Suit,
 }
 
 impl fmt::Display for SuitCard {
@@ -65,7 +68,7 @@ impl fmt::Display for SuitCard {
             SuitCard { num: 11, suit: s } => write!(f, "J{}", s),
             SuitCard { num: 12, suit: s } => write!(f, "Q{}", s),
             SuitCard { num: 13, suit: s } => write!(f, "K{}", s),
-            SuitCard { num: n,  suit: s } => write!(f, "{}{}", n, s)
+            SuitCard { num: n,  suit: s } => write!(f, "{}{}", n, s),
         }
     }
 }
@@ -74,17 +77,19 @@ impl FromStr for SuitCard {
     type Err = ();
 
     fn from_str(s: &str) -> Result<SuitCard, ()> {
-        if s.len() != 2 { return Err(()) }
+        if s.len() != 2 {
+            return Err(());
+        }
         let (c0, c1) = s.slice_shift_char().unwrap();
         let suit = FromStr::from_str(c1);
-                let num = match c0 {
-                    'A' => Some(1),
-                    'T' => Some(10),
-                    'J' => Some(11),
-                    'Q' => Some(12),
-                    'K' => Some(13),
-                    d => d.to_digit(10).map(|x| x as u8)
-                };
+        let num = match c0 {
+            'A' => Some(1),
+            'T' => Some(10),
+            'J' => Some(11),
+            'Q' => Some(12),
+            'K' => Some(13),
+            d => d.to_digit(10).map(|x| x as u8),
+        };
         if let (Some(n), Ok(s)) = (num, suit) {
             Ok(SuitCard { num: n, suit: s })
         } else {
@@ -99,7 +104,7 @@ impl FromStr for SuitCard {
 pub enum Card {
     Suit(SuitCard),
     BlackJoker,
-    WhiteJoker
+    WhiteJoker,
 }
 
 impl fmt::Display for Card {
@@ -119,7 +124,7 @@ impl FromStr for Card {
         match s {
             "BJ" => Ok(Card::BlackJoker),
             "WJ" => Ok(Card::WhiteJoker),
-            _    => FromStr::from_str(s).map(|sc| Card::Suit(sc))
+            _ => FromStr::from_str(s).map(|sc| Card::Suit(sc)),
         }
     }
 }

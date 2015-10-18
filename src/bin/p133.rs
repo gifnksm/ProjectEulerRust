@@ -52,13 +52,16 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use prime::{Factorize, PrimeSet};
 
 fn a(n: u64) -> u64 {
-    if n == 1 { return 1 }
+    if n == 1 {
+        return 1;
+    }
 
     let mut x = 1;
     let mut k = 1;
@@ -75,12 +78,10 @@ fn solve() -> String {
     let ps = PrimeSet::new();
 
     let sum = ps.iter()
-        .skip_while(|&p| p <= 5)
-        .take_while(|&p| p < 100000)
-        .filter(|&p| {
-            a(p).factorize(&ps)
-                .any(|(b, _e)| b != 2 && b != 5)
-        }).sum::<u64>();
+                .skip_while(|&p| p <= 5)
+                .take_while(|&p| p < 100000)
+                .filter(|&p| a(p).factorize(&ps).any(|(b, _e)| b != 2 && b != 5))
+                .sum::<u64>();
 
     (sum + 2 + 3 + 5).to_string()
 }

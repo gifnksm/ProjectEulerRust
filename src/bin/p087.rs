@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate prime;
 
 use prime::PrimeSet;
@@ -16,18 +17,26 @@ fn compute(limit: u64) -> u32 {
 
     for p in &prime {
         let p4 = p * p * p * p;
-        if p4 >= limit { break }
+        if p4 >= limit {
+            break;
+        }
 
         for q in &prime {
             let q3 = q * q * q;
-            if p4 + q3 >= limit { break }
+            if p4 + q3 >= limit {
+                break;
+            }
 
             for r in &prime {
                 let r2 = r * r;
                 let s = p4 + q3 + r2;
-                if s >= limit { break }
+                if s >= limit {
+                    break;
+                }
 
-                if set[s as usize] { continue }
+                if set[s as usize] {
+                    continue;
+                }
                 set[s as usize] = true;
                 cnt += 1;
             }

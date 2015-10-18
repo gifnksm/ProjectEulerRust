@@ -4,10 +4,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 fn compute() -> u32 {
-    let mut facts: [u32; 10] = [ 0; 10 ];
+    let mut facts: [u32; 10] = [0; 10];
     facts[0] = 1;
     for i in 1..facts.len() {
         facts[i] = facts[i - 1] * (i as u32);

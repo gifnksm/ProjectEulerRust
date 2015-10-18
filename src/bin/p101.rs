@@ -5,7 +5,8 @@
         unused_qualifications, unused_results)]
 
 extern crate num;
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate polynomial;
 
 use num::rational::Ratio;
@@ -27,13 +28,15 @@ fn op(ns: &[(BigInt, BigInt)]) -> Polynomial<BigInt> {
     let mut poly = Polynomial::new(vec![]);
 
     for (i, &(ref xi, ref yi)) in ns.iter().enumerate() {
-        let mut term = Polynomial::new(vec![ Ratio::from_integer(yi.clone()) ]);
+        let mut term = Polynomial::new(vec![Ratio::from_integer(yi.clone())]);
 
         for (j, &(ref xj, ref _yj)) in ns.iter().enumerate() {
-            if i == j { continue }
+            if i == j {
+                continue;
+            }
 
-            term = term * Polynomial::new(vec![Ratio::new(-xj, xi - xj),
-                                               Ratio::new(One::one(), xi - xj)]);
+            term = term *
+                   Polynomial::new(vec![Ratio::new(-xj, xi - xj), Ratio::new(One::one(), xi - xj)]);
         }
         poly = poly + term;
     }
@@ -47,16 +50,18 @@ fn bop(ns: &[(BigInt, BigInt)]) -> BigInt {
 }
 
 fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
-    (0..(dim + 1)).map(|i| {
-        let n: BigInt = FromPrimitive::from_u32(i + 1).unwrap();
-        (n.clone(), f(n))
-    }).collect()
+    (0..(dim + 1))
+        .map(|i| {
+            let n: BigInt = FromPrimitive::from_u32(i + 1).unwrap();
+            (n.clone(), f(n))
+        })
+        .collect()
 }
 
 fn solve() -> String {
     let un = u_to_vec(10, u);
     (0..10)
-        .map(|i| bop(&un[.. i + 1]))
+        .map(|i| bop(&un[..i + 1]))
         .fold(num::zero::<BigInt>(), |acc, elt| acc + elt)
         .to_string()
 }
@@ -69,7 +74,9 @@ mod tests {
 
     #[test]
     fn op() {
-        fn u(n: BigInt) -> BigInt { &n * &n * &n }
+        fn u(n: BigInt) -> BigInt {
+            &n * &n * &n
+        }
         let un = super::u_to_vec(3, u);
         assert_eq!("1", super::op(&un[..1]).pretty("n"));
         assert_eq!("-6+7*n", super::op(&un[..2]).pretty("n"));
@@ -79,7 +86,9 @@ mod tests {
 
     #[test]
     fn bop() {
-        fn u(n: BigInt) -> BigInt { &n * &n * &n }
+        fn u(n: BigInt) -> BigInt {
+            &n * &n * &n
+        }
         let un = super::u_to_vec(3, u);
         assert_eq!(1, super::bop(&un[..1]).to_i32().unwrap());
         assert_eq!(15, super::bop(&un[..2]).to_i32().unwrap());

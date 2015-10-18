@@ -8,16 +8,21 @@
 
 #![feature(step_by)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 fn num_solutions(limit: usize) -> Vec<u32> {
     let mut cnt = vec![0; limit];
     for q in 1..limit {
         let r = (4 - (q % 4)) % 4;
-        if q * r >= limit { continue }
+        if q * r >= limit {
+            continue;
+        }
         for p in (r..(q * 3)).step_by(4) {
             let n = q * p;
-            if n >= limit { break }
+            if n >= limit {
+                break;
+            }
             cnt[n] += 1;
         }
     }
@@ -41,9 +46,9 @@ mod tests {
     #[test]
     fn first_sol() {
         let pos = super::num_solutions(2000)
-            .iter()
-            .position(|&n| n == 10)
-            .unwrap();
+                      .iter()
+                      .position(|&n| n == 10)
+                      .unwrap();
         assert_eq!(1155, pos);
     }
 }

@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 // 43 44 45 46 47 48 49
 // 42 21 22 23 24 25 26
@@ -33,7 +34,7 @@
 // ans[n] = \sum_{k=1}^{N} sum[k] - 3
 //        = 1/6 (4n^3 + 3n^2 + 8n - 9)
 fn compute(n: u32) -> u32 {
-    (4 * n*n*n + 3 * n*n + 8 * n - 9) / 6
+    (4 * n * n * n + 3 * n * n + 8 * n - 9) / 6
 }
 
 fn solve() -> String {

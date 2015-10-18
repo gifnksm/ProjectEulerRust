@@ -6,7 +6,8 @@
 
 #![feature(iter_cmp)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate cont_frac;
 extern crate iter;
 extern crate num;
@@ -26,4 +27,3 @@ fn solve() -> String {
 }
 
 problem!("661", solve);
-

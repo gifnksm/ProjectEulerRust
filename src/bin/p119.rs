@@ -6,7 +6,8 @@
 
 #![feature(iter_arith, wrapping)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 
 use std::cmp::Ordering;
@@ -19,7 +20,7 @@ trait IntExt: Sized {
 }
 
 impl IntExt for u64 {
-     fn checked_pow(self, mut exp: u32) -> Option<Self> {
+    fn checked_pow(self, mut exp: u32) -> Option<Self> {
         let mut base = self;
         let mut acc = 1u64;
 
@@ -35,10 +36,10 @@ impl IntExt for u64 {
                     new_acc = acc.checked_mul(prev_base * prev_base);
                 } else {
                     new_acc = acc.checked_mul(base);
-                };
+                }
                 match new_acc {
                     Some(a) => acc = a,
-                    None => return None
+                    None => return None,
                 }
             }
             prev_base = base;
@@ -62,7 +63,9 @@ impl PartialEq for Power {
 impl Eq for Power {}
 
 impl PartialOrd for Power {
-    fn partial_cmp(&self, other: &Power) -> Option<Ordering> { Some(self.cmp(other)) }
+    fn partial_cmp(&self, other: &Power) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
 }
 
 impl Ord for Power {
@@ -72,7 +75,7 @@ impl Ord for Power {
 }
 
 struct Powers {
-    heap: BinaryHeap<Power>
+    heap: BinaryHeap<Power>,
 }
 
 impl Powers {
@@ -88,7 +91,9 @@ impl Iterator for Powers {
 
     fn next(&mut self) -> Option<(u64, u64, u32)> {
         let Power(n, b, e) = self.heap.pop().unwrap();
-        if b == 2 { self.heap.push(Power(n * b, b, e + 1)); }
+        if b == 2 {
+            self.heap.push(Power(n * b, b, e + 1));
+        }
         if b < 99 { // assume base is smaller than 100
             if let Some(new_n) = (b + 1).checked_pow(e) {
                 self.heap.push(Power(new_n, b + 1, e));

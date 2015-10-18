@@ -4,7 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate iter;
 extern crate integer;
 extern crate prime;
@@ -23,7 +24,7 @@ fn compute() -> u64 {
     for (perm, _) in Permutations::new(&[7, 6, 5, 4, 3, 2, 1], 7) {
         let n = Integer::from_digits(perm.iter().rev().map(|&x| x), radix);
         if ps.contains(n) {
-            return n
+            return n;
         }
     }
     unreachable!()

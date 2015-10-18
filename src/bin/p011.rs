@@ -6,9 +6,10 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
-const INPUT: &'static str = "
+const INPUT: &'static str = r"
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
 81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
@@ -32,53 +33,57 @@ const INPUT: &'static str = "
 ";
 
 fn compute(prod_len: usize) -> u32 {
-    let grid: Vec<Vec<u32>> = INPUT
-        .trim()
-        .lines()
-        .map(|line| {
-            line.split_whitespace().filter_map(|s| s.parse().ok()).collect()
-        })
-        .collect();
+    let grid: Vec<Vec<u32>> = INPUT.trim()
+                                   .lines()
+                                   .map(|line| {
+                                       line.split_whitespace()
+                                           .filter_map(|s| s.parse().ok())
+                                           .collect()
+                                   })
+                                   .collect();
 
     let w = grid[0].len();
     let h = grid.len();
 
     let mut lines: Vec<Vec<_>> = vec![];
     // rows
-    lines.extend((0 .. h).map(|y| (0 .. w).map(|x| (x, y)).collect()));
+    lines.extend((0..h).map(|y| (0..w).map(|x| (x, y)).collect()));
     // cols
-    lines.extend((0 .. w).map(|x| (0 .. h).map(|y| (x, y)).collect()));
+    lines.extend((0..w).map(|x| (0..h).map(|y| (x, y)).collect()));
     // top 2 right diagonal
-    lines.extend((0 .. w).map(|i| {
+    lines.extend((0..w).map(|i| {
         let (x0, y0) = (i, 0);
-        (0 .. w - x0).map(|j| (x0 + j, y0 + j)).collect()
+        (0..w - x0).map(|j| (x0 + j, y0 + j)).collect()
     }));
     // left 2 bottom diagonal
-    lines.extend((0 .. h - 1).map(|i| {
+    lines.extend((0..h - 1).map(|i| {
         let (x0, y0) = (0, i + 1);
-        (0 .. h - y0).map(|j| (x0 + j, y0 + j)).collect()
+        (0..h - y0).map(|j| (x0 + j, y0 + j)).collect()
     }));
     // top 2 left diagonal
-    lines.extend((0 .. w).map(|i| {
+    lines.extend((0..w).map(|i| {
         let (x0, y0) = (i, 0);
-        (0 .. x0 + 1).map(|j| (x0 - j, y0 + j)).collect()
+        (0..x0 + 1).map(|j| (x0 - j, y0 + j)).collect()
     }));
     // right 2 bottom diagonal
-    lines.extend((0 .. h - 1).map(|i| {
+    lines.extend((0..h - 1).map(|i| {
         let (x0, y0) = (w - 1, i + 1);
-        (0 .. h - y0).map(|j| (x0 - j, y0 + j)).collect()
+        (0..h - y0).map(|j| (x0 - j, y0 + j)).collect()
     }));
 
     lines.iter()
-        .map(|cells| {
-            cells.windows(prod_len)
-                .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
-                .max()
-                .unwrap_or(0)
-        }).max()
-        .unwrap()
+         .map(|cells| {
+             cells.windows(prod_len)
+                  .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
+                  .max()
+                  .unwrap_or(0)
+         })
+         .max()
+         .unwrap()
 }
 
-fn solve() -> String { compute(4).to_string() }
+fn solve() -> String {
+    compute(4).to_string()
+}
 
 problem!("70600674", solve);

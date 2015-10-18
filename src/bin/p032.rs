@@ -6,7 +6,8 @@
 
 #![feature(iter_arith)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 extern crate integer;
 extern crate iter;
 
@@ -41,7 +42,9 @@ fn compute() -> u32 {
             let c: u32 = a * b;
             let mut c_digits = c.into_digits(radix).collect::<Vec<_>>();
             c_digits.sort();
-            if r2 == c_digits { products.insert(c); }
+            if r2 == c_digits {
+                products.insert(c);
+            }
         }
     }
 
@@ -58,7 +61,9 @@ fn compute() -> u32 {
             let c: u32 = a * b;
             let mut c_digits = c.into_digits(radix).collect::<Vec<_>>();
             c_digits.sort();
-            if r2 == c_digits { products.insert(c); }
+            if r2 == c_digits {
+                products.insert(c);
+            }
         }
     }
 

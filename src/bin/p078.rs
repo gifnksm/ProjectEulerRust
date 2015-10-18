@@ -4,11 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 const MILLION: i32 = 1000000;
 
-fn penta(n: i32) -> i32 { n * (3 * n - 1) / 2 }
+fn penta(n: i32) -> i32 {
+    n * (3 * n - 1) / 2
+}
 
 fn solve() -> String {
     let mut v = [0; 65536];
@@ -24,7 +27,9 @@ fn solve() -> String {
             } else {
                 penta(-i / 2 - 1)
             };
-            if p > n { break; }
+            if p > n {
+                break;
+            }
 
             let idx = (n - p) as usize;
 
@@ -32,12 +37,14 @@ fn solve() -> String {
                 0 => way + v[idx],
                 1 => way + v[idx],
                 2 => way - v[idx],
-                _ => way - v[idx]
+                _ => way - v[idx],
             } % MILLION
         }
         v[n as usize] = way;
 
-        if way == 0 { return n.to_string() }
+        if way == 0 {
+            return n.to_string();
+        }
     }
 
     unreachable!()

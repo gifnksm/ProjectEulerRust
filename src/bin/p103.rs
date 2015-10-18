@@ -6,7 +6,8 @@
 
 #![feature(range_inclusive, slice_patterns)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
@@ -17,11 +18,13 @@ use std::iter;
 struct SSS {
     avg: f64,
     nums: Vec<u32>,
-    sums: Vec<u32>
+    sums: Vec<u32>,
 }
 
 impl PartialEq for SSS {
-    fn eq(&self, other: &SSS) -> bool { self.avg == other.avg }
+    fn eq(&self, other: &SSS) -> bool {
+        self.avg == other.avg
+    }
 }
 impl Eq for SSS {}
 
@@ -40,7 +43,11 @@ impl Ord for SSS {
 impl SSS {
     #[cfg(test)]
     fn new() -> SSS {
-        SSS { avg: 0.0, nums: vec![], sums: vec![0] }
+        SSS {
+            avg: 0.0,
+            nums: vec![],
+            sums: vec![0],
+        }
     }
 
     fn new_with_pair(a: u32, b: u32) -> SSS {
@@ -48,7 +55,7 @@ impl SSS {
         SSS {
             avg: ((a + b) as f64) / 2.0,
             nums: vec![a, b],
-            sums: vec![0, a, b, a + b]
+            sums: vec![0, a, b, a + b],
         }
     }
 
@@ -62,9 +69,17 @@ impl SSS {
             assert!(j <= i);
 
             match self.sums[i].cmp(&(self.sums[j] + n)) {
-                Ordering::Equal   => { return None; }
-                Ordering::Less    => { sums.push(self.sums[i]);     i += 1; }
-                Ordering::Greater => { sums.push(self.sums[j] + n); j += 1; }
+                Ordering::Equal => {
+                    return None;
+                }
+                Ordering::Less => {
+                    sums.push(self.sums[i]);
+                    i += 1;
+                }
+                Ordering::Greater => {
+                    sums.push(self.sums[j] + n);
+                    j += 1;
+                }
             }
         }
         while j < len {
@@ -76,7 +91,11 @@ impl SSS {
         let mut nums = self.nums.clone();
         nums.push(n);
 
-        Some(SSS { avg: avg, nums: nums, sums: sums })
+        Some(SSS {
+            avg: avg,
+            nums: nums,
+            sums: sums,
+        })
     }
 
     fn max_addable(&self) -> u32 {
@@ -86,8 +105,8 @@ impl SSS {
         // 3: [a, b, c]          => (a + b)                   - 1
         // 2: [a, b]             => (a + b)                   - 1
         let len = self.nums.len();
-        let add = self.nums[.. len / 2 + 1].iter().fold(0, |a, &b| a + b);
-        let sub = self.nums[(len + 1) / 2 + 1 ..].iter().fold(0, |a, &b| a + b);
+        let add = self.nums[..len / 2 + 1].iter().fold(0, |a, &b| a + b);
+        let sub = self.nums[(len + 1) / 2 + 1..].iter().fold(0, |a, &b| a + b);
         add - sub - 1
     }
 
@@ -108,7 +127,7 @@ impl SSS {
 }
 
 struct SSSIterator {
-    heap: BinaryHeap<SSS>
+    heap: BinaryHeap<SSS>,
 }
 
 impl SSSIterator {

@@ -6,7 +6,8 @@
 
 #![feature(iter_cmp, step_by)]
 
-#[macro_use(problem)] extern crate common;
+#[macro_use(problem)]
+extern crate common;
 
 use std::io::{self, BufReader};
 use std::io::prelude::*;
@@ -24,7 +25,7 @@ const MASK_ALL: BITS = 0x1ff;
 #[derive(Eq, PartialEq, Clone, Debug)]
 struct SuDoku {
     name: String,
-    map: [[BITS; BOARD_WIDTH]; BOARD_HEIGHT]
+    map: [[BITS; BOARD_WIDTH]; BOARD_HEIGHT],
 }
 
 impl SuDoku {
@@ -32,7 +33,7 @@ impl SuDoku {
         match self.map[y][x].count_ones() {
             0 => usize::MAX,
             1 => (self.map[y][x].trailing_zeros() + 1) as usize,
-            _ => 0
+            _ => 0,
         }
     }
 
@@ -43,18 +44,22 @@ impl SuDoku {
 
 fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
     let mut line = String::new();
-    if try!(br.read_line(&mut line)) == 0 { return Ok(None) }
+    if try!(br.read_line(&mut line)) == 0 {
+        return Ok(None);
+    }
 
     let mut sudoku = SuDoku {
         name: line.trim().to_string(),
-        map: [[MASK_ALL; BOARD_WIDTH]; BOARD_HEIGHT]
+        map: [[MASK_ALL; BOARD_WIDTH]; BOARD_HEIGHT],
     };
 
     for (y, line) in br.lines().enumerate().take(BOARD_HEIGHT) {
         let line = try!(line);
         for (x, c) in line.chars().enumerate().take(BOARD_WIDTH) {
             let n = c.to_digit(10).unwrap();
-            if n != 0 { sudoku.set_at(x, y, n as usize); }
+            if n != 0 {
+                sudoku.set_at(x, y, n as usize);
+            }
         }
     }
 
@@ -63,8 +68,8 @@ fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
 
 fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     let group_it = (0..(GROUP_WIDTH * GROUP_HEIGHT))
-        .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
-        .collect::<Vec<_>>();
+                       .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
+                       .collect::<Vec<_>>();
 
     loop {
         let bkup = puzzle.clone();
@@ -72,7 +77,9 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
         // if the number on (x, y) is uniquely determined, off the number bit on the other cells.
         for y in 0..BOARD_HEIGHT {
             for x in 0..BOARD_WIDTH {
-                if puzzle.map[y][x].count_ones() != 1 { continue }
+                if puzzle.map[y][x].count_ones() != 1 {
+                    continue;
+                }
 
                 let (x0, y0) = ((x / GROUP_WIDTH) * GROUP_WIDTH,
                                 (y / GROUP_HEIGHT) * GROUP_HEIGHT);
@@ -80,10 +87,11 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                 let col = (0..BOARD_HEIGHT).map(|y| (x, y));
                 let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
 
-                let it = row.chain(col).chain(grp)
-                    .filter(|&pos: &(usize, usize)| pos != (x, y));
+                let it = row.chain(col).chain(grp).filter(|&pos: &(usize, usize)| pos != (x, y));
                 let mask = !puzzle.map[y][x] & MASK_ALL;
-                for (x, y) in it { puzzle.map[y][x] &= mask; }
+                for (x, y) in it {
+                    puzzle.map[y][x] &= mask;
+                }
             }
         }
 
@@ -94,10 +102,11 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
 
             for y in 0..BOARD_HEIGHT {
                 let next = {
-                    let mut it = (0..BOARD_WIDTH)
-                        .filter(|&x| puzzle.map[y][x] & bit != 0);
+                    let mut it = (0..BOARD_WIDTH).filter(|&x| puzzle.map[y][x] & bit != 0);
                     let next = it.next();
-                    if next.is_none() || it.next().is_some() { continue }
+                    if next.is_none() || it.next().is_some() {
+                        continue;
+                    }
                     next
                 };
                 puzzle.map[y][next.unwrap()] = bit;
@@ -105,10 +114,11 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
 
             for x in 0..BOARD_WIDTH {
                 let next = {
-                    let mut it = (0..BOARD_HEIGHT)
-                        .filter(|&y| puzzle.map[y][x] & bit != 0);
+                    let mut it = (0..BOARD_HEIGHT).filter(|&y| puzzle.map[y][x] & bit != 0);
                     let next = it.next();
-                    if next.is_none() || it.next().is_some() { continue }
+                    if next.is_none() || it.next().is_some() {
+                        continue;
+                    }
                     next
                 };
                 puzzle.map[next.unwrap()][x] = bit;
@@ -117,12 +127,13 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
             for y0 in (0..BOARD_HEIGHT).step_by(GROUP_HEIGHT) {
                 for x0 in (0..BOARD_WIDTH).step_by(GROUP_WIDTH) {
                     let next = {
-                        let mut it = group_it
-                            .iter()
-                            .map(|&(dx, dy)| (x0 + dx, y0 + dy))
-                            .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
+                        let mut it = group_it.iter()
+                                             .map(|&(dx, dy)| (x0 + dx, y0 + dy))
+                                             .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
                         let next = it.next();
-                        if next.is_none() || it.next().is_some() { continue }
+                        if next.is_none() || it.next().is_some() {
+                            continue;
+                        }
                         next
                     };
                     let (x, y) = next.unwrap();
@@ -131,26 +142,34 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
             }
         }
 
-        if puzzle == bkup { break }
+        if puzzle == bkup {
+            break;
+        }
     }
 
     let it = (0..(BOARD_HEIGHT * BOARD_WIDTH))
-        .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
-        .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones() as BITS))
-        .collect::<Vec<(usize, usize, BITS)>>();
+                 .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
+                 .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones() as BITS))
+                 .collect::<Vec<(usize, usize, BITS)>>();
 
-    if it.iter().any(|&(_x, _y, cnt)| cnt == 0) { return vec![]; }
-    if it.iter().all(|&(_x, _y, cnt)| cnt == 1) { return vec![puzzle]; }
+    if it.iter().any(|&(_x, _y, cnt)| cnt == 0) {
+        return vec![];
+    }
+    if it.iter().all(|&(_x, _y, cnt)| cnt == 1) {
+        return vec![puzzle];
+    }
 
     let (x, y, _cnt) = *it.iter()
-        .filter(|& &(_x, _y, cnt)| cnt > 1)
-        .min_by(|& &(_x, _y, cnt)| cnt)
-        .unwrap();
+                          .filter(|&&(_x, _y, cnt)| cnt > 1)
+                          .min_by(|&&(_x, _y, cnt)| cnt)
+                          .unwrap();
 
     let mut answers = vec![];
     for n in 0..MAX_NUMBER {
         let bit = 1 << n;
-        if puzzle.map[y][x] & bit == 0 { continue }
+        if puzzle.map[y][x] & bit == 0 {
+            continue;
+        }
 
         let mut p2 = puzzle.clone();
         p2.map[y][x] = bit;
