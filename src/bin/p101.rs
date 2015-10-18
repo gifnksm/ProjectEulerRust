@@ -15,7 +15,7 @@ use polynomial::Polynomial;
 fn u(n: BigInt) -> BigInt {
     let mut sum: BigInt = Zero::zero();
     let mut prod = One::one();
-    for _ in (0 .. 11) {
+    for _ in 0..11 {
         sum = sum + &prod;
         prod = &prod * (-&n);
     }
@@ -47,7 +47,7 @@ fn bop(ns: &[(BigInt, BigInt)]) -> BigInt {
 }
 
 fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
-    (0 .. dim + 1).map(|i| {
+    (0..(dim + 1)).map(|i| {
         let n: BigInt = FromPrimitive::from_u32(i + 1).unwrap();
         (n.clone(), f(n))
     }).collect()
@@ -55,7 +55,7 @@ fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
 
 fn solve() -> String {
     let un = u_to_vec(10, u);
-    (0usize .. 10)
+    (0..10)
         .map(|i| bop(&un[.. i + 1]))
         .fold(num::zero::<BigInt>(), |acc, elt| acc + elt)
         .to_string()

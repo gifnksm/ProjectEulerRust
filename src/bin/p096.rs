@@ -62,7 +62,7 @@ fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
 }
 
 fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
-    let group_it = (0 .. GROUP_WIDTH * GROUP_HEIGHT)
+    let group_it = (0..(GROUP_WIDTH * GROUP_HEIGHT))
         .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
         .collect::<Vec<_>>();
 
@@ -70,14 +70,14 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
         let bkup = puzzle.clone();
 
         // if the number on (x, y) is uniquely determined, off the number bit on the other cells.
-        for y in (0 .. BOARD_HEIGHT) {
-            for x in (0 .. BOARD_WIDTH) {
+        for y in 0..BOARD_HEIGHT {
+            for x in 0..BOARD_WIDTH {
                 if puzzle.map[y][x].count_ones() != 1 { continue }
 
                 let (x0, y0) = ((x / GROUP_WIDTH) * GROUP_WIDTH,
                                 (y / GROUP_HEIGHT) * GROUP_HEIGHT);
-                let row = (0 .. BOARD_WIDTH).map(|x| (x, y));
-                let col = (0 .. BOARD_HEIGHT).map(|y| (x, y));
+                let row = (0..BOARD_WIDTH).map(|x| (x, y));
+                let col = (0..BOARD_HEIGHT).map(|y| (x, y));
                 let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
 
                 let it = row.chain(col).chain(grp)
@@ -89,12 +89,12 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
 
         // if the number n can be appears on only one cell in the row or col or group,
         // the number of the cell is n.
-        for n in 0 .. MAX_NUMBER {
+        for n in 0..MAX_NUMBER {
             let bit = 1 << n;
 
-            for y in 0 .. BOARD_HEIGHT {
+            for y in 0..BOARD_HEIGHT {
                 let next = {
-                    let mut it = (0 .. BOARD_WIDTH)
+                    let mut it = (0..BOARD_WIDTH)
                         .filter(|&x| puzzle.map[y][x] & bit != 0);
                     let next = it.next();
                     if next.is_none() || it.next().is_some() { continue }
@@ -103,9 +103,9 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                 puzzle.map[y][next.unwrap()] = bit;
             }
 
-            for x in 0 .. BOARD_WIDTH {
+            for x in 0..BOARD_WIDTH {
                 let next = {
-                    let mut it = (0 .. BOARD_HEIGHT)
+                    let mut it = (0..BOARD_HEIGHT)
                         .filter(|&y| puzzle.map[y][x] & bit != 0);
                     let next = it.next();
                     if next.is_none() || it.next().is_some() { continue }
@@ -114,8 +114,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                 puzzle.map[next.unwrap()][x] = bit;
             }
 
-            for y0 in (0 .. BOARD_HEIGHT).step_by(GROUP_HEIGHT) {
-                for x0 in (0 .. BOARD_WIDTH).step_by(GROUP_WIDTH) {
+            for y0 in (0..BOARD_HEIGHT).step_by(GROUP_HEIGHT) {
+                for x0 in (0..BOARD_WIDTH).step_by(GROUP_WIDTH) {
                     let next = {
                         let mut it = group_it
                             .iter()
@@ -134,7 +134,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
         if puzzle == bkup { break }
     }
 
-    let it = (0 .. BOARD_HEIGHT * BOARD_WIDTH)
+    let it = (0..(BOARD_HEIGHT * BOARD_WIDTH))
         .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
         .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones() as BITS))
         .collect::<Vec<(usize, usize, BITS)>>();
@@ -148,7 +148,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
         .unwrap();
 
     let mut answers = vec![];
-    for n in (0 .. MAX_NUMBER) {
+    for n in 0..MAX_NUMBER {
         let bit = 1 << n;
         if puzzle.map[y][x] & bit == 0 { continue }
 

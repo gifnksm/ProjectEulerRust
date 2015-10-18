@@ -56,7 +56,7 @@ impl Iterator for Multiples {
                 self.heap.push(Multiple(n * self.facts[i as usize], i));
             }
 
-            for j in (i + 1 .. self.facts.len() as u64) {
+            for j in (i + 1)..(self.facts.len() as u64) {
                 // n = ... * f[i]^k => ... * f[i]^k * f[j]
                 self.heap.push(Multiple(n * self.facts[j as usize], j));
             }

@@ -48,7 +48,7 @@ fn compute() -> u32 {
     let mut result = [0; 7];
     let mut day = 1; // Monday
     day = (day + day_of_year(1900)) % 7;
-    for y in (1901u32 .. 2000 + 1) {
+    for y in 1901u32..(2000 + 1) {
         day = append_day(y, day, &mut result);
     }
     result[0]

@@ -12,10 +12,10 @@
 
 fn num_solutions(limit: usize) -> Vec<u32> {
     let mut cnt = vec![0; limit];
-    for q in (1 .. limit) {
+    for q in 1..limit {
         let r = (4 - (q % 4)) % 4;
         if q * r >= limit { continue }
-        for p in (r .. q * 3).step_by(4) {
+        for p in (r..(q * 3)).step_by(4) {
             let n = q * p;
             if n >= limit { break }
             cnt[n] += 1;

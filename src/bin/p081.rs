@@ -29,12 +29,12 @@ fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
 fn minimal_path_sum(mut mat: Vec<Vec<u32>>) -> u32 {
     let (w, h) = (mat[0].len(), mat.len());
 
-    for y in (1 .. h) {
+    for y in 1..h {
         mat[y][0] += mat[y - 1][0];
     }
-    for x in (1 .. w) {
+    for x in 1..w {
         mat[0][x] += mat[0][x - 1];
-        for y in (1 .. h) {
+        for y in 1..h {
             mat[y][x] += cmp::min(mat[y - 1][x], mat[y][x - 1]);
         }
     }

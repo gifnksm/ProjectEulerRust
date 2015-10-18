@@ -25,11 +25,11 @@ fn is_pentagonal(n: u32, table: &[u32]) -> bool {
 // find minimum n, where n < m
 fn solve() -> String {
     let limit = 10000;
-    let pentagonals = (0u32 .. limit).map(nth_pentagonal).collect::<Vec<_>>();
+    let pentagonals = (0..limit).map(nth_pentagonal).collect::<Vec<_>>();
 
     for m in 0.. {
         let pm = pentagonals[m];
-        for n in (0 .. m) {
+        for n in 0..m {
             let pn = pentagonals[n];
             if (pm - pn) % 2 != 0 { continue }
             if is_pentagonal(pm - pn, &pentagonals) {

@@ -73,7 +73,7 @@ impl Iterator for RunDigits {
 
             let mut j = 0;
             let mut num = 0;
-            for i in (0 .. self.other_ds.len() + self.run_len) {
+            for i in 0..(self.other_ds.len() + self.run_len) {
                 num = num * 10 + if set.contains(&i) {
                     j += 1;
                     self.other_ds[j - 1]
@@ -114,7 +114,7 @@ fn solve() -> String {
     let n = 10;
     let ps = PrimeSet::new();
 
-    (0u64 .. 10)
+    (0u64..10)
         .map(|d| compute_s(&ps, n, d).2)
         .sum::<u64>()
         .to_string()
@@ -141,7 +141,7 @@ mod tests {
         assert_eq!((3, 1, 8887), super::compute_s(&ps, 4, 8));
         assert_eq!((3, 7, 48073), super::compute_s(&ps, 4, 9));
 
-        let total = (0u64 .. 10)
+        let total = (0u64..10)
             .map(|d| super::compute_s(&ps, 4, d).2)
             .sum::<u64>();
         assert_eq!(273700, total);

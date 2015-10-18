@@ -74,26 +74,26 @@ fn evaluate(num: &[u32], op: &[Op], f: &mut FnMut(Ratio<i32>)) {
         }
         3 => {
             let a = Ratio::from_integer(num[0] as i32);
-            evaluate(&[num[1], num[2]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[1], num[2]], &op[1..], &mut |b| apply(a, b, op[0], f));
 
             let a = Ratio::from_integer(num[1] as i32);
-            evaluate(&[num[2], num[0]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[2], num[0]], &op[1..], &mut |b| apply(a, b, op[0], f));
 
             let a = Ratio::from_integer(num[2] as i32);
-            evaluate(&[num[0], num[1]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[0], num[1]], &op[1..], &mut |b| apply(a, b, op[0], f));
         }
         4 => {
             let a = Ratio::from_integer(num[0] as i32);
-            evaluate(&[num[1], num[2], num[3]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[1], num[2], num[3]], &op[1..], &mut |b| apply(a, b, op[0], f));
 
             let a = Ratio::from_integer(num[1] as i32);
-            evaluate(&[num[0], num[2], num[3]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[0], num[2], num[3]], &op[1..], &mut |b| apply(a, b, op[0], f));
 
             let a = Ratio::from_integer(num[2] as i32);
-            evaluate(&[num[0], num[1], num[3]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[0], num[1], num[3]], &op[1..], &mut |b| apply(a, b, op[0], f));
 
             let a = Ratio::from_integer(num[3] as i32);
-            evaluate(&[num[0], num[1], num[2]], &op[1 ..], &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[0], num[1], num[2]], &op[1..], &mut |b| apply(a, b, op[0], f));
 
             evaluate(&[num[0], num[1]], &[op[1]], &mut |a| {
                 evaluate(&[num[2], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
@@ -134,7 +134,7 @@ fn count_seqlen(num_set: &[u32; 4]) -> u32 {
         }
     }
 
-    (1 ..).take_while(|&i| set[i as usize])
+    (1..).take_while(|&i| set[i as usize])
         .last()
         .unwrap_or(0)
 }
@@ -153,10 +153,10 @@ mod tests {
     #[test]
     fn nums() {
         let mut nums = Nums::new();
-        for a in (1u32 .. 10) {
-            for b in (a + 1 .. 10) {
-                for c in (b + 1 .. 10) {
-                    for d in (c + 1 .. 10) {
+        for a in 1u32.. 10 {
+            for b in (a + 1)..10 {
+                for c in (b + 1)..10 {
+                    for d in (c + 1)..10 {
                         assert_eq!(Some([a, b, c, d]), nums.next());
                     }
                 }

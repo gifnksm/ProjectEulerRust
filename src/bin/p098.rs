@@ -59,8 +59,8 @@ fn flatten_groups(groups: Vec<Vec<String>>) -> Vec<(String, String)> {
             continue
         }
 
-        for i in (0 .. group.len()) {
-            for j in (i + 1 .. group.len()) {
+        for i in 0..group.len() {
+            for j in (i + 1)..group.len() {
                 pairs.push((group[i].clone(), group[j].clone()))
             }
         }
@@ -104,7 +104,7 @@ fn group_by_len(mut indices: Vec<(u64, Vec<u64>, Vec<u64>)>) -> Vec<(u64, Vec<(V
 }
 
 fn check_digit(idx: &[u64], ds: &[u64]) -> bool {
-    for i in (0 .. idx.len()) {
+    for i in 0..idx.len() {
         if ds[i] != ds[idx[i] as usize] {
             return false;
         }

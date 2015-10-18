@@ -36,7 +36,7 @@ impl Iterator for BitCombination {
                 self.set.insert(n + 1);
 
                 let mut j = n + 2;
-                for i in (n + 2 .. self.size) {
+                for i in (n + 2)..self.size {
                     if self.set.contains(&i) {
                         if i != j {
                             self.set.remove(&i);
@@ -69,7 +69,7 @@ impl BitCombination {
     pub fn new(cnt: usize, size: usize) -> BitCombination {
         assert!(cnt <= size);
         let mut set = BitSet::new();
-        for i in (0 .. cnt) {
+        for i in 0..cnt {
             set.insert(i);
         }
         BitCombination { consumed: false, size: size, set: set }
@@ -78,7 +78,7 @@ impl BitCombination {
     fn find_change_bit(&self) -> Option<usize> {
         if self.size == 0 { return None }
 
-        for n in (0 .. self.size - 1).rev() {
+        for n in (0..self.size - 1).rev() {
             if self.set.contains(&n) && !self.set.contains(&(n + 1)) {
                 return Some(n)
             }

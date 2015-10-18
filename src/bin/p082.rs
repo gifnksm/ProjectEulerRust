@@ -31,19 +31,19 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
 
     let mut sum = vec![vec![0; w]; h];
 
-    for y in (0 .. h) { sum[y][0] = mat[y][0]; }
-    for x in (1 .. w) {
-        for y in (0 .. h) {
+    for y in 0..h { sum[y][0] = mat[y][0]; }
+    for x in 1..w {
+        for y in 0..h {
             let mut min = sum[y][x - 1];
 
             let mut s = 0;
-            for dy in (1 .. y) {
+            for dy in 1..y {
                 s += mat[y - dy][x];
                 min = cmp::min(sum[y - dy][x - 1] + s, min);
             }
 
             let mut s = 0;
-            for dy in (1 .. h - y) {
+            for dy in 1..(h - y) {
                 s += mat[y + dy][x];
                 min = cmp::min(sum[y + dy][x - 1] + s, min);
             }
@@ -52,7 +52,7 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
         }
     }
 
-    (0 .. h)
+    (0..h)
         .map(|y| sum[y][w - 1])
         .min()
         .unwrap()

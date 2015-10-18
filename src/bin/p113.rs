@@ -12,15 +12,15 @@ fn num_increasing(len: usize) -> u64 {
     let mut buf = vec![[0; 10]; len];
     for b in &mut buf[0] { *b = 1; }
 
-    for i in 1 .. len {
+    for i in 1..len {
         let mut s = 0;
-        for d in (0 .. buf[i].len()).rev() {
+        for d in (0..buf[i].len()).rev() {
             s += buf[i - 1][d];
             buf[i][d] = s;
         }
     }
 
-    let sum: u64 = (0 .. buf[len - 1].len())
+    let sum: u64 = (0..buf[len - 1].len())
         .map(|d| buf[len - 1][d])
         .sum();
     sum - 1 // all zero
@@ -32,13 +32,13 @@ fn num_decreasing(len: usize) -> u64 {
 
     for i in 1 .. len {
         let mut s = 0;
-        for d in (0 .. buf[i].len()) {
+        for d in 0..buf[i].len() {
             s += buf[i - 1][d];
             buf[i][d] = s;
         }
     }
 
-    let sum: u64 = (0 .. buf[len - 1].len())
+    let sum: u64 = (0..buf[len - 1].len())
         .map(|d| buf[len - 1][d])
         .sum();
 

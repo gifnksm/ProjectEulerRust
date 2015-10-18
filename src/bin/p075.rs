@@ -17,10 +17,10 @@ fn solve() -> String {
     let limit = 1500000u64;
     let mut v = vec![0; (limit + 1) as usize];
 
-    for m in (2 .. (limit / 2).sqrt()) {
+    for m in 2..(limit / 2).sqrt() {
         for (a, b, c) in PrimitivePythagoreans::new(m) {
             let sum = a + b + c;
-            for s in (sum .. limit + 1).step_by(sum) {
+            for s in (sum..(limit + 1)).step_by(sum) {
                 v[s as usize] += 1;
             }
         }

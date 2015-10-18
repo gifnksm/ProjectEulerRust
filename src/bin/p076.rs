@@ -16,7 +16,7 @@ fn count_way(sum: u32) -> u32 {
                  map: &mut HashMap<(u32, u32), u32>) -> u32
     {
         let mut cnt = 1; // only sum
-        for k in (min_n .. sum / 2 + 1) {
+        for k in min_n..(sum / 2 + 1) {
             let n = match map.get(&(sum - k, k)) {
                 Some(&n) => n,
                 None     => count_sub(sum - k, k, map)

@@ -14,7 +14,7 @@ fn count_way(score: u32) -> u32 {
     let mut double = vec![0; 51];
     let mut triple = vec![0; 61];
     let mut dup    = vec![0; 121];
-    for i in (1usize .. 21) {
+    for i in 1..21 {
         single[1 * i] = 1;
         double[2 * i] = 1;
         triple[3 * i] = 1;

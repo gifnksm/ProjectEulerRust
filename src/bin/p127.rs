@@ -31,11 +31,11 @@ use std::cmp::Ordering;
 struct Rad(u64, u64, Vec<u64>); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: u64) -> Vec<Rad> {
-    let mut rad_vec = (0 .. n_limit)
+    let mut rad_vec = (0..n_limit)
         .map(|i| (1, i, Vec::new()))
         .collect::<Vec<_>>();
 
-    for p in (2 .. (rad_vec.len() as u64)) {
+    for p in 2..(rad_vec.len() as u64) {
         if rad_vec[p as usize].0 != 1 { continue }
 
         for kp in (p..).step_by(p).take_while(|&kp| kp < n_limit) {
@@ -68,7 +68,7 @@ fn abc_hits_c_sum(c_limit: u64) -> u64 {
 
     let mut c_sum = 0;
 
-    for c in 3 .. c_limit {
+    for c in 3..c_limit {
         let Rad(rad_c, _, ref c_facts) = rad_vec[c as usize];
         if rad_c == c { continue } // if rad(c) == c, rad(ab) must be 1. this doesn't satisfy condition 2.
 

@@ -14,9 +14,9 @@ fn compute(a_max: u32, b_max: u32) -> u32 {
     let mut set = HashSet::new();
     let ps = PrimeSet::new();
 
-    for a in (2 .. a_max + 1) {
+    for a in 2..(a_max + 1) {
         let a_factor = a.factorize(&ps).collect::<Vec<_>>();
-        for b in (2 .. b_max + 1) {
+        for b in 2..(b_max + 1) {
             let ab_factor = a_factor
                 .iter()
                 .map(|&(base, exp)| (base, (exp) as u32 * b))

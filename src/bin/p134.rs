@@ -101,7 +101,7 @@ fn solve() -> String {
 
     let mut mod_map = vec![vec![0; 10]; 10];
     for &b in &[1, 3, 7, 9] {
-        for n in (1 .. 10u64) {
+        for n in 1..10u64 {
             mod_map[b as usize][((b * n) % 10) as usize] = n;
         }
     }
@@ -120,7 +120,7 @@ fn solve() -> String {
         let mut b = 0;
         let mut p1_digit = p1;
         let mut coef = 1;
-        for _ in (0 .. p1.to_string().len() as u64) {
+        for _ in 0..(p1.to_string().len() as u64) {
             let (d, m) = p1_digit.div_rem(&10);
             p1_digit = d;
             a = xmap[((10 + m - (b / coef) % 10) % 10) as usize];

@@ -10,9 +10,9 @@ fn count_ways(sum: u32, coins: &[u32]) -> u32 {
     if coins.len() == 1 { return 1 }
 
     let mut ans = 0;
-    for n in (0 .. sum / coins[0] + 1) {
+    for n in 0..(sum / coins[0] + 1) {
         let d = sum - n * coins[0];
-        ans += count_ways(d, &coins[1 ..]);
+        ans += count_ways(d, &coins[1..]);
     }
     ans
 }

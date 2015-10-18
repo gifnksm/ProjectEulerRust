@@ -64,7 +64,7 @@ fn solve() -> String {
     let limit = 1000000;
     let factorial = {
         let mut val = [1; 10];
-        for i in (1usize .. 10) {
+        for i in 1..10 {
             val[i] = val[i - 1] * (i as u32);
         }
         val
@@ -72,7 +72,7 @@ fn solve() -> String {
 
     let mut map = vec![Length::Unknown; (factorial[9] * 6 + 1) as usize];
     let mut cnt = 0;
-    for n in (1u32 .. limit + 1) {
+    for n in 1..(limit + 1) {
         let len = get_chain_len(n, &mut map, &factorial);
         if len == 60 { cnt += 1; }
     }
@@ -90,7 +90,7 @@ mod tests {
     fn len() {
         let factorial = {
             let mut val = [1; 10];
-            for i in (1usize .. 10) {
+            for i in 1..10 {
                 val[i] = val[i - 1] * (i as u32);
             }
             val

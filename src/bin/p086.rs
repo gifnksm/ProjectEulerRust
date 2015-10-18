@@ -12,13 +12,13 @@ use seq::PrimitivePythagoreans;
 
 fn get_count(m: u32) -> u32 {
     let mut cnt = 0;
-    for max_a in (0 .. m) {
+    for max_a in 0..m {
         for (p, q, _) in PrimitivePythagoreans::new(max_a) {
-            for k in (1 .. m / q + 1) {
+            for k in 1..(m / q + 1) {
                 cnt += k * p / 2;
             }
 
-            for k in (1 .. m / p + 1) {
+            for k in 1..(m / p + 1) {
                 let end = cmp::min(k * p, k * q / 2) + 1;
                 let start = k * q - k * p;
                 if end > start { cnt += end - start; }

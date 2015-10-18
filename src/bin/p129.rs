@@ -48,7 +48,7 @@ mod tests {
             let mut r: BigUint = Zero::zero();
             let ten: BigUint = FromPrimitive::from_u64(10).unwrap();
             let one: BigUint = One::one();
-            for _ in (0 .. k) {
+            for _ in 0..k {
                 r = &r * &ten + &one;
             }
             r

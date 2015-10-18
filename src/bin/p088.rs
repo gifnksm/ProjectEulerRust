@@ -23,7 +23,7 @@ fn each_sum_product<F>(prod_start: u32, prod_end: u32, f: &mut F)
         where F: FnMut(u32, u32, usize)
     {
 
-        for n in (min_n .. prod_end.div_ceil(&prod_base)) {
+        for n in min_n..prod_end.div_ceil(&prod_base) {
             let prod = prod_base * n;
             let sum  = sum_base  + n;
             let len  = len_base  + 1;

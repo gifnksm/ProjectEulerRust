@@ -172,8 +172,8 @@ impl Hand {
     fn from_cards(cards: &[Card]) -> Hand {
         assert_eq!(5, cards.len());
 
-        let mut num_count  = (0u32 .. 13).map(|_| vec![]).collect::<Vec<_>>();
-        let mut suit_count = (0u32 .. 4).map(|_| vec![]).collect::<Vec<_>>();
+        let mut num_count  = (0..13).map(|_| vec![]).collect::<Vec<_>>();
+        let mut suit_count = (0..4).map(|_| vec![]).collect::<Vec<_>>();
 
         for &c in cards {
             let val = if c.num == 1 { 12 } else { c.num - 2 };
@@ -216,7 +216,7 @@ impl Hand {
                 .iter()
                 .position(|v| v.len() > 0)
                 .unwrap();
-            num_count[min_idx .. min_idx + 5].iter().all(|v| v.len() == 1)
+            num_count[min_idx..(min_idx + 5)].iter().all(|v| v.len() == 1)
         };
 
         let mut ss = [single[0], single[1], single[2], single[3], single[4]];
@@ -303,8 +303,8 @@ fn solve(file: File) -> io::Result<String> {
             .split(' ')
             .map(|c| FromStr::from_str(c).unwrap())
             .collect::<Vec<_>>();
-        let p1_hand = Hand::from_cards(&cards[.. 5]);
-        let p2_hand = Hand::from_cards(&cards[5 ..]);
+        let p1_hand = Hand::from_cards(&cards[..5]);
+        let p2_hand = Hand::from_cards(&cards[5..]);
         match p1_hand.cmp(&p2_hand) {
             Ordering::Greater => { p1_win  += 1 }
             Ordering::Less    => { _p2_win += 1 }
@@ -339,7 +339,7 @@ mod tests {
             assert_eq!(output, &ihand.to_string()[..]);
 
             let mut rng = rand::thread_rng();
-            for _ in (0 .. 10) {
+            for _ in 0..10 {
                 rng.shuffle(&mut cs);
                 let hand = Hand::from_cards(&cs);
                 assert_eq!(ihand, hand);

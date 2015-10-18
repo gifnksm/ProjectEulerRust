@@ -14,7 +14,7 @@ use std::num::wrapping::OverflowingOps;
 use std::collections::BinaryHeap;
 use integer::Integer;
 
-trait IntExt {
+trait IntExt: Sized {
     fn checked_pow(self, exp: u32) -> Option<Self>;
 }
 

@@ -24,7 +24,7 @@ fn compute(num_value: usize) -> u64 {
             if cnt <= 1 { continue }
 
             let mut num_prime = 1;
-            for d_dst in (d_src + 1 .. radix) {
+            for d_dst in (d_src + 1)..radix {
                 if radix - d_dst < num_value - num_prime { break }
 
                 let it = ds.clone().map(|d| if d == (d_src as u64) { d_dst as u64 } else { d });
