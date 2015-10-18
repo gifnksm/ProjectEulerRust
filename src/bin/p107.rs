@@ -10,7 +10,7 @@ extern crate union_find;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use union_find::{UnionFind, Size};
+use union_find::{UnionFind, UnionBySize, QuickUnionUf as Uf};
 
 fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {
     let mut verts = Vec::new();
@@ -25,11 +25,11 @@ fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {
     }
     verts.sort_by(|a, b| a.1.cmp(&b.1));
 
-    let mut uf = UnionFind::<Size>::new(size);
+    let mut uf = Uf::<UnionBySize>::new(size);
 
     let mut saving = 0;
     for &((i, j), n) in &verts {
-        if uf.find(i, j) {
+        if uf.find(i) == uf.find(j) {
             saving += n;
         } else {
             uf.union(i, j);
