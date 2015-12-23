@@ -88,44 +88,54 @@ enum Hand {
 impl fmt::Display for Hand {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Hand::HighCard([c0], [c1], [c2], [c3], [c4]) =>
-                write!(f, "HighCard({}, {}, {}, {}, {})", c0, c1, c2, c3, c4),
-            Hand::Pair([c0, c1], [c2], [c3], [c4]) =>
-                write!(f, "Pair({}, {}) + HighCard({}, {}, {})", c0, c1, c2, c3, c4),
-            Hand::TwoPairs([c0, c1], [c2, c3], [c4]) =>
+            Hand::HighCard([c0], [c1], [c2], [c3], [c4]) => {
+                write!(f, "HighCard({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
+            }
+            Hand::Pair([c0, c1], [c2], [c3], [c4]) => {
+                write!(f, "Pair({}, {}) + HighCard({}, {}, {})", c0, c1, c2, c3, c4)
+            }
+            Hand::TwoPairs([c0, c1], [c2, c3], [c4]) => {
                 write!(f,
                        "TwoPairs(({}, {}), ({}, {})) + HighCard({})",
                        c0,
                        c1,
                        c2,
                        c3,
-                       c4),
-            Hand::ThreeOfAKind([c0, c1, c2], [c3], [c4]) =>
+                       c4)
+            }
+            Hand::ThreeOfAKind([c0, c1, c2], [c3], [c4]) => {
                 write!(f,
                        "ThreeOfAKind({}, {}, {}) + HighCard({}, {})",
                        c0,
                        c1,
                        c2,
                        c3,
-                       c4),
-            Hand::Straight([c0, c1, c2, c3, c4]) =>
-                write!(f, "Straight({}, {}, {}, {}, {})", c0, c1, c2, c3, c4),
-            Hand::Flush([c0, c1, c2, c3, c4]) =>
-                write!(f, "Flush({}, {}, {}, {}, {})", c0, c1, c2, c3, c4),
-            Hand::FullHouse([c0, c1, c2], [c3, c4]) =>
-                write!(f, "FullHouse(({}, {}, {}), ({}, {}))", c0, c1, c2, c3, c4),
-            Hand::FourOfAKind([c0, c1, c2, c3], [c4]) =>
+                       c4)
+            }
+            Hand::Straight([c0, c1, c2, c3, c4]) => {
+                write!(f, "Straight({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
+            }
+            Hand::Flush([c0, c1, c2, c3, c4]) => {
+                write!(f, "Flush({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
+            }
+            Hand::FullHouse([c0, c1, c2], [c3, c4]) => {
+                write!(f, "FullHouse(({}, {}, {}), ({}, {}))", c0, c1, c2, c3, c4)
+            }
+            Hand::FourOfAKind([c0, c1, c2, c3], [c4]) => {
                 write!(f,
                        "FourOfAKind({}, {}, {}, {}) + HighCard({})",
                        c0,
                        c1,
                        c2,
                        c3,
-                       c4),
-            Hand::StraightFlush([c0, c1, c2, c3, c4]) =>
-                write!(f, "StraightFlush({}, {}, {}, {}, {})", c0, c1, c2, c3, c4),
-            Hand::RoyalFlush([c0, c1, c2, c3, c4]) =>
-                write!(f, "RoyalFlush({}, {}, {}, {}, {})", c0, c1, c2, c3, c4),
+                       c4)
+            }
+            Hand::StraightFlush([c0, c1, c2, c3, c4]) => {
+                write!(f, "StraightFlush({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
+            }
+            Hand::RoyalFlush([c0, c1, c2, c3, c4]) => {
+                write!(f, "RoyalFlush({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
+            }
         }
     }
 }
@@ -213,7 +223,8 @@ impl Hand {
         let mut four = vec![];
         for v in &num_count {
             match v.len() {
-                0 => { /* Do nothing */
+                0 => {
+                    // Do nothing
                 }
                 1 => single.push(v[0]),
                 2 => pairs.push([v[0], v[1]]),
@@ -232,7 +243,8 @@ impl Hand {
             (0, 1, 0) => return Hand::three_of_a_kind(three[0], single[0], single[1]),
             (1, 1, 0) => return Hand::full_house(three[0], pairs[0]),
             (0, 0, 1) => return Hand::four_of_a_kind(four[0], single[0]),
-            _ => { /* Do nothing */
+            _ => {
+                // Do nothing
             }
         }
 
@@ -252,9 +264,9 @@ impl Hand {
         }
 
         match (is_flush, is_straight) {
-            (true,  true) if ss[0].num == 1 => Hand::RoyalFlush(ss),
-            (true,  true) => Hand::StraightFlush(ss),
-            (true,  false) => Hand::Flush(ss),
+            (true, true) if ss[0].num == 1 => Hand::RoyalFlush(ss),
+            (true, true) => Hand::StraightFlush(ss),
+            (true, false) => Hand::Flush(ss),
             (false, true) => Hand::Straight(ss),
             (false, false) => Hand::HighCard([ss[0]], [ss[1]], [ss[2]], [ss[3]], [ss[4]]),
         }
@@ -277,16 +289,16 @@ impl Hand {
 
     fn to_array(&self) -> C5 {
         match *self {
-            Hand::HighCard     ([c0], [c1], [c2], [c3], [c4]) |
-            Hand::Pair         ([c0,   c1], [c2], [c3], [c4]) |
-            Hand::TwoPairs     ([c0,   c1], [c2,   c3], [c4]) |
-            Hand::ThreeOfAKind ([c0,   c1,   c2], [c3], [c4]) |
-            Hand::Straight     ([c0,   c1,   c2,   c3,   c4]) |
-            Hand::Flush        ([c0,   c1,   c2,   c3,   c4]) |
-            Hand::FullHouse    ([c0,   c1,   c2], [c3,   c4]) |
-            Hand::FourOfAKind  ([c0,   c1,   c2,   c3], [c4]) |
+            Hand::HighCard([c0], [c1], [c2], [c3], [c4]) |
+            Hand::Pair([c0,   c1], [c2], [c3], [c4]) |
+            Hand::TwoPairs([c0,   c1], [c2,   c3], [c4]) |
+            Hand::ThreeOfAKind([c0,   c1,   c2], [c3], [c4]) |
+            Hand::Straight([c0,   c1,   c2,   c3,   c4]) |
+            Hand::Flush([c0,   c1,   c2,   c3,   c4]) |
+            Hand::FullHouse([c0,   c1,   c2], [c3,   c4]) |
+            Hand::FourOfAKind([c0,   c1,   c2,   c3], [c4]) |
             Hand::StraightFlush([c0,   c1,   c2,   c3,   c4]) |
-            Hand::RoyalFlush   ([c0,   c1,   c2,   c3,   c4]) => [c0, c1, c2, c3, c4],
+            Hand::RoyalFlush([c0,   c1,   c2,   c3,   c4]) => [c0, c1, c2, c3, c4],
         }
     }
 
@@ -319,15 +331,9 @@ fn solve(file: File) -> io::Result<String> {
         let p1_hand = Hand::from_cards(&cards[..5]);
         let p2_hand = Hand::from_cards(&cards[5..]);
         match p1_hand.cmp(&p2_hand) {
-            Ordering::Greater => {
-                p1_win += 1
-            }
-            Ordering::Less => {
-                _p2_win += 1
-            }
-            Ordering::Equal => {
-                _draw += 1
-            }
+            Ordering::Greater => p1_win += 1,
+            Ordering::Less => _p2_win += 1,
+            Ordering::Equal => _draw += 1,
         }
     }
 

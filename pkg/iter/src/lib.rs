@@ -32,9 +32,7 @@ impl Iterator for BitCombination {
 
         let result = self.set.clone();
         match self.find_change_bit() {
-            None => {
-                self.consumed = true
-            }
+            None => self.consumed = true,
             Some(n) => {
                 self.set.remove(&n);
                 self.set.insert(n + 1);
@@ -150,9 +148,7 @@ impl<'a, T: Clone> Iterator for CombinationOverlap<'a, T> {
                     *x = v
                 }
             }
-            None => {
-                self.consumed = true
-            }
+            None => self.consumed = true,
         }
         Some(v)
     }
@@ -243,7 +239,8 @@ pub struct Difference<M, S>
 }
 
 impl<E, M, S> Difference<M, S>
-    where M: Iterator<Item = E>, S: Iterator<Item = E>
+    where M: Iterator<Item = E>,
+          S: Iterator<Item = E>
 {
     /// Creates a new `Difference` iterator.
     ///
@@ -271,7 +268,9 @@ impl<E, M, S> Difference<M, S>
 }
 
 impl<E, M, S> Iterator for Difference<M, S>
-    where E: Eq + Ord, M: Iterator<Item = E>, S: Iterator<Item = E>
+    where E: Eq + Ord,
+          M: Iterator<Item = E>,
+          S: Iterator<Item = E>
 {
     type Item = E;
 

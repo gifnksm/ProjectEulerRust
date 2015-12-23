@@ -47,12 +47,8 @@ impl Iterator for Nums {
 
 fn apply(a: Ratio<i32>, b: Ratio<i32>, op: Op, f: &mut FnMut(Ratio<i32>)) {
     match op {
-        Op::Add => {
-            (*f)(a + b)
-        }
-        Op::Mul => {
-            (*f)(a * b)
-        }
+        Op::Add => (*f)(a + b),
+        Op::Mul => (*f)(a * b),
         Op::Sub => {
             (*f)(a - b);
             (*f)(b - a)
@@ -81,9 +77,7 @@ fn evaluate(num: &[u32], op: &[Op], f: &mut FnMut(Ratio<i32>)) {
     //   n op n
     assert_eq!(num.len() - 1, op.len());
     match num.len() {
-        1 => {
-            (*f)(Ratio::from_integer(num[0] as i32))
-        }
+        1 => (*f)(Ratio::from_integer(num[0] as i32)),
         2 => {
             let a = Ratio::from_integer(num[0] as i32);
             let b = Ratio::from_integer(num[1] as i32);

@@ -117,7 +117,7 @@ impl<T> Collatz<T> {
     }
 }
 
-impl <T: Integer + Clone> Iterator for Collatz<T> {
+impl<T: Integer + Clone> Iterator for Collatz<T> {
     type Item = T;
 
     #[inline]

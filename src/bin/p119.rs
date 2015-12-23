@@ -94,7 +94,8 @@ impl Iterator for Powers {
         if b == 2 {
             self.heap.push(Power(n * b, b, e + 1));
         }
-        if b < 99 { // assume base is smaller than 100
+        if b < 99 {
+            // assume base is smaller than 100
             if let Some(new_n) = (b + 1).checked_pow(e) {
                 self.heap.push(Power(new_n, b + 1, e));
             }

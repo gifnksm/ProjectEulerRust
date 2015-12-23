@@ -171,12 +171,8 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
             let mid2 = mid.clone() * mid.clone();
             match mid2.partial_cmp(self).unwrap() {
                 Ordering::Equal => return mid,
-                Ordering::Greater => {
-                    max = mid - one.clone()
-                }
-                Ordering::Less => {
-                    min = mid
-                }
+                Ordering::Greater => max = mid - one.clone(),
+                Ordering::Less => min = mid,
             }
         }
 

@@ -21,8 +21,10 @@ fn get_cnt(n: usize, m: usize, map: &mut HashMap<(usize, usize), usize>) -> usiz
 
     let mut sum = 0;
 
-    for len in m..(n + 1) { // most left red block length
-        for i in 0..(n - len + 1) { // most left red block position
+    for len in m..(n + 1) {
+        // most left red block length
+        for i in 0..(n - len + 1) {
+            // most left red block position
             if n > len + i {
                 sum += get_cnt(n - (len + i) - 1, m, map); // red block and black block
             } else {

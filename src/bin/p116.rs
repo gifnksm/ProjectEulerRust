@@ -20,7 +20,8 @@ fn count(len: u64, unit: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 {
     }
 
     let mut sum = 0;
-    for i in 0..(len - unit + 1) { // most left block position
+    for i in 0..(len - unit + 1) {
+        // most left block position
         sum += count(len - (unit + i), unit, map);
     }
     sum += 1;

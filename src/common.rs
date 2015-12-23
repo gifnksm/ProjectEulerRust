@@ -24,39 +24,43 @@ use term::color::Color;
 
 type OutputPair<'a> = (Option<Color>, Cow<'a, str>);
 
-const NSEC_PER_SEC:    u64 = 1000000000;
-const NSEC_WARN_LIMIT: u64 = 1  * NSEC_PER_SEC;
-const NSEC_NG_LIMIT:   u64 = 10 * NSEC_PER_SEC;
+const NSEC_PER_SEC: u64 = 1000000000;
+const NSEC_WARN_LIMIT: u64 = 1 * NSEC_PER_SEC;
+const NSEC_NG_LIMIT: u64 = 10 * NSEC_PER_SEC;
 
-const COLOR_OK:   Color = color::GREEN;
-const COLOR_NG:   Color = color::RED;
+const COLOR_OK: Color = color::GREEN;
+const COLOR_NG: Color = color::RED;
 const COLOR_WARN: Color = color::YELLOW;
 
 #[derive(Debug)]
 pub enum SolverError {
     Io(io::Error),
-    Http(curl::ErrCode)
+    Http(curl::ErrCode),
 }
 
 impl From<io::Error> for SolverError {
-    fn from(err: io::Error) -> SolverError { SolverError::Io(err) }
+    fn from(err: io::Error) -> SolverError {
+        SolverError::Io(err)
+    }
 }
 impl From<curl::ErrCode> for SolverError {
-    fn from(err: curl::ErrCode) -> SolverError { SolverError::Http(err) }
+    fn from(err: curl::ErrCode) -> SolverError {
+        SolverError::Http(err)
+    }
 }
 
 impl Error for SolverError {
     fn description(&self) -> &str {
         match *self {
             SolverError::Io(ref err) => err.description(),
-            SolverError::Http(ref err) => err.description()
+            SolverError::Http(ref err) => err.description(),
         }
     }
 
     fn cause(&self) -> Option<&Error> {
         match *self {
             SolverError::Io(ref err) => Some(err),
-            SolverError::Http(ref err) => Some(err)
+            SolverError::Http(ref err) => Some(err),
         }
     }
 }
@@ -65,7 +69,7 @@ impl fmt::Display for SolverError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             SolverError::Io(ref err) => write!(f, "{}", err),
-            SolverError::Http(ref err) => write!(f, "{}", err)
+            SolverError::Http(ref err) => write!(f, "{}", err),
         }
     }
 }
@@ -74,7 +78,7 @@ impl fmt::Display for SolverError {
 pub struct SolverResult<T> {
     pub time: u64,
     pub answer: T,
-    pub is_ok: bool
+    pub is_ok: bool,
 }
 
 impl<T: Encodable> SolverResult<T> {
@@ -161,23 +165,30 @@ impl<T: fmt::Display> SolverResult<T> {
 
 enum SolverFn<'a> {
     FnOnly(fn() -> String),
-    FnWithFile(&'a str, fn(File) -> io::Result<String>)
+    FnWithFile(&'a str, fn(File) -> io::Result<String>),
 }
 
 pub struct Solver<'a> {
     answer: &'a str,
-    solver: SolverFn<'a>
+    solver: SolverFn<'a>,
 }
 
 impl<'a> Solver<'a> {
     pub fn new(answer: &'a str, solver: fn() -> String) -> Solver<'a> {
-        Solver { answer: answer, solver: SolverFn::FnOnly(solver) }
+        Solver {
+            answer: answer,
+            solver: SolverFn::FnOnly(solver),
+        }
     }
 
-    pub fn new_with_file(
-        answer: &'a str, file_name: &'a str, solver: fn(File) -> io::Result<String>
-    ) -> Solver<'a> {
-        Solver { answer: answer, solver: SolverFn::FnWithFile(file_name, solver) }
+    pub fn new_with_file(answer: &'a str,
+                         file_name: &'a str,
+                         solver: fn(File) -> io::Result<String>)
+                         -> Solver<'a> {
+        Solver {
+            answer: answer,
+            solver: SolverFn::FnWithFile(file_name, solver),
+        }
     }
 
     pub fn run(self) {
@@ -199,7 +210,7 @@ impl<'a> Solver<'a> {
         if matches.opt_present("h") {
             let short = opts.short_usage(&program);
             println!("{}", opts.usage(&short));
-            return
+            return;
         }
 
         match self.solve() {
@@ -231,9 +242,9 @@ impl<'a> Solver<'a> {
         };
 
         let result = SolverResult {
-            is_ok:  answer == self.answer,
-            time:   time,
-            answer: answer
+            is_ok: answer == self.answer,
+            time: time,
+            answer: answer,
         };
         Ok(result)
     }
@@ -241,9 +252,9 @@ impl<'a> Solver<'a> {
 
 fn bench<T, F: FnOnce() -> T>(f: F) -> (u64, T) {
     let start_time = time::precise_time_ns();
-    let result     = f();
-    let end_time   = time::precise_time_ns();
-    let nsec       = end_time - start_time;
+    let result = f();
+    let end_time = time::precise_time_ns();
+    let nsec = end_time - start_time;
     (nsec, result)
 }
 

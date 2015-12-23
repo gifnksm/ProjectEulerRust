@@ -21,8 +21,10 @@ fn get_cnt((n, m): (u32, u32), map: &mut HashMap<(u32, u32), u64>) -> u64 {
 
     let mut sum = 0;
 
-    for len in m..(n + 1) { // most left red block length
-        for i in 0..(n - len + 1) { // most left red block position
+    for len in m..(n + 1) {
+        // most left red block length
+        for i in 0..(n - len + 1) {
+            // most left red block position
             if n > len + i {
                 sum += get_cnt((n - (len + i) - 1, m), map); // red block and black block
             } else {

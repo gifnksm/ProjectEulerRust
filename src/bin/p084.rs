@@ -60,7 +60,8 @@ fn roll_trans_matrix(dice_side: usize) -> Matrix<f64> {
         let (src_seq, src_pos) = (src / NUM_SQUARE, src % NUM_SQUARE);
         let pos_diff = (dst_pos + NUM_SQUARE - src_pos) % NUM_SQUARE;
 
-        if dst_seq > 0 { // consecutive doubles (src_seq times => dst_seq times)
+        if dst_seq > 0 {
+            // consecutive doubles (src_seq times => dst_seq times)
             if src_seq != dst_seq - 1 || pos_diff >= roll_dist.len() {
                 return 0.0;
             }
@@ -120,11 +121,13 @@ fn ch_trans_matrix() -> Matrix<f64> {
                     _ => 0.0,
                 }
             }
-            _ => if src == dst {
-                1.0
-            } else {
-                0.0
-            },
+            _ => {
+                if src == dst {
+                    1.0
+                } else {
+                    0.0
+                }
+            }
         }
     })
 }

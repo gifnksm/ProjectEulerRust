@@ -165,8 +165,7 @@ pub struct PelRoots<T> {
     xy: (T, T),
 }
 
-impl<T> PelRoots<T>
-    where T: Clone + FromPrimitive + Add<T, Output = T> + Mul<T, Output = T>
+impl<T> PelRoots<T> where T: Clone + FromPrimitive + Add<T, Output = T> + Mul<T, Output = T>
 {
     /// Creates a new `PelRoots` iterator
     #[inline]
@@ -181,8 +180,7 @@ impl<T> PelRoots<T>
     }
 }
 
-impl<T> Iterator for PelRoots<T>
-    where T: Add<T, Output = T> + Mul<T, Output = T> + Clone
+impl<T> Iterator for PelRoots<T> where T: Add<T, Output = T> + Mul<T, Output = T> + Clone
 {
     type Item = (T, T);
 
@@ -210,8 +208,7 @@ pub struct PelNegRoots<T> {
     xy: (T, T),
 }
 
-impl<T> PelNegRoots<T>
-    where T: Clone + FromPrimitive + Add<T, Output = T> + Mul<T, Output = T>
+impl<T> PelNegRoots<T> where T: Clone + FromPrimitive + Add<T, Output = T> + Mul<T, Output = T>
 {
     /// Creates a new `PelNegRoots` iterator
     #[inline]
@@ -226,8 +223,7 @@ impl<T> PelNegRoots<T>
     }
 }
 
-impl<T> Iterator for PelNegRoots<T>
-    where T: Add<T, Output = T> + Mul<T, Output = T> + Clone
+impl<T> Iterator for PelNegRoots<T> where T: Add<T, Output = T> + Mul<T, Output = T> + Clone
 {
     type Item = (T, T);
 
