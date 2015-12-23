@@ -21,26 +21,26 @@ before_script:
 script:
   - |
       if [ -z "${PKG_DIR}" ]; then
-        travis-cargo build -- --release &&
-        travis-cargo run -- --release --bin euler &&
-        travis-cargo test &&
-        travis-cargo bench &&
-        travis-cargo --only ${DOC_UPLOAD_VERSION} doc
+        travis-cargo -q build -- --release &&
+        travis-cargo -q run -- --release --bin euler &&
+        travis-cargo -q test &&
+        travis-cargo -q bench &&
+        travis-cargo -q --only ${DOC_UPLOAD_VERSION} doc
       else
         cd "${TRAVIS_BUILD_DIR}/${PKG_DIR}"
-        travis-cargo build &&
-        travis-cargo test &&
-        travis-cargo bench
+        travis-cargo -q build &&
+        travis-cargo -q test &&
+        travis-cargo -q bench
       fi
 
 after_success:
   - |
       if [ -z "${PKG_DIR}" ]; then
-         travis-cargo --only ${DOC_UPLOAD_VERSION} doc-upload
+         travis-cargo -q --only ${DOC_UPLOAD_VERSION} doc-upload
       else
          cd "${TRAVIS_BUILD_DIR}/${PKG_DIR}"
       fi
-  - travis-cargo coveralls --no-sudo
+  - travis-cargo -q coveralls --no-sudo
 
 env:
   matrix:
