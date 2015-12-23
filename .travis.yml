@@ -14,43 +14,42 @@ rust:
   # - stable
 
 before_script:
-  - |
-      pip install 'travis-cargo<0.2' --user &&
-      export PATH=$HOME/.local/bin:$PATH
+  - pip install 'travis-cargo<0.2' --user
+  - export PATH=$HOME/.local/bin:$PATH
+  - export KCOV="${TRAVIS_BUILD_DIR}/kcov/build/src/kcov --exclude-pattern=/.cargo --coveralls-id=${TRAVIS_JOB_ID} ${TRAVIS_BUILD_DIR}/coverage"
+  - wget https://github.com/SimonKagstrom/kcov/archive/master.zip
+  - unzip master.zip
+  - mv kcov-master kcov
+  - mkdir kcov/build
+  - cd kcov/build
+  - cmake ..
+  - make
+  - cd ${TRAVIS_BUILD_DIR}
 
 script:
+  - set -e
   - |
-      if [ -z "${PKG_DIR}" ]; then
-        travis-cargo -q build -- --release &&
-        travis-cargo -q run -- --release --bin euler &&
-        travis-cargo -q test &&
-        travis-cargo -q bench &&
-        travis-cargo -q --only ${DOC_UPLOAD_VERSION} doc
-      else
-        cd "${TRAVIS_BUILD_DIR}/${PKG_DIR}"
-        travis-cargo -q build &&
-        travis-cargo -q test &&
-        travis-cargo -q bench
-      fi
+      for PKG in $(echo ${SUB_PKGS}); do
+        travis-cargo -q build -- -p ${PKG}
+        travis-cargo -q test -- -p ${PKG} --no-run
+        ${KCOV} ./target/debug/deps/${PKG}-*
+        travis-cargo -q bench -- -p ${PKG}
+      done
+  - travis-cargo -q build -- --release
+  - travis-cargo -q run -- --release --bin euler
+  - travis-cargo -q test -- --no-run
+  - |
+      for EXE in ./target/debug/euler-* ./target/debug/p???-*; do
+        ${KCOV} ${EXE}
+      done
+  - travis-cargo -q bench
+  - travis-cargo -q --only ${DOC_UPLOAD_VERSION} doc
 
 after_success:
-  - |
-      if [ -z "${PKG_DIR}" ]; then
-         travis-cargo -q --only ${DOC_UPLOAD_VERSION} doc-upload
-      else
-         cd "${TRAVIS_BUILD_DIR}/${PKG_DIR}"
-      fi
-  - travis-cargo -q coveralls --no-sudo
+  - travis-cargo -q --only ${DOC_UPLOAD_VERSION} doc-upload
 
 env:
-  matrix:
-    - PKG_DIR=""
-    - PKG_DIR="pkg/cont_frac"
-    - PKG_DIR="pkg/integer"
-    - PKG_DIR="pkg/iter"
-    - PKG_DIR="pkg/playing_card"
-    - PKG_DIR="pkg/prime"
-    - PKG_DIR="pkg/seq"
   global:
+    - SUB_PKGS="cont_frac integer iter playing_card prime seq"
     - TRAVIS_CARGO_NIGHTLY_FEATURE=""
     - DOC_UPLOAD_VERSION=nightly
