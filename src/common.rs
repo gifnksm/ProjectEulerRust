@@ -2,8 +2,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(into_cow)]
-
 extern crate curl;
 extern crate getopts;
 extern crate num;
@@ -11,7 +9,7 @@ extern crate rustc_serialize;
 extern crate term;
 extern crate time;
 
-use std::borrow::{Cow, IntoCow};
+use std::borrow::Cow;
 use std::error::Error;
 use std::{env, fmt, io, process};
 use std::fs::{self, File};
@@ -144,17 +142,17 @@ impl<T: fmt::Display> SolverResult<T> {
         items.push(normal("\n"));
         print_items(&items);
 
-        fn normal<'a, T: IntoCow<'a, str>>(s: T) -> OutputPair<'a> {
-            (None, s.into_cow())
+        fn normal<'a, T: Into<Cow<'a, str>>>(s: T) -> OutputPair<'a> {
+            (None, s.into())
         }
-        fn ok<'a, T: IntoCow<'a, str>>(s: T) -> OutputPair<'a> {
-            (Some(COLOR_OK), s.into_cow())
+        fn ok<'a, T: Into<Cow<'a, str>>>(s: T) -> OutputPair<'a> {
+            (Some(COLOR_OK), s.into())
         }
-        fn warn<'a, T: IntoCow<'a, str>>(s: T) -> OutputPair<'a> {
-            (Some(COLOR_WARN), s.into_cow())
+        fn warn<'a, T: Into<Cow<'a, str>>>(s: T) -> OutputPair<'a> {
+            (Some(COLOR_WARN), s.into())
         }
-        fn ng<'a, T: IntoCow<'a, str>>(s: T) -> OutputPair<'a> {
-            (Some(COLOR_NG), s.into_cow())
+        fn ng<'a, T: Into<Cow<'a, str>>>(s: T) -> OutputPair<'a> {
+            (Some(COLOR_NG), s.into())
         }
 
         Ok(())
