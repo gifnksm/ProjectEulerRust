@@ -4,18 +4,18 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith, range_inclusive)]
+#![feature(iter_arith)]
 
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
-extern crate iter as itercrate;
+extern crate iter;
 extern crate prime;
 
-use std::iter::{self, Rev};
+use std::iter::Rev;
 use std::ops::Range;
 use integer::Integer;
-use itercrate::BitCombination;
+use iter::BitCombination;
 use prime::PrimeSet;
 
 struct Digits {
@@ -99,7 +99,7 @@ impl Iterator for RunDigits {
 }
 
 fn compute_s(ps: &PrimeSet, n: usize, d: u64) -> (usize, usize, u64) {
-    for m in iter::range_inclusive(0, n).rev() {
+    for m in (0..(n + 1)).rev() {
         let mut sum = 0;
         let mut cnt = 0;
         for mut other_ds in Digits::new(9, n - m) {

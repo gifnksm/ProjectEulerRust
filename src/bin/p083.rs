@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_cmp)]
-
 #[macro_use(problem)]
 extern crate common;
 
@@ -59,7 +57,7 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
         }
 
         let &min_pt = open.iter()
-                          .min_by(|&pt| {
+                          .min_by_key(|&pt| {
                               dist[pt.y][pt.x] + ((h - pt.y - 1) + (w - pt.x - 1)) as u32
                           })
                           .unwrap();

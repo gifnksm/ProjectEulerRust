@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_cmp)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate seq;
@@ -30,7 +28,7 @@ fn compute(limit: u64) -> u64 {
     let _ = map.insert(1, 1);
 
     (2..limit)
-        .max_by(|&n| compute_len(&mut map, n))
+        .max_by_key(|&n| compute_len(&mut map, n))
         .unwrap()
 }
 

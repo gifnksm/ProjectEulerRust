@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_cmp, step_by)]
+#![feature(step_by)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -161,7 +161,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
 
     let (x, y, _cnt) = *it.iter()
                           .filter(|&&(_x, _y, cnt)| cnt > 1)
-                          .min_by(|&&(_x, _y, cnt)| cnt)
+                          .min_by_key(|&&(_x, _y, cnt)| cnt)
                           .unwrap();
 
     let mut answers = vec![];

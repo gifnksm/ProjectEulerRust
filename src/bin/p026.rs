@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_cmp)]
-
 #[macro_use(problem)]
 extern crate common;
 
@@ -33,7 +31,7 @@ fn get_cycle_len(n: u32) -> u32 {
 
 fn compute(limit: u32) -> u32 {
     (2..limit)
-        .max_by(|&n| get_cycle_len(n))
+        .max_by_key(|&n| get_cycle_len(n))
         .unwrap()
 }
 

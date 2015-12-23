@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith, vec_push_all)]
+#![feature(iter_arith)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -87,7 +87,7 @@ fn find_chain(pairs: &[u64], set: &[u64], map: &HashMap<u64, Vec<u64>>) -> Vec<V
         if union_pairs.is_empty() {
             result.push(pset);
         } else {
-            result.push_all(&find_chain(&union_pairs, &pset, map));
+            result.extend(find_chain(&union_pairs, &pset, map));
         }
     }
 

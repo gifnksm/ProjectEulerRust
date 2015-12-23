@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_cmp, step_by)]
+#![feature(step_by)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -61,7 +61,7 @@ fn compute(limit: usize) -> usize {
 
     (1..len_map.len())
         .map(|n| (n, get_chain_len(n, &mut len_map, &div_map)))
-        .max_by(|&(n, div)| (div, -(n as isize)))
+        .max_by_key(|&(n, div)| (div, -(n as isize)))
         .unwrap()
         .0
 }

@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_cmp)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate iter;
@@ -183,7 +181,7 @@ fn count_seqlen(num_set: &[u32; 4]) -> u32 {
 }
 
 fn solve() -> String {
-    let seq = Nums::new().max_by(count_seqlen).unwrap();
+    let seq = Nums::new().max_by_key(count_seqlen).unwrap();
     format!("{}{}{}{}", seq[0], seq[1], seq[2], seq[3])
 }
 

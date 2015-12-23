@@ -4,14 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(range_inclusive, slice_patterns)]
+#![feature(slice_patterns)]
 
 #[macro_use(problem)]
 extern crate common;
 
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
-use std::iter;
 
 /// Special sum set
 #[derive(Debug)]
@@ -118,7 +117,7 @@ impl SSS {
             }
         }
 
-        for n in iter::range_inclusive(*self.nums.last().unwrap(), self.max_addable()) {
+        for n in (*self.nums.last().unwrap())..(self.max_addable() + 1) {
             if let Some(sss) = self.append_num(n) {
                 f(sss)
             }

@@ -4,12 +4,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(range_inclusive)]
-
 #[macro_use(problem)]
 extern crate common;
-
-use std::iter;
 
 // cube size: (a, b, c)
 // nth layer: 4(n-1)(n+a+b+c-2) + 2(ab+bc+ca)
@@ -26,12 +22,12 @@ fn compute(sum: u32) -> u32 {
             break;
         }
 
-        for b in iter::range_inclusive(1, a) {
+        for b in 1..(a + 1) {
             if f0(a, b, 1) > limit {
                 break;
             }
 
-            for c in iter::range_inclusive(1, b) {
+            for c in 1..(b + 1) {
                 let p = f0(a, b, c);
                 if p > limit {
                     break;

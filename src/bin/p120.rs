@@ -4,13 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith, range_inclusive)]
+#![feature(iter_arith)]
 
 #[macro_use(problem)]
 extern crate common;
 extern crate num;
 
-use std::iter;
 use num::Integer;
 
 // f(a, n) := (a-1)^n + (a+1)^n
@@ -55,7 +54,7 @@ fn rmax(a: u32) -> u32 {
 }
 
 fn solve() -> String {
-    iter::range_inclusive(3, 1000)
+    (3..1001)
         .map(rmax)
         .sum::<u32>()
         .to_string()
