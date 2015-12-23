@@ -2,14 +2,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(into_cow)]
-
 extern crate glob;
 extern crate rustc_serialize as rustc_serialize;
 extern crate term;
 extern crate common;
 
-use std::borrow::{Cow, IntoCow};
+use std::borrow::Cow;
 use std::env;
 use std::io;
 use std::io::prelude::*;
@@ -38,8 +36,8 @@ enum ProgramError {
 }
 
 impl ProgramError {
-    fn unknown<T: IntoCow<'static, str>>(msg: T) -> ProgramError {
-        ProgramError::Unknown(msg.into_cow())
+    fn unknown<T: Into<Cow<'static, str>>>(msg: T) -> ProgramError {
+        ProgramError::Unknown(msg.into())
     }
 }
 
