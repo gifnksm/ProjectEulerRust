@@ -4,14 +4,11 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(range_inclusive)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate num;
 extern crate polynomial;
 
-use std::iter;
 use num::{One, Integer, BigUint, FromPrimitive};
 use num::rational::Ratio;
 use polynomial::Polynomial;
@@ -37,7 +34,7 @@ use polynomial::Polynomial;
 // => (x^4 + 10x^3 + 35x^2 + 50x + 24) / (2 * 3 * 4 * 5)
 
 fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: usize) -> Ratio<T> {
-    iter::range_inclusive(1, turns)
+    (1..(turns + 1))
         .map(|t| FromPrimitive::from_usize(t).unwrap())
         .map(|t: T| {
             let denom = t.clone() + One::one();

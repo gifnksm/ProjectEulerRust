@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_cmp)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate prime;
@@ -35,9 +33,9 @@ fn compute(limit: u64) -> i32 {
                              let b = p as i32;
                              (-b..1000)
                                  .map(|a| (a, b, get_limit_n(&ps, a, b)))
-                                 .max_by(|&(_a, _b, len)| len)
+                                 .max_by_key(|&(_a, _b, len)| len)
                          })
-                         .max_by(|&(_a, _b, len)| len)
+                         .max_by_key(|&(_a, _b, len)| len)
                          .unwrap();
     a * b
 }

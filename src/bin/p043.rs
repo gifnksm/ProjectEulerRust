@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith, range_inclusive)]
+#![feature(iter_arith)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -77,7 +77,7 @@ impl Pandigimal {
 fn create_pandigimal_list(base: u32, len: usize) -> Vec<Pandigimal> {
     assert!(len > 0);
     let max = iter::repeat(RADIX).take(len).product::<u32>() - 1;
-    iter::range_inclusive(0, max / base)
+    (0..(max / base + 1))
         .filter_map(|n| Pandigimal::from_u64(base * n, len))
         .collect()
 }

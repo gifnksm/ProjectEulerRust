@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(step_by, range_inclusive, iter_arith)]
+#![feature(step_by, iter_arith)]
 #![cfg_attr(test, feature(test))]
 
 extern crate num;
@@ -16,7 +16,7 @@ use std::cell::RefCell;
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
-use std::iter::{self, IntoIterator};
+use std::iter::IntoIterator;
 use std::rc::Rc;
 use num::{One, Zero, Integer, FromPrimitive};
 
@@ -181,10 +181,10 @@ impl PrimeSet {
     #[inline]
     pub fn combination(&self, n: u64, r: u64) -> u64 {
         let mut fac = Factorized::<u64>::new(self);
-        for n in iter::range_inclusive(r + 1, n) {
+        for n in (r + 1)..(n+1) {
             fac.mul_assign(n);
         }
-        for n in iter::range_inclusive(1, n - r) {
+        for n in 1..(n - r + 1) {
             fac.div_assign(n);
         }
         fac.into_integer()
@@ -337,18 +337,16 @@ impl<T: Integer + FromPrimitive + Clone> Iterator for Factors<T> {
 /// # Example
 ///
 /// ```
-///#![feature(range_inclusive)]
-///
 /// use prime::{Factorized, PrimeSet};
 /// use std::iter;
 ///
 /// // Calculates 40C20
 /// let ps = PrimeSet::new();
 /// let mut fac = Factorized::<u64>::new(&ps);
-/// for n in iter::range_inclusive(21, 40) {
+/// for n in 21..41 {
 ///     fac.mul_assign(n);
 /// }
-/// for n in iter::range_inclusive(1, 20) {
+/// for n in 1..21 {
 ///     fac.div_assign(n);
 /// }
 /// assert_eq!(137846528820, fac.into_integer());

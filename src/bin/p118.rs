@@ -4,18 +4,15 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(range_inclusive)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
-extern crate iter as itercrate;
+extern crate iter;
 extern crate num;
 extern crate prime;
 
-use std::iter;
 use integer::Integer;
-use itercrate::{BitCombination, Permutations};
+use iter::{BitCombination, Permutations};
 use num::Integer as NumInteger;
 use prime::PrimeSet;
 
@@ -72,7 +69,7 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
     }
 
     let mut cnt = 0;
-    for n in iter::range_inclusive(1, digits.len()) {
+    for n in 1..(digits.len() + 1) {
         for (ds, rest) in digits.groups(n) {
             if ds[0] != digits[0] {
                 break;
@@ -110,7 +107,7 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
 }
 
 fn solve() -> String {
-    let digits = iter::range_inclusive(1, 9).collect::<Vec<_>>();
+    let digits = (1..10).collect::<Vec<_>>();
     let ps = PrimeSet::new();
     count_primes(&ps, &digits).to_string()
 }

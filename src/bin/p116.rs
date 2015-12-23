@@ -4,12 +4,9 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(range_inclusive)]
-
 #[macro_use(problem)]
 extern crate common;
 
-use std::iter;
 use std::collections::HashMap;
 
 fn count(len: u64, unit: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 {
@@ -23,7 +20,7 @@ fn count(len: u64, unit: u64, map: &mut HashMap<(u64, u64), u64>) -> u64 {
     }
 
     let mut sum = 0;
-    for i in iter::range_inclusive(0, len - unit) { // most left block position
+    for i in 0..(len - unit + 1) { // most left block position
         sum += count(len - (unit + i), unit, map);
     }
     sum += 1;

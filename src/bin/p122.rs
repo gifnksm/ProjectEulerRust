@@ -4,12 +4,10 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(range_inclusive)]
-
 #[macro_use(problem)]
 extern crate common;
 
-use std::{iter, u32};
+use std::u32 ;
 
 fn backtrack(power: u32, depth: u32, limit: u32, cost: &mut [u32], path: &mut [u32]) {
     if power > limit || depth > cost[power as usize] {
@@ -19,7 +17,7 @@ fn backtrack(power: u32, depth: u32, limit: u32, cost: &mut [u32], path: &mut [u
     cost[power as usize] = depth;
     path[depth as usize] = power;
 
-    for i in iter::range_inclusive(0, depth).rev() {
+    for i in (0..(depth + 1)).rev() {
         backtrack(power + path[i as usize], depth + 1, limit, cost, path);
     }
 }

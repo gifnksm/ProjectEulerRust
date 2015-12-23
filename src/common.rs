@@ -2,7 +2,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(into_cow, path_ext)]
+#![feature(into_cow)]
 
 extern crate curl;
 extern crate getopts;
