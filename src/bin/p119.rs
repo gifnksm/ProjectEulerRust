@@ -4,14 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith, wrapping)]
+#![feature(iter_arith)]
 
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
 
 use std::cmp::Ordering;
-use std::num::wrapping::OverflowingOps;
 use std::collections::BinaryHeap;
 use integer::Integer;
 
