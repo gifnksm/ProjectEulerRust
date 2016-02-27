@@ -71,7 +71,7 @@ impl Iterator for RunDigits {
 
     fn next(&mut self) -> Option<u64> {
         while let Some(set) = self.iter.next() {
-            let first = if set.contains(&0) {
+            let first = if set.contains(0) {
                 self.other_ds[0]
             } else {
                 self.d
@@ -84,7 +84,7 @@ impl Iterator for RunDigits {
             let mut num = 0;
             for i in 0..(self.other_ds.len() + self.run_len) {
                 num = num * 10 +
-                      if set.contains(&i) {
+                      if set.contains(i) {
                     j += 1;
                     self.other_ds[j - 1]
                 } else {

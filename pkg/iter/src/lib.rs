@@ -34,14 +34,14 @@ impl Iterator for BitCombination {
         match self.find_change_bit() {
             None => self.consumed = true,
             Some(n) => {
-                self.set.remove(&n);
+                self.set.remove(n);
                 self.set.insert(n + 1);
 
                 let mut j = n + 2;
                 for i in (n + 2)..self.size {
-                    if self.set.contains(&i) {
+                    if self.set.contains(i) {
                         if i != j {
-                            self.set.remove(&i);
+                            self.set.remove(i);
                             self.set.insert(j);
                         }
                         j += 1;
@@ -87,7 +87,7 @@ impl BitCombination {
         }
 
         for n in (0..self.size - 1).rev() {
-            if self.set.contains(&n) && !self.set.contains(&(n + 1)) {
+            if self.set.contains(n) && !self.set.contains(n + 1) {
                 return Some(n);
             }
         }

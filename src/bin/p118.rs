@@ -51,7 +51,7 @@ impl<T: Clone> Iterator for Groups<T> {
             let mut left = Vec::with_capacity(idx.len());
             let mut right = Vec::with_capacity(self.vec.len() - idx.len());
             for (i, e) in self.vec.iter().enumerate() {
-                if idx.contains(&i) {
+                if idx.contains(i) {
                     left.push(e.clone())
                 } else {
                     right.push(e.clone())
