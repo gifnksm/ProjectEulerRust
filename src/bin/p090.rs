@@ -13,7 +13,7 @@ use iter::BitCombination;
 fn solve() -> String {
     let all_combs = BitCombination::new(6, 10)
                         .map(|mut set| {
-                            match (set.contains(&6), set.contains(&9)) {
+                            match (set.contains(6), set.contains(9)) {
                                 (false, true) => {
                                     set.insert(6);
                                 }
@@ -37,7 +37,7 @@ fn solve() -> String {
     for (i, set1) in all_combs.iter().enumerate() {
         for set2 in &all_combs[i + 1..] {
             let cond = nums.iter().all(|&(a, b)| {
-                (set1.contains(&a) && set2.contains(&b)) || (set1.contains(&b) && set2.contains(&a))
+                (set1.contains(a) && set2.contains(b)) || (set1.contains(b) && set2.contains(a))
             });
             if cond {
                 cnt += 1;
