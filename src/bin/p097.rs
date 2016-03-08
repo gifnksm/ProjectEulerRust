@@ -8,7 +8,7 @@
 extern crate common;
 extern crate num;
 
-use num::{One, Zero, BigUint, FromPrimitive};
+use num::{BigUint, FromPrimitive, One, Zero};
 
 fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
     let two: BigUint = FromPrimitive::from_u32(2).unwrap();

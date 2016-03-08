@@ -11,7 +11,7 @@ extern crate common;
 extern crate num;
 extern crate itertools;
 
-use num::{One, BigUint, FromPrimitive};
+use num::{BigUint, FromPrimitive, One};
 use itertools::Unfold;
 
 fn compute(a: u32, b: u32) -> u32 {

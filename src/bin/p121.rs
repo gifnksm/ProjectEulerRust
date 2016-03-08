@@ -9,7 +9,7 @@ extern crate common;
 extern crate num;
 extern crate polynomial;
 
-use num::{One, Integer, BigUint, FromPrimitive};
+use num::{BigUint, FromPrimitive, Integer, One};
 use num::rational::Ratio;
 use polynomial::Polynomial;
 

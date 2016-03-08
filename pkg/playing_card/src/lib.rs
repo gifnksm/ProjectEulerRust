@@ -9,7 +9,7 @@
 use std::fmt;
 use std::str::FromStr;
 
-use Suit::{Spade, Heart, Dia, Club};
+use Suit::{Club, Dia, Heart, Spade};
 
 /// Playing card's suite.
 #[allow(missing_docs, unused_qualifications)]
@@ -138,8 +138,8 @@ impl Card {
 
 #[cfg(test)]
 mod tests {
-    use super::{Suit, Card};
-    use super::Suit::{Spade, Heart, Dia, Club};
+    use super::{Card, Suit};
+    use super::Suit::{Club, Dia, Heart, Spade};
 
     #[test]
     fn show_suit() {

@@ -50,7 +50,7 @@ mod tests {
     use prime::PrimeSet;
 
     mod naive {
-        use num::{One, Zero, Integer, BigUint, FromPrimitive};
+        use num::{BigUint, FromPrimitive, Integer, One, Zero};
 
         pub fn r(k: u64) -> BigUint {
             let mut r: BigUint = Zero::zero();

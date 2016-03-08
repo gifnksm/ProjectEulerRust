@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith, range_inclusive)]
+#![feature(iter_arith, inclusive_range_syntax)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -13,7 +13,6 @@ use std::f64;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use std::iter;
 
 const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[('a', 0.08167),
                                                     ('b', 0.01492),
@@ -67,7 +66,7 @@ fn find_key(count: &[usize], ref_freq: &[f64]) -> u8 {
     let mut freq_buf = &mut [0.0; 256];
     let mut min_key = 0;
     let mut min_dist = f64::INFINITY;
-    for k in iter::range_inclusive(0, 255) {
+    for k in 0...255 {
         trans_map(k, freq, freq_buf);
         let dist = get_dist(freq_buf, ref_freq);
         if dist < min_dist {

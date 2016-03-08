@@ -11,7 +11,7 @@ extern crate union_find;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use union_find::{UnionFind, UnionBySize, QuickUnionUf as Uf};
+use union_find::{QuickUnionUf as Uf, UnionBySize, UnionFind};
 
 fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {
     let mut verts = Vec::new();

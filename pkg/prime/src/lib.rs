@@ -18,7 +18,7 @@ use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
 use std::iter::IntoIterator;
 use std::rc::Rc;
-use num::{One, Zero, Integer, FromPrimitive};
+use num::{FromPrimitive, Integer, One, Zero};
 
 const SMALL_PRIMES: &'static [u64] = &[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
                                        59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109,
@@ -439,7 +439,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
 
 #[cfg(test)]
 mod tests {
-    use super::{PrimeSet, Factor, Factorize};
+    use super::{Factor, Factorize, PrimeSet};
 
     #[test]
     fn iter() {

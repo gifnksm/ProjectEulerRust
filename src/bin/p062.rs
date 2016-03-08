@@ -8,7 +8,7 @@
 extern crate common;
 extern crate integer;
 
-use std::collections::{HashSet, HashMap};
+use std::collections::{HashMap, HashSet};
 use std::collections::hash_map::Entry;
 use integer::Integer;
 

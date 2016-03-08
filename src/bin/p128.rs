@@ -234,7 +234,7 @@ problem!("14516824220", solve);
 
 #[cfg(test)]
 mod tests {
-    use super::{PdTriple, PdTriples, Pd3Nums};
+    use super::{Pd3Nums, PdTriple, PdTriples};
 
     fn a(r: u64) -> u64 {
         if r == 0 {

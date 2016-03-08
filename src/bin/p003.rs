@@ -8,7 +8,7 @@
 extern crate common;
 extern crate prime;
 
-use prime::{PrimeSet, Factorize};
+use prime::{Factorize, PrimeSet};
 
 fn compute(n: u64) -> u64 {
     let ps = PrimeSet::new();
