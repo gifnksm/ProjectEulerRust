@@ -9,7 +9,7 @@ extern crate common;
 extern crate prime;
 extern crate seq;
 
-use prime::{PrimeSet, Factorize};
+use prime::{Factorize, PrimeSet};
 use seq::TriangularNums;
 
 fn compute(limit: u64) -> u64 {

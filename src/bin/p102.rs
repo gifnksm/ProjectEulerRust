@@ -62,7 +62,7 @@ impl Line {
 
 impl Triangle {
     fn contains(self, p: Point) -> bool {
-        use Side::{L, R, C};
+        use Side::{C, L, R};
         let s0 = Line(self.0, self.1).side(p);
         let s1 = Line(self.1, self.2).side(p);
         let s2 = Line(self.2, self.0).side(p);
@@ -112,7 +112,7 @@ problem!("228", "p102_triangles.txt", solve);
 
 #[cfg(test)]
 mod test {
-    use super::{Triangle, Point};
+    use super::{Point, Triangle};
 
     #[test]
     fn contains() {

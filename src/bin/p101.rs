@@ -10,7 +10,7 @@ extern crate common;
 extern crate polynomial;
 
 use num::rational::Ratio;
-use num::{BigInt, Zero, One, FromPrimitive};
+use num::{BigInt, FromPrimitive, One, Zero};
 use polynomial::Polynomial;
 
 fn u(n: BigInt) -> BigInt {
