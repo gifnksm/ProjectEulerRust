@@ -114,11 +114,11 @@ const INPUT: &'static str = r"
 
 fn compute() -> String {
     INPUT.trim()
-         .lines()
-         .map(|line| &line[0..12])
-         .filter_map(|s| s.parse::<u64>().ok())
-         .sum::<u64>()
-         .to_string()[0..10]
+            .lines()
+            .map(|line| &line[0..12])
+            .filter_map(|s| s.parse::<u64>().ok())
+            .sum::<u64>()
+            .to_string()[0..10]
         .to_string()
 }
 

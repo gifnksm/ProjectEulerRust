@@ -28,9 +28,9 @@ fn solve() -> String {
     }
 
     v.iter()
-     .filter(|&x| x == &1)
-     .count()
-     .to_string()
+        .filter(|&x| x == &1)
+        .count()
+        .to_string()
 }
 
 problem!("161667", solve);

@@ -19,7 +19,7 @@ use curl::http;
 use getopts::Options;
 use num::Integer;
 use rustc_serialize::{Encodable, json};
-use term::{Terminal, color};
+use term::color;
 use term::color::Color;
 
 type OutputPair<'a> = (Option<Color>, Cow<'a, str>);

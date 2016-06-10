@@ -23,8 +23,8 @@ use prime::{Factorize, PrimeSet};
 
 fn num_pairs(ps: &PrimeSet, n: u64) -> u64 {
     let prod = n.factorize(ps)
-                .map(|(_base, exp)| 2 * (exp as u64) + 1)
-                .product::<u64>();
+        .map(|(_base, exp)| 2 * (exp as u64) + 1)
+        .product::<u64>();
     (prod - 1) / 2 + 1
 }
 

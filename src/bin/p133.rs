@@ -78,10 +78,10 @@ fn solve() -> String {
     let ps = PrimeSet::new();
 
     let sum = ps.iter()
-                .skip_while(|&p| p <= 5)
-                .take_while(|&p| p < 100000)
-                .filter(|&p| a(p).factorize(&ps).any(|(b, _e)| b != 2 && b != 5))
-                .sum::<u64>();
+        .skip_while(|&p| p <= 5)
+        .take_while(|&p| p < 100000)
+        .filter(|&p| a(p).factorize(&ps).any(|(b, _e)| b != 2 && b != 5))
+        .sum::<u64>();
 
     (sum + 2 + 3 + 5).to_string()
 }

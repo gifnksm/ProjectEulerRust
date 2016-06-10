@@ -306,8 +306,8 @@ mod tests {
     fn bit_combination() {
         fn check(cnt: usize, size: usize, expected: Vec<Vec<usize>>) {
             let actual = BitCombination::new(cnt, size)
-                             .map(|set| set.iter().collect())
-                             .collect::<Vec<Vec<_>>>();
+                .map(|set| set.iter().collect())
+                .collect::<Vec<Vec<_>>>();
             assert_eq!(actual, expected);
         }
 

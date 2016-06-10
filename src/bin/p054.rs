@@ -251,8 +251,8 @@ impl Hand {
         let is_flush = suit_count.iter().any(|v| v.len() == 5);
         let mut is_straight = {
             let min_idx = num_count.iter()
-                                   .position(|v| v.len() > 0)
-                                   .unwrap();
+                .position(|v| v.len() > 0)
+                .unwrap();
             num_count[min_idx..(min_idx + 5)].iter().all(|v| v.len() == 1)
         };
 
@@ -274,31 +274,31 @@ impl Hand {
 
     fn rank(&self) -> u32 {
         match *self {
-            Hand::HighCard     (..) => 0,
-            Hand::Pair         (..) => 1,
-            Hand::TwoPairs     (..) => 2,
-            Hand::ThreeOfAKind (..) => 3,
-            Hand::Straight     (..) => 4,
-            Hand::Flush        (..) => 5,
-            Hand::FullHouse    (..) => 6,
-            Hand::FourOfAKind  (..) => 7,
+            Hand::HighCard(..) => 0,
+            Hand::Pair(..) => 1,
+            Hand::TwoPairs(..) => 2,
+            Hand::ThreeOfAKind(..) => 3,
+            Hand::Straight(..) => 4,
+            Hand::Flush(..) => 5,
+            Hand::FullHouse(..) => 6,
+            Hand::FourOfAKind(..) => 7,
             Hand::StraightFlush(..) => 8,
-            Hand::RoyalFlush   (..) => 9,
+            Hand::RoyalFlush(..) => 9,
         }
     }
 
     fn to_array(&self) -> C5 {
         match *self {
             Hand::HighCard([c0], [c1], [c2], [c3], [c4]) |
-            Hand::Pair([c0,   c1], [c2], [c3], [c4]) |
-            Hand::TwoPairs([c0,   c1], [c2,   c3], [c4]) |
-            Hand::ThreeOfAKind([c0,   c1,   c2], [c3], [c4]) |
-            Hand::Straight([c0,   c1,   c2,   c3,   c4]) |
-            Hand::Flush([c0,   c1,   c2,   c3,   c4]) |
-            Hand::FullHouse([c0,   c1,   c2], [c3,   c4]) |
-            Hand::FourOfAKind([c0,   c1,   c2,   c3], [c4]) |
-            Hand::StraightFlush([c0,   c1,   c2,   c3,   c4]) |
-            Hand::RoyalFlush([c0,   c1,   c2,   c3,   c4]) => [c0, c1, c2, c3, c4],
+            Hand::Pair([c0, c1], [c2], [c3], [c4]) |
+            Hand::TwoPairs([c0, c1], [c2, c3], [c4]) |
+            Hand::ThreeOfAKind([c0, c1, c2], [c3], [c4]) |
+            Hand::Straight([c0, c1, c2, c3, c4]) |
+            Hand::Flush([c0, c1, c2, c3, c4]) |
+            Hand::FullHouse([c0, c1, c2], [c3, c4]) |
+            Hand::FourOfAKind([c0, c1, c2, c3], [c4]) |
+            Hand::StraightFlush([c0, c1, c2, c3, c4]) |
+            Hand::RoyalFlush([c0, c1, c2, c3, c4]) => [c0, c1, c2, c3, c4],
         }
     }
 
@@ -325,9 +325,9 @@ fn solve(file: File) -> io::Result<String> {
     for line in BufReader::new(file).lines() {
         let line = try!(line);
         let cards = line.trim()
-                        .split(' ')
-                        .map(|c| FromStr::from_str(c).unwrap())
-                        .collect::<Vec<_>>();
+            .split(' ')
+            .map(|c| FromStr::from_str(c).unwrap())
+            .collect::<Vec<_>>();
         let p1_hand = Hand::from_cards(&cards[..5]);
         let p2_hand = Hand::from_cards(&cards[5..]);
         match p1_hand.cmp(&p2_hand) {
@@ -352,8 +352,8 @@ mod tests {
 
     fn str_to_cards(s: &str) -> Vec<Card> {
         s.split(' ')
-         .map(|c| FromStr::from_str(c).unwrap())
-         .collect::<Vec<_>>()
+            .map(|c| FromStr::from_str(c).unwrap())
+            .collect::<Vec<_>>()
     }
 
     #[test]

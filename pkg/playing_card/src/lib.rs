@@ -4,8 +4,6 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(str_char)]
-
 use std::fmt;
 use std::str::FromStr;
 
@@ -63,12 +61,12 @@ pub struct SuitCard {
 impl fmt::Display for SuitCard {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            SuitCard { num: 1,  suit: s } => write!(f, "A{}", s),
+            SuitCard { num: 1, suit: s } => write!(f, "A{}", s),
             SuitCard { num: 10, suit: s } => write!(f, "T{}", s),
             SuitCard { num: 11, suit: s } => write!(f, "J{}", s),
             SuitCard { num: 12, suit: s } => write!(f, "Q{}", s),
             SuitCard { num: 13, suit: s } => write!(f, "K{}", s),
-            SuitCard { num: n,  suit: s } => write!(f, "{}{}", n, s),
+            SuitCard { num: n, suit: s } => write!(f, "{}{}", n, s),
         }
     }
 }
@@ -80,7 +78,9 @@ impl FromStr for SuitCard {
         if s.len() != 2 {
             return Err(());
         }
-        let (c0, c1) = s.slice_shift_char().unwrap();
+        let mut it = s.chars();
+        let c0 = it.next().unwrap();
+        let c1 = it.as_str();
         let suit = FromStr::from_str(c1);
         let num = match c0 {
             'A' => Some(1),

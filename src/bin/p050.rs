@@ -51,9 +51,9 @@ fn get_longer(ps: &[u64], p: u64, min_len: usize) -> Option<usize> {
 
 fn compute(limit: u64) -> (u64, usize) {
     let ps = PrimeSet::new()
-                 .iter()
-                 .take_while(|&p| p <= limit)
-                 .collect::<Vec<_>>();
+        .iter()
+        .take_while(|&p| p <= limit)
+        .collect::<Vec<_>>();
 
     let mut len = 0;
     let mut num = 0;

@@ -26,10 +26,10 @@ fn solve() -> String {
     let napier = (0u32..len).map(napier_seq);
     let (n, _d) = cont_frac::fold::<BigUint, _>(napier);
     n.to_string()
-     .chars()
-     .filter_map(|c| c.to_digit(10))
-     .sum::<u32>()
-     .to_string()
+        .chars()
+        .filter_map(|c| c.to_digit(10))
+        .sum::<u32>()
+        .to_string()
 }
 
 problem!("272", solve);

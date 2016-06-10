@@ -41,13 +41,13 @@ impl Iterator for ConcatPrimeNums {
     fn next(&mut self) -> Option<(u64, Vec<u64>)> {
         let n = self.iter.next().unwrap();
         let pairs = self.ps
-                        .iter()
-                        .take_while(|&m| m <= n)
-                        .filter(|&m| {
-                            (n + m) % 3 != 0 && self.ps.contains(concat_num(n, m)) &&
-                            self.ps.contains(concat_num(m, n))
-                        })
-                        .collect();
+            .iter()
+            .take_while(|&m| m <= n)
+            .filter(|&m| {
+                (n + m) % 3 != 0 && self.ps.contains(concat_num(n, m)) &&
+                self.ps.contains(concat_num(m, n))
+            })
+            .collect();
         Some((n, pairs))
     }
 }

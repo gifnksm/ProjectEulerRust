@@ -33,8 +33,8 @@ struct Rad(u64, u64, Vec<u64>); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: u64) -> Vec<Rad> {
     let mut rad_vec = (0..n_limit)
-                          .map(|i| (1, i, Vec::new()))
-                          .collect::<Vec<_>>();
+        .map(|i| (1, i, Vec::new()))
+        .collect::<Vec<_>>();
 
     for p in 2..(rad_vec.len() as u64) {
         if rad_vec[p as usize].0 != 1 {

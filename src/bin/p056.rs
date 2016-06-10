@@ -18,9 +18,9 @@ fn compute(a: u32, b: u32) -> u32 {
     num::range(One::one(), FromPrimitive::from_u32(a).unwrap())
         .map(|a: BigUint| {
             Unfold::new(One::one(), |n| {
-                (*n) = &a * (&*n);
-                Some(n.to_string())
-            })
+                    (*n) = &a * (&*n);
+                    Some(n.to_string())
+                })
                 .map(|s| s.chars().filter_map(|c| c.to_digit(10)).sum())
                 .take(b as usize)
                 .max()

@@ -33,27 +33,27 @@ fn octagonal(n: u32) -> u32 {
 
 fn create_map(fs: &[fn(u32) -> u32]) -> Vec<Vec<Vec<u32>>> {
     fs.iter()
-      .map(|&f| {
-          let mut result = (0..100).map(|_| Vec::with_capacity(100)).collect::<Vec<_>>();
-          for i in 1.. {
-              let n = f(i);
-              if n > 9999 {
-                  break;
-              }
+        .map(|&f| {
+            let mut result = (0..100).map(|_| Vec::with_capacity(100)).collect::<Vec<_>>();
+            for i in 1.. {
+                let n = f(i);
+                if n > 9999 {
+                    break;
+                }
 
-              if n < 1000 {
-                  continue;
-              }
-              let (hi, lo) = (n / 100, n % 100);
-              if lo < 10 {
-                  continue;
-              }
+                if n < 1000 {
+                    continue;
+                }
+                let (hi, lo) = (n / 100, n % 100);
+                if lo < 10 {
+                    continue;
+                }
 
-              result[hi as usize].push(lo);
-          }
-          result
-      })
-      .collect()
+                result[hi as usize].push(lo);
+            }
+            result
+        })
+        .collect()
 }
 
 fn find_cycle(map: &mut [Vec<Vec<u32>>]) -> Vec<Vec<u32>> {
@@ -117,13 +117,13 @@ mod tests {
     fn three() {
         let map: &[fn(u32) -> u32] = &[super::triangle, super::square, super::pentagonal];
         let cycle = super::find_cycle(&mut super::create_map(map))
-                        .iter()
-                        .map(|vs| super::cycle_to_nums(&vs))
-                        .map(|mut vs| {
-                            vs.sort();
-                            vs
-                        })
-                        .collect::<Vec<_>>();
+            .iter()
+            .map(|vs| super::cycle_to_nums(&vs))
+            .map(|mut vs| {
+                vs.sort();
+                vs
+            })
+            .collect::<Vec<_>>();
         assert_eq!(&[vec![2882, 8128, 8281]], &cycle[..]);
     }
 }

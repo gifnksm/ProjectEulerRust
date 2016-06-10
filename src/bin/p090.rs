@@ -12,26 +12,26 @@ use iter::BitCombination;
 
 fn solve() -> String {
     let all_combs = BitCombination::new(6, 10)
-                        .map(|mut set| {
-                            match (set.contains(6), set.contains(9)) {
-                                (false, true) => {
-                                    set.insert(6);
-                                }
-                                (true, false) => {
-                                    set.insert(9);
-                                }
-                                _ => {}
-                            }
-                            set
-                        })
-                        .collect::<Vec<_>>();
+        .map(|mut set| {
+            match (set.contains(6), set.contains(9)) {
+                (false, true) => {
+                    set.insert(6);
+                }
+                (true, false) => {
+                    set.insert(9);
+                }
+                _ => {}
+            }
+            set
+        })
+        .collect::<Vec<_>>();
 
     let nums = (0usize..9)
-                   .map(|i| {
-                       let n = (i + 1) * (i + 1);
-                       (n / 10, n % 10)
-                   })
-                   .collect::<Vec<_>>();
+        .map(|i| {
+            let n = (i + 1) * (i + 1);
+            (n / 10, n % 10)
+        })
+        .collect::<Vec<_>>();
 
     let mut cnt = 0;
     for (i, set1) in all_combs.iter().enumerate() {

@@ -44,9 +44,9 @@ fn get_anagram_groups(words: Vec<String>) -> Vec<Vec<String>> {
     }
 
     map.into_iter()
-       .map(|(_, vals)| vals)
-       .filter(|vals| vals.len() > 1)
-       .collect()
+        .map(|(_, vals)| vals)
+        .filter(|vals| vals.len() > 1)
+        .collect()
 }
 
 fn flatten_groups(groups: Vec<Vec<String>>) -> Vec<(String, String)> {
@@ -70,15 +70,15 @@ fn flatten_groups(groups: Vec<Vec<String>>) -> Vec<(String, String)> {
 
 fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, Vec<u64>, Vec<u64>)> {
     pairs.into_iter()
-         .map(|(w1, w2)| {
-             let cs1 = w1.as_bytes();
-             let cs2 = w2.as_bytes();
-             let get_pos = |&c: &u8| cs1.iter().position(|&e| e == c).unwrap() as u64;
-             (w1.len() as u64,
-              cs1.iter().map(|c| get_pos(c)).collect(),
-              cs2.iter().map(|c| get_pos(c)).collect())
-         })
-         .collect::<Vec<_>>()
+        .map(|(w1, w2)| {
+            let cs1 = w1.as_bytes();
+            let cs2 = w2.as_bytes();
+            let get_pos = |&c: &u8| cs1.iter().position(|&e| e == c).unwrap() as u64;
+            (w1.len() as u64,
+             cs1.iter().map(|c| get_pos(c)).collect(),
+             cs2.iter().map(|c| get_pos(c)).collect())
+        })
+        .collect::<Vec<_>>()
 }
 
 fn group_by_len(mut indices: Vec<(u64, Vec<u64>, Vec<u64>)>) -> Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)> {

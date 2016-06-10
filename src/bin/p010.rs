@@ -15,8 +15,8 @@ use prime::PrimeSet;
 fn compute(limit: u64) -> u64 {
     let ps = PrimeSet::new();
     ps.iter()
-      .take_while(|&p| p < limit)
-      .sum()
+        .take_while(|&p| p < limit)
+        .sum()
 }
 
 fn solve() -> String {

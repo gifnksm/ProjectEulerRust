@@ -11,7 +11,6 @@ use num::{FromPrimitive, One, ToPrimitive, Zero};
 
 /// Extension methods for num::Integer trait.
 pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
-
     /// Divide two numbers, return the result, rounded up.
     ///
     /// # Arguments

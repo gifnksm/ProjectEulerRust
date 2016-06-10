@@ -31,10 +31,7 @@ struct Frac {
 
 impl Frac {
     fn new() -> Frac {
-        Frac {
-            nd: (FromPrimitive::from_usize(3).unwrap(),
-                 FromPrimitive::from_usize(2).unwrap()),
-        }
+        Frac { nd: (FromPrimitive::from_usize(3).unwrap(), FromPrimitive::from_usize(2).unwrap()) }
     }
 }
 
@@ -69,8 +66,7 @@ mod tests {
     #[test]
     fn frac() {
         fn gen(n: u32, d: u32) -> (BigUint, BigUint) {
-            (FromPrimitive::from_u32(n).unwrap(),
-             FromPrimitive::from_u32(d).unwrap())
+            (FromPrimitive::from_u32(n).unwrap(), FromPrimitive::from_u32(d).unwrap())
         }
         let mut it = Frac::new();
         assert_eq!(Some(gen(3, 2)), it.next());

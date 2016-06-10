@@ -101,10 +101,10 @@ mod tests {
     fn first5() {
         let ps = PrimeSet::new();
         let mut it = (3..)
-                         .step_by(2)
-                         .filter(|&n| !n.is_multiple_of(&5))
-                         .filter(|&n| !ps.contains(n))
-                         .filter(|&n| (n - 1).is_multiple_of(&super::a(n)));
+            .step_by(2)
+            .filter(|&n| !n.is_multiple_of(&5))
+            .filter(|&n| !ps.contains(n))
+            .filter(|&n| (n - 1).is_multiple_of(&super::a(n)));
 
         assert_eq!(Some(91), it.next());
         assert_eq!(Some(259), it.next());
