@@ -231,10 +231,8 @@ mod tests {
     #[test]
     fn rad() {
         let mut it = RadValues::new()
-                         .take_while(|&(n, _)| n <= 10)
-                         .flat_map(|(base, facts)| {
-                             Multiples::new(base, facts).take_while(|&n| n <= 10)
-                         });
+            .take_while(|&(n, _)| n <= 10)
+            .flat_map(|(base, facts)| Multiples::new(base, facts).take_while(|&n| n <= 10));
 
         assert_eq!(Some(1), it.next());
         assert_eq!(Some(2), it.next());

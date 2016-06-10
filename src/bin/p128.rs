@@ -218,7 +218,7 @@ impl Iterator for Pd3Nums {
     #[inline]
     fn next(&mut self) -> Option<u64> {
         loop {
-            let PdTriple { n, triple: (a, b, c), ..} = self.iter.next().unwrap();
+            let PdTriple { n, triple: (a, b, c), .. } = self.iter.next().unwrap();
             if self.ps.contains(a) && self.ps.contains(b) && self.ps.contains(c) {
                 return Some(n);
             }
@@ -293,9 +293,7 @@ mod tests {
             assert_eq!(Some(PdTriple {
                            n: n,
                            r: r,
-                           triple: (b(r + 1, 6 * r + 5) - n,
-                                    b(r + 1, 1) - n,
-                                    b(r, 6 * r - 1) - n),
+                           triple: (b(r + 1, 6 * r + 5) - n, b(r + 1, 1) - n, b(r, 6 * r - 1) - n),
                        }),
                        it.next());
 

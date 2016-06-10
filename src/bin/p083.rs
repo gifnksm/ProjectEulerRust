@@ -18,10 +18,10 @@ fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
 
     for line in BufReader::new(reader).lines() {
         let row = try!(line)
-                      .trim()
-                      .split(',')
-                      .filter_map(|s| s.parse::<u32>().ok())
-                      .collect();
+            .trim()
+            .split(',')
+            .filter_map(|s| s.parse::<u32>().ok())
+            .collect();
         mat.push(row);
     }
 
@@ -57,10 +57,8 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
         }
 
         let &min_pt = open.iter()
-                          .min_by_key(|&pt| {
-                              dist[pt.y][pt.x] + ((h - pt.y - 1) + (w - pt.x - 1)) as u32
-                          })
-                          .unwrap();
+            .min_by_key(|&pt| dist[pt.y][pt.x] + ((h - pt.y - 1) + (w - pt.x - 1)) as u32)
+            .unwrap();
 
         if min_pt == goal {
             break;

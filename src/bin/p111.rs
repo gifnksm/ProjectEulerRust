@@ -156,8 +156,8 @@ mod tests {
         assert_eq!((3, 7, 48073), super::compute_s(&ps, 4, 9));
 
         let total = (0u64..10)
-                        .map(|d| super::compute_s(&ps, 4, d).2)
-                        .sum::<u64>();
+            .map(|d| super::compute_s(&ps, 4, d).2)
+            .sum::<u64>();
         assert_eq!(273700, total);
     }
 }

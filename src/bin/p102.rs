@@ -67,20 +67,8 @@ impl Triangle {
         let s1 = Line(self.1, self.2).side(p);
         let s2 = Line(self.2, self.0).side(p);
         match (s0, s1, s2) {
-            (L, L, L) |
-            (L, L, C) |
-            (L, C, L) |
-            (L, C, C) |
-            (C, L, L) |
-            (C, L, C) |
-            (C, C, L) |
-            (C, C, C) |
-            (R, R, R) |
-            (R, R, C) |
-            (R, C, R) |
-            (R, C, C) |
-            (C, R, R) |
-            (C, R, C) |
+            (L, L, L) | (L, L, C) | (L, C, L) | (L, C, C) | (C, L, L) | (C, L, C) | (C, C, L) |
+            (C, C, C) | (R, R, R) | (R, R, C) | (R, C, R) | (R, C, C) | (C, R, R) | (C, R, C) |
             (C, C, R) => true,
             _ => false,
         }
@@ -93,10 +81,10 @@ fn solve(file: File) -> io::Result<String> {
     let mut cnt = 0;
     for line in BufReader::new(file).lines() {
         let ns = try!(line)
-                     .trim()
-                     .split(',')
-                     .filter_map(|s| s.parse::<i32>().ok())
-                     .collect::<Vec<_>>();
+            .trim()
+            .split(',')
+            .filter_map(|s| s.parse::<i32>().ok())
+            .collect::<Vec<_>>();
         let t = Triangle(Point(ns[0], ns[1]),
                          Point(ns[2], ns[3]),
                          Point(ns[4], ns[5]));

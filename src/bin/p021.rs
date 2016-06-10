@@ -18,13 +18,13 @@ fn compute(limit: u64) -> u64 {
     let sum_of_div = (0..limit).map(|n| n.sum_of_proper_divisor(&ps)).collect::<Vec<_>>();
 
     sum_of_div.iter()
-              .cloned()
-              .enumerate()
-              .map(|(n, div)| (n as u64, div))
-              .filter(|&(n, div)| div < n)
-              .filter(|&(n, div)| sum_of_div[div as usize] == n)
-              .map(|(a, b)| a + b)
-              .sum()
+        .cloned()
+        .enumerate()
+        .map(|(n, div)| (n as u64, div))
+        .filter(|&(n, div)| div < n)
+        .filter(|&(n, div)| sum_of_div[div as usize] == n)
+        .map(|(a, b)| a + b)
+        .sum()
 }
 
 fn solve() -> String {

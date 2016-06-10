@@ -19,8 +19,8 @@ fn compute(a_max: u32, b_max: u32) -> u32 {
         let a_factor = a.factorize(&ps).collect::<Vec<_>>();
         for b in 2..(b_max + 1) {
             let ab_factor = a_factor.iter()
-                                    .map(|&(base, exp)| (base, (exp) as u32 * b))
-                                    .collect::<Vec<_>>();
+                .map(|&(base, exp)| (base, (exp) as u32 * b))
+                .collect::<Vec<_>>();
             set.insert(ab_factor);
         }
     }

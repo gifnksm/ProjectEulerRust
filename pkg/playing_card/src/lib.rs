@@ -63,12 +63,12 @@ pub struct SuitCard {
 impl fmt::Display for SuitCard {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            SuitCard { num: 1,  suit: s } => write!(f, "A{}", s),
+            SuitCard { num: 1, suit: s } => write!(f, "A{}", s),
             SuitCard { num: 10, suit: s } => write!(f, "T{}", s),
             SuitCard { num: 11, suit: s } => write!(f, "J{}", s),
             SuitCard { num: 12, suit: s } => write!(f, "Q{}", s),
             SuitCard { num: 13, suit: s } => write!(f, "K{}", s),
-            SuitCard { num: n,  suit: s } => write!(f, "{}{}", n, s),
+            SuitCard { num: n, suit: s } => write!(f, "{}{}", n, s),
         }
     }
 }

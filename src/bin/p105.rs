@@ -62,10 +62,10 @@ fn solve(file: File) -> io::Result<String> {
     let mut sum = 0;
     for line in BufReader::new(file).lines() {
         let mut nums = try!(line)
-                           .trim()
-                           .split(',')
-                           .filter_map(|s| s.parse::<u32>().ok())
-                           .collect::<Vec<_>>();
+            .trim()
+            .split(',')
+            .filter_map(|s| s.parse::<u32>().ok())
+            .collect::<Vec<_>>();
 
         if is_sss(&mut nums) {
             sum += nums.iter().sum::<u32>();

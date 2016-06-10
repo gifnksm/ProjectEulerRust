@@ -88,7 +88,7 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
         #[inline]
         fn next(&mut self) -> Option<(u32, (u32, u32, u32))> {
             let a = self.calc_a();
-            let &mut A { n, pqr: (p, q, r), ..} = self;
+            let &mut A { n, pqr: (p, q, r), .. } = self;
 
             self.pqr = if a * a == n || p == 0 {
                 (0, 0, 1)

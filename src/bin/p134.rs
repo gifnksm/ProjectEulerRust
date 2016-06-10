@@ -110,9 +110,9 @@ fn solve() -> String {
     let mut sum = 0;
     let ps = PrimeSet::new();
     let pairs = ps.iter()
-                  .zip(ps.iter().skip(1))
-                  .skip_while(|&(p1, _p2)| p1 < min_limit)
-                  .take_while(|&(p1, _p2)| p1 <= max_limit);
+        .zip(ps.iter().skip(1))
+        .skip_while(|&(p1, _p2)| p1 < min_limit)
+        .take_while(|&(p1, _p2)| p1 <= max_limit);
 
     for (p1, p2) in pairs {
         if p1 == 3 {

@@ -15,10 +15,10 @@ use seq::Fibonacci;
 
 fn compute(limit_len: usize) -> usize {
     let limit = iter::repeat("9")
-                    .take(limit_len - 1)
-                    .collect::<String>()
-                    .parse::<BigUint>()
-                    .unwrap();
+        .take(limit_len - 1)
+        .collect::<String>()
+        .parse::<BigUint>()
+        .unwrap();
     Fibonacci::<BigUint>::new()
         .take_while(|n| *n <= limit)
         .count() + 1

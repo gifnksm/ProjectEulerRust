@@ -62,13 +62,13 @@ fn compute(limit: usize) -> u32 {
         each_product_sum_number(start,
                                 end,
                                 &mut |n, len| {
-                                    if len <= limit && n < nums[len] {
-                                        if nums[len] == u32::MAX {
-                                            cnt -= 1;
-                                        }
-                                        nums[len] = n;
-                                    }
-                                });
+            if len <= limit && n < nums[len] {
+                if nums[len] == u32::MAX {
+                    cnt -= 1;
+                }
+                nums[len] = n;
+            }
+        });
         start *= 2;
     }
 

@@ -104,9 +104,9 @@ mod tests {
     #[test]
     fn first_sol() {
         let pos = super::num_solutions(2000)
-                      .iter()
-                      .position(|&n| n == 10)
-                      .unwrap();
+            .iter()
+            .position(|&n| n == 10)
+            .unwrap();
         assert_eq!(1155, pos);
     }
 }

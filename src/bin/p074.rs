@@ -111,8 +111,8 @@ mod tests {
             val
         };
         let mut map = iter::repeat(super::Length::Unknown)
-                          .take((factorial[9] * 6 + 1) as usize)
-                          .collect::<Vec<_>>();
+            .take((factorial[9] * 6 + 1) as usize)
+            .collect::<Vec<_>>();
 
         assert_eq!(3, super::get_chain_len(169, &mut map, &factorial));
         assert_eq!(2, super::get_chain_len(871, &mut map, &factorial));

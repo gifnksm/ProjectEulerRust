@@ -241,9 +241,7 @@ impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
             }
 
             let (m2, n2) = (m.clone() * m.clone(), n.clone() * n.clone());
-            let (a, b, c) = (m2.clone() - n2.clone(),
-                             two.clone() * m.clone() * n,
-                             m2 + n2);
+            let (a, b, c) = (m2.clone() - n2.clone(), two.clone() * m.clone() * n, m2 + n2);
             if a < b {
                 return Some((a, b, c));
             } else {

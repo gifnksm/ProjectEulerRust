@@ -55,10 +55,10 @@ fn compute() -> u64 {
     }
 
     l2r_mat.into_iter()
-           .flat_map(|l2r| l2r.into_iter())
-           .filter(|&n| n >= 10)
-           .filter(|&n| is_r2l(&ps, n))
-           .sum()
+        .flat_map(|l2r| l2r.into_iter())
+        .filter(|&n| n >= 10)
+        .filter(|&n| is_r2l(&ps, n))
+        .sum()
 }
 
 fn solve() -> String {

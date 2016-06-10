@@ -92,9 +92,9 @@ fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: usize) -> Vec<P
         let ds = &num[num.len() - (len - 1)..];
         let lower = Integer::from_digits(ds.iter().map(|&x| x as u64), RADIX as u64);
         let it = (0..RADIX)
-                     .filter(|&d| !pd.is_used(d))
-                     .filter(|&d| ((d as u64) * ord + lower) % base == 0)
-                     .map(|d| pd.join(d).unwrap());
+            .filter(|&d| !pd.is_used(d))
+            .filter(|&d| ((d as u64) * ord + lower) % base == 0)
+            .map(|d| pd.join(d).unwrap());
         result.extend(it);
     }
     result
@@ -107,9 +107,9 @@ fn solve() -> String {
     }
 
     result.iter()
-          .map(|pd| pd.to_u64())
-          .sum::<u64>()
-          .to_string()
+        .map(|pd| pd.to_u64())
+        .sum::<u64>()
+        .to_string()
 }
 
 problem!("16695334890", solve);

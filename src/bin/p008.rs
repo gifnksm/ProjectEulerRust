@@ -32,13 +32,13 @@ const INPUT: &'static str = r"
 
 fn compute(prod_len: usize) -> u64 {
     INPUT.chars()
-         .filter_map(|c| c.to_digit(10))
-         .map(|n| n as u64)
-         .collect::<Vec<_>>()
-         .windows(prod_len)
-         .map(|win| win.iter().fold(1u64, |p, &n| p * n))
-         .max()
-         .unwrap()
+        .filter_map(|c| c.to_digit(10))
+        .map(|n| n as u64)
+        .collect::<Vec<_>>()
+        .windows(prod_len)
+        .map(|win| win.iter().fold(1u64, |p, &n| p * n))
+        .max()
+        .unwrap()
 }
 
 fn solve() -> String {

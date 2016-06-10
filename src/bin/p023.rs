@@ -14,8 +14,8 @@ fn compute(max: u64) -> u64 {
     let ps = PrimeSet::new();
 
     let abundant = (2..max + 1)
-                       .filter(|&n| n.sum_of_proper_divisor(&ps) > n)
-                       .collect::<Vec<_>>();
+        .filter(|&n| n.sum_of_proper_divisor(&ps) > n)
+        .collect::<Vec<_>>();
 
     let mut sum_of_sum_abundant = 0;
 

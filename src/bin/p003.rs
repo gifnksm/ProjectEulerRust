@@ -13,9 +13,9 @@ use prime::{Factorize, PrimeSet};
 fn compute(n: u64) -> u64 {
     let ps = PrimeSet::new();
     n.factorize(&ps)
-     .map(|(base, _exp)| base)
-     .max()
-     .unwrap()
+        .map(|(base, _exp)| base)
+        .max()
+        .unwrap()
 }
 
 fn solve() -> String {

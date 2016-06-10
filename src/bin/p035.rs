@@ -33,9 +33,9 @@ fn is_circular_prime(ps: &PrimeSet, n: u64) -> bool {
 fn compute(limit: u64) -> usize {
     let ps = PrimeSet::new();
     ps.iter()
-      .take_while(|&p| p < limit)
-      .filter(|&n| is_circular_prime(&ps, n))
-      .count()
+        .take_while(|&p| p < limit)
+        .filter(|&n| is_circular_prime(&ps, n))
+        .count()
 }
 
 fn solve() -> String {

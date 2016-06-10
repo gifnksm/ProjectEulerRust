@@ -107,13 +107,13 @@ fn solve(file: File) -> io::Result<String> {
     }
 
     let key = freq.iter()
-                  .map(|f| find_key(f, freq_dict))
-                  .collect::<Vec<u8>>();
+        .map(|f| find_key(f, freq_dict))
+        .collect::<Vec<u8>>();
 
     let sum = code_list.iter()
-                       .zip(key.iter().cycle())
-                       .map(|(&n, &key)| (n ^ key) as u32)
-                       .sum::<u32>();
+        .zip(key.iter().cycle())
+        .map(|(&n, &key)| (n ^ key) as u32)
+        .sum::<u32>();
 
     Ok(sum.to_string())
 }

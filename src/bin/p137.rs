@@ -49,10 +49,10 @@ use itertools::Unfold;
 
 fn compute(i: usize) -> u64 {
     Unfold::new((1, 1), |state| {
-        let next = ((3 * state.0 + 5 * state.1) / 2, (state.0 + 3 * state.1) / 2);
-        *state = next;
-        Some(next)
-    })
+            let next = ((3 * state.0 + 5 * state.1) / 2, (state.0 + 3 * state.1) / 2);
+            *state = next;
+            Some(next)
+        })
         .filter_map(|(p, q)| {
             if p % 5 == 1 {
                 Some((p / 5, q))

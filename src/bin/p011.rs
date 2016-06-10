@@ -34,13 +34,13 @@ const INPUT: &'static str = r"
 
 fn compute(prod_len: usize) -> u32 {
     let grid: Vec<Vec<u32>> = INPUT.trim()
-                                   .lines()
-                                   .map(|line| {
-                                       line.split_whitespace()
-                                           .filter_map(|s| s.parse().ok())
-                                           .collect()
-                                   })
-                                   .collect();
+        .lines()
+        .map(|line| {
+            line.split_whitespace()
+                .filter_map(|s| s.parse().ok())
+                .collect()
+        })
+        .collect();
 
     let w = grid[0].len();
     let h = grid.len();
@@ -72,14 +72,14 @@ fn compute(prod_len: usize) -> u32 {
     }));
 
     lines.iter()
-         .map(|cells| {
-             cells.windows(prod_len)
-                  .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
-                  .max()
-                  .unwrap_or(0)
-         })
-         .max()
-         .unwrap()
+        .map(|cells| {
+            cells.windows(prod_len)
+                .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
+                .max()
+                .unwrap_or(0)
+        })
+        .max()
+        .unwrap()
 }
 
 fn solve() -> String {

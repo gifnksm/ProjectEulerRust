@@ -17,10 +17,10 @@ fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
 
     for line in BufReader::new(reader).lines() {
         let row = try!(line)
-                      .trim()
-                      .split(',')
-                      .filter_map(|s| s.parse::<u32>().ok())
-                      .collect();
+            .trim()
+            .split(',')
+            .filter_map(|s| s.parse::<u32>().ok())
+            .collect();
         mat.push(row);
     }
 

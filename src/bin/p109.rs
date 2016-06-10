@@ -38,10 +38,10 @@ fn count_way(score: u32) -> u32 {
     let p2 = &double * &p_all;
     let p3 = &double *
              Polynomial::new((&p_all * &p_all + &dup)
-                                 .data()
-                                 .iter()
-                                 .map(|&n| n / 2)
-                                 .collect());
+        .data()
+        .iter()
+        .map(|&n| n / 2)
+        .collect());
     let total = p1 + p2 + p3;
     total.data().iter().take(score as usize).fold(0, |i, &a| i + a)
 }

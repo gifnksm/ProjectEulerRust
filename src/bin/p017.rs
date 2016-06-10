@@ -97,8 +97,8 @@ fn compute(max: u32) -> u32 {
         .map(to_word)
         .map(|w| {
             w.chars()
-             .filter(|&c| c != '-' && c != ' ')
-             .count() as u32
+                .filter(|&c| c != '-' && c != ' ')
+                .count() as u32
         })
         .sum()
 }

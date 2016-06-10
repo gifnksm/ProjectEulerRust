@@ -68,8 +68,8 @@ fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
 
 fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     let group_it = (0..(GROUP_WIDTH * GROUP_HEIGHT))
-                       .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
-                       .collect::<Vec<_>>();
+        .map(|i| (i % GROUP_WIDTH, i / GROUP_WIDTH))
+        .collect::<Vec<_>>();
 
     loop {
         let bkup = puzzle.clone();
@@ -81,8 +81,7 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                     continue;
                 }
 
-                let (x0, y0) = ((x / GROUP_WIDTH) * GROUP_WIDTH,
-                                (y / GROUP_HEIGHT) * GROUP_HEIGHT);
+                let (x0, y0) = ((x / GROUP_WIDTH) * GROUP_WIDTH, (y / GROUP_HEIGHT) * GROUP_HEIGHT);
                 let row = (0..BOARD_WIDTH).map(|x| (x, y));
                 let col = (0..BOARD_HEIGHT).map(|y| (x, y));
                 let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
@@ -128,8 +127,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                 for x0 in (0..BOARD_WIDTH).step_by(GROUP_WIDTH) {
                     let next = {
                         let mut it = group_it.iter()
-                                             .map(|&(dx, dy)| (x0 + dx, y0 + dy))
-                                             .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
+                            .map(|&(dx, dy)| (x0 + dx, y0 + dy))
+                            .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
                         let next = it.next();
                         if next.is_none() || it.next().is_some() {
                             continue;
@@ -148,9 +147,9 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     }
 
     let it = (0..(BOARD_HEIGHT * BOARD_WIDTH))
-                 .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
-                 .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones() as BITS))
-                 .collect::<Vec<(usize, usize, BITS)>>();
+        .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
+        .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones() as BITS))
+        .collect::<Vec<(usize, usize, BITS)>>();
 
     if it.iter().any(|&(_x, _y, cnt)| cnt == 0) {
         return vec![];
@@ -160,9 +159,9 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     }
 
     let (x, y, _cnt) = *it.iter()
-                          .filter(|&&(_x, _y, cnt)| cnt > 1)
-                          .min_by_key(|&&(_x, _y, cnt)| cnt)
-                          .unwrap();
+        .filter(|&&(_x, _y, cnt)| cnt > 1)
+        .min_by_key(|&&(_x, _y, cnt)| cnt)
+        .unwrap();
 
     let mut answers = vec![];
     for n in 0..MAX_NUMBER {
