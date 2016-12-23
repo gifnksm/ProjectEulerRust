@@ -9,16 +9,16 @@ extern crate rustc_serialize;
 extern crate term;
 extern crate time;
 
-use std::borrow::Cow;
-use std::error::Error;
-use std::{env, fmt, io, process};
-use std::fs::{self, File};
-use std::io::prelude::*;
-use std::path::PathBuf;
-use curl::http;
+use curl::easy::Easy;
 use getopts::Options;
 use num::Integer;
 use rustc_serialize::{Encodable, json};
+use std::{env, fmt, io, process};
+use std::borrow::Cow;
+use std::error::Error;
+use std::fs::{self, File};
+use std::io::prelude::*;
+use std::path::PathBuf;
 use term::color;
 use term::color::Color;
 
@@ -35,7 +35,7 @@ const COLOR_WARN: Color = color::YELLOW;
 #[derive(Debug)]
 pub enum SolverError {
     Io(io::Error),
-    Http(curl::ErrCode),
+    Curl(curl::Error),
 }
 
 impl From<io::Error> for SolverError {
@@ -43,9 +43,9 @@ impl From<io::Error> for SolverError {
         SolverError::Io(err)
     }
 }
-impl From<curl::ErrCode> for SolverError {
-    fn from(err: curl::ErrCode) -> SolverError {
-        SolverError::Http(err)
+impl From<curl::Error> for SolverError {
+    fn from(err: curl::Error) -> SolverError {
+        SolverError::Curl(err)
     }
 }
 
@@ -53,14 +53,14 @@ impl Error for SolverError {
     fn description(&self) -> &str {
         match *self {
             SolverError::Io(ref err) => err.description(),
-            SolverError::Http(ref err) => err.description(),
+            SolverError::Curl(ref err) => err.description(),
         }
     }
 
     fn cause(&self) -> Option<&Error> {
         match *self {
             SolverError::Io(ref err) => Some(err),
-            SolverError::Http(ref err) => Some(err),
+            SolverError::Curl(ref err) => Some(err),
         }
     }
 }
@@ -69,7 +69,7 @@ impl fmt::Display for SolverError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             SolverError::Io(ref err) => write!(f, "{}", err),
-            SolverError::Http(ref err) => write!(f, "{}", err),
+            SolverError::Curl(ref err) => write!(f, "{}", err),
         }
     }
 }
@@ -273,15 +273,25 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
 }
 
 const BASE_URL: &'static str = "https://projecteuler.net/project/resources/";
-fn download(file_name: &str) -> Result<Vec<u8>, curl::ErrCode> {
+fn download(file_name: &str) -> Result<Vec<u8>, curl::Error> {
     let url = format!("{}{}", BASE_URL, file_name);
 
     let mut retry = 0;
     loop {
-        let result = http::handle().get(&url[..]).exec();
+        let mut buf = vec![];
+        let result = {
+            let mut easy = Easy::new();
+            try!(easy.url(&url));
+            let mut transfer = easy.transfer();
+            try!(transfer.write_function(|data| {
+                buf.extend_from_slice(data);
+                Ok(data.len())
+            }));
+            transfer.perform()
+        };
         match result {
-            Ok(resp) => {
-                return Ok(resp.move_body());
+            Ok(()) => {
+                return Ok(buf);
             }
             Err(err) => {
                 let program = env::args().next().unwrap();

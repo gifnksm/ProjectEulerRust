@@ -12,8 +12,8 @@ description = "Solving Project Euler with Rust lang."
 name = "common"
 
 [dependencies]
-curl = "0.2"
-itertools = "0.4"
+curl = "0.4"
+itertools = "0.5"
 glob = "0.2"
 generic-matrix = "0.0"
 getopts = "0.2"

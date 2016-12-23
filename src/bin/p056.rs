@@ -12,12 +12,11 @@ extern crate num;
 extern crate itertools;
 
 use num::{BigUint, FromPrimitive, One};
-use itertools::Unfold;
 
 fn compute(a: u32, b: u32) -> u32 {
     num::range(One::one(), FromPrimitive::from_u32(a).unwrap())
         .map(|a: BigUint| {
-            Unfold::new(One::one(), |n| {
+            itertools::unfold(One::one(), |n| {
                     (*n) = &a * (&*n);
                     Some(n.to_string())
                 })

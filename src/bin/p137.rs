@@ -45,10 +45,8 @@
 extern crate common;
 extern crate itertools;
 
-use itertools::Unfold;
-
 fn compute(i: usize) -> u64 {
-    Unfold::new((1, 1), |state| {
+    itertools::unfold((1, 1), |state| {
             let next = ((3 * state.0 + 5 * state.1) / 2, (state.0 + 3 * state.1) / 2);
             *state = next;
             Some(next)
