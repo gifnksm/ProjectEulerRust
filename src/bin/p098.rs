@@ -8,13 +8,13 @@
 extern crate common;
 extern crate integer;
 
+use integer::Integer;
 use std::{cmp, mem, u64};
 use std::collections::HashMap;
 use std::collections::hash_map::Entry;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use integer::Integer;
 
 fn read_words(file: File) -> io::Result<Vec<String>> {
     let mut words = vec![];
@@ -81,7 +81,8 @@ fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, Vec<u64>, Vec<u6
         .collect::<Vec<_>>()
 }
 
-fn group_by_len(mut indices: Vec<(u64, Vec<u64>, Vec<u64>)>) -> Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)> {
+fn group_by_len(mut indices: Vec<(u64, Vec<u64>, Vec<u64>)>)
+                -> Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)> {
     let mut groups = vec![];
     let mut cur_len = u64::MAX;
     let mut cur_group = vec![];

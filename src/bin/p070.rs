@@ -9,9 +9,9 @@ extern crate common;
 extern crate integer;
 extern crate prime;
 
-use std::f64;
 use integer::Integer;
 use prime::PrimeSet;
+use std::f64;
 
 fn compute(limit: u64) -> u64 {
     // n = \Pi_{k=1}^d p_k

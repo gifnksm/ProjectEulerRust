@@ -4,15 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate iter;
 extern crate integer;
 
-use iter::CombinationOverlap;
 use integer::Integer;
+use iter::CombinationOverlap;
 
 // 9^5     = 59049
 // 9999    => 9^5 * 4 = 236196

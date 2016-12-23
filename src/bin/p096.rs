@@ -9,9 +9,9 @@
 #[macro_use(problem)]
 extern crate common;
 
+use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use std::fs::File;
 use std::usize;
 
 const BOARD_WIDTH: usize = 9;

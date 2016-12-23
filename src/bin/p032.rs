@@ -4,16 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
 extern crate iter;
 
-use std::collections::HashSet;
 use integer::Integer;
 use iter::Permutations;
+use std::collections::HashSet;
 
 // possible num of digits combinations
 // 1 x 1 = 7 : NG 10 * 10

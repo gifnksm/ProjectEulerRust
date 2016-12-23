@@ -9,9 +9,9 @@ extern crate common;
 extern crate num;
 extern crate seq;
 
-use std::iter;
 use num::BigUint;
 use seq::Fibonacci;
+use std::iter;
 
 fn compute(limit_len: usize) -> usize {
     let limit = iter::repeat("9")

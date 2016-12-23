@@ -8,8 +8,8 @@
 extern crate common;
 extern crate prime;
 
-use std::collections::HashSet;
 use prime::{Factorize, PrimeSet};
+use std::collections::HashSet;
 
 fn compute(a_max: u32, b_max: u32) -> u32 {
     let mut set = HashSet::new();

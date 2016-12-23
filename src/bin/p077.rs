@@ -8,8 +8,8 @@
 extern crate common;
 extern crate prime;
 
-use std::collections::HashMap;
 use prime::PrimeSet;
+use std::collections::HashMap;
 
 fn count_way(ps: &PrimeSet, sum: u64, map: &mut HashMap<(u64, usize), u32>) -> u32 {
     let cnt = count_sub(ps, sum, 0, map);
@@ -62,8 +62,8 @@ problem!("71", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
     use prime::PrimeSet;
+    use std::collections::HashMap;
 
     #[test]
     fn ten() {

@@ -8,8 +8,8 @@
 extern crate common;
 extern crate integer;
 
-use std::{cmp, iter};
 use integer::Integer;
+use std::{cmp, iter};
 
 fn compute(sum: u32) -> u32 {
     (2..sum - 1)

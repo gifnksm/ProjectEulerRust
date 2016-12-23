@@ -4,14 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate prime;
 
-use std::collections::HashMap;
 use prime::PrimeSet;
+use std::collections::HashMap;
 
 // n = 4
 // (i, j): i: size of B, j: size of C
@@ -114,8 +112,8 @@ problem!("21384", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
     use prime::PrimeSet;
+    use std::collections::HashMap;
 
     #[test]
     fn test_f() {

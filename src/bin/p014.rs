@@ -8,8 +8,8 @@
 extern crate common;
 extern crate seq;
 
-use std::collections::HashMap;
 use seq::Collatz;
+use std::collections::HashMap;
 
 fn compute_len(map: &mut HashMap<u64, u64>, n: u64) -> u64 {
     if let Some(&x) = map.get(&n) {

@@ -7,10 +7,10 @@
 #[macro_use(problem)]
 extern crate common;
 
-use std::u32;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
+use std::u32;
 
 const ROMAN_PAIRS: &'static [(&'static str, u32)] = &[("IV", 4),
                                                       ("IX", 9),

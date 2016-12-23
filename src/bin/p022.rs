@@ -4,14 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 
+use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use std::fs::File;
 
 fn get_score(n: u32, s: &str) -> u32 {
     n * s.bytes().map(|c| (c - ('A' as u8) + 1) as u32).sum::<u32>()

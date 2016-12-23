@@ -8,8 +8,8 @@ extern crate num;
 #[macro_use(problem)]
 extern crate common;
 
-use std::str::FromStr;
 use num::{BigUint, FromPrimitive};
+use std::str::FromStr;
 
 fn reverse(n: &BigUint) -> BigUint {
     let s = n.to_string();

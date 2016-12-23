@@ -9,8 +9,8 @@ extern crate num;
 extern crate common;
 extern crate integer;
 
-use num::Integer as NumInteger;
 use integer::Integer;
+use num::Integer as NumInteger;
 
 fn compute(min: u32, max: u32) -> u32 {
     let r = min..(max + 1);

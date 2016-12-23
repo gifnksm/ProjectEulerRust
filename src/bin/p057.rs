@@ -8,8 +8,8 @@
 extern crate common;
 extern crate num;
 
-use std::mem;
 use num::{BigUint, FromPrimitive};
+use std::mem;
 
 // FIXME: Use cont_frac?
 

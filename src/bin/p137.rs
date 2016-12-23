@@ -51,13 +51,7 @@ fn compute(i: usize) -> u64 {
             *state = next;
             Some(next)
         })
-        .filter_map(|(p, q)| {
-            if p % 5 == 1 {
-                Some((p / 5, q))
-            } else {
-                None
-            }
-        })
+        .filter_map(|(p, q)| { if p % 5 == 1 { Some((p / 5, q)) } else { None } })
         .nth(i)
         .unwrap()
         .0

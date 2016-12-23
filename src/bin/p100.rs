@@ -9,8 +9,8 @@ extern crate common;
 extern crate num;
 extern crate cont_frac;
 
-use num::{BigUint, Integer, One};
 use cont_frac::PelNegRoots;
+use num::{BigUint, Integer, One};
 
 // b/s * (b-1)/(s-1) = 1/2
 // 2b(b - 1) = s * (s-1)

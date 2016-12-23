@@ -8,9 +8,9 @@
 extern crate common;
 extern crate integer;
 
+use integer::Integer;
 use std::collections::{HashMap, HashSet};
 use std::collections::hash_map::Entry;
-use integer::Integer;
 
 fn perm_exact(cnt: usize) -> HashSet<u64> {
     let mut map = HashMap::<_, (u64, usize)>::new();

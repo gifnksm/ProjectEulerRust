@@ -12,13 +12,13 @@ extern crate playing_card;
 #[cfg(test)]
 extern crate rand;
 
+use playing_card::SuitCard as Card;
 use std::cmp::Ordering;
 use std::fmt;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::str::FromStr;
-use playing_card::SuitCard as Card;
 
 fn cmp_card(c0: &Card, c1: &Card) -> Ordering {
     if c0.num == c1.num {
@@ -205,11 +205,7 @@ impl Hand {
         let mut suit_count = (0..4).map(|_| vec![]).collect::<Vec<_>>();
 
         for &c in cards {
-            let val = if c.num == 1 {
-                12
-            } else {
-                c.num - 2
-            };
+            let val = if c.num == 1 { 12 } else { c.num - 2 };
             num_count[(12 - val) as usize].push(c);
             suit_count[c.suit as usize].push(c);
         }
@@ -344,11 +340,11 @@ problem!("376", "p054_poker.txt", solve);
 
 #[cfg(test)]
 mod tests {
-    use super::Hand;
+    use playing_card::SuitCard as Card;
+    use rand::{self, Rng};
     use std::cmp::Ordering;
     use std::str::FromStr;
-    use rand::{self, Rng};
-    use playing_card::SuitCard as Card;
+    use super::Hand;
 
     fn str_to_cards(s: &str) -> Vec<Card> {
         s.split(' ')

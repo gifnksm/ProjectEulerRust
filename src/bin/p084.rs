@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(step_by, iter_arith)]
+#![feature(step_by)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -121,13 +121,7 @@ fn ch_trans_matrix() -> Matrix<f64> {
                     _ => 0.0,
                 }
             }
-            _ => {
-                if src == dst {
-                    1.0
-                } else {
-                    0.0
-                }
-            }
+            _ => if src == dst { 1.0 } else { 0.0 },
         }
     })
 }
@@ -158,13 +152,7 @@ fn cc_trans_matrix() -> Matrix<f64> {
                 }
                 0.0
             }
-            _ => {
-                if src == dst {
-                    1.0
-                } else {
-                    0.0
-                }
-            }
+            _ => if src == dst { 1.0 } else { 0.0 },
         }
     })
 }

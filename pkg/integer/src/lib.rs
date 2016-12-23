@@ -6,8 +6,8 @@
 
 extern crate num;
 
-use std::cmp::Ordering;
 use num::{FromPrimitive, One, ToPrimitive, Zero};
+use std::cmp::Ordering;
 
 /// Extension methods for num::Integer trait.
 pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
@@ -300,9 +300,9 @@ impl<T: num::Integer + Clone> DoubleEndedIterator for Digits<T> {
 
 #[cfg(test)]
 mod tests {
-    use super::Integer;
     use num;
     use num::Integer as NumInteger;
+    use super::Integer;
 
     #[test]
     fn div() {

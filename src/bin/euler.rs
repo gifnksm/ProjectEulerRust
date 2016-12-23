@@ -4,28 +4,25 @@
 
 extern crate glob;
 extern crate rustc_serialize as rustc_serialize;
-extern crate term;
 extern crate common;
 
+use common::SolverResult;
+use glob::Paths;
+use rustc_serialize::Decodable;
+use rustc_serialize::json::{self, Json};
 use std::borrow::Cow;
 use std::env;
 use std::io;
 use std::io::prelude::*;
+use std::os::unix::process::ExitStatusExt;
 use std::path::Path;
+use std::process;
 use std::process::Command;
 use std::str;
-use std::os::unix::process::ExitStatusExt;
-use std::process;
-use glob::Paths;
-use rustc_serialize::Decodable;
-use rustc_serialize::json::{self, Json};
-use term::color::Color;
-use common::SolverResult;
 
 const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
 
 type ProgramResult<T> = Result<T, ProgramError>;
-type OutputPair<'a> = (Option<Color>, Cow<'a, str>);
 
 #[derive(Debug)]
 enum ProgramError {

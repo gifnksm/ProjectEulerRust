@@ -4,15 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
 extern crate num;
 
-use num::Integer as NumInteger;
 use integer::Integer;
+use num::Integer as NumInteger;
 
 struct Group {
     num_len: usize,

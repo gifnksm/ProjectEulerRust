@@ -9,8 +9,8 @@ extern crate num;
 extern crate common;
 extern crate polynomial;
 
-use num::rational::Ratio;
 use num::{BigInt, FromPrimitive, One, Zero};
+use num::rational::Ratio;
 use polynomial::Polynomial;
 
 fn u(n: BigInt) -> BigInt {

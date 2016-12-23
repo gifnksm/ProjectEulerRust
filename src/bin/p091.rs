@@ -8,8 +8,8 @@
 extern crate common;
 extern crate num;
 
-use std::cmp;
 use num::Integer;
+use std::cmp;
 
 fn count_right_at_o(x_max: u32, y_max: u32) -> u32 {
     x_max * y_max

@@ -8,10 +8,10 @@
 extern crate common;
 extern crate seq;
 
+use seq::TriangularNums;
 use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
-use seq::TriangularNums;
 
 fn word_to_value(word: &str) -> u32 {
     let mut value = 0;
