@@ -279,7 +279,7 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
     Ok(file)
 }
 
-const BASE_URL: &'static str = "https://projecteuler.net/project/resources/";
+const BASE_URL: &'static str = "http://projecteuler.net/project/resources/";
 fn download(file_name: &str) -> Result<Vec<u8>, SolverError> {
     let url = format!("{}{}", BASE_URL, file_name);
 
