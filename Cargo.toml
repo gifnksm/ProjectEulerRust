@@ -1,33 +1,27 @@
 [package]
-name = "ProjectEulerRust"
-version = "0.0.1"
 authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
-license="MIT"
+description = "Solving Project Euler with Rust lang."
+keywords = ["algebra", "algorithms", "computation", "mathematics", "numerics"]
+license = "MIT"
+name = "ProjectEulerRust"
 readme = "README.md"
 repository = "https://github.com/gifnksm/ProjectEulerRust"
-keywords = ["algebra", "algorithms", "computation", "mathematics", "numerics"]
-description = "Solving Project Euler with Rust lang."
-
-[lib]
-name = "common"
+version = "0.0.1"
 
 [dependencies]
-curl = "0.4"
-itertools = "0.5"
-glob = "0.2"
+enum_primitive = "0.1"
 generic-matrix = "0.0"
 getopts = "0.2"
+glob = "0.2"
+itertools = "0.5"
 num = "0.1"
 polynomial = "0.0"
+reqwest = "0.2.0"
 rustc-serialize = "0.3"
 term = "0.4"
 time = "0.1"
-union-find = "0.3"
 topological-sort = "0.0"
-enum_primitive = "0.1"
-
-[dev-dependencies]
-rand = "*"
+union-find = "0.3"
 
 [dependencies.cont_frac]
 path = "./pkg/cont_frac"
@@ -46,3 +40,9 @@ path = "./pkg/prime"
 
 [dependencies.seq]
 path = "./pkg/seq"
+
+[dev-dependencies]
+rand = "*"
+
+[lib]
+name = "common"

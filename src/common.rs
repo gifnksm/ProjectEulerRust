@@ -2,14 +2,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate curl;
 extern crate getopts;
 extern crate num;
+extern crate reqwest;
 extern crate rustc_serialize;
 extern crate term;
 extern crate time;
 
-use curl::easy::Easy;
 use getopts::Options;
 use num::Integer;
 use rustc_serialize::{Encodable, json};
@@ -35,7 +34,8 @@ const COLOR_WARN: Color = color::YELLOW;
 #[derive(Debug)]
 pub enum SolverError {
     Io(io::Error),
-    Curl(curl::Error),
+    Reqwest(reqwest::Error),
+    InvalidHttpStatus(reqwest::StatusCode, Vec<u8>),
 }
 
 impl From<io::Error> for SolverError {
@@ -43,9 +43,9 @@ impl From<io::Error> for SolverError {
         SolverError::Io(err)
     }
 }
-impl From<curl::Error> for SolverError {
-    fn from(err: curl::Error) -> SolverError {
-        SolverError::Curl(err)
+impl From<reqwest::Error> for SolverError {
+    fn from(err: reqwest::Error) -> SolverError {
+        SolverError::Reqwest(err)
     }
 }
 
@@ -53,14 +53,18 @@ impl Error for SolverError {
     fn description(&self) -> &str {
         match *self {
             SolverError::Io(ref err) => err.description(),
-            SolverError::Curl(ref err) => err.description(),
+            SolverError::Reqwest(ref err) => err.description(),
+            SolverError::InvalidHttpStatus(ref status, _) => {
+                status.canonical_reason().unwrap_or("unknown")
+            }
         }
     }
 
     fn cause(&self) -> Option<&Error> {
         match *self {
             SolverError::Io(ref err) => Some(err),
-            SolverError::Curl(ref err) => Some(err),
+            SolverError::Reqwest(ref err) => Some(err),
+            SolverError::InvalidHttpStatus(..) => None,
         }
     }
 }
@@ -69,7 +73,10 @@ impl fmt::Display for SolverError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             SolverError::Io(ref err) => write!(f, "{}", err),
-            SolverError::Curl(ref err) => write!(f, "{}", err),
+            SolverError::Reqwest(ref err) => write!(f, "{}", err),
+            SolverError::InvalidHttpStatus(ref status, ref body) => {
+                write!(f, "{}:{}", status, String::from_utf8_lossy(body))
+            }
         }
     }
 }
@@ -273,35 +280,26 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
 }
 
 const BASE_URL: &'static str = "https://projecteuler.net/project/resources/";
-fn download(file_name: &str) -> Result<Vec<u8>, curl::Error> {
+fn download(file_name: &str) -> Result<Vec<u8>, SolverError> {
     let url = format!("{}{}", BASE_URL, file_name);
 
     let mut retry = 0;
     loop {
-        let mut buf = vec![];
-        let result = {
-            let mut easy = Easy::new();
-            try!(easy.url(&url));
-            let mut transfer = easy.transfer();
-            try!(transfer.write_function(|data| {
-                buf.extend_from_slice(data);
-                Ok(data.len())
-            }));
-            transfer.perform()
-        };
-        match result {
-            Ok(()) => {
-                return Ok(buf);
-            }
-            Err(err) => {
-                let program = env::args().next().unwrap();
-                let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
-                retry += 1;
-                if retry >= 3 {
-                    return Err(err);
-                }
+        let mut resp = try!(reqwest::get(&url));
+        let mut body = vec![];
+        let _ = try!(resp.read_to_end(&mut body));
+
+        if !resp.status().is_success() {
+            let err = SolverError::InvalidHttpStatus(*resp.status(), body.clone());
+            let program = env::args().next().unwrap();
+            let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
+            retry += 1;
+            if retry >= 3 {
+                return Err(err);
             }
         }
+
+        return Ok(body);
     }
 }
 
