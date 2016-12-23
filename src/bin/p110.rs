@@ -8,9 +8,9 @@
 extern crate common;
 extern crate prime;
 
+use prime::PrimeSet;
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
-use prime::PrimeSet;
 
 struct Elem(u64, Vec<u64>);
 

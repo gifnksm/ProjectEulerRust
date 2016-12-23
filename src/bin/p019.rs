@@ -21,20 +21,12 @@ fn is_leap_year(y: u32) -> bool {
 }
 
 fn day_of_year(y: u32) -> u32 {
-    if is_leap_year(y) {
-        366
-    } else {
-        365
-    }
+    if is_leap_year(y) { 366 } else { 365 }
 }
 
 fn day_of_month(y: u32) -> [u32; 12] {
     [31, // Jan
-     if is_leap_year(y) {
-         29
-     } else {
-         28
-     }, // Feb
+     if is_leap_year(y) { 29 } else { 28 }, // Feb
      31, // Mar
      30, // Apr
      31, // May

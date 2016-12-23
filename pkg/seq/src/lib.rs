@@ -6,9 +6,9 @@
 
 extern crate num;
 
+use num::{Integer, One};
 use std::mem;
 use std::ops::Add;
-use num::{Integer, One};
 
 /// Fibonacci sequence iterator.
 pub struct Fibonacci<T> {
@@ -255,10 +255,10 @@ impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
 
 #[cfg(test)]
 mod tests {
-    use std::fmt::Debug;
-    use std::ops::Add;
     use num::One;
     use num::bigint::ToBigInt;
+    use std::fmt::Debug;
+    use std::ops::Add;
 
     fn check<T: Eq + Debug, I: Iterator<Item = T>>(expected: &[T], it: I) {
         assert_eq!(expected, &it.collect::<Vec<_>>()[..]);

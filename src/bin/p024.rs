@@ -9,8 +9,8 @@ extern crate common;
 extern crate integer;
 extern crate num;
 
-use num::Integer as NumInteger;
 use integer::Integer;
+use num::Integer as NumInteger;
 
 fn compute(mut idx: u64, mut set: Vec<u64>) -> u64 {
     let mut result = vec![];

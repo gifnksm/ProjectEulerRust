@@ -4,14 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate prime;
 
-use std::collections::HashMap;
 use prime::PrimeSet;
+use std::collections::HashMap;
 
 fn concat_num(n: u64, m: u64) -> u64 {
     let mut d = 1;

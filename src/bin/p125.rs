@@ -8,8 +8,8 @@
 extern crate common;
 extern crate integer;
 
-use std::collections::HashSet;
 use integer::Integer;
+use std::collections::HashSet;
 
 fn palindromic_sum_set(limit: u32) -> HashSet<u32> {
     let mut set = HashSet::new();

@@ -133,14 +133,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![cfg_attr(test, feature(iter_arith))]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate prime;
 
-use std::mem;
 use prime::PrimeSet;
+use std::mem;
 
 #[derive(Eq, PartialEq, Debug)]
 struct PdTriple {
@@ -237,11 +235,7 @@ mod tests {
     use super::{Pd3Nums, PdTriple, PdTriples};
 
     fn a(r: u64) -> u64 {
-        if r == 0 {
-            1
-        } else {
-            6 * r
-        }
+        if r == 0 { 1 } else { 6 * r }
     }
     fn b(r: u64, m: u64) -> u64 {
         if r == 0 {

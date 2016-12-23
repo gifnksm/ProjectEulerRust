@@ -4,13 +4,14 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(step_by, iter_arith)]
+#![feature(step_by)]
 #![cfg_attr(test, feature(test))]
 
 extern crate num;
 #[cfg(test)]
 extern crate test;
 
+use num::{FromPrimitive, Integer, One, Zero};
 use std::{cmp, mem};
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -18,7 +19,6 @@ use std::collections::hash_map::Entry::{Occupied, Vacant};
 use std::hash::Hash;
 use std::iter::IntoIterator;
 use std::rc::Rc;
-use num::{FromPrimitive, Integer, One, Zero};
 
 const SMALL_PRIMES: &'static [u64] =
     &[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89,

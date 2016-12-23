@@ -4,15 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 extern crate num;
 #[macro_use(problem)]
 extern crate common;
 extern crate iter;
 
-use num::{BigInt, FromPrimitive, Zero};
 use iter::Difference;
+use num::{BigInt, FromPrimitive, Zero};
 
 fn sqrt_newton_raphson(n: u32, precision: usize) -> String {
     assert!(precision >= 1);

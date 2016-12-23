@@ -4,10 +4,10 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-use std::fmt;
-use std::str::FromStr;
 
 use Suit::{Club, Dia, Heart, Spade};
+use std::fmt;
+use std::str::FromStr;
 
 /// Playing card's suite.
 #[allow(missing_docs, unused_qualifications)]

@@ -4,7 +4,7 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith, inclusive_range_syntax)]
+#![feature(inclusive_range_syntax)]
 
 #[macro_use(problem)]
 extern crate common;

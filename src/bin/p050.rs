@@ -4,14 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate prime;
 
-use std::cmp::Ordering;
 use prime::PrimeSet;
+use std::cmp::Ordering;
 
 fn get_longer(ps: &[u64], p: u64, min_len: usize) -> Option<usize> {
     let max_avg = if min_len == 0 {

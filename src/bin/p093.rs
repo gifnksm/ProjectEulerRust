@@ -116,19 +116,13 @@ fn evaluate(num: &[u32], op: &[Op], f: &mut FnMut(Ratio<i32>)) {
 
             evaluate(&[num[0], num[1]],
                      &[op[1]],
-                     &mut |a| {
-                         evaluate(&[num[2], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
-                     });
+                     &mut |a| evaluate(&[num[2], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f)));
             evaluate(&[num[0], num[2]],
                      &[op[1]],
-                     &mut |a| {
-                         evaluate(&[num[1], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
-                     });
+                     &mut |a| evaluate(&[num[1], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f)));
             evaluate(&[num[0], num[3]],
                      &[op[1]],
-                     &mut |a| {
-                         evaluate(&[num[1], num[2]], &[op[2]], &mut |b| apply(a, b, op[0], f))
-                     });
+                     &mut |a| evaluate(&[num[1], num[2]], &[op[2]], &mut |b| apply(a, b, op[0], f)));
 
             if op[1] != op[2] {
                 evaluate(&[num[1], num[2]],

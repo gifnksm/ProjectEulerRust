@@ -4,15 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate cont_frac;
 extern crate num;
 
-use num::{BigUint, ToPrimitive};
 use cont_frac::PelRoots;
+use num::{BigUint, ToPrimitive};
 
 // S(a, b): triangle a-a-b's area
 // S(a, b) = b * sqrt(4a^2-b^2) / 4

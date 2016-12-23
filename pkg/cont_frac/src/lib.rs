@@ -7,12 +7,12 @@
 extern crate integer;
 extern crate num;
 
+use integer::Integer;
+use num::FromPrimitive;
+use num::Integer as NumInteger;
 use std::collections::HashSet;
 use std::mem;
 use std::ops::{Add, Mul};
-use num::FromPrimitive;
-use num::Integer as NumInteger;
-use integer::Integer;
 
 /// Calculates a square root of the number as continued fraction form.
 ///

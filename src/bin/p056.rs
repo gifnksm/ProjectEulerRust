@@ -4,20 +4,17 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate num;
 extern crate itertools;
 
 use num::{BigUint, FromPrimitive, One};
-use itertools::Unfold;
 
 fn compute(a: u32, b: u32) -> u32 {
     num::range(One::one(), FromPrimitive::from_u32(a).unwrap())
         .map(|a: BigUint| {
-            Unfold::new(One::one(), |n| {
+            itertools::unfold(One::one(), |n| {
                     (*n) = &a * (&*n);
                     Some(n.to_string())
                 })

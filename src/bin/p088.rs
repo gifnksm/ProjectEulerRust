@@ -4,14 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
 
-use std::u32;
 use integer::Integer;
+use std::u32;
 
 fn each_sum_product<F>(prod_start: u32, prod_end: u32, f: &mut F)
     where F: FnMut(u32, u32, usize)

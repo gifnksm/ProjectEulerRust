@@ -11,9 +11,9 @@ extern crate bit_set;
 #[cfg(test)]
 extern crate test;
 
+use bit_set::BitSet;
 use std::cmp::Ordering;
 use std::iter::{self, Peekable};
-use bit_set::BitSet;
 
 /// An iterator that enumerates all combinations of bits.
 pub struct BitCombination {

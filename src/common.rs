@@ -2,23 +2,22 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate curl;
 extern crate getopts;
 extern crate num;
+extern crate reqwest;
 extern crate rustc_serialize;
 extern crate term;
 extern crate time;
 
-use std::borrow::Cow;
-use std::error::Error;
-use std::{env, fmt, io, process};
-use std::fs::{self, File};
-use std::io::prelude::*;
-use std::path::PathBuf;
-use curl::http;
 use getopts::Options;
 use num::Integer;
 use rustc_serialize::{Encodable, json};
+use std::{env, fmt, io, process};
+use std::borrow::Cow;
+use std::error::Error;
+use std::fs::{self, File};
+use std::io::prelude::*;
+use std::path::PathBuf;
 use term::color;
 use term::color::Color;
 
@@ -35,7 +34,8 @@ const COLOR_WARN: Color = color::YELLOW;
 #[derive(Debug)]
 pub enum SolverError {
     Io(io::Error),
-    Http(curl::ErrCode),
+    Reqwest(reqwest::Error),
+    InvalidHttpStatus(reqwest::StatusCode, Vec<u8>),
 }
 
 impl From<io::Error> for SolverError {
@@ -43,9 +43,9 @@ impl From<io::Error> for SolverError {
         SolverError::Io(err)
     }
 }
-impl From<curl::ErrCode> for SolverError {
-    fn from(err: curl::ErrCode) -> SolverError {
-        SolverError::Http(err)
+impl From<reqwest::Error> for SolverError {
+    fn from(err: reqwest::Error) -> SolverError {
+        SolverError::Reqwest(err)
     }
 }
 
@@ -53,14 +53,18 @@ impl Error for SolverError {
     fn description(&self) -> &str {
         match *self {
             SolverError::Io(ref err) => err.description(),
-            SolverError::Http(ref err) => err.description(),
+            SolverError::Reqwest(ref err) => err.description(),
+            SolverError::InvalidHttpStatus(ref status, _) => {
+                status.canonical_reason().unwrap_or("unknown")
+            }
         }
     }
 
     fn cause(&self) -> Option<&Error> {
         match *self {
             SolverError::Io(ref err) => Some(err),
-            SolverError::Http(ref err) => Some(err),
+            SolverError::Reqwest(ref err) => Some(err),
+            SolverError::InvalidHttpStatus(..) => None,
         }
     }
 }
@@ -69,7 +73,10 @@ impl fmt::Display for SolverError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             SolverError::Io(ref err) => write!(f, "{}", err),
-            SolverError::Http(ref err) => write!(f, "{}", err),
+            SolverError::Reqwest(ref err) => write!(f, "{}", err),
+            SolverError::InvalidHttpStatus(ref status, ref body) => {
+                write!(f, "{}:{}", status, String::from_utf8_lossy(body))
+            }
         }
     }
 }
@@ -272,26 +279,27 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
     Ok(file)
 }
 
-const BASE_URL: &'static str = "https://projecteuler.net/project/resources/";
-fn download(file_name: &str) -> Result<Vec<u8>, curl::ErrCode> {
+const BASE_URL: &'static str = "http://projecteuler.net/project/resources/";
+fn download(file_name: &str) -> Result<Vec<u8>, SolverError> {
     let url = format!("{}{}", BASE_URL, file_name);
 
     let mut retry = 0;
     loop {
-        let result = http::handle().get(&url[..]).exec();
-        match result {
-            Ok(resp) => {
-                return Ok(resp.move_body());
-            }
-            Err(err) => {
-                let program = env::args().next().unwrap();
-                let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
-                retry += 1;
-                if retry >= 3 {
-                    return Err(err);
-                }
+        let mut resp = try!(reqwest::get(&url));
+        let mut body = vec![];
+        let _ = try!(resp.read_to_end(&mut body));
+
+        if !resp.status().is_success() {
+            let err = SolverError::InvalidHttpStatus(*resp.status(), body.clone());
+            let program = env::args().next().unwrap();
+            let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
+            retry += 1;
+            if retry >= 3 {
+                return Err(err);
             }
         }
+
+        return Ok(body);
     }
 }
 

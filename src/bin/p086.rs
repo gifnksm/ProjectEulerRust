@@ -8,8 +8,8 @@
 extern crate common;
 extern crate seq;
 
-use std::cmp::{self, Ordering};
 use seq::PrimitivePythagoreans;
+use std::cmp::{self, Ordering};
 
 fn get_count(m: u32) -> u32 {
     let mut cnt = 0;

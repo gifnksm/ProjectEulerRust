@@ -121,9 +121,9 @@ problem!("329468", solve);
 
 #[cfg(test)]
 mod tests {
-    use super::{FibFirst, FibLast};
     use num::BigUint;
     use seq::Fibonacci;
+    use super::{FibFirst, FibLast};
 
     #[test]
     fn fib() {

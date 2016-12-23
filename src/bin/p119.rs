@@ -4,15 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-#![feature(iter_arith)]
-
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
 
+use integer::Integer;
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
-use integer::Integer;
 
 trait IntExt: Sized {
     fn checked_pow(self, exp: u32) -> Option<Self>;

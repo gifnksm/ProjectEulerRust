@@ -10,8 +10,8 @@ extern crate iter;
 extern crate integer;
 extern crate prime;
 
-use iter::Permutations;
 use integer::Integer;
+use iter::Permutations;
 use prime::PrimeSet;
 
 // 1 + 2 + ... + 9 = 45 (dividable by 9 => 9-pandigimal number is dividable by 9)

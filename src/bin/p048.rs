@@ -9,8 +9,8 @@ extern crate common;
 extern crate integer;
 extern crate num;
 
-use num::{BigUint, FromPrimitive, ToPrimitive};
 use integer::Integer;
+use num::{BigUint, FromPrimitive, ToPrimitive};
 
 fn compute(max: u64, modulo: u64) -> u64 {
     let bu_m: BigUint = FromPrimitive::from_u64(modulo).unwrap();

@@ -8,9 +8,9 @@
 extern crate common;
 extern crate integer;
 
+use integer::Integer;
 #[cfg(test)]
 use std::u32;
-use integer::Integer;
 
 fn is_increasing_with<T: Iterator<Item = u32>>(ds: T, mut prev: u32) -> bool {
     for n in ds {

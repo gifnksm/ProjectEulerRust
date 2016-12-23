@@ -9,9 +9,9 @@ extern crate common;
 extern crate integer;
 extern crate seq;
 
-use std::collections::HashMap;
 use integer::Integer;
 use seq::PrimitivePythagoreans;
+use std::collections::HashMap;
 
 fn num_sum_pythagorean(limit: u32) -> HashMap<u32, u32> {
     let mut map = HashMap::<u32, u32>::new();
