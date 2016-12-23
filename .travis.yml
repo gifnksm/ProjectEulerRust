@@ -7,7 +7,7 @@ addons:
       - libcurl4-openssl-dev
       - libelf-dev
       - libdw-dev
-
+      - binutils-dev
 rust:
   - nightly
   # - beta
@@ -16,7 +16,7 @@ rust:
 before_script:
   - pip install 'travis-cargo<0.2' --user
   - export PATH=$HOME/.local/bin:$PATH
-  - export KCOV="${TRAVIS_BUILD_DIR}/kcov/build/src/kcov --exclude-pattern=/.cargo --coveralls-id=${TRAVIS_JOB_ID} ${TRAVIS_BUILD_DIR}/coverage"
+  - export KCOV="${TRAVIS_BUILD_DIR}/kcov/build/src/kcov --verify --exclude-pattern=/.cargo --coveralls-id=${TRAVIS_JOB_ID} ${TRAVIS_BUILD_DIR}/coverage"
   - wget https://github.com/SimonKagstrom/kcov/archive/master.zip
   - unzip master.zip
   - mv kcov-master kcov
