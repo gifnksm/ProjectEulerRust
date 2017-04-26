@@ -24,5 +24,4 @@ cargo run --release --bin p001
 
 * [The Rust Programming Language](http://www.rust-lang.org/)
 * [Project Euler](http://projecteuler.net/)
-* [Rust CI](http://rust-ci.org/)
 * [crates.io](https://crates.io/)
