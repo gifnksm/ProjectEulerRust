@@ -19,29 +19,29 @@ before_script:
   - export KCOV="${TRAVIS_BUILD_DIR}/kcov/build/src/kcov --verify --exclude-pattern=/.cargo --coveralls-id=${TRAVIS_JOB_ID} ${TRAVIS_BUILD_DIR}/coverage"
   - wget https://github.com/SimonKagstrom/kcov/archive/master.zip
   - unzip master.zip
-  - mv kcov-master kcov
-  - mkdir kcov/build
+  - mv kcov-master kcov - mkdir kcov/build
   - cd kcov/build
   - cmake ..
   - make
   - cd ${TRAVIS_BUILD_DIR}
 
 script:
+  - cargo test --all
+  - cargo build --release
+  - cargo run --release --bin euler
+  # `cargo bench --all` is not supported: (rust-lang/cargo#2878)
+  # - cargo bench --all
   - set -e
   - |
-      for PKG in $(echo ${SUB_PKGS}); do
-        travis-cargo -q build -- -p ${PKG}
-        travis-cargo -q test -- -p ${PKG} # run test and doctest
-        travis-cargo -q bench -- -p ${PKG}
-      done
-  - travis-cargo -q build -- --release
-  - travis-cargo -q run -- --release --bin euler
-  - travis-cargo -q test # run test and doctest
-  - travis-cargo -q bench
-  - travis-cargo -q --only ${DOC_UPLOAD_VERSION} doc
+    for PKG in $(find pkg -mindepth 1 -maxdepth 1 -type d -printf '%f\n'); do
+      echo cargo bench -p ${PKG}
+      cargo bench -p ${PKG}
+    done
+  - cargo bench
+  - cargo --only ${DOC_UPLOAD_VERSION} doc
 
 after_success:
-  - travis-cargo -q --only ${DOC_UPLOAD_VERSION} doc-upload
+  - travis-cargo --only ${DOC_UPLOAD_VERSION} doc-upload
   # run tests again with gathering coverage information
   # doc tests are not being run.
   - |

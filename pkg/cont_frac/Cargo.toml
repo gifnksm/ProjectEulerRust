@@ -1,8 +1,8 @@
 [package]
-
 name = "cont_frac"
 version = "0.0.1"
 authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
+workspace = "../../"
 
 [dependencies]
 num = "*"
