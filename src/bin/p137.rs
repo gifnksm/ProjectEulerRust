@@ -13,13 +13,15 @@
 //! (1 - x - x^2) A_F(x) = x
 //! ```
 //!
-//! `A_F(x)` は正の整数なので `n := A_F(x) > 0` とおくと、以下の二次方程式を得る。
+//! `A_F(x)` は正の整数なので `n := A_F(x) > 0` とおくと、
+//! 以下の二次方程式を得る。
 //!
 //! ```math
 //! n x^2 + (n + 1) x - n = 0
 //! ```
 //!
-//! この方程式が有理数解をもつのは、判別式 `D` が平方数の場合であり、ある整数 `m` を用いると以下のように表せる場合である。
+//! この方程式が有理数解をもつのは、判別式 `D` が平方数の場合であり、
+//! ある整数 `m` を用いると以下のように表せる場合である。
 //!
 //! ```math
 //! D = (n+1)^2 + 4n^2 = m^2
@@ -47,14 +49,14 @@ extern crate itertools;
 
 fn compute(i: usize) -> u64 {
     itertools::unfold((1, 1), |state| {
-            let next = ((3 * state.0 + 5 * state.1) / 2, (state.0 + 3 * state.1) / 2);
-            *state = next;
-            Some(next)
-        })
-        .filter_map(|(p, q)| { if p % 5 == 1 { Some((p / 5, q)) } else { None } })
-        .nth(i)
-        .unwrap()
-        .0
+        let next = ((3 * state.0 + 5 * state.1) / 2, (state.0 + 3 * state.1) / 2);
+        *state = next;
+        Some(next)
+    })
+            .filter_map(|(p, q)| if p % 5 == 1 { Some((p / 5, q)) } else { None })
+            .nth(i)
+            .unwrap()
+            .0
 }
 
 fn solve() -> String {

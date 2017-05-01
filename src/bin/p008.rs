@@ -31,7 +31,8 @@ const INPUT: &'static str = r"
 ";
 
 fn compute(prod_len: usize) -> u64 {
-    INPUT.chars()
+    INPUT
+        .chars()
         .filter_map(|c| c.to_digit(10))
         .map(|n| n as u64)
         .collect::<Vec<_>>()

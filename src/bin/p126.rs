@@ -45,9 +45,7 @@ fn compute(sum: u32) -> u32 {
         }
     }
 
-    cnt.iter()
-        .position(|&n| n == sum)
-        .unwrap() as u32
+    cnt.iter().position(|&n| n == sum).unwrap() as u32
 }
 
 fn solve() -> String {

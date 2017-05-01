@@ -201,10 +201,13 @@ fn steady_state(dist: &Matrix<f64>, init: Matrix<f64>, epsilon: f64) -> Matrix<f
 fn state_to_square(state: Matrix<f64>) -> Vec<(Square, f64)> {
     (0..NUM_SQUARE)
         .map(|s| {
-            let prob = (s..NUM_STATE).step_by(NUM_SQUARE).map(|i| state[(i, 0)]).sum();
-            let sq: Square = FromPrimitive::from_usize(s).unwrap();
-            (sq, prob)
-        })
+                 let prob = (s..NUM_STATE)
+                     .step_by(NUM_SQUARE)
+                     .map(|i| state[(i, 0)])
+                     .sum();
+                 let sq: Square = FromPrimitive::from_usize(s).unwrap();
+                 (sq, prob)
+             })
         .collect()
 }
 
@@ -223,8 +226,8 @@ problem!("101524", solve);
 
 #[cfg(test)]
 mod tests {
-    use matrix::Matrix;
     use super::{NUM_STATE, Square};
+    use matrix::Matrix;
 
     #[test]
     fn six() {

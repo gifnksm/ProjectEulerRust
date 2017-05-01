@@ -47,8 +47,8 @@ problem!("16475640049", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
     use super::get_cnt;
+    use std::collections::HashMap;
 
     #[test]
     fn small_len() {

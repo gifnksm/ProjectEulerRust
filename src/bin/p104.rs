@@ -110,7 +110,8 @@ fn solve() -> String {
     let first = FibFirst::new(len);
     let last = FibLast::new(len);
 
-    let (k, _) = first.zip(last)
+    let (k, _) = first
+        .zip(last)
         .enumerate()
         .find(|&(_, (f, l))| is_pandigit(f) && is_pandigit(l))
         .unwrap();
@@ -121,15 +122,16 @@ problem!("329468", solve);
 
 #[cfg(test)]
 mod tests {
+    use super::{FibFirst, FibLast};
     use num::BigUint;
     use seq::Fibonacci;
-    use super::{FibFirst, FibLast};
 
     #[test]
     fn fib() {
         let len = 9;
-        let it = Fibonacci::<BigUint>::new()
-            .zip(FibFirst::new(len as u32).zip(FibLast::new(len as u32)));
+        let it =
+            Fibonacci::<BigUint>::new().zip(FibFirst::new(len as u32).zip(FibLast::new(len as
+                                                                                       u32)));
         for (bu, (fst, lst)) in it.take(100) {
             let bus = bu.to_string();
             if bus.len() < len {

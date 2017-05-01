@@ -44,7 +44,7 @@ impl SuDoku {
 
 fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
     let mut line = String::new();
-    if try!(br.read_line(&mut line)) == 0 {
+    if br.read_line(&mut line)? == 0 {
         return Ok(None);
     }
 
@@ -54,7 +54,7 @@ fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
     };
 
     for (y, line) in br.lines().enumerate().take(BOARD_HEIGHT) {
-        let line = try!(line);
+        let line = line?;
         for (x, c) in line.chars().enumerate().take(BOARD_WIDTH) {
             let n = c.to_digit(10).unwrap();
             if n != 0 {
@@ -86,7 +86,9 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                 let col = (0..BOARD_HEIGHT).map(|y| (x, y));
                 let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
 
-                let it = row.chain(col).chain(grp).filter(|&pos: &(usize, usize)| pos != (x, y));
+                let it = row.chain(col)
+                    .chain(grp)
+                    .filter(|&pos: &(usize, usize)| pos != (x, y));
                 let mask = !puzzle.map[y][x] & MASK_ALL;
                 for (x, y) in it {
                     puzzle.map[y][x] &= mask;
@@ -126,7 +128,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
             for y0 in (0..BOARD_HEIGHT).step_by(GROUP_HEIGHT) {
                 for x0 in (0..BOARD_WIDTH).step_by(GROUP_WIDTH) {
                     let next = {
-                        let mut it = group_it.iter()
+                        let mut it = group_it
+                            .iter()
                             .map(|&(dx, dy)| (x0 + dx, y0 + dy))
                             .filter(|&(x, y)| puzzle.map[y][x] & bit != 0);
                         let next = it.next();
@@ -159,9 +162,9 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     }
 
     let (x, y, _cnt) = *it.iter()
-        .filter(|&&(_x, _y, cnt)| cnt > 1)
-        .min_by_key(|&&(_x, _y, cnt)| cnt)
-        .unwrap();
+                            .filter(|&&(_x, _y, cnt)| cnt > 1)
+                            .min_by_key(|&&(_x, _y, cnt)| cnt)
+                            .unwrap();
 
     let mut answers = vec![];
     for n in 0..MAX_NUMBER {
@@ -181,7 +184,7 @@ fn solve(file: File) -> io::Result<String> {
     let mut br = BufReader::new(file);
 
     let mut answers = Vec::new();
-    while let Some(puzzle) = try!(read_sudoku(&mut br)) {
+    while let Some(puzzle) = read_sudoku(&mut br)? {
         let mut ans = solve_sudoku(puzzle);
         assert_eq!(1, ans.len());
         answers.push(ans.pop().unwrap())

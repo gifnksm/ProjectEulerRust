@@ -109,7 +109,7 @@ fn to_roman(mut n: u32) -> String {
 fn solve(file: File) -> io::Result<String> {
     let mut sum = 0;
     for line in BufReader::new(file).lines() {
-        let line = try!(line);
+        let line = line?;
         let line = line.trim();
         sum += line.len() - to_roman(from_roman(line).unwrap()).len();
     }

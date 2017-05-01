@@ -13,11 +13,11 @@ use num::{BigUint, FromPrimitive};
 fn compute(max: u32) -> u32 {
     num::range::<BigUint>(FromPrimitive::from_u32(1).unwrap(),
                           FromPrimitive::from_u32(max + 1).unwrap())
-        .fold(num::one::<BigUint>(), |acc, elt| acc * elt)
-        .to_string()
-        .chars()
-        .filter_map(|c| c.to_digit(10))
-        .sum()
+            .fold(num::one::<BigUint>(), |acc, elt| acc * elt)
+            .to_string()
+            .chars()
+            .filter_map(|c| c.to_digit(10))
+            .sum()
 }
 
 fn solve() -> String {

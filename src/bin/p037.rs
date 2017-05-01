@@ -52,7 +52,8 @@ fn compute() -> u64 {
         order *= 10;
     }
 
-    l2r_mat.into_iter()
+    l2r_mat
+        .into_iter()
         .flat_map(|l2r| l2r.into_iter())
         .filter(|&n| n >= 10)
         .filter(|&n| is_r2l(&ps, n))

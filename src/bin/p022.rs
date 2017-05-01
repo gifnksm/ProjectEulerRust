@@ -12,16 +12,21 @@ use std::io::{self, BufReader};
 use std::io::prelude::*;
 
 fn get_score(n: u32, s: &str) -> u32 {
-    n * s.bytes().map(|c| (c - ('A' as u8) + 1) as u32).sum::<u32>()
+    n *
+    s.bytes()
+        .map(|c| (c - ('A' as u8) + 1) as u32)
+        .sum::<u32>()
 }
 
 fn compute(words: &[String]) -> u32 {
-    let mut words = words.iter()
+    let mut words = words
+        .iter()
         .map(|word| word.trim().trim_matches('\"'))
         .filter(|word| !word.is_empty())
         .collect::<Vec<_>>();
     words.sort();
-    words.into_iter()
+    words
+        .into_iter()
         .enumerate()
         .map(|(i, s)| get_score((i + 1) as u32, s))
         .sum()
@@ -31,7 +36,7 @@ fn solve(file: File) -> io::Result<String> {
     let mut words = vec![];
 
     for bytes in BufReader::new(file).split(b',') {
-        let mut bytes = try!(bytes);
+        let mut bytes = bytes?;
         if bytes.last() == Some(&b',') {
             let _ = bytes.pop();
         }

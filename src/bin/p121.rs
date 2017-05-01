@@ -37,11 +37,11 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: usize) -
     (1..(turns + 1))
         .map(|t| FromPrimitive::from_usize(t).unwrap())
         .map(|t: T| {
-            let denom = t.clone() + One::one();
-            let blue = Ratio::new(One::one(), denom.clone());
-            let red = Ratio::new(t, denom);
-            Polynomial::new(vec![blue, red])
-        })
+                 let denom = t.clone() + One::one();
+                 let blue = Ratio::new(One::one(), denom.clone());
+                 let red = Ratio::new(t, denom);
+                 Polynomial::new(vec![blue, red])
+             })
         .fold(num::one::<Polynomial<_>>(), |acc, elt| acc * elt)
         .data()
         .iter()

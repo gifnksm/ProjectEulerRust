@@ -20,7 +20,7 @@ fn read_words(file: File) -> io::Result<Vec<String>> {
     let mut words = vec![];
 
     for bytes in BufReader::new(file).split(b',') {
-        let word_str = String::from_utf8(try!(bytes)).ok().unwrap();
+        let word_str = String::from_utf8(bytes?).ok().unwrap();
         let word = word_str.trim_right_matches(',').trim_matches('\"');
         words.push(word.to_string());
     }
@@ -69,15 +69,16 @@ fn flatten_groups(groups: Vec<Vec<String>>) -> Vec<(String, String)> {
 }
 
 fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, Vec<u64>, Vec<u64>)> {
-    pairs.into_iter()
+    pairs
+        .into_iter()
         .map(|(w1, w2)| {
-            let cs1 = w1.as_bytes();
-            let cs2 = w2.as_bytes();
-            let get_pos = |&c: &u8| cs1.iter().position(|&e| e == c).unwrap() as u64;
-            (w1.len() as u64,
-             cs1.iter().map(|c| get_pos(c)).collect(),
-             cs2.iter().map(|c| get_pos(c)).collect())
-        })
+                 let cs1 = w1.as_bytes();
+                 let cs2 = w2.as_bytes();
+                 let get_pos = |&c: &u8| cs1.iter().position(|&e| e == c).unwrap() as u64;
+                 (w1.len() as u64,
+                  cs1.iter().map(|c| get_pos(c)).collect(),
+                  cs2.iter().map(|c| get_pos(c)).collect())
+             })
         .collect::<Vec<_>>()
 }
 
@@ -108,7 +109,9 @@ fn check_digit(idx: &[u64], ds: &[u64]) -> bool {
         if ds[i] != ds[idx[i] as usize] {
             return false;
         }
-        if ds.iter().position(|&e| e == ds[idx[i] as usize]).unwrap() as u64 != idx[i] {
+        if ds.iter()
+               .position(|&e| e == ds[idx[i] as usize])
+               .unwrap() as u64 != idx[i] {
             return false;
         }
     }
@@ -167,7 +170,7 @@ fn max_square(groups: Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)>) -> u64 {
 }
 
 fn solve(file: File) -> io::Result<String> {
-    let words = try!(read_words(file));
+    let words = read_words(file)?;
     let groups = get_anagram_groups(words);
     let pairs = flatten_groups(groups);
     let indices = get_indices_pairs(pairs);

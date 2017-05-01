@@ -16,7 +16,7 @@ fn solve(file: File) -> io::Result<String> {
     let mut max_idx = 0;
 
     for (line, idx) in BufReader::new(file).lines().zip(1..) {
-        let line = try!(line);
+        let line = line?;
         let line = line.trim();
         let i = line.find(',').unwrap();
         let base = line[..i].parse::<f64>().unwrap();

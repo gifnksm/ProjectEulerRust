@@ -16,7 +16,7 @@ fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
     let mut mat = vec![];
 
     for line in BufReader::new(reader).lines() {
-        let row = try!(line)
+        let row = line?
             .trim()
             .split(',')
             .filter_map(|s| s.parse::<u32>().ok())
@@ -43,7 +43,7 @@ fn minimal_path_sum(mut mat: Vec<Vec<u32>>) -> u32 {
 }
 
 fn solve(file: File) -> io::Result<String> {
-    let mat = try!(read_matrix(file));
+    let mat = read_matrix(file)?;
     Ok(minimal_path_sum(mat).to_string())
 }
 

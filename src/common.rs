@@ -2,6 +2,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
+#[macro_use]
+extern crate error_chain;
 extern crate getopts;
 extern crate num;
 extern crate reqwest;
@@ -14,7 +16,6 @@ use num::Integer;
 use rustc_serialize::{Encodable, json};
 use std::{env, fmt, io, process};
 use std::borrow::Cow;
-use std::error::Error;
 use std::fs::{self, File};
 use std::io::prelude::*;
 use std::path::PathBuf;
@@ -31,52 +32,16 @@ const COLOR_OK: Color = color::GREEN;
 const COLOR_NG: Color = color::RED;
 const COLOR_WARN: Color = color::YELLOW;
 
-#[derive(Debug)]
-pub enum SolverError {
-    Io(io::Error),
-    Reqwest(reqwest::Error),
-    InvalidHttpStatus(reqwest::StatusCode, Vec<u8>),
-}
-
-impl From<io::Error> for SolverError {
-    fn from(err: io::Error) -> SolverError {
-        SolverError::Io(err)
-    }
-}
-impl From<reqwest::Error> for SolverError {
-    fn from(err: reqwest::Error) -> SolverError {
-        SolverError::Reqwest(err)
-    }
-}
-
-impl Error for SolverError {
-    fn description(&self) -> &str {
-        match *self {
-            SolverError::Io(ref err) => err.description(),
-            SolverError::Reqwest(ref err) => err.description(),
-            SolverError::InvalidHttpStatus(ref status, _) => {
-                status.canonical_reason().unwrap_or("unknown")
-            }
-        }
+error_chain! {
+    foreign_links {
+        Io(io::Error);
+        Reqwest(reqwest::Error);
     }
 
-    fn cause(&self) -> Option<&Error> {
-        match *self {
-            SolverError::Io(ref err) => Some(err),
-            SolverError::Reqwest(ref err) => Some(err),
-            SolverError::InvalidHttpStatus(..) => None,
-        }
-    }
-}
-
-impl fmt::Display for SolverError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match *self {
-            SolverError::Io(ref err) => write!(f, "{}", err),
-            SolverError::Reqwest(ref err) => write!(f, "{}", err),
-            SolverError::InvalidHttpStatus(ref status, ref body) => {
-                write!(f, "{}:{}", status, String::from_utf8_lossy(body))
-            }
+    errors {
+        InvalidHttpStatus(status: reqwest::StatusCode, body: Vec<u8>) {
+            description(status.canonical_reason().unwrap_or("unknown http status"))
+            display("{}:{}", status, String::from_utf8_lossy(body))
         }
     }
 }
@@ -238,13 +203,13 @@ impl<'a> Solver<'a> {
         }
     }
 
-    pub fn solve(&self) -> Result<SolverResult<String>, SolverError> {
+    pub fn solve(&self) -> Result<SolverResult<String>> {
         let (time, answer) = match self.solver {
             SolverFn::FnOnly(fun) => bench(move || fun()),
             SolverFn::FnWithFile(file_name, fun) => {
-                let file = try!(setup_file(file_name));
+                let file = setup_file(file_name)?;
                 let (time, answer) = bench(move || fun(file));
-                (time, try!(answer))
+                (time, answer?)
             }
         };
 
@@ -265,32 +230,32 @@ fn bench<T, F: FnOnce() -> T>(f: F) -> (u64, T) {
     (nsec, result)
 }
 
-fn setup_file(file_name: &str) -> Result<File, SolverError> {
+fn setup_file(file_name: &str) -> Result<File> {
     let mut path = PathBuf::from("./.cache");
     path.push(file_name);
     if !path.is_file() {
-        try!(fs::create_dir_all(&path.parent().unwrap()));
-        let mut file = try!(File::create(&path));
-        let content = try!(download(file_name));
-        try!(file.write_all(&content));
+        fs::create_dir_all(&path.parent().unwrap())?;
+        let mut file = File::create(&path)?;
+        let content = download(file_name)?;
+        file.write_all(&content)?;
     }
 
-    let file = try!(File::open(&path));
+    let file = File::open(&path)?;
     Ok(file)
 }
 
 const BASE_URL: &'static str = "http://projecteuler.net/project/resources/";
-fn download(file_name: &str) -> Result<Vec<u8>, SolverError> {
+fn download(file_name: &str) -> Result<Vec<u8>> {
     let url = format!("{}{}", BASE_URL, file_name);
 
     let mut retry = 0;
     loop {
-        let mut resp = try!(reqwest::get(&url));
+        let mut resp = reqwest::get(&url)?;
         let mut body = vec![];
-        let _ = try!(resp.read_to_end(&mut body));
+        let _ = resp.read_to_end(&mut body)?;
 
         if !resp.status().is_success() {
-            let err = SolverError::InvalidHttpStatus(*resp.status(), body.clone());
+            let err = Error::from(ErrorKind::InvalidHttpStatus(*resp.status(), body.clone()));
             let program = env::args().next().unwrap();
             let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
             retry += 1;

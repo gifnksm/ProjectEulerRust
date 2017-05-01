@@ -25,7 +25,7 @@ fn solve(file: File) -> io::Result<String> {
     let mut values = vec![];
 
     for bytes in BufReader::new(file).split(b',') {
-        let word_str = String::from_utf8(try!(bytes)).unwrap();
+        let word_str = String::from_utf8(bytes?).unwrap();
         let word = word_str.trim_right_matches(',').trim_matches('\"');
         values.push(word_to_value(word));
     }
@@ -35,7 +35,11 @@ fn solve(file: File) -> io::Result<String> {
     for t in TriangularNums::<u32>::new().take_while(|&t| t <= max_value) {
         is_tri[t as usize] = true;
     }
-    Ok(values.iter().filter(|&&v| is_tri[v as usize]).count().to_string())
+    Ok(values
+           .iter()
+           .filter(|&&v| is_tri[v as usize])
+           .count()
+           .to_string())
 }
 
 problem!("162", "p042_words.txt", solve);

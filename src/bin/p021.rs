@@ -13,9 +13,12 @@ use prime::{Factorize, PrimeSet};
 fn compute(limit: u64) -> u64 {
     let ps = PrimeSet::new();
 
-    let sum_of_div = (0..limit).map(|n| n.sum_of_proper_divisor(&ps)).collect::<Vec<_>>();
+    let sum_of_div = (0..limit)
+        .map(|n| n.sum_of_proper_divisor(&ps))
+        .collect::<Vec<_>>();
 
-    sum_of_div.iter()
+    sum_of_div
+        .iter()
         .cloned()
         .enumerate()
         .map(|(n, div)| (n as u64, div))

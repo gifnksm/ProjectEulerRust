@@ -31,9 +31,7 @@ fn is_lychrel(n: u32, limit: usize) -> bool {
 }
 
 fn compute(max: u32, limit: usize) -> usize {
-    (1..(max + 1))
-        .filter(|&n| is_lychrel(n, limit))
-        .count()
+    (1..(max + 1)).filter(|&n| is_lychrel(n, limit)).count()
 }
 
 fn solve() -> String {

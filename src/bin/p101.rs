@@ -52,9 +52,9 @@ fn bop(ns: &[(BigInt, BigInt)]) -> BigInt {
 fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
     (0..(dim + 1))
         .map(|i| {
-            let n: BigInt = FromPrimitive::from_u32(i + 1).unwrap();
-            (n.clone(), f(n))
-        })
+                 let n: BigInt = FromPrimitive::from_u32(i + 1).unwrap();
+                 (n.clone(), f(n))
+             })
         .collect()
 }
 

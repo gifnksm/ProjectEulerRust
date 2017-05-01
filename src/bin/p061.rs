@@ -32,7 +32,9 @@ fn octagonal(n: u32) -> u32 {
 fn create_map(fs: &[fn(u32) -> u32]) -> Vec<Vec<Vec<u32>>> {
     fs.iter()
         .map(|&f| {
-            let mut result = (0..100).map(|_| Vec::with_capacity(100)).collect::<Vec<_>>();
+            let mut result = (0..100)
+                .map(|_| Vec::with_capacity(100))
+                .collect::<Vec<_>>();
             for i in 1.. {
                 let n = f(i);
                 if n > 9999 {
@@ -118,9 +120,9 @@ mod tests {
             .iter()
             .map(|vs| super::cycle_to_nums(&vs))
             .map(|mut vs| {
-                vs.sort();
-                vs
-            })
+                     vs.sort();
+                     vs
+                 })
             .collect::<Vec<_>>();
         assert_eq!(&[vec![2882, 8128, 8281]], &cycle[..]);
     }

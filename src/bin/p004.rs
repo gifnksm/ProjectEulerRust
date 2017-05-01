@@ -14,8 +14,12 @@ use num::Integer as NumInteger;
 
 fn compute(min: u32, max: u32) -> u32 {
     let r = min..(max + 1);
-    let it1 = r.clone().rev().map(|seed| seed.into_palindromic(10, true));
-    let it2 = r.clone().rev().map(|seed| seed.into_palindromic(10, false));
+    let it1 = r.clone()
+        .rev()
+        .map(|seed| seed.into_palindromic(10, true));
+    let it2 = r.clone()
+        .rev()
+        .map(|seed| seed.into_palindromic(10, false));
 
     for p in it1.chain(it2) {
         for n in min..(max + 1) {

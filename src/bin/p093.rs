@@ -35,13 +35,15 @@ impl Iterator for Nums {
     type Item = [u32; 4];
 
     fn next(&mut self) -> Option<[u32; 4]> {
-        self.comb.next().map(|bits| {
-            let mut result = [0; 4];
-            for (i, n) in bits.iter().enumerate() {
-                result[i] = (n + 1) as u32;
-            }
-            result
-        })
+        self.comb
+            .next()
+            .map(|bits| {
+                     let mut result = [0; 4];
+                     for (i, n) in bits.iter().enumerate() {
+                         result[i] = (n + 1) as u32;
+                     }
+                     result
+                 })
     }
 }
 
@@ -116,30 +118,42 @@ fn evaluate(num: &[u32], op: &[Op], f: &mut FnMut(Ratio<i32>)) {
 
             evaluate(&[num[0], num[1]],
                      &[op[1]],
-                     &mut |a| evaluate(&[num[2], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f)));
+                     &mut |a| {
+                              evaluate(&[num[2], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
+                          });
             evaluate(&[num[0], num[2]],
                      &[op[1]],
-                     &mut |a| evaluate(&[num[1], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f)));
+                     &mut |a| {
+                              evaluate(&[num[1], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
+                          });
             evaluate(&[num[0], num[3]],
                      &[op[1]],
-                     &mut |a| evaluate(&[num[1], num[2]], &[op[2]], &mut |b| apply(a, b, op[0], f)));
+                     &mut |a| {
+                              evaluate(&[num[1], num[2]], &[op[2]], &mut |b| apply(a, b, op[0], f))
+                          });
 
             if op[1] != op[2] {
                 evaluate(&[num[1], num[2]],
                          &[op[1]],
                          &mut |a| {
-                             evaluate(&[num[0], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
-                         });
+                                  evaluate(&[num[0], num[3]],
+                                           &[op[2]],
+                                           &mut |b| apply(a, b, op[0], f))
+                              });
                 evaluate(&[num[1], num[3]],
                          &[op[1]],
                          &mut |a| {
-                             evaluate(&[num[0], num[2]], &[op[2]], &mut |b| apply(a, b, op[0], f))
-                         });
+                                  evaluate(&[num[0], num[2]],
+                                           &[op[2]],
+                                           &mut |b| apply(a, b, op[0], f))
+                              });
                 evaluate(&[num[2], num[3]],
                          &[op[1]],
                          &mut |a| {
-                             evaluate(&[num[0], num[1]], &[op[2]], &mut |b| apply(a, b, op[0], f))
-                         });
+                                  evaluate(&[num[0], num[1]],
+                                           &[op[2]],
+                                           &mut |b| apply(a, b, op[0], f))
+                              });
             }
         }
         _ => unreachable!(),
@@ -154,11 +168,9 @@ fn count_seqlen(num_set: &[u32; 4]) -> u32 {
         for (ops, _) in Permutations::new(&op_set[..], op_set.len()) {
             evaluate(num_set,
                      &ops,
-                     &mut |n| {
-                         if n.is_integer() && n.numer().is_positive() {
-                             set[n.to_integer() as usize] = true;
-                         }
-                     })
+                     &mut |n| if n.is_integer() && n.numer().is_positive() {
+                              set[n.to_integer() as usize] = true;
+                          })
         }
     }
 
