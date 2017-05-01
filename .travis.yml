@@ -16,8 +16,6 @@ rust:
 before_script:
   - cargo install cargo-kcov
   - cargo kcov --print-install-kcov-sh | $SHELL
-  - pip install 'travis-cargo<0.2' --user
-  - export PATH=$HOME/.local/bin:$PATH
 
 script:
   - cargo kcov ${CARGO_FLAGS} --all --coveralls
@@ -34,12 +32,16 @@ script:
   - cargo bench ${CARGO_FLAGS}
   - cargo doc ${CARGO_FLAGS}
 
-after_success:
-  - travis-cargo --only ${DOC_UPLOAD_VERSION} doc-upload
+after_success: |
+  [ $TRAVIS_BRANCH = master ] &&
+  [ $TRAVIS_PULL_REQUEST = false ] &&
+  [ $TRAVIS_RUST_VERSION = nightly ] &&
+  cargo install ghp &&
+  ghp target/doc &&
+  git config user.name "Travis Documentation" &&
+  git config user.email "name@example.com" &&
+  git push -qf https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages 2>&1 > /dev/null
 
 env:
   global:
-    - SUB_PKGS="cont_frac integer iter playing_card prime seq"
-    - TRAVIS_CARGO_NIGHTLY_FEATURE=""
-    - DOC_UPLOAD_VERSION=nightly
     - CARGO_FLAGS="-j1"
