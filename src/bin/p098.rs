@@ -20,7 +20,7 @@ fn read_words(file: File) -> io::Result<Vec<String>> {
     let mut words = vec![];
 
     for bytes in BufReader::new(file).split(b',') {
-        let word_str = String::from_utf8(try!(bytes)).ok().unwrap();
+        let word_str = String::from_utf8(bytes?).ok().unwrap();
         let word = word_str.trim_right_matches(',').trim_matches('\"');
         words.push(word.to_string());
     }
@@ -170,7 +170,7 @@ fn max_square(groups: Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)>) -> u64 {
 }
 
 fn solve(file: File) -> io::Result<String> {
-    let words = try!(read_words(file));
+    let words = read_words(file)?;
     let groups = get_anagram_groups(words);
     let pairs = flatten_groups(groups);
     let indices = get_indices_pairs(pairs);

@@ -317,7 +317,7 @@ fn solve(file: File) -> io::Result<String> {
     let mut _p2_win = 0;
     let mut _draw = 0;
     for line in BufReader::new(file).lines() {
-        let line = try!(line);
+        let line = line?;
         let cards = line.trim()
             .split(' ')
             .map(|c| FromStr::from_str(c).unwrap())

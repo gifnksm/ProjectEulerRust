@@ -36,7 +36,7 @@ fn solve(file: File) -> io::Result<String> {
     let mut words = vec![];
 
     for bytes in BufReader::new(file).split(b',') {
-        let mut bytes = try!(bytes);
+        let mut bytes = bytes?;
         if bytes.last() == Some(&b',') {
             let _ = bytes.pop();
         }

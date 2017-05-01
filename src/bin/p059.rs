@@ -81,7 +81,7 @@ fn read_file(file: File) -> io::Result<Vec<u8>> {
     let mut code_list = vec![];
 
     for word in BufReader::new(file).split(b',') {
-        let word_str = String::from_utf8(try!(word)).ok().unwrap();
+        let word_str = String::from_utf8(word?).ok().unwrap();
         let word = word_str.trim();
         if word.is_empty() {
             break;
@@ -94,7 +94,7 @@ fn read_file(file: File) -> io::Result<Vec<u8>> {
 
 fn solve(file: File) -> io::Result<String> {
     const KEY_LEN: usize = 3;
-    let code_list = try!(read_file(file));
+    let code_list = read_file(file)?;
 
     let freq_dict = &mut [0.0; 256];
     for &(c, f) in ENGLISH_FREQUENCY {

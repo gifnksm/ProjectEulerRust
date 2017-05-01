@@ -44,7 +44,7 @@ impl SuDoku {
 
 fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
     let mut line = String::new();
-    if try!(br.read_line(&mut line)) == 0 {
+    if br.read_line(&mut line)? == 0 {
         return Ok(None);
     }
 
@@ -54,7 +54,7 @@ fn read_sudoku<T: Read>(br: &mut BufReader<T>) -> io::Result<Option<SuDoku>> {
     };
 
     for (y, line) in br.lines().enumerate().take(BOARD_HEIGHT) {
-        let line = try!(line);
+        let line = line?;
         for (x, c) in line.chars().enumerate().take(BOARD_WIDTH) {
             let n = c.to_digit(10).unwrap();
             if n != 0 {
@@ -184,7 +184,7 @@ fn solve(file: File) -> io::Result<String> {
     let mut br = BufReader::new(file);
 
     let mut answers = Vec::new();
-    while let Some(puzzle) = try!(read_sudoku(&mut br)) {
+    while let Some(puzzle) = read_sudoku(&mut br)? {
         let mut ans = solve_sudoku(puzzle);
         assert_eq!(1, ans.len());
         answers.push(ans.pop().unwrap())

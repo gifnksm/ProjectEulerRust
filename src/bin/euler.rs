@@ -65,7 +65,7 @@ fn problem_paths(dir_path: &Path) -> ProgramResult<Paths> {
 }
 
 fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
-    let proc_out = try!(Command::new(path).arg("--json").output());
+    let proc_out = Command::new(path).arg("--json").output()?;
 
     if !proc_out.stderr.is_empty() {
         let _ = match str::from_utf8(&proc_out.stderr) {
@@ -85,13 +85,13 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
         }
     }
 
-    let json = try!(Json::from_reader(&mut &proc_out.stdout[..]));
-    Ok(try!(Decodable::decode(&mut json::Decoder::new(json))))
+    let json = Json::from_reader(&mut &proc_out.stdout[..])?;
+    Ok(Decodable::decode(&mut json::Decoder::new(json))?)
 }
 
 fn run() -> ProgramResult<bool> {
     let dir_path = {
-        let mut path = try!(env::current_exe());
+        let mut path = env::current_exe()?;
         path.pop();
         path
     };
@@ -100,7 +100,7 @@ fn run() -> ProgramResult<bool> {
     let mut is_ok = true;
     let mut num_prob = 0;
     let mut total_time = 0;
-    for path in try!(problem_paths(&dir_path)) {
+    for path in problem_paths(&dir_path)? {
         let path = path.unwrap();
         let program = path.file_name().unwrap().to_string_lossy().to_string();
 

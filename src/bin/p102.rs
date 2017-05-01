@@ -80,7 +80,7 @@ fn solve(file: File) -> io::Result<String> {
 
     let mut cnt = 0;
     for line in BufReader::new(file).lines() {
-        let ns = try!(line)
+        let ns = line?
             .trim()
             .split(',')
             .filter_map(|s| s.parse::<i32>().ok())

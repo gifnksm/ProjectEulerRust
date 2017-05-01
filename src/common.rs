@@ -242,9 +242,9 @@ impl<'a> Solver<'a> {
         let (time, answer) = match self.solver {
             SolverFn::FnOnly(fun) => bench(move || fun()),
             SolverFn::FnWithFile(file_name, fun) => {
-                let file = try!(setup_file(file_name));
+                let file = setup_file(file_name)?;
                 let (time, answer) = bench(move || fun(file));
-                (time, try!(answer))
+                (time, answer?)
             }
         };
 
@@ -269,13 +269,13 @@ fn setup_file(file_name: &str) -> Result<File, SolverError> {
     let mut path = PathBuf::from("./.cache");
     path.push(file_name);
     if !path.is_file() {
-        try!(fs::create_dir_all(&path.parent().unwrap()));
-        let mut file = try!(File::create(&path));
-        let content = try!(download(file_name));
-        try!(file.write_all(&content));
+        fs::create_dir_all(&path.parent().unwrap())?;
+        let mut file = File::create(&path)?;
+        let content = download(file_name)?;
+        file.write_all(&content)?;
     }
 
-    let file = try!(File::open(&path));
+    let file = File::open(&path)?;
     Ok(file)
 }
 
@@ -285,9 +285,9 @@ fn download(file_name: &str) -> Result<Vec<u8>, SolverError> {
 
     let mut retry = 0;
     loop {
-        let mut resp = try!(reqwest::get(&url));
+        let mut resp = reqwest::get(&url)?;
         let mut body = vec![];
-        let _ = try!(resp.read_to_end(&mut body));
+        let _ = resp.read_to_end(&mut body)?;
 
         if !resp.status().is_success() {
             let err = SolverError::InvalidHttpStatus(*resp.status(), body.clone());

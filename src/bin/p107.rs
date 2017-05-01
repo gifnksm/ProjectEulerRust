@@ -16,7 +16,7 @@ use union_find::{QuickUnionUf as Uf, UnionBySize, UnionFind};
 fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {
     let mut verts = Vec::new();
     for (i, line) in BufReader::new(r).lines().enumerate() {
-        let line = try!(line);
+        let line = line?;
         for (j, s) in line.trim().split(',').enumerate() {
             if j <= i {
                 continue;
@@ -43,7 +43,7 @@ fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {
 }
 
 fn solve(file: File) -> io::Result<String> {
-    Ok(try!(compute(file, 40)).to_string())
+    Ok(compute(file, 40)?.to_string())
 }
 
 problem!("259679", "p107_network.txt", solve);

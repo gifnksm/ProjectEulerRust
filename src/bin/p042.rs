@@ -25,7 +25,7 @@ fn solve(file: File) -> io::Result<String> {
     let mut values = vec![];
 
     for bytes in BufReader::new(file).split(b',') {
-        let word_str = String::from_utf8(try!(bytes)).unwrap();
+        let word_str = String::from_utf8(bytes?).unwrap();
         let word = word_str.trim_right_matches(',').trim_matches('\"');
         values.push(word_to_value(word));
     }
