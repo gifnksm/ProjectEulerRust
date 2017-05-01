@@ -7,13 +7,16 @@ extern crate error_chain;
 extern crate getopts;
 extern crate num_integer;
 extern crate reqwest;
-extern crate rustc_serialize;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
+extern crate serde_json;
 extern crate term;
 extern crate time;
 
 use getopts::Options;
 use num_integer::Integer;
-use rustc_serialize::{Encodable, json};
+use serde::Serialize;
 use std::{env, fmt, io, process};
 use std::borrow::Cow;
 use std::fs::{self, File};
@@ -35,6 +38,7 @@ const COLOR_WARN: Color = color::YELLOW;
 error_chain! {
     foreign_links {
         Io(io::Error);
+        Json(serde_json::Error);
         Reqwest(reqwest::Error);
     }
 
@@ -46,16 +50,17 @@ error_chain! {
     }
 }
 
-#[derive(Debug, RustcEncodable, RustcDecodable)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct SolverResult<T> {
     pub time: u64,
     pub answer: T,
     pub is_ok: bool,
 }
 
-impl<T: Encodable> SolverResult<T> {
-    pub fn print_json<W: Write>(&self, out: &mut W) -> io::Result<()> {
-        writeln!(out, "{}", json::encode(self).unwrap())
+impl<T: Serialize> SolverResult<T> {
+    pub fn print_json<W: Write>(&self, out: &mut W) -> Result<()> {
+        let _ = writeln!(out, "{}", serde_json::to_string(self)?)?;
+        Ok(())
     }
 }
 
