@@ -60,8 +60,8 @@ problem!("153", solve);
 
 #[cfg(test)]
 mod tests {
-    use num::{BigUint, FromPrimitive};
     use super::Frac;
+    use num::{BigUint, FromPrimitive};
 
     #[test]
     fn frac() {

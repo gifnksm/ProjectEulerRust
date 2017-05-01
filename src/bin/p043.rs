@@ -104,7 +104,8 @@ fn solve() -> String {
         result = update_pandigimal_list(result, base, 3);
     }
 
-    result.iter()
+    result
+        .iter()
         .map(|pd| pd.to_u64())
         .sum::<u64>()
         .to_string()

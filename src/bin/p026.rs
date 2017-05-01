@@ -30,9 +30,7 @@ fn get_cycle_len(n: u32) -> u32 {
 }
 
 fn compute(limit: u32) -> u32 {
-    (2..limit)
-        .max_by_key(|&n| get_cycle_len(n))
-        .unwrap()
+    (2..limit).max_by_key(|&n| get_cycle_len(n)).unwrap()
 }
 
 fn solve() -> String {

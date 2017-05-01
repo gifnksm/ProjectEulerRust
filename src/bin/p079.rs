@@ -22,7 +22,9 @@ fn solve(file: File) -> io::Result<String> {
             ts.add_dependency(prec, succ);
         }
     }
-    let s = ts.map(|d| d.to_string()).collect::<Vec<String>>().concat();
+    let s = ts.map(|d| d.to_string())
+        .collect::<Vec<String>>()
+        .concat();
     Ok(s)
 }
 

@@ -56,13 +56,11 @@ fn cmp_card_2darray(as0: &[&[Card]], as1: &[&[Card]]) -> Ordering {
 }
 
 fn sort_cards(cs: &mut [Card]) {
-    cs.sort_by(|c0, c1| {
-        match cmp_card(c0, c1) {
-            Ordering::Equal => (c0.suit as u32).cmp(&(c1.suit as u32)),
-            Ordering::Less => Ordering::Greater,
-            Ordering::Greater => Ordering::Less,
-        }
-    })
+    cs.sort_by(|c0, c1| match cmp_card(c0, c1) {
+                   Ordering::Equal => (c0.suit as u32).cmp(&(c1.suit as u32)),
+                   Ordering::Less => Ordering::Greater,
+                   Ordering::Greater => Ordering::Less,
+               })
 }
 
 type C1 = [Card; 1];
@@ -246,10 +244,10 @@ impl Hand {
 
         let is_flush = suit_count.iter().any(|v| v.len() == 5);
         let mut is_straight = {
-            let min_idx = num_count.iter()
-                .position(|v| v.len() > 0)
-                .unwrap();
-            num_count[min_idx..(min_idx + 5)].iter().all(|v| v.len() == 1)
+            let min_idx = num_count.iter().position(|v| v.len() > 0).unwrap();
+            num_count[min_idx..(min_idx + 5)]
+                .iter()
+                .all(|v| v.len() == 1)
         };
 
         let mut ss = [single[0], single[1], single[2], single[3], single[4]];
@@ -340,11 +338,11 @@ problem!("376", "p054_poker.txt", solve);
 
 #[cfg(test)]
 mod tests {
+    use super::Hand;
     use playing_card::SuitCard as Card;
     use rand::{self, Rng};
     use std::cmp::Ordering;
     use std::str::FromStr;
-    use super::Hand;
 
     fn str_to_cards(s: &str) -> Vec<Card> {
         s.split(' ')

@@ -110,7 +110,8 @@ fn solve(file: File) -> io::Result<String> {
         .map(|f| find_key(f, freq_dict))
         .collect::<Vec<u8>>();
 
-    let sum = code_list.iter()
+    let sum = code_list
+        .iter()
         .zip(key.iter().cycle())
         .map(|(&n, &key)| (n ^ key) as u32)
         .sum::<u32>();

@@ -8,9 +8,7 @@
 extern crate common;
 
 fn compute(bound: u32) -> u32 {
-    (1..bound)
-        .filter(|&n| n % 3 == 0 || n % 5 == 0)
-        .sum()
+    (1..bound).filter(|&n| n % 3 == 0 || n % 5 == 0).sum()
 }
 
 fn solve() -> String {

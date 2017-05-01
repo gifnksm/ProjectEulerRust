@@ -42,9 +42,9 @@ impl Iterator for ConcatPrimeNums {
             .iter()
             .take_while(|&m| m <= n)
             .filter(|&m| {
-                (n + m) % 3 != 0 && self.ps.contains(concat_num(n, m)) &&
-                self.ps.contains(concat_num(m, n))
-            })
+                        (n + m) % 3 != 0 && self.ps.contains(concat_num(n, m)) &&
+                        self.ps.contains(concat_num(m, n))
+                    })
             .collect();
         Some((n, pairs))
     }

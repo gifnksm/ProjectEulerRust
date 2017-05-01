@@ -38,10 +38,7 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
     let (w, h) = (mat[0].len(), mat.len());
 
     let start = Point { x: 0, y: 0 };
-    let goal = Point {
-        x: w - 1,
-        y: h - 1,
-    };
+    let goal = Point { x: w - 1, y: h - 1 };
 
     let mut closed = HashSet::new();
     let mut open = HashSet::new();
@@ -68,16 +65,28 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
 
         let mut ms = Vec::new();
         if min_pt.x > 0 {
-            ms.push(Point { x: min_pt.x - 1, ..min_pt })
+            ms.push(Point {
+                        x: min_pt.x - 1,
+                        ..min_pt
+                    })
         }
         if min_pt.y > 0 {
-            ms.push(Point { y: min_pt.y - 1, ..min_pt })
+            ms.push(Point {
+                        y: min_pt.y - 1,
+                        ..min_pt
+                    })
         }
         if min_pt.x < w - 1 {
-            ms.push(Point { x: min_pt.x + 1, ..min_pt })
+            ms.push(Point {
+                        x: min_pt.x + 1,
+                        ..min_pt
+                    })
         }
         if min_pt.y < h - 1 {
-            ms.push(Point { y: min_pt.y + 1, ..min_pt })
+            ms.push(Point {
+                        y: min_pt.y + 1,
+                        ..min_pt
+                    })
         }
 
         for &pt in &ms {

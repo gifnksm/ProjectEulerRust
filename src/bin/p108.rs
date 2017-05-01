@@ -29,7 +29,10 @@ fn num_pairs(ps: &PrimeSet, n: u64) -> u64 {
 fn solve() -> String {
     let n = 1000;
     let ps = PrimeSet::new();
-    (1..).find(|&i| num_pairs(&ps, i) > n).unwrap().to_string()
+    (1..)
+        .find(|&i| num_pairs(&ps, i) > n)
+        .unwrap()
+        .to_string()
 }
 
 problem!("180180", solve);

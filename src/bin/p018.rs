@@ -30,12 +30,15 @@ fn compute(input: &[&[u32]]) -> u32 {
     let len = input.len();
     let init = &input[..len - 1];
     let last = input.last().unwrap();
-    init.iter().rev().fold(last.to_vec(), |mut total, elm| {
-        for (i, &e) in elm.iter().enumerate() {
-            total[i] = e + cmp::max(total[i], total[i + 1]);
-        }
-        total
-    })[0]
+    init.iter()
+        .rev()
+        .fold(last.to_vec(), |mut total, elm| {
+            for (i, &e) in elm.iter().enumerate() {
+                total[i] = e + cmp::max(total[i], total[i + 1]);
+            }
+            total
+        })
+        [0]
 }
 
 fn solve() -> String {

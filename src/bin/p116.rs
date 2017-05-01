@@ -51,8 +51,8 @@ problem!("20492570929", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
     use super::{count_all, count_blue, count_green, count_red};
+    use std::collections::HashMap;
 
     #[test]
     fn count() {

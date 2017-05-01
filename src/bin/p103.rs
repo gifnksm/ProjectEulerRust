@@ -89,10 +89,10 @@ impl SSS {
         nums.push(n);
 
         Some(SSS {
-            avg: avg,
-            nums: nums,
-            sums: sums,
-        })
+                 avg: avg,
+                 nums: nums,
+                 sums: sums,
+             })
     }
 
     fn max_addable(&self) -> u32 {
@@ -103,7 +103,9 @@ impl SSS {
         // 2: [a, b]             => (a + b)                   - 1
         let len = self.nums.len();
         let add = self.nums[..len / 2 + 1].iter().fold(0, |a, &b| a + b);
-        let sub = self.nums[(len + 1) / 2 + 1..].iter().fold(0, |a, &b| a + b);
+        let sub = self.nums[(len + 1) / 2 + 1..]
+            .iter()
+            .fold(0, |a, &b| a + b);
         add - sub - 1
     }
 
@@ -141,16 +143,24 @@ impl Iterator for SSSIterator {
     type Item = SSS;
 
     fn next(&mut self) -> Option<SSS> {
-        self.heap.pop().map(|sss| {
-            sss.each_next(|next| self.heap.push(next));
-            sss
-        })
+        self.heap
+            .pop()
+            .map(|sss| {
+                     sss.each_next(|next| self.heap.push(next));
+                     sss
+                 })
     }
 }
 
 fn solve() -> String {
-    let sss = SSSIterator::new().find(|sss| sss.nums.len() == 7).unwrap();
-    sss.nums.iter().map(|&n| n.to_string()).collect::<Vec<_>>().concat()
+    let sss = SSSIterator::new()
+        .find(|sss| sss.nums.len() == 7)
+        .unwrap();
+    sss.nums
+        .iter()
+        .map(|&n| n.to_string())
+        .collect::<Vec<_>>()
+        .concat()
 }
 
 problem!("20313839404245", solve);

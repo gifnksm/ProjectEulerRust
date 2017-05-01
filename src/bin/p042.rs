@@ -35,7 +35,11 @@ fn solve(file: File) -> io::Result<String> {
     for t in TriangularNums::<u32>::new().take_while(|&t| t <= max_value) {
         is_tri[t as usize] = true;
     }
-    Ok(values.iter().filter(|&&v| is_tri[v as usize]).count().to_string())
+    Ok(values
+           .iter()
+           .filter(|&&v| is_tri[v as usize])
+           .count()
+           .to_string())
 }
 
 problem!("162", "p042_words.txt", solve);

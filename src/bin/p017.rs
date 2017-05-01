@@ -9,18 +9,18 @@ extern crate common;
 
 fn to_word_under10(n: u32) -> String {
     return match n {
-        0 => "zero".to_string(),
-        1 => "one".to_string(),
-        2 => "two".to_string(),
-        3 => "three".to_string(),
-        4 => "four".to_string(),
-        5 => "five".to_string(),
-        6 => "six".to_string(),
-        7 => "seven".to_string(),
-        8 => "eight".to_string(),
-        9 => "nine".to_string(),
-        _ => panic!(),
-    };
+               0 => "zero".to_string(),
+               1 => "one".to_string(),
+               2 => "two".to_string(),
+               3 => "three".to_string(),
+               4 => "four".to_string(),
+               5 => "five".to_string(),
+               6 => "six".to_string(),
+               7 => "seven".to_string(),
+               8 => "eight".to_string(),
+               9 => "nine".to_string(),
+               _ => panic!(),
+           };
 }
 
 fn to_word_under20(n: u32) -> String {
@@ -29,18 +29,18 @@ fn to_word_under20(n: u32) -> String {
         return to_word_under10(n);
     }
     return match n {
-        10 => "ten".to_string(),
-        11 => "eleven".to_string(),
-        12 => "twelve".to_string(),
-        13 => "thirteen".to_string(),
-        14 => "fourteen".to_string(),
-        15 => "fifteen".to_string(),
-        16 => "sixteen".to_string(),
-        17 => "seventeen".to_string(),
-        18 => "eighteen".to_string(),
-        19 => "nineteen".to_string(),
-        _ => panic!(),
-    };
+               10 => "ten".to_string(),
+               11 => "eleven".to_string(),
+               12 => "twelve".to_string(),
+               13 => "thirteen".to_string(),
+               14 => "fourteen".to_string(),
+               15 => "fifteen".to_string(),
+               16 => "sixteen".to_string(),
+               17 => "seventeen".to_string(),
+               18 => "eighteen".to_string(),
+               19 => "nineteen".to_string(),
+               _ => panic!(),
+           };
 }
 
 fn to_word_under100(n: u32) -> String {
@@ -93,11 +93,7 @@ fn to_word(n: u32) -> String {
 fn compute(max: u32) -> u32 {
     (1..max + 1)
         .map(to_word)
-        .map(|w| {
-            w.chars()
-                .filter(|&c| c != '-' && c != ' ')
-                .count() as u32
-        })
+        .map(|w| w.chars().filter(|&c| c != '-' && c != ' ').count() as u32)
         .sum()
 }
 

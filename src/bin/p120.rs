@@ -52,10 +52,7 @@ fn rmax(a: u32) -> u32 {
 }
 
 fn solve() -> String {
-    (3..1001)
-        .map(rmax)
-        .sum::<u32>()
-        .to_string()
+    (3..1001).map(rmax).sum::<u32>().to_string()
 }
 
 problem!("333082500", solve);

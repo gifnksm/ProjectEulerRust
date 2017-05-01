@@ -32,7 +32,8 @@ fn compute(num_value: usize) -> u64 {
                     break;
                 }
 
-                let it = ds.clone().map(|d| { if d == (d_src as u64) { d_dst as u64 } else { d } });
+                let it = ds.clone()
+                    .map(|d| if d == (d_src as u64) { d_dst as u64 } else { d });
                 if ps.contains(Integer::from_digits(it, radix as u64)) {
                     num_prime += 1;
                 }

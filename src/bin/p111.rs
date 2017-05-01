@@ -36,13 +36,15 @@ impl Iterator for Digits {
     type Item = Vec<u64>;
 
     fn next(&mut self) -> Option<Vec<u64>> {
-        self.range.next().map(|num| {
-            let mut ds = num.into_digits(self.radix).rev().collect::<Vec<_>>();
-            while ds.len() < self.num_digits {
-                ds.insert(0, 0);
-            }
-            ds
-        })
+        self.range
+            .next()
+            .map(|num| {
+                     let mut ds = num.into_digits(self.radix).rev().collect::<Vec<_>>();
+                     while ds.len() < self.num_digits {
+                         ds.insert(0, 0);
+                     }
+                     ds
+                 })
     }
 }
 
@@ -83,11 +85,11 @@ impl Iterator for RunDigits {
             for i in 0..(self.other_ds.len() + self.run_len) {
                 num = num * 10 +
                       if set.contains(i) {
-                    j += 1;
-                    self.other_ds[j - 1]
-                } else {
-                    self.d
-                };
+                          j += 1;
+                          self.other_ds[j - 1]
+                      } else {
+                          self.d
+                      };
             }
 
             return Some(num);

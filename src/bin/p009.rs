@@ -14,9 +14,9 @@ use std::{cmp, iter};
 fn compute(sum: u32) -> u32 {
     (2..sum - 1)
         .flat_map(|c| {
-            let a_max = cmp::min((sum - c) / 2, (c * c / 2).sqrt());
-            (1..a_max).zip(iter::repeat(c))
-        })
+                      let a_max = cmp::min((sum - c) / 2, (c * c / 2).sqrt());
+                      (1..a_max).zip(iter::repeat(c))
+                  })
         .map(|(a, c)| (a, sum - c - a, c))
         .find(|&(a, b, c)| a * a + b * b == c * c)
         .map(|(a, b, c)| a * b * c)

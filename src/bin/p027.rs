@@ -18,9 +18,9 @@ use prime::PrimeSet;
 fn get_limit_n(ps: &PrimeSet, a: i32, b: i32) -> u32 {
     (0..)
         .take_while(|&n| {
-            let val = n * n + a * n + b;
-            (val >= 0 && ps.contains(val as u64))
-        })
+                        let val = n * n + a * n + b;
+                        (val >= 0 && ps.contains(val as u64))
+                    })
         .last()
         .unwrap() as u32
 }
@@ -30,11 +30,11 @@ fn compute(limit: u64) -> i32 {
     let (a, b, _len) = ps.iter()
         .take_while(|&p| p < limit)
         .filter_map(|p| {
-            let b = p as i32;
-            (-b..1000)
-                .map(|a| (a, b, get_limit_n(&ps, a, b)))
-                .max_by_key(|&(_a, _b, len)| len)
-        })
+                        let b = p as i32;
+                        (-b..1000)
+                            .map(|a| (a, b, get_limit_n(&ps, a, b)))
+                            .max_by_key(|&(_a, _b, len)| len)
+                    })
         .max_by_key(|&(_a, _b, len)| len)
         .unwrap();
     a * b

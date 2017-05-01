@@ -47,7 +47,10 @@ fn create_rad_vec(n_limit: u64) -> Vec<Rad> {
         }
     }
 
-    rad_vec.into_iter().map(|(x, y, z)| Rad(x, y, z)).collect()
+    rad_vec
+        .into_iter()
+        .map(|(x, y, z)| Rad(x, y, z))
+        .collect()
 }
 
 fn rad_has_union(a: &[u64], b: &[u64]) -> bool {

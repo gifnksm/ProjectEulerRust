@@ -45,9 +45,9 @@ fn each_product_sum_number<F>(start: u32, end: u32, f: &mut F)
     each_sum_product(start,
                      end,
                      &mut |sum, prod, len| {
-                         let len = (prod - sum) as usize + len;
-                         (*f)(prod, len)
-                     })
+                              let len = (prod - sum) as usize + len;
+                              (*f)(prod, len)
+                          })
 }
 
 fn compute(limit: usize) -> u32 {
@@ -59,14 +59,12 @@ fn compute(limit: usize) -> u32 {
         let end = start * 2;
         each_product_sum_number(start,
                                 end,
-                                &mut |n, len| {
-            if len <= limit && n < nums[len] {
-                if nums[len] == u32::MAX {
-                    cnt -= 1;
-                }
-                nums[len] = n;
-            }
-        });
+                                &mut |n, len| if len <= limit && n < nums[len] {
+                                         if nums[len] == u32::MAX {
+                                             cnt -= 1;
+                                         }
+                                         nums[len] = n;
+                                     });
         start *= 2;
     }
 

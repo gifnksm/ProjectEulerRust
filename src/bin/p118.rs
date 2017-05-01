@@ -85,8 +85,8 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
                     Permutations::new(&ds[..], ds.len())
                         .filter(|&(ref perm, _)| perm[0].is_odd() && perm[0] != 5)
                         .filter(|&(ref perm, _)| {
-                            ps.contains(Integer::from_digits(perm.iter().map(|&x| x), 10))
-                        })
+                                    ps.contains(Integer::from_digits(perm.iter().map(|&x| x), 10))
+                                })
                         .count()
                 } else {
                     0

@@ -55,10 +55,7 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
         }
     }
 
-    (0..h)
-        .map(|y| sum[y][w - 1])
-        .min()
-        .unwrap()
+    (0..h).map(|y| sum[y][w - 1]).min().unwrap()
 }
 
 fn solve(file: File) -> io::Result<String> {
