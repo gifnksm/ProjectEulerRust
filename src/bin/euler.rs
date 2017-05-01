@@ -2,6 +2,8 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
+#[macro_use]
+extern crate error_chain;
 extern crate glob;
 extern crate rustc_serialize as rustc_serialize;
 extern crate common;
@@ -10,7 +12,6 @@ use common::SolverResult;
 use glob::Paths;
 use rustc_serialize::Decodable;
 use rustc_serialize::json::{self, Json};
-use std::borrow::Cow;
 use std::env;
 use std::io;
 use std::io::prelude::*;
@@ -22,49 +23,25 @@ use std::str;
 
 const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
 
-type ProgramResult<T> = Result<T, ProgramError>;
-
-#[derive(Debug)]
-enum ProgramError {
-    IoError(io::Error),
-    JsonParserError(json::ParserError),
-    JsonDecoderError(json::DecoderError),
-    Unknown(Cow<'static, str>),
-}
-
-impl ProgramError {
-    fn unknown<T: Into<Cow<'static, str>>>(msg: T) -> ProgramError {
-        ProgramError::Unknown(msg.into())
+error_chain! {
+    foreign_links {
+        Io(io::Error);
+        Glob(glob::GlobError);
+        GlobPattern(glob::PatternError);
+        JsonParser(json::ParserError);
+        JsonDecoder(json::DecoderError);
     }
 }
 
-impl From<io::Error> for ProgramError {
-    fn from(err: io::Error) -> ProgramError {
-        ProgramError::IoError(err)
-    }
-}
-
-impl From<json::ParserError> for ProgramError {
-    fn from(err: json::ParserError) -> ProgramError {
-        ProgramError::JsonParserError(err)
-    }
-}
-
-impl From<json::DecoderError> for ProgramError {
-    fn from(err: json::DecoderError) -> ProgramError {
-        ProgramError::JsonDecoderError(err)
-    }
-}
-
-fn problem_paths(dir_path: &Path) -> ProgramResult<Paths> {
+fn problem_paths(dir_path: &Path) -> Result<Paths> {
     let pat = dir_path.join(PROBLEM_EXE_PAT);
     match pat.to_str() {
-        Some(x) => Ok(glob::glob(x).unwrap()),
-        None => Err(ProgramError::unknown("path contains non-utf8 character")),
+        Some(x) => Ok(glob::glob(x)?),
+        None => Err(Error::from("path contains non-utf8 character")),
     }
 }
 
-fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
+fn run_problem(path: &Path) -> Result<SolverResult<String>> {
     let proc_out = Command::new(path).arg("--json").output()?;
 
     if !proc_out.stderr.is_empty() {
@@ -77,11 +54,11 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
     match proc_out.status.code() {
         Some(0) | Some(1) => {} // expected
         Some(st) => {
-            return Err(ProgramError::unknown(format!("child process exit with {}", st)));
+            return Err(Error::from(format!("child process exit with {}", st)));
         }
         None => {
-            return Err(ProgramError::unknown(format!("child process exit with siglan {}",
-                                                     proc_out.status.signal().unwrap())));
+            return Err(Error::from(format!("child process exit with siglan {}",
+                                           proc_out.status.signal().unwrap())));
         }
     }
 
@@ -89,7 +66,7 @@ fn run_problem(path: &Path) -> ProgramResult<SolverResult<String>> {
     Ok(Decodable::decode(&mut json::Decoder::new(json))?)
 }
 
-fn run() -> ProgramResult<bool> {
+fn run() -> Result<bool> {
     let dir_path = {
         let mut path = env::current_exe()?;
         path.pop();
@@ -101,7 +78,7 @@ fn run() -> ProgramResult<bool> {
     let mut num_prob = 0;
     let mut total_time = 0;
     for path in problem_paths(&dir_path)? {
-        let path = path.unwrap();
+        let path = path?;
         let program = path.file_name().unwrap().to_string_lossy().to_string();
 
         match run_problem(&path) {

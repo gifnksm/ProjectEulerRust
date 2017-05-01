@@ -12,6 +12,7 @@ version = "0.0.1"
 
 [dependencies]
 enum_primitive = "0.1"
+error-chain = "0.10"
 generic-matrix = "0.0"
 getopts = "0.2"
 glob = "0.2"
