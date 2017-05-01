@@ -1,0 +1,19 @@
+#!/bin/bash -ev
+
+CARGO_FLAGS="-v -j1"
+
+cargo kcov ${CARGO_FLAGS} --all --coveralls
+
+cargo build ${CARGO_FLAGS} --release
+
+cargo run ${CARGO_FLAGS} --release --bin euler
+
+# `cargo bench --all` is not supported: (rust-lang/cargo#2878)
+# - cargo bench ${CARGO_FLAGS} --all
+for PKG in $(find pkg -mindepth 1 -maxdepth 1 -type d -printf '%f\n'); do
+  echo cargo bench ${CARGO_FLAGS} -p ${PKG}
+  cargo bench ${CARGO_FLAGS} -p ${PKG}
+done
+cargo bench ${CARGO_FLAGS}
+
+cargo doc ${CARGO_FLAGS}

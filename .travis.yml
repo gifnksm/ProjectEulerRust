@@ -17,31 +17,5 @@ before_script:
   - cargo install cargo-kcov
   - cargo kcov --print-install-kcov-sh | $SHELL
 
-script:
-  - cargo kcov ${CARGO_FLAGS} --all --coveralls
-  - cargo build ${CARGO_FLAGS} --release
-  - cargo run ${CARGO_FLAGS} --release --bin euler
-  # `cargo bench --all` is not supported: (rust-lang/cargo#2878)
-  # - cargo bench ${CARGO_FLAGS} --all
-  - set -e
-  - |
-    for PKG in $(find pkg -mindepth 1 -maxdepth 1 -type d -printf '%f\n'); do
-      echo cargo bench ${CARGO_FLAGS} -p ${PKG}
-      cargo bench ${CARGO_FLAGS} -p ${PKG}
-    done
-  - cargo bench ${CARGO_FLAGS}
-  - cargo doc ${CARGO_FLAGS}
-
-after_success: |
-  [ $TRAVIS_BRANCH = master ] &&
-  [ $TRAVIS_PULL_REQUEST = false ] &&
-  [ $TRAVIS_RUST_VERSION = nightly ] &&
-  cargo install ghp &&
-  ghp target/doc &&
-  git config user.name "Travis Documentation" &&
-  git config user.email "name@example.com" &&
-  git push -qf https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages 2>&1 > /dev/null
-
-env:
-  global:
-    - CARGO_FLAGS="-v -j1""
+script: .travis/script
+after_success: .travis/after_success
