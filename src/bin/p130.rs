@@ -8,10 +8,14 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+#[cfg(test)]
+extern crate num_bigint;
+extern crate num_integer;
+#[cfg(test)]
+extern crate num_traits;
 extern crate prime;
 
-use num::Integer;
+use num_integer::Integer;
 use prime::PrimeSet;
 
 fn a(n: u64) -> u64 {
@@ -46,11 +50,13 @@ problem!("149253", solve);
 
 #[cfg(test)]
 mod tests {
-    use num::Integer;
+    use num_integer::Integer;
     use prime::PrimeSet;
 
     mod naive {
-        use num::{BigUint, FromPrimitive, Integer, One, Zero};
+        use num_bigint::BigUint;
+        use num_integer::Integer;
+        use num_traits::{FromPrimitive, One, Zero};
 
         pub fn r(k: u64) -> BigUint {
             let mut r: BigUint = Zero::zero();

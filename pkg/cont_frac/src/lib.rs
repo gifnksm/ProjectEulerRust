@@ -5,11 +5,12 @@
         unused_qualifications, unused_results)]
 
 extern crate integer;
-extern crate num;
+extern crate num_integer;
+extern crate num_traits;
 
 use integer::Integer;
-use num::FromPrimitive;
-use num::Integer as NumInteger;
+use num_integer::Integer as NumInteger;
+use num_traits::FromPrimitive;
 use std::collections::HashSet;
 use std::mem;
 use std::ops::{Add, Mul};
@@ -66,7 +67,11 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
                 return s * s;
             }
 
-            let &A { n, sqn, pqr: (p, q, r) } = self;
+            let &A {
+                     n,
+                     sqn,
+                     pqr: (p, q, r),
+                 } = self;
             let np2 = n * p * p;
             let estim_a = (p * sqn + q) / r;
             let mut a = estim_a;
@@ -249,7 +254,7 @@ impl<T> Iterator for PelNegRoots<T>
 
 #[cfg(test)]
 mod tests {
-    use num::FromPrimitive;
+    use num_traits::FromPrimitive;
     use std::ops::{Add, Mul};
 
     #[test]

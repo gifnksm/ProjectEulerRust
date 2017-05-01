@@ -4,13 +4,21 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate num;
+extern crate num_integer;
+extern crate num_traits;
 
-use num::{FromPrimitive, One, ToPrimitive, Zero};
+#[cfg(feature = "num-bigint")]
+extern crate num_bigint;
+
+
+#[cfg(feature = "num-bigint")]
+use num_bigint::{BigUint, BigInt};
+
+use num_traits::{FromPrimitive, One, ToPrimitive, Zero};
 use std::cmp::Ordering;
 
 /// Extension methods for num::Integer trait.
-pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
+pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
     /// Divide two numbers, return the result, rounded up.
     ///
     /// # Arguments
@@ -130,7 +138,8 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
         if !duplicate_middle {
             let _ = rv.next_back();
         }
-        rv.chain(digits).fold(Zero::zero(), |sum: Self, i| sum * radix.clone() + i)
+        rv.chain(digits)
+            .fold(Zero::zero(), |sum: Self, i| sum * radix.clone() + i)
     }
 
     /// Returns `true` if the number is palindromic.
@@ -228,8 +237,11 @@ pub trait Integer: num::Integer + Clone + FromPrimitive + ToPrimitive {
     }
 }
 
-impl Integer for num::BigUint {}
-impl Integer for num::BigInt {}
+#[cfg(feature = "num-bigint")]
+impl Integer for BigUint {}
+#[cfg(feature = "num-bigint")]
+impl Integer for BigInt {}
+
 impl Integer for i8 {}
 impl Integer for i16 {}
 impl Integer for i32 {}
@@ -249,7 +261,7 @@ pub struct Digits<T> {
     order: T,
 }
 
-impl<T: num::Integer + Clone> Digits<T> {
+impl<T: num_integer::Integer + Clone> Digits<T> {
     fn new(num: T, radix: T) -> Digits<T> {
         let mut order: T;
         if num.is_zero() {
@@ -270,7 +282,7 @@ impl<T: num::Integer + Clone> Digits<T> {
     }
 }
 
-impl<T: num::Integer + Clone> Iterator for Digits<T> {
+impl<T: num_integer::Integer + Clone> Iterator for Digits<T> {
     type Item = T;
 
     #[inline]
@@ -285,7 +297,7 @@ impl<T: num::Integer + Clone> Iterator for Digits<T> {
     }
 }
 
-impl<T: num::Integer + Clone> DoubleEndedIterator for Digits<T> {
+impl<T: num_integer::Integer + Clone> DoubleEndedIterator for Digits<T> {
     #[inline]
     fn next_back(&mut self) -> Option<T> {
         if self.order.is_zero() {
@@ -300,9 +312,9 @@ impl<T: num::Integer + Clone> DoubleEndedIterator for Digits<T> {
 
 #[cfg(test)]
 mod tests {
-    use num;
-    use num::Integer as NumInteger;
     use super::Integer;
+    use num_integer::Integer as NumInteger;
+    use num_traits;
 
     #[test]
     fn div() {
@@ -386,7 +398,7 @@ mod tests {
         for b in 1u32..10 {
             for e in 0u32..5 {
                 for r in 10u32..100 {
-                    assert_eq!(num::pow(b, e as usize) % r, b.mod_pow(&e, &r));
+                    assert_eq!(num_traits::pow(b, e as usize) % r, b.mod_pow(&e, &r));
                 }
             }
         }

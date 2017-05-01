@@ -6,10 +6,10 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_bigint;
 extern crate seq;
 
-use num::BigUint;
+use num_bigint::BigUint;
 use seq::Fibonacci;
 use std::iter;
 

@@ -7,10 +7,12 @@
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
-extern crate num;
+extern crate num_bigint;
+extern crate num_traits;
 
 use integer::Integer;
-use num::{BigUint, FromPrimitive, ToPrimitive};
+use num_bigint::BigUint;
+use num_traits::{FromPrimitive, ToPrimitive};
 
 fn compute(max: u64, modulo: u64) -> u64 {
     let bu_m: BigUint = FromPrimitive::from_u64(modulo).unwrap();

@@ -7,9 +7,9 @@
 #[macro_use(problem)]
 extern crate common;
 extern crate cont_frac;
-extern crate num;
+extern crate num_integer;
 
-use num::Integer;
+use num_integer::Integer;
 
 fn solve() -> String {
     (1u32..10001)

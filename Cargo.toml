@@ -17,10 +17,16 @@ generic-matrix = "0.0"
 getopts = "0.2"
 glob = "0.2"
 itertools = "0.6"
-num = "0.1"
+num-bigint = {version = "0.1", default-features = false}
+num-integer = "0.1"
+num-iter = "0.1"
+num-rational = {version = "0.1", default-features = false}
+num-traits = "0.1"
 polynomial = "0.0"
 reqwest = "0.5"
-rustc-serialize = "0.3"
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
 term = "0.4"
 time = "0.1"
 topological-sort = "0.0"
@@ -31,6 +37,7 @@ path = "./pkg/cont_frac"
 
 [dependencies.integer]
 path = "./pkg/integer"
+features = ["bigint"]
 
 [dependencies.iter]
 path = "./pkg/iter"
@@ -45,7 +52,7 @@ path = "./pkg/prime"
 path = "./pkg/seq"
 
 [dev-dependencies]
-rand = "*"
+rand = "0.3"
 
 [lib]
 name = "common"

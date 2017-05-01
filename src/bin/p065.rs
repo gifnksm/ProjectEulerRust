@@ -7,9 +7,9 @@
 #[macro_use(problem)]
 extern crate common;
 extern crate cont_frac;
-extern crate num;
+extern crate num_bigint;
 
-use num::BigUint;
+use num_bigint::BigUint;
 
 fn napier_seq(i: u32) -> u32 {
     match i {

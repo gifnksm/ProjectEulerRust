@@ -4,12 +4,12 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate num;
+extern crate num_integer;
 #[macro_use(problem)]
 extern crate common;
 extern crate seq;
 
-use num::Integer;
+use num_integer::Integer;
 use seq::Fibonacci;
 
 fn compute(bound: u32) -> u32 {

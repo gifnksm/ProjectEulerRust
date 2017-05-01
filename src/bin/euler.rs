@@ -5,13 +5,11 @@
 #[macro_use]
 extern crate error_chain;
 extern crate glob;
-extern crate rustc_serialize as rustc_serialize;
+extern crate serde_json;
 extern crate common;
 
 use common::SolverResult;
 use glob::Paths;
-use rustc_serialize::Decodable;
-use rustc_serialize::json::{self, Json};
 use std::env;
 use std::io;
 use std::io::prelude::*;
@@ -26,10 +24,9 @@ const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
 error_chain! {
     foreign_links {
         Io(io::Error);
+        Json(serde_json::Error);
         Glob(glob::GlobError);
         GlobPattern(glob::PatternError);
-        JsonParser(json::ParserError);
-        JsonDecoder(json::DecoderError);
     }
 }
 
@@ -62,8 +59,8 @@ fn run_problem(path: &Path) -> Result<SolverResult<String>> {
         }
     }
 
-    let json = Json::from_reader(&mut &proc_out.stdout[..])?;
-    Ok(Decodable::decode(&mut json::Decoder::new(json))?)
+    let result = serde_json::from_reader(&mut &proc_out.stdout[..])?;
+    Ok(result)
 }
 
 fn run() -> Result<bool> {

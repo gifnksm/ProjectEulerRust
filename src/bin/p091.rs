@@ -6,9 +6,9 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_integer;
 
-use num::Integer;
+use num_integer::Integer;
 use std::cmp;
 
 fn count_right_at_o(x_max: u32, y_max: u32) -> u32 {

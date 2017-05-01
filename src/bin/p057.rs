@@ -6,9 +6,11 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_bigint;
+extern crate num_traits;
 
-use num::{BigUint, FromPrimitive};
+use num_bigint::BigUint;
+use num_traits::FromPrimitive;
 use std::mem;
 
 // FIXME: Use cont_frac?
@@ -61,7 +63,8 @@ problem!("153", solve);
 #[cfg(test)]
 mod tests {
     use super::Frac;
-    use num::{BigUint, FromPrimitive};
+    use num_bigint::BigUint;
+    use num_traits::FromPrimitive;
 
     #[test]
     fn frac() {

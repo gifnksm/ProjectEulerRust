@@ -11,10 +11,10 @@ extern crate common;
 #[macro_use]
 extern crate enum_primitive;
 extern crate generic_matrix as matrix;
-extern crate num;
+extern crate num_traits;
 
 use matrix::Matrix;
-use num::FromPrimitive;
+use num_traits::FromPrimitive;
 
 enum_from_primitive! {
     #[derive(Debug, Eq, PartialEq, Copy, Clone)]

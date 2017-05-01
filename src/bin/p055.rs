@@ -4,11 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate num;
+extern crate num_bigint;
+extern crate num_traits;
 #[macro_use(problem)]
 extern crate common;
 
-use num::{BigUint, FromPrimitive};
+use num_bigint::BigUint;
+use num_traits::FromPrimitive;
 use std::str::FromStr;
 
 fn reverse(n: &BigUint) -> BigUint {

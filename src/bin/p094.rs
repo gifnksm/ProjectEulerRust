@@ -7,10 +7,12 @@
 #[macro_use(problem)]
 extern crate common;
 extern crate cont_frac;
-extern crate num;
+extern crate num_bigint;
+extern crate num_traits;
 
 use cont_frac::PelRoots;
-use num::{BigUint, ToPrimitive};
+use num_bigint::BigUint;
+use num_traits::ToPrimitive;
 
 // S(a, b): triangle a-a-b's area
 // S(a, b) = b * sqrt(4a^2-b^2) / 4
