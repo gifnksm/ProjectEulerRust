@@ -14,47 +14,8 @@ rust:
   # - stable
 
 before_script:
-  - pip install 'travis-cargo<0.2' --user
-  - export PATH=$HOME/.local/bin:$PATH
-  - export KCOV="${TRAVIS_BUILD_DIR}/kcov/build/src/kcov --verify --exclude-pattern=/.cargo --coveralls-id=${TRAVIS_JOB_ID} ${TRAVIS_BUILD_DIR}/coverage"
-  - wget https://github.com/SimonKagstrom/kcov/archive/master.zip
-  - unzip master.zip
-  - mv kcov-master kcov
-  - mkdir kcov/build
-  - cd kcov/build
-  - cmake ..
-  - make
-  - cd ${TRAVIS_BUILD_DIR}
+  - cargo install cargo-kcov
+  - cargo kcov --print-install-kcov-sh | $SHELL
 
-script:
-  - set -e
-  - |
-      for PKG in $(echo ${SUB_PKGS}); do
-        travis-cargo -q build -- -p ${PKG}
-        travis-cargo -q test -- -p ${PKG} # run test and doctest
-        travis-cargo -q bench -- -p ${PKG}
-      done
-  - travis-cargo -q build -- --release
-  - travis-cargo -q run -- --release --bin euler
-  - travis-cargo -q test # run test and doctest
-  - travis-cargo -q bench
-  - travis-cargo -q --only ${DOC_UPLOAD_VERSION} doc
-
-after_success:
-  - travis-cargo -q --only ${DOC_UPLOAD_VERSION} doc-upload
-  # run tests again with gathering coverage information
-  # doc tests are not being run.
-  - |
-      for PKG in $(echo ${SUB_PKGS}); do
-        ${KCOV} ./target/debug/deps/${PKG}-*
-      done
-  - |
-      for EXE in ./target/debug/euler-* ./target/debug/p???-*; do
-        ${KCOV} ${EXE}
-      done
-
-env:
-  global:
-    - SUB_PKGS="cont_frac integer iter playing_card prime seq"
-    - TRAVIS_CARGO_NIGHTLY_FEATURE=""
-    - DOC_UPLOAD_VERSION=nightly
+script: .travis/script
+after_success: .travis/after_success

@@ -1,3 +1,5 @@
+[workspace]
+
 [package]
 authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
 description = "Solving Project Euler with Rust lang."
@@ -13,10 +15,10 @@ enum_primitive = "0.1"
 generic-matrix = "0.0"
 getopts = "0.2"
 glob = "0.2"
-itertools = "0.5"
+itertools = "0.6"
 num = "0.1"
 polynomial = "0.0"
-reqwest = "0.2.0"
+reqwest = "0.5"
 rustc-serialize = "0.3"
 term = "0.4"
 time = "0.1"
