@@ -26,19 +26,19 @@ before_script:
   - cd ${TRAVIS_BUILD_DIR}
 
 script:
-  - cargo test --all
-  - cargo build --release
-  - cargo run --release --bin euler
+  - cargo test ${CARGO_FLAGS} --all
+  - cargo build ${CARGO_FLAGS} --release
+  - cargo run ${CARGO_FLAGS} --release --bin euler
   # `cargo bench --all` is not supported: (rust-lang/cargo#2878)
-  # - cargo bench --all
+  # - cargo bench ${CARGO_FLAGS} --all
   - set -e
   - |
     for PKG in $(find pkg -mindepth 1 -maxdepth 1 -type d -printf '%f\n'); do
-      echo cargo bench -p ${PKG}
-      cargo bench -p ${PKG}
+      echo cargo bench ${CARGO_FLAGS} -p ${PKG}
+      cargo bench ${CARGO_FLAGS} -p ${PKG}
     done
-  - cargo bench
-  - cargo --only ${DOC_UPLOAD_VERSION} doc
+  - cargo bench ${CARGO_FLAGS}
+  - cargo doc ${CARGO_FLAGS}
 
 after_success:
   - travis-cargo --only ${DOC_UPLOAD_VERSION} doc-upload
@@ -58,3 +58,4 @@ env:
     - SUB_PKGS="cont_frac integer iter playing_card prime seq"
     - TRAVIS_CARGO_NIGHTLY_FEATURE=""
     - DOC_UPLOAD_VERSION=nightly
+    - CARGO_FLAGS="-j1"
