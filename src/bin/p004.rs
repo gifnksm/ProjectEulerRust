@@ -4,13 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate num;
+extern crate num_integer;
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
 
 use integer::Integer;
-use num::Integer as NumInteger;
+use num_integer::Integer as NumInteger;
 
 fn compute(min: u32, max: u32) -> u32 {
     let r = min..(max + 1);

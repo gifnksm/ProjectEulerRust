@@ -4,9 +4,13 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate num;
+extern crate num_integer;
+extern crate num_traits;
+#[cfg(test)]
+extern crate num_bigint;
 
-use num::{Integer, One};
+use num_integer::Integer;
+use num_traits::One;
 use std::mem;
 use std::ops::Add;
 
@@ -255,8 +259,8 @@ impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
 
 #[cfg(test)]
 mod tests {
-    use num::One;
-    use num::bigint::ToBigInt;
+    use num_bigint::ToBigInt;
+    use num_traits::One;
     use std::fmt::Debug;
     use std::ops::Add;
 

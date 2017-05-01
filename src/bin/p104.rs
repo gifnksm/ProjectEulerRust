@@ -6,11 +6,13 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+#[cfg(test)]
+extern crate num_bigint;
+extern crate num_integer;
 #[cfg(test)]
 extern crate seq;
 
-use num::Integer;
+use num_integer::Integer;
 
 fn is_pandigit(n: u64) -> bool {
     let mut hist = [false; 10];
@@ -123,7 +125,7 @@ problem!("329468", solve);
 #[cfg(test)]
 mod tests {
     use super::{FibFirst, FibLast};
-    use num::BigUint;
+    use num_bigint::BigUint;
     use seq::Fibonacci;
 
     #[test]

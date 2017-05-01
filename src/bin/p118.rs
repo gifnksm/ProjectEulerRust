@@ -8,12 +8,12 @@
 extern crate common;
 extern crate integer;
 extern crate iter;
-extern crate num;
+extern crate num_integer;
 extern crate prime;
 
 use integer::Integer;
 use iter::{BitCombination, Permutations};
-use num::Integer as NumInteger;
+use num_integer::Integer as NumInteger;
 use prime::PrimeSet;
 
 

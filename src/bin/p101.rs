@@ -4,13 +4,16 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate num;
+extern crate num_bigint;
+extern crate num_traits;
+extern crate num_rational;
 #[macro_use(problem)]
 extern crate common;
 extern crate polynomial;
 
-use num::{BigInt, FromPrimitive, One, Zero};
-use num::rational::Ratio;
+use num_bigint::BigInt;
+use num_rational::Ratio;
+use num_traits::{FromPrimitive, One, Zero};
 use polynomial::Polynomial;
 
 fn u(n: BigInt) -> BigInt {
@@ -62,7 +65,7 @@ fn solve() -> String {
     let un = u_to_vec(10, u);
     (0..10)
         .map(|i| bop(&un[..i + 1]))
-        .fold(num::zero::<BigInt>(), |acc, elt| acc + elt)
+        .fold(num_traits::zero::<BigInt>(), |acc, elt| acc + elt)
         .to_string()
 }
 
@@ -70,7 +73,8 @@ problem!("37076114526", solve);
 
 #[cfg(test)]
 mod tests {
-    use num::{BigInt, ToPrimitive};
+    use num_bigint::BigInt;
+    use num_traits::ToPrimitive;
 
     #[test]
     fn op() {

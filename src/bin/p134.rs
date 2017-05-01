@@ -90,10 +90,10 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_integer;
 extern crate prime;
 
-use num::Integer;
+use num_integer::Integer;
 use prime::PrimeSet;
 
 fn solve() -> String {

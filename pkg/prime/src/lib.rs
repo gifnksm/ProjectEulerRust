@@ -7,11 +7,13 @@
 #![feature(step_by)]
 #![cfg_attr(test, feature(test))]
 
-extern crate num;
+extern crate num_integer;
+extern crate num_traits;
 #[cfg(test)]
 extern crate test;
 
-use num::{FromPrimitive, Integer, One, Zero};
+use num_integer::Integer;
+use num_traits::{FromPrimitive, One, Zero};
 use std::{cmp, mem};
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -248,10 +250,10 @@ pub trait Factorize: Integer + FromPrimitive + Clone {
         let one: Self = One::one();
         self.factorize(ps)
             .map(|(base, exp)| {
-                let denom = base.clone() - one.clone();
-                (num::pow(base.clone(), (exp as usize) + 1) - one.clone()) / denom
-            })
-            .fold(num::one::<Self>(), |acc, n| acc * n)
+                     let denom = base.clone() - one.clone();
+                     (num_traits::pow(base.clone(), (exp as usize) + 1) - one.clone()) / denom
+                 })
+            .fold(num_traits::one::<Self>(), |acc, n| acc * n)
     }
 
     /// Calculates the number of proper positive divisors.
@@ -379,12 +381,10 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     pub fn into_integer(self) -> T {
         self.map
             .into_iter()
-            .fold::<T, _>(One::one(), |prod, (base, exp)| {
-                if exp > 0 {
-                    prod * num::pow(base, exp as usize)
-                } else {
-                    prod / num::pow(base, (-exp) as usize)
-                }
+            .fold::<T, _>(One::one(), |prod, (base, exp)| if exp > 0 {
+                prod * num_traits::pow(base, exp as usize)
+            } else {
+                prod / num_traits::pow(base, (-exp) as usize)
             })
     }
 
@@ -441,7 +441,10 @@ mod tests {
     fn iter() {
         let p1 = PrimeSet::new_empty();
         assert_eq!(super::SMALL_PRIMES,
-                   &p1.iter().take(super::SMALL_PRIMES.len()).collect::<Vec<_>>()[..])
+                   &p1.iter()
+                        .take(super::SMALL_PRIMES.len())
+                        .collect::<Vec<_>>()
+                        [..])
     }
 
     #[test]
@@ -554,9 +557,9 @@ mod bench {
     #[bench]
     fn get_below_5000th(bh: &mut Bencher) {
         bh.iter(|| {
-            let ps = PrimeSet::new();
-            for _p in ps.iter().take(5000) {}
-        });
+                    let ps = PrimeSet::new();
+                    for _p in ps.iter().take(5000) {}
+                });
     }
 
 }

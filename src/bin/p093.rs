@@ -7,11 +7,12 @@
 #[macro_use(problem)]
 extern crate common;
 extern crate iter;
-extern crate num;
+extern crate num_traits;
+extern crate num_rational;
 
 use iter::{BitCombination, CombinationOverlap, Permutations};
-use num::{Signed, Zero};
-use num::rational::Ratio;
+use num_rational::Ratio;
+use num_traits::{Signed, Zero};
 
 #[derive(Copy, Clone, Eq, PartialEq)]
 enum Op {

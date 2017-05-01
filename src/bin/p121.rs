@@ -6,11 +6,16 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_bigint;
+extern crate num_integer;
+extern crate num_rational;
+extern crate num_traits;
 extern crate polynomial;
 
-use num::{BigUint, FromPrimitive, Integer, One};
-use num::rational::Ratio;
+use num_bigint::BigUint;
+use num_integer::Integer;
+use num_rational::Ratio;
+use num_traits::{FromPrimitive, One};
 use polynomial::Polynomial;
 
 // turn  blue    red
@@ -42,11 +47,11 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: usize) -
                  let red = Ratio::new(t, denom);
                  Polynomial::new(vec![blue, red])
              })
-        .fold(num::one::<Polynomial<_>>(), |acc, elt| acc * elt)
+        .fold(num_traits::one::<Polynomial<_>>(), |acc, elt| acc * elt)
         .data()
         .iter()
         .take((turns + 1) / 2)
-        .fold(num::zero::<Ratio<T>>(), |acc, elt| acc + elt)
+        .fold(num_traits::zero::<Ratio<T>>(), |acc, elt| acc + elt)
 }
 
 fn max_prize<T: Integer + Clone>(p: Ratio<T>) -> T {
@@ -62,7 +67,7 @@ problem!("2269", solve);
 
 #[cfg(test)]
 mod tests {
-    use num::rational::Ratio;
+    use num_rational::Ratio;
 
     #[test]
     fn probability_of_player_win() {

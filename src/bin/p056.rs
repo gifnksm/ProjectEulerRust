@@ -6,13 +6,16 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_bigint;
+extern crate num_iter;
+extern crate num_traits;
 extern crate itertools;
 
-use num::{BigUint, FromPrimitive, One};
+use num_bigint::BigUint;
+use num_traits::{FromPrimitive, One};
 
 fn compute(a: u32, b: u32) -> u32 {
-    num::range(One::one(), FromPrimitive::from_u32(a).unwrap())
+    num_iter::range(One::one(), FromPrimitive::from_u32(a).unwrap())
         .map(|a: BigUint| {
             itertools::unfold(One::one(), |n| {
                 (*n) = &a * (&*n);

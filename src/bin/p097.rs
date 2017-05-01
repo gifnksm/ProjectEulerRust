@@ -6,9 +6,11 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_bigint;
+extern crate num_traits;
 
-use num::{BigUint, FromPrimitive, One, Zero};
+use num_bigint::BigUint;
+use num_traits::{FromPrimitive, One, Zero};
 
 fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
     let two: BigUint = FromPrimitive::from_u32(2).unwrap();

@@ -4,16 +4,19 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate num;
+extern crate num_iter;
+extern crate num_traits;
+extern crate num_bigint;
 #[macro_use(problem)]
 extern crate common;
 
-use num::{BigUint, FromPrimitive};
+use num_bigint::BigUint;
+use num_traits::FromPrimitive;
 
 fn compute(max: u32) -> u32 {
-    num::range::<BigUint>(FromPrimitive::from_u32(1).unwrap(),
-                          FromPrimitive::from_u32(max + 1).unwrap())
-            .fold(num::one::<BigUint>(), |acc, elt| acc * elt)
+    num_iter::range::<BigUint>(FromPrimitive::from_u32(1).unwrap(),
+                               FromPrimitive::from_u32(max + 1).unwrap())
+            .fold(num_traits::one::<BigUint>(), |acc, elt| acc * elt)
             .to_string()
             .chars()
             .filter_map(|c| c.to_digit(10))

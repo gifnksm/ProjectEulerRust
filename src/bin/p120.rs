@@ -6,9 +6,9 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_integer;
 
-use num::Integer;
+use num_integer::Integer;
 
 // f(a, n) := (a-1)^n + (a+1)^n
 //

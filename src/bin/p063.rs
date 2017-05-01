@@ -6,9 +6,11 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_bigint;
+extern crate num_traits;
 
-use num::{BigUint, FromPrimitive};
+use num_bigint::BigUint;
+use num_traits::FromPrimitive;
 
 fn solve() -> String {
     let mut cnt = 1; // a == 1

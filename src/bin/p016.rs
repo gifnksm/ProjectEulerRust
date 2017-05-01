@@ -4,15 +4,17 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate num;
+extern crate num_bigint;
+extern crate num_traits;
 #[macro_use(problem)]
 extern crate common;
 
-use num::{BigInt, FromPrimitive};
+use num_bigint::BigInt;
+use num_traits::FromPrimitive;
 
 fn compute(base: u32, exp: u32) -> u32 {
     let base: BigInt = FromPrimitive::from_u32(base).unwrap();
-    num::pow(base, exp as usize)
+    num_traits::pow(base, exp as usize)
         .to_string()
         .chars()
         .filter_map(|c| c.to_digit(10))

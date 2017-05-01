@@ -1,5 +1,2 @@
 /target
-pkg/*/target
-pkg/*/Cargo.lock
-
 /.cache

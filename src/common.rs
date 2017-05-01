@@ -5,14 +5,14 @@
 #[macro_use]
 extern crate error_chain;
 extern crate getopts;
-extern crate num;
+extern crate num_integer;
 extern crate reqwest;
 extern crate rustc_serialize;
 extern crate term;
 extern crate time;
 
 use getopts::Options;
-use num::Integer;
+use num_integer::Integer;
 use rustc_serialize::{Encodable, json};
 use std::{env, fmt, io, process};
 use std::borrow::Cow;

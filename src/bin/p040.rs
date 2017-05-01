@@ -7,10 +7,10 @@
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
-extern crate num;
+extern crate num_integer;
 
 use integer::Integer;
-use num::Integer as NumInteger;
+use num_integer::Integer as NumInteger;
 
 struct Group {
     num_len: usize,

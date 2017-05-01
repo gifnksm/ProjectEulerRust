@@ -6,9 +6,9 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_integer;
 
-use num::Integer;
+use num_integer::Integer;
 
 // AB / AC => NG (10A+B : 10A+C = B : C => 10AC+BC = 10AB+BC => 10A(C-B) = 0 -> trivial)
 // BA / CA => NG

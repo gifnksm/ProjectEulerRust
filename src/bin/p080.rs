@@ -4,13 +4,15 @@
         unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate num;
+extern crate num_bigint;
+extern crate num_traits;
 #[macro_use(problem)]
 extern crate common;
 extern crate iter;
 
 use iter::Difference;
-use num::{BigInt, FromPrimitive, Zero};
+use num_bigint::BigInt;
+use num_traits::{FromPrimitive, Zero};
 
 fn sqrt_newton_raphson(n: u32, precision: usize) -> String {
     assert!(precision >= 1);
@@ -19,7 +21,7 @@ fn sqrt_newton_raphson(n: u32, precision: usize) -> String {
     let _10: BigInt = FromPrimitive::from_u32(10).unwrap();
     let n: BigInt = FromPrimitive::from_u32(n).unwrap();
 
-    let ds = num::pow(_10.clone(), precision - 1);
+    let ds = num_traits::pow(_10.clone(), precision - 1);
 
     let shift = 4 * precision; // log_2 10 = 3.3... < 4
     let _1_2 = &_1 << (2 * shift);

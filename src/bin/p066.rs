@@ -8,10 +8,10 @@
 extern crate common;
 extern crate cont_frac;
 extern crate iter;
-extern crate num;
+extern crate num_bigint;
 
 use iter::Difference;
-use num::BigUint;
+use num_bigint::BigUint;
 
 fn solve() -> String {
     let ns = 1..;

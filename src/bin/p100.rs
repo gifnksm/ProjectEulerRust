@@ -6,11 +6,15 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num;
+extern crate num_bigint;
+extern crate num_integer;
+extern crate num_traits;
 extern crate cont_frac;
 
 use cont_frac::PelNegRoots;
-use num::{BigUint, Integer, One};
+use num_bigint::BigUint;
+use num_integer::Integer;
+use num_traits::One;
 
 // b/s * (b-1)/(s-1) = 1/2
 // 2b(b - 1) = s * (s-1)
@@ -40,7 +44,8 @@ problem!("756872327473", solve);
 
 #[cfg(test)]
 mod tests {
-    use num::{BigUint, FromPrimitive};
+    use num_bigint::BigUint;
+    use num_traits::FromPrimitive;
 
     #[test]
     fn twenty_one() {

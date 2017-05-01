@@ -5,4 +5,8 @@ authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
 workspace = "../../"
 
 [dependencies]
-num = "*"
+num-integer = "0.1"
+num-traits = "0.1"
+
+[dev-dependencies]
+num-bigint = "0.1"
