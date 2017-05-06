@@ -10,6 +10,10 @@ readme = "README.md"
 repository = "https://github.com/gifnksm/ProjectEulerRust"
 version = "0.0.1"
 
+[lib]
+name = "common"
+crate-type = ["dylib"]
+
 [dependencies]
 enum_primitive = "0.1"
 error-chain = "0.10"
@@ -54,5 +58,3 @@ path = "./pkg/seq"
 [dev-dependencies]
 rand = "0.3"
 
-[lib]
-name = "common"
