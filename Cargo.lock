@@ -36,7 +36,7 @@ dependencies = [
  "serde_json 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "term 0.4.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "time 0.1.37 (registry+https://github.com/rust-lang/crates.io-index)",
- "topological-sort 0.0.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "topological-sort 0.0.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "union-find 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -661,7 +661,7 @@ dependencies = [
 
 [[package]]
 name = "topological-sort"
-version = "0.0.7"
+version = "0.0.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -807,7 +807,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum tempdir 0.3.5 (registry+https://github.com/rust-lang/crates.io-index)" = "87974a6f5c1dfb344d733055601650059a3363de2a6104819293baff662132d6"
 "checksum term 0.4.5 (registry+https://github.com/rust-lang/crates.io-index)" = "d168af3930b369cfe245132550579d47dfd873d69470755a19c2c6568dbbd989"
 "checksum time 0.1.37 (registry+https://github.com/rust-lang/crates.io-index)" = "ffd7ccbf969a892bf83f1e441126968a07a3941c24ff522a26af9f9f4585d1a3"
-"checksum topological-sort 0.0.7 (registry+https://github.com/rust-lang/crates.io-index)" = "e2ce1efd1eeb78b7397db80907e030ba617edb4f8266f2a3accbfd8d5fec8c77"
+"checksum topological-sort 0.0.8 (registry+https://github.com/rust-lang/crates.io-index)" = "2dce34b66ba61ac9e5cd5b2e536c1b2e5a644875102d4a50ec2ee68d8219aa56"
 "checksum traitobject 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "efd1f82c56340fdf16f2a953d7bda4f8fdffba13d93b00844c25572110b26079"
 "checksum typeable 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "1410f6f91f21d1612654e7cc69193b0334f909dcf2c790c4826254fbb86f8887"
 "checksum unicase 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "13a5906ca2b98c799f4b1ab4557b76367ebd6ae5ef14930ec841c74aed5f3764"
