@@ -14,10 +14,10 @@ fn solve() -> String {
         .map(|mut set| {
             match (set.contains(6), set.contains(9)) {
                 (false, true) => {
-                    set.insert(6);
+                    let _ = set.insert(6);
                 }
                 (true, false) => {
-                    set.insert(9);
+                    let _ = set.insert(9);
                 }
                 _ => {}
             }

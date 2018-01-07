@@ -2,7 +2,7 @@
 
 #![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
         unused_results)]
-#![feature(step_by)]
+#![feature(iterator_step_by)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -37,7 +37,7 @@ fn create_rad_vec(n_limit: u64) -> Vec<Rad> {
             continue;
         }
 
-        for kp in (p..).step_by(p).take_while(|&kp| kp < n_limit) {
+        for kp in (p..).step_by(p as usize).take_while(|&kp| kp < n_limit) {
             rad_vec[kp as usize].0 *= p;
             rad_vec[kp as usize].2.push(p);
         }

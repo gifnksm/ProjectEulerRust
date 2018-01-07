@@ -2,7 +2,7 @@
 
 #![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
         unused_results)]
-#![feature(step_by)]
+#![feature(iterator_step_by)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -19,7 +19,7 @@ fn solve() -> String {
     for m in 2..(limit / 2).sqrt() {
         for (a, b, c) in PrimitivePythagoreans::new(m) {
             let sum = a + b + c;
-            for s in (sum..(limit + 1)).step_by(sum) {
+            for s in (sum..(limit + 1)).step_by(sum as usize) {
                 v[s as usize] += 1;
             }
         }

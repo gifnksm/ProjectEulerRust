@@ -42,9 +42,9 @@ fn perm_exact(cnt: usize) -> HashSet<u64> {
         };
 
         if c == cnt {
-            set.insert(n);
+            let _ = set.insert(n);
         } else if c == cnt + 1 {
-            set.remove(&n);
+            let _ = set.remove(&n);
         }
     }
 

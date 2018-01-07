@@ -2,7 +2,7 @@
 
 #![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
-#![feature(step_by)]
+#![feature(iterator_step_by)]
 #![cfg_attr(test, feature(test))]
 
 extern crate num_integer;

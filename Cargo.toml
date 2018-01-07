@@ -12,6 +12,7 @@ version = "0.0.1"
 
 [lib]
 name = "common"
+path = "src/common.rs"
 crate-type = ["dylib"]
 
 [dependencies]

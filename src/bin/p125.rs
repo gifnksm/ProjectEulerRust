@@ -24,7 +24,7 @@ fn palindromic_sum_set(limit: u32) -> HashSet<u32> {
             }
 
             if s.is_palindromic(10) {
-                set.insert(s);
+                let _ = set.insert(s);
             }
             sq_sums[j] = s;
         }

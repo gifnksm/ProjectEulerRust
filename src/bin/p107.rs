@@ -34,7 +34,7 @@ fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {
         if uf.find(i) == uf.find(j) {
             saving += n;
         } else {
-            uf.union(i, j);
+            let _ = uf.union(i, j);
         }
     }
 

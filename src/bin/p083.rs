@@ -45,7 +45,7 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
     let mut parent = vec![vec![Point { x: w, y: h }; w]; h];
 
     dist[start.y][start.x] = mat[start.y][start.x];
-    open.insert(start);
+    let _ = open.insert(start);
 
     loop {
         if open.is_empty() {
@@ -59,8 +59,8 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
         if min_pt == goal {
             break;
         }
-        open.remove(&min_pt);
-        closed.insert(min_pt);
+        let _ = open.remove(&min_pt);
+        let _ = closed.insert(min_pt);
 
         let mut ms = Vec::new();
         if min_pt.x > 0 {
@@ -99,16 +99,16 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
             }
             if closed.contains(&pt) {
                 if new_dist < dist[pt.y][pt.x] {
-                    closed.remove(&pt);
+                    let _ = closed.remove(&pt);
                     dist[pt.y][pt.x] = cmp::min(dist[pt.y][pt.x], new_dist);
                     parent[pt.y][pt.x] = min_pt;
-                    open.insert(pt);
+                    let _ = open.insert(pt);
                 }
                 continue;
             }
             dist[pt.y][pt.x] = cmp::min(dist[pt.y][pt.x], new_dist);
             parent[pt.y][pt.x] = min_pt;
-            open.insert(pt);
+            let _ = open.insert(pt);
         }
     }
 

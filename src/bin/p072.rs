@@ -2,7 +2,7 @@
 
 #![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
         unused_results)]
-#![feature(step_by)]
+#![feature(iterator_step_by)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -20,7 +20,7 @@ fn compute(limit: u64) -> u64 {
         if p > limit {
             break;
         }
-        for n in (p..limit + 1).step_by(p) {
+        for n in (p..limit + 1).step_by(p as usize) {
             v[n as usize] = (v[n as usize] * (p - 1)) / p;
         }
     }

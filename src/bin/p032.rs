@@ -40,7 +40,7 @@ fn compute() -> u32 {
             let mut c_digits = c.into_digits(radix).collect::<Vec<_>>();
             c_digits.sort();
             if r2 == c_digits {
-                products.insert(c);
+                let _ = products.insert(c);
             }
         }
     }
@@ -59,7 +59,7 @@ fn compute() -> u32 {
             let mut c_digits = c.into_digits(radix).collect::<Vec<_>>();
             c_digits.sort();
             if r2 == c_digits {
-                products.insert(c);
+                let _ = products.insert(c);
             }
         }
     }

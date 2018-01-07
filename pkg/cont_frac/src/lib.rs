@@ -32,7 +32,7 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
             break;
         }
 
-        set.insert((a, pqr));
+        let _ = set.insert((a, pqr));
         if set.len() == 1 {
             a0 = a;
         } else {

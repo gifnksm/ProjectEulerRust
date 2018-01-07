@@ -21,7 +21,7 @@ fn compute(a_max: u32, b_max: u32) -> u32 {
                 .iter()
                 .map(|&(base, exp)| (base, (exp) as u32 * b))
                 .collect::<Vec<_>>();
-            set.insert(ab_factor);
+            let _ = set.insert(ab_factor);
         }
     }
     set.len() as u32

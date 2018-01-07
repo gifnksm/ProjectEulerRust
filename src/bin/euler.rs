@@ -67,7 +67,7 @@ fn run_problem(path: &Path) -> Result<SolverResult<String>> {
 fn run() -> Result<bool> {
     let dir_path = {
         let mut path = env::current_exe()?;
-        path.pop();
+        let _ = path.pop();
         path
     };
     let mut out = io::stdout();
