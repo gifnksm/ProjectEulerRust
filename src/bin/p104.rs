@@ -1,8 +1,7 @@
 //! [Problem 104](https://projecteuler.net/problem=104) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -131,9 +130,8 @@ mod tests {
     #[test]
     fn fib() {
         let len = 9;
-        let it =
-            Fibonacci::<BigUint>::new().zip(FibFirst::new(len as u32).zip(FibLast::new(len as
-                                                                                       u32)));
+        let it = Fibonacci::<BigUint>::new()
+            .zip(FibFirst::new(len as u32).zip(FibLast::new(len as u32)));
         for (bu, (fst, lst)) in it.take(100) {
             let bus = bu.to_string();
             if bus.len() < len {

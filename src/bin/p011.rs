@@ -1,8 +1,7 @@
 //! [Problem 11](https://projecteuler.net/problem=11) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -35,10 +34,10 @@ fn compute(prod_len: usize) -> u32 {
         .trim()
         .lines()
         .map(|line| {
-                 line.split_whitespace()
-                     .filter_map(|s| s.parse().ok())
-                     .collect()
-             })
+            line.split_whitespace()
+                .filter_map(|s| s.parse().ok())
+                .collect()
+        })
         .collect();
 
     let w = grid[0].len();
@@ -51,34 +50,34 @@ fn compute(prod_len: usize) -> u32 {
     lines.extend((0..w).map(|x| (0..h).map(|y| (x, y)).collect()));
     // top 2 right diagonal
     lines.extend((0..w).map(|i| {
-                                let (x0, y0) = (i, 0);
-                                (0..w - x0).map(|j| (x0 + j, y0 + j)).collect()
-                            }));
+        let (x0, y0) = (i, 0);
+        (0..w - x0).map(|j| (x0 + j, y0 + j)).collect()
+    }));
     // left 2 bottom diagonal
     lines.extend((0..h - 1).map(|i| {
-                                    let (x0, y0) = (0, i + 1);
-                                    (0..h - y0).map(|j| (x0 + j, y0 + j)).collect()
-                                }));
+        let (x0, y0) = (0, i + 1);
+        (0..h - y0).map(|j| (x0 + j, y0 + j)).collect()
+    }));
     // top 2 left diagonal
     lines.extend((0..w).map(|i| {
-                                let (x0, y0) = (i, 0);
-                                (0..x0 + 1).map(|j| (x0 - j, y0 + j)).collect()
-                            }));
+        let (x0, y0) = (i, 0);
+        (0..x0 + 1).map(|j| (x0 - j, y0 + j)).collect()
+    }));
     // right 2 bottom diagonal
     lines.extend((0..h - 1).map(|i| {
-                                    let (x0, y0) = (w - 1, i + 1);
-                                    (0..h - y0).map(|j| (x0 - j, y0 + j)).collect()
-                                }));
+        let (x0, y0) = (w - 1, i + 1);
+        (0..h - y0).map(|j| (x0 - j, y0 + j)).collect()
+    }));
 
     lines
         .iter()
         .map(|cells| {
-                 cells
-                     .windows(prod_len)
-                     .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
-                     .max()
-                     .unwrap_or(0)
-             })
+            cells
+                .windows(prod_len)
+                .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
+                .max()
+                .unwrap_or(0)
+        })
         .max()
         .unwrap()
 }

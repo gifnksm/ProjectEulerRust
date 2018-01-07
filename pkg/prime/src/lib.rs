@@ -1,9 +1,7 @@
 //! Prime number generator and related functions.
 
-#![warn(bad_style, missing_docs,
-        unused, unused_extern_crates, unused_import_braces,
+#![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
-
 #![feature(step_by)]
 #![cfg_attr(test, feature(test))]
 
@@ -22,16 +20,17 @@ use std::hash::Hash;
 use std::iter::IntoIterator;
 use std::rc::Rc;
 
-const SMALL_PRIMES: &'static [u64] =
-    &[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89,
-      97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181,
-      191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281,
-      283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397,
-      401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503,
-      509, 521, 523, 541, 547, 557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619,
-      631, 641, 643, 647, 653, 659, 661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743,
-      751, 757, 761, 769, 773, 787, 797, 809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863,
-      877, 881, 883, 887, 907, 911, 919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997];
+const SMALL_PRIMES: &'static [u64] = &[
+    2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
+    101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
+    197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307,
+    311, 313, 317, 331, 337, 347, 349, 353, 359, 367, 373, 379, 383, 389, 397, 401, 409, 419, 421,
+    431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521, 523, 541, 547,
+    557, 563, 569, 571, 577, 587, 593, 599, 601, 607, 613, 617, 619, 631, 641, 643, 647, 653, 659,
+    661, 673, 677, 683, 691, 701, 709, 719, 727, 733, 739, 743, 751, 757, 761, 769, 773, 787, 797,
+    809, 811, 821, 823, 827, 829, 839, 853, 857, 859, 863, 877, 881, 883, 887, 907, 911, 919, 929,
+    937, 941, 947, 953, 967, 971, 977, 983, 991, 997,
+];
 
 const INITIAL_CAPACITY: usize = 10000;
 
@@ -194,7 +193,9 @@ impl PrimeSet {
     }
 
     fn from_inner(inner: PrimeInner) -> PrimeSet {
-        PrimeSet { data: Rc::new(RefCell::new(inner)) }
+        PrimeSet {
+            data: Rc::new(RefCell::new(inner)),
+        }
     }
 }
 
@@ -250,9 +251,9 @@ pub trait Factorize: Integer + FromPrimitive + Clone {
         let one: Self = One::one();
         self.factorize(ps)
             .map(|(base, exp)| {
-                     let denom = base.clone() - one.clone();
-                     (num_traits::pow(base.clone(), (exp as usize) + 1) - one.clone()) / denom
-                 })
+                let denom = base.clone() - one.clone();
+                (num_traits::pow(base.clone(), (exp as usize) + 1) - one.clone()) / denom
+            })
             .fold(num_traits::one::<Self>(), |acc, n| acc * n)
     }
 
@@ -381,10 +382,12 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     pub fn into_integer(self) -> T {
         self.map
             .into_iter()
-            .fold::<T, _>(One::one(), |prod, (base, exp)| if exp > 0 {
-                prod * num_traits::pow(base, exp as usize)
-            } else {
-                prod / num_traits::pow(base, (-exp) as usize)
+            .fold::<T, _>(One::one(), |prod, (base, exp)| {
+                if exp > 0 {
+                    prod * num_traits::pow(base, exp as usize)
+                } else {
+                    prod / num_traits::pow(base, (-exp) as usize)
+                }
             })
     }
 
@@ -440,11 +443,12 @@ mod tests {
     #[test]
     fn iter() {
         let p1 = PrimeSet::new_empty();
-        assert_eq!(super::SMALL_PRIMES,
-                   &p1.iter()
-                        .take(super::SMALL_PRIMES.len())
-                        .collect::<Vec<_>>()
-                        [..])
+        assert_eq!(
+            super::SMALL_PRIMES,
+            &p1.iter()
+                .take(super::SMALL_PRIMES.len())
+                .collect::<Vec<_>>()[..]
+        )
     }
 
     #[test]
@@ -508,9 +512,26 @@ mod tests {
 
     #[test]
     fn num_of_divisor() {
-        let pairs = &[(0, 0), (1, 1), (2, 2), (3, 2), (4, 3), (5, 2), (6, 4), (7, 2), (8, 4),
-                      (9, 3), (10, 4), (11, 2), (12, 6), (24, 8), (36, 9), (48, 10), (60, 12),
-                      (50, 6)];
+        let pairs = &[
+            (0, 0),
+            (1, 1),
+            (2, 2),
+            (3, 2),
+            (4, 3),
+            (5, 2),
+            (6, 4),
+            (7, 2),
+            (8, 4),
+            (9, 3),
+            (10, 4),
+            (11, 2),
+            (12, 6),
+            (24, 8),
+            (36, 9),
+            (48, 10),
+            (60, 12),
+            (50, 6),
+        ];
 
         let ps = PrimeSet::new();
         for &(n, num_div) in pairs {
@@ -521,9 +542,26 @@ mod tests {
 
     #[test]
     fn sum_of_divisor() {
-        let pairs = &[(0, 0), (1, 1), (2, 3), (3, 4), (4, 7), (5, 6), (6, 12), (7, 8), (8, 15),
-                      (9, 13), (10, 18), (11, 12), (12, 28), (24, 60), (36, 91), (48, 124),
-                      (60, 168), (50, 93)];
+        let pairs = &[
+            (0, 0),
+            (1, 1),
+            (2, 3),
+            (3, 4),
+            (4, 7),
+            (5, 6),
+            (6, 12),
+            (7, 8),
+            (8, 15),
+            (9, 13),
+            (10, 18),
+            (11, 12),
+            (12, 28),
+            (24, 60),
+            (36, 91),
+            (48, 124),
+            (60, 168),
+            (50, 93),
+        ];
 
         let ps = PrimeSet::new();
         for &(n, sum_div) in pairs {
@@ -557,9 +595,9 @@ mod bench {
     #[bench]
     fn get_below_5000th(bh: &mut Bencher) {
         bh.iter(|| {
-                    let ps = PrimeSet::new();
-                    for _p in ps.iter().take(5000) {}
-                });
+            let ps = PrimeSet::new();
+            for _p in ps.iter().take(5000) {}
+        });
     }
 
 }

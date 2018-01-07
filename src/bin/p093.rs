@@ -1,14 +1,13 @@
 //! [Problem 93](https://projecteuler.net/problem=93) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
 extern crate iter;
-extern crate num_traits;
 extern crate num_rational;
+extern crate num_traits;
 
 use iter::{BitCombination, CombinationOverlap, Permutations};
 use num_rational::Ratio;
@@ -28,7 +27,9 @@ struct Nums {
 
 impl Nums {
     fn new() -> Nums {
-        Nums { comb: BitCombination::new(4, 9) }
+        Nums {
+            comb: BitCombination::new(4, 9),
+        }
     }
 }
 
@@ -36,15 +37,13 @@ impl Iterator for Nums {
     type Item = [u32; 4];
 
     fn next(&mut self) -> Option<[u32; 4]> {
-        self.comb
-            .next()
-            .map(|bits| {
-                     let mut result = [0; 4];
-                     for (i, n) in bits.iter().enumerate() {
-                         result[i] = (n + 1) as u32;
-                     }
-                     result
-                 })
+        self.comb.next().map(|bits| {
+            let mut result = [0; 4];
+            for (i, n) in bits.iter().enumerate() {
+                result[i] = (n + 1) as u32;
+            }
+            result
+        })
     }
 }
 
@@ -98,63 +97,45 @@ fn evaluate(num: &[u32], op: &[Op], f: &mut FnMut(Ratio<i32>)) {
         }
         4 => {
             let a = Ratio::from_integer(num[0] as i32);
-            evaluate(&[num[1], num[2], num[3]],
-                     &op[1..],
-                     &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[1], num[2], num[3]], &op[1..], &mut |b| {
+                apply(a, b, op[0], f)
+            });
 
             let a = Ratio::from_integer(num[1] as i32);
-            evaluate(&[num[0], num[2], num[3]],
-                     &op[1..],
-                     &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[0], num[2], num[3]], &op[1..], &mut |b| {
+                apply(a, b, op[0], f)
+            });
 
             let a = Ratio::from_integer(num[2] as i32);
-            evaluate(&[num[0], num[1], num[3]],
-                     &op[1..],
-                     &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[0], num[1], num[3]], &op[1..], &mut |b| {
+                apply(a, b, op[0], f)
+            });
 
             let a = Ratio::from_integer(num[3] as i32);
-            evaluate(&[num[0], num[1], num[2]],
-                     &op[1..],
-                     &mut |b| apply(a, b, op[0], f));
+            evaluate(&[num[0], num[1], num[2]], &op[1..], &mut |b| {
+                apply(a, b, op[0], f)
+            });
 
-            evaluate(&[num[0], num[1]],
-                     &[op[1]],
-                     &mut |a| {
-                              evaluate(&[num[2], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
-                          });
-            evaluate(&[num[0], num[2]],
-                     &[op[1]],
-                     &mut |a| {
-                              evaluate(&[num[1], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
-                          });
-            evaluate(&[num[0], num[3]],
-                     &[op[1]],
-                     &mut |a| {
-                              evaluate(&[num[1], num[2]], &[op[2]], &mut |b| apply(a, b, op[0], f))
-                          });
+            evaluate(&[num[0], num[1]], &[op[1]], &mut |a| {
+                evaluate(&[num[2], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
+            });
+            evaluate(&[num[0], num[2]], &[op[1]], &mut |a| {
+                evaluate(&[num[1], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
+            });
+            evaluate(&[num[0], num[3]], &[op[1]], &mut |a| {
+                evaluate(&[num[1], num[2]], &[op[2]], &mut |b| apply(a, b, op[0], f))
+            });
 
             if op[1] != op[2] {
-                evaluate(&[num[1], num[2]],
-                         &[op[1]],
-                         &mut |a| {
-                                  evaluate(&[num[0], num[3]],
-                                           &[op[2]],
-                                           &mut |b| apply(a, b, op[0], f))
-                              });
-                evaluate(&[num[1], num[3]],
-                         &[op[1]],
-                         &mut |a| {
-                                  evaluate(&[num[0], num[2]],
-                                           &[op[2]],
-                                           &mut |b| apply(a, b, op[0], f))
-                              });
-                evaluate(&[num[2], num[3]],
-                         &[op[1]],
-                         &mut |a| {
-                                  evaluate(&[num[0], num[1]],
-                                           &[op[2]],
-                                           &mut |b| apply(a, b, op[0], f))
-                              });
+                evaluate(&[num[1], num[2]], &[op[1]], &mut |a| {
+                    evaluate(&[num[0], num[3]], &[op[2]], &mut |b| apply(a, b, op[0], f))
+                });
+                evaluate(&[num[1], num[3]], &[op[1]], &mut |a| {
+                    evaluate(&[num[0], num[2]], &[op[2]], &mut |b| apply(a, b, op[0], f))
+                });
+                evaluate(&[num[2], num[3]], &[op[1]], &mut |a| {
+                    evaluate(&[num[0], num[1]], &[op[2]], &mut |b| apply(a, b, op[0], f))
+                });
             }
         }
         _ => unreachable!(),
@@ -164,21 +145,18 @@ fn evaluate(num: &[u32], op: &[Op], f: &mut FnMut(Ratio<i32>)) {
 fn count_seqlen(num_set: &[u32; 4]) -> u32 {
     let mut set = [false; 3025];
 
-    for op_set in CombinationOverlap::new(&[Op::Add, Op::Sub, Op::Mul, Op::Div],
-                                          num_set.len() - 1) {
+    for op_set in CombinationOverlap::new(&[Op::Add, Op::Sub, Op::Mul, Op::Div], num_set.len() - 1)
+    {
         for (ops, _) in Permutations::new(&op_set[..], op_set.len()) {
-            evaluate(num_set,
-                     &ops,
-                     &mut |n| if n.is_integer() && n.numer().is_positive() {
-                              set[n.to_integer() as usize] = true;
-                          })
+            evaluate(num_set, &ops, &mut |n| {
+                if n.is_integer() && n.numer().is_positive() {
+                    set[n.to_integer() as usize] = true;
+                }
+            })
         }
     }
 
-    (1..)
-        .take_while(|&i| set[i as usize])
-        .last()
-        .unwrap_or(0)
+    (1..).take_while(|&i| set[i as usize]).last().unwrap_or(0)
 }
 
 fn solve() -> String {

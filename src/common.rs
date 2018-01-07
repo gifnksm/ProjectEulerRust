@@ -1,15 +1,14 @@
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use]
 extern crate error_chain;
 extern crate getopts;
 extern crate num_integer;
 extern crate reqwest;
+extern crate serde;
 #[macro_use]
 extern crate serde_derive;
-extern crate serde;
 extern crate serde_json;
 extern crate term;
 extern crate time;
@@ -158,10 +157,11 @@ impl<'a> Solver<'a> {
         }
     }
 
-    pub fn new_with_file(answer: &'a str,
-                         file_name: &'a str,
-                         solver: fn(File) -> io::Result<String>)
-                         -> Solver<'a> {
+    pub fn new_with_file(
+        answer: &'a str,
+        file_name: &'a str,
+        solver: fn(File) -> io::Result<String>,
+    ) -> Solver<'a> {
         Solver {
             answer: answer,
             solver: SolverFn::FnWithFile(file_name, solver),

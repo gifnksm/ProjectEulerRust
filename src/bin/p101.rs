@@ -1,14 +1,13 @@
 //! [Problem 101](https://projecteuler.net/problem=101) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
-extern crate num_bigint;
-extern crate num_traits;
-extern crate num_rational;
 #[macro_use(problem)]
 extern crate common;
+extern crate num_bigint;
+extern crate num_rational;
+extern crate num_traits;
 extern crate polynomial;
 
 use num_bigint::BigInt;
@@ -38,8 +37,11 @@ fn op(ns: &[(BigInt, BigInt)]) -> Polynomial<BigInt> {
                 continue;
             }
 
-            term = term *
-                   Polynomial::new(vec![Ratio::new(-xj, xi - xj), Ratio::new(One::one(), xi - xj)]);
+            term = term
+                * Polynomial::new(vec![
+                    Ratio::new(-xj, xi - xj),
+                    Ratio::new(One::one(), xi - xj),
+                ]);
         }
         poly = poly + term;
     }
@@ -55,9 +57,9 @@ fn bop(ns: &[(BigInt, BigInt)]) -> BigInt {
 fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
     (0..(dim + 1))
         .map(|i| {
-                 let n: BigInt = FromPrimitive::from_u32(i + 1).unwrap();
-                 (n.clone(), f(n))
-             })
+            let n: BigInt = FromPrimitive::from_u32(i + 1).unwrap();
+            (n.clone(), f(n))
+        })
         .collect()
 }
 

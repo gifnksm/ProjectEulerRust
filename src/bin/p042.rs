@@ -1,8 +1,7 @@
 //! [Problem 42](https://projecteuler.net/problem=42) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -36,10 +35,10 @@ fn solve(file: File) -> io::Result<String> {
         is_tri[t as usize] = true;
     }
     Ok(values
-           .iter()
-           .filter(|&&v| is_tri[v as usize])
-           .count()
-           .to_string())
+        .iter()
+        .filter(|&&v| is_tri[v as usize])
+        .count()
+        .to_string())
 }
 
 problem!("162", "p042_words.txt", solve);

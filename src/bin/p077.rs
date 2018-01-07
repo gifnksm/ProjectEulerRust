@@ -1,8 +1,7 @@
 //! [Problem 77](https://projecteuler.net/problem=77) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -20,11 +19,12 @@ fn count_way(ps: &PrimeSet, sum: u64, map: &mut HashMap<(u64, usize), u32>) -> u
         return cnt;
     }
 
-    fn count_sub(ps: &PrimeSet,
-                 sum: u64,
-                 min_idx: usize,
-                 map: &mut HashMap<(u64, usize), u32>)
-                 -> u32 {
+    fn count_sub(
+        ps: &PrimeSet,
+        sum: u64,
+        min_idx: usize,
+        map: &mut HashMap<(u64, usize), u32>,
+    ) -> u32 {
         let mut cnt = 0;
         for i in min_idx.. {
             let p = ps.nth(i);

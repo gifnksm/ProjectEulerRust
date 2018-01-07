@@ -1,13 +1,12 @@
 //! Iterators representing mathematical sequences.
 
-#![warn(bad_style, missing_docs,
-        unused, unused_extern_crates, unused_import_braces,
+#![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
-extern crate num_integer;
-extern crate num_traits;
 #[cfg(test)]
 extern crate num_bigint;
+extern crate num_integer;
+extern crate num_traits;
 
 use num_integer::Integer;
 use num_traits::One;
@@ -245,7 +244,11 @@ impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
             }
 
             let (m2, n2) = (m.clone() * m.clone(), n.clone() * n.clone());
-            let (a, b, c) = (m2.clone() - n2.clone(), two.clone() * m.clone() * n, m2 + n2);
+            let (a, b, c) = (
+                m2.clone() - n2.clone(),
+                two.clone() * m.clone() * n,
+                m2 + n2,
+            );
             if a < b {
                 return Some((a, b, c));
             } else {
@@ -284,16 +287,18 @@ mod tests {
         check_with_init(&[0, 0, 0, 0, 0, 0, 0]);
         check_with_init(&[1, 5, 6, 11, 17, 28, 45, 73, 118, 191, 309, 500]);
         check_with_init(&[-1, -1, -2, -3, -5, -8, -13, -21, -34, -55, -89, -144, -233]);
-        check_with_init(&[-10.to_bigint().unwrap(),
-                          8.to_bigint().unwrap(),
-                          -2.to_bigint().unwrap(),
-                          6.to_bigint().unwrap(),
-                          4.to_bigint().unwrap(),
-                          10.to_bigint().unwrap(),
-                          14.to_bigint().unwrap(),
-                          24.to_bigint().unwrap(),
-                          38.to_bigint().unwrap(),
-                          62.to_bigint().unwrap()]);
+        check_with_init(&[
+            -10.to_bigint().unwrap(),
+            8.to_bigint().unwrap(),
+            -2.to_bigint().unwrap(),
+            6.to_bigint().unwrap(),
+            4.to_bigint().unwrap(),
+            10.to_bigint().unwrap(),
+            14.to_bigint().unwrap(),
+            24.to_bigint().unwrap(),
+            38.to_bigint().unwrap(),
+            62.to_bigint().unwrap(),
+        ]);
     }
 
     #[test]

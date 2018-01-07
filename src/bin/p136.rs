@@ -2,10 +2,8 @@
 //!
 //! Using the same algorithm as p135.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
-
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 #![feature(step_by)]
 
 #[macro_use(problem)]

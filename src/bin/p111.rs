@@ -1,8 +1,7 @@
 //! [Problem 111](https://projecteuler.net/problem=111) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -36,15 +35,13 @@ impl Iterator for Digits {
     type Item = Vec<u64>;
 
     fn next(&mut self) -> Option<Vec<u64>> {
-        self.range
-            .next()
-            .map(|num| {
-                     let mut ds = num.into_digits(self.radix).rev().collect::<Vec<_>>();
-                     while ds.len() < self.num_digits {
-                         ds.insert(0, 0);
-                     }
-                     ds
-                 })
+        self.range.next().map(|num| {
+            let mut ds = num.into_digits(self.radix).rev().collect::<Vec<_>>();
+            while ds.len() < self.num_digits {
+                ds.insert(0, 0);
+            }
+            ds
+        })
     }
 }
 
@@ -83,13 +80,12 @@ impl Iterator for RunDigits {
             let mut j = 0;
             let mut num = 0;
             for i in 0..(self.other_ds.len() + self.run_len) {
-                num = num * 10 +
-                      if set.contains(i) {
-                          j += 1;
-                          self.other_ds[j - 1]
-                      } else {
-                          self.d
-                      };
+                num = num * 10 + if set.contains(i) {
+                    j += 1;
+                    self.other_ds[j - 1]
+                } else {
+                    self.d
+                };
             }
 
             return Some(num);

@@ -1,8 +1,7 @@
 //! [Problem 85](https://projecteuler.net/problem=85) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -15,7 +14,11 @@ fn count_rect((x, y): (u32, u32)) -> u32 {
 }
 
 fn distance(a: u32, target: u32) -> u32 {
-    if a > target { a - target } else { target - a }
+    if a > target {
+        a - target
+    } else {
+        target - a
+    }
 }
 
 fn check_distance(min_dist: &mut u32, min_pos: &mut (u32, u32), pos: (u32, u32), target: u32) {

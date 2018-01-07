@@ -1,8 +1,7 @@
 //! [Problem 13](https://projecteuler.net/problem=13) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -117,9 +116,8 @@ fn compute() -> String {
         .map(|line| &line[0..12])
         .filter_map(|s| s.parse::<u64>().ok())
         .sum::<u64>()
+        .to_string()[0..10]
         .to_string()
-        [0..10]
-            .to_string()
 }
 
 fn solve() -> String {

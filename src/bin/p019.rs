@@ -1,8 +1,7 @@
 //! [Problem 19](https://projecteuler.net/problem=19) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -21,22 +20,28 @@ fn is_leap_year(y: u32) -> bool {
 }
 
 fn day_of_year(y: u32) -> u32 {
-    if is_leap_year(y) { 366 } else { 365 }
+    if is_leap_year(y) {
+        366
+    } else {
+        365
+    }
 }
 
 fn day_of_month(y: u32) -> [u32; 12] {
-    [31, // Jan
-     if is_leap_year(y) { 29 } else { 28 }, // Feb
-     31, // Mar
-     30, // Apr
-     31, // May
-     30, // Jun
-     31, // Jul
-     31, // Aug
-     30, // Sep
-     31, // Oct
-     30, // Nov
-     31 /* Dec */]
+    [
+        31,                                    // Jan
+        if is_leap_year(y) { 29 } else { 28 }, // Feb
+        31,                                    // Mar
+        30,                                    // Apr
+        31,                                    // May
+        30,                                    // Jun
+        31,                                    // Jul
+        31,                                    // Aug
+        30,                                    // Sep
+        31,                                    // Oct
+        30,                                    // Nov
+        31,                                    /* Dec */
+    ]
 }
 
 fn append_day(y: u32, offset: u32, result: &mut [u32; 7]) -> u32 {

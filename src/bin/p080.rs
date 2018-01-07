@@ -1,14 +1,13 @@
 //! [Problem 80](https://projecteuler.net/problem=80) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
-extern crate num_bigint;
-extern crate num_traits;
 #[macro_use(problem)]
 extern crate common;
 extern crate iter;
+extern crate num_bigint;
+extern crate num_traits;
 
 use iter::Difference;
 use num_bigint::BigInt;

@@ -1,8 +1,7 @@
 //! [Problem 109](https://projecteuler.net/problem=109) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -36,12 +35,14 @@ fn count_way(score: u32) -> u32 {
     let p_all = &single + &double + &triple;
     let p1 = double.clone();
     let p2 = &double * &p_all;
-    let p3 = &double *
-             Polynomial::new((&p_all * &p_all + &dup)
-                                 .data()
-                                 .iter()
-                                 .map(|&n| n / 2)
-                                 .collect());
+    let p3 = &double
+        * Polynomial::new(
+            (&p_all * &p_all + &dup)
+                .data()
+                .iter()
+                .map(|&n| n / 2)
+                .collect(),
+        );
     let total = p1 + p2 + p3;
     total
         .data()

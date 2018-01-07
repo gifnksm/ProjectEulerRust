@@ -1,8 +1,7 @@
 //! [Problem 102](https://projecteuler.net/problem=102) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -67,9 +66,21 @@ impl Triangle {
         let s1 = Line(self.1, self.2).side(p);
         let s2 = Line(self.2, self.0).side(p);
         match (s0, s1, s2) {
-            (L, L, L) | (L, L, C) | (L, C, L) | (L, C, C) | (C, L, L) | (C, L, C) | (C, C, L) |
-            (C, C, C) | (R, R, R) | (R, R, C) | (R, C, R) | (R, C, C) | (C, R, R) | (C, R, C) |
-            (C, C, R) => true,
+            (L, L, L)
+            | (L, L, C)
+            | (L, C, L)
+            | (L, C, C)
+            | (C, L, L)
+            | (C, L, C)
+            | (C, C, L)
+            | (C, C, C)
+            | (R, R, R)
+            | (R, R, C)
+            | (R, C, R)
+            | (R, C, C)
+            | (C, R, R)
+            | (C, R, C)
+            | (C, C, R) => true,
             _ => false,
         }
     }
@@ -85,9 +96,11 @@ fn solve(file: File) -> io::Result<String> {
             .split(',')
             .filter_map(|s| s.parse::<i32>().ok())
             .collect::<Vec<_>>();
-        let t = Triangle(Point(ns[0], ns[1]),
-                         Point(ns[2], ns[3]),
-                         Point(ns[4], ns[5]));
+        let t = Triangle(
+            Point(ns[0], ns[1]),
+            Point(ns[2], ns[3]),
+            Point(ns[4], ns[5]),
+        );
         if t.contains(origin) {
             cnt += 1
         }

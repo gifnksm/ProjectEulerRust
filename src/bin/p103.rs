@@ -1,8 +1,7 @@
 //! [Problem 103](https://projecteuler.net/problem=103) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -89,10 +88,10 @@ impl SSS {
         nums.push(n);
 
         Some(SSS {
-                 avg: avg,
-                 nums: nums,
-                 sums: sums,
-             })
+            avg: avg,
+            nums: nums,
+            sums: sums,
+        })
     }
 
     fn max_addable(&self) -> u32 {
@@ -103,9 +102,7 @@ impl SSS {
         // 2: [a, b]             => (a + b)                   - 1
         let len = self.nums.len();
         let add = self.nums[..len / 2 + 1].iter().fold(0, |a, &b| a + b);
-        let sub = self.nums[(len + 1) / 2 + 1..]
-            .iter()
-            .fold(0, |a, &b| a + b);
+        let sub = self.nums[(len + 1) / 2 + 1..].iter().fold(0, |a, &b| a + b);
         add - sub - 1
     }
 
@@ -143,19 +140,15 @@ impl Iterator for SSSIterator {
     type Item = SSS;
 
     fn next(&mut self) -> Option<SSS> {
-        self.heap
-            .pop()
-            .map(|sss| {
-                     sss.each_next(|next| self.heap.push(next));
-                     sss
-                 })
+        self.heap.pop().map(|sss| {
+            sss.each_next(|next| self.heap.push(next));
+            sss
+        })
     }
 }
 
 fn solve() -> String {
-    let sss = SSSIterator::new()
-        .find(|sss| sss.nums.len() == 7)
-        .unwrap();
+    let sss = SSSIterator::new().find(|sss| sss.nums.len() == 7).unwrap();
     sss.nums
         .iter()
         .map(|&n| n.to_string())

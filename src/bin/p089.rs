@@ -1,8 +1,7 @@
 //! [Problem 89](https://projecteuler.net/problem=89) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -12,19 +11,21 @@ use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::u32;
 
-const ROMAN_PAIRS: &'static [(&'static str, u32)] = &[("IV", 4),
-                                                      ("IX", 9),
-                                                      ("XL", 40),
-                                                      ("XC", 90),
-                                                      ("CD", 400),
-                                                      ("CM", 900),
-                                                      ("I", 1),
-                                                      ("V", 5),
-                                                      ("X", 10),
-                                                      ("L", 50),
-                                                      ("C", 100),
-                                                      ("D", 500),
-                                                      ("M", 1000)];
+const ROMAN_PAIRS: &'static [(&'static str, u32)] = &[
+    ("IV", 4),
+    ("IX", 9),
+    ("XL", 40),
+    ("XC", 90),
+    ("CD", 400),
+    ("CM", 900),
+    ("I", 1),
+    ("V", 5),
+    ("X", 10),
+    ("L", 50),
+    ("C", 100),
+    ("D", 500),
+    ("M", 1000),
+];
 
 fn from_roman(mut s: &str) -> Option<u32> {
     let mut last_d = u32::MAX;

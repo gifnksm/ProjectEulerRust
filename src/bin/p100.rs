@@ -1,15 +1,14 @@
 //! [Problem 100](https://projecteuler.net/problem=100) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
+extern crate cont_frac;
 extern crate num_bigint;
 extern crate num_integer;
 extern crate num_traits;
-extern crate cont_frac;
 
 use cont_frac::PelNegRoots;
 use num_bigint::BigUint;

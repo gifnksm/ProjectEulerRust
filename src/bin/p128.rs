@@ -138,9 +138,8 @@
 //!
 //! `r=0` から順番にこれらを満たす数をカウントする。
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -182,25 +181,25 @@ impl Iterator for PdTriples {
 
         if r == 0 {
             return Some(PdTriple {
-                            n: 1,
-                            r: 0,
-                            triple: (2, 3, 5),
-                        });
+                n: 1,
+                r: 0,
+                triple: (2, 3, 5),
+            });
         }
         if r > 1 {
             let n = 3 * r * r + 3 * r + 1;
             self.next = Some(PdTriple {
-                                 n: n,
-                                 r: r,
-                                 triple: (6 * r - 1, 6 * r + 5, 12 * r - 7),
-                             });
+                n: n,
+                r: r,
+                triple: (6 * r - 1, 6 * r + 5, 12 * r - 7),
+            });
         }
         let n = 3 * r * r - 3 * r + 2;
         Some(PdTriple {
-                 n: n,
-                 r: r,
-                 triple: (12 * r + 5, 6 * r + 1, 6 * r - 1),
-             })
+            n: n,
+            r: r,
+            triple: (12 * r + 5, 6 * r + 1, 6 * r - 1),
+        })
     }
 }
 
@@ -248,7 +247,11 @@ mod tests {
     use super::{Pd3Nums, PdTriple, PdTriples};
 
     fn a(r: u64) -> u64 {
-        if r == 0 { 1 } else { 6 * r }
+        if r == 0 {
+            1
+        } else {
+            6 * r
+        }
     }
     fn b(r: u64, m: u64) -> u64 {
         if r == 0 {
@@ -281,38 +284,48 @@ mod tests {
     #[test]
     fn pd_triples() {
         let mut it = PdTriples::new();
-        assert_eq!(Some(PdTriple {
-                            n: b(0, 0),
-                            r: 0,
-                            triple: (2, 3, 5),
-                        }),
-                   it.next());
+        assert_eq!(
+            Some(PdTriple {
+                n: b(0, 0),
+                r: 0,
+                triple: (2, 3, 5),
+            }),
+            it.next()
+        );
         let n = b(1, 0);
-        assert_eq!(Some(PdTriple {
-                            n: n,
-                            r: 1,
-                            triple: (b(2, 11) - n, b(2, 1) - n, b(1, 5) - n),
-                        }),
-                   it.next());
+        assert_eq!(
+            Some(PdTriple {
+                n: n,
+                r: 1,
+                triple: (b(2, 11) - n, b(2, 1) - n, b(1, 5) - n),
+            }),
+            it.next()
+        );
 
         for r in 2u64..100 {
             let n = b(r, 0);
-            assert_eq!(Some(PdTriple {
-                                n: n,
-                                r: r,
-                                triple: (b(r + 1, 6 * r + 5) - n,
-                                         b(r + 1, 1) - n,
-                                         b(r, 6 * r - 1) - n),
-                            }),
-                       it.next());
+            assert_eq!(
+                Some(PdTriple {
+                    n: n,
+                    r: r,
+                    triple: (
+                        b(r + 1, 6 * r + 5) - n,
+                        b(r + 1, 1) - n,
+                        b(r, 6 * r - 1) - n
+                    ),
+                }),
+                it.next()
+            );
 
             let n = b(r, 6 * r - 1);
-            assert_eq!(Some(PdTriple {
-                                n: n,
-                                r: r,
-                                triple: (n - b(r, 0), b(r + 1, 6 * r + 4) - n, n - b(r - 1, 0)),
-                            }),
-                       it.next());
+            assert_eq!(
+                Some(PdTriple {
+                    n: n,
+                    r: r,
+                    triple: (n - b(r, 0), b(r + 1, 6 * r + 4) - n, n - b(r - 1, 0)),
+                }),
+                it.next()
+            );
         }
     }
 
