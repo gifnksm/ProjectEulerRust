@@ -17,24 +17,24 @@ crate-type = ["dylib"]
 
 [dependencies]
 enum_primitive = "0.1"
-error-chain = "0.10"
-generic-matrix = "0.0"
+error-chain = "0.11"
+generic-matrix = "0.1"
 getopts = "0.2"
 glob = "0.2"
-itertools = "0.6"
+itertools = "0.7"
 num-bigint = {version = "0.1", default-features = false}
 num-integer = "0.1"
 num-iter = "0.1"
 num-rational = {version = "0.1", default-features = false}
 num-traits = "0.1"
 polynomial = "0.0"
-reqwest = "0.5"
+reqwest = "0.8"
 serde = "1.0"
 serde_derive = "1.0"
 serde_json = "1.0"
 term = "0.4"
 time = "0.1"
-topological-sort = "0.0"
+topological-sort = "0.1"
 union-find = "0.3"
 
 [dependencies.cont_frac]
@@ -57,5 +57,5 @@ path = "./pkg/prime"
 path = "./pkg/seq"
 
 [dev-dependencies]
-rand = "0.3"
+rand = "0.4"
 

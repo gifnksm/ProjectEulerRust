@@ -260,7 +260,7 @@ fn download(file_name: &str) -> Result<Vec<u8>> {
         let _ = resp.read_to_end(&mut body)?;
 
         if !resp.status().is_success() {
-            let err = Error::from(ErrorKind::InvalidHttpStatus(*resp.status(), body.clone()));
+            let err = Error::from(ErrorKind::InvalidHttpStatus(resp.status(), body.clone()));
             let program = env::args().next().unwrap();
             let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
             retry += 1;

@@ -16,8 +16,8 @@ use num_traits::{FromPrimitive, One, Zero};
 use polynomial::Polynomial;
 
 fn u(n: BigInt) -> BigInt {
-    let mut sum: BigInt = Zero::zero();
-    let mut prod = One::one();
+    let mut sum = BigInt::zero();
+    let mut prod = BigInt::one();
     for _ in 0..11 {
         sum = sum + &prod;
         prod = &prod * (-&n);

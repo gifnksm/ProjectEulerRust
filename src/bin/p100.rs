@@ -25,7 +25,7 @@ use num_traits::One;
 // s = (x + 1) / 2
 // b = (y + 1) / 2
 fn compute(limit: BigUint) -> BigUint {
-    let one = One::one();
+    let one = BigUint::one();
     PelNegRoots::<BigUint>::new(2)
         .filter(|&(ref x, ref y)| x.is_odd() && y.is_odd())
         .map(|(x, y)| ((x + &one) >> 1, (y + &one) >> 1))
