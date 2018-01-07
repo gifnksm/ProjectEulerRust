@@ -1,10 +1,8 @@
 //! [Problem 96](https://projecteuler.net/problem=96) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
-
-#![feature(step_by)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
+#![feature(iterator_step_by)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -81,7 +79,10 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                     continue;
                 }
 
-                let (x0, y0) = ((x / GROUP_WIDTH) * GROUP_WIDTH, (y / GROUP_HEIGHT) * GROUP_HEIGHT);
+                let (x0, y0) = (
+                    (x / GROUP_WIDTH) * GROUP_WIDTH,
+                    (y / GROUP_HEIGHT) * GROUP_HEIGHT,
+                );
                 let row = (0..BOARD_WIDTH).map(|x| (x, y));
                 let col = (0..BOARD_HEIGHT).map(|y| (x, y));
                 let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
@@ -162,9 +163,9 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
     }
 
     let (x, y, _cnt) = *it.iter()
-                            .filter(|&&(_x, _y, cnt)| cnt > 1)
-                            .min_by_key(|&&(_x, _y, cnt)| cnt)
-                            .unwrap();
+        .filter(|&&(_x, _y, cnt)| cnt > 1)
+        .min_by_key(|&&(_x, _y, cnt)| cnt)
+        .unwrap();
 
     let mut answers = vec![];
     for n in 0..MAX_NUMBER {

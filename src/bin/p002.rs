@@ -1,12 +1,11 @@
 //! [Problem 2](https://projecteuler.net/problem=2) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
-extern crate num_integer;
 #[macro_use(problem)]
 extern crate common;
+extern crate num_integer;
 extern crate seq;
 
 use num_integer::Integer;

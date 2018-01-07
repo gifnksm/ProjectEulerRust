@@ -1,8 +1,7 @@
 //! [Problem 83](https://projecteuler.net/problem=83) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -46,7 +45,7 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
     let mut parent = vec![vec![Point { x: w, y: h }; w]; h];
 
     dist[start.y][start.x] = mat[start.y][start.x];
-    open.insert(start);
+    let _ = open.insert(start);
 
     loop {
         if open.is_empty() {
@@ -60,33 +59,33 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
         if min_pt == goal {
             break;
         }
-        open.remove(&min_pt);
-        closed.insert(min_pt);
+        let _ = open.remove(&min_pt);
+        let _ = closed.insert(min_pt);
 
         let mut ms = Vec::new();
         if min_pt.x > 0 {
             ms.push(Point {
-                        x: min_pt.x - 1,
-                        ..min_pt
-                    })
+                x: min_pt.x - 1,
+                ..min_pt
+            })
         }
         if min_pt.y > 0 {
             ms.push(Point {
-                        y: min_pt.y - 1,
-                        ..min_pt
-                    })
+                y: min_pt.y - 1,
+                ..min_pt
+            })
         }
         if min_pt.x < w - 1 {
             ms.push(Point {
-                        x: min_pt.x + 1,
-                        ..min_pt
-                    })
+                x: min_pt.x + 1,
+                ..min_pt
+            })
         }
         if min_pt.y < h - 1 {
             ms.push(Point {
-                        y: min_pt.y + 1,
-                        ..min_pt
-                    })
+                y: min_pt.y + 1,
+                ..min_pt
+            })
         }
 
         for &pt in &ms {
@@ -100,16 +99,16 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
             }
             if closed.contains(&pt) {
                 if new_dist < dist[pt.y][pt.x] {
-                    closed.remove(&pt);
+                    let _ = closed.remove(&pt);
                     dist[pt.y][pt.x] = cmp::min(dist[pt.y][pt.x], new_dist);
                     parent[pt.y][pt.x] = min_pt;
-                    open.insert(pt);
+                    let _ = open.insert(pt);
                 }
                 continue;
             }
             dist[pt.y][pt.x] = cmp::min(dist[pt.y][pt.x], new_dist);
             parent[pt.y][pt.x] = min_pt;
-            open.insert(pt);
+            let _ = open.insert(pt);
         }
     }
 
@@ -127,11 +126,13 @@ problem!("425185", "p083_matrix.txt", solve);
 mod tests {
     #[test]
     fn five_by_five() {
-        let mat = vec![vec![131, 673, 234, 103, 18],
-                       vec![201, 96, 342, 965, 150],
-                       vec![630, 803, 746, 422, 111],
-                       vec![537, 699, 497, 121, 956],
-                       vec![805, 732, 524, 37, 331]];
+        let mat = vec![
+            vec![131, 673, 234, 103, 18],
+            vec![201, 96, 342, 965, 150],
+            vec![630, 803, 746, 422, 111],
+            vec![537, 699, 497, 121, 956],
+            vec![805, 732, 524, 37, 331],
+        ];
         assert_eq!(2297, super::minimal_path_sum(mat));
     }
 }

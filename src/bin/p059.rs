@@ -1,9 +1,7 @@
 //! [Problem 59](https://projecteuler.net/problem=59) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
-
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 #![feature(inclusive_range_syntax)]
 
 #[macro_use(problem)]
@@ -14,32 +12,34 @@ use std::fs::File;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 
-const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[('a', 0.08167),
-                                                    ('b', 0.01492),
-                                                    ('c', 0.02782),
-                                                    ('d', 0.04253),
-                                                    ('e', 0.12702),
-                                                    ('f', 0.02228),
-                                                    ('g', 0.02015),
-                                                    ('h', 0.06094),
-                                                    ('i', 0.06966),
-                                                    ('j', 0.00153),
-                                                    ('k', 0.00772),
-                                                    ('l', 0.04025),
-                                                    ('m', 0.02406),
-                                                    ('n', 0.06749),
-                                                    ('o', 0.07507),
-                                                    ('p', 0.01929),
-                                                    ('q', 0.00095),
-                                                    ('r', 0.05987),
-                                                    ('s', 0.06327),
-                                                    ('t', 0.09056),
-                                                    ('u', 0.02758),
-                                                    ('v', 0.00978),
-                                                    ('w', 0.02360),
-                                                    ('x', 0.00150),
-                                                    ('y', 0.01974),
-                                                    ('z', 0.00074)];
+const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
+    ('a', 0.08167),
+    ('b', 0.01492),
+    ('c', 0.02782),
+    ('d', 0.04253),
+    ('e', 0.12702),
+    ('f', 0.02228),
+    ('g', 0.02015),
+    ('h', 0.06094),
+    ('i', 0.06966),
+    ('j', 0.00153),
+    ('k', 0.00772),
+    ('l', 0.04025),
+    ('m', 0.02406),
+    ('n', 0.06749),
+    ('o', 0.07507),
+    ('p', 0.01929),
+    ('q', 0.00095),
+    ('r', 0.05987),
+    ('s', 0.06327),
+    ('t', 0.09056),
+    ('u', 0.02758),
+    ('v', 0.00978),
+    ('w', 0.02360),
+    ('x', 0.00150),
+    ('y', 0.01974),
+    ('z', 0.00074),
+];
 
 fn trans_map<T: Clone>(key: u8, src: &[T], dst: &mut [T]) {
     for (i, f) in src.iter().enumerate() {
@@ -58,15 +58,15 @@ fn get_dist(a: &[f64], b: &[f64]) -> f64 {
 fn find_key(count: &[usize], ref_freq: &[f64]) -> u8 {
     let total = count.iter().sum::<usize>();
 
-    let mut freq = &mut [0.0f64; 256];
+    let freq = &mut [0.0f64; 256];
     for (f, &n) in freq.iter_mut().zip(count.iter()) {
         *f = (n as f64) / (total as f64);
     }
 
-    let mut freq_buf = &mut [0.0; 256];
+    let freq_buf = &mut [0.0; 256];
     let mut min_key = 0;
     let mut min_dist = f64::INFINITY;
-    for k in 0...255 {
+    for k in 0..=255 {
         trans_map(k, freq, freq_buf);
         let dist = get_dist(freq_buf, ref_freq);
         if dist < min_dist {

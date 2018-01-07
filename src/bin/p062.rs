@@ -1,8 +1,7 @@
 //! [Problem 62](https://projecteuler.net/problem=62) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -43,9 +42,9 @@ fn perm_exact(cnt: usize) -> HashSet<u64> {
         };
 
         if c == cnt {
-            set.insert(n);
+            let _ = set.insert(n);
         } else if c == cnt + 1 {
-            set.remove(&n);
+            let _ = set.remove(&n);
         }
     }
 

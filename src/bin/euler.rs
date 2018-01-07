@@ -1,12 +1,11 @@
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
+extern crate common;
 #[macro_use]
 extern crate error_chain;
 extern crate glob;
 extern crate serde_json;
-extern crate common;
 
 use common::SolverResult;
 use glob::Paths;
@@ -54,8 +53,10 @@ fn run_problem(path: &Path) -> Result<SolverResult<String>> {
             return Err(Error::from(format!("child process exit with {}", st)));
         }
         None => {
-            return Err(Error::from(format!("child process exit with siglan {}",
-                                           proc_out.status.signal().unwrap())));
+            return Err(Error::from(format!(
+                "child process exit with siglan {}",
+                proc_out.status.signal().unwrap()
+            )));
         }
     }
 
@@ -66,7 +67,7 @@ fn run_problem(path: &Path) -> Result<SolverResult<String>> {
 fn run() -> Result<bool> {
     let dir_path = {
         let mut path = env::current_exe()?;
-        path.pop();
+        let _ = path.pop();
         path
     };
     let mut out = io::stdout();

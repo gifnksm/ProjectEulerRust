@@ -1,7 +1,6 @@
 //! Continued fraction generator and related functions.
 
-#![warn(bad_style, missing_docs,
-        unused, unused_extern_crates, unused_import_braces,
+#![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
 extern crate integer;
@@ -33,7 +32,7 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
             break;
         }
 
-        set.insert((a, pqr));
+        let _ = set.insert((a, pqr));
         if set.len() == 1 {
             a0 = a;
         } else {
@@ -68,10 +67,10 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
             }
 
             let &A {
-                     n,
-                     sqn,
-                     pqr: (p, q, r),
-                 } = self;
+                n,
+                sqn,
+                pqr: (p, q, r),
+            } = self;
             let np2 = n * p * p;
             let estim_a = (p * sqn + q) / r;
             let mut a = estim_a;
@@ -93,7 +92,9 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
         #[inline]
         fn next(&mut self) -> Option<(u32, (u32, u32, u32))> {
             let a = self.calc_a();
-            let &mut A { n, pqr: (p, q, r), .. } = self;
+            let &mut A {
+                n, pqr: (p, q, r), ..
+            } = self;
 
             self.pqr = if a * a == n || p == 0 {
                 (0, 0, 1)
@@ -111,8 +112,9 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
 
 /// Calculates convergent of an input iterator.
 pub fn fold<T, I>(an: I) -> (T, T)
-    where T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone,
-          I: Iterator<Item = u32> + DoubleEndedIterator
+where
+    T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone,
+    I: Iterator<Item = u32> + DoubleEndedIterator,
 {
     let mut numer: T = FromPrimitive::from_u32(1).unwrap();
     let mut denom: T = FromPrimitive::from_u32(0).unwrap();
@@ -128,7 +130,8 @@ pub fn fold<T, I>(an: I) -> (T, T)
 
 /// solve pel equation x^2 - d y^2 = 1
 pub fn solve_pel<T>(d: u32) -> (T, T)
-    where T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone
+where
+    T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone,
 {
     let (a0, an) = sqrt(d);
     if an.is_empty() {
@@ -148,7 +151,8 @@ pub fn solve_pel<T>(d: u32) -> (T, T)
 
 /// solve pel equation x^2 - d y^2 = -1
 pub fn solve_pel_neg<T>(d: u32) -> (T, T)
-    where T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone
+where
+    T: FromPrimitive + Add<T, Output = T> + Mul<T, Output = T> + Clone,
 {
     let (a0, an) = sqrt(d);
 
@@ -171,7 +175,8 @@ pub struct PelRoots<T> {
 }
 
 impl<T> PelRoots<T>
-    where T: Clone + FromPrimitive + Add<T, Output = T> + Mul<T, Output = T>
+where
+    T: Clone + FromPrimitive + Add<T, Output = T> + Mul<T, Output = T>,
 {
     /// Creates a new `PelRoots` iterator
     #[inline]
@@ -187,7 +192,8 @@ impl<T> PelRoots<T>
 }
 
 impl<T> Iterator for PelRoots<T>
-    where T: Add<T, Output = T> + Mul<T, Output = T> + Clone
+where
+    T: Add<T, Output = T> + Mul<T, Output = T> + Clone,
 {
     type Item = (T, T);
 
@@ -200,8 +206,10 @@ impl<T> Iterator for PelRoots<T>
             let ref d = self.d;
             let (ref x1, ref y1) = self.x1y1;
             let (ref xk, ref yk) = self.xy;
-            (xk.clone() * x1.clone() + d.clone() * yk.clone() * y1.clone(),
-             yk.clone() * x1.clone() + xk.clone() * y1.clone())
+            (
+                xk.clone() * x1.clone() + d.clone() * yk.clone() * y1.clone(),
+                yk.clone() * x1.clone() + xk.clone() * y1.clone(),
+            )
         };
 
         Some(mem::replace(&mut self.xy, next))
@@ -216,7 +224,8 @@ pub struct PelNegRoots<T> {
 }
 
 impl<T> PelNegRoots<T>
-    where T: Clone + FromPrimitive + Add<T, Output = T> + Mul<T, Output = T>
+where
+    T: Clone + FromPrimitive + Add<T, Output = T> + Mul<T, Output = T>,
 {
     /// Creates a new `PelNegRoots` iterator
     #[inline]
@@ -232,7 +241,8 @@ impl<T> PelNegRoots<T>
 }
 
 impl<T> Iterator for PelNegRoots<T>
-    where T: Add<T, Output = T> + Mul<T, Output = T> + Clone
+where
+    T: Add<T, Output = T> + Mul<T, Output = T> + Clone,
 {
     type Item = (T, T);
 
@@ -242,10 +252,14 @@ impl<T> Iterator for PelNegRoots<T>
             let ref d = self.d;
             let (ref x1, ref y1) = self.x1y1;
             let (ref xk, ref yk) = self.xy;
-            let (xk, yk) = (xk.clone() * x1.clone() + d.clone() * yk.clone() * y1.clone(),
-                            yk.clone() * x1.clone() + xk.clone() * y1.clone());
-            (xk.clone() * x1.clone() + d.clone() * yk.clone() * y1.clone(),
-             yk.clone() * x1.clone() + xk.clone() * y1.clone())
+            let (xk, yk) = (
+                xk.clone() * x1.clone() + d.clone() * yk.clone() * y1.clone(),
+                yk.clone() * x1.clone() + xk.clone() * y1.clone(),
+            );
+            (
+                xk.clone() * x1.clone() + d.clone() * yk.clone() * y1.clone(),
+                yk.clone() * x1.clone() + xk.clone() * y1.clone(),
+            )
         };
 
         Some(mem::replace(&mut self.xy, next))

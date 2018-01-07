@@ -1,8 +1,7 @@
 //! [Problem 74](https://projecteuler.net/problem=74) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -45,20 +44,18 @@ fn get_chain_len(n: u32, map: &mut [Length], fs: &[u32; 10]) -> usize {
                 chain_len += c;
                 break;
             }
-            Length::Unknown => {
-                match chain_map.get(&idx) {
-                    Some(&chain_idx) => {
-                        loop_len = chain_len - chain_idx;
-                        chain_len = chain_idx;
-                        break;
-                    }
-                    None => {
-                        let _ = chain_map.insert(idx, chain_len);
-                        idx = fact_sum(idx, fs);
-                        chain_len += 1;
-                    }
+            Length::Unknown => match chain_map.get(&idx) {
+                Some(&chain_idx) => {
+                    loop_len = chain_len - chain_idx;
+                    chain_len = chain_idx;
+                    break;
                 }
-            }
+                None => {
+                    let _ = chain_map.insert(idx, chain_len);
+                    idx = fact_sum(idx, fs);
+                    chain_len += 1;
+                }
+            },
         }
     }
 

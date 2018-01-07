@@ -1,7 +1,6 @@
 //! Integer operations and traits.
 
-#![warn(bad_style, missing_docs,
-        unused, unused_extern_crates, unused_import_braces,
+#![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
 
 extern crate num_integer;
@@ -10,10 +9,8 @@ extern crate num_traits;
 #[cfg(feature = "num-bigint")]
 extern crate num_bigint;
 
-
 #[cfg(feature = "num-bigint")]
-use num_bigint::{BigUint, BigInt};
-
+use num_bigint::{BigInt, BigUint};
 use num_traits::{FromPrimitive, One, ToPrimitive, Zero};
 use std::cmp::Ordering;
 

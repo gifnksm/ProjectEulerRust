@@ -1,9 +1,7 @@
 //! Some useful iterators.
 
-#![warn(bad_style, missing_docs,
-        unused, unused_extern_crates, unused_import_braces,
+#![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
-
 #![cfg_attr(test, feature(test))]
 
 extern crate bit_set;
@@ -34,15 +32,15 @@ impl Iterator for BitCombination {
         match self.find_change_bit() {
             None => self.consumed = true,
             Some(n) => {
-                self.set.remove(n);
-                self.set.insert(n + 1);
+                let _ = self.set.remove(n);
+                let _ = self.set.insert(n + 1);
 
                 let mut j = n + 2;
                 for i in (n + 2)..self.size {
                     if self.set.contains(i) {
                         if i != j {
-                            self.set.remove(i);
-                            self.set.insert(j);
+                            let _ = self.set.remove(i);
+                            let _ = self.set.insert(j);
                         }
                         j += 1;
                     }
@@ -72,7 +70,7 @@ impl BitCombination {
         assert!(cnt <= size);
         let mut set = BitSet::new();
         for i in 0..cnt {
-            set.insert(i);
+            let _ = set.insert(i);
         }
         BitCombination {
             consumed: false,
@@ -197,8 +195,14 @@ impl<'a, T: Clone> Iterator for Permutations<'a, T> {
         }
 
         let n = self.cycles.len();
-        let perm = self.idxs[..n].iter().map(|&i| self.elems[i].clone()).collect();
-        let rest = self.idxs[n..].iter().map(|&i| self.elems[i].clone()).collect();
+        let perm = self.idxs[..n]
+            .iter()
+            .map(|&i| self.elems[i].clone())
+            .collect();
+        let rest = self.idxs[n..]
+            .iter()
+            .map(|&i| self.elems[i].clone())
+            .collect();
 
         if n == 0 {
             self.consumed = true;
@@ -231,16 +235,18 @@ impl<'a, T: Clone> Iterator for Permutations<'a, T> {
 
 /// An iterator that enumerates elemnts that is contained in the first iterator.
 pub struct Difference<M, S>
-    where M: Iterator,
-          S: Iterator
+where
+    M: Iterator,
+    S: Iterator,
 {
     minuend: M,
     subtrahend: Peekable<S>,
 }
 
 impl<E, M, S> Difference<M, S>
-    where M: Iterator<Item = E>,
-          S: Iterator<Item = E>
+where
+    M: Iterator<Item = E>,
+    S: Iterator<Item = E>,
 {
     /// Creates a new `Difference` iterator.
     ///
@@ -268,9 +274,10 @@ impl<E, M, S> Difference<M, S>
 }
 
 impl<E, M, S> Iterator for Difference<M, S>
-    where E: Eq + Ord,
-          M: Iterator<Item = E>,
-          S: Iterator<Item = E>
+where
+    E: Eq + Ord,
+    M: Iterator<Item = E>,
+    S: Iterator<Item = E>,
 {
     type Item = E;
 
@@ -313,12 +320,23 @@ mod tests {
 
         check(0, 4, vec![vec![]]);
         check(1, 4, vec![vec![0], vec![1], vec![2], vec![3]]);
-        check(2,
-              4,
-              vec![vec![0, 1], vec![0, 2], vec![0, 3], vec![1, 2], vec![1, 3], vec![2, 3]]);
-        check(3,
-              4,
-              vec![vec![0, 1, 2], vec![0, 1, 3], vec![0, 2, 3], vec![1, 2, 3]]);
+        check(
+            2,
+            4,
+            vec![
+                vec![0, 1],
+                vec![0, 2],
+                vec![0, 3],
+                vec![1, 2],
+                vec![1, 3],
+                vec![2, 3],
+            ],
+        );
+        check(
+            3,
+            4,
+            vec![vec![0, 1, 2], vec![0, 1, 3], vec![0, 2, 3], vec![1, 2, 3]],
+        );
         check(4, 4, vec![vec![0, 1, 2, 3]]);
 
         check(0, 0, vec![vec![]]);
@@ -423,8 +441,10 @@ mod tests {
             let ns = 1..;
             let sq = (1..).map(|x| x * x);
             let diff = Difference::new(ns, sq);
-            assert_eq!(vec![2, 3, 5, 6, 7, 8, 10, 11],
-                       diff.take(8).collect::<Vec<_>>());
+            assert_eq!(
+                vec![2, 3, 5, 6, 7, 8, 10, 11],
+                diff.take(8).collect::<Vec<_>>()
+            );
         }
 
         #[test]

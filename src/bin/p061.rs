@@ -1,8 +1,7 @@
 //! [Problem 61](https://projecteuler.net/problem=61) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -101,7 +100,9 @@ fn cycle_to_nums(map: &[u32]) -> Vec<u32> {
 }
 
 fn solve() -> String {
-    let map: &[fn(u32) -> u32] = &[triangle, square, pentagonal, hexagonal, heptagonal, octagonal];
+    let map: &[fn(u32) -> u32] = &[
+        triangle, square, pentagonal, hexagonal, heptagonal, octagonal
+    ];
     find_cycle(&mut create_map(map))
         .iter()
         .map(|vs| cycle_to_nums(&vs).into_iter().sum::<u32>())
@@ -120,9 +121,9 @@ mod tests {
             .iter()
             .map(|vs| super::cycle_to_nums(&vs))
             .map(|mut vs| {
-                     vs.sort();
-                     vs
-                 })
+                vs.sort();
+                vs
+            })
             .collect::<Vec<_>>();
         assert_eq!(&[vec![2882, 8128, 8281]], &cycle[..]);
     }

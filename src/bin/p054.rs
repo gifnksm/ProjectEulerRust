@@ -1,9 +1,7 @@
 //! [Problem 54](https://projecteuler.net/problem=54) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
-
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 #![feature(slice_patterns)]
 
 #[macro_use(problem)]
@@ -57,10 +55,10 @@ fn cmp_card_2darray(as0: &[&[Card]], as1: &[&[Card]]) -> Ordering {
 
 fn sort_cards(cs: &mut [Card]) {
     cs.sort_by(|c0, c1| match cmp_card(c0, c1) {
-                   Ordering::Equal => (c0.suit as u32).cmp(&(c1.suit as u32)),
-                   Ordering::Less => Ordering::Greater,
-                   Ordering::Greater => Ordering::Less,
-               })
+        Ordering::Equal => (c0.suit as u32).cmp(&(c1.suit as u32)),
+        Ordering::Less => Ordering::Greater,
+        Ordering::Greater => Ordering::Less,
+    })
 }
 
 type C1 = [Card; 1];
@@ -92,24 +90,16 @@ impl fmt::Display for Hand {
             Hand::Pair([c0, c1], [c2], [c3], [c4]) => {
                 write!(f, "Pair({}, {}) + HighCard({}, {}, {})", c0, c1, c2, c3, c4)
             }
-            Hand::TwoPairs([c0, c1], [c2, c3], [c4]) => {
-                write!(f,
-                       "TwoPairs(({}, {}), ({}, {})) + HighCard({})",
-                       c0,
-                       c1,
-                       c2,
-                       c3,
-                       c4)
-            }
-            Hand::ThreeOfAKind([c0, c1, c2], [c3], [c4]) => {
-                write!(f,
-                       "ThreeOfAKind({}, {}, {}) + HighCard({}, {})",
-                       c0,
-                       c1,
-                       c2,
-                       c3,
-                       c4)
-            }
+            Hand::TwoPairs([c0, c1], [c2, c3], [c4]) => write!(
+                f,
+                "TwoPairs(({}, {}), ({}, {})) + HighCard({})",
+                c0, c1, c2, c3, c4
+            ),
+            Hand::ThreeOfAKind([c0, c1, c2], [c3], [c4]) => write!(
+                f,
+                "ThreeOfAKind({}, {}, {}) + HighCard({}, {})",
+                c0, c1, c2, c3, c4
+            ),
             Hand::Straight([c0, c1, c2, c3, c4]) => {
                 write!(f, "Straight({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
             }
@@ -119,15 +109,11 @@ impl fmt::Display for Hand {
             Hand::FullHouse([c0, c1, c2], [c3, c4]) => {
                 write!(f, "FullHouse(({}, {}, {}), ({}, {}))", c0, c1, c2, c3, c4)
             }
-            Hand::FourOfAKind([c0, c1, c2, c3], [c4]) => {
-                write!(f,
-                       "FourOfAKind({}, {}, {}, {}) + HighCard({})",
-                       c0,
-                       c1,
-                       c2,
-                       c3,
-                       c4)
-            }
+            Hand::FourOfAKind([c0, c1, c2, c3], [c4]) => write!(
+                f,
+                "FourOfAKind({}, {}, {}, {}) + HighCard({})",
+                c0, c1, c2, c3, c4
+            ),
             Hand::StraightFlush([c0, c1, c2, c3, c4]) => {
                 write!(f, "StraightFlush({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
             }
@@ -228,8 +214,10 @@ impl Hand {
             }
         }
 
-        assert_eq!(5,
-                   single.len() + pairs.len() * 2 + three.len() * 3 + four.len() * 4);
+        assert_eq!(
+            5,
+            single.len() + pairs.len() * 2 + three.len() * 3 + four.len() * 4
+        );
 
         match (pairs.len(), three.len(), four.len()) {
             (1, 0, 0) => return Hand::pair(pairs[0], single[0], single[1], single[2]),
@@ -283,16 +271,16 @@ impl Hand {
 
     fn to_array(&self) -> C5 {
         match *self {
-            Hand::HighCard([c0], [c1], [c2], [c3], [c4]) |
-            Hand::Pair([c0, c1], [c2], [c3], [c4]) |
-            Hand::TwoPairs([c0, c1], [c2, c3], [c4]) |
-            Hand::ThreeOfAKind([c0, c1, c2], [c3], [c4]) |
-            Hand::Straight([c0, c1, c2, c3, c4]) |
-            Hand::Flush([c0, c1, c2, c3, c4]) |
-            Hand::FullHouse([c0, c1, c2], [c3, c4]) |
-            Hand::FourOfAKind([c0, c1, c2, c3], [c4]) |
-            Hand::StraightFlush([c0, c1, c2, c3, c4]) |
-            Hand::RoyalFlush([c0, c1, c2, c3, c4]) => [c0, c1, c2, c3, c4],
+            Hand::HighCard([c0], [c1], [c2], [c3], [c4])
+            | Hand::Pair([c0, c1], [c2], [c3], [c4])
+            | Hand::TwoPairs([c0, c1], [c2, c3], [c4])
+            | Hand::ThreeOfAKind([c0, c1, c2], [c3], [c4])
+            | Hand::Straight([c0, c1, c2, c3, c4])
+            | Hand::Flush([c0, c1, c2, c3, c4])
+            | Hand::FullHouse([c0, c1, c2], [c3, c4])
+            | Hand::FourOfAKind([c0, c1, c2, c3], [c4])
+            | Hand::StraightFlush([c0, c1, c2, c3, c4])
+            | Hand::RoyalFlush([c0, c1, c2, c3, c4]) => [c0, c1, c2, c3, c4],
         }
     }
 
@@ -374,11 +362,15 @@ mod tests {
         check("QH QC 9H 6S 4D", "Pair(QH, QC) + HighCard(9H, 6S, 4D)");
         check("QS QD 7H 6D 3D", "Pair(QS, QD) + HighCard(7H, 6D, 3D)");
 
-        check("QH QC 2H 2D 7C",
-              "TwoPairs((QH, QC), (2H, 2D)) + HighCard(7C)");
+        check(
+            "QH QC 2H 2D 7C",
+            "TwoPairs((QH, QC), (2H, 2D)) + HighCard(7C)",
+        );
 
-        check("9S 9H 9D QS 7C",
-              "ThreeOfAKind(9S, 9H, 9D) + HighCard(QS, 7C)");
+        check(
+            "9S 9H 9D QS 7C",
+            "ThreeOfAKind(9S, 9H, 9D) + HighCard(QS, 7C)",
+        );
 
         check("9C 8H 7D 6D 5S", "Straight(9C, 8H, 7D, 6D, 5S)");
 
@@ -388,8 +380,10 @@ mod tests {
         check("4S 4D 4C 2H 2D", "FullHouse((4S, 4D, 4C), (2H, 2D))");
         check("3S 3D 3C 9S 9D", "FullHouse((3S, 3D, 3C), (9S, 9D))");
 
-        check("8S 8H 8D 8C 2D",
-              "FourOfAKind(8S, 8H, 8D, 8C) + HighCard(2D)");
+        check(
+            "8S 8H 8D 8C 2D",
+            "FourOfAKind(8S, 8H, 8D, 8C) + HighCard(2D)",
+        );
         check("7H 6H 5H 4H 3H", "StraightFlush(7H, 6H, 5H, 4H, 3H)");
 
         check("AS KS QS JS TS", "RoyalFlush(AS, KS, QS, JS, TS)");

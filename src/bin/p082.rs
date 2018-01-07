@@ -1,8 +1,7 @@
 //! [Problem 82](https://projecteuler.net/problem=82) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -69,11 +68,13 @@ problem!("260324", "p082_matrix.txt", solve);
 mod tests {
     #[test]
     fn five_by_five() {
-        let mat = vec![vec![131, 673, 234, 103, 18],
-                       vec![201, 96, 342, 965, 150],
-                       vec![630, 803, 746, 422, 111],
-                       vec![537, 699, 497, 121, 956],
-                       vec![805, 732, 524, 37, 331]];
+        let mat = vec![
+            vec![131, 673, 234, 103, 18],
+            vec![201, 96, 342, 965, 150],
+            vec![630, 803, 746, 422, 111],
+            vec![537, 699, 497, 121, 956],
+            vec![805, 732, 524, 37, 331],
+        ];
         assert_eq!(994, super::minimal_path_sum(mat));
     }
 }

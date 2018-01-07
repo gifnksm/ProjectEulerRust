@@ -1,8 +1,7 @@
 //! [Problem 125](https://projecteuler.net/problem=125) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -25,7 +24,7 @@ fn palindromic_sum_set(limit: u32) -> HashSet<u32> {
             }
 
             if s.is_palindromic(10) {
-                set.insert(s);
+                let _ = set.insert(s);
             }
             sq_sums[j] = s;
         }

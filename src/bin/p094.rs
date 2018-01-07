@@ -1,8 +1,7 @@
 //! [Problem 94](https://projecteuler.net/problem=94) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -56,20 +55,20 @@ fn solve() -> String {
     PelRoots::<BigUint>::new(3)
         .map(|(x, _y)| x.to_u32().unwrap())
         .map(|x| match x % 3 {
-                 1 => {
-            let k = (x - 1) / 3;
-            let a = 2 * k + 1;
-            let b = a + 1;
-            (a, b)
-        }
-                 2 => {
-            let k = (x - 2) / 3;
-            let a = 2 * k + 1;
-            let b = a - 1;
-            (a, b)
-        }
-                 _ => panic!(),
-             })
+            1 => {
+                let k = (x - 1) / 3;
+                let a = 2 * k + 1;
+                let b = a + 1;
+                (a, b)
+            }
+            2 => {
+                let k = (x - 2) / 3;
+                let a = 2 * k + 1;
+                let b = a - 1;
+                (a, b)
+            }
+            _ => panic!(),
+        })
         .filter(|&(_a, b)| b != 0)
         .map(|(a, b)| 2 * a + b)
         .take_while(|&side| side <= limit)

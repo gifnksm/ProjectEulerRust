@@ -1,8 +1,7 @@
 //! [Problem 32](https://projecteuler.net/problem=32) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -41,7 +40,7 @@ fn compute() -> u32 {
             let mut c_digits = c.into_digits(radix).collect::<Vec<_>>();
             c_digits.sort();
             if r2 == c_digits {
-                products.insert(c);
+                let _ = products.insert(c);
             }
         }
     }
@@ -60,7 +59,7 @@ fn compute() -> u32 {
             let mut c_digits = c.into_digits(radix).collect::<Vec<_>>();
             c_digits.sort();
             if r2 == c_digits {
-                products.insert(c);
+                let _ = products.insert(c);
             }
         }
     }

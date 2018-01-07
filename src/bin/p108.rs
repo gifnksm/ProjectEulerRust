@@ -1,8 +1,7 @@
 //! [Problem 108](https://projecteuler.net/problem=108) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -29,10 +28,7 @@ fn num_pairs(ps: &PrimeSet, n: u64) -> u64 {
 fn solve() -> String {
     let n = 1000;
     let ps = PrimeSet::new();
-    (1..)
-        .find(|&i| num_pairs(&ps, i) > n)
-        .unwrap()
-        .to_string()
+    (1..).find(|&i| num_pairs(&ps, i) > n).unwrap().to_string()
 }
 
 problem!("180180", solve);

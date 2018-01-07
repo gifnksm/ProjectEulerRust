@@ -1,9 +1,7 @@
 //! Data types that represent playing cards.
 
-#![warn(bad_style, missing_docs,
-        unused, unused_extern_crates, unused_import_braces,
+#![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
         unused_qualifications, unused_results)]
-
 
 use Suit::{Club, Dia, Heart, Spade};
 use std::fmt;

@@ -1,10 +1,8 @@
 //! [Problem 84](https://projecteuler.net/problem=84) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
-
-#![feature(step_by)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
+#![feature(iterator_step_by)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -114,14 +112,17 @@ fn ch_trans_matrix() -> Matrix<f64> {
                     (Square::R1, _) => 1.0 / 16.0,           // Go to R1
                     (Square::R2, Square::CH1) => 2.0 / 16.0, // Go to next R
                     (Square::R3, Square::CH2) => 2.0 / 16.0, // Go to next R
-                    (Square::U1, Square::CH1) |
-                    (Square::U1, Square::CH3) => 1.0 / 16.0, // Go to next U
+                    (Square::U1, Square::CH1) | (Square::U1, Square::CH3) => 1.0 / 16.0, // Go to next U
                     (Square::U2, Square::CH2) => 1.0 / 16.0, // Go to next U
                     _ if dst == src => 6.0 / 16.0,
                     _ => 0.0,
                 }
             }
-            _ => if src == dst { 1.0 } else { 0.0 },
+            _ => if src == dst {
+                1.0
+            } else {
+                0.0
+            },
         }
     })
 }
@@ -152,7 +153,11 @@ fn cc_trans_matrix() -> Matrix<f64> {
                 }
                 0.0
             }
-            _ => if src == dst { 1.0 } else { 0.0 },
+            _ => if src == dst {
+                1.0
+            } else {
+                0.0
+            },
         }
     })
 }
@@ -201,13 +206,13 @@ fn steady_state(dist: &Matrix<f64>, init: Matrix<f64>, epsilon: f64) -> Matrix<f
 fn state_to_square(state: Matrix<f64>) -> Vec<(Square, f64)> {
     (0..NUM_SQUARE)
         .map(|s| {
-                 let prob = (s..NUM_STATE)
-                     .step_by(NUM_SQUARE)
-                     .map(|i| state[(i, 0)])
-                     .sum();
-                 let sq: Square = FromPrimitive::from_usize(s).unwrap();
-                 (sq, prob)
-             })
+            let prob = (s..NUM_STATE)
+                .step_by(NUM_SQUARE)
+                .map(|i| state[(i, 0)])
+                .sum();
+            let sq: Square = FromPrimitive::from_usize(s).unwrap();
+            (sq, prob)
+        })
         .collect()
 }
 
@@ -216,17 +221,17 @@ fn solve() -> String {
     let state = steady_state(&trans_matrix(4), Matrix::one(NUM_STATE, 1), 1e-10);
     let mut square = state_to_square(state);
     square.sort_by(|&(_, p0), &(_, p1)| p1.partial_cmp(&p0).unwrap());
-    format!("{:02}{:02}{:02}",
-            square[0].0 as usize,
-            square[1].0 as usize,
-            square[2].0 as usize)
+    format!(
+        "{:02}{:02}{:02}",
+        square[0].0 as usize, square[1].0 as usize, square[2].0 as usize
+    )
 }
 
 problem!("101524", solve);
 
 #[cfg(test)]
 mod tests {
-    use super::{NUM_STATE, Square};
+    use super::{Square, NUM_STATE};
     use matrix::Matrix;
 
     #[test]

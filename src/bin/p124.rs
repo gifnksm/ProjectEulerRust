@@ -1,8 +1,7 @@
 //! [Problem 124](https://projecteuler.net/problem=124) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -56,20 +55,18 @@ impl Iterator for Multiples {
 
     #[inline]
     fn next(&mut self) -> Option<u64> {
-        self.heap
-            .pop()
-            .map(|Multiple(n, i)| {
-                if i < self.facts.len() as u64 {
-                    // n = ... * f[i]^k => ... * f[i]^(k+1)
-                    self.heap.push(Multiple(n * self.facts[i as usize], i));
-                }
+        self.heap.pop().map(|Multiple(n, i)| {
+            if i < self.facts.len() as u64 {
+                // n = ... * f[i]^k => ... * f[i]^(k+1)
+                self.heap.push(Multiple(n * self.facts[i as usize], i));
+            }
 
-                for j in (i + 1)..(self.facts.len() as u64) {
-                    // n = ... * f[i]^k => ... * f[i]^k * f[j]
-                    self.heap.push(Multiple(n * self.facts[j as usize], j));
-                }
-                n
-            })
+            for j in (i + 1)..(self.facts.len() as u64) {
+                // n = ... * f[i]^k => ... * f[i]^k * f[j]
+                self.heap.push(Multiple(n * self.facts[j as usize], j));
+            }
+            n
+        })
     }
 }
 
@@ -119,29 +116,27 @@ impl Iterator for RadValues {
 
     #[inline]
     fn next(&mut self) -> Option<(u64, Vec<u64>)> {
-        self.heap
-            .pop()
-            .map(|RadValue(n, facts, i)| {
-                let p = self.ps.nth(i as usize);
+        self.heap.pop().map(|RadValue(n, facts, i)| {
+            let p = self.ps.nth(i as usize);
 
-                // n = ... * p[i-1] => ... * p[i-1] * p[i] (append p[i])
-                {
-                    let mut v = facts.clone();
-                    v.push(p);
-                    self.heap.push(RadValue(n * p, v, i + 1));
-                }
+            // n = ... * p[i-1] => ... * p[i-1] * p[i] (append p[i])
+            {
+                let mut v = facts.clone();
+                v.push(p);
+                self.heap.push(RadValue(n * p, v, i + 1));
+            }
 
-                if !facts.is_empty() {
-                    // n = ... * p[i-1] => ... * p[i] (replace p[i-1] with p[i])
-                    let last = *facts.last().unwrap();
-                    let mut next_facts = facts.clone();
-                    let len = next_facts.len();
-                    next_facts[len - 1] = p;
-                    self.heap.push(RadValue(p * n / last, next_facts, i + 1));
-                }
+            if !facts.is_empty() {
+                // n = ... * p[i-1] => ... * p[i] (replace p[i-1] with p[i])
+                let last = *facts.last().unwrap();
+                let mut next_facts = facts.clone();
+                let len = next_facts.len();
+                next_facts[len - 1] = p;
+                self.heap.push(RadValue(p * n / last, next_facts, i + 1));
+            }
 
-                (n, facts)
-            })
+            (n, facts)
+        })
     }
 }
 
@@ -234,10 +229,9 @@ mod tests {
 
     #[test]
     fn rad() {
-        let mut it =
-            RadValues::new()
-                .take_while(|&(n, _)| n <= 10)
-                .flat_map(|(base, facts)| Multiples::new(base, facts).take_while(|&n| n <= 10));
+        let mut it = RadValues::new()
+            .take_while(|&(n, _)| n <= 10)
+            .flat_map(|(base, facts)| Multiples::new(base, facts).take_while(|&n| n <= 10));
 
         assert_eq!(Some(1), it.next());
         assert_eq!(Some(2), it.next());

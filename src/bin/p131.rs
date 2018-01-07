@@ -84,9 +84,8 @@
 //!
 //! `3q^2 + 3q + 1` を `q` について計算し、素数のものを列挙する。
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;

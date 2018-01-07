@@ -1,10 +1,8 @@
 //! [Problem 95](https://projecteuler.net/problem=95) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
-
-#![feature(step_by)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
+#![feature(iterator_step_by)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -56,7 +54,7 @@ fn create_proper_divisor_map(limit: usize) -> Vec<usize> {
 }
 
 fn compute(limit: usize) -> usize {
-    let mut len_map = vec![None; limit +1];
+    let mut len_map = vec![None; limit + 1];
     let div_map = create_proper_divisor_map(limit);
 
     (1..len_map.len())

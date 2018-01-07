@@ -1,15 +1,14 @@
 //! [Problem 100](https://projecteuler.net/problem=100) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
+extern crate cont_frac;
 extern crate num_bigint;
 extern crate num_integer;
 extern crate num_traits;
-extern crate cont_frac;
 
 use cont_frac::PelNegRoots;
 use num_bigint::BigUint;
@@ -26,7 +25,7 @@ use num_traits::One;
 // s = (x + 1) / 2
 // b = (y + 1) / 2
 fn compute(limit: BigUint) -> BigUint {
-    let one = One::one();
+    let one = BigUint::one();
     PelNegRoots::<BigUint>::new(2)
         .filter(|&(ref x, ref y)| x.is_odd() && y.is_odd())
         .map(|(x, y)| ((x + &one) >> 1, (y + &one) >> 1))

@@ -1,15 +1,14 @@
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use]
 extern crate error_chain;
 extern crate getopts;
 extern crate num_integer;
 extern crate reqwest;
+extern crate serde;
 #[macro_use]
 extern crate serde_derive;
-extern crate serde;
 extern crate serde_json;
 extern crate term;
 extern crate time;
@@ -158,10 +157,11 @@ impl<'a> Solver<'a> {
         }
     }
 
-    pub fn new_with_file(answer: &'a str,
-                         file_name: &'a str,
-                         solver: fn(File) -> io::Result<String>)
-                         -> Solver<'a> {
+    pub fn new_with_file(
+        answer: &'a str,
+        file_name: &'a str,
+        solver: fn(File) -> io::Result<String>,
+    ) -> Solver<'a> {
         Solver {
             answer: answer,
             solver: SolverFn::FnWithFile(file_name, solver),
@@ -260,7 +260,7 @@ fn download(file_name: &str) -> Result<Vec<u8>> {
         let _ = resp.read_to_end(&mut body)?;
 
         if !resp.status().is_success() {
-            let err = Error::from(ErrorKind::InvalidHttpStatus(*resp.status(), body.clone()));
+            let err = Error::from(ErrorKind::InvalidHttpStatus(resp.status(), body.clone()));
             let program = env::args().next().unwrap();
             let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
             retry += 1;

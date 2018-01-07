@@ -1,10 +1,8 @@
 //! [Problem 127](https://projecteuler.net/problem=127) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
-
-#![feature(step_by)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
+#![feature(iterator_step_by)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -32,25 +30,20 @@ use std::cmp::Ordering;
 struct Rad(u64, u64, Vec<u64>); // (n, rad, facts)
 
 fn create_rad_vec(n_limit: u64) -> Vec<Rad> {
-    let mut rad_vec = (0..n_limit)
-        .map(|i| (1, i, Vec::new()))
-        .collect::<Vec<_>>();
+    let mut rad_vec = (0..n_limit).map(|i| (1, i, Vec::new())).collect::<Vec<_>>();
 
     for p in 2..(rad_vec.len() as u64) {
         if rad_vec[p as usize].0 != 1 {
             continue;
         }
 
-        for kp in (p..).step_by(p).take_while(|&kp| kp < n_limit) {
+        for kp in (p..).step_by(p as usize).take_while(|&kp| kp < n_limit) {
             rad_vec[kp as usize].0 *= p;
             rad_vec[kp as usize].2.push(p);
         }
     }
 
-    rad_vec
-        .into_iter()
-        .map(|(x, y, z)| Rad(x, y, z))
-        .collect()
+    rad_vec.into_iter().map(|(x, y, z)| Rad(x, y, z)).collect()
 }
 
 fn rad_has_union(a: &[u64], b: &[u64]) -> bool {
@@ -114,16 +107,18 @@ mod tests {
 
     #[test]
     fn create_rad_vec() {
-        let rad_vec = vec![Rad(1, 0, vec![]),
-                           Rad(1, 1, vec![]),
-                           Rad(2, 2, vec![2]),
-                           Rad(3, 3, vec![3]),
-                           Rad(2, 4, vec![2]),
-                           Rad(5, 5, vec![5]),
-                           Rad(6, 6, vec![2, 3]),
-                           Rad(7, 7, vec![7]),
-                           Rad(2, 8, vec![2]),
-                           Rad(3, 9, vec![3])];
+        let rad_vec = vec![
+            Rad(1, 0, vec![]),
+            Rad(1, 1, vec![]),
+            Rad(2, 2, vec![2]),
+            Rad(3, 3, vec![3]),
+            Rad(2, 4, vec![2]),
+            Rad(5, 5, vec![5]),
+            Rad(6, 6, vec![2, 3]),
+            Rad(7, 7, vec![7]),
+            Rad(2, 8, vec![2]),
+            Rad(3, 9, vec![3]),
+        ];
         assert_eq!(rad_vec, super::create_rad_vec(10))
     }
 

@@ -1,8 +1,7 @@
 //! [Problem 29](https://projecteuler.net/problem=29) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -22,7 +21,7 @@ fn compute(a_max: u32, b_max: u32) -> u32 {
                 .iter()
                 .map(|&(base, exp)| (base, (exp) as u32 * b))
                 .collect::<Vec<_>>();
-            set.insert(ab_factor);
+            let _ = set.insert(ab_factor);
         }
     }
     set.len() as u32

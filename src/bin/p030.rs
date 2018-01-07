@@ -1,13 +1,12 @@
 //! [Problem 30](https://projecteuler.net/problem=30) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
 
 #[macro_use(problem)]
 extern crate common;
-extern crate iter;
 extern crate integer;
+extern crate iter;
 
 use integer::Integer;
 use iter::CombinationOverlap;

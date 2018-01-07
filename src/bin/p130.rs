@@ -1,10 +1,8 @@
 //! [Problem 130](https://projecteuler.net/problem=130) solver.
 
-#![warn(bad_style,
-        unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
-
-#![feature(step_by)]
+#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
+        unused_results)]
+#![feature(iterator_step_by)]
 
 #[macro_use(problem)]
 extern crate common;
