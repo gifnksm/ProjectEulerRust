@@ -1,19 +1,25 @@
 //! [Problem 98](https://projecteuler.net/problem=98) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
 
 use integer::Integer;
-use std::{cmp, mem, u64};
-use std::collections::HashMap;
 use std::collections::hash_map::Entry;
+use std::collections::HashMap;
 use std::fs::File;
-use std::io::{self, BufReader};
 use std::io::prelude::*;
+use std::io::{self, BufReader};
+use std::{cmp, mem, u64};
 
 fn read_words(file: File) -> io::Result<Vec<String>> {
     let mut words = vec![];
@@ -79,8 +85,7 @@ fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, Vec<u64>, Vec<u6
                 cs1.iter().map(|c| get_pos(c)).collect(),
                 cs2.iter().map(|c| get_pos(c)).collect(),
             )
-        })
-        .collect::<Vec<_>>()
+        }).collect::<Vec<_>>()
 }
 
 fn group_by_len(

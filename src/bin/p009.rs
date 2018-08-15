@@ -1,7 +1,13 @@
 //! [Problem 9](https://projecteuler.net/problem=9) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -15,8 +21,7 @@ fn compute(sum: u32) -> u32 {
         .flat_map(|c| {
             let a_max = cmp::min((sum - c) / 2, (c * c / 2).sqrt());
             (1..a_max).zip(iter::repeat(c))
-        })
-        .map(|(a, c)| (a, sum - c - a, c))
+        }).map(|(a, c)| (a, sum - c - a, c))
         .find(|&(a, b, c)| a * a + b * b == c * c)
         .map(|(a, b, c)| a * b * c)
         .unwrap()

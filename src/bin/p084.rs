@@ -1,7 +1,13 @@
 //! [Problem 84](https://projecteuler.net/problem=84) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 #![feature(iterator_step_by)]
 
 #[macro_use(problem)]
@@ -212,8 +218,7 @@ fn state_to_square(state: Matrix<f64>) -> Vec<(Square, f64)> {
                 .sum();
             let sq: Square = FromPrimitive::from_usize(s).unwrap();
             (sq, prob)
-        })
-        .collect()
+        }).collect()
 }
 
 fn solve() -> String {

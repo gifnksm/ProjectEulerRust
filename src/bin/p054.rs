@@ -1,7 +1,13 @@
 //! [Problem 54](https://projecteuler.net/problem=54) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 #![feature(slice_patterns)]
 
 #[macro_use(problem)]
@@ -14,8 +20,8 @@ use playing_card::SuitCard as Card;
 use std::cmp::Ordering;
 use std::fmt;
 use std::fs::File;
-use std::io::{self, BufReader};
 use std::io::prelude::*;
+use std::io::{self, BufReader};
 use std::str::FromStr;
 
 fn cmp_card(c0: &Card, c1: &Card) -> Ordering {
@@ -306,7 +312,8 @@ fn solve(file: File) -> io::Result<String> {
     let mut _draw = 0;
     for line in BufReader::new(file).lines() {
         let line = line?;
-        let cards = line.trim()
+        let cards = line
+            .trim()
             .split(' ')
             .map(|c| FromStr::from_str(c).unwrap())
             .collect::<Vec<_>>();

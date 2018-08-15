@@ -1,16 +1,22 @@
 //! [Problem 83](https://projecteuler.net/problem=83) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
 
-use std::{cmp, u32};
 use std::collections::HashSet;
 use std::fs::File;
-use std::io::{self, BufReader};
 use std::io::prelude::*;
+use std::io::{self, BufReader};
+use std::{cmp, u32};
 
 fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
     let mut mat = vec![];
@@ -52,7 +58,8 @@ fn minimal_path_sum(mat: Vec<Vec<u32>>) -> u32 {
             panic!();
         }
 
-        let &min_pt = open.iter()
+        let &min_pt = open
+            .iter()
             .min_by_key(|&pt| dist[pt.y][pt.x] + ((h - pt.y - 1) + (w - pt.x - 1)) as u32)
             .unwrap();
 

@@ -1,14 +1,20 @@
 //! [Problem 102](https://projecteuler.net/problem=102) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
 
 use std::fs::File;
-use std::io::{self, BufReader};
 use std::io::prelude::*;
+use std::io::{self, BufReader};
 use std::ops::{Mul, Sub};
 
 #[derive(Copy, Clone)]

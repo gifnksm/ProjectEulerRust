@@ -1,15 +1,21 @@
 //! [Problem 96](https://projecteuler.net/problem=96) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 #![feature(iterator_step_by)]
 
 #[macro_use(problem)]
 extern crate common;
 
 use std::fs::File;
-use std::io::{self, BufReader};
 use std::io::prelude::*;
+use std::io::{self, BufReader};
 use std::usize;
 
 const BOARD_WIDTH: usize = 9;
@@ -87,7 +93,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
                 let col = (0..BOARD_HEIGHT).map(|y| (x, y));
                 let grp = group_it.iter().map(|&(dx, dy)| (x0 + dx, y0 + dy));
 
-                let it = row.chain(col)
+                let it = row
+                    .chain(col)
                     .chain(grp)
                     .filter(|&pos: &(usize, usize)| pos != (x, y));
                 let mask = !puzzle.map[y][x] & MASK_ALL;
@@ -162,7 +169,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
         return vec![puzzle];
     }
 
-    let (x, y, _cnt) = *it.iter()
+    let (x, y, _cnt) = *it
+        .iter()
         .filter(|&&(_x, _y, cnt)| cnt > 1)
         .min_by_key(|&&(_x, _y, cnt)| cnt)
         .unwrap();

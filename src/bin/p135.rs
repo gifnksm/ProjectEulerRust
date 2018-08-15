@@ -63,8 +63,14 @@
 //! `q` と `p` の数値を変化させ、
 //! 各 `n = qp < 1000000` となる `q`, `p` の数を数える。
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 #![feature(iterator_step_by)]
 
 #[macro_use(problem)]

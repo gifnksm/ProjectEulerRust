@@ -1,7 +1,13 @@
 //! [Problem 90](https://projecteuler.net/problem=90) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -22,15 +28,13 @@ fn solve() -> String {
                 _ => {}
             }
             set
-        })
-        .collect::<Vec<_>>();
+        }).collect::<Vec<_>>();
 
     let nums = (0usize..9)
         .map(|i| {
             let n = (i + 1) * (i + 1);
             (n / 10, n % 10)
-        })
-        .collect::<Vec<_>>();
+        }).collect::<Vec<_>>();
 
     let mut cnt = 0;
     for (i, set1) in all_combs.iter().enumerate() {

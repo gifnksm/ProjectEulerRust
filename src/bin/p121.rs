@@ -1,7 +1,13 @@
 //! [Problem 121](https://projecteuler.net/problem=121) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -45,8 +51,7 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: usize) -
             let blue = Ratio::new(One::one(), denom.clone());
             let red = Ratio::new(t, denom);
             Polynomial::new(vec![blue, red])
-        })
-        .fold(num_traits::one::<Polynomial<_>>(), |acc, elt| acc * elt)
+        }).fold(num_traits::one::<Polynomial<_>>(), |acc, elt| acc * elt)
         .data()
         .iter()
         .take((turns + 1) / 2)

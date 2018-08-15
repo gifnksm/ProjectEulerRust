@@ -1,15 +1,21 @@
 //! [Problem 62](https://projecteuler.net/problem=62) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
 extern crate integer;
 
 use integer::Integer;
-use std::collections::{HashMap, HashSet};
 use std::collections::hash_map::Entry;
+use std::collections::{HashMap, HashSet};
 
 fn perm_exact(cnt: usize) -> HashSet<u64> {
     let mut map = HashMap::<_, (u64, usize)>::new();

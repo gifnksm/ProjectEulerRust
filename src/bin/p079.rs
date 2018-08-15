@@ -1,15 +1,21 @@
 //! [Problem 79](https://projecteuler.net/problem=79) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
 extern crate topological_sort as tsort;
 
 use std::fs::File;
-use std::io::{self, BufReader};
 use std::io::prelude::*;
+use std::io::{self, BufReader};
 use tsort::TopologicalSort;
 
 fn solve(file: File) -> io::Result<String> {
@@ -21,7 +27,8 @@ fn solve(file: File) -> io::Result<String> {
             ts.add_dependency(prec, succ);
         }
     }
-    let s = ts.map(|d: char| d.to_string())
+    let s = ts
+        .map(|d: char| d.to_string())
         .collect::<Vec<String>>()
         .concat();
     Ok(s)
