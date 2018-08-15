@@ -2,7 +2,10 @@ language: rust
 sudo: required
 dist: trusty
 
-cache: cargo
+cache:
+  cargo: true
+  directories:
+    - .cache
 
 addons:
   apt:
