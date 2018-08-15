@@ -8,7 +8,6 @@
     unused_qualifications,
     unused_results
 )]
-#![feature(inclusive_range_syntax)]
 
 #[macro_use(problem)]
 extern crate common;

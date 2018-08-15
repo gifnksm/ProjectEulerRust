@@ -9,7 +9,6 @@
     unused_qualifications,
     unused_results
 )]
-#![feature(iterator_step_by)]
 #![cfg_attr(test, feature(test))]
 
 extern crate num_integer;

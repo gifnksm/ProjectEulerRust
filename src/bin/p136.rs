@@ -10,7 +10,6 @@
     unused_qualifications,
     unused_results
 )]
-#![feature(iterator_step_by)]
 
 #[macro_use(problem)]
 extern crate common;
