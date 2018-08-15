@@ -20,7 +20,7 @@ extern crate polynomial;
 use num_bigint::BigUint;
 use num_integer::Integer;
 use num_rational::Ratio;
-use num_traits::{FromPrimitive, One};
+use num_traits::{FromPrimitive, One, Zero};
 use polynomial::Polynomial;
 
 // turn  blue    red
@@ -45,17 +45,17 @@ use polynomial::Polynomial;
 
 fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: usize) -> Ratio<T> {
     (1..(turns + 1))
-        .map(|t| FromPrimitive::from_usize(t).unwrap())
-        .map(|t: T| {
+        .map(|t| T::from_usize(t).unwrap())
+        .map(|t| {
             let denom = t.clone() + One::one();
             let blue = Ratio::new(One::one(), denom.clone());
             let red = Ratio::new(t, denom);
             Polynomial::new(vec![blue, red])
-        }).fold(num_traits::one::<Polynomial<_>>(), |acc, elt| acc * elt)
+        }).fold(Polynomial::<Ratio<T>>::one(), |acc, elt| acc * elt)
         .data()
         .iter()
         .take((turns + 1) / 2)
-        .fold(num_traits::zero::<Ratio<T>>(), |acc, elt| acc + elt)
+        .fold(Ratio::<T>::zero(), |acc, elt| acc + elt)
 }
 
 fn max_prize<T: Integer + Clone>(p: Ratio<T>) -> T {

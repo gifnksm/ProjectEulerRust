@@ -6,7 +6,7 @@ workspace = "../../"
 
 [dependencies]
 num-integer = "0.1"
-num-traits = "0.1"
+num-traits = "0.2"
 
 [dependencies.integer]
 path = "../integer"

@@ -6,16 +6,16 @@ workspace = "../../"
 
 [dependencies]
 num-integer = "0.1"
-num-traits = "0.1"
+num-traits = "0.2"
 
 [dependencies.num-bigint]
-version = "0.1"
+version = "0.2"
 optional = true
 default-features = false
+features = ["std"]
 
 [features]
 bigint = ["num-bigint"]
 serde = ["num-bigint/serde"]
-rustc-serialize = ["num-bigint/rustc-serialize"]
 
 default = []
