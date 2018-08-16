@@ -9,7 +9,7 @@
 
 extern crate common;
 #[macro_use]
-extern crate error_chain;
+extern crate failure;
 extern crate glob;
 extern crate serde_json;
 
@@ -26,20 +26,13 @@ use std::str;
 
 const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
 
-error_chain! {
-    foreign_links {
-        Io(io::Error);
-        Json(serde_json::Error);
-        Glob(glob::GlobError);
-        GlobPattern(glob::PatternError);
-    }
-}
+type Result<T> = std::result::Result<T, failure::Error>;
 
 fn problem_paths(dir_path: &Path) -> Result<Paths> {
     let pat = dir_path.join(PROBLEM_EXE_PAT);
     match pat.to_str() {
         Some(x) => Ok(glob::glob(x)?),
-        None => Err(Error::from("path contains non-utf8 character")),
+        None => bail!("path contains non-utf8 character"),
     }
 }
 
@@ -55,15 +48,11 @@ fn run_problem(path: &Path) -> Result<SolverResult<String>> {
 
     match proc_out.status.code() {
         Some(0) | Some(1) => {} // expected
-        Some(st) => {
-            return Err(Error::from(format!("child process exit with {}", st)));
-        }
-        None => {
-            return Err(Error::from(format!(
-                "child process exit with siglan {}",
-                proc_out.status.signal().unwrap()
-            )));
-        }
+        Some(st) => bail!("child process exit with {}", st),
+        None => bail!(
+            "child process exit with signal {}",
+            proc_out.status.signal().unwrap()
+        ),
     }
 
     let result = serde_json::from_reader(&mut &proc_out.stdout[..])?;

@@ -7,8 +7,9 @@
     unused_results
 )]
 
+extern crate failure;
 #[macro_use]
-extern crate error_chain;
+extern crate failure_derive;
 extern crate getopts;
 extern crate num_integer;
 extern crate reqwest;
@@ -40,20 +41,14 @@ const COLOR_OK: Color = color::GREEN;
 const COLOR_NG: Color = color::RED;
 const COLOR_WARN: Color = color::YELLOW;
 
-error_chain! {
-    foreign_links {
-        Io(io::Error);
-        Json(serde_json::Error);
-        Reqwest(reqwest::Error);
-    }
-
-    errors {
-        InvalidHttpStatus(status: reqwest::StatusCode, body: Vec<u8>) {
-            description(status.canonical_reason().unwrap_or("unknown http status"))
-            display("{}:{}", status, String::from_utf8_lossy(body))
-        }
-    }
+#[derive(Fail, Debug, Clone)]
+#[fail(display = "{}, {}", status, body)]
+struct InvalidHttpStatusError {
+    status: reqwest::StatusCode,
+    body: String,
 }
+
+pub type Result<T> = std::result::Result<T, failure::Error>;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SolverResult<T> {
@@ -266,12 +261,15 @@ fn download(file_name: &str) -> Result<Vec<u8>> {
         let _ = resp.read_to_end(&mut body)?;
 
         if !resp.status().is_success() {
-            let err = Error::from(ErrorKind::InvalidHttpStatus(resp.status(), body.clone()));
+            let err = InvalidHttpStatusError {
+                status: resp.status(),
+                body: String::from_utf8_lossy(&body).into(),
+            };
             let program = env::args().next().unwrap();
             let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
             retry += 1;
             if retry >= 3 {
-                return Err(err);
+                return Err(err.into());
             }
         }
 

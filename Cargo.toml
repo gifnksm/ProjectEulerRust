@@ -17,7 +17,8 @@ crate-type = ["dylib"]
 
 [dependencies]
 enum_primitive = "0.1"
-error-chain = "0.12"
+failure = "0.1"
+failure_derive = "0.1"
 generic-matrix = "0.1"
 getopts = "0.2"
 glob = "0.2"
