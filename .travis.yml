@@ -1,5 +1,5 @@
 language: rust
-sudo: required
+sudo: false
 dist: trusty
 
 cache:
@@ -7,24 +7,10 @@ cache:
   directories:
     - .cache
 
-addons:
-  apt:
-    packages:
-      - libcurl4-openssl-dev
-      - libelf-dev
-      - libdw-dev
-      - binutils-dev
-      - libiberty-dev
-
 rust:
   - nightly
   # - beta
   # - stable
-
-before_script:
-  - cargo install cargo-update || echo "cargo-update already installed"
-  - cargo install cargo-travis || echo "cargo-travis already installed"
-  - cargo install-update -a # update outdated cached binaries
 
 script:
   - |
@@ -32,9 +18,4 @@ script:
       cargo run --release --bin euler &&
       cargo test --all &&
       cargo bench --all &&
-      cargo doc --all
-
-after_success:
-  # - cargo coveralls --all
-  - cargo doc-upload
-
+      cargo doc --all --no-deps
