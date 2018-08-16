@@ -84,8 +84,14 @@
 //! S = b[3] = 48101
 //! ```
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -108,7 +114,8 @@ fn solve() -> String {
 
     let mut sum = 0;
     let ps = PrimeSet::new();
-    let pairs = ps.iter()
+    let pairs = ps
+        .iter()
         .zip(ps.iter().skip(1))
         .skip_while(|&(p1, _p2)| p1 < min_limit)
         .take_while(|&(p1, _p2)| p1 <= max_limit);

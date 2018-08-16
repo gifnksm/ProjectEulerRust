@@ -1,7 +1,13 @@
 //! [Problem 25](https://projecteuler.net/problem=25) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -20,7 +26,8 @@ fn compute(limit_len: usize) -> usize {
         .unwrap();
     Fibonacci::<BigUint>::new()
         .take_while(|n| *n <= limit)
-        .count() + 1
+        .count()
+        + 1
 }
 
 fn solve() -> String {

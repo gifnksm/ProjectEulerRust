@@ -39,8 +39,14 @@
 //!
 //! となり、これが一般解である。
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -52,9 +58,9 @@ fn compute(i: usize) -> u64 {
         *state = next;
         Some(next)
     }).filter_map(|(p, q)| if p % 5 == 1 { Some((p / 5, q)) } else { None })
-        .nth(i)
-        .unwrap()
-        .0
+    .nth(i)
+    .unwrap()
+    .0
 }
 
 fn solve() -> String {

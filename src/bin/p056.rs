@@ -1,7 +1,13 @@
 //! [Problem 56](https://projecteuler.net/problem=56) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -20,11 +26,10 @@ fn compute(a: u32, b: u32) -> u32 {
                 (*n) = &a * (&*n);
                 Some(n.to_string())
             }).map(|s| s.chars().filter_map(|c| c.to_digit(10)).sum())
-                .take(b as usize)
-                .max()
-                .unwrap()
-        })
-        .max()
+            .take(b as usize)
+            .max()
+            .unwrap()
+        }).max()
         .unwrap()
 }
 

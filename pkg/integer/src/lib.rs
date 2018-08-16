@@ -1,7 +1,14 @@
 //! Integer operations and traits.
 
-#![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(
+    bad_style,
+    missing_docs,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 extern crate num_integer;
 extern crate num_traits;

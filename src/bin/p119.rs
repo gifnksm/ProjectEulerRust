@@ -1,7 +1,14 @@
 //! [Problem 119](https://projecteuler.net/problem=119) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
+#![feature(no_panic_pow)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -10,43 +17,6 @@ extern crate integer;
 use integer::Integer;
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
-
-trait IntExt: Sized {
-    fn checked_pow(self, exp: u32) -> Option<Self>;
-}
-
-impl IntExt for u64 {
-    fn checked_pow(self, mut exp: u32) -> Option<Self> {
-        let mut base = self;
-        let mut acc = 1u64;
-
-        let mut prev_base = self;
-        let mut base_oflo = false;
-        while exp > 0 {
-            if (exp & 1) == 1 {
-                let new_acc;
-                if base_oflo {
-                    // ensure overflow occurs in the same manner it
-                    // would have otherwise (i.e. signal any exception
-                    // it would have otherwise).
-                    new_acc = acc.checked_mul(prev_base * prev_base);
-                } else {
-                    new_acc = acc.checked_mul(base);
-                }
-                match new_acc {
-                    Some(a) => acc = a,
-                    None => return None,
-                }
-            }
-            prev_base = base;
-            let (new_base, new_base_oflo) = base.overflowing_mul(base);
-            base = new_base;
-            base_oflo = new_base_oflo;
-            exp /= 2;
-        }
-        Some(acc)
-    }
-}
 
 struct Power(u64, u64, u32);
 

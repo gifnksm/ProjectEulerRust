@@ -1,7 +1,13 @@
 //! [Problem 11](https://projecteuler.net/problem=11) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -37,8 +43,7 @@ fn compute(prod_len: usize) -> u32 {
             line.split_whitespace()
                 .filter_map(|s| s.parse().ok())
                 .collect()
-        })
-        .collect();
+        }).collect();
 
     let w = grid[0].len();
     let h = grid.len();
@@ -77,8 +82,7 @@ fn compute(prod_len: usize) -> u32 {
                 .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
                 .max()
                 .unwrap_or(0)
-        })
-        .max()
+        }).max()
         .unwrap()
 }
 

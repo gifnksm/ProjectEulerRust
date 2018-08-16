@@ -1,5 +1,11 @@
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use]
 extern crate error_chain;
@@ -16,11 +22,11 @@ extern crate time;
 use getopts::Options;
 use num_integer::Integer;
 use serde::Serialize;
-use std::{env, fmt, io, process};
 use std::borrow::Cow;
 use std::fs::{self, File};
 use std::io::prelude::*;
 use std::path::PathBuf;
+use std::{env, fmt, io, process};
 use term::color;
 use term::color::Color;
 
@@ -275,7 +281,7 @@ fn download(file_name: &str) -> Result<Vec<u8>> {
 
 #[macro_export]
 macro_rules! problem {
-    ($answer:expr, $solver:expr) => (
+    ($answer:expr, $solver:expr) => {
         fn main() {
             $crate::Solver::new($answer, $solver).run();
         }
@@ -284,15 +290,20 @@ macro_rules! problem {
         fn test_solve() {
             assert!($crate::Solver::new($answer, $solver).solve().unwrap().is_ok);
         }
-    );
-    ($answer:expr, $file:expr, $solver:expr) => (
+    };
+    ($answer:expr, $file:expr, $solver:expr) => {
         fn main() {
             $crate::Solver::new_with_file($answer, $file, $solver).run();
         }
 
         #[test]
         fn test_solve() {
-            assert!($crate::Solver::new_with_file($answer, $file, $solver).solve().unwrap().is_ok);
+            assert!(
+                $crate::Solver::new_with_file($answer, $file, $solver)
+                    .solve()
+                    .unwrap()
+                    .is_ok
+            );
         }
-     );
+    };
 }

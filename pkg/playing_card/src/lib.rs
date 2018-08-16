@@ -1,11 +1,18 @@
 //! Data types that represent playing cards.
 
-#![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(
+    bad_style,
+    missing_docs,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
-use Suit::{Club, Dia, Heart, Spade};
 use std::fmt;
 use std::str::FromStr;
+use Suit::{Club, Dia, Heart, Spade};
 
 /// Playing card's suite.
 #[allow(missing_docs, unused_qualifications)]
@@ -136,8 +143,8 @@ impl Card {
 
 #[cfg(test)]
 mod tests {
-    use super::{Card, Suit};
     use super::Suit::{Club, Dia, Heart, Spade};
+    use super::{Card, Suit};
 
     #[test]
     fn show_suit() {

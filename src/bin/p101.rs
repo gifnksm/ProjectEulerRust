@@ -1,7 +1,13 @@
 //! [Problem 101](https://projecteuler.net/problem=101) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -37,11 +43,10 @@ fn op(ns: &[(BigInt, BigInt)]) -> Polynomial<BigInt> {
                 continue;
             }
 
-            term = term
-                * Polynomial::new(vec![
-                    Ratio::new(-xj, xi - xj),
-                    Ratio::new(One::one(), xi - xj),
-                ]);
+            term = term * Polynomial::new(vec![
+                Ratio::new(-xj, xi - xj),
+                Ratio::new(One::one(), xi - xj),
+            ]);
         }
         poly = poly + term;
     }
@@ -59,8 +64,7 @@ fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
         .map(|i| {
             let n: BigInt = FromPrimitive::from_u32(i + 1).unwrap();
             (n.clone(), f(n))
-        })
-        .collect()
+        }).collect()
 }
 
 fn solve() -> String {

@@ -1,16 +1,21 @@
 //! [Problem 59](https://projecteuler.net/problem=59) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
-#![feature(inclusive_range_syntax)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
 
 use std::f64;
 use std::fs::File;
-use std::io::{self, BufReader};
 use std::io::prelude::*;
+use std::io::{self, BufReader};
 
 const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
     ('a', 0.08167),
@@ -106,7 +111,8 @@ fn solve(file: File) -> io::Result<String> {
         freq[i % KEY_LEN][n as usize] += 1;
     }
 
-    let key = freq.iter()
+    let key = freq
+        .iter()
         .map(|f| find_key(f, freq_dict))
         .collect::<Vec<u8>>();
 

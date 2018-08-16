@@ -1,7 +1,13 @@
 //! [Problem 94](https://projecteuler.net/problem=94) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -68,8 +74,7 @@ fn solve() -> String {
                 (a, b)
             }
             _ => panic!(),
-        })
-        .filter(|&(_a, b)| b != 0)
+        }).filter(|&(_a, b)| b != 0)
         .map(|(a, b)| 2 * a + b)
         .take_while(|&side| side <= limit)
         .sum::<u32>()

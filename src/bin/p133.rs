@@ -46,8 +46,14 @@
 //! problem 129 で求めた `A(n)` の素因数が 2 または 5 のみの場合に、
 //! `R(n)` は `R(10^k)` を割り切る。
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -74,7 +80,8 @@ fn a(n: u64) -> u64 {
 fn solve() -> String {
     let ps = PrimeSet::new();
 
-    let sum = ps.iter()
+    let sum = ps
+        .iter()
         .skip_while(|&p| p <= 5)
         .take_while(|&p| p < 100000)
         .filter(|&p| a(p).factorize(&ps).any(|(b, _e)| b != 2 && b != 5))

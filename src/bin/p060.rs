@@ -1,7 +1,13 @@
 //! [Problem 60](https://projecteuler.net/problem=60) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -37,14 +43,15 @@ impl Iterator for ConcatPrimeNums {
 
     fn next(&mut self) -> Option<(u64, Vec<u64>)> {
         let n = self.iter.next().unwrap();
-        let pairs = self.ps
+        let pairs = self
+            .ps
             .iter()
             .take_while(|&m| m <= n)
             .filter(|&m| {
-                (n + m) % 3 != 0 && self.ps.contains(concat_num(n, m))
+                (n + m) % 3 != 0
+                    && self.ps.contains(concat_num(n, m))
                     && self.ps.contains(concat_num(m, n))
-            })
-            .collect();
+            }).collect();
         Some((n, pairs))
     }
 }

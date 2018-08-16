@@ -1,8 +1,14 @@
 //! Prime number generator and related functions.
 
-#![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
-#![feature(iterator_step_by)]
+#![warn(
+    bad_style,
+    missing_docs,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 #![cfg_attr(test, feature(test))]
 
 extern crate num_integer;
@@ -12,13 +18,13 @@ extern crate test;
 
 use num_integer::Integer;
 use num_traits::{FromPrimitive, One, Zero};
-use std::{cmp, mem};
 use std::cell::RefCell;
-use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
+use std::collections::HashMap;
 use std::hash::Hash;
 use std::iter::IntoIterator;
 use std::rc::Rc;
+use std::{cmp, mem};
 
 const SMALL_PRIMES: &'static [u64] = &[
     2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
@@ -253,8 +259,7 @@ pub trait Factorize: Integer + FromPrimitive + Clone {
             .map(|(base, exp)| {
                 let denom = base.clone() - one.clone();
                 (num_traits::pow(base.clone(), (exp as usize) + 1) - one.clone()) / denom
-            })
-            .fold(num_traits::one::<Self>(), |acc, n| acc * n)
+            }).fold(num_traits::one::<Self>(), |acc, n| acc * n)
     }
 
     /// Calculates the number of proper positive divisors.

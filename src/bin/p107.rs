@@ -1,15 +1,21 @@
 //! [Problem 107](https://projecteuler.net/problem=107) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
 extern crate union_find;
 
 use std::fs::File;
-use std::io::{self, BufReader};
 use std::io::prelude::*;
+use std::io::{self, BufReader};
 use union_find::{QuickUnionUf as Uf, UnionBySize, UnionFind};
 
 fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {

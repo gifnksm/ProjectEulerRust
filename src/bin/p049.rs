@@ -1,7 +1,13 @@
 //! [Problem 49](https://projecteuler.net/problem=49) solver.
 
-#![warn(bad_style, unused, unused_extern_crates, unused_import_braces, unused_qualifications,
-        unused_results)]
+#![warn(
+    bad_style,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -14,7 +20,8 @@ use prime::PrimeSet;
 fn solve() -> String {
     let ps = PrimeSet::new();
     let d = 3330;
-    let (p1, p2, p3) = ps.iter()
+    let (p1, p2, p3) = ps
+        .iter()
         .skip_while(|&p| p < 1000)
         .take_while(|&p| p <= 9999 - 2 * d)
         .filter(|&p| p != 1487)
@@ -24,8 +31,7 @@ fn solve() -> String {
             let hs1 = p1.into_digit_histogram();
             let hs2 = p2.into_digit_histogram();
             hs1 == hs2 && hs1 == p3.into_digit_histogram()
-        })
-        .next()
+        }).next()
         .unwrap();
     format!("{}{}{}", p1, p2, p3)
 }

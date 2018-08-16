@@ -1,7 +1,14 @@
 //! Iterators representing mathematical sequences.
 
-#![warn(bad_style, missing_docs, unused, unused_extern_crates, unused_import_braces,
-        unused_qualifications, unused_results)]
+#![warn(
+    bad_style,
+    missing_docs,
+    unused,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications,
+    unused_results
+)]
 
 #[cfg(test)]
 extern crate num_bigint;
