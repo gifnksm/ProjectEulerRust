@@ -43,10 +43,11 @@ fn op(ns: &[(BigInt, BigInt)]) -> Polynomial<BigInt> {
                 continue;
             }
 
-            term = term * Polynomial::new(vec![
-                Ratio::new(-xj, xi - xj),
-                Ratio::new(One::one(), xi - xj),
-            ]);
+            term = term
+                * Polynomial::new(vec![
+                    Ratio::new(-xj, xi - xj),
+                    Ratio::new(One::one(), xi - xj),
+                ]);
         }
         poly = poly + term;
     }
@@ -64,7 +65,8 @@ fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
         .map(|i| {
             let n: BigInt = FromPrimitive::from_u32(i + 1).unwrap();
             (n.clone(), f(n))
-        }).collect()
+        })
+        .collect()
 }
 
 fn solve() -> String {

@@ -369,5 +369,4 @@ mod tests {
     fn solve_pel_4() {
         let _ = super::solve_pel::<u32>(4);
     }
-
 }

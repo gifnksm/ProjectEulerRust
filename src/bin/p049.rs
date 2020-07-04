@@ -31,7 +31,8 @@ fn solve() -> String {
             let hs1 = p1.into_digit_histogram();
             let hs2 = p2.into_digit_histogram();
             hs1 == hs2 && hs1 == p3.into_digit_histogram()
-        }).next()
+        })
+        .next()
         .unwrap();
     format!("{}{}{}", p1, p2, p3)
 }

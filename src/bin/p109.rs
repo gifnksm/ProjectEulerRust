@@ -41,13 +41,14 @@ fn count_way(score: u32) -> u32 {
     let p_all = &single + &double + &triple;
     let p1 = double.clone();
     let p2 = &double * &p_all;
-    let p3 = &double * Polynomial::new(
-        (&p_all * &p_all + &dup)
-            .data()
-            .iter()
-            .map(|&n| n / 2)
-            .collect(),
-    );
+    let p3 = &double
+        * Polynomial::new(
+            (&p_all * &p_all + &dup)
+                .data()
+                .iter()
+                .map(|&n| n / 2)
+                .collect(),
+        );
     let total = p1 + p2 + p3;
     total
         .data()

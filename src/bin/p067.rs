@@ -26,7 +26,8 @@ fn solve(file: File) -> io::Result<String> {
             line.split_whitespace()
                 .filter_map(|s| s.parse().ok())
                 .collect::<Vec<u32>>()
-        }).collect::<Vec<_>>();
+        })
+        .collect::<Vec<_>>();
 
     let last = triangle.pop().unwrap();
     let ans = triangle.iter().rev().fold(last, |prev, elem| {

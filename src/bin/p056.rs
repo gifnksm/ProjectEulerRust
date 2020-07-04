@@ -25,11 +25,13 @@ fn compute(a: u32, b: u32) -> u32 {
             itertools::unfold(One::one(), |n: &mut BigUint| {
                 (*n) = &a * (&*n);
                 Some(n.to_string())
-            }).map(|s| s.chars().filter_map(|c| c.to_digit(10)).sum())
+            })
+            .map(|s| s.chars().filter_map(|c| c.to_digit(10)).sum())
             .take(b as usize)
             .max()
             .unwrap()
-        }).max()
+        })
+        .max()
         .unwrap()
 }
 

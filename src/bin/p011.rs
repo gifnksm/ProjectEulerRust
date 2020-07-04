@@ -43,7 +43,8 @@ fn compute(prod_len: usize) -> u32 {
             line.split_whitespace()
                 .filter_map(|s| s.parse().ok())
                 .collect()
-        }).collect();
+        })
+        .collect();
 
     let w = grid[0].len();
     let h = grid.len();
@@ -82,7 +83,8 @@ fn compute(prod_len: usize) -> u32 {
                 .map(|ns| ns.iter().map(|&(x, y)| grid[y][x]).product())
                 .max()
                 .unwrap_or(0)
-        }).max()
+        })
+        .max()
         .unwrap()
 }
 

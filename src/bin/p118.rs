@@ -94,7 +94,8 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
                         .filter(|&(ref perm, _)| perm[0].is_odd() && perm[0] != 5)
                         .filter(|&(ref perm, _)| {
                             ps.contains(Integer::from_digits(perm.iter().map(|&x| x), 10))
-                        }).count()
+                        })
+                        .count()
                 } else {
                     0
                 }

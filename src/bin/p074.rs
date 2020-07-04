@@ -124,5 +124,4 @@ mod tests {
         assert_eq!(4, super::get_chain_len(78, &mut map, &factorial));
         assert_eq!(2, super::get_chain_len(540, &mut map, &factorial));
     }
-
 }

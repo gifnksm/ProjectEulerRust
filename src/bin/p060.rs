@@ -51,7 +51,8 @@ impl Iterator for ConcatPrimeNums {
                 (n + m) % 3 != 0
                     && self.ps.contains(concat_num(n, m))
                     && self.ps.contains(concat_num(m, n))
-            }).collect();
+            })
+            .collect();
         Some((n, pairs))
     }
 }

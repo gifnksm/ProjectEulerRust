@@ -74,7 +74,8 @@ fn solve() -> String {
                 (a, b)
             }
             _ => panic!(),
-        }).filter(|&(_a, b)| b != 0)
+        })
+        .filter(|&(_a, b)| b != 0)
         .map(|(a, b)| 2 * a + b)
         .take_while(|&side| side <= limit)
         .sum::<u32>()

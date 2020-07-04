@@ -22,7 +22,8 @@ fn compute(max: u32) -> u32 {
     num_iter::range::<BigUint>(
         FromPrimitive::from_u32(1).unwrap(),
         FromPrimitive::from_u32(max + 1).unwrap(),
-    ).fold(num_traits::one::<BigUint>(), |acc, elt| acc * elt)
+    )
+    .fold(num_traits::one::<BigUint>(), |acc, elt| acc * elt)
     .to_string()
     .chars()
     .filter_map(|c| c.to_digit(10))

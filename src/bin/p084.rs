@@ -123,11 +123,13 @@ fn ch_trans_matrix() -> Matrix<f64> {
                     _ => 0.0,
                 }
             }
-            _ => if src == dst {
-                1.0
-            } else {
-                0.0
-            },
+            _ => {
+                if src == dst {
+                    1.0
+                } else {
+                    0.0
+                }
+            }
         }
     })
 }
@@ -158,11 +160,13 @@ fn cc_trans_matrix() -> Matrix<f64> {
                 }
                 0.0
             }
-            _ => if src == dst {
-                1.0
-            } else {
-                0.0
-            },
+            _ => {
+                if src == dst {
+                    1.0
+                } else {
+                    0.0
+                }
+            }
         }
     })
 }
@@ -217,7 +221,8 @@ fn state_to_square(state: Matrix<f64>) -> Vec<(Square, f64)> {
                 .sum();
             let sq: Square = FromPrimitive::from_usize(s).unwrap();
             (sq, prob)
-        }).collect()
+        })
+        .collect()
 }
 
 fn solve() -> String {

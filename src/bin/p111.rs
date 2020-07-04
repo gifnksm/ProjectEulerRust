@@ -86,12 +86,13 @@ impl Iterator for RunDigits {
             let mut j = 0;
             let mut num = 0;
             for i in 0..(self.other_ds.len() + self.run_len) {
-                num = num * 10 + if set.contains(i) {
-                    j += 1;
-                    self.other_ds[j - 1]
-                } else {
-                    self.d
-                };
+                num = num * 10
+                    + if set.contains(i) {
+                        j += 1;
+                        self.other_ds[j - 1]
+                    } else {
+                        self.d
+                    };
             }
 
             return Some(num);

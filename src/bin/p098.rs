@@ -85,7 +85,8 @@ fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, Vec<u64>, Vec<u6
                 cs1.iter().map(|c| get_pos(c)).collect(),
                 cs2.iter().map(|c| get_pos(c)).collect(),
             )
-        }).collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>()
 }
 
 fn group_by_len(

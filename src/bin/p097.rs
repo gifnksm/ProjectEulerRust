@@ -54,7 +54,8 @@ fn solve() -> String {
         ),
         &One::one(),
         &unit,
-    ).to_string()
+    )
+    .to_string()
 }
 
 problem!("8739992577", solve);

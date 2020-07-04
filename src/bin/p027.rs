@@ -24,7 +24,8 @@ fn get_limit_n(ps: &PrimeSet, a: i32, b: i32) -> u32 {
         .take_while(|&n| {
             let val = n * n + a * n + b;
             (val >= 0 && ps.contains(val as u64))
-        }).last()
+        })
+        .last()
         .unwrap() as u32
 }
 
@@ -38,7 +39,8 @@ fn compute(limit: u64) -> i32 {
             (-b..1000)
                 .map(|a| (a, b, get_limit_n(&ps, a, b)))
                 .max_by_key(|&(_a, _b, len)| len)
-        }).max_by_key(|&(_a, _b, len)| len)
+        })
+        .max_by_key(|&(_a, _b, len)| len)
         .unwrap();
     a * b
 }

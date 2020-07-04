@@ -57,7 +57,8 @@ fn create_map(fs: &[fn(u32) -> u32]) -> Vec<Vec<Vec<u32>>> {
                 result[hi as usize].push(lo);
             }
             result
-        }).collect()
+        })
+        .collect()
 }
 
 fn find_cycle(map: &mut [Vec<Vec<u32>>]) -> Vec<Vec<u32>> {
@@ -128,7 +129,8 @@ mod tests {
             .map(|mut vs| {
                 vs.sort();
                 vs
-            }).collect::<Vec<_>>();
+            })
+            .collect::<Vec<_>>();
         assert_eq!(&[vec![2882, 8128, 8281]], &cycle[..]);
     }
 }

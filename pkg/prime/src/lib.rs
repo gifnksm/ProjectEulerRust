@@ -259,7 +259,8 @@ pub trait Factorize: Integer + FromPrimitive + Clone {
             .map(|(base, exp)| {
                 let denom = base.clone() - one.clone();
                 (num_traits::pow(base.clone(), (exp as usize) + 1) - one.clone()) / denom
-            }).fold(num_traits::one::<Self>(), |acc, n| acc * n)
+            })
+            .fold(num_traits::one::<Self>(), |acc, n| acc * n)
     }
 
     /// Calculates the number of proper positive divisors.
@@ -604,5 +605,4 @@ mod bench {
             for _p in ps.iter().take(5000) {}
         });
     }
-
 }
