@@ -335,7 +335,7 @@ problem!("376", "p054_poker.txt", solve);
 mod tests {
     use super::Hand;
     use playing_card::SuitCard as Card;
-    use rand::{self, Rng};
+    use rand::{self, seq::SliceRandom, Rng};
     use std::cmp::Ordering;
     use std::str::FromStr;
 
@@ -354,7 +354,7 @@ mod tests {
 
             let mut rng = rand::thread_rng();
             for _ in 0..10 {
-                rng.shuffle(&mut cs);
+                cs.shuffle(&mut rng);
                 let hand = Hand::from_cards(&cs);
                 assert_eq!(ihand, hand);
                 assert_eq!(output, &hand.to_string()[..]);

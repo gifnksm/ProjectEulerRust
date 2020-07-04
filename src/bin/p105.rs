@@ -24,7 +24,7 @@ fn is_sss(nums: &mut [u32]) -> bool {
     let len_hd = (len + 1) / 2;
     let len_tl = len_hd - 1;
     let hd = nums[..len_hd].iter().map(|&x| x).sum::<u32>();
-    let tl = nums[len - len_tl..].iter().map(|&x| x).sum();
+    let tl = nums[len - len_tl..].iter().map(|&x| x).sum::<u32>();
     if hd <= tl {
         return false;
     }

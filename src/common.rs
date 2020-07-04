@@ -256,7 +256,7 @@ fn download(file_name: &str) -> Result<Vec<u8>> {
 
     let mut retry = 0;
     loop {
-        let mut resp = reqwest::get(&url)?;
+        let mut resp = reqwest::blocking::get(&url)?;
         let mut body = vec![];
         let _ = resp.read_to_end(&mut body)?;
 

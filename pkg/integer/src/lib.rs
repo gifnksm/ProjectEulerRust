@@ -23,26 +23,6 @@ use std::cmp::Ordering;
 
 /// Extension methods for num::Integer trait.
 pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
-    /// Divide two numbers, return the result, rounded up.
-    ///
-    /// # Arguments
-    ///
-    /// * x - an integer
-    /// * y - an integer distinct from 0u
-    ///
-    /// # Return value
-    ///
-    /// The smallest integer `q` such that `x/y <= q`.
-    ///
-    fn div_ceil(&self, other: &Self) -> Self {
-        let div = self.clone() / other.clone();
-        if self.is_multiple_of(other) {
-            div
-        } else {
-            div + One::one()
-        }
-    }
-
     /// Divide two numbers, return the result, rounded to the closest integer.
     ///
     /// # Arguments

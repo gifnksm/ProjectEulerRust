@@ -11,9 +11,9 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate integer;
+extern crate num_integer;
 
-use integer::Integer;
+use num_integer::Integer;
 use std::u32;
 
 fn each_sum_product<F>(prod_start: u32, prod_end: u32, f: &mut F)

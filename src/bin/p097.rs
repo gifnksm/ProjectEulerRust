@@ -26,7 +26,7 @@ fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
         if &itr % &two == One::one() {
             result = mul_unit(&result, &pow, unit);
         }
-        itr = itr >> One::one();
+        itr >>= 1;
         pow = mul_unit(&pow, &pow, unit);
     }
     return result;
