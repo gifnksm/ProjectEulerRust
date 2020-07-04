@@ -258,7 +258,6 @@ where
     /// Creates a new `Difference` iterator.
     ///
     /// ```rust
-    /// use std::iter;
     /// use iter::Difference;
     ///
     /// let ints    = (1..);
