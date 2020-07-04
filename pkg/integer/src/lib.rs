@@ -10,8 +10,6 @@
     unused_results
 )]
 
-use num_integer;
-
 #[cfg(feature = "num-bigint")]
 use num_bigint::{BigInt, BigUint};
 use num_traits::{FromPrimitive, One, ToPrimitive, Zero};
@@ -290,7 +288,6 @@ impl<T: num_integer::Integer + Clone> DoubleEndedIterator for Digits<T> {
 mod tests {
     use super::Integer;
     use num_integer::Integer as NumInteger;
-    use num_traits;
 
     #[test]
     fn div() {

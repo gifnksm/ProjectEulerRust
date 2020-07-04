@@ -12,9 +12,6 @@
 #[macro_use(problem)]
 extern crate common;
 
-use num_iter;
-use num_traits;
-
 use num_bigint::BigUint;
 use num_traits::FromPrimitive;
 

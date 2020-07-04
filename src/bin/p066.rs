@@ -11,7 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-use cont_frac;
 
 use iter::Difference;
 use num_bigint::BigUint;

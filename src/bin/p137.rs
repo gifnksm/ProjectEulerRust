@@ -50,7 +50,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-use itertools;
 
 fn compute(i: usize) -> u64 {
     itertools::unfold((1, 1), |state| {

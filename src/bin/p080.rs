@@ -12,8 +12,6 @@
 #[macro_use(problem)]
 extern crate common;
 
-use num_traits;
-
 use iter::Difference;
 use num_bigint::BigInt;
 use num_traits::{FromPrimitive, Zero};

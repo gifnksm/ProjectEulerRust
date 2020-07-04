@@ -11,7 +11,6 @@
 )]
 #![cfg_attr(test, feature(test))]
 
-use num_traits;
 #[cfg(test)]
 extern crate test;
 

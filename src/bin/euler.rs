@@ -9,8 +9,6 @@
 
 #[macro_use]
 extern crate failure;
-use glob;
-use serde_json;
 
 use common::SolverResult;
 use glob::Paths;

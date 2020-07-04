@@ -7,16 +7,11 @@
     unused_results
 )]
 
-use failure;
 #[macro_use]
 extern crate failure_derive;
 
-use reqwest;
-
 #[macro_use]
 extern crate serde_derive;
-use serde_json;
-use term;
 
 use getopts::Options;
 use num_integer::Integer;
