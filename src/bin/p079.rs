@@ -9,9 +9,10 @@
     unused_results
 )]
 
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 use topological_sort::TopologicalSort;
 
 fn solve(file: File) -> io::Result<String> {

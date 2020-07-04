@@ -9,10 +9,11 @@
     unused_results
 )]
 
-use std::cmp;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    cmp,
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
     let mut mat = vec![];

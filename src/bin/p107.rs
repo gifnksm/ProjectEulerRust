@@ -9,9 +9,10 @@
     unused_results
 )]
 
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 use union_find::{QuickUnionUf as Uf, UnionBySize, UnionFind};
 
 fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {

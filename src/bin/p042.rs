@@ -10,9 +10,10 @@
 )]
 
 use seq::TriangularNums;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn word_to_value(word: &str) -> u32 {
     let mut value = 0;

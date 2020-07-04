@@ -9,10 +9,11 @@
     unused_results
 )]
 
-use std::f64;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    f64,
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 const ENGLISH_FREQUENCY: &[(char, f64)] = &[
     ('a', 0.08167),

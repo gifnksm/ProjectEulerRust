@@ -9,9 +9,10 @@
     unused_results
 )]
 
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn get_score(n: u32, s: &str) -> u32 {
     n * s.bytes().map(|c| (c - b'A' + 1) as u32).sum::<u32>()

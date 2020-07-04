@@ -9,10 +9,11 @@
     unused_results
 )]
 
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use std::usize;
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+    usize,
+};
 
 const BOARD_WIDTH: usize = 9;
 const BOARD_HEIGHT: usize = 9;

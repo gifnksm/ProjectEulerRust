@@ -11,8 +11,7 @@
 )]
 
 use crate::Suit::{Club, Dia, Heart, Spade};
-use std::fmt;
-use std::str::FromStr;
+use std::{fmt, str::FromStr};
 
 /// Playing card's suite.
 #[allow(missing_docs, unused_qualifications)]
@@ -143,8 +142,10 @@ impl Card {
 
 #[cfg(test)]
 mod tests {
-    use super::Suit::{Club, Dia, Heart, Spade};
-    use super::{Card, Suit};
+    use super::{
+        Card, Suit,
+        Suit::{Club, Dia, Heart, Spade},
+    };
 
     #[test]
     fn show_suit() {

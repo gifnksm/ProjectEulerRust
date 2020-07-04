@@ -10,12 +10,13 @@
 )]
 
 use playing_card::SuitCard as Card;
-use std::cmp::Ordering;
-use std::fmt;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use std::str::FromStr;
+use std::{
+    cmp::Ordering,
+    fmt,
+    fs::File,
+    io::{self, prelude::*, BufReader},
+    str::FromStr,
+};
 
 fn cmp_card(c0: &Card, c1: &Card) -> Ordering {
     if c0.num == c1.num {
@@ -329,8 +330,7 @@ mod tests {
     use super::Hand;
     use playing_card::SuitCard as Card;
     use rand::{self, seq::SliceRandom};
-    use std::cmp::Ordering;
-    use std::str::FromStr;
+    use std::{cmp::Ordering, str::FromStr};
 
     fn str_to_cards(s: &str) -> Vec<Card> {
         s.split(' ')

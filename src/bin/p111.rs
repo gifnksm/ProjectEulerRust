@@ -12,8 +12,7 @@
 use integer::Integer;
 use iter::BitCombination;
 use prime::PrimeSet;
-use std::iter::Rev;
-use std::ops::Range;
+use std::{iter::Rev, ops::Range};
 
 struct Digits {
     radix: u64,

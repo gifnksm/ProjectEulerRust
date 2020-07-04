@@ -9,8 +9,7 @@
     unused_results
 )]
 
-use std::cmp::Ordering;
-use std::collections::BinaryHeap;
+use std::{cmp::Ordering, collections::BinaryHeap};
 
 /// Special sum set
 #[derive(Debug)]

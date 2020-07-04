@@ -9,9 +9,10 @@
     unused_results
 )]
 
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn solve(file: File) -> io::Result<String> {
     let mut max_val = 0.0;

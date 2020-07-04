@@ -9,10 +9,11 @@
     unused_results
 )]
 
-use std::cmp::Ordering;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    cmp::Ordering,
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn is_sss(nums: &mut [u32]) -> bool {
     nums.sort();

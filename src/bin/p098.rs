@@ -10,12 +10,13 @@
 )]
 
 use integer::Integer;
-use std::collections::hash_map::Entry;
-use std::collections::HashMap;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use std::{cmp, u64};
+use std::{
+    cmp,
+    collections::{hash_map::Entry, HashMap},
+    fs::File,
+    io::{self, prelude::*, BufReader},
+    u64,
+};
 
 fn read_words(file: File) -> io::Result<Vec<String>> {
     let mut words = vec![];

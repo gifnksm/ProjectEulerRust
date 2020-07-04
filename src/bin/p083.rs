@@ -9,11 +9,13 @@
     unused_results
 )]
 
-use std::collections::HashSet;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use std::{cmp, u32};
+use std::{
+    cmp,
+    collections::HashSet,
+    fs::File,
+    io::{self, prelude::*, BufReader},
+    u32,
+};
 
 fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
     let mut mat = vec![];

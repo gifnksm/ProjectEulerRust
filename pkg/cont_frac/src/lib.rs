@@ -13,9 +13,11 @@
 use integer::Integer;
 use num_integer::Integer as NumInteger;
 use num_traits::FromPrimitive;
-use std::collections::HashSet;
-use std::mem;
-use std::ops::{Add, Mul};
+use std::{
+    collections::HashSet,
+    mem,
+    ops::{Add, Mul},
+};
 
 /// Calculates a square root of the number as continued fraction form.
 ///

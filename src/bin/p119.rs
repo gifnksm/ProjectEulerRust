@@ -10,8 +10,7 @@
 )]
 
 use integer::Integer;
-use std::cmp::Ordering;
-use std::collections::BinaryHeap;
+use std::{cmp::Ordering, collections::BinaryHeap};
 
 struct Power(u64, u64, u32);
 

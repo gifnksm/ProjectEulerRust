@@ -10,14 +10,10 @@
 use common::SolverResult;
 use failure::bail;
 use glob::Paths;
-use std::env;
-use std::io;
-use std::io::prelude::*;
-use std::os::unix::process::ExitStatusExt;
-use std::path::Path;
-use std::process;
-use std::process::Command;
-use std::str;
+use std::{
+    env, io, io::prelude::*, os::unix::process::ExitStatusExt, path::Path, process,
+    process::Command, str,
+};
 
 const PROBLEM_EXE_PAT: &str = "p[0-9][0-9][0-9]";
 

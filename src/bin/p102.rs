@@ -9,10 +9,11 @@
     unused_results
 )]
 
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use std::ops::{Mul, Sub};
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+    ops::{Mul, Sub},
+};
 
 #[derive(Copy, Clone)]
 struct Point(i32, i32);

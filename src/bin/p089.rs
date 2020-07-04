@@ -9,10 +9,11 @@
     unused_results
 )]
 
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use std::u32;
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+    u32,
+};
 
 const ROMAN_PAIRS: &[(&str, u32)] = &[
     ("IV", 4),

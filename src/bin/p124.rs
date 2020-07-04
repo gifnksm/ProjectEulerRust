@@ -10,8 +10,7 @@
 )]
 
 use prime::PrimeSet;
-use std::cmp::Ordering;
-use std::collections::BinaryHeap;
+use std::{cmp::Ordering, collections::BinaryHeap};
 
 struct Multiple(u64, u64);
 

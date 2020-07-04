@@ -10,8 +10,7 @@
 )]
 
 use integer::Integer;
-use std::collections::hash_map::Entry;
-use std::collections::{HashMap, HashSet};
+use std::collections::{hash_map::Entry, HashMap, HashSet};
 
 fn perm_exact(cnt: usize) -> HashSet<u64> {
     let mut map = HashMap::<_, (u64, usize)>::new();

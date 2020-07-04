@@ -16,13 +16,18 @@ extern crate test;
 
 use num_integer::Integer;
 use num_traits::{FromPrimitive, One, Zero};
-use std::cell::RefCell;
-use std::collections::hash_map::Entry::{Occupied, Vacant};
-use std::collections::HashMap;
-use std::hash::Hash;
-use std::iter::IntoIterator;
-use std::rc::Rc;
-use std::{cmp, mem};
+use std::{
+    cell::RefCell,
+    cmp,
+    collections::{
+        hash_map::Entry::{Occupied, Vacant},
+        HashMap,
+    },
+    hash::Hash,
+    iter::IntoIterator,
+    mem,
+    rc::Rc,
+};
 
 const SMALL_PRIMES: &[u64] = &[
     2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,

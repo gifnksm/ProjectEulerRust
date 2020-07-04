@@ -11,13 +11,17 @@ use failure::Fail;
 use getopts::Options;
 use num_integer::Integer;
 use serde::{Deserialize, Serialize};
-use std::borrow::Cow;
-use std::fs::{self, File};
-use std::io::prelude::*;
-use std::path::PathBuf;
-use std::{env, fmt, io, process, time::Instant};
-use term::color;
-use term::color::Color;
+use std::{
+    borrow::Cow,
+    env, fmt,
+    fs::{self, File},
+    io,
+    io::prelude::*,
+    path::PathBuf,
+    process,
+    time::Instant,
+};
+use term::{color, color::Color};
 
 type OutputPair<'a> = (Option<Color>, Cow<'a, str>);
 

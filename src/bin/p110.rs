@@ -10,8 +10,7 @@
 )]
 
 use prime::PrimeSet;
-use std::cmp::Ordering;
-use std::collections::BinaryHeap;
+use std::{cmp::Ordering, collections::BinaryHeap};
 
 struct Elem(u64, Vec<u64>);
 

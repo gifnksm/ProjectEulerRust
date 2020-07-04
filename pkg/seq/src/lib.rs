@@ -12,8 +12,7 @@
 
 use num_integer::Integer;
 use num_traits::One;
-use std::mem;
-use std::ops::Add;
+use std::{mem, ops::Add};
 
 /// Fibonacci sequence iterator.
 pub struct Fibonacci<T> {
@@ -277,8 +276,7 @@ impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
 mod tests {
     use num_bigint::ToBigInt;
     use num_traits::One;
-    use std::fmt::Debug;
-    use std::ops::Add;
+    use std::{fmt::Debug, ops::Add};
 
     fn check<T: Eq + Debug, I: Iterator<Item = T>>(expected: &[T], it: I) {
         assert_eq!(expected, &it.collect::<Vec<_>>()[..]);

@@ -9,10 +9,11 @@
     unused_results
 )]
 
-use std::cmp;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    cmp,
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn solve(file: File) -> io::Result<String> {
     let mut triangle = BufReader::new(file)
