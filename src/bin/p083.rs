@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::collections::HashSet;
 use std::fs::File;
 use std::io::prelude::*;
@@ -127,7 +124,7 @@ fn solve(file: File) -> io::Result<String> {
     Ok(minimal_path_sum(mat).to_string())
 }
 
-problem!("425185", "p083_matrix.txt", solve);
+common::problem!("425185", "p083_matrix.txt", solve);
 
 #[cfg(test)]
 mod tests {

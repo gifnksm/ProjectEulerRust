@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn sum_of_square(n: u32) -> u32 {
     n * (n + 1) * (2 * n + 1) / 6
 }
@@ -31,7 +28,7 @@ fn solve() -> String {
     compute(100).to_string()
 }
 
-problem!("25164150", solve);
+common::problem!("25164150", solve);
 
 #[cfg(test)]
 mod tests {

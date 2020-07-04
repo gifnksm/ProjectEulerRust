@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::u32;
 
 fn backtrack(power: u32, depth: u32, limit: u32, cost: &mut [u32], path: &mut [u32]) {
@@ -44,7 +41,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("1582", solve);
+common::problem!("1582", solve);
 
 #[cfg(test)]
 mod tests {

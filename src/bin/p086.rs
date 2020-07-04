@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use seq::PrimitivePythagoreans;
 use std::cmp::{self, Ordering};
 
@@ -67,7 +64,7 @@ fn solve() -> String {
     get_min_m(1000000).to_string()
 }
 
-problem!("1818", solve);
+common::problem!("1818", solve);
 
 #[cfg(test)]
 mod tests {

@@ -147,9 +147,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::PrimeSet;
 use std::mem;
 
@@ -245,7 +242,7 @@ fn solve() -> String {
     Pd3Nums::new().nth(2000 - 1).unwrap().to_string()
 }
 
-problem!("14516824220", solve);
+common::problem!("14516824220", solve);
 
 #[cfg(test)]
 mod tests {

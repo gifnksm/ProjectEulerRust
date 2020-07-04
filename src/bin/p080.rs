@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use iter::Difference;
 use num_bigint::BigInt;
 use num_traits::{FromPrimitive, Zero};
@@ -59,7 +56,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("40886", solve);
+common::problem!("40886", solve);
 
 #[cfg(test)]
 mod test {

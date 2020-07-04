@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn nth_pentagonal(i: u32) -> u32 {
     let n = i + 1;
     n * (3 * n - 1) / 2
@@ -50,4 +47,4 @@ fn solve() -> String {
     unreachable!()
 }
 
-problem!("5482660", solve);
+common::problem!("5482660", solve);

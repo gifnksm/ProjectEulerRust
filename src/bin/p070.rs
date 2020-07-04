@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use prime::PrimeSet;
 use std::f64;
@@ -63,4 +60,4 @@ fn solve() -> String {
     compute(10000000).to_string()
 }
 
-problem!("8319823", solve);
+common::problem!("8319823", solve);

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn get_chain_len(mut n: usize, len_map: &mut [Option<usize>], div_map: &[usize]) -> usize {
     if let Some(x) = len_map[n] {
         return x;
@@ -73,4 +70,4 @@ fn solve() -> String {
     compute(1000000).to_string()
 }
 
-problem!("14316", solve);
+common::problem!("14316", solve);

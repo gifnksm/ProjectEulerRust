@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::{Factorize, PrimeSet};
 use seq::TriangularNums;
 
@@ -27,7 +24,7 @@ fn solve() -> String {
     compute(500).to_string()
 }
 
-problem!("76576500", solve);
+common::problem!("76576500", solve);
 
 #[cfg(test)]
 mod tests {

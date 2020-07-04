@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::collections::HashMap;
 
 #[derive(Clone)]
@@ -98,7 +95,7 @@ fn solve() -> String {
     cnt.to_string()
 }
 
-problem!("402", solve);
+common::problem!("402", solve);
 
 #[cfg(test)]
 mod tests {

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 
@@ -158,7 +155,7 @@ fn solve() -> String {
         .concat()
 }
 
-problem!("20313839404245", solve);
+common::problem!("20313839404245", solve);
 
 #[cfg(test)]
 mod tests {

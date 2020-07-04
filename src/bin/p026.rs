@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn get_cycle_len(n: u32) -> u32 {
     if n == 1 {
         return 1;
@@ -42,7 +39,7 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-problem!("983", solve);
+common::problem!("983", solve);
 
 #[cfg(test)]
 mod tests {

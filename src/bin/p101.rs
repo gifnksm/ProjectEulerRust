@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use num_bigint::BigInt;
 use num_rational::Ratio;
 use num_traits::{FromPrimitive, One, Zero};
@@ -73,7 +70,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("37076114526", solve);
+common::problem!("37076114526", solve);
 
 #[cfg(test)]
 mod tests {

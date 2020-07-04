@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use iter::Permutations;
 
 fn triangle(n: u32) -> u32 {
@@ -115,7 +112,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("28684", solve);
+common::problem!("28684", solve);
 
 #[cfg(test)]
 mod tests {

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use iter::Difference;
 use num_bigint::BigUint;
 
@@ -26,4 +23,4 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("661", solve);
+common::problem!("661", solve);

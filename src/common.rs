@@ -7,15 +7,10 @@
     unused_results
 )]
 
-#[macro_use]
-extern crate failure_derive;
-
-#[macro_use]
-extern crate serde_derive;
-
+use failure::Fail;
 use getopts::Options;
 use num_integer::Integer;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::borrow::Cow;
 use std::fs::{self, File};
 use std::io::prelude::*;

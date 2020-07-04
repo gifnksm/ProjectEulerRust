@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use num_integer::Integer as NumInteger;
 
@@ -72,7 +69,7 @@ fn solve() -> String {
     compute(idxs, 10).to_string()
 }
 
-problem!("210", solve);
+common::problem!("210", solve);
 
 #[cfg(test)]
 mod tests {

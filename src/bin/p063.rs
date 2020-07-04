@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use num_bigint::BigUint;
 use num_traits::FromPrimitive;
 
@@ -35,4 +32,4 @@ fn solve() -> String {
     cnt.to_string()
 }
 
-problem!("49", solve);
+common::problem!("49", solve);

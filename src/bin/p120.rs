@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use num_integer::Integer;
 
 // f(a, n) := (a-1)^n + (a+1)^n
@@ -59,7 +56,7 @@ fn solve() -> String {
     (3..1001).map(rmax).sum::<u32>().to_string()
 }
 
-problem!("333082500", solve);
+common::problem!("333082500", solve);
 
 #[cfg(test)]
 mod tests {

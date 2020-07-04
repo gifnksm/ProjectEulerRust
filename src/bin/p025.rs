@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use num_bigint::BigUint;
 use seq::Fibonacci;
 use std::iter;
@@ -32,7 +29,7 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-problem!("4782", solve);
+common::problem!("4782", solve);
 
 #[cfg(test)]
 mod tests {

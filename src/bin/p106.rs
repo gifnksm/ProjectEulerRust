@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::PrimeSet;
 use std::collections::HashMap;
 
@@ -112,7 +109,7 @@ fn solve() -> String {
     get_num_pairs(&PrimeSet::new(), 12).to_string()
 }
 
-problem!("21384", solve);
+common::problem!("21384", solve);
 
 #[cfg(test)]
 mod tests {

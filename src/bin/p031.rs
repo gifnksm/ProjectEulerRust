@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn count_ways(sum: u32, coins: &[u32]) -> u32 {
     if coins.len() == 1 {
         return 1;
@@ -34,7 +31,7 @@ fn solve() -> String {
     compute(200).to_string()
 }
 
-problem!("73682", solve);
+common::problem!("73682", solve);
 
 #[cfg(test)]
 mod tests {

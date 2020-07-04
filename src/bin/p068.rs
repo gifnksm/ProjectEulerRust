@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn solve() -> String {
     // solve by hand...
     //
@@ -32,4 +29,4 @@ fn solve() -> String {
     "6531031914842725".to_string()
 }
 
-problem!("6531031914842725", solve);
+common::problem!("6531031914842725", solve);

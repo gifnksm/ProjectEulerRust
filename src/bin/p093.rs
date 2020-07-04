@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use iter::{BitCombination, CombinationOverlap, Permutations};
 use num_rational::Ratio;
 use num_traits::{Signed, Zero};
@@ -167,7 +164,7 @@ fn solve() -> String {
     format!("{}{}{}{}", seq[0], seq[1], seq[2], seq[3])
 }
 
-problem!("1258", solve);
+common::problem!("1258", solve);
 
 #[cfg(test)]
 mod tests {

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 const INPUT: &str = r"
 73167176531330624919225119674426574742355349194934
 96983520312774506326239578318016984801869478851843
@@ -51,7 +48,7 @@ fn solve() -> String {
     compute(13).to_string()
 }
 
-problem!("23514624000", solve);
+common::problem!("23514624000", solve);
 
 #[cfg(test)]
 mod tests {

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use std::collections::hash_map::Entry;
 use std::collections::HashMap;
@@ -174,4 +171,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(max.to_string())
 }
 
-problem!("18769", "p098_words.txt", solve);
+common::problem!("18769", "p098_words.txt", solve);

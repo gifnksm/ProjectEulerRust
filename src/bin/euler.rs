@@ -7,10 +7,8 @@
     unused_results
 )]
 
-#[macro_use]
-extern crate failure;
-
 use common::SolverResult;
+use failure::bail;
 use glob::Paths;
 use std::env;
 use std::io;

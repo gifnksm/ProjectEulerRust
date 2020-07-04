@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use iter::{BitCombination, Permutations};
 use num_integer::Integer as NumInteger;
@@ -110,7 +107,7 @@ fn solve() -> String {
     count_primes(&ps, &digits).to_string()
 }
 
-problem!("44680", solve);
+common::problem!("44680", solve);
 
 #[cfg(test)]
 mod tests {

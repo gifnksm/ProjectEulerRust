@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use num_integer::Integer;
 
 fn is_pandigit(n: u64) -> bool {
@@ -120,7 +117,7 @@ fn solve() -> String {
     (k + 1).to_string()
 }
 
-problem!("329468", solve);
+common::problem!("329468", solve);
 
 #[cfg(test)]
 mod tests {

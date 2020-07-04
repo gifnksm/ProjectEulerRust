@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::PrimeSet;
 use std::collections::HashMap;
 
@@ -62,7 +59,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("71", solve);
+common::problem!("71", solve);
 
 #[cfg(test)]
 mod tests {

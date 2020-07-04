@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::f64;
 use std::fs::File;
 use std::io::prelude::*;
@@ -125,4 +122,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(sum.to_string())
 }
 
-problem!("129448", "p059_cipher.txt", solve);
+common::problem!("129448", "p059_cipher.txt", solve);

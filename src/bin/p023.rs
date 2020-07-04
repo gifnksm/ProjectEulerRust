@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::{Factorize, PrimeSet};
 
 fn compute(max: u64) -> u64 {
@@ -46,4 +43,4 @@ fn solve() -> String {
     compute(28123).to_string()
 }
 
-problem!("4179871", solve);
+common::problem!("4179871", solve);

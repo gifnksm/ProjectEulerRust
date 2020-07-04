@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use seq::TriangularNums;
 use std::fs::File;
 use std::io::prelude::*;
@@ -46,7 +43,7 @@ fn solve(file: File) -> io::Result<String> {
         .to_string())
 }
 
-problem!("162", "p042_words.txt", solve);
+common::problem!("162", "p042_words.txt", solve);
 
 #[cfg(test)]
 mod tests {

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
@@ -81,7 +78,7 @@ fn solve() -> String {
     n.to_string()
 }
 
-problem!("248155780267521", solve);
+common::problem!("248155780267521", solve);
 
 #[cfg(test)]
 mod tests {

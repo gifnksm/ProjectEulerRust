@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use iter::BitCombination;
 
 fn solve() -> String {
@@ -51,4 +48,4 @@ fn solve() -> String {
     cnt.to_string()
 }
 
-problem!("1217", solve);
+common::problem!("1217", solve);

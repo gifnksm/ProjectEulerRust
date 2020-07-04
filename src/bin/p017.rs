@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn to_word_under10(n: u32) -> String {
     match n {
         0 => "zero".to_string(),
@@ -106,7 +103,7 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-problem!("21124", solve);
+common::problem!("21124", solve);
 
 #[cfg(test)]
 mod tests {

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use polynomial::Polynomial;
 
 fn count_way(score: u32) -> u32 {
@@ -56,7 +53,7 @@ fn solve() -> String {
     count_way(100).to_string()
 }
 
-problem!("38182", solve);
+common::problem!("38182", solve);
 
 #[cfg(test)]
 mod tests {

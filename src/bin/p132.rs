@@ -27,9 +27,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use prime::PrimeSet;
 
@@ -42,4 +39,4 @@ pub fn solve() -> String {
         .to_string()
 }
 
-problem!("843296", solve);
+common::problem!("843296", solve);

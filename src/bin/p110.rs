@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::PrimeSet;
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
@@ -61,7 +58,7 @@ fn solve() -> String {
     compute(4000000).to_string()
 }
 
-problem!("9350130049860600", solve);
+common::problem!("9350130049860600", solve);
 
 #[cfg(test)]
 mod tests {

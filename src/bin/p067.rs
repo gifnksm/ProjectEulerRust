@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::cmp;
 use std::fs::File;
 use std::io::prelude::*;
@@ -39,4 +36,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(ans.to_string())
 }
 
-problem!("7273", "p067_triangle.txt", solve);
+common::problem!("7273", "p067_triangle.txt", solve);

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use num_bigint::BigUint;
 use num_integer::Integer;
 use num_rational::Ratio;
@@ -63,7 +60,7 @@ fn solve() -> String {
     max_prize(prob).to_string()
 }
 
-problem!("2269", solve);
+common::problem!("2269", solve);
 
 #[cfg(test)]
 mod tests {

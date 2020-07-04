@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::PrimeSet;
 
 // p(n) = n^2 + an + b is prime for n = 0 .. N
@@ -48,7 +45,7 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-problem!("-59231", solve);
+common::problem!("-59231", solve);
 
 #[cfg(test)]
 mod tests {

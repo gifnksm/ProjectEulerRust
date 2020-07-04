@@ -9,12 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
-#[cfg(test)]
-extern crate rand;
-
 use playing_card::SuitCard as Card;
 use std::cmp::Ordering;
 use std::fmt;
@@ -328,7 +322,7 @@ fn solve(file: File) -> io::Result<String> {
     Ok(p1_win.to_string())
 }
 
-problem!("376", "p054_poker.txt", solve);
+common::problem!("376", "p054_poker.txt", solve);
 
 #[cfg(test)]
 mod tests {

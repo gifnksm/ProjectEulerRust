@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::{self, BufReader};
@@ -123,7 +120,7 @@ fn solve(file: File) -> io::Result<String> {
     Ok(sum.to_string())
 }
 
-problem!("743", "p089_roman.txt", solve);
+common::problem!("743", "p089_roman.txt", solve);
 
 #[cfg(test)]
 mod tests {

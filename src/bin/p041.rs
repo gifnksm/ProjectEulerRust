@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use iter::Permutations;
 use prime::PrimeSet;
@@ -36,4 +33,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-problem!("7652413", solve);
+common::problem!("7652413", solve);

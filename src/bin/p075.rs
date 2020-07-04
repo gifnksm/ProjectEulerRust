@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use seq::PrimitivePythagoreans;
 
@@ -31,4 +28,4 @@ fn solve() -> String {
     v.iter().filter(|&x| x == &1).count().to_string()
 }
 
-problem!("161667", solve);
+common::problem!("161667", solve);

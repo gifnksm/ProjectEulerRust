@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use num_integer::Integer;
 
 fn solve() -> String {
@@ -23,4 +20,4 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("1322", solve);
+common::problem!("1322", solve);

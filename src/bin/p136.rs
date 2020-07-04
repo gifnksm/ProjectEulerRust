@@ -11,9 +11,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn num_solutions(limit: usize) -> Vec<u32> {
     let mut cnt = vec![0; limit];
     for q in 1..limit {
@@ -42,7 +39,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("2544559", solve);
+common::problem!("2544559", solve);
 
 #[cfg(test)]
 mod tests {

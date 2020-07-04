@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn compute() -> u32 {
     let mut facts: [u32; 10] = [0; 10];
     facts[0] = 1;
@@ -38,4 +35,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-problem!("40730", solve);
+common::problem!("40730", solve);

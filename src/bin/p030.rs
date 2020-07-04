@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use iter::CombinationOverlap;
 
@@ -43,7 +40,7 @@ fn solve() -> String {
     compute(6, 5).to_string()
 }
 
-problem!("443839", solve);
+common::problem!("443839", solve);
 
 #[cfg(test)]
 mod tests {

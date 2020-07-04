@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::{Factorize, PrimeSet};
 use std::collections::HashSet;
 
@@ -36,7 +33,7 @@ fn solve() -> String {
     compute(100, 100).to_string()
 }
 
-problem!("9183", solve);
+common::problem!("9183", solve);
 
 #[cfg(test)]
 mod tests {

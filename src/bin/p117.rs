@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::collections::HashMap;
 
 fn count(len: u32, map: &mut HashMap<u32, u64>) -> u64 {
@@ -42,7 +39,7 @@ fn solve() -> String {
     count(50, &mut map).to_string()
 }
 
-problem!("100808458960497", solve);
+common::problem!("100808458960497", solve);
 
 #[cfg(test)]
 mod tests {

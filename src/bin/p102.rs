@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::{self, BufReader};
@@ -115,7 +112,7 @@ fn solve(file: File) -> io::Result<String> {
     Ok(cnt.to_string())
 }
 
-problem!("228", "p102_triangles.txt", solve);
+common::problem!("228", "p102_triangles.txt", solve);
 
 #[cfg(test)]
 mod test {

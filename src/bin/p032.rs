@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use iter::Permutations;
 use std::collections::HashSet;
@@ -75,4 +72,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-problem!("45228", solve);
+common::problem!("45228", solve);

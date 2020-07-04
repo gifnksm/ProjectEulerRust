@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use num_bigint::BigUint;
 use num_traits::{FromPrimitive, ToPrimitive};
 
@@ -31,7 +28,7 @@ fn solve() -> String {
     compute(1000, 100_0000_0000).to_string()
 }
 
-problem!("9110846700", solve);
+common::problem!("9110846700", solve);
 
 #[cfg(test)]
 mod tests {

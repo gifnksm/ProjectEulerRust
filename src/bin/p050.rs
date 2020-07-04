@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::PrimeSet;
 use std::cmp::Ordering;
 
@@ -72,7 +69,7 @@ fn solve() -> String {
     compute(1000000).0.to_string()
 }
 
-problem!("997651", solve);
+common::problem!("997651", solve);
 
 #[cfg(test)]
 mod tests {

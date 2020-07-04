@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::{cmp, num::ParseIntError};
 
 const TRIANGLE: &str = "
@@ -55,7 +52,7 @@ fn solve() -> String {
     compute(&parse(TRIANGLE).unwrap()).to_string()
 }
 
-problem!("1074", solve);
+common::problem!("1074", solve);
 
 #[cfg(test)]
 mod tests {

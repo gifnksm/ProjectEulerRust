@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use std::collections::HashSet;
 
@@ -45,7 +42,7 @@ fn solve() -> String {
     set.iter().sum::<u32>().to_string()
 }
 
-problem!("2906969179", solve);
+common::problem!("2906969179", solve);
 
 #[cfg(test)]
 mod tests {

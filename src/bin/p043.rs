@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use std::iter;
 
@@ -111,7 +108,7 @@ fn solve() -> String {
     result.iter().map(|pd| pd.to_u64()).sum::<u64>().to_string()
 }
 
-problem!("16695334890", solve);
+common::problem!("16695334890", solve);
 
 #[cfg(test)]
 mod tests {

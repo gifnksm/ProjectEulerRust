@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::cmp::Ordering;
 use std::fs::File;
 use std::io::prelude::*;
@@ -78,4 +75,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(sum.to_string())
 }
 
-problem!("73702", "p105_sets.txt", solve);
+common::problem!("73702", "p105_sets.txt", solve);

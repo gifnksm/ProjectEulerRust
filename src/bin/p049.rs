@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use prime::PrimeSet;
 
@@ -34,4 +31,4 @@ fn solve() -> String {
     format!("{}{}{}", p1, p2, p3)
 }
 
-problem!("296962999629", solve);
+common::problem!("296962999629", solve);

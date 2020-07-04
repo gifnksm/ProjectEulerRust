@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use num_integer::Integer;
 
 fn a(n: u64) -> u64 {
@@ -41,7 +38,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("1000023", solve);
+common::problem!("1000023", solve);
 
 #[cfg(test)]
 mod tests {

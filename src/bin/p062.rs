@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use std::collections::hash_map::Entry;
 use std::collections::{HashMap, HashSet};
@@ -60,7 +57,7 @@ fn solve() -> String {
     perm_exact(5).iter().min().unwrap().to_string()
 }
 
-problem!("127035954683", solve);
+common::problem!("127035954683", solve);
 
 #[cfg(test)]
 mod tests {

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 // 43 44 45 46 47 48 49
 // 42 21 22 23 24 25 26
 // 41 20  7  8  9 10 27
@@ -46,7 +43,7 @@ fn solve() -> String {
     compute(1001).to_string()
 }
 
-problem!("669171001", solve);
+common::problem!("669171001", solve);
 
 #[cfg(test)]
 mod tests {

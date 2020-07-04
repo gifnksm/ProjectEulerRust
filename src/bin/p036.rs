@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 
 fn compute(limit: u32) -> u32 {
@@ -40,4 +37,4 @@ fn solve() -> String {
     compute(1000000).to_string()
 }
 
-problem!("872187", solve);
+common::problem!("872187", solve);

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::{Factorize, PrimeSet};
 
 fn compute(len: usize, num_factor: usize) -> usize {
@@ -37,7 +34,7 @@ fn solve() -> String {
     compute(4, 4).to_string()
 }
 
-problem!("134043", solve);
+common::problem!("134043", solve);
 
 #[cfg(test)]
 mod tests {

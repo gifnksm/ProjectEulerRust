@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use cont_frac::PelRoots;
 use num_bigint::BigUint;
 use num_traits::ToPrimitive;
@@ -79,4 +76,4 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("518408346", solve);
+common::problem!("518408346", solve);

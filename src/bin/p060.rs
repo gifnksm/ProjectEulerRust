@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use prime::PrimeSet;
 use std::collections::HashMap;
 
@@ -120,7 +117,7 @@ fn solve() -> String {
     compute(5).into_iter().sum::<u64>().to_string()
 }
 
-problem!("26033", solve);
+common::problem!("26033", solve);
 
 #[cfg(test)]
 mod tests {

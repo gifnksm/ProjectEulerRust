@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use iter::BitCombination;
 use prime::PrimeSet;
@@ -134,7 +131,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("612407567715", solve);
+common::problem!("612407567715", solve);
 
 #[cfg(test)]
 mod tests {

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use num_integer::Integer;
 use std::u32;
 
@@ -84,7 +81,7 @@ fn solve() -> String {
     compute(12000).to_string()
 }
 
-problem!("7587457", solve);
+common::problem!("7587457", solve);
 
 #[cfg(test)]
 mod tests {

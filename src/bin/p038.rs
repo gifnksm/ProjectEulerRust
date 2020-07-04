@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use integer::Integer;
 use iter::Permutations;
 use std::cmp::Reverse;
@@ -38,4 +35,4 @@ fn solve() -> String {
     compute()
 }
 
-problem!("932718654", solve);
+common::problem!("932718654", solve);

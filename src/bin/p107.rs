@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::{self, BufReader};
@@ -50,7 +47,7 @@ fn solve(file: File) -> io::Result<String> {
     Ok(compute(file, 40)?.to_string())
 }
 
-problem!("259679", "p107_network.txt", solve);
+common::problem!("259679", "p107_network.txt", solve);
 
 #[cfg(test)]
 mod tests {

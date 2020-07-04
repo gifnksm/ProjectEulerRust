@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 // cube size: (a, b, c)
 // nth layer: 4(n-1)(n+a+b+c-2) + 2(ab+bc+ca)
 fn f0(a: u32, b: u32, c: u32) -> u32 {
@@ -57,7 +54,7 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-problem!("18522", solve);
+common::problem!("18522", solve);
 
 #[cfg(test)]
 mod tests {
