@@ -30,8 +30,8 @@ struct Digits {
 impl Digits {
     fn new(radix: u64, num_digits: usize) -> Digits {
         Digits {
-            radix: radix,
-            num_digits: num_digits,
+            radix,
+            num_digits,
             range: (0..radix.pow(num_digits as u32)).rev(),
         }
     }
@@ -61,10 +61,10 @@ struct RunDigits {
 impl RunDigits {
     fn new(run_len: usize, d: u64, other_ds: Vec<u64>) -> RunDigits {
         RunDigits {
-            d: d,
-            run_len: run_len,
+            d,
+            run_len,
             iter: BitCombination::new(other_ds.len(), other_ds.len() + run_len),
-            other_ds: other_ds,
+            other_ds,
         }
     }
 }

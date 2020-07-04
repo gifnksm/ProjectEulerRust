@@ -27,7 +27,7 @@ fn compute() -> u64 {
     let radix = 10;
     let ps = PrimeSet::new();
     for (perm, _) in Permutations::new(&[7, 6, 5, 4, 3, 2, 1], 7) {
-        let n = Integer::from_digits(perm.iter().rev().map(|&x| x), radix);
+        let n = Integer::from_digits(perm.iter().rev().copied(), radix);
         if ps.contains(n) {
             return n;
         }

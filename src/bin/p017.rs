@@ -13,7 +13,7 @@
 extern crate common;
 
 fn to_word_under10(n: u32) -> String {
-    return match n {
+    match n {
         0 => "zero".to_string(),
         1 => "one".to_string(),
         2 => "two".to_string(),
@@ -25,7 +25,7 @@ fn to_word_under10(n: u32) -> String {
         8 => "eight".to_string(),
         9 => "nine".to_string(),
         _ => panic!(),
-    };
+    }
 }
 
 fn to_word_under20(n: u32) -> String {
@@ -33,7 +33,7 @@ fn to_word_under20(n: u32) -> String {
     if n < 10 {
         return to_word_under10(n);
     }
-    return match n {
+    match n {
         10 => "ten".to_string(),
         11 => "eleven".to_string(),
         12 => "twelve".to_string(),
@@ -45,7 +45,7 @@ fn to_word_under20(n: u32) -> String {
         18 => "eighteen".to_string(),
         19 => "nineteen".to_string(),
         _ => panic!(),
-    };
+    }
 }
 
 fn to_word_under100(n: u32) -> String {
@@ -92,7 +92,7 @@ fn to_word(n: u32) -> String {
     if n < 1000 {
         return to_word_under1000(n);
     }
-    return "one thousand".to_string();
+    "one thousand".to_string()
 }
 
 fn compute(max: u32) -> u32 {

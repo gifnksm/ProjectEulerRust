@@ -26,7 +26,7 @@ use std::iter::IntoIterator;
 use std::rc::Rc;
 use std::{cmp, mem};
 
-const SMALL_PRIMES: &'static [u64] = &[
+const SMALL_PRIMES: &[u64] = &[
     2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,
     101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193,
     197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307,
@@ -55,14 +55,14 @@ impl PrimeInner {
         let mut data = Vec::with_capacity(INITIAL_CAPACITY);
         data.push(2);
         data.push(3);
-        PrimeInner { data: data }
+        PrimeInner { data }
     }
 
     #[inline]
     fn with_capacity(capacity: usize) -> PrimeInner {
         let mut data = Vec::with_capacity(capacity + SMALL_PRIMES.len());
         data.extend(SMALL_PRIMES.iter().cloned());
-        PrimeInner { data: data }
+        PrimeInner { data }
     }
 
     #[inline]
@@ -123,23 +123,29 @@ pub struct PrimeSet {
     data: Rc<RefCell<PrimeInner>>,
 }
 
+impl Default for PrimeSet {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PrimeSet {
     /// Create a new prime number generator.
     #[inline]
-    pub fn new() -> PrimeSet {
-        PrimeSet::from_inner(PrimeInner::new())
+    pub fn new() -> Self {
+        Self::from_inner(PrimeInner::new())
     }
 
     /// Create a new prime number generator with empty buffers.
     #[inline]
-    pub fn new_empty() -> PrimeSet {
-        PrimeSet::from_inner(PrimeInner::new_empty())
+    pub fn new_empty() -> Self {
+        Self::from_inner(PrimeInner::new_empty())
     }
 
     /// Create a new prime number generator with specifying buffer capacity.
     #[inline]
-    pub fn with_capacity(capacity: usize) -> PrimeSet {
-        PrimeSet::from_inner(PrimeInner::with_capacity(capacity))
+    pub fn with_capacity(capacity: usize) -> Self {
+        Self::from_inner(PrimeInner::with_capacity(capacity))
     }
 
     /// Get nth prime.
@@ -172,7 +178,7 @@ impl PrimeSet {
     /// assert_eq!(Some(7), it.next());
     /// ```
     #[inline]
-    pub fn iter<'a>(&'a self) -> Nums {
+    pub fn iter(&self) -> Nums {
         Nums {
             idx: 0,
             data: self.data.clone(),
@@ -258,7 +264,7 @@ pub trait Factorize: Integer + FromPrimitive + Clone {
         self.factorize(ps)
             .map(|(base, exp)| {
                 let denom = base.clone() - one.clone();
-                (num_traits::pow(base.clone(), (exp as usize) + 1) - one.clone()) / denom
+                (num_traits::pow(base, (exp as usize) + 1) - one.clone()) / denom
             })
             .fold(num_traits::one::<Self>(), |acc, n| acc * n)
     }
@@ -371,7 +377,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// The empty factorized number represents `1`.
     pub fn new(ps: &PrimeSet) -> Factorized<T> {
         Factorized {
-            ps: ps,
+            ps,
             map: HashMap::new(),
         }
     }
@@ -379,7 +385,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// Creates a factorized number from an integer type.
     pub fn from_integer(ps: &PrimeSet, n: T) -> Factorized<T> {
         Factorized {
-            ps: ps,
+            ps,
             map: n.factorize(ps).collect(),
         }
     }
@@ -474,11 +480,8 @@ mod tests {
     #[test]
     fn multi_iter() {
         let ps = PrimeSet::new();
-        for _p1 in &ps {
-            for _p2 in &ps {
-                break;
-            }
-            break;
+        for (p1, p2) in ps.iter().zip(ps.iter()).take(500) {
+            assert_eq!(p1, p2);
         }
     }
 

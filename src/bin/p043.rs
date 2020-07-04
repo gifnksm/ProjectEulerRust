@@ -48,7 +48,7 @@ impl Pandigimal {
         self.used[n as usize]
     }
 
-    fn num<'a>(&'a self) -> &'a [u32] {
+    fn num(&self) -> &[u32] {
         &self.num[..self.len]
     }
 

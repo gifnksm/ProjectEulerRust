@@ -18,7 +18,6 @@ extern crate serde;
 extern crate serde_derive;
 extern crate serde_json;
 extern crate term;
-extern crate time;
 
 use getopts::Options;
 use num_integer::Integer;
@@ -27,15 +26,15 @@ use std::borrow::Cow;
 use std::fs::{self, File};
 use std::io::prelude::*;
 use std::path::PathBuf;
-use std::{env, fmt, io, process};
+use std::{env, fmt, io, process, time::Instant};
 use term::color;
 use term::color::Color;
 
 type OutputPair<'a> = (Option<Color>, Cow<'a, str>);
 
-const NSEC_PER_SEC: u64 = 1000000000;
-const NSEC_WARN_LIMIT: u64 = 1 * NSEC_PER_SEC;
-const NSEC_NG_LIMIT: u64 = 10 * NSEC_PER_SEC;
+const NSEC_PER_SEC: u128 = 1000000000;
+const NSEC_WARN_LIMIT: u128 = NSEC_PER_SEC;
+const NSEC_NG_LIMIT: u128 = 10 * NSEC_PER_SEC;
 
 const COLOR_OK: Color = color::GREEN;
 const COLOR_NG: Color = color::RED;
@@ -52,7 +51,7 @@ pub type Result<T> = std::result::Result<T, failure::Error>;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SolverResult<T> {
-    pub time: u64,
+    pub time: u128,
     pub answer: T,
     pub is_ok: bool,
 }
@@ -94,11 +93,7 @@ fn print_items(items: &[OutputPair]) {
 impl<T: fmt::Display> SolverResult<T> {
     pub fn print_pretty(&self, name: &str, enable_time_color: bool) -> io::Result<()> {
         let mut items = vec![];
-        if self.is_ok {
-            items.push(normal(format!("{} ", name)));
-        } else {
-            items.push(normal(format!("{} ", name)));
-        }
+        items.push(normal(format!("{} ", name)));
 
         items.push(normal("["));
         if self.is_ok {
@@ -153,7 +148,7 @@ pub struct Solver<'a> {
 impl<'a> Solver<'a> {
     pub fn new(answer: &'a str, solver: fn() -> String) -> Solver<'a> {
         Solver {
-            answer: answer,
+            answer,
             solver: SolverFn::FnOnly(solver),
         }
     }
@@ -164,7 +159,7 @@ impl<'a> Solver<'a> {
         solver: fn(File) -> io::Result<String>,
     ) -> Solver<'a> {
         Solver {
-            answer: answer,
+            answer,
             solver: SolverFn::FnWithFile(file_name, solver),
         }
     }
@@ -211,7 +206,7 @@ impl<'a> Solver<'a> {
 
     pub fn solve(&self) -> Result<SolverResult<String>> {
         let (time, answer) = match self.solver {
-            SolverFn::FnOnly(fun) => bench(move || fun()),
+            SolverFn::FnOnly(fun) => bench(fun),
             SolverFn::FnWithFile(file_name, fun) => {
                 let file = setup_file(file_name)?;
                 let (time, answer) = bench(move || fun(file));
@@ -221,18 +216,17 @@ impl<'a> Solver<'a> {
 
         let result = SolverResult {
             is_ok: answer == self.answer,
-            time: time,
-            answer: answer,
+            time,
+            answer,
         };
         Ok(result)
     }
 }
 
-fn bench<T, F: FnOnce() -> T>(f: F) -> (u64, T) {
-    let start_time = time::precise_time_ns();
+fn bench<T, F: FnOnce() -> T>(f: F) -> (u128, T) {
+    let start_time = Instant::now();
     let result = f();
-    let end_time = time::precise_time_ns();
-    let nsec = end_time - start_time;
+    let nsec = start_time.elapsed().as_nanos();
     (nsec, result)
 }
 
@@ -250,31 +244,30 @@ fn setup_file(file_name: &str) -> Result<File> {
     Ok(file)
 }
 
-const BASE_URL: &'static str = "http://projecteuler.net/project/resources/";
+const BASE_URL: &str = "http://projecteuler.net/project/resources/";
 fn download(file_name: &str) -> Result<Vec<u8>> {
     let url = format!("{}{}", BASE_URL, file_name);
 
-    let mut retry = 0;
-    loop {
+    for retry in 0.. {
         let mut resp = reqwest::blocking::get(&url)?;
         let mut body = vec![];
         let _ = resp.read_to_end(&mut body)?;
 
-        if !resp.status().is_success() {
-            let err = InvalidHttpStatusError {
-                status: resp.status(),
-                body: String::from_utf8_lossy(&body).into(),
-            };
-            let program = env::args().next().unwrap();
-            let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
-            retry += 1;
-            if retry >= 3 {
-                return Err(err.into());
-            }
+        if resp.status().is_success() {
+            return Ok(body);
         }
 
-        return Ok(body);
+        let err = InvalidHttpStatusError {
+            status: resp.status(),
+            body: String::from_utf8_lossy(&body).into(),
+        };
+        let program = env::args().next().unwrap();
+        let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
+        if retry >= 3 {
+            return Err(err.into());
+        }
     }
+    unreachable!();
 }
 
 #[macro_export]

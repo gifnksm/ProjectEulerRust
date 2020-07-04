@@ -24,7 +24,7 @@ use std::process;
 use std::process::Command;
 use std::str;
 
-const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
+const PROBLEM_EXE_PAT: &str = "p[0-9][0-9][0-9]";
 
 type Result<T> = std::result::Result<T, failure::Error>;
 
@@ -92,14 +92,14 @@ fn run() -> Result<bool> {
         let r = SolverResult {
             time: total_time / num_prob,
             answer: "".to_string(),
-            is_ok: is_ok,
+            is_ok,
         };
         let _ = r.print_pretty(" AVG", true);
 
         let r = SolverResult {
             time: total_time,
             answer: "".to_string(),
-            is_ok: is_ok,
+            is_ok,
         };
         let _ = r.print_pretty(" SUM", false);
     }

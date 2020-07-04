@@ -53,7 +53,7 @@ impl Iterator for Nums {
     }
 }
 
-fn apply(a: Ratio<i32>, b: Ratio<i32>, op: Op, f: &mut FnMut(Ratio<i32>)) {
+fn apply(a: Ratio<i32>, b: Ratio<i32>, op: Op, f: &mut dyn FnMut(Ratio<i32>)) {
     match op {
         Op::Add => (*f)(a + b),
         Op::Mul => (*f)(a * b),
@@ -72,7 +72,7 @@ fn apply(a: Ratio<i32>, b: Ratio<i32>, op: Op, f: &mut FnMut(Ratio<i32>)) {
     }
 }
 
-fn evaluate(num: &[u32], op: &[Op], f: &mut FnMut(Ratio<i32>)) {
+fn evaluate(num: &[u32], op: &[Op], f: &mut dyn FnMut(Ratio<i32>)) {
     // 4ops:
     //   n op 3ops
     //   3ops op n (if op = Sub/Div)

@@ -195,15 +195,15 @@ impl Iterator for PdTriples {
         if r > 1 {
             let n = 3 * r * r + 3 * r + 1;
             self.next = Some(PdTriple {
-                n: n,
-                r: r,
+                n,
+                r,
                 triple: (6 * r - 1, 6 * r + 5, 12 * r - 7),
             });
         }
         let n = 3 * r * r - 3 * r + 2;
         Some(PdTriple {
-            n: n,
-            r: r,
+            n,
+            r,
             triple: (12 * r + 5, 6 * r + 1, 6 * r - 1),
         })
     }
@@ -301,7 +301,7 @@ mod tests {
         let n = b(1, 0);
         assert_eq!(
             Some(PdTriple {
-                n: n,
+                n,
                 r: 1,
                 triple: (b(2, 11) - n, b(2, 1) - n, b(1, 5) - n),
             }),
@@ -312,8 +312,8 @@ mod tests {
             let n = b(r, 0);
             assert_eq!(
                 Some(PdTriple {
-                    n: n,
-                    r: r,
+                    n,
+                    r,
                     triple: (
                         b(r + 1, 6 * r + 5) - n,
                         b(r + 1, 1) - n,
@@ -326,8 +326,8 @@ mod tests {
             let n = b(r, 6 * r - 1);
             assert_eq!(
                 Some(PdTriple {
-                    n: n,
-                    r: r,
+                    n,
+                    r,
                     triple: (n - b(r, 0), b(r + 1, 6 * r + 4) - n, n - b(r - 1, 0)),
                 }),
                 it.next()

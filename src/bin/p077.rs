@@ -58,8 +58,7 @@ fn solve() -> String {
     let ps = PrimeSet::new();
     let mut map = HashMap::new();
     (1..)
-        .skip_while(|&n| count_way(&ps, n, &mut map) <= 5000)
-        .next()
+        .find(|&n| count_way(&ps, n, &mut map) > 5000)
         .unwrap()
         .to_string()
 }

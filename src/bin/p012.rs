@@ -21,8 +21,7 @@ fn compute(limit: u64) -> u64 {
     let ps = PrimeSet::new();
 
     TriangularNums::<u64>::new()
-        .skip_while(|&t| t.num_of_divisor(&ps) <= limit)
-        .next()
+        .find(|t| t.num_of_divisor(&ps) > limit)
         .unwrap()
 }
 

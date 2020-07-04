@@ -11,11 +11,9 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate integer;
 extern crate num_bigint;
 extern crate num_traits;
 
-use integer::Integer;
 use num_bigint::BigUint;
 use num_traits::{FromPrimitive, ToPrimitive};
 

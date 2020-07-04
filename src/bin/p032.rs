@@ -40,8 +40,8 @@ fn compute() -> u32 {
     //  => 1000 < b < 10000 / a
     for (p1, r1) in Permutations::new(digits, 1) {
         for (p2, r2) in Permutations::new(&r1, 4) {
-            let a = Integer::from_digits(p1.iter().map(|&x| x), radix);
-            let b = Integer::from_digits(p2.iter().map(|&x| x), radix);
+            let a = Integer::from_digits(p1.iter().copied(), radix);
+            let b = Integer::from_digits(p2.iter().copied(), radix);
             let c: u32 = a * b;
             let mut c_digits = c.into_digits(radix).collect::<Vec<_>>();
             c_digits.sort();
@@ -59,8 +59,8 @@ fn compute() -> u32 {
     // => 100 < b < 10000 / a
     for (p1, r1) in Permutations::new(digits, 2) {
         for (p2, r2) in Permutations::new(&r1, 3) {
-            let a = Integer::from_digits(p1.iter().map(|&x| x), radix);
-            let b = Integer::from_digits(p2.iter().map(|&x| x), radix);
+            let a = Integer::from_digits(p1.iter().copied(), radix);
+            let b = Integer::from_digits(p2.iter().copied(), radix);
             let c: u32 = a * b;
             let mut c_digits = c.into_digits(radix).collect::<Vec<_>>();
             c_digits.sort();

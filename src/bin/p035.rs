@@ -26,7 +26,7 @@ fn is_circular_prime(ps: &PrimeSet, n: u64) -> bool {
         for j in 0..buf.len() {
             buf[j] = ds[(i + j) % ds.len()];
         }
-        let circ = Integer::from_digits(buf.iter().map(|&x| x), radix);
+        let circ = Integer::from_digits(buf.iter().copied(), radix);
         if !ps.contains(circ) {
             return false;
         }

@@ -29,7 +29,7 @@ fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
         itr >>= 1;
         pow = mul_unit(&pow, &pow, unit);
     }
-    return result;
+    result
 }
 
 fn mul_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {

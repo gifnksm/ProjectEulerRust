@@ -17,7 +17,7 @@ use std::io::prelude::*;
 use std::io::{self, BufReader};
 use std::u32;
 
-const ROMAN_PAIRS: &'static [(&'static str, u32)] = &[
+const ROMAN_PAIRS: &[(&str, u32)] = &[
     ("IV", 4),
     ("IX", 9),
     ("XL", 40),

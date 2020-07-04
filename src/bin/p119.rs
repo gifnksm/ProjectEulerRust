@@ -8,7 +8,6 @@
     unused_qualifications,
     unused_results
 )]
-#![feature(no_panic_pow)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -48,7 +47,7 @@ impl Powers {
     fn new() -> Powers {
         let mut heap = BinaryHeap::new();
         heap.push(Power(4, 2, 2));
-        Powers { heap: heap }
+        Powers { heap }
     }
 }
 

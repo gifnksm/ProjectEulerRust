@@ -42,10 +42,8 @@ fn solve() -> String {
             if (pm - pn) % 2 != 0 {
                 continue;
             }
-            if is_pentagonal(pm - pn, &pentagonals) {
-                if is_pentagonal(pm + pn, &pentagonals) {
-                    return (pm - pn).to_string();
-                }
+            if is_pentagonal(pm - pn, &pentagonals) && is_pentagonal(pm + pn, &pentagonals) {
+                return (pm - pn).to_string();
             }
         }
     }

@@ -36,7 +36,7 @@ pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
     ///
     fn div_round(&self, other: &Self) -> Self {
         let (div, rem) = self.div_rem(other);
-        if rem.clone() + rem.clone() < other.clone() {
+        if rem.clone() + rem < other.clone() {
             div
         } else {
             div + One::one()
@@ -168,7 +168,7 @@ pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
             }
         }
 
-        return min;
+        min
     }
 
     /// Gets the factorial of the number.
@@ -205,7 +205,7 @@ pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
             return zero;
         }
 
-        let mut result = one.clone();
+        let mut result = one;
         let mut base = self.clone();
         let mut exp = exp.clone();
         let modulo = modulo.clone();
@@ -258,11 +258,7 @@ impl<T: num_integer::Integer + Clone> Digits<T> {
                 prod = order.clone() * radix.clone();
             }
         }
-        Digits {
-            num: num,
-            radix: radix,
-            order: order,
-        }
+        Digits { num, radix, order }
     }
 }
 

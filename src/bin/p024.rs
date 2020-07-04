@@ -19,7 +19,7 @@ use num_integer::Integer as NumInteger;
 
 fn compute(mut idx: u64, mut set: Vec<u64>) -> u64 {
     let mut result = vec![];
-    while set.len() > 0 {
+    while !set.is_empty() {
         let perm = (set.len() as u64 - 1).factorial();
         let (rm_idx, rest) = idx.div_rem(&perm);
         idx = rest;

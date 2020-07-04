@@ -8,7 +8,6 @@
     unused_qualifications,
     unused_results
 )]
-#![feature(slice_patterns)]
 
 #[macro_use(problem)]
 extern crate common;
@@ -45,7 +44,7 @@ fn cmp_card_array(a0: &[Card], a1: &[Card]) -> Ordering {
             return ord;
         }
     }
-    return Ordering::Equal;
+    Ordering::Equal
 }
 
 fn cmp_card_2darray(as0: &[&[Card]], as1: &[&[Card]]) -> Ordering {
@@ -56,7 +55,7 @@ fn cmp_card_2darray(as0: &[&[Card]], as1: &[&[Card]]) -> Ordering {
             return ord;
         }
     }
-    return Ordering::Equal;
+    Ordering::Equal
 }
 
 fn sort_cards(cs: &mut [Card]) {
@@ -238,7 +237,7 @@ impl Hand {
 
         let is_flush = suit_count.iter().any(|v| v.len() == 5);
         let mut is_straight = {
-            let min_idx = num_count.iter().position(|v| v.len() > 0).unwrap();
+            let min_idx = num_count.iter().position(|v| !v.is_empty()).unwrap();
             num_count[min_idx..(min_idx + 5)]
                 .iter()
                 .all(|v| v.len() == 1)
@@ -335,7 +334,7 @@ problem!("376", "p054_poker.txt", solve);
 mod tests {
     use super::Hand;
     use playing_card::SuitCard as Card;
-    use rand::{self, seq::SliceRandom, Rng};
+    use rand::{self, seq::SliceRandom};
     use std::cmp::Ordering;
     use std::str::FromStr;
 

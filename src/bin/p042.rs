@@ -21,7 +21,7 @@ use std::io::{self, BufReader};
 fn word_to_value(word: &str) -> u32 {
     let mut value = 0;
     for b in word.bytes() {
-        value += (b - ('A' as u8) + 1) as u32;
+        value += (b - b'A' + 1) as u32;
     }
     value
 }
@@ -31,7 +31,7 @@ fn solve(file: File) -> io::Result<String> {
 
     for bytes in BufReader::new(file).split(b',') {
         let word_str = String::from_utf8(bytes?).unwrap();
-        let word = word_str.trim_right_matches(',').trim_matches('\"');
+        let word = word_str.trim_end_matches(',').trim_matches('\"');
         values.push(word_to_value(word));
     }
 

@@ -17,7 +17,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::{self, BufReader};
 
-const ENGLISH_FREQUENCY: &'static [(char, f64)] = &[
+const ENGLISH_FREQUENCY: &[(char, f64)] = &[
     ('a', 0.08167),
     ('b', 0.01492),
     ('c', 0.02782),

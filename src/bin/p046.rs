@@ -35,8 +35,7 @@ fn solve() -> String {
     (3..)
         .step_by(2)
         .filter(|&n| !ps.contains(n))
-        .skip_while(|&n| is_goldbach(&ps, n))
-        .next()
+        .find(|&n| !is_goldbach(&ps, n))
         .unwrap()
         .to_string()
 }

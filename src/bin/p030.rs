@@ -31,7 +31,7 @@ fn compute(len: usize, pow: u32) -> u32 {
     for comb in CombinationOverlap::new(digits, len) {
         let num = comb.iter().map(|&e| pows[e as usize]).sum::<u32>();
         let mut ds = num.into_digits(10).collect::<Vec<_>>();
-        ds.sort_by(|a, b| a.cmp(b));
+        ds.sort();
 
         let zero_len = len - ds.len();
         if comb[zero_len..] == ds[..] && comb[..zero_len].iter().all(|&x| x == 0) {

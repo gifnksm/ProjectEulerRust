@@ -35,8 +35,8 @@ impl Group {
     fn new_with_init(num_len: usize, radix: usize, min_idx: usize, min_num: usize) -> Group {
         let num_elem = min_num * (radix - 1);
         Group {
-            num_len: num_len,
-            radix: radix,
+            num_len,
+            radix,
             idx: (min_idx, min_idx + num_len * num_elem),
             num: (min_num, min_num + num_elem),
         }

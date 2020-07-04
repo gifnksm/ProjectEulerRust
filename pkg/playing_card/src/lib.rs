@@ -28,10 +28,10 @@ pub enum Suit {
 impl fmt::Display for Suit {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let s = match self {
-            &Spade => "S",
-            &Heart => "H",
-            &Dia => "D",
-            &Club => "C",
+            Spade => "S",
+            Heart => "H",
+            Dia => "D",
+            Club => "C",
         };
 
         write!(f, "{}", s)
@@ -45,13 +45,13 @@ impl FromStr for Suit {
         if s.len() != 1 {
             return Err(());
         }
-        return match s {
+        match s {
             "S" => Ok(Spade),
             "H" => Ok(Heart),
             "D" => Ok(Dia),
             "C" => Ok(Club),
             _ => Err(()),
-        };
+        }
     }
 }
 
@@ -129,7 +129,7 @@ impl FromStr for Card {
         match s {
             "BJ" => Ok(Card::BlackJoker),
             "WJ" => Ok(Card::WhiteJoker),
-            _ => FromStr::from_str(s).map(|sc| Card::Suit(sc)),
+            _ => FromStr::from_str(s).map(Card::Suit),
         }
     }
 }

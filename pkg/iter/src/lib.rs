@@ -81,8 +81,8 @@ impl BitCombination {
         }
         BitCombination {
             consumed: false,
-            size: size,
-            set: set,
+            size,
+            set,
         }
     }
 
@@ -128,7 +128,7 @@ impl<'a, T> CombinationOverlap<'a, T> {
     /// ```
     pub fn new(elems: &'a [T], len: usize) -> CombinationOverlap<'a, T> {
         CombinationOverlap {
-            elems: elems,
+            elems,
             idxs: iter::repeat(0).take(len).collect(),
             consumed: false,
         }
@@ -185,9 +185,9 @@ impl<'a, T: 'a> Permutations<'a, T> {
             vec![]
         };
         Permutations {
-            elems: elems,
+            elems,
             idxs: (0..elems.len()).collect(),
-            cycles: cycles,
+            cycles,
             consumed: n > elems.len(),
         }
     }

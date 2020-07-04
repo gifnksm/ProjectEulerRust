@@ -17,7 +17,7 @@ use std::io::prelude::*;
 use std::io::{self, BufReader};
 
 fn get_score(n: u32, s: &str) -> u32 {
-    n * s.bytes().map(|c| (c - ('A' as u8) + 1) as u32).sum::<u32>()
+    n * s.bytes().map(|c| (c - b'A' + 1) as u32).sum::<u32>()
 }
 
 fn compute(words: &[String]) -> u32 {

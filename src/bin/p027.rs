@@ -23,7 +23,7 @@ fn get_limit_n(ps: &PrimeSet, a: i32, b: i32) -> u32 {
     (0..)
         .take_while(|&n| {
             let val = n * n + a * n + b;
-            (val >= 0 && ps.contains(val as u64))
+            val >= 0 && ps.contains(val as u64)
         })
         .last()
         .unwrap() as u32

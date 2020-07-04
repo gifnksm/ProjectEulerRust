@@ -25,7 +25,7 @@ fn u(n: BigInt) -> BigInt {
     let mut sum = BigInt::zero();
     let mut prod = BigInt::one();
     for _ in 0..11 {
-        sum = sum + &prod;
+        sum += &prod;
         prod = &prod * (-&n);
     }
     sum

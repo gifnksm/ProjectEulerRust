@@ -93,11 +93,7 @@ impl SSS {
         let mut nums = self.nums.clone();
         nums.push(n);
 
-        Some(SSS {
-            avg: avg,
-            nums: nums,
-            sums: sums,
-        })
+        Some(SSS { avg, nums, sums })
     }
 
     fn max_addable(&self) -> u32 {
@@ -107,8 +103,8 @@ impl SSS {
         // 3: [a, b, c]          => (a + b)                   - 1
         // 2: [a, b]             => (a + b)                   - 1
         let len = self.nums.len();
-        let add = self.nums[..len / 2 + 1].iter().fold(0, |a, &b| a + b);
-        let sub = self.nums[(len + 1) / 2 + 1..].iter().fold(0, |a, &b| a + b);
+        let add = self.nums[..len / 2 + 1].iter().sum::<u32>();
+        let sub = self.nums[(len + 1) / 2 + 1..].iter().sum::<u32>();
         add - sub - 1
     }
 
@@ -138,7 +134,7 @@ impl SSSIterator {
     fn new() -> SSSIterator {
         let mut heap = BinaryHeap::new();
         heap.push(SSS::new_with_pair(1, 2));
-        SSSIterator { heap: heap }
+        SSSIterator { heap }
     }
 }
 

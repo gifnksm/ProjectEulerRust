@@ -86,7 +86,7 @@ fn find_chain(pairs: &[u64], set: &[u64], map: &HashMap<u64, Vec<u64>>) -> Vec<V
         let union_pairs = union_vec(&pairs[..i], &map.get(&p).unwrap());
         let pset = {
             let mut v = vec![p];
-            v.extend(set.iter().map(|&x| x));
+            v.extend(set.iter().copied());
             v
         };
         if union_pairs.is_empty() {

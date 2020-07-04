@@ -40,7 +40,7 @@ fn solve() -> String {
     let limit = 200;
     compute_cost(limit)[1..(limit as usize) + 1]
         .iter()
-        .fold(0, |x, &y| x + y)
+        .sum::<u32>()
         .to_string()
 }
 

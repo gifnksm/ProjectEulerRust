@@ -56,7 +56,7 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
     impl A {
         fn new(n: u32) -> A {
             A {
-                n: n,
+                n,
                 sqn: n.sqrt(),
                 pqr: (1, 0, 1),
             }
@@ -70,7 +70,7 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
             #[inline]
             fn g(a: u32, r: u32, q: u32) -> u32 {
                 let s = a * r - q;
-                return s * s;
+                s * s
             }
 
             let &A {
@@ -82,9 +82,9 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
             let estim_a = (p * sqn + q) / r;
             let mut a = estim_a;
             while g(a + 1, r, q) <= np2 {
-                a = a + 1;
+                a += 1;
             }
-            return a;
+            a
         }
     }
 
@@ -97,6 +97,7 @@ pub fn sqrt(n: u32) -> (u32, Vec<u32>) {
         // b := ar - q
         // (p, q, r) := (rp / m, rb / m, (np^2 - b^2) / m)
         #[inline]
+        #[allow(clippy::many_single_char_names)]
         fn next(&mut self) -> Option<(u32, (u32, u32, u32))> {
             let a = self.calc_a();
             let &mut A {
@@ -192,8 +193,8 @@ where
         let xy = x1y1.clone();
         PelRoots {
             d: FromPrimitive::from_u32(d).unwrap(),
-            x1y1: x1y1,
-            xy: xy,
+            x1y1,
+            xy,
         }
     }
 }
@@ -210,7 +211,7 @@ where
     #[inline]
     fn next(&mut self) -> Option<(T, T)> {
         let next = {
-            let ref d = self.d;
+            let d = &self.d;
             let (ref x1, ref y1) = self.x1y1;
             let (ref xk, ref yk) = self.xy;
             (
@@ -241,8 +242,8 @@ where
         let xy = x1y1.clone();
         PelNegRoots {
             d: FromPrimitive::from_u32(d).unwrap(),
-            x1y1: x1y1,
-            xy: xy,
+            x1y1,
+            xy,
         }
     }
 }
@@ -256,7 +257,7 @@ where
     #[inline]
     fn next(&mut self) -> Option<(T, T)> {
         let next = {
-            let ref d = self.d;
+            let d = &self.d;
             let (ref x1, ref y1) = self.x1y1;
             let (ref xk, ref yk) = self.xy;
             let (xk, yk) = (
@@ -265,7 +266,7 @@ where
             );
             (
                 xk.clone() * x1.clone() + d.clone() * yk.clone() * y1.clone(),
-                yk.clone() * x1.clone() + xk.clone() * y1.clone(),
+                yk * x1.clone() + xk * y1.clone(),
             )
         };
 
@@ -331,7 +332,7 @@ mod tests {
     #[test]
     fn fold() {
         fn check(an: &[u32], (n, d): (u32, u32)) {
-            assert_eq!(super::fold(an.iter().map(|&x| x)), (U32(n), U32(d)));
+            assert_eq!(super::fold(an.iter().copied()), (U32(n), U32(d)));
         }
 
         check(&[1, 2], (3, 2));

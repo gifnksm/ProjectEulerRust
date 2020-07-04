@@ -32,7 +32,7 @@ fn is_lychrel(n: u32, limit: usize) -> bool {
         if rev_sum == sum {
             return false;
         }
-        sum = sum + rev_sum;
+        sum += rev_sum;
     }
     true
 }
