@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 // nCr-1 = r/(n-r+1) nCr
 // nCr = n/(n-r) n-1Cr
 // nC(r+1) = (n-r)/(r+1) nCr
@@ -52,4 +49,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-problem!("4075", solve);
+common::problem!("4075", solve);

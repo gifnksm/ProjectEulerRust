@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 // x by y => C = (1 + 2 + .. + x) * (1 + 2 + .. + y) recutangulars
 //             = (x (1 + x) / 2) * (y (1 + y)) / 2
 //             = xy (1 + x)(1 + y) / 4
@@ -63,4 +60,4 @@ fn solve() -> String {
     (x * y).to_string()
 }
 
-problem!("2772", solve);
+common::problem!("2772", solve);

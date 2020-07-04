@@ -9,25 +9,54 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-#[macro_use]
-extern crate enum_primitive;
-extern crate generic_matrix as matrix;
-extern crate num_traits;
+use derive_try_from_primitive::TryFromPrimitive;
+use generic_matrix::Matrix;
+use std::convert::TryFrom;
 
-use matrix::Matrix;
-use num_traits::FromPrimitive;
-
-enum_from_primitive! {
-    #[derive(Debug, Eq, PartialEq, Copy, Clone)]
-    enum Square {
-        GO, A1, CC1, A2, T1, R1, B1, CH1, B2, B3, JAIL,
-        C1, U1, C2, C3, R2, D1, CC2, D2, D3, FP,
-        E1, CH2, E2, E3, R3, F1, F2, U2, F3, G2J,
-        G1, G2, CC3, G3, R4, CH3, H1, T2, H2,
-        Num
-    }
+#[derive(Debug, Eq, PartialEq, Copy, Clone, TryFromPrimitive)]
+#[repr(usize)]
+enum Square {
+    GO,
+    A1,
+    CC1,
+    A2,
+    T1,
+    R1,
+    B1,
+    CH1,
+    B2,
+    B3,
+    JAIL,
+    C1,
+    U1,
+    C2,
+    C3,
+    R2,
+    D1,
+    CC2,
+    D2,
+    D3,
+    FP,
+    E1,
+    CH2,
+    E2,
+    E3,
+    R3,
+    F1,
+    F2,
+    U2,
+    F3,
+    G2J,
+    G1,
+    G2,
+    CC3,
+    G3,
+    R4,
+    CH3,
+    H1,
+    T2,
+    H2,
+    Num,
 }
 
 const NUM_SQUARE: usize = Square::Num as usize;
@@ -89,8 +118,8 @@ fn ch_trans_matrix() -> Matrix<f64> {
     Matrix::from_fn(NUM_STATE, NUM_STATE, |dst, src| {
         let (dst_seq, dst_pos) = (dst / NUM_SQUARE, dst % NUM_SQUARE);
         let (src_seq, src_pos) = (src / NUM_SQUARE, src % NUM_SQUARE);
-        let src_sq: Square = FromPrimitive::from_usize(src_pos).unwrap();
-        let dst_sq: Square = FromPrimitive::from_usize(dst_pos).unwrap();
+        let src_sq = Square::try_from(src_pos).unwrap();
+        let dst_sq = Square::try_from(dst_pos).unwrap();
         match src_sq {
             Square::CH1 | Square::CH2 | Square::CH3 => {
                 if dst_seq == src_seq && dst_sq == Square::JAIL {
@@ -123,11 +152,13 @@ fn ch_trans_matrix() -> Matrix<f64> {
                     _ => 0.0,
                 }
             }
-            _ => if src == dst {
-                1.0
-            } else {
-                0.0
-            },
+            _ => {
+                if src == dst {
+                    1.0
+                } else {
+                    0.0
+                }
+            }
         }
     })
 }
@@ -136,8 +167,8 @@ fn cc_trans_matrix() -> Matrix<f64> {
     Matrix::from_fn(NUM_STATE, NUM_STATE, |dst, src| {
         let (dst_seq, dst_pos) = (dst / NUM_SQUARE, dst % NUM_SQUARE);
         let (src_seq, src_pos) = (src / NUM_SQUARE, src % NUM_SQUARE);
-        let src_sq: Square = FromPrimitive::from_usize(src_pos).unwrap();
-        let dst_sq: Square = FromPrimitive::from_usize(dst_pos).unwrap();
+        let src_sq = Square::try_from(src_pos).unwrap();
+        let dst_sq = Square::try_from(dst_pos).unwrap();
         match src_sq {
             Square::CC1 | Square::CC2 | Square::CC3 => {
                 if dst_seq == src_seq && dst_sq == Square::JAIL {
@@ -158,11 +189,13 @@ fn cc_trans_matrix() -> Matrix<f64> {
                 }
                 0.0
             }
-            _ => if src == dst {
-                1.0
-            } else {
-                0.0
-            },
+            _ => {
+                if src == dst {
+                    1.0
+                } else {
+                    0.0
+                }
+            }
         }
     })
 }
@@ -171,8 +204,8 @@ fn g2j_trans_matrix() -> Matrix<f64> {
     Matrix::from_fn(NUM_STATE, NUM_STATE, |dst, src| {
         let (dst_seq, dst_pos) = (dst / NUM_SQUARE, dst % NUM_SQUARE);
         let (src_seq, src_pos) = (src / NUM_SQUARE, src % NUM_SQUARE);
-        let src_sq: Square = FromPrimitive::from_usize(src_pos).unwrap();
-        let dst_sq: Square = FromPrimitive::from_usize(dst_pos).unwrap();
+        let src_sq = Square::try_from(src_pos).unwrap();
+        let dst_sq = Square::try_from(dst_pos).unwrap();
 
         if src_sq == Square::G2J {
             if dst_seq == src_seq && dst_sq == Square::JAIL {
@@ -215,9 +248,10 @@ fn state_to_square(state: Matrix<f64>) -> Vec<(Square, f64)> {
                 .step_by(NUM_SQUARE)
                 .map(|i| state[(i, 0)])
                 .sum();
-            let sq: Square = FromPrimitive::from_usize(s).unwrap();
+            let sq = Square::try_from(s).unwrap();
             (sq, prob)
-        }).collect()
+        })
+        .collect()
 }
 
 fn solve() -> String {
@@ -231,12 +265,12 @@ fn solve() -> String {
     )
 }
 
-problem!("101524", solve);
+common::problem!("101524", solve);
 
 #[cfg(test)]
 mod tests {
     use super::{Square, NUM_STATE};
-    use matrix::Matrix;
+    use generic_matrix::Matrix;
 
     #[test]
     fn six() {

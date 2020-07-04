@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate prime;
-
 use prime::PrimeSet;
 
 // p(n) = n^2 + an + b is prime for n = 0 .. N
@@ -23,8 +19,9 @@ fn get_limit_n(ps: &PrimeSet, a: i32, b: i32) -> u32 {
     (0..)
         .take_while(|&n| {
             let val = n * n + a * n + b;
-            (val >= 0 && ps.contains(val as u64))
-        }).last()
+            val >= 0 && ps.contains(val as u64)
+        })
+        .last()
         .unwrap() as u32
 }
 
@@ -38,7 +35,8 @@ fn compute(limit: u64) -> i32 {
             (-b..1000)
                 .map(|a| (a, b, get_limit_n(&ps, a, b)))
                 .max_by_key(|&(_a, _b, len)| len)
-        }).max_by_key(|&(_a, _b, len)| len)
+        })
+        .max_by_key(|&(_a, _b, len)| len)
         .unwrap();
     a * b
 }
@@ -47,7 +45,7 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-problem!("-59231", solve);
+common::problem!("-59231", solve);
 
 #[cfg(test)]
 mod tests {

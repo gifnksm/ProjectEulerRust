@@ -9,17 +9,12 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-extern crate num_integer;
-
 use integer::Integer;
 use num_integer::Integer as NumInteger;
 
 fn compute(mut idx: u64, mut set: Vec<u64>) -> u64 {
     let mut result = vec![];
-    while set.len() > 0 {
+    while !set.is_empty() {
         let perm = (set.len() as u64 - 1).factorial();
         let (rm_idx, rest) = idx.div_rem(&perm);
         idx = rest;
@@ -32,7 +27,7 @@ fn solve() -> String {
     compute(1000000 - 1, vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 9]).to_string()
 }
 
-problem!("2783915460", solve);
+common::problem!("2783915460", solve);
 
 #[cfg(test)]
 mod tests {

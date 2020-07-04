@@ -9,13 +9,11 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use std::usize;
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+    usize,
+};
 
 const BOARD_WIDTH: usize = 9;
 const BOARD_HEIGHT: usize = 9;
@@ -206,4 +204,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(sum.to_string())
 }
 
-problem!("24702", "p096_sudoku.txt", solve);
+common::problem!("24702", "p096_sudoku.txt", solve);

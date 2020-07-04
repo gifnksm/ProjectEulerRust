@@ -9,11 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-extern crate iter;
-
 use integer::Integer;
 use iter::CombinationOverlap;
 
@@ -31,7 +26,7 @@ fn compute(len: usize, pow: u32) -> u32 {
     for comb in CombinationOverlap::new(digits, len) {
         let num = comb.iter().map(|&e| pows[e as usize]).sum::<u32>();
         let mut ds = num.into_digits(10).collect::<Vec<_>>();
-        ds.sort_by(|a, b| a.cmp(b));
+        ds.sort();
 
         let zero_len = len - ds.len();
         if comb[zero_len..] == ds[..] && comb[..zero_len].iter().all(|&x| x == 0) {
@@ -45,7 +40,7 @@ fn solve() -> String {
     compute(6, 5).to_string()
 }
 
-problem!("443839", solve);
+common::problem!("443839", solve);
 
 #[cfg(test)]
 mod tests {

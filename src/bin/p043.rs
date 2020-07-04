@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-
 use integer::Integer;
 use std::iter;
 
@@ -48,7 +44,7 @@ impl Pandigimal {
         self.used[n as usize]
     }
 
-    fn num<'a>(&'a self) -> &'a [u32] {
+    fn num(&self) -> &[u32] {
         &self.num[..self.len]
     }
 
@@ -112,7 +108,7 @@ fn solve() -> String {
     result.iter().map(|pd| pd.to_u64()).sum::<u64>().to_string()
 }
 
-problem!("16695334890", solve);
+common::problem!("16695334890", solve);
 
 #[cfg(test)]
 mod tests {

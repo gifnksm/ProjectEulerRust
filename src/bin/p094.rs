@@ -9,12 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate cont_frac;
-extern crate num_bigint;
-extern crate num_traits;
-
 use cont_frac::PelRoots;
 use num_bigint::BigUint;
 use num_traits::ToPrimitive;
@@ -74,11 +68,12 @@ fn solve() -> String {
                 (a, b)
             }
             _ => panic!(),
-        }).filter(|&(_a, b)| b != 0)
+        })
+        .filter(|&(_a, b)| b != 0)
         .map(|(a, b)| 2 * a + b)
         .take_while(|&side| side <= limit)
         .sum::<u32>()
         .to_string()
 }
 
-problem!("518408346", solve);
+common::problem!("518408346", solve);

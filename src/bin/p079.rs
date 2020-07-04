@@ -9,14 +9,11 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate topological_sort as tsort;
-
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use tsort::TopologicalSort;
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
+use topological_sort::TopologicalSort;
 
 fn solve(file: File) -> io::Result<String> {
     let mut ts = TopologicalSort::new();
@@ -34,4 +31,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(s)
 }
 
-problem!("73162890", "p079_keylog.txt", solve);
+common::problem!("73162890", "p079_keylog.txt", solve);

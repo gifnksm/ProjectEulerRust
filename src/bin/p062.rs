@@ -9,13 +9,8 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-
 use integer::Integer;
-use std::collections::hash_map::Entry;
-use std::collections::{HashMap, HashSet};
+use std::collections::{hash_map::Entry, HashMap, HashSet};
 
 fn perm_exact(cnt: usize) -> HashSet<u64> {
     let mut map = HashMap::<_, (u64, usize)>::new();
@@ -61,7 +56,7 @@ fn solve() -> String {
     perm_exact(5).iter().min().unwrap().to_string()
 }
 
-problem!("127035954683", solve);
+common::problem!("127035954683", solve);
 
 #[cfg(test)]
 mod tests {

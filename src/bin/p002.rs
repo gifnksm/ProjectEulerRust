@@ -9,11 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate num_integer;
-extern crate seq;
-
 use num_integer::Integer;
 use seq::Fibonacci;
 
@@ -27,7 +22,7 @@ fn compute(bound: u32) -> u32 {
 fn solve() -> String {
     compute(4000000).to_string()
 }
-problem!("4613732", solve);
+common::problem!("4613732", solve);
 
 #[cfg(test)]
 mod tests {

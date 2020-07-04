@@ -9,13 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate itertools;
-extern crate num_bigint;
-extern crate num_iter;
-extern crate num_traits;
-
 use num_bigint::BigUint;
 use num_traits::{FromPrimitive, One};
 
@@ -25,11 +18,13 @@ fn compute(a: u32, b: u32) -> u32 {
             itertools::unfold(One::one(), |n: &mut BigUint| {
                 (*n) = &a * (&*n);
                 Some(n.to_string())
-            }).map(|s| s.chars().filter_map(|c| c.to_digit(10)).sum())
+            })
+            .map(|s| s.chars().filter_map(|c| c.to_digit(10)).sum())
             .take(b as usize)
             .max()
             .unwrap()
-        }).max()
+        })
+        .max()
         .unwrap()
 }
 
@@ -37,4 +32,4 @@ fn solve() -> String {
     compute(100, 100).to_string()
 }
 
-problem!("972", solve);
+common::problem!("972", solve);

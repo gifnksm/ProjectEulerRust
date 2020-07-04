@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate prime;
-
 use prime::{Factorize, PrimeSet};
 
 // 1/x + 1/y = 1/n
@@ -38,7 +34,7 @@ fn solve() -> String {
     (1..).find(|&i| num_pairs(&ps, i) > n).unwrap().to_string()
 }
 
-problem!("180180", solve);
+common::problem!("180180", solve);
 
 #[cfg(test)]
 mod tests {

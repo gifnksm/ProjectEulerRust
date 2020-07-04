@@ -9,11 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate num_bigint;
-extern crate num_traits;
-
 use num_bigint::BigUint;
 use num_traits::FromPrimitive;
 use std::mem;
@@ -68,7 +63,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("153", solve);
+common::problem!("153", solve);
 
 #[cfg(test)]
 mod tests {

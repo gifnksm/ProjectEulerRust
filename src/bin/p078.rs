@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 const MILLION: i32 = 1000000;
 
 fn penta(n: i32) -> i32 {
@@ -55,4 +52,4 @@ fn solve() -> String {
     unreachable!()
 }
 
-problem!("55374", solve);
+common::problem!("55374", solve);

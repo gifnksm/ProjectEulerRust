@@ -9,13 +9,11 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
-use std::cmp;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    cmp,
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn solve(file: File) -> io::Result<String> {
     let mut triangle = BufReader::new(file)
@@ -26,7 +24,8 @@ fn solve(file: File) -> io::Result<String> {
             line.split_whitespace()
                 .filter_map(|s| s.parse().ok())
                 .collect::<Vec<u32>>()
-        }).collect::<Vec<_>>();
+        })
+        .collect::<Vec<_>>();
 
     let last = triangle.pop().unwrap();
     let ans = triangle.iter().rev().fold(last, |prev, elem| {
@@ -38,4 +37,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(ans.to_string())
 }
 
-problem!("7273", "p067_triangle.txt", solve);
+common::problem!("7273", "p067_triangle.txt", solve);

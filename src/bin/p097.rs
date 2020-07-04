@@ -9,11 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate num_bigint;
-extern crate num_traits;
-
 use num_bigint::BigUint;
 use num_traits::{FromPrimitive, One, Zero};
 
@@ -26,10 +21,10 @@ fn pow_unit(base: &BigUint, exp: &BigUint, unit: &BigUint) -> BigUint {
         if &itr % &two == One::one() {
             result = mul_unit(&result, &pow, unit);
         }
-        itr = itr >> One::one();
+        itr >>= 1;
         pow = mul_unit(&pow, &pow, unit);
     }
-    return result;
+    result
 }
 
 fn mul_unit(a: &BigUint, b: &BigUint, unit: &BigUint) -> BigUint {
@@ -54,7 +49,8 @@ fn solve() -> String {
         ),
         &One::one(),
         &unit,
-    ).to_string()
+    )
+    .to_string()
 }
 
-problem!("8739992577", solve);
+common::problem!("8739992577", solve);

@@ -9,11 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-extern crate seq;
-
 use integer::Integer;
 use seq::PrimitivePythagoreans;
 use std::collections::HashMap;
@@ -44,7 +39,7 @@ fn solve() -> String {
     compute(1000).to_string()
 }
 
-problem!("840", solve);
+common::problem!("840", solve);
 
 #[cfg(test)]
 mod tests {

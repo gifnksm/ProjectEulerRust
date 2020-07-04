@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-
 use integer::Integer;
 
 fn square_digit_sum(n: u32) -> u32 {
@@ -50,7 +46,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("8581146", solve);
+common::problem!("8581146", solve);
 
 #[cfg(test)]
 mod tests {

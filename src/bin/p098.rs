@@ -9,24 +9,21 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-
 use integer::Integer;
-use std::collections::hash_map::Entry;
-use std::collections::HashMap;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use std::{cmp, mem, u64};
+use std::{
+    cmp,
+    collections::{hash_map::Entry, HashMap},
+    fs::File,
+    io::{self, prelude::*, BufReader},
+    u64,
+};
 
 fn read_words(file: File) -> io::Result<Vec<String>> {
     let mut words = vec![];
 
     for bytes in BufReader::new(file).split(b',') {
         let word_str = String::from_utf8(bytes?).ok().unwrap();
-        let word = word_str.trim_right_matches(',').trim_matches('\"');
+        let word = word_str.trim_end_matches(',').trim_matches('\"');
         words.push(word.to_string());
     }
     Ok(words)
@@ -73,7 +70,9 @@ fn flatten_groups(groups: Vec<Vec<String>>) -> Vec<(String, String)> {
     pairs
 }
 
-fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, Vec<u64>, Vec<u64>)> {
+type IndicesPair = (Vec<u64>, Vec<u64>);
+
+fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, IndicesPair)> {
     pairs
         .into_iter()
         .map(|(w1, w2)| {
@@ -82,31 +81,19 @@ fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, Vec<u64>, Vec<u6
             let get_pos = |&c: &u8| cs1.iter().position(|&e| e == c).unwrap() as u64;
             (
                 w1.len() as u64,
-                cs1.iter().map(|c| get_pos(c)).collect(),
-                cs2.iter().map(|c| get_pos(c)).collect(),
+                (
+                    cs1.iter().map(|c| get_pos(c)).collect(),
+                    cs2.iter().map(|c| get_pos(c)).collect(),
+                ),
             )
-        }).collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>()
 }
 
-fn group_by_len(
-    mut indices: Vec<(u64, Vec<u64>, Vec<u64>)>,
-) -> Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)> {
-    let mut groups = vec![];
-    let mut cur_len = u64::MAX;
-    let mut cur_group = vec![];
-
-    indices.sort_by(|&(l1, _, _), &(l2, _, _)| l2.cmp(&l1));
-
-    for (len, v1, v2) in indices {
-        if !cur_group.is_empty() && cur_len != len {
-            groups.push((cur_len, mem::replace(&mut cur_group, vec![(v1, v2)])));
-        } else {
-            cur_group.push((v1, v2));
-        }
-        cur_len = len;
-    }
-    if !cur_group.is_empty() {
-        groups.push((cur_len, cur_group));
+fn group_by_len(indices: Vec<(u64, IndicesPair)>) -> HashMap<u64, Vec<IndicesPair>> {
+    let mut groups = HashMap::<u64, Vec<_>>::new();
+    for (len, pair) in indices {
+        groups.entry(len).or_default().push(pair);
     }
     groups
 }
@@ -129,10 +116,10 @@ fn idx_to_num(idx: &[u64], ds: &[u64]) -> u64 {
 
 fn is_square(n: u64) -> bool {
     let sq = n.sqrt();
-    (sq * sq == n)
+    sq * sq == n
 }
 
-fn max_square(groups: Vec<(u64, Vec<(Vec<u64>, Vec<u64>)>)>) -> u64 {
+fn max_square(groups: HashMap<u64, Vec<IndicesPair>>) -> u64 {
     let mut max = 0;
 
     for (len, pairs) in groups {
@@ -185,4 +172,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(max.to_string())
 }
 
-problem!("18769", "p098_words.txt", solve);
+common::problem!("18769", "p098_words.txt", solve);

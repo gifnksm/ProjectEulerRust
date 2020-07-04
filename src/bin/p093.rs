@@ -9,12 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate iter;
-extern crate num_rational;
-extern crate num_traits;
-
 use iter::{BitCombination, CombinationOverlap, Permutations};
 use num_rational::Ratio;
 use num_traits::{Signed, Zero};
@@ -53,7 +47,7 @@ impl Iterator for Nums {
     }
 }
 
-fn apply(a: Ratio<i32>, b: Ratio<i32>, op: Op, f: &mut FnMut(Ratio<i32>)) {
+fn apply(a: Ratio<i32>, b: Ratio<i32>, op: Op, f: &mut dyn FnMut(Ratio<i32>)) {
     match op {
         Op::Add => (*f)(a + b),
         Op::Mul => (*f)(a * b),
@@ -72,7 +66,7 @@ fn apply(a: Ratio<i32>, b: Ratio<i32>, op: Op, f: &mut FnMut(Ratio<i32>)) {
     }
 }
 
-fn evaluate(num: &[u32], op: &[Op], f: &mut FnMut(Ratio<i32>)) {
+fn evaluate(num: &[u32], op: &[Op], f: &mut dyn FnMut(Ratio<i32>)) {
     // 4ops:
     //   n op 3ops
     //   3ops op n (if op = Sub/Div)
@@ -170,7 +164,7 @@ fn solve() -> String {
     format!("{}{}{}{}", seq[0], seq[1], seq[2], seq[3])
 }
 
-problem!("1258", solve);
+common::problem!("1258", solve);
 
 #[cfg(test)]
 mod tests {

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn count_between(a: (u32, u32), b: (u32, u32), max_denom: u32) -> u32 {
     if a.1 + b.1 > max_denom {
         return 0;
@@ -24,7 +21,7 @@ fn solve() -> String {
     count_between((1, 3), (1, 2), 12000).to_string()
 }
 
-problem!("7295372", solve);
+common::problem!("7295372", solve);
 
 #[cfg(test)]
 mod tests {

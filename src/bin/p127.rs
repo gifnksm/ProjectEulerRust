@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::cmp::Ordering;
 
 // [定理]
@@ -104,7 +101,7 @@ fn solve() -> String {
     abc_hits_c_sum(120000).to_string()
 }
 
-problem!("18407904", solve);
+common::problem!("18407904", solve);
 
 #[cfg(test)]
 mod tests {

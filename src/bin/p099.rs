@@ -9,12 +9,10 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn solve(file: File) -> io::Result<String> {
     let mut max_val = 0.0;
@@ -35,4 +33,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(max_idx.to_string())
 }
 
-problem!("709", "p099_base_exp.txt", solve);
+common::problem!("709", "p099_base_exp.txt", solve);

@@ -9,13 +9,11 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
-use std::cmp::Ordering;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    cmp::Ordering,
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn is_sss(nums: &mut [u32]) -> bool {
     nums.sort();
@@ -23,8 +21,8 @@ fn is_sss(nums: &mut [u32]) -> bool {
     let len = nums.len();
     let len_hd = (len + 1) / 2;
     let len_tl = len_hd - 1;
-    let hd = nums[..len_hd].iter().map(|&x| x).sum::<u32>();
-    let tl = nums[len - len_tl..].iter().map(|&x| x).sum();
+    let hd = nums[..len_hd].iter().copied().sum::<u32>();
+    let tl = nums[len - len_tl..].iter().copied().sum::<u32>();
     if hd <= tl {
         return false;
     }
@@ -78,4 +76,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(sum.to_string())
 }
 
-problem!("73702", "p105_sets.txt", solve);
+common::problem!("73702", "p105_sets.txt", solve);

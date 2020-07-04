@@ -3,13 +3,14 @@ name = "integer"
 version = "0.0.1"
 authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
 workspace = "../../"
+edition = "2018"
 
 [dependencies]
-num-integer = "0.1"
-num-traits = "0.2"
+num-integer = "0.1.43"
+num-traits = "0.2.12"
 
 [dependencies.num-bigint]
-version = "0.2"
+version = "0.3.0"
 optional = true
 default-features = false
 features = ["std"]

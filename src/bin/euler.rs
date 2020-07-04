@@ -7,24 +7,15 @@
     unused_results
 )]
 
-extern crate common;
-#[macro_use]
-extern crate failure;
-extern crate glob;
-extern crate serde_json;
-
 use common::SolverResult;
+use failure::bail;
 use glob::Paths;
-use std::env;
-use std::io;
-use std::io::prelude::*;
-use std::os::unix::process::ExitStatusExt;
-use std::path::Path;
-use std::process;
-use std::process::Command;
-use std::str;
+use std::{
+    env, io, io::prelude::*, os::unix::process::ExitStatusExt, path::Path, process,
+    process::Command, str,
+};
 
-const PROBLEM_EXE_PAT: &'static str = "p[0-9][0-9][0-9]";
+const PROBLEM_EXE_PAT: &str = "p[0-9][0-9][0-9]";
 
 type Result<T> = std::result::Result<T, failure::Error>;
 
@@ -92,14 +83,14 @@ fn run() -> Result<bool> {
         let r = SolverResult {
             time: total_time / num_prob,
             answer: "".to_string(),
-            is_ok: is_ok,
+            is_ok,
         };
         let _ = r.print_pretty(" AVG", true);
 
         let r = SolverResult {
             time: total_time,
             answer: "".to_string(),
-            is_ok: is_ok,
+            is_ok,
         };
         let _ = r.print_pretty(" SUM", false);
     }

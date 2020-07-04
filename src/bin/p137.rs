@@ -48,16 +48,13 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate itertools;
-
 fn compute(i: usize) -> u64 {
     itertools::unfold((1, 1), |state| {
         let next = ((3 * state.0 + 5 * state.1) / 2, (state.0 + 3 * state.1) / 2);
         *state = next;
         Some(next)
-    }).filter_map(|(p, q)| if p % 5 == 1 { Some((p / 5, q)) } else { None })
+    })
+    .filter_map(|(p, q)| if p % 5 == 1 { Some((p / 5, q)) } else { None })
     .nth(i)
     .unwrap()
     .0
@@ -67,7 +64,7 @@ fn solve() -> String {
     compute(14).to_string()
 }
 
-problem!("1120149658760", solve);
+common::problem!("1120149658760", solve);
 
 #[cfg(test)]
 mod tests {

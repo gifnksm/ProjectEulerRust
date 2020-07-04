@@ -9,13 +9,8 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate prime;
-
 use prime::PrimeSet;
-use std::cmp::Ordering;
-use std::collections::BinaryHeap;
+use std::{cmp::Ordering, collections::BinaryHeap};
 
 struct Multiple(u64, u64);
 
@@ -49,10 +44,7 @@ impl Multiples {
     fn new(base: u64, facts: Vec<u64>) -> Multiples {
         let mut heap = BinaryHeap::new();
         heap.push(Multiple(base, 0));
-        Multiples {
-            facts: facts,
-            heap: heap,
-        }
+        Multiples { facts, heap }
     }
 }
 
@@ -112,7 +104,7 @@ impl RadValues {
         heap.push(RadValue(1, vec![], 0));
         RadValues {
             ps: PrimeSet::new(),
-            heap: heap,
+            heap,
         }
     }
 }
@@ -158,7 +150,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("21417", solve);
+common::problem!("21417", solve);
 
 #[cfg(test)]
 mod tests {
@@ -202,7 +194,7 @@ mod tests {
         assert_eq!(Some(32), it.next());
 
         let mut it = Multiples::new(6, vec![2, 3]);
-        assert_eq!(Some(6 * 1), it.next());
+        assert_eq!(Some(6), it.next());
         assert_eq!(Some(6 * 2), it.next());
         assert_eq!(Some(6 * 3), it.next());
         assert_eq!(Some(6 * 4), it.next());
@@ -215,7 +207,7 @@ mod tests {
         assert_eq!(Some(6 * 24), it.next());
 
         let mut it = Multiples::new(30, vec![2, 3, 5]);
-        assert_eq!(Some(30 * 1), it.next());
+        assert_eq!(Some(30), it.next());
         assert_eq!(Some(30 * 2), it.next());
         assert_eq!(Some(30 * 3), it.next());
         assert_eq!(Some(30 * 4), it.next());

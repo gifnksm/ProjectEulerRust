@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::collections::HashMap;
 
 fn count_way(sum: u32) -> u32 {
@@ -36,7 +33,7 @@ fn solve() -> String {
     count_way(100).to_string()
 }
 
-problem!("190569291", solve);
+common::problem!("190569291", solve);
 
 #[cfg(test)]
 mod tests {

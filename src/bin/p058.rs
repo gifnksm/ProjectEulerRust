@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate prime;
-
 use prime::PrimeSet;
 
 fn compute(numer: u32, denom: u32) -> u64 {
@@ -47,4 +43,4 @@ fn solve() -> String {
     compute(1, 10).to_string()
 }
 
-problem!("26241", solve);
+common::problem!("26241", solve);

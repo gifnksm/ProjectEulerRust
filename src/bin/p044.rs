@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn nth_pentagonal(i: u32) -> u32 {
     let n = i + 1;
     n * (3 * n - 1) / 2
@@ -42,14 +39,12 @@ fn solve() -> String {
             if (pm - pn) % 2 != 0 {
                 continue;
             }
-            if is_pentagonal(pm - pn, &pentagonals) {
-                if is_pentagonal(pm + pn, &pentagonals) {
-                    return (pm - pn).to_string();
-                }
+            if is_pentagonal(pm - pn, &pentagonals) && is_pentagonal(pm + pn, &pentagonals) {
+                return (pm - pn).to_string();
             }
         }
     }
     unreachable!()
 }
 
-problem!("5482660", solve);
+common::problem!("5482660", solve);

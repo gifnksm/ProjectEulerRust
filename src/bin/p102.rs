@@ -9,13 +9,11 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use std::ops::{Mul, Sub};
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+    ops::{Mul, Sub},
+};
 
 #[derive(Copy, Clone)]
 struct Point(i32, i32);
@@ -67,7 +65,7 @@ impl Line {
 
 impl Triangle {
     fn contains(self, p: Point) -> bool {
-        use Side::{C, L, R};
+        use crate::Side::{C, L, R};
         let s0 = Line(self.0, self.1).side(p);
         let s1 = Line(self.1, self.2).side(p);
         let s2 = Line(self.2, self.0).side(p);
@@ -115,7 +113,7 @@ fn solve(file: File) -> io::Result<String> {
     Ok(cnt.to_string())
 }
 
-problem!("228", "p102_triangles.txt", solve);
+common::problem!("228", "p102_triangles.txt", solve);
 
 #[cfg(test)]
 mod test {

@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn num_increasing(len: usize) -> u64 {
     let mut buf = vec![[0; 10]; len];
     for b in &mut buf[0] {
@@ -60,7 +57,7 @@ fn solve() -> String {
     num_nonbouncy(100).to_string()
 }
 
-problem!("51161058134250", solve);
+common::problem!("51161058134250", solve);
 
 #[cfg(test)]
 mod tests {

@@ -55,10 +55,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate prime;
-
 use prime::{Factorize, PrimeSet};
 
 fn a(n: u64) -> u64 {
@@ -90,4 +86,4 @@ fn solve() -> String {
     (sum + 2 + 3 + 5).to_string()
 }
 
-problem!("453647705", solve);
+common::problem!("453647705", solve);

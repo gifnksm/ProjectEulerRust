@@ -9,15 +9,13 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn get_score(n: u32, s: &str) -> u32 {
-    n * s.bytes().map(|c| (c - ('A' as u8) + 1) as u32).sum::<u32>()
+    n * s.bytes().map(|c| (c - b'A' + 1) as u32).sum::<u32>()
 }
 
 fn compute(words: &[String]) -> u32 {
@@ -48,7 +46,7 @@ fn solve(file: File) -> io::Result<String> {
     Ok(compute(&words).to_string())
 }
 
-problem!("871198282", "p022_names.txt", solve);
+common::problem!("871198282", "p022_names.txt", solve);
 
 #[cfg(test)]
 mod tests {

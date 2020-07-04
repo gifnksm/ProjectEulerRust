@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-
 use integer::Integer;
 use std::collections::HashSet;
 
@@ -43,16 +39,16 @@ fn palindromic_sum_set(limit: u32) -> HashSet<u32> {
 fn solve() -> String {
     let limit = 10u32.pow(8);
     let set = palindromic_sum_set(limit);
-    set.iter().fold(0, |x, &y| x + y).to_string()
+    set.iter().sum::<u32>().to_string()
 }
 
-problem!("2906969179", solve);
+common::problem!("2906969179", solve);
 
 #[cfg(test)]
 mod tests {
     #[test]
     fn palindromic_sum_below_1000() {
         let set = super::palindromic_sum_set(1000);
-        assert_eq!(4164, set.iter().fold(0, |x, &y| x + y));
+        assert_eq!(4164, set.iter().sum::<u32>());
     }
 }

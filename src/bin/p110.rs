@@ -9,13 +9,8 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate prime;
-
 use prime::PrimeSet;
-use std::cmp::Ordering;
-use std::collections::BinaryHeap;
+use std::{cmp::Ordering, collections::BinaryHeap};
 
 struct Elem(u64, Vec<u64>);
 
@@ -62,7 +57,7 @@ fn solve() -> String {
     compute(4000000).to_string()
 }
 
-problem!("9350130049860600", solve);
+common::problem!("9350130049860600", solve);
 
 #[cfg(test)]
 mod tests {

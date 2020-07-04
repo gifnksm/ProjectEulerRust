@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate prime;
-
 use prime::PrimeSet;
 use std::collections::HashMap;
 
@@ -58,13 +54,12 @@ fn solve() -> String {
     let ps = PrimeSet::new();
     let mut map = HashMap::new();
     (1..)
-        .skip_while(|&n| count_way(&ps, n, &mut map) <= 5000)
-        .next()
+        .find(|&n| count_way(&ps, n, &mut map) > 5000)
         .unwrap()
         .to_string()
 }
 
-problem!("71", solve);
+common::problem!("71", solve);
 
 #[cfg(test)]
 mod tests {

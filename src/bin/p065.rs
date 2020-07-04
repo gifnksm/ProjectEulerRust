@@ -9,11 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate cont_frac;
-extern crate num_bigint;
-
 use num_bigint::BigUint;
 
 fn napier_seq(i: u32) -> u32 {
@@ -35,4 +30,4 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("272", solve);
+common::problem!("272", solve);

@@ -9,11 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate prime;
-extern crate seq;
-
 use prime::{Factorize, PrimeSet};
 use seq::TriangularNums;
 
@@ -21,8 +16,7 @@ fn compute(limit: u64) -> u64 {
     let ps = PrimeSet::new();
 
     TriangularNums::<u64>::new()
-        .skip_while(|&t| t.num_of_divisor(&ps) <= limit)
-        .next()
+        .find(|t| t.num_of_divisor(&ps) > limit)
         .unwrap()
 }
 
@@ -30,7 +24,7 @@ fn solve() -> String {
     compute(500).to_string()
 }
 
-problem!("76576500", solve);
+common::problem!("76576500", solve);
 
 #[cfg(test)]
 mod tests {

@@ -93,11 +93,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate num_integer;
-extern crate prime;
-
 use num_integer::Integer;
 use prime::PrimeSet;
 
@@ -141,4 +136,4 @@ fn solve() -> String {
     sum.to_string()
 }
 
-problem!("18613426663617118", solve);
+common::problem!("18613426663617118", solve);

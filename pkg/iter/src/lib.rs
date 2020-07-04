@@ -9,16 +9,16 @@
     unused_qualifications,
     unused_results
 )]
-#![cfg_attr(test, feature(test))]
+#![cfg_attr(all(test, feature = "unstable"), feature(test))]
 
-extern crate bit_set;
-
-#[cfg(test)]
+#[cfg(all(test, feature = "unstable"))]
 extern crate test;
 
 use bit_set::BitSet;
-use std::cmp::Ordering;
-use std::iter::{self, Peekable};
+use std::{
+    cmp::Ordering,
+    iter::{self, Peekable},
+};
 
 /// An iterator that enumerates all combinations of bits.
 pub struct BitCombination {
@@ -81,8 +81,8 @@ impl BitCombination {
         }
         BitCombination {
             consumed: false,
-            size: size,
-            set: set,
+            size,
+            set,
         }
     }
 
@@ -103,7 +103,7 @@ impl BitCombination {
 /// An iterator that enumerates all combinations of elemnts.
 ///
 /// The iteratee vector may contain the same elements multiple times.
-pub struct CombinationOverlap<'a, T: 'a> {
+pub struct CombinationOverlap<'a, T> {
     elems: &'a [T],
     idxs: Vec<usize>,
     consumed: bool,
@@ -128,7 +128,7 @@ impl<'a, T> CombinationOverlap<'a, T> {
     /// ```
     pub fn new(elems: &'a [T], len: usize) -> CombinationOverlap<'a, T> {
         CombinationOverlap {
-            elems: elems,
+            elems,
             idxs: iter::repeat(0).take(len).collect(),
             consumed: false,
         }
@@ -160,7 +160,7 @@ impl<'a, T: Clone> Iterator for CombinationOverlap<'a, T> {
 }
 
 /// An iterator that enumerates all permutations of elemnts.
-pub struct Permutations<'a, T: 'a> {
+pub struct Permutations<'a, T> {
     elems: &'a [T],
     idxs: Vec<usize>,
     cycles: Vec<usize>,
@@ -185,9 +185,9 @@ impl<'a, T: 'a> Permutations<'a, T> {
             vec![]
         };
         Permutations {
-            elems: elems,
+            elems,
             idxs: (0..elems.len()).collect(),
-            cycles: cycles,
+            cycles,
             consumed: n > elems.len(),
         }
     }
@@ -258,7 +258,6 @@ where
     /// Creates a new `Difference` iterator.
     ///
     /// ```rust
-    /// use std::iter;
     /// use iter::Difference;
     ///
     /// let ints    = (1..);
@@ -472,7 +471,7 @@ mod tests {
     }
 }
 
-#[cfg(test)]
+#[cfg(all(test, feature = "unstable"))]
 mod bench {
     use super::BitCombination;
     use test::{self, Bencher};

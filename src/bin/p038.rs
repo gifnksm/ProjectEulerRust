@@ -9,13 +9,9 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-extern crate iter;
-
 use integer::Integer;
 use iter::Permutations;
+use std::cmp::Reverse;
 
 fn compute() -> String {
     let nums = &[9, 8, 7, 6, 5, 4, 3, 2, 1];
@@ -23,9 +19,9 @@ fn compute() -> String {
 
     let mut ans = 0;
     for (ds, rest) in Permutations::new(nums, 4) {
-        let n: u32 = Integer::from_digits(ds.iter().rev().map(|&x| x), radix);
+        let n: u32 = Integer::from_digits(ds.iter().rev().copied(), radix);
         let mut ds2 = (n * 2).into_digits(radix).collect::<Vec<_>>();
-        ds2.sort_by(|a, b| b.cmp(a));
+        ds2.sort_by_key(|&k| Reverse(k));
 
         if ds2 == rest {
             ans = n;
@@ -39,4 +35,4 @@ fn solve() -> String {
     compute()
 }
 
-problem!("932718654", solve);
+common::problem!("932718654", solve);

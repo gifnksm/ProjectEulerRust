@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate polynomial;
-
 use polynomial::Polynomial;
 
 fn count_way(score: u32) -> u32 {
@@ -21,12 +17,12 @@ fn count_way(score: u32) -> u32 {
     let mut triple = vec![0; 61];
     let mut dup = vec![0; 121];
     for i in 1..21 {
-        single[1 * i] = 1;
-        double[2 * i] = 1;
-        triple[3 * i] = 1;
-        dup[2 * i] += 1;
-        dup[4 * i] += 1;
-        dup[6 * i] += 1;
+        single[i] = 1;
+        double[i * 2] = 1;
+        triple[i * 3] = 1;
+        dup[i * 2] += 1;
+        dup[i * 4] += 1;
+        dup[i * 6] += 1;
     }
     single[25] = 1;
     double[50] = 1;
@@ -41,26 +37,23 @@ fn count_way(score: u32) -> u32 {
     let p_all = &single + &double + &triple;
     let p1 = double.clone();
     let p2 = &double * &p_all;
-    let p3 = &double * Polynomial::new(
-        (&p_all * &p_all + &dup)
-            .data()
-            .iter()
-            .map(|&n| n / 2)
-            .collect(),
-    );
+    let p3 = &double
+        * Polynomial::new(
+            (&p_all * &p_all + &dup)
+                .data()
+                .iter()
+                .map(|&n| n / 2)
+                .collect(),
+        );
     let total = p1 + p2 + p3;
-    total
-        .data()
-        .iter()
-        .take(score as usize)
-        .fold(0, |i, &a| i + a)
+    total.data().iter().take(score as usize).sum()
 }
 
 fn solve() -> String {
     count_way(100).to_string()
 }
 
-problem!("38182", solve);
+common::problem!("38182", solve);
 
 #[cfg(test)]
 mod tests {

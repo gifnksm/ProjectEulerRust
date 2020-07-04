@@ -8,15 +8,9 @@
     unused_qualifications,
     unused_results
 )]
-#![feature(no_panic_pow)]
-
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
 
 use integer::Integer;
-use std::cmp::Ordering;
-use std::collections::BinaryHeap;
+use std::{cmp::Ordering, collections::BinaryHeap};
 
 struct Power(u64, u64, u32);
 
@@ -48,7 +42,7 @@ impl Powers {
     fn new() -> Powers {
         let mut heap = BinaryHeap::new();
         heap.push(Power(4, 2, 2));
-        Powers { heap: heap }
+        Powers { heap }
     }
 }
 
@@ -83,7 +77,7 @@ fn solve() -> String {
     n.to_string()
 }
 
-problem!("248155780267521", solve);
+common::problem!("248155780267521", solve);
 
 #[cfg(test)]
 mod tests {

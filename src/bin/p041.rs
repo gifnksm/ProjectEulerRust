@@ -9,12 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-extern crate iter;
-extern crate prime;
-
 use integer::Integer;
 use iter::Permutations;
 use prime::PrimeSet;
@@ -27,7 +21,7 @@ fn compute() -> u64 {
     let radix = 10;
     let ps = PrimeSet::new();
     for (perm, _) in Permutations::new(&[7, 6, 5, 4, 3, 2, 1], 7) {
-        let n = Integer::from_digits(perm.iter().rev().map(|&x| x), radix);
+        let n = Integer::from_digits(perm.iter().rev().copied(), radix);
         if ps.contains(n) {
             return n;
         }
@@ -39,4 +33,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-problem!("7652413", solve);
+common::problem!("7652413", solve);

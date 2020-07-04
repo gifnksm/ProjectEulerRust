@@ -10,12 +10,6 @@
     unused_results
 )]
 
-extern crate num_integer;
-extern crate num_traits;
-
-#[cfg(feature = "num-bigint")]
-extern crate num_bigint;
-
 #[cfg(feature = "num-bigint")]
 use num_bigint::{BigInt, BigUint};
 use num_traits::{FromPrimitive, One, ToPrimitive, Zero};
@@ -23,26 +17,6 @@ use std::cmp::Ordering;
 
 /// Extension methods for num::Integer trait.
 pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
-    /// Divide two numbers, return the result, rounded up.
-    ///
-    /// # Arguments
-    ///
-    /// * x - an integer
-    /// * y - an integer distinct from 0u
-    ///
-    /// # Return value
-    ///
-    /// The smallest integer `q` such that `x/y <= q`.
-    ///
-    fn div_ceil(&self, other: &Self) -> Self {
-        let div = self.clone() / other.clone();
-        if self.is_multiple_of(other) {
-            div
-        } else {
-            div + One::one()
-        }
-    }
-
     /// Divide two numbers, return the result, rounded to the closest integer.
     ///
     /// # Arguments
@@ -56,7 +30,7 @@ pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
     ///
     fn div_round(&self, other: &Self) -> Self {
         let (div, rem) = self.div_rem(other);
-        if rem.clone() + rem.clone() < other.clone() {
+        if rem.clone() + rem < other.clone() {
             div
         } else {
             div + One::one()
@@ -188,7 +162,7 @@ pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
             }
         }
 
-        return min;
+        min
     }
 
     /// Gets the factorial of the number.
@@ -225,7 +199,7 @@ pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
             return zero;
         }
 
-        let mut result = one.clone();
+        let mut result = one;
         let mut base = self.clone();
         let mut exp = exp.clone();
         let modulo = modulo.clone();
@@ -278,11 +252,7 @@ impl<T: num_integer::Integer + Clone> Digits<T> {
                 prod = order.clone() * radix.clone();
             }
         }
-        Digits {
-            num: num,
-            radix: radix,
-            order: order,
-        }
+        Digits { num, radix, order }
     }
 }
 
@@ -318,7 +288,6 @@ impl<T: num_integer::Integer + Clone> DoubleEndedIterator for Digits<T> {
 mod tests {
     use super::Integer;
     use num_integer::Integer as NumInteger;
-    use num_traits;
 
     #[test]
     fn div() {

@@ -8,21 +8,15 @@
     unused_qualifications,
     unused_results
 )]
-#![feature(slice_patterns)]
-
-#[macro_use(problem)]
-extern crate common;
-extern crate playing_card;
-#[cfg(test)]
-extern crate rand;
 
 use playing_card::SuitCard as Card;
-use std::cmp::Ordering;
-use std::fmt;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
-use std::str::FromStr;
+use std::{
+    cmp::Ordering,
+    fmt,
+    fs::File,
+    io::{self, prelude::*, BufReader},
+    str::FromStr,
+};
 
 fn cmp_card(c0: &Card, c1: &Card) -> Ordering {
     if c0.num == c1.num {
@@ -45,7 +39,7 @@ fn cmp_card_array(a0: &[Card], a1: &[Card]) -> Ordering {
             return ord;
         }
     }
-    return Ordering::Equal;
+    Ordering::Equal
 }
 
 fn cmp_card_2darray(as0: &[&[Card]], as1: &[&[Card]]) -> Ordering {
@@ -56,7 +50,7 @@ fn cmp_card_2darray(as0: &[&[Card]], as1: &[&[Card]]) -> Ordering {
             return ord;
         }
     }
-    return Ordering::Equal;
+    Ordering::Equal
 }
 
 fn sort_cards(cs: &mut [Card]) {
@@ -88,7 +82,7 @@ enum Hand {
 }
 
 impl fmt::Display for Hand {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             Hand::HighCard([c0], [c1], [c2], [c3], [c4]) => {
                 write!(f, "HighCard({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
@@ -238,7 +232,7 @@ impl Hand {
 
         let is_flush = suit_count.iter().any(|v| v.len() == 5);
         let mut is_straight = {
-            let min_idx = num_count.iter().position(|v| v.len() > 0).unwrap();
+            let min_idx = num_count.iter().position(|v| !v.is_empty()).unwrap();
             num_count[min_idx..(min_idx + 5)]
                 .iter()
                 .all(|v| v.len() == 1)
@@ -329,15 +323,14 @@ fn solve(file: File) -> io::Result<String> {
     Ok(p1_win.to_string())
 }
 
-problem!("376", "p054_poker.txt", solve);
+common::problem!("376", "p054_poker.txt", solve);
 
 #[cfg(test)]
 mod tests {
     use super::Hand;
     use playing_card::SuitCard as Card;
-    use rand::{self, Rng};
-    use std::cmp::Ordering;
-    use std::str::FromStr;
+    use rand::{self, seq::SliceRandom};
+    use std::{cmp::Ordering, str::FromStr};
 
     fn str_to_cards(s: &str) -> Vec<Card> {
         s.split(' ')
@@ -354,7 +347,7 @@ mod tests {
 
             let mut rng = rand::thread_rng();
             for _ in 0..10 {
-                rng.shuffle(&mut cs);
+                cs.shuffle(&mut rng);
                 let hand = Hand::from_cards(&cs);
                 assert_eq!(ihand, hand);
                 assert_eq!(output, &hand.to_string()[..]);

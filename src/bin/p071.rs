@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn compute(limit: u64) -> u64 {
     let mut max_n = 0;
     let mut max_d = 1;
@@ -33,7 +30,7 @@ fn solve() -> String {
     compute(1000000).to_string()
 }
 
-problem!("428570", solve);
+common::problem!("428570", solve);
 
 #[cfg(test)]
 mod tests {

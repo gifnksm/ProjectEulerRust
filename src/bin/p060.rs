@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate prime;
-
 use prime::PrimeSet;
 use std::collections::HashMap;
 
@@ -51,7 +47,8 @@ impl Iterator for ConcatPrimeNums {
                 (n + m) % 3 != 0
                     && self.ps.contains(concat_num(n, m))
                     && self.ps.contains(concat_num(m, n))
-            }).collect();
+            })
+            .collect();
         Some((n, pairs))
     }
 }
@@ -85,7 +82,7 @@ fn find_chain(pairs: &[u64], set: &[u64], map: &HashMap<u64, Vec<u64>>) -> Vec<V
         let union_pairs = union_vec(&pairs[..i], &map.get(&p).unwrap());
         let pset = {
             let mut v = vec![p];
-            v.extend(set.iter().map(|&x| x));
+            v.extend(set.iter().copied());
             v
         };
         if union_pairs.is_empty() {
@@ -120,7 +117,7 @@ fn solve() -> String {
     compute(5).into_iter().sum::<u64>().to_string()
 }
 
-problem!("26033", solve);
+common::problem!("26033", solve);
 
 #[cfg(test)]
 mod tests {

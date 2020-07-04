@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate iter;
-
 use iter::BitCombination;
 
 fn solve() -> String {
@@ -28,13 +24,15 @@ fn solve() -> String {
                 _ => {}
             }
             set
-        }).collect::<Vec<_>>();
+        })
+        .collect::<Vec<_>>();
 
     let nums = (0usize..9)
         .map(|i| {
             let n = (i + 1) * (i + 1);
             (n / 10, n % 10)
-        }).collect::<Vec<_>>();
+        })
+        .collect::<Vec<_>>();
 
     let mut cnt = 0;
     for (i, set1) in all_combs.iter().enumerate() {
@@ -50,4 +48,4 @@ fn solve() -> String {
     cnt.to_string()
 }
 
-problem!("1217", solve);
+common::problem!("1217", solve);

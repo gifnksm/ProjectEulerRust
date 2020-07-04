@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 use std::u32;
 
 fn backtrack(power: u32, depth: u32, limit: u32, cost: &mut [u32], path: &mut [u32]) {
@@ -40,11 +37,11 @@ fn solve() -> String {
     let limit = 200;
     compute_cost(limit)[1..(limit as usize) + 1]
         .iter()
-        .fold(0, |x, &y| x + y)
+        .sum::<u32>()
         .to_string()
 }
 
-problem!("1582", solve);
+common::problem!("1582", solve);
 
 #[cfg(test)]
 mod tests {

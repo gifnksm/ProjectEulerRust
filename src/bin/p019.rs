@@ -9,9 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
 fn is_leap_year(y: u32) -> bool {
     if y % 400 == 0 {
         return true;
@@ -74,4 +71,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-problem!("171", solve);
+common::problem!("171", solve);

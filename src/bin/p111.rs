@@ -9,17 +9,10 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-extern crate iter;
-extern crate prime;
-
 use integer::Integer;
 use iter::BitCombination;
 use prime::PrimeSet;
-use std::iter::Rev;
-use std::ops::Range;
+use std::{iter::Rev, ops::Range};
 
 struct Digits {
     radix: u64,
@@ -30,8 +23,8 @@ struct Digits {
 impl Digits {
     fn new(radix: u64, num_digits: usize) -> Digits {
         Digits {
-            radix: radix,
-            num_digits: num_digits,
+            radix,
+            num_digits,
             range: (0..radix.pow(num_digits as u32)).rev(),
         }
     }
@@ -61,10 +54,10 @@ struct RunDigits {
 impl RunDigits {
     fn new(run_len: usize, d: u64, other_ds: Vec<u64>) -> RunDigits {
         RunDigits {
-            d: d,
-            run_len: run_len,
+            d,
+            run_len,
             iter: BitCombination::new(other_ds.len(), other_ds.len() + run_len),
-            other_ds: other_ds,
+            other_ds,
         }
     }
 }
@@ -86,12 +79,13 @@ impl Iterator for RunDigits {
             let mut j = 0;
             let mut num = 0;
             for i in 0..(self.other_ds.len() + self.run_len) {
-                num = num * 10 + if set.contains(i) {
-                    j += 1;
-                    self.other_ds[j - 1]
-                } else {
-                    self.d
-                };
+                num = num * 10
+                    + if set.contains(i) {
+                        j += 1;
+                        self.other_ds[j - 1]
+                    } else {
+                        self.d
+                    };
             }
 
             return Some(num);
@@ -136,7 +130,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("612407567715", solve);
+common::problem!("612407567715", solve);
 
 #[cfg(test)]
 mod tests {

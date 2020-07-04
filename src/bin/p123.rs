@@ -9,11 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate num_integer;
-extern crate prime;
-
 use num_integer::Integer;
 use prime::PrimeSet;
 
@@ -46,7 +41,7 @@ fn solve() -> String {
     compute(10u64.pow(10)).to_string()
 }
 
-problem!("21035", solve);
+common::problem!("21035", solve);
 
 #[cfg(test)]
 mod tests {

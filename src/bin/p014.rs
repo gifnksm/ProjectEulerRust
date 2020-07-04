@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate seq;
-
 use seq::Collatz;
 use std::collections::HashMap;
 
@@ -41,4 +37,4 @@ fn solve() -> String {
     compute(1000000).to_string()
 }
 
-problem!("837799", solve);
+common::problem!("837799", solve);

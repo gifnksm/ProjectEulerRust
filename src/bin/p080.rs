@@ -9,16 +9,11 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate iter;
-extern crate num_bigint;
-extern crate num_traits;
-
 use iter::Difference;
 use num_bigint::BigInt;
 use num_traits::{FromPrimitive, Zero};
 
+#[allow(clippy::just_underscores_and_digits)]
 fn sqrt_newton_raphson(n: u32, precision: usize) -> String {
     assert!(precision >= 1);
 
@@ -61,7 +56,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("40886", solve);
+common::problem!("40886", solve);
 
 #[cfg(test)]
 mod test {

@@ -9,13 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-extern crate iter;
-extern crate num_integer;
-extern crate prime;
-
 use integer::Integer;
 use iter::{BitCombination, Permutations};
 use num_integer::Integer as NumInteger;
@@ -68,7 +61,7 @@ impl<T: Clone> Iterator for Groups<T> {
 }
 
 fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
-    if digits.len() == 0 {
+    if digits.is_empty() {
         return 1;
     }
 
@@ -88,16 +81,15 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
                 } else {
                     0
                 }
+            } else if ds.iter().sum::<u64>() % 3 != 0 {
+                Permutations::new(&ds[..], ds.len())
+                    .filter(|&(ref perm, _)| perm[0].is_odd() && perm[0] != 5)
+                    .filter(|&(ref perm, _)| {
+                        ps.contains(Integer::from_digits(perm.iter().copied(), 10))
+                    })
+                    .count()
             } else {
-                if ds.iter().fold(0, |x, &y| x + y) % 3 != 0 {
-                    Permutations::new(&ds[..], ds.len())
-                        .filter(|&(ref perm, _)| perm[0].is_odd() && perm[0] != 5)
-                        .filter(|&(ref perm, _)| {
-                            ps.contains(Integer::from_digits(perm.iter().map(|&x| x), 10))
-                        }).count()
-                } else {
-                    0
-                }
+                0
             };
 
             if num_prime != 0 {
@@ -115,7 +107,7 @@ fn solve() -> String {
     count_primes(&ps, &digits).to_string()
 }
 
-problem!("44680", solve);
+common::problem!("44680", solve);
 
 #[cfg(test)]
 mod tests {

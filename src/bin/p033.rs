@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate num_integer;
-
 use num_integer::Integer;
 
 // AB / AC => NG (10A+B : 10A+C = B : C => 10AC+BC = 10AB+BC => 10A(C-B) = 0 -> trivial)
@@ -59,4 +55,4 @@ fn solve() -> String {
     compute().to_string()
 }
 
-problem!("100", solve);
+common::problem!("100", solve);

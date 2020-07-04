@@ -10,9 +10,8 @@
     unused_results
 )]
 
-use std::fmt;
-use std::str::FromStr;
-use Suit::{Club, Dia, Heart, Spade};
+use crate::Suit::{Club, Dia, Heart, Spade};
+use std::{fmt, str::FromStr};
 
 /// Playing card's suite.
 #[allow(missing_docs, unused_qualifications)]
@@ -26,12 +25,12 @@ pub enum Suit {
 }
 
 impl fmt::Display for Suit {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let s = match self {
-            &Spade => "S",
-            &Heart => "H",
-            &Dia => "D",
-            &Club => "C",
+            Spade => "S",
+            Heart => "H",
+            Dia => "D",
+            Club => "C",
         };
 
         write!(f, "{}", s)
@@ -45,13 +44,13 @@ impl FromStr for Suit {
         if s.len() != 1 {
             return Err(());
         }
-        return match s {
+        match s {
             "S" => Ok(Spade),
             "H" => Ok(Heart),
             "D" => Ok(Dia),
             "C" => Ok(Club),
             _ => Err(()),
-        };
+        }
     }
 }
 
@@ -64,7 +63,7 @@ pub struct SuitCard {
 }
 
 impl fmt::Display for SuitCard {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             SuitCard { num: 1, suit: s } => write!(f, "A{}", s),
             SuitCard { num: 10, suit: s } => write!(f, "T{}", s),
@@ -113,7 +112,7 @@ pub enum Card {
 }
 
 impl fmt::Display for Card {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             Card::BlackJoker => write!(f, "BJ"),
             Card::WhiteJoker => write!(f, "WJ"),
@@ -129,7 +128,7 @@ impl FromStr for Card {
         match s {
             "BJ" => Ok(Card::BlackJoker),
             "WJ" => Ok(Card::WhiteJoker),
-            _ => FromStr::from_str(s).map(|sc| Card::Suit(sc)),
+            _ => FromStr::from_str(s).map(Card::Suit),
         }
     }
 }
@@ -143,8 +142,10 @@ impl Card {
 
 #[cfg(test)]
 mod tests {
-    use super::Suit::{Club, Dia, Heart, Spade};
-    use super::{Card, Suit};
+    use super::{
+        Card, Suit,
+        Suit::{Club, Dia, Heart, Spade},
+    };
 
     #[test]
     fn show_suit() {

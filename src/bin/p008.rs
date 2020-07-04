@@ -9,10 +9,7 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
-const INPUT: &'static str = r"
+const INPUT: &str = r"
 73167176531330624919225119674426574742355349194934
 96983520312774506326239578318016984801869478851843
 85861560789112949495459501737958331952853208805511
@@ -42,7 +39,7 @@ fn compute(prod_len: usize) -> u64 {
         .map(|n| n as u64)
         .collect::<Vec<_>>()
         .windows(prod_len)
-        .map(|win| win.iter().fold(1u64, |p, &n| p * n))
+        .map(|win| win.iter().product())
         .max()
         .unwrap()
 }
@@ -51,7 +48,7 @@ fn solve() -> String {
     compute(13).to_string()
 }
 
-problem!("23514624000", solve);
+common::problem!("23514624000", solve);
 
 #[cfg(test)]
 mod tests {

@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate prime;
-
 use prime::{Factorize, PrimeSet};
 
 fn compute(n: u64) -> u64 {
@@ -23,7 +19,7 @@ fn compute(n: u64) -> u64 {
 fn solve() -> String {
     compute(600851475143).to_string()
 }
-problem!("6857", solve);
+common::problem!("6857", solve);
 
 #[cfg(test)]
 mod tests {

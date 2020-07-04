@@ -9,22 +9,17 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate num_bigint;
-extern crate num_traits;
-
 use num_bigint::BigUint;
 use num_traits::FromPrimitive;
 
 fn solve() -> String {
     let mut cnt = 1; // a == 1
-    for a in (2usize..10).filter_map::<BigUint, _>(|a| FromPrimitive::from_usize(a)) {
+    for a in (2usize..10).filter_map::<BigUint, _>(FromPrimitive::from_usize) {
         let mut n = 0;
         let mut an: BigUint = FromPrimitive::from_u32(1).unwrap();
         loop {
             n += 1;
-            an = an * &a;
+            an *= &a;
             let an_str = an.to_string();
             if an_str.len() != n {
                 break;
@@ -37,4 +32,4 @@ fn solve() -> String {
     cnt.to_string()
 }
 
-problem!("49", solve);
+common::problem!("49", solve);

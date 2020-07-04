@@ -9,13 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-extern crate num_bigint;
-extern crate num_traits;
-
-use integer::Integer;
 use num_bigint::BigUint;
 use num_traits::{FromPrimitive, ToPrimitive};
 
@@ -25,7 +18,7 @@ fn compute(max: u64, modulo: u64) -> u64 {
     let mut sum = 0;
     for n in 1..(max + 1) {
         let bu_n: BigUint = FromPrimitive::from_u64(n).unwrap();
-        let pow = bu_n.mod_pow(&bu_n, &bu_m).to_u64().unwrap();
+        let pow = bu_n.modpow(&bu_n, &bu_m).to_u64().unwrap();
         sum = (sum + pow) % modulo;
     }
     sum
@@ -35,7 +28,7 @@ fn solve() -> String {
     compute(1000, 100_0000_0000).to_string()
 }
 
-problem!("9110846700", solve);
+common::problem!("9110846700", solve);
 
 #[cfg(test)]
 mod tests {

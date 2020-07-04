@@ -9,11 +9,7 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-
-use integer::Integer;
+use num_integer::Integer;
 use std::u32;
 
 fn each_sum_product<F>(prod_start: u32, prod_end: u32, f: &mut F)
@@ -85,7 +81,7 @@ fn solve() -> String {
     compute(12000).to_string()
 }
 
-problem!("7587457", solve);
+common::problem!("7587457", solve);
 
 #[cfg(test)]
 mod tests {

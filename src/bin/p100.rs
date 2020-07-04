@@ -9,13 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate cont_frac;
-extern crate num_bigint;
-extern crate num_integer;
-extern crate num_traits;
-
 use cont_frac::PelNegRoots;
 use num_bigint::BigUint;
 use num_integer::Integer;
@@ -45,7 +38,7 @@ fn solve() -> String {
     compute(limit).to_string()
 }
 
-problem!("756872327473", solve);
+common::problem!("756872327473", solve);
 
 #[cfg(test)]
 mod tests {

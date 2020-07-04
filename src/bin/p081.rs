@@ -9,13 +9,11 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-
-use std::cmp;
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    cmp,
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 
 fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {
     let mut mat = vec![];
@@ -52,7 +50,7 @@ fn solve(file: File) -> io::Result<String> {
     Ok(minimal_path_sum(mat).to_string())
 }
 
-problem!("427337", "p081_matrix.txt", solve);
+common::problem!("427337", "p081_matrix.txt", solve);
 
 #[cfg(test)]
 mod tests {

@@ -10,20 +10,23 @@
     unused_results
 )]
 
-#[cfg(test)]
-extern crate num_bigint;
-extern crate num_integer;
-extern crate num_traits;
-
 use num_integer::Integer;
 use num_traits::One;
-use std::mem;
-use std::ops::Add;
+use std::{mem, ops::Add};
 
 /// Fibonacci sequence iterator.
 pub struct Fibonacci<T> {
     current: T,
     next: T,
+}
+
+impl<T> Default for Fibonacci<T>
+where
+    T: One,
+{
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl<T: One> Fibonacci<T> {
@@ -150,6 +153,15 @@ pub struct TriangularNums<T> {
     next: T,
 }
 
+impl<T> Default for TriangularNums<T>
+where
+    T: One + Add<T, Output = T> + Clone,
+{
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<T: One + Add<T, Output = T> + Clone> TriangularNums<T> {
     /// Creates a new Triangular number sequence iterator that enumerates each
     /// triangular number.
@@ -223,18 +235,15 @@ impl<T: Integer + Clone> PrimitivePythagoreans<T> {
     /// ```
     pub fn new(m: T) -> PrimitivePythagoreans<T> {
         let one: T = One::one();
-        let n = if m.is_even() {
-            one
-        } else {
-            one.clone() + one.clone()
-        };
-        PrimitivePythagoreans { m: m, n: n }
+        let n = if m.is_even() { one } else { one.clone() + one };
+        PrimitivePythagoreans { m, n }
     }
 }
 
 impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
     type Item = (T, T, T);
 
+    #[allow(clippy::many_single_char_names)]
     fn next(&mut self) -> Option<(T, T, T)> {
         let one: T = One::one();
         let two = one.clone() + one.clone();
@@ -251,11 +260,7 @@ impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
             }
 
             let (m2, n2) = (m.clone() * m.clone(), n.clone() * n.clone());
-            let (a, b, c) = (
-                m2.clone() - n2.clone(),
-                two.clone() * m.clone() * n,
-                m2 + n2,
-            );
+            let (a, b, c) = (m2.clone() - n2.clone(), two * m.clone() * n, m2 + n2);
             if a < b {
                 return Some((a, b, c));
             } else {
@@ -271,8 +276,7 @@ impl<T: Integer + Clone> Iterator for PrimitivePythagoreans<T> {
 mod tests {
     use num_bigint::ToBigInt;
     use num_traits::One;
-    use std::fmt::Debug;
-    use std::ops::Add;
+    use std::{fmt::Debug, ops::Add};
 
     fn check<T: Eq + Debug, I: Iterator<Item = T>>(expected: &[T], it: I) {
         assert_eq!(expected, &it.collect::<Vec<_>>()[..]);

@@ -9,10 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate num_integer;
-
 use num_integer::Integer;
 use std::cmp;
 
@@ -42,7 +38,7 @@ fn solve() -> String {
     compute(50, 50).to_string()
 }
 
-problem!("14234", solve);
+common::problem!("14234", solve);
 
 #[cfg(test)]
 mod tests {

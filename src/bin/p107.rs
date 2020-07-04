@@ -9,13 +9,10 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate union_find;
-
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::{self, BufReader};
+use std::{
+    fs::File,
+    io::{self, prelude::*, BufReader},
+};
 use union_find::{QuickUnionUf as Uf, UnionBySize, UnionFind};
 
 fn compute<R: Read>(r: R, size: usize) -> io::Result<usize> {
@@ -51,7 +48,7 @@ fn solve(file: File) -> io::Result<String> {
     Ok(compute(file, 40)?.to_string())
 }
 
-problem!("259679", "p107_network.txt", solve);
+common::problem!("259679", "p107_network.txt", solve);
 
 #[cfg(test)]
 mod tests {

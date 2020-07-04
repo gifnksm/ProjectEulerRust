@@ -9,11 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate integer;
-extern crate prime;
-
 use integer::Integer;
 use prime::PrimeSet;
 
@@ -27,13 +22,13 @@ fn solve() -> String {
         .filter(|&p| p != 1487)
         .map(|p| (p, p + d, p + d + d))
         .filter(|&(_p1, p2, p3)| ps.contains(p3) && ps.contains(p2))
-        .filter(|&(p1, p2, p3)| {
+        .find(|&(p1, p2, p3)| {
             let hs1 = p1.into_digit_histogram();
             let hs2 = p2.into_digit_histogram();
             hs1 == hs2 && hs1 == p3.into_digit_histogram()
-        }).next()
+        })
         .unwrap();
     format!("{}{}{}", p1, p2, p3)
 }
 
-problem!("296962999629", solve);
+common::problem!("296962999629", solve);

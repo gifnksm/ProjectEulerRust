@@ -9,13 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate num_bigint;
-extern crate num_rational;
-extern crate num_traits;
-extern crate polynomial;
-
 use num_bigint::BigInt;
 use num_rational::Ratio;
 use num_traits::{FromPrimitive, One, Zero};
@@ -25,7 +18,7 @@ fn u(n: BigInt) -> BigInt {
     let mut sum = BigInt::zero();
     let mut prod = BigInt::one();
     for _ in 0..11 {
-        sum = sum + &prod;
+        sum += &prod;
         prod = &prod * (-&n);
     }
     sum
@@ -43,10 +36,11 @@ fn op(ns: &[(BigInt, BigInt)]) -> Polynomial<BigInt> {
                 continue;
             }
 
-            term = term * Polynomial::new(vec![
-                Ratio::new(-xj, xi - xj),
-                Ratio::new(One::one(), xi - xj),
-            ]);
+            term = term
+                * Polynomial::new(vec![
+                    Ratio::new(-xj, xi - xj),
+                    Ratio::new(One::one(), xi - xj),
+                ]);
         }
         poly = poly + term;
     }
@@ -64,7 +58,8 @@ fn u_to_vec(dim: u32, f: fn(BigInt) -> BigInt) -> Vec<(BigInt, BigInt)> {
         .map(|i| {
             let n: BigInt = FromPrimitive::from_u32(i + 1).unwrap();
             (n.clone(), f(n))
-        }).collect()
+        })
+        .collect()
 }
 
 fn solve() -> String {
@@ -75,7 +70,7 @@ fn solve() -> String {
         .to_string()
 }
 
-problem!("37076114526", solve);
+common::problem!("37076114526", solve);
 
 #[cfg(test)]
 mod tests {

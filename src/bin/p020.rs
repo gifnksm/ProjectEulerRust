@@ -9,12 +9,6 @@
     unused_results
 )]
 
-#[macro_use(problem)]
-extern crate common;
-extern crate num_bigint;
-extern crate num_iter;
-extern crate num_traits;
-
 use num_bigint::BigUint;
 use num_traits::FromPrimitive;
 
@@ -22,7 +16,8 @@ fn compute(max: u32) -> u32 {
     num_iter::range::<BigUint>(
         FromPrimitive::from_u32(1).unwrap(),
         FromPrimitive::from_u32(max + 1).unwrap(),
-    ).fold(num_traits::one::<BigUint>(), |acc, elt| acc * elt)
+    )
+    .fold(num_traits::one::<BigUint>(), |acc, elt| acc * elt)
     .to_string()
     .chars()
     .filter_map(|c| c.to_digit(10))
@@ -33,7 +28,7 @@ fn solve() -> String {
     compute(100).to_string()
 }
 
-problem!("648", solve);
+common::problem!("648", solve);
 
 #[cfg(test)]
 mod tests {
