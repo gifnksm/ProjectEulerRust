@@ -11,8 +11,7 @@
 )]
 #![cfg_attr(test, feature(test))]
 
-extern crate num_integer;
-extern crate num_traits;
+use num_traits;
 #[cfg(test)]
 extern crate test;
 
@@ -375,7 +374,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     /// Creates new empty factorized number.
     ///
     /// The empty factorized number represents `1`.
-    pub fn new(ps: &PrimeSet) -> Factorized<T> {
+    pub fn new(ps: &PrimeSet) -> Factorized<'_, T> {
         Factorized {
             ps,
             map: HashMap::new(),
@@ -383,7 +382,7 @@ impl<'a, T: Factorize + Eq + Hash> Factorized<'a, T> {
     }
 
     /// Creates a factorized number from an integer type.
-    pub fn from_integer(ps: &PrimeSet, n: T) -> Factorized<T> {
+    pub fn from_integer(ps: &PrimeSet, n: T) -> Factorized<'_, T> {
         Factorized {
             ps,
             map: n.factorize(ps).collect(),

@@ -10,11 +10,7 @@
     unused_results
 )]
 
-extern crate num_integer;
-extern crate num_traits;
-
-#[cfg(feature = "num-bigint")]
-extern crate num_bigint;
+use num_integer;
 
 #[cfg(feature = "num-bigint")]
 use num_bigint::{BigInt, BigUint};

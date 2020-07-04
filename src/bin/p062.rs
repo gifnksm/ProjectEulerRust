@@ -11,7 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate integer;
 
 use integer::Integer;
 use std::collections::hash_map::Entry;

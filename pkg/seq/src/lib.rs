@@ -10,11 +10,6 @@
     unused_results
 )]
 
-#[cfg(test)]
-extern crate num_bigint;
-extern crate num_integer;
-extern crate num_traits;
-
 use num_integer::Integer;
 use num_traits::One;
 use std::mem;

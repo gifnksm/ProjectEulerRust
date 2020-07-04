@@ -149,7 +149,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate prime;
 
 use prime::PrimeSet;
 use std::mem;

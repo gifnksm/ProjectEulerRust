@@ -11,8 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num_bigint;
-extern crate seq;
 
 use num_bigint::BigUint;
 use seq::Fibonacci;

@@ -11,8 +11,7 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate cont_frac;
-extern crate num_integer;
+use cont_frac;
 
 use num_integer::Integer;
 

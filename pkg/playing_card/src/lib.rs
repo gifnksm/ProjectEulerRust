@@ -26,7 +26,7 @@ pub enum Suit {
 }
 
 impl fmt::Display for Suit {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let s = match self {
             Spade => "S",
             Heart => "H",
@@ -64,7 +64,7 @@ pub struct SuitCard {
 }
 
 impl fmt::Display for SuitCard {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             SuitCard { num: 1, suit: s } => write!(f, "A{}", s),
             SuitCard { num: 10, suit: s } => write!(f, "T{}", s),
@@ -113,7 +113,7 @@ pub enum Card {
 }
 
 impl fmt::Display for Card {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             Card::BlackJoker => write!(f, "BJ"),
             Card::WhiteJoker => write!(f, "WJ"),

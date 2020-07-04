@@ -11,7 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate seq;
 
 use seq::TriangularNums;
 use std::fs::File;

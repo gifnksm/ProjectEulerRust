@@ -11,8 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate integer;
-extern crate iter;
 
 use integer::Integer;
 use iter::Permutations;

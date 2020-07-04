@@ -11,11 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num_bigint;
-extern crate num_integer;
-extern crate num_rational;
-extern crate num_traits;
-extern crate polynomial;
 
 use num_bigint::BigUint;
 use num_integer::Integer;

@@ -7,17 +7,16 @@
     unused_results
 )]
 
-extern crate failure;
+use failure;
 #[macro_use]
 extern crate failure_derive;
-extern crate getopts;
-extern crate num_integer;
-extern crate reqwest;
-extern crate serde;
+
+use reqwest;
+
 #[macro_use]
 extern crate serde_derive;
-extern crate serde_json;
-extern crate term;
+use serde_json;
+use term;
 
 use getopts::Options;
 use num_integer::Integer;
@@ -63,7 +62,7 @@ impl<T: Serialize> SolverResult<T> {
     }
 }
 
-fn print_items(items: &[OutputPair]) {
+fn print_items(items: &[OutputPair<'_>]) {
     match term::stdout() {
         None => {
             let mut out = io::stdout();

@@ -11,8 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate integer;
-extern crate prime;
 
 use integer::Integer;
 use prime::PrimeSet;

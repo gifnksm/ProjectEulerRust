@@ -11,9 +11,8 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate iter;
-extern crate num_bigint;
-extern crate num_traits;
+
+use num_traits;
 
 use iter::Difference;
 use num_bigint::BigInt;

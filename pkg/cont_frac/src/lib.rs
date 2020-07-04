@@ -10,10 +10,6 @@
     unused_results
 )]
 
-extern crate integer;
-extern crate num_integer;
-extern crate num_traits;
-
 use integer::Integer;
 use num_integer::Integer as NumInteger;
 use num_traits::FromPrimitive;

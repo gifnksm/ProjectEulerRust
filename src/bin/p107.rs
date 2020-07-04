@@ -11,7 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate union_find;
 
 use std::fs::File;
 use std::io::prelude::*;

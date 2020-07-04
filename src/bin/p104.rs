@@ -11,11 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-#[cfg(test)]
-extern crate num_bigint;
-extern crate num_integer;
-#[cfg(test)]
-extern crate seq;
 
 use num_integer::Integer;
 

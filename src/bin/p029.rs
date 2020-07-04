@@ -11,7 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate prime;
 
 use prime::{Factorize, PrimeSet};
 use std::collections::HashSet;

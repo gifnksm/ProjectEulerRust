@@ -11,8 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate prime;
-extern crate seq;
 
 use prime::{Factorize, PrimeSet};
 use seq::TriangularNums;

@@ -11,9 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate iter;
-extern crate num_rational;
-extern crate num_traits;
 
 use iter::{BitCombination, CombinationOverlap, Permutations};
 use num_rational::Ratio;

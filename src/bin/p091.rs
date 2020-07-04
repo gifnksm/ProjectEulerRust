@@ -11,7 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate num_integer;
 
 use num_integer::Integer;
 use std::cmp;

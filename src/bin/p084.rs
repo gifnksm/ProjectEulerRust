@@ -14,7 +14,6 @@ extern crate common;
 #[macro_use]
 extern crate enum_primitive;
 extern crate generic_matrix as matrix;
-extern crate num_traits;
 
 use crate::matrix::Matrix;
 use num_traits::FromPrimitive;

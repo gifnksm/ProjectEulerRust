@@ -11,7 +11,7 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate playing_card;
+
 #[cfg(test)]
 extern crate rand;
 
@@ -87,7 +87,7 @@ enum Hand {
 }
 
 impl fmt::Display for Hand {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             Hand::HighCard([c0], [c1], [c2], [c3], [c4]) => {
                 write!(f, "HighCard({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)

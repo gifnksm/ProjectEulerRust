@@ -11,8 +11,6 @@
 )]
 #![cfg_attr(test, feature(test))]
 
-extern crate bit_set;
-
 #[cfg(test)]
 extern crate test;
 
@@ -103,7 +101,7 @@ impl BitCombination {
 /// An iterator that enumerates all combinations of elemnts.
 ///
 /// The iteratee vector may contain the same elements multiple times.
-pub struct CombinationOverlap<'a, T: 'a> {
+pub struct CombinationOverlap<'a, T> {
     elems: &'a [T],
     idxs: Vec<usize>,
     consumed: bool,
@@ -160,7 +158,7 @@ impl<'a, T: Clone> Iterator for CombinationOverlap<'a, T> {
 }
 
 /// An iterator that enumerates all permutations of elemnts.
-pub struct Permutations<'a, T: 'a> {
+pub struct Permutations<'a, T> {
     elems: &'a [T],
     idxs: Vec<usize>,
     cycles: Vec<usize>,

@@ -11,9 +11,6 @@
 
 #[macro_use(problem)]
 extern crate common;
-extern crate cont_frac;
-extern crate num_bigint;
-extern crate num_traits;
 
 use cont_frac::PelRoots;
 use num_bigint::BigUint;

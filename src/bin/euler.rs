@@ -7,11 +7,10 @@
     unused_results
 )]
 
-extern crate common;
 #[macro_use]
 extern crate failure;
-extern crate glob;
-extern crate serde_json;
+use glob;
+use serde_json;
 
 use common::SolverResult;
 use glob::Paths;
