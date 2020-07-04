@@ -9,9 +9,9 @@
     unused_qualifications,
     unused_results
 )]
-#![cfg_attr(test, feature(test))]
+#![cfg_attr(all(test, feature = "unstable"), feature(test))]
 
-#[cfg(test)]
+#[cfg(all(test, feature = "unstable"))]
 extern crate test;
 
 use bit_set::BitSet;
@@ -471,7 +471,7 @@ mod tests {
     }
 }
 
-#[cfg(test)]
+#[cfg(all(test, feature = "unstable"))]
 mod bench {
     use super::BitCombination;
     use test::{self, Bencher};

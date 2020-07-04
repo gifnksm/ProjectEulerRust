@@ -8,3 +8,7 @@ edition = "2018"
 [dependencies]
 num-integer = "0.1.43"
 num-traits = "0.2.12"
+
+[features]
+default = []
+unstable = []
