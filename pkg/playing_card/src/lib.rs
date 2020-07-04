@@ -10,9 +10,9 @@
     unused_results
 )]
 
+use crate::Suit::{Club, Dia, Heart, Spade};
 use std::fmt;
 use std::str::FromStr;
-use Suit::{Club, Dia, Heart, Spade};
 
 /// Playing card's suite.
 #[allow(missing_docs, unused_qualifications)]

@@ -13,10 +13,10 @@
 extern crate common;
 extern crate topological_sort as tsort;
 
+use crate::tsort::TopologicalSort;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::{self, BufReader};
-use tsort::TopologicalSort;
 
 fn solve(file: File) -> io::Result<String> {
     let mut ts = TopologicalSort::new();
