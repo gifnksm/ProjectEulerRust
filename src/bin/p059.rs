@@ -125,4 +125,4 @@ fn solve(file: File) -> io::Result<String> {
     Ok(sum.to_string())
 }
 
-problem!("107359", "p059_cipher.txt", solve);
+problem!("129448", "p059_cipher.txt", solve);
