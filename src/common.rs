@@ -262,10 +262,18 @@ fn download(file_name: &str) -> Result<Vec<u8>> {
     unreachable!();
 }
 
+pub fn init() {
+    if env::var_os("RUST_LOG").is_none() {
+        env::set_var("RUST_LOG", "info");
+    }
+    pretty_env_logger::init();
+}
+
 #[macro_export]
 macro_rules! problem {
     ($answer:expr, $solver:expr) => {
         fn main() {
+            $crate::init();
             $crate::Solver::new($answer, $solver).run();
         }
 
@@ -276,6 +284,7 @@ macro_rules! problem {
     };
     ($answer:expr, $file:expr, $solver:expr) => {
         fn main() {
+            $crate::init();
             $crate::Solver::new_with_file($answer, $file, $solver).run();
         }
 
