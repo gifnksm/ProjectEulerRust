@@ -7,6 +7,7 @@
     unused_results
 )]
 
+use attohttpc::StatusCode;
 use failure::Fail;
 use getopts::Options;
 use num_integer::Integer;
@@ -36,7 +37,7 @@ const COLOR_WARN: Color = color::YELLOW;
 #[derive(Fail, Debug, Clone)]
 #[fail(display = "{}, {}", status, body)]
 struct InvalidHttpStatusError {
-    status: reqwest::StatusCode,
+    status: StatusCode,
     body: String,
 }
 
@@ -236,21 +237,20 @@ fn setup_file(file_name: &str) -> Result<File> {
     Ok(file)
 }
 
-const BASE_URL: &str = "http://projecteuler.net/project/resources/";
+const BASE_URL: &str = "https://projecteuler.net/project/resources/";
 fn download(file_name: &str) -> Result<Vec<u8>> {
     let url = format!("{}{}", BASE_URL, file_name);
 
     for retry in 0.. {
-        let mut resp = reqwest::blocking::get(&url)?;
-        let mut body = vec![];
-        let _ = resp.read_to_end(&mut body)?;
-
-        if resp.status().is_success() {
+        let resp = attohttpc::get(&url).send()?;
+        let status = resp.status();
+        let body = resp.bytes()?;
+        if status.is_success() {
             return Ok(body);
         }
 
         let err = InvalidHttpStatusError {
-            status: resp.status(),
+            status,
             body: String::from_utf8_lossy(&body).into(),
         };
         let program = env::args().next().unwrap();
