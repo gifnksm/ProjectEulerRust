@@ -228,9 +228,8 @@ fn setup_file(file_name: &str) -> Result<File> {
     path.push(file_name);
     if !path.is_file() {
         fs::create_dir_all(&path.parent().unwrap())?;
-        let mut file = File::create(&path)?;
         let content = download(file_name)?;
-        file.write_all(&content)?;
+        File::create(&path)?.write_all(&content)?;
     }
 
     let file = File::open(&path)?;
