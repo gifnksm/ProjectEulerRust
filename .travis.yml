@@ -19,7 +19,7 @@ script:
         CARGO_OPTS+=("--features" "unstable")
       fi
       cargo build "${CARGO_OPTS[@]}" --workspace --release &&
-      cargo run --release --bin euler &&
-      cargo test --workspace &&
-      cargo bench --workspace &&
-      cargo doc --workspace --no-deps
+      cargo run  "${CARGO_OPTS[@]}" --release --bin euler &&
+      cargo test "${CARGO_OPTS[@]}" --workspace &&
+      cargo bench "${CARGO_OPTS[@]}" --workspace &&
+      cargo doc "${CARGO_OPTS[@]}" --workspace --no-deps
