@@ -1,6 +1,6 @@
 language: rust
 sudo: false
-dist: trusty
+dist: bionic
 
 cache:
   cargo: true
@@ -21,5 +21,4 @@ script:
       cargo build "${CARGO_OPTS[@]}" --workspace --release &&
       cargo run  "${CARGO_OPTS[@]}" --release --bin euler &&
       cargo test "${CARGO_OPTS[@]}" --workspace &&
-      cargo bench "${CARGO_OPTS[@]}" --workspace &&
-      cargo doc "${CARGO_OPTS[@]}" --workspace --no-deps
+      cargo bench "${CARGO_OPTS[@]}" --workspace
