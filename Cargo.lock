@@ -1171,9 +1171,9 @@ checksum = "3ed742d4ea2bd1176e236172c8429aaf54486e7ac098db29ffe6529e0ce50973"
 
 [[package]]
 name = "union-find"
-version = "0.4.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "db0a9a391529b61164640d455b157ab3765bd828c93029dfdf4ec8e10efc1e9a"
+checksum = "5aef317275984b19dddb358f0586a4c2e3e8244cc5b48cf65d1e109f48cc96dd"
 
 [[package]]
 name = "url"
