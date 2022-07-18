@@ -8,7 +8,6 @@
 )]
 
 use common::SolverResult;
-use failure::bail;
 use glob::Paths;
 use std::{
     env, io, io::prelude::*, os::unix::process::ExitStatusExt, path::Path, process,
@@ -17,13 +16,13 @@ use std::{
 
 const PROBLEM_EXE_PAT: &str = "p[0-9][0-9][0-9]";
 
-type Result<T> = std::result::Result<T, failure::Error>;
+type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
 fn problem_paths(dir_path: &Path) -> Result<Paths> {
     let pat = dir_path.join(PROBLEM_EXE_PAT);
     match pat.to_str() {
         Some(x) => Ok(glob::glob(x)?),
-        None => bail!("path contains non-utf8 character"),
+        None => Err("path contains non-utf8 character".into()),
     }
 }
 
@@ -39,11 +38,14 @@ fn run_problem(path: &Path) -> Result<SolverResult<String>> {
 
     match proc_out.status.code() {
         Some(0) | Some(1) => {} // expected
-        Some(st) => bail!("child process exit with {}", st),
-        None => bail!(
-            "child process exit with signal {}",
-            proc_out.status.signal().unwrap()
-        ),
+        Some(st) => return Err(format!("child process exit with {}", st).into()),
+        None => {
+            return Err(format!(
+                "child process exit with signal {}",
+                proc_out.status.signal().unwrap()
+            )
+            .into())
+        }
     }
 
     let result = serde_json::from_reader(&mut &proc_out.stdout[..])?;

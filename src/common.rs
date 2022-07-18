@@ -8,7 +8,6 @@
 )]
 
 use attohttpc::StatusCode;
-use failure::Fail;
 use getopts::Options;
 use num_integer::Integer;
 use serde::{Deserialize, Serialize};
@@ -34,14 +33,14 @@ const COLOR_OK: Color = color::GREEN;
 const COLOR_NG: Color = color::RED;
 const COLOR_WARN: Color = color::YELLOW;
 
-#[derive(Fail, Debug, Clone)]
-#[fail(display = "{}, {}", status, body)]
+#[derive(thiserror::Error, Debug, Clone)]
+#[error("{}, {}", status, body)]
 struct InvalidHttpStatusError {
     status: StatusCode,
     body: String,
 }
 
-pub type Result<T> = std::result::Result<T, failure::Error>;
+pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SolverResult<T> {
