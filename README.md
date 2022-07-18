@@ -1,22 +1,37 @@
 # Project Euler - Rust
 
+[![Rust CI](https://github.com/gifnksm/ProjectEulerRust/actions/workflows/rust-ci.yml/badge.svg)](https://github.com/gifnksm/ProjectEulerRust/actions/workflows/rust-ci.yml)
+[![codecov](https://codecov.io/gh/gifnksm/ProjectEulerRust/branch/master/graph/badge.svg?token=3PXez3ai02)](https://codecov.io/gh/gifnksm/ProjectEulerRust)
+
 Solving Project Euler with Rust lang.
 
 [![Project Euler](https://projecteuler.net/profile/gifnksm.png)](https://projecteuler.net/)
-[![Build Status](https://travis-ci.org/gifnksm/ProjectEulerRust.png?branch=master)](https://travis-ci.org/gifnksm/ProjectEulerRust)
 
 ## Try it out
 
 Run all problems:
 
-```
+```console
+cargo build --release
 cargo run --release --bin euler
 ```
 
 Run specific problem:
 
-```
+```console
 cargo run --release --bin p001
+```
+
+Run tests:
+
+```console
+cargo run test --workspace
+```
+
+Run benchmarks:
+
+```console
+cargo run bench --workspace
 ```
 
 ## Special thanks
