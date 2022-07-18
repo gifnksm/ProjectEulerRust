@@ -58,7 +58,3 @@ path = "./pkg/seq"
 
 [dev-dependencies]
 rand = "0.8.5"
-
-[features]
-default = []
-unstable = ["prime/unstable", "iter/unstable"]

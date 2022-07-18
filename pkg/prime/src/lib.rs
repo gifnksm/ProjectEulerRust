@@ -593,22 +593,3 @@ mod tests {
         assert_eq!(137846528820, ps.combination(40, 20));
     }
 }
-
-#[cfg(all(test, feature = "unstable"))]
-mod bench {
-    use super::PrimeSet;
-    use test::Bencher;
-
-    #[bench]
-    fn get_5000th(bh: &mut Bencher) {
-        bh.iter(|| PrimeSet::new().nth(5000));
-    }
-
-    #[bench]
-    fn get_below_5000th(bh: &mut Bencher) {
-        bh.iter(|| {
-            let ps = PrimeSet::new();
-            for _p in ps.iter().take(5000) {}
-        });
-    }
-}

@@ -470,16 +470,3 @@ mod tests {
         }
     }
 }
-
-#[cfg(all(test, feature = "unstable"))]
-mod bench {
-    use super::BitCombination;
-    use test::{self, Bencher};
-
-    #[bench]
-    fn comb(bh: &mut Bencher) {
-        bh.iter(|| {
-            let _ = test::black_box(BitCombination::new(5, 10).last());
-        });
-    }
-}
