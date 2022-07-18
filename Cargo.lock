@@ -395,9 +395,9 @@ dependencies = [
 
 [[package]]
 name = "generic-matrix"
-version = "0.2.1"
+version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "de1ca058997384dc0687552f762f778535d6ce7fc6d49185a01ac0150d559f0a"
+checksum = "d9351ed10aea0e851508721848f5b7109edce916d150f620227ab00af060e9b1"
 dependencies = [
  "num-traits",
 ]
