@@ -457,8 +457,8 @@ mod tests {
         fn minuend_is_empty() {
             let a: Vec<usize> = vec![];
             let b = vec![1, 2, 3];
-            let diff = Difference::new(a.iter(), b.iter());
-            assert!(diff.collect::<Vec<&usize>>().is_empty());
+            let mut diff = Difference::new(a.iter(), b.iter());
+            assert!(diff.next().is_none());
         }
 
         #[test]
@@ -468,18 +468,5 @@ mod tests {
             let diff = Difference::new(a.into_iter(), b.into_iter());
             assert_eq!(vec![1, 2, 3], diff.collect::<Vec<_>>());
         }
-    }
-}
-
-#[cfg(all(test, feature = "unstable"))]
-mod bench {
-    use super::BitCombination;
-    use test::{self, Bencher};
-
-    #[bench]
-    fn comb(bh: &mut Bencher) {
-        bh.iter(|| {
-            let _ = test::black_box(BitCombination::new(5, 10).last());
-        });
     }
 }

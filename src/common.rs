@@ -52,7 +52,7 @@ pub struct SolverResult<T> {
 
 impl<T: Serialize> SolverResult<T> {
     pub fn print_json<W: Write>(&self, out: &mut W) -> Result<()> {
-        let _ = writeln!(out, "{}", serde_json::to_string(self)?)?;
+        writeln!(out, "{}", serde_json::to_string(self)?)?;
         Ok(())
     }
 }
@@ -175,7 +175,7 @@ impl<'a> Solver<'a> {
         };
 
         if matches.opt_present("h") {
-            let short = opts.short_usage(&program);
+            let short = opts.short_usage(program);
             println!("{}", opts.usage(&short));
             return;
         }
@@ -189,7 +189,7 @@ impl<'a> Solver<'a> {
                 if matches.opt_present("json") {
                     let _ = result.print_json(&mut io::stdout());
                 } else {
-                    let _ = result.print_pretty(&program, true);
+                    let _ = result.print_pretty(program, true);
                 }
                 if !result.is_ok {
                     process::exit(1);

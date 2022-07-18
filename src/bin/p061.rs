@@ -107,7 +107,7 @@ fn solve() -> String {
     ];
     find_cycle(&mut create_map(map))
         .iter()
-        .map(|vs| cycle_to_nums(&vs).into_iter().sum::<u32>())
+        .map(|vs| cycle_to_nums(vs).into_iter().sum::<u32>())
         .sum::<u32>()
         .to_string()
 }
@@ -121,7 +121,7 @@ mod tests {
         let map: &[fn(u32) -> u32] = &[super::triangle, super::square, super::pentagonal];
         let cycle = super::find_cycle(&mut super::create_map(map))
             .iter()
-            .map(|vs| super::cycle_to_nums(&vs))
+            .map(|vs| super::cycle_to_nums(vs))
             .map(|mut vs| {
                 vs.sort();
                 vs

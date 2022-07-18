@@ -58,7 +58,7 @@ fn to_roman(mut n: u32) -> String {
     let mut s = String::new();
     while n >= 1000 {
         n -= 1000;
-        s.push_str("M");
+        s.push('M');
     }
     if n >= 900 {
         n -= 900;
@@ -66,7 +66,7 @@ fn to_roman(mut n: u32) -> String {
     }
     if n >= 500 {
         n -= 500;
-        s.push_str("D");
+        s.push('D');
     }
     if n >= 400 {
         n -= 400;
@@ -74,7 +74,7 @@ fn to_roman(mut n: u32) -> String {
     }
     while n >= 100 {
         n -= 100;
-        s.push_str("C");
+        s.push('C');
     }
     if n >= 90 {
         n -= 90;
@@ -82,7 +82,7 @@ fn to_roman(mut n: u32) -> String {
     }
     if n >= 50 {
         n -= 50;
-        s.push_str("L");
+        s.push('L');
     }
     if n >= 40 {
         n -= 40;
@@ -90,7 +90,7 @@ fn to_roman(mut n: u32) -> String {
     }
     while n >= 10 {
         n -= 10;
-        s.push_str("X");
+        s.push('X');
     }
     if n >= 9 {
         n -= 9;
@@ -98,7 +98,7 @@ fn to_roman(mut n: u32) -> String {
     }
     if n >= 5 {
         n -= 5;
-        s.push_str("V");
+        s.push('V');
     }
     if n >= 4 {
         n -= 4;
@@ -106,7 +106,7 @@ fn to_roman(mut n: u32) -> String {
     }
     while n > 0 {
         n -= 1;
-        s.push_str("I");
+        s.push('I');
     }
     s
 }

@@ -57,6 +57,26 @@ pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
         Digits::new(self, radix)
     }
 
+    /// Creates an iterator to enumerate each digit from the lower of the number.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use integer::Integer;
+    ///
+    /// let mut it = 12345.to_digits(10);
+    /// assert_eq!(Some(5), it.next());
+    /// assert_eq!(Some(4), it.next());
+    /// assert_eq!(Some(3), it.next());
+    /// assert_eq!(Some(2), it.next());
+    /// assert_eq!(Some(1), it.next());
+    /// assert_eq!(None,    it.next());
+    /// ```
+    #[inline]
+    fn to_digits(&self, radix: Self) -> Digits<Self> {
+        Digits::new(self.clone(), radix)
+    }
+
     /// Creates a histogram of the number.
     ///
     /// # Example
@@ -130,8 +150,8 @@ pub trait Integer: num_integer::Integer + Clone + FromPrimitive + ToPrimitive {
     /// assert_eq!(true, 12321.is_palindromic(10));
     /// assert_eq!(false, 12345.is_palindromic(10));
     /// ```
-    fn is_palindromic(self, radix: Self) -> bool {
-        let mut digits = self.into_digits(radix);
+    fn is_palindromic(&self, radix: Self) -> bool {
+        let mut digits = self.to_digits(radix);
         loop {
             let next = digits.next();
             let next_back = digits.next_back();

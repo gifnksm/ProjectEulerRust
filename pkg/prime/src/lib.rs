@@ -327,7 +327,7 @@ impl<T: Integer + FromPrimitive + Clone> Iterator for Factors<T> {
             return None;
         }
 
-        while let Some(p) = self.iter.next() {
+        for p in &mut self.iter {
             let p: T = FromPrimitive::from_u64(p).unwrap();
             if p.clone() * p.clone() > self.num {
                 let n = mem::replace(&mut self.num, One::one());
@@ -591,24 +591,5 @@ mod tests {
         assert_eq!(10, ps.combination(5, 2));
 
         assert_eq!(137846528820, ps.combination(40, 20));
-    }
-}
-
-#[cfg(all(test, feature = "unstable"))]
-mod bench {
-    use super::PrimeSet;
-    use test::Bencher;
-
-    #[bench]
-    fn get_5000th(bh: &mut Bencher) {
-        bh.iter(|| PrimeSet::new().nth(5000));
-    }
-
-    #[bench]
-    fn get_below_5000th(bh: &mut Bencher) {
-        bh.iter(|| {
-            let ps = PrimeSet::new();
-            for _p in ps.iter().take(5000) {}
-        });
     }
 }

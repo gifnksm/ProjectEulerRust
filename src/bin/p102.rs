@@ -69,24 +69,25 @@ impl Triangle {
         let s0 = Line(self.0, self.1).side(p);
         let s1 = Line(self.1, self.2).side(p);
         let s2 = Line(self.2, self.0).side(p);
-        match (s0, s1, s2) {
+
+        matches!(
+            (s0, s1, s2),
             (L, L, L)
-            | (L, L, C)
-            | (L, C, L)
-            | (L, C, C)
-            | (C, L, L)
-            | (C, L, C)
-            | (C, C, L)
-            | (C, C, C)
-            | (R, R, R)
-            | (R, R, C)
-            | (R, C, R)
-            | (R, C, C)
-            | (C, R, R)
-            | (C, R, C)
-            | (C, C, R) => true,
-            _ => false,
-        }
+                | (L, L, C)
+                | (L, C, L)
+                | (L, C, C)
+                | (C, L, L)
+                | (C, L, C)
+                | (C, C, L)
+                | (C, C, C)
+                | (R, R, R)
+                | (R, R, C)
+                | (R, C, R)
+                | (R, C, C)
+                | (C, R, R)
+                | (C, R, C)
+                | (C, C, R)
+        )
     }
 }
 

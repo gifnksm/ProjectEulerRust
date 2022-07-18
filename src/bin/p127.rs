@@ -87,7 +87,7 @@ fn abc_hits_c_sum(c_limit: u64) -> u64 {
 
             let Rad(rad_b, _, _) = rad_vec[(c - a) as usize];
             let rad_abc = rad_a * rad_b * rad_c;
-            if rad_abc >= c || (a != 1 && rad_has_union(&c_facts, &a_facts)) {
+            if rad_abc >= c || (a != 1 && rad_has_union(c_facts, a_facts)) {
                 continue;
             }
             c_sum += c;

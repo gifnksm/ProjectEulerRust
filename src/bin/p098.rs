@@ -40,7 +40,7 @@ fn get_anagram_groups(words: Vec<String>) -> Vec<Vec<String>> {
                 let _ = e.insert(vec![word]);
             }
             Entry::Occupied(e) => {
-                let _ = e.into_mut().push(word);
+                e.into_mut().push(word);
             }
         }
     }
@@ -139,10 +139,10 @@ fn max_square(groups: HashMap<u64, Vec<IndicesPair>>) -> u64 {
                 if ds[v2[0] as usize] == 0 {
                     continue;
                 }
-                if !check_digit(&v1, &ds) {
+                if !check_digit(v1, &ds) {
                     continue;
                 }
-                let num2 = idx_to_num(&v2, &ds);
+                let num2 = idx_to_num(v2, &ds);
                 if !is_square(num2) {
                     continue;
                 }

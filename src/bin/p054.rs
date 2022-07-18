@@ -284,7 +284,7 @@ impl Hand {
         }
     }
 
-    fn to_vec_of_array<'a>(&'a self) -> Vec<&'a [Card]> {
+    fn to_vec_of_array(&self) -> Vec<&[Card]> {
         match *self {
             Hand::HighCard(ref s0, ref s1, ref s2, ref s3, ref s4) => vec![s0, s1, s2, s3, s4],
             Hand::Pair(ref p0, ref s0, ref s1, ref s2) => vec![p0, s0, s1, s2],

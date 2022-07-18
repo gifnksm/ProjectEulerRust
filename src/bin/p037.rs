@@ -73,7 +73,7 @@ mod tests {
     #[test]
     fn is_r2l() {
         let ps = PrimeSet::new();
-        assert_eq!(true, super::is_r2l(&ps, 3797));
-        assert_eq!(false, super::is_r2l(&ps, 151));
+        assert!(super::is_r2l(&ps, 3797));
+        assert!(!super::is_r2l(&ps, 151));
     }
 }

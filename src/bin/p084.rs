@@ -26,7 +26,7 @@ enum Square {
     CH1,
     B2,
     B3,
-    JAIL,
+    Jail,
     C1,
     U1,
     C2,
@@ -106,7 +106,7 @@ fn roll_trans_matrix(dice_side: usize) -> Matrix<f64> {
         } else {
             0.0
         };
-        if src_seq == G2J_DOUBLES_COUNT - 1 && dst_pos == Square::JAIL as usize {
+        if src_seq == G2J_DOUBLES_COUNT - 1 && dst_pos == Square::Jail as usize {
             prob + consec_prob
         } else {
             prob
@@ -122,11 +122,11 @@ fn ch_trans_matrix() -> Matrix<f64> {
         let dst_sq = Square::try_from(dst_pos).unwrap();
         match src_sq {
             Square::CH1 | Square::CH2 | Square::CH3 => {
-                if dst_seq == src_seq && dst_sq == Square::JAIL {
+                if dst_seq == src_seq && dst_sq == Square::Jail {
                     return 1.0 / 16.0;
                 }
-                // Reset consecutive doubles after go to JAIL.
-                // if dst_seq == 0 && dst_sq == Square::JAIL {
+                // Reset consecutive doubles after go to Jail.
+                // if dst_seq == 0 && dst_sq == Square::Jail {
                 //     return 1.0 / 16.0
                 // }
                 if dst_seq != src_seq {
@@ -171,11 +171,11 @@ fn cc_trans_matrix() -> Matrix<f64> {
         let dst_sq = Square::try_from(dst_pos).unwrap();
         match src_sq {
             Square::CC1 | Square::CC2 | Square::CC3 => {
-                if dst_seq == src_seq && dst_sq == Square::JAIL {
+                if dst_seq == src_seq && dst_sq == Square::Jail {
                     return 1.0 / 16.0;
                 }
-                // Reset consecutive doubles after go to JAIL.
-                // if dst_seq == 0 && dst_sq == Square::JAIL {
+                // Reset consecutive doubles after go to Jail.
+                // if dst_seq == 0 && dst_sq == Square::Jail {
                 //     return 1.0 / 16.0;
                 // }
                 if dst_seq != src_seq {
@@ -208,11 +208,11 @@ fn g2j_trans_matrix() -> Matrix<f64> {
         let dst_sq = Square::try_from(dst_pos).unwrap();
 
         if src_sq == Square::G2J {
-            if dst_seq == src_seq && dst_sq == Square::JAIL {
+            if dst_seq == src_seq && dst_sq == Square::Jail {
                 return 1.0;
             }
-            // Reset consecutive doubles after go to JAIL.
-            // if dst_seq == 0 && dst_sq == Square::JAIL {
+            // Reset consecutive doubles after go to Jail.
+            // if dst_seq == 0 && dst_sq == Square::Jail {
             //     return 1.0
             // }
             return 0.0;
@@ -278,7 +278,7 @@ mod tests {
         let mut square = super::state_to_square(state);
         square.sort_by(|&(_, p0), &(_, p1)| p1.partial_cmp(&p0).unwrap());
 
-        assert_eq!(Square::JAIL, square[0].0);
+        assert_eq!(Square::Jail, square[0].0);
         assert!(0.06235 <= square[0].1 && square[0].1 < 0.06245);
         assert_eq!(Square::E3, square[1].0);
         assert!(0.03175 <= square[1].1 && square[1].1 < 0.03185);
