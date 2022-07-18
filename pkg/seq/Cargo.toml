@@ -6,8 +6,8 @@ workspace = "../../"
 edition = "2018"
 
 [dependencies]
-num-integer = "0.1.44"
-num-traits = "0.2.14"
+num-integer = "0.1.45"
+num-traits = "0.2.15"
 
 [dev-dependencies]
-num-bigint = "0.4.0"
+num-bigint = "0.4.3"
