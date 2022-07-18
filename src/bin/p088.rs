@@ -29,7 +29,7 @@ where
     ) where
         F: FnMut(u32, u32, usize),
     {
-        for n in min_n..prod_end.div_ceil(&prod_base) {
+        for n in min_n..Integer::div_ceil(&prod_end, &prod_base) {
             let prod = prod_base * n;
             let sum = sum_base + n;
             let len = len_base + 1;

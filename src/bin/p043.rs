@@ -32,10 +32,10 @@ impl Pandigimal {
 
     fn from_u64(n: u32, len: usize) -> Option<Pandigimal> {
         let it = n.into_digits(RADIX).chain(iter::repeat(0));
-        Pandigimal::new().join_all(it.map(|x| x).take(len))
+        Pandigimal::new().join_all(it.take(len))
     }
 
-    fn to_u64(&self) -> u64 {
+    fn to_u64(self) -> u64 {
         Integer::from_digits(self.num().iter().map(|&x| x as u64), RADIX as u64)
     }
 
@@ -119,27 +119,27 @@ mod tests {
         #[test]
         fn from_u64() {
             let pd = Pandigimal::from_u64(123, 3).unwrap();
-            assert_eq!(false, pd.is_used(0));
-            assert_eq!(true, pd.is_used(1));
-            assert_eq!(true, pd.is_used(2));
-            assert_eq!(true, pd.is_used(3));
-            assert_eq!(false, pd.is_used(4));
+            assert!(!pd.is_used(0));
+            assert!(pd.is_used(1));
+            assert!(pd.is_used(2));
+            assert!(pd.is_used(3));
+            assert!(!pd.is_used(4));
             assert_eq!(&[3, 2, 1], &pd.num());
 
             let pd = Pandigimal::from_u64(123, 4).unwrap();
-            assert_eq!(true, pd.is_used(0));
-            assert_eq!(true, pd.is_used(1));
-            assert_eq!(true, pd.is_used(2));
-            assert_eq!(true, pd.is_used(3));
-            assert_eq!(false, pd.is_used(4));
+            assert!(pd.is_used(0));
+            assert!(pd.is_used(1));
+            assert!(pd.is_used(2));
+            assert!(pd.is_used(3));
+            assert!(!pd.is_used(4));
             assert_eq!(&[3, 2, 1, 0], &pd.num());
 
             let pd = Pandigimal::from_u64(123, 2).unwrap();
-            assert_eq!(false, pd.is_used(0));
-            assert_eq!(false, pd.is_used(1));
-            assert_eq!(true, pd.is_used(2));
-            assert_eq!(true, pd.is_used(3));
-            assert_eq!(false, pd.is_used(4));
+            assert!(!pd.is_used(0));
+            assert!(!pd.is_used(1));
+            assert!(pd.is_used(2));
+            assert!(pd.is_used(3));
+            assert!(!pd.is_used(4));
             assert_eq!(&[3, 2], &pd.num());
 
             assert!(Pandigimal::from_u64(11, 2).is_none());
@@ -150,12 +150,12 @@ mod tests {
             let pd = Pandigimal::from_u64(123, 3).unwrap();
 
             let pd2 = pd.join(5).unwrap();
-            assert_eq!(false, pd2.is_used(0));
-            assert_eq!(true, pd2.is_used(1));
-            assert_eq!(true, pd2.is_used(2));
-            assert_eq!(true, pd2.is_used(3));
-            assert_eq!(false, pd2.is_used(4));
-            assert_eq!(true, pd2.is_used(5));
+            assert!(!pd2.is_used(0));
+            assert!(pd2.is_used(1));
+            assert!(pd2.is_used(2));
+            assert!(pd2.is_used(3));
+            assert!(!pd2.is_used(4));
+            assert!(pd2.is_used(5));
             assert_eq!(&[3, 2, 1, 5], &pd2.num());
 
             assert!(pd.join(1).is_none());

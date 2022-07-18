@@ -299,9 +299,9 @@ mod tests {
         check_with_init(&[1, 5, 6, 11, 17, 28, 45, 73, 118, 191, 309, 500]);
         check_with_init(&[-1, -1, -2, -3, -5, -8, -13, -21, -34, -55, -89, -144, -233]);
         check_with_init(&[
-            -10.to_bigint().unwrap(),
+            (-10).to_bigint().unwrap(),
             8.to_bigint().unwrap(),
-            -2.to_bigint().unwrap(),
+            (-2).to_bigint().unwrap(),
             6.to_bigint().unwrap(),
             4.to_bigint().unwrap(),
             10.to_bigint().unwrap(),

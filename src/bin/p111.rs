@@ -66,7 +66,7 @@ impl Iterator for RunDigits {
     type Item = u64;
 
     fn next(&mut self) -> Option<u64> {
-        while let Some(set) = self.iter.next() {
+        for set in self.iter.by_ref() {
             let first = if set.contains(0) {
                 self.other_ds[0]
             } else {

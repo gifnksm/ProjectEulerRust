@@ -457,8 +457,8 @@ mod tests {
         fn minuend_is_empty() {
             let a: Vec<usize> = vec![];
             let b = vec![1, 2, 3];
-            let diff = Difference::new(a.iter(), b.iter());
-            assert!(diff.collect::<Vec<&usize>>().is_empty());
+            let mut diff = Difference::new(a.iter(), b.iter());
+            assert!(diff.next().is_none());
         }
 
         #[test]

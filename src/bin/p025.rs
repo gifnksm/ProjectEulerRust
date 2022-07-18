@@ -11,14 +11,9 @@
 
 use num_bigint::BigUint;
 use seq::Fibonacci;
-use std::iter;
 
 fn compute(limit_len: usize) -> usize {
-    let limit = iter::repeat("9")
-        .take(limit_len - 1)
-        .collect::<String>()
-        .parse::<BigUint>()
-        .unwrap();
+    let limit = "9".repeat(limit_len - 1).parse::<BigUint>().unwrap();
     Fibonacci::<BigUint>::new()
         .take_while(|n| *n <= limit)
         .count()

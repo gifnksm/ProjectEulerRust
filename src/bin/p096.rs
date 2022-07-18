@@ -20,13 +20,13 @@ const BOARD_HEIGHT: usize = 9;
 const GROUP_WIDTH: usize = 3;
 const GROUP_HEIGHT: usize = 3;
 const MAX_NUMBER: usize = 9;
-type BITS = u16;
-const MASK_ALL: BITS = 0x1ff;
+type Bits = u16;
+const MASK_ALL: Bits = 0x1ff;
 
 #[derive(Eq, PartialEq, Clone, Debug)]
 struct SuDoku {
     name: String,
-    map: [[BITS; BOARD_WIDTH]; BOARD_HEIGHT],
+    map: [[Bits; BOARD_WIDTH]; BOARD_HEIGHT],
 }
 
 impl SuDoku {
@@ -156,8 +156,8 @@ fn solve_sudoku(mut puzzle: SuDoku) -> Vec<SuDoku> {
 
     let it = (0..(BOARD_HEIGHT * BOARD_WIDTH))
         .map(|i| (i % BOARD_WIDTH, i / BOARD_WIDTH))
-        .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones() as BITS))
-        .collect::<Vec<(usize, usize, BITS)>>();
+        .map(|(x, y)| (x, y, puzzle.map[y][x].count_ones() as Bits))
+        .collect::<Vec<(usize, usize, Bits)>>();
 
     if it.iter().any(|&(_x, _y, cnt)| cnt == 0) {
         return vec![];

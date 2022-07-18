@@ -327,7 +327,7 @@ impl<T: Integer + FromPrimitive + Clone> Iterator for Factors<T> {
             return None;
         }
 
-        while let Some(p) = self.iter.next() {
+        for p in &mut self.iter {
             let p: T = FromPrimitive::from_u64(p).unwrap();
             if p.clone() * p.clone() > self.num {
                 let n = mem::replace(&mut self.num, One::one());
