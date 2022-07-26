@@ -10,7 +10,7 @@ name = "bench"
 harness = false
 
 [dependencies]
-bit-set = "0.5.2"
+bit-set = "0.5.3"
 
 [dev-dependencies]
 criterion = "0.3.6"
