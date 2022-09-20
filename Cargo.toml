@@ -19,7 +19,7 @@ path = "src/common.rs"
 generic-matrix = "0.2.2"
 getopts = "0.2.21"
 glob = "0.3.0"
-itertools = "0.10.4"
+itertools = "0.10.5"
 num-bigint = { version = "0.4.3", default-features = false }
 num-integer = "0.1.45"
 num-iter = "0.1.43"
