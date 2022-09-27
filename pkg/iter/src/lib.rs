@@ -91,12 +91,9 @@ impl BitCombination {
             return None;
         }
 
-        for n in (0..self.size - 1).rev() {
-            if self.set.contains(n) && !self.set.contains(n + 1) {
-                return Some(n);
-            }
-        }
-        None
+        (0..self.size - 1)
+            .rev()
+            .find(|&n| self.set.contains(n) && !self.set.contains(n + 1))
     }
 }
 
