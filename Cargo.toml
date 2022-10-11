@@ -33,7 +33,7 @@ topological-sort = "0.2.2"
 union-find = "0.4.1"
 derive-try-from-primitive = "1.0.0"
 pretty_env_logger = "0.4.0"
-attohttpc = "0.22.0"
+attohttpc = "0.23.1"
 thiserror = "1.0.37"
 
 [dependencies.cont_frac]
