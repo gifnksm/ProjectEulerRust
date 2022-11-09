@@ -76,11 +76,7 @@ fn count_primes(ps: &PrimeSet, digits: &[u64]) -> usize {
             }
 
             let num_prime = if ds.len() == 1 {
-                if ps.contains(ds[0]) {
-                    1
-                } else {
-                    0
-                }
+                ps.contains(ds[0]).into()
             } else if ds.iter().sum::<u64>() % 3 != 0 {
                 Permutations::new(&ds[..], ds.len())
                     .filter(|&(ref perm, _)| perm[0].is_odd() && perm[0] != 5)

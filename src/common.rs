@@ -227,7 +227,7 @@ fn setup_file(file_name: &str) -> Result<File> {
     let mut path = PathBuf::from("./.cache");
     path.push(file_name);
     if !path.is_file() {
-        fs::create_dir_all(&path.parent().unwrap())?;
+        fs::create_dir_all(path.parent().unwrap())?;
         let content = download(file_name)?;
         File::create(&path)?.write_all(&content)?;
     }
