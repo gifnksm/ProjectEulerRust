@@ -238,10 +238,10 @@ fn setup_file(file_name: &str) -> Result<File> {
 
 const BASE_URL: &str = "https://projecteuler.net/project/resources/";
 fn download(file_name: &str) -> Result<Vec<u8>> {
-    let url = format!("{}{}", BASE_URL, file_name);
+    let url = &format!("{}{}", BASE_URL, file_name);
 
     for retry in 0.. {
-        let resp = attohttpc::get(&url).send()?;
+        let resp = attohttpc::get(url).send()?;
         let status = resp.status();
         let body = resp.bytes()?;
         if status.is_success() {
