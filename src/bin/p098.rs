@@ -45,10 +45,7 @@ fn get_anagram_groups(words: Vec<String>) -> Vec<Vec<String>> {
         }
     }
 
-    map.into_iter()
-        .map(|(_, vals)| vals)
-        .filter(|vals| vals.len() > 1)
-        .collect()
+    map.into_values().filter(|vals| vals.len() > 1).collect()
 }
 
 fn flatten_groups(groups: Vec<Vec<String>>) -> Vec<(String, String)> {
