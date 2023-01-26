@@ -778,9 +778,9 @@ dependencies = [
 
 [[package]]
 name = "polynomial"
-version = "0.2.4"
+version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e4a3d64b1fee2683727dafccbf279a1425a0b5d1306b3b9caa80ecc2b9d32e2f"
+checksum = "a461f75483c9faefe81bdc7257732be9afe9953765e406f8ede2581185d66635"
 dependencies = [
  "num-traits",
 ]
