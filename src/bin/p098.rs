@@ -132,7 +132,7 @@ fn max_square(groups: HashMap<u64, Vec<IndicesPair>>) -> u64 {
 
         for n in (nmin..).take_while(|&n| n * n < end) {
             let ds = (n * n).into_digits(10).rev().collect::<Vec<_>>();
-            for &(ref v1, ref v2) in &pairs {
+            for (v1, v2) in &pairs {
                 if ds[v2[0] as usize] == 0 {
                     continue;
                 }

@@ -58,7 +58,7 @@ impl Iterator for Frac {
 fn solve() -> String {
     Frac::new()
         .take(1000)
-        .filter(|&(ref n, ref d)| n.to_string().len() > d.to_string().len())
+        .filter(|(n, d)| n.to_string().len() > d.to_string().len())
         .count()
         .to_string()
 }

@@ -28,7 +28,7 @@ fn solve() -> String {
             hs1 == hs2 && hs1 == p3.into_digit_histogram()
         })
         .unwrap();
-    format!("{}{}{}", p1, p2, p3)
+    format!("{p1}{p2}{p3}")
 }
 
 common::problem!("296962999629", solve);

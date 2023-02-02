@@ -38,7 +38,7 @@ fn run_problem(path: &Path) -> Result<SolverResult<String>> {
 
     match proc_out.status.code() {
         Some(0) | Some(1) => {} // expected
-        Some(st) => return Err(format!("child process exit with {}", st).into()),
+        Some(st) => return Err(format!("child process exit with {st}").into()),
         None => {
             return Err(format!(
                 "child process exit with signal {}",
@@ -76,7 +76,7 @@ fn run() -> Result<bool> {
             }
             Err(e) => {
                 is_ok = false;
-                let _ = writeln!(&mut out, "{}: {:?}", program, e);
+                let _ = writeln!(&mut out, "{program}: {e:?}");
             }
         }
     }
@@ -105,7 +105,7 @@ fn main() {
         Ok(true) => process::exit(0),
         Ok(false) => process::exit(1),
         Err(e) => {
-            let _ = writeln!(&mut io::stderr(), "{:?}", e);
+            let _ = writeln!(&mut io::stderr(), "{e:?}");
             process::exit(255);
         }
     }
