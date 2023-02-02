@@ -33,7 +33,7 @@ impl fmt::Display for Suit {
             Club => "C",
         };
 
-        write!(f, "{}", s)
+        write!(f, "{s}")
     }
 }
 
@@ -65,12 +65,12 @@ pub struct SuitCard {
 impl fmt::Display for SuitCard {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
-            SuitCard { num: 1, suit: s } => write!(f, "A{}", s),
-            SuitCard { num: 10, suit: s } => write!(f, "T{}", s),
-            SuitCard { num: 11, suit: s } => write!(f, "J{}", s),
-            SuitCard { num: 12, suit: s } => write!(f, "Q{}", s),
-            SuitCard { num: 13, suit: s } => write!(f, "K{}", s),
-            SuitCard { num: n, suit: s } => write!(f, "{}{}", n, s),
+            SuitCard { num: 1, suit: s } => write!(f, "A{s}"),
+            SuitCard { num: 10, suit: s } => write!(f, "T{s}"),
+            SuitCard { num: 11, suit: s } => write!(f, "J{s}"),
+            SuitCard { num: 12, suit: s } => write!(f, "Q{s}"),
+            SuitCard { num: 13, suit: s } => write!(f, "K{s}"),
+            SuitCard { num: n, suit: s } => write!(f, "{n}{s}"),
         }
     }
 }
@@ -116,7 +116,7 @@ impl fmt::Display for Card {
         match *self {
             Card::BlackJoker => write!(f, "BJ"),
             Card::WhiteJoker => write!(f, "WJ"),
-            Card::Suit(sc) => write!(f, "{}", sc),
+            Card::Suit(sc) => write!(f, "{sc}"),
         }
     }
 }
@@ -150,7 +150,7 @@ mod tests {
     #[test]
     fn show_suit() {
         fn check_pair(s: String, suite: Suit) {
-            assert_eq!(s, format!("{}", suite));
+            assert_eq!(s, format!("{suite}"));
             assert_eq!(Ok(suite), s.parse());
         }
         check_pair("S".to_string(), Spade);
@@ -162,7 +162,7 @@ mod tests {
     #[test]
     fn show_card() {
         fn check_pair(s: String, card: Card) {
-            assert_eq!(s, format!("{}", card));
+            assert_eq!(s, format!("{card}"));
             assert_eq!(Ok(card), s.parse());
         }
         check_pair("BJ".to_string(), Card::BlackJoker);

@@ -85,40 +85,34 @@ impl fmt::Display for Hand {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             Hand::HighCard([c0], [c1], [c2], [c3], [c4]) => {
-                write!(f, "HighCard({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
+                write!(f, "HighCard({c0}, {c1}, {c2}, {c3}, {c4})")
             }
             Hand::Pair([c0, c1], [c2], [c3], [c4]) => {
-                write!(f, "Pair({}, {}) + HighCard({}, {}, {})", c0, c1, c2, c3, c4)
+                write!(f, "Pair({c0}, {c1}) + HighCard({c2}, {c3}, {c4})")
             }
-            Hand::TwoPairs([c0, c1], [c2, c3], [c4]) => write!(
-                f,
-                "TwoPairs(({}, {}), ({}, {})) + HighCard({})",
-                c0, c1, c2, c3, c4
-            ),
-            Hand::ThreeOfAKind([c0, c1, c2], [c3], [c4]) => write!(
-                f,
-                "ThreeOfAKind({}, {}, {}) + HighCard({}, {})",
-                c0, c1, c2, c3, c4
-            ),
+            Hand::TwoPairs([c0, c1], [c2, c3], [c4]) => {
+                write!(f, "TwoPairs(({c0}, {c1}), ({c2}, {c3})) + HighCard({c4})")
+            }
+            Hand::ThreeOfAKind([c0, c1, c2], [c3], [c4]) => {
+                write!(f, "ThreeOfAKind({c0}, {c1}, {c2}) + HighCard({c3}, {c4})")
+            }
             Hand::Straight([c0, c1, c2, c3, c4]) => {
-                write!(f, "Straight({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
+                write!(f, "Straight({c0}, {c1}, {c2}, {c3}, {c4})")
             }
             Hand::Flush([c0, c1, c2, c3, c4]) => {
-                write!(f, "Flush({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
+                write!(f, "Flush({c0}, {c1}, {c2}, {c3}, {c4})")
             }
             Hand::FullHouse([c0, c1, c2], [c3, c4]) => {
-                write!(f, "FullHouse(({}, {}, {}), ({}, {}))", c0, c1, c2, c3, c4)
+                write!(f, "FullHouse(({c0}, {c1}, {c2}), ({c3}, {c4}))")
             }
-            Hand::FourOfAKind([c0, c1, c2, c3], [c4]) => write!(
-                f,
-                "FourOfAKind({}, {}, {}, {}) + HighCard({})",
-                c0, c1, c2, c3, c4
-            ),
+            Hand::FourOfAKind([c0, c1, c2, c3], [c4]) => {
+                write!(f, "FourOfAKind({c0}, {c1}, {c2}, {c3}) + HighCard({c4})")
+            }
             Hand::StraightFlush([c0, c1, c2, c3, c4]) => {
-                write!(f, "StraightFlush({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
+                write!(f, "StraightFlush({c0}, {c1}, {c2}, {c3}, {c4})")
             }
             Hand::RoyalFlush([c0, c1, c2, c3, c4]) => {
-                write!(f, "RoyalFlush({}, {}, {}, {}, {})", c0, c1, c2, c3, c4)
+                write!(f, "RoyalFlush({c0}, {c1}, {c2}, {c3}, {c4})")
             }
         }
     }

@@ -60,8 +60,8 @@ fn print_items(items: &[OutputPair<'_>]) {
     match term::stdout() {
         None => {
             let mut out = io::stdout();
-            for &(_, ref s) in items {
-                let _ = write!(&mut out, "{}", s);
+            for (_, s) in items {
+                let _ = write!(&mut out, "{s}");
             }
             let _ = out.flush();
         }
@@ -70,11 +70,11 @@ fn print_items(items: &[OutputPair<'_>]) {
                 match c {
                     Some(c) => {
                         let _ = t.fg(c);
-                        let _ = write!(&mut t, "{}", s);
+                        let _ = write!(&mut t, "{s}");
                         let _ = t.reset();
                     }
                     None => {
-                        let _ = write!(&mut t, "{}", s);
+                        let _ = write!(&mut t, "{s}");
                     }
                 }
             }
@@ -86,7 +86,7 @@ fn print_items(items: &[OutputPair<'_>]) {
 impl<T: fmt::Display> SolverResult<T> {
     pub fn print_pretty(&self, name: &str, enable_time_color: bool) -> io::Result<()> {
         let mut items = vec![];
-        items.push(normal(format!("{} ", name)));
+        items.push(normal(format!("{name} ")));
 
         items.push(normal("["));
         if self.is_ok {
@@ -97,7 +97,7 @@ impl<T: fmt::Display> SolverResult<T> {
         items.push(normal("] "));
 
         let (sec, nsec) = self.time.div_rem(&NSEC_PER_SEC);
-        let time_str = format!("{:3}.{:09} ", sec, nsec);
+        let time_str = format!("{sec:3}.{nsec:09} ");
         if !enable_time_color || self.time < NSEC_WARN_LIMIT {
             items.push(normal(time_str));
         } else if self.time < NSEC_NG_LIMIT {
@@ -168,7 +168,7 @@ impl<'a> Solver<'a> {
         let matches = match opts.parse(&args[1..]) {
             Ok(m) => m,
             Err(f) => {
-                let _ = writeln!(&mut io::stderr(), "{}: {}", program, f);
+                let _ = writeln!(&mut io::stderr(), "{program}: {f}");
                 process::exit(255);
             }
         };
@@ -181,7 +181,7 @@ impl<'a> Solver<'a> {
 
         match self.solve() {
             Err(err) => {
-                let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
+                let _ = writeln!(&mut io::stderr(), "{program}: {err}");
                 process::exit(255);
             }
             Ok(result) => {
@@ -238,7 +238,7 @@ fn setup_file(file_name: &str) -> Result<File> {
 
 const BASE_URL: &str = "https://projecteuler.net/project/resources/";
 fn download(file_name: &str) -> Result<Vec<u8>> {
-    let url = &format!("{}{}", BASE_URL, file_name);
+    let url = &format!("{BASE_URL}{file_name}");
 
     for retry in 0.. {
         let resp = attohttpc::get(url).send()?;
@@ -253,7 +253,7 @@ fn download(file_name: &str) -> Result<Vec<u8>> {
             body: String::from_utf8_lossy(&body).into(),
         };
         let program = env::args().next().unwrap();
-        let _ = writeln!(&mut io::stderr(), "{}: {}", program, err);
+        let _ = writeln!(&mut io::stderr(), "{program}: {err}");
         if retry >= 3 {
             return Err(err.into());
         }

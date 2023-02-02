@@ -28,10 +28,10 @@ fn u(n: BigInt) -> BigInt {
 fn op(ns: &[(BigInt, BigInt)]) -> Polynomial<BigInt> {
     let mut poly = Polynomial::new(vec![]);
 
-    for (i, &(ref xi, ref yi)) in ns.iter().enumerate() {
+    for (i, (xi, yi)) in ns.iter().enumerate() {
         let mut term = Polynomial::new(vec![Ratio::from_integer(yi.clone())]);
 
-        for (j, &(ref xj, ref _yj)) in ns.iter().enumerate() {
+        for (j, (xj, _yj)) in ns.iter().enumerate() {
             if i == j {
                 continue;
             }
