@@ -2,6 +2,9 @@
 
 [![Rust CI](https://github.com/gifnksm/ProjectEulerRust/actions/workflows/rust-ci.yml/badge.svg)](https://github.com/gifnksm/ProjectEulerRust/actions/workflows/rust-ci.yml)
 [![codecov](https://codecov.io/gh/gifnksm/ProjectEulerRust/branch/master/graph/badge.svg?token=3PXez3ai02)](https://codecov.io/gh/gifnksm/ProjectEulerRust)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/gifnksm/ProjectEulerRust.svg)](https://github.com/gifnksm/ProjectEulerRust/stargazers)
+
 
 Solving Project Euler with Rust lang.
 
