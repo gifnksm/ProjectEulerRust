@@ -10,7 +10,7 @@ name = "bench"
 harness = false
 
 [dependencies]
-num-integer = "0.1.45"
+num-integer = "0.1.46"
 num-traits = "0.2.18"
 
 [dev-dependencies]
