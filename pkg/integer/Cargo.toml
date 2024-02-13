@@ -7,7 +7,7 @@ edition = "2018"
 
 [dependencies]
 num-integer = "0.1.45"
-num-traits = "0.2.17"
+num-traits = "0.2.18"
 
 [dependencies.num-bigint]
 version = "0.4.4"
