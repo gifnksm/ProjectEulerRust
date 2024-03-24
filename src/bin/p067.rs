@@ -18,7 +18,7 @@ use std::{
 fn solve(file: File) -> io::Result<String> {
     let mut triangle = BufReader::new(file)
         .lines()
-        .filter_map(|line| line.ok())
+        .map_while(Result::ok)
         .filter(|line| !line.is_empty())
         .map(|line| {
             line.split_whitespace()

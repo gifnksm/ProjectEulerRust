@@ -79,8 +79,8 @@ fn get_indices_pairs(pairs: Vec<(String, String)>) -> Vec<(u64, IndicesPair)> {
             (
                 w1.len() as u64,
                 (
-                    cs1.iter().map(|c| get_pos(c)).collect(),
-                    cs2.iter().map(|c| get_pos(c)).collect(),
+                    cs1.iter().map(get_pos).collect(),
+                    cs2.iter().map(get_pos).collect(),
                 ),
             )
         })
