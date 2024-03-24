@@ -452,17 +452,17 @@ mod tests {
 
         #[test]
         fn minuend_is_empty() {
-            let a: Vec<usize> = vec![];
-            let b = vec![1, 2, 3];
-            let mut diff = Difference::new(a.iter(), b.iter());
+            let a = IntoIterator::into_iter([]);
+            let b = IntoIterator::into_iter([1, 2, 3]);
+            let mut diff = Difference::new(a, b);
             assert!(diff.next().is_none());
         }
 
         #[test]
         fn subtrahend_is_empty() {
-            let a = vec![1, 2, 3];
-            let b: Vec<usize> = vec![];
-            let diff = Difference::new(a.into_iter(), b.into_iter());
+            let a = IntoIterator::into_iter([1, 2, 3]);
+            let b = IntoIterator::into_iter([]);
+            let diff = Difference::new(a, b);
             assert_eq!(vec![1, 2, 3], diff.collect::<Vec<_>>());
         }
     }

@@ -148,7 +148,6 @@
 )]
 
 use prime::PrimeSet;
-use std::mem;
 
 #[derive(Eq, PartialEq, Debug)]
 struct PdTriple {
@@ -175,7 +174,7 @@ impl Iterator for PdTriples {
     #[inline]
     fn next(&mut self) -> Option<PdTriple> {
         if self.next.is_some() {
-            return mem::replace(&mut self.next, None);
+            return self.next.take();
         }
 
         let r = self.r;

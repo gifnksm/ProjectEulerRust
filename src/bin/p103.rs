@@ -28,13 +28,13 @@ impl Eq for Sss {}
 
 impl PartialOrd for Sss {
     fn partial_cmp(&self, other: &Sss) -> Option<Ordering> {
-        self.avg.partial_cmp(&other.avg).map(|x| x.reverse())
+        Some(self.cmp(other))
     }
 }
 
 impl Ord for Sss {
-    fn cmp(&self, other: &Sss) -> Ordering {
-        self.partial_cmp(other).unwrap()
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.avg.total_cmp(&other.avg).reverse()
     }
 }
 
