@@ -11,7 +11,7 @@ harness = false
 
 [dependencies]
 num-integer = "0.1.46"
-num-traits = "0.2.18"
+num-traits = "0.2.19"
 
 [dev-dependencies]
 criterion = "0.5.1"
