@@ -10,4 +10,4 @@ num-integer = "0.1.46"
 num-traits = "0.2.18"
 
 [dev-dependencies]
-num-bigint = "0.4.4"
+num-bigint = "0.4.5"
