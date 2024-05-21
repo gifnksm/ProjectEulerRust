@@ -24,7 +24,7 @@ itertools = "0.12.1"
 num-bigint = { version = "0.4.5", default-features = false }
 num-integer = "0.1.46"
 num-iter = "0.1.45"
-num-rational = { version = "0.4.1", default-features = false }
+num-rational = { version = "0.4.2", default-features = false }
 num-traits = "0.2.19"
 polynomial = "0.2.6"
 serde = { version = "1.0.200", features = ["derive"] }
