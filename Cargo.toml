@@ -21,7 +21,7 @@ generic-matrix = "0.2.2"
 getopts = "0.2.21"
 glob = "0.3.1"
 itertools = "0.13.0"
-num-bigint = { version = "0.4.5", default-features = false }
+num-bigint = { version = "0.4.6", default-features = false }
 num-integer = "0.1.46"
 num-iter = "0.1.45"
 num-rational = { version = "0.4.2", default-features = false }
