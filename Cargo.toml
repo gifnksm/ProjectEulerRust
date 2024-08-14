@@ -28,7 +28,7 @@ num-rational = { version = "0.4.2", default-features = false }
 num-traits = "0.2.19"
 polynomial = "0.2.6"
 serde = { version = "1.0.207", features = ["derive"] }
-serde_json = "1.0.122"
+serde_json = "1.0.124"
 term = "1.0.0"
 topological-sort = "0.2.2"
 union-find = "0.4.2"
