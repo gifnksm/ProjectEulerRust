@@ -35,7 +35,7 @@ union-find = "0.4.3"
 derive-try-from-primitive = "1.0.0"
 pretty_env_logger = "0.5.0"
 attohttpc = "0.28.0"
-thiserror = "1.0.63"
+thiserror = "1.0.64"
 
 [dependencies.cont_frac]
 path = "./pkg/cont_frac"
