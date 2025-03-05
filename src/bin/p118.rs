@@ -18,7 +18,7 @@ trait ImmutableCloneableVector<T> {
     fn groups(&self, n: usize) -> Groups<T>;
 }
 
-impl<'a, T: Clone> ImmutableCloneableVector<T> for &'a [T] {
+impl<T: Clone> ImmutableCloneableVector<T> for &[T] {
     #[inline]
     fn groups(&self, n: usize) -> Groups<T> {
         Groups::new(n, self.to_vec())
