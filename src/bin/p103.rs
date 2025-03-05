@@ -138,9 +138,8 @@ impl Iterator for SSSIterator {
     type Item = Sss;
 
     fn next(&mut self) -> Option<Sss> {
-        self.heap.pop().map(|sss| {
+        self.heap.pop().inspect(|sss| {
             sss.each_next(|next| self.heap.push(next));
-            sss
         })
     }
 }
