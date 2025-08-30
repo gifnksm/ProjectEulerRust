@@ -92,7 +92,7 @@ impl PrimeInner {
         (self.data.len()..)
             .map(|i| self.nth(i))
             .take_while(|&p| p * p <= n)
-            .all(|p| !n.is_multiple_of(&p))
+            .all(|p| !n.is_multiple_of(p))
     }
 
     #[inline]
@@ -100,7 +100,7 @@ impl PrimeInner {
         self.data
             .iter()
             .take_while(|&&p| p * p <= n)
-            .all(|&p| !n.is_multiple_of(&p))
+            .all(|&p| !n.is_multiple_of(p))
     }
 
     #[inline]

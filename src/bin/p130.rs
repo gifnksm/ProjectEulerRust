@@ -34,7 +34,7 @@ fn solve() -> String {
         .step_by(2)
         .filter(|&n| !n.is_multiple_of(&5))
         .filter(|&n| !ps.contains(n))
-        .filter(|&n| (n - 1).is_multiple_of(&a(n)))
+        .filter(|&n| (n - 1).is_multiple_of(a(n)))
         .take(25)
         .sum::<u64>()
         .to_string()
@@ -104,7 +104,7 @@ mod tests {
             .step_by(2)
             .filter(|&n| !n.is_multiple_of(&5))
             .filter(|&n| !ps.contains(n))
-            .filter(|&n| (n - 1).is_multiple_of(&super::a(n)));
+            .filter(|&n| (n - 1).is_multiple_of(super::a(n)));
 
         assert_eq!(Some(91), it.next());
         assert_eq!(Some(259), it.next());
