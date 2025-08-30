@@ -14,7 +14,6 @@ use std::{
     collections::HashSet,
     fs::File,
     io::{self, prelude::*, BufReader},
-    u32,
 };
 
 fn read_matrix<T: Read>(reader: T) -> io::Result<Vec<Vec<u32>>> {

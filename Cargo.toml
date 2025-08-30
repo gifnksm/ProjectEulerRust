@@ -18,8 +18,8 @@ path = "src/common.rs"
 
 [dependencies]
 generic-matrix = "0.2.2"
-getopts = "0.2.21"
-glob = "0.3.2"
+getopts = "0.2.24"
+glob = "0.3.3"
 itertools = "0.14.0"
 num-bigint = { version = "0.4.6", default-features = false }
 num-integer = "0.1.46"
@@ -28,14 +28,14 @@ num-rational = { version = "0.4.2", default-features = false }
 num-traits = "0.2.19"
 polynomial = "0.2.6"
 serde = { version = "1.0.219", features = ["derive"] }
-serde_json = "1.0.140"
-term = "1.0.1"
+serde_json = "1.0.143"
+term = "1.1.0"
 topological-sort = "0.2.2"
 union-find = "0.4.3"
 derive-try-from-primitive = "1.0.0"
 pretty_env_logger = "0.5.0"
 attohttpc = "0.29.2"
-thiserror = "2.0.12"
+thiserror = "2.0.16"
 
 [dependencies.cont_frac]
 path = "./pkg/cont_frac"
@@ -57,4 +57,4 @@ path = "./pkg/prime"
 path = "./pkg/seq"
 
 [dev-dependencies]
-rand = "0.9.0"
+rand = "0.9.2"

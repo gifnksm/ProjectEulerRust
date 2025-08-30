@@ -100,7 +100,7 @@ impl Sss {
         // 2: [a, b]             => (a + b)                   - 1
         let len = self.nums.len();
         let add = self.nums[..len / 2 + 1].iter().sum::<u32>();
-        let sub = self.nums[(len + 1) / 2 + 1..].iter().sum::<u32>();
+        let sub = self.nums[len.div_ceil(2) + 1..].iter().sum::<u32>();
         add - sub - 1
     }
 

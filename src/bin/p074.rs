@@ -99,8 +99,6 @@ common::problem!("402", solve);
 
 #[cfg(test)]
 mod tests {
-    use std::iter;
-
     #[test]
     fn len() {
         let factorial = {
@@ -110,8 +108,7 @@ mod tests {
             }
             val
         };
-        let mut map = iter::repeat(super::Length::Unknown)
-            .take((factorial[9] * 6 + 1) as usize)
+        let mut map = std::iter::repeat_n(super::Length::Unknown, (factorial[9] * 6 + 1) as usize)
             .collect::<Vec<_>>();
 
         assert_eq!(3, super::get_chain_len(169, &mut map, &factorial));

@@ -47,7 +47,7 @@ fn probability_of_player_win<T: Integer + Clone + FromPrimitive>(turns: usize) -
         .fold(Polynomial::<Ratio<T>>::one(), |acc, elt| acc * elt)
         .data()
         .iter()
-        .take((turns + 1) / 2)
+        .take(turns.div_ceil(2))
         .fold(Ratio::<T>::zero(), |acc, elt| acc + elt)
 }
 

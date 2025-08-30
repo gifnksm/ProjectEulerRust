@@ -19,7 +19,7 @@ fn is_sss(nums: &mut [u32]) -> bool {
     nums.sort();
 
     let len = nums.len();
-    let len_hd = (len + 1) / 2;
+    let len_hd = len.div_ceil(2);
     let len_tl = len_hd - 1;
     let hd = nums[..len_hd].iter().copied().sum::<u32>();
     let tl = nums[len - len_tl..].iter().copied().sum::<u32>();

@@ -15,7 +15,6 @@ use std::{
     collections::{hash_map::Entry, HashMap},
     fs::File,
     io::{self, prelude::*, BufReader},
-    u64,
 };
 
 fn read_words(file: File) -> io::Result<Vec<String>> {

@@ -49,9 +49,10 @@
 )]
 
 fn compute(i: usize) -> u64 {
-    itertools::unfold((1, 1), |state| {
+    let mut state = (1, 1);
+    std::iter::from_fn(|| {
         let next = ((3 * state.0 + 5 * state.1) / 2, (state.0 + 3 * state.1) / 2);
-        *state = next;
+        state = next;
         Some(next)
     })
     .filter_map(|(p, q)| if p % 5 == 1 { Some((p / 5, q)) } else { None })

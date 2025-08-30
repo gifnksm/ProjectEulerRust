@@ -81,7 +81,7 @@ fn abc_hits_c_sum(c_limit: u64) -> u64 {
             if rad_a >= c / rad_c {
                 break;
             }
-            if a >= (c + 1) / 2 {
+            if a >= c.div_ceil(2) {
                 continue;
             }
 

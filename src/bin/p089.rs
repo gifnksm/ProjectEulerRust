@@ -12,7 +12,6 @@
 use std::{
     fs::File,
     io::{self, prelude::*, BufReader},
-    u32,
 };
 
 const ROMAN_PAIRS: &[(&str, u32)] = &[

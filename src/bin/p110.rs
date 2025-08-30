@@ -38,7 +38,7 @@ fn compute(limit: u64) -> u64 {
 
     loop {
         let Elem(n, mut pairs) = heap.pop().unwrap();
-        let num_sol = (pairs.iter().fold(1, |n, &i| n * (2 * i + 1)) + 1) / 2;
+        let num_sol = pairs.iter().fold(1, |n, &i| n * (2 * i + 1)).div_ceil(2);
         if num_sol > limit {
             return n;
         }
