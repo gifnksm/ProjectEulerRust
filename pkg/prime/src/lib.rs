@@ -9,10 +9,6 @@
     unused_qualifications,
     unused_results
 )]
-#![cfg_attr(all(test, feature = "unstable"), feature(test))]
-
-#[cfg(all(test, feature = "unstable"))]
-extern crate test;
 
 use num_integer::Integer;
 use num_traits::{FromPrimitive, One, Zero};
