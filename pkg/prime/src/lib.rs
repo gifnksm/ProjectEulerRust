@@ -210,7 +210,7 @@ impl PrimeSet {
     }
 }
 
-impl<'a> IntoIterator for &'a PrimeSet {
+impl IntoIterator for &PrimeSet {
     type Item = u64;
     type IntoIter = Nums;
 
@@ -274,7 +274,7 @@ pub trait Factorize: Integer + FromPrimitive + Clone {
         self.num_of_divisor(ps) - 1
     }
 
-    /// Caluculates the sum of all positive divisors.
+    /// Calculates the sum of all positive divisors.
     #[inline]
     fn sum_of_proper_divisor(&self, ps: &PrimeSet) -> Self {
         self.sum_of_divisor(ps) - self.clone()

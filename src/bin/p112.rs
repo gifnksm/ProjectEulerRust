@@ -10,8 +10,6 @@
 )]
 
 use integer::Integer;
-#[cfg(test)]
-use std::u32;
 
 fn is_increasing_with<T: Iterator<Item = u32>>(ds: T, mut prev: u32) -> bool {
     for n in ds {

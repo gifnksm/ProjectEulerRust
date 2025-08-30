@@ -17,11 +17,7 @@ fn count_rect((x, y): (u32, u32)) -> u32 {
 }
 
 fn distance(a: u32, target: u32) -> u32 {
-    if a > target {
-        a - target
-    } else {
-        target - a
-    }
+    a.abs_diff(target)
 }
 
 fn check_distance(min_dist: &mut u32, min_pos: &mut (u32, u32), pos: (u32, u32), target: u32) {

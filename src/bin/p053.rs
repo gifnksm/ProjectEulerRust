@@ -23,7 +23,7 @@ fn compute() -> u32 {
 
         if c < limit {
             while c < limit {
-                if r == (n + 1) / 2 {
+                if r == n.div_ceil(2) {
                     break;
                 }
                 c = c * (n - r) / (r + 1);

@@ -75,7 +75,7 @@ impl Pandigimal {
 
 fn create_pandigimal_list(base: u32, len: usize) -> Vec<Pandigimal> {
     assert!(len > 0);
-    let max = iter::repeat(RADIX).take(len).product::<u32>() - 1;
+    let max = iter::repeat_n(RADIX, len).product::<u32>() - 1;
     (0..(max / base + 1))
         .filter_map(|n| Pandigimal::from_u64(base * n, len))
         .collect()
@@ -83,7 +83,7 @@ fn create_pandigimal_list(base: u32, len: usize) -> Vec<Pandigimal> {
 
 fn update_pandigimal_list(list: Vec<Pandigimal>, base: u64, len: usize) -> Vec<Pandigimal> {
     assert!(len > 0);
-    let ord = iter::repeat(RADIX as u64).take(len - 1).product::<u64>();
+    let ord = iter::repeat_n(RADIX as u64, len - 1).product::<u64>();
 
     let mut result = vec![];
     for pd in &list {

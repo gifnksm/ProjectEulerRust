@@ -9,8 +9,6 @@
     unused_results
 )]
 
-use std::u32;
-
 fn backtrack(power: u32, depth: u32, limit: u32, cost: &mut [u32], path: &mut [u32]) {
     if power > limit || depth > cost[power as usize] {
         return;

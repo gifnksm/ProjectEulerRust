@@ -11,10 +11,7 @@
 )]
 
 use bit_set::BitSet;
-use std::{
-    cmp::Ordering,
-    iter::{self, Peekable},
-};
+use std::{cmp::Ordering, iter::Peekable};
 
 /// An iterator that enumerates all combinations of bits.
 pub struct BitCombination {
@@ -93,7 +90,7 @@ impl BitCombination {
     }
 }
 
-/// An iterator that enumerates all combinations of elemnts.
+/// An iterator that enumerates all combinations of elements.
 ///
 /// The iteratee vector may contain the same elements multiple times.
 pub struct CombinationOverlap<'a, T> {
@@ -122,7 +119,7 @@ impl<'a, T> CombinationOverlap<'a, T> {
     pub fn new(elems: &'a [T], len: usize) -> CombinationOverlap<'a, T> {
         CombinationOverlap {
             elems,
-            idxs: iter::repeat(0).take(len).collect(),
+            idxs: std::iter::repeat_n(0, len).collect(),
             consumed: false,
         }
     }
@@ -152,7 +149,7 @@ impl<'a, T: Clone> Iterator for CombinationOverlap<'a, T> {
     }
 }
 
-/// An iterator that enumerates all permutations of elemnts.
+/// An iterator that enumerates all permutations of elements.
 pub struct Permutations<'a, T> {
     elems: &'a [T],
     idxs: Vec<usize>,
@@ -233,7 +230,7 @@ impl<'a, T: Clone> Iterator for Permutations<'a, T> {
     }
 }
 
-/// An iterator that enumerates elemnts that is contained in the first iterator.
+/// An iterator that enumerates elements that is contained in the first iterator.
 pub struct Difference<M, S>
 where
     M: Iterator,
@@ -282,10 +279,7 @@ where
 
     fn next(&mut self) -> Option<E> {
         'minuend: loop {
-            let n = match self.minuend.next() {
-                None => return None,
-                Some(n) => n,
-            };
+            let n = self.minuend.next()?;
             'subtrahend: loop {
                 let cmp = match self.subtrahend.peek() {
                     None => return Some(n),
@@ -344,7 +338,7 @@ mod tests {
     }
 
     #[test]
-    fn combinate_overlap() {
+    fn combination_overlap() {
         let nums = &[1, 2, 3, 4, 5];
         let mut it = CombinationOverlap::new(nums, 3);
         assert_eq!(Some(vec![1, 1, 1]), it.next());

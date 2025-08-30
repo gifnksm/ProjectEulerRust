@@ -12,7 +12,6 @@
 use std::{
     fs::File,
     io::{self, prelude::*, BufReader},
-    usize,
 };
 
 const BOARD_WIDTH: usize = 9;
