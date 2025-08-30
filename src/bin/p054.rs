@@ -339,7 +339,7 @@ mod tests {
             let ihand = Hand::from_cards(&cs);
             assert_eq!(output, &ihand.to_string()[..]);
 
-            let mut rng = rand::thread_rng();
+            let mut rng = rand::rng();
             for _ in 0..10 {
                 cs.shuffle(&mut rng);
                 let hand = Hand::from_cards(&cs);
